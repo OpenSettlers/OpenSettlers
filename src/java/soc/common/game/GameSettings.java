@@ -2,6 +2,7 @@ package soc.common.game;
 
 import java.util.UUID;
 
+import soc.common.annotations.Sea3D;
 import soc.common.board.Board;
 import soc.common.board.BoardSettings;
 
@@ -27,9 +28,11 @@ public class GameSettings
         this.boardSettings = boardSettings;
     }
     // Whether or not deserts will be replaced by jungles
+    @Sea3D
     private boolean replaceDesertWithJungles = false;
     
     // Whether or not deserts will b replaces by volcanos
+    @Sea3D
     private boolean replaceDesertWithVolcanos = false;
     
     // If selected, the build phase's second town will be a city,
@@ -57,19 +60,22 @@ public class GameSettings
     private boolean isLadder = true;
     private Board board;
     
-    
+    @Sea3D
     public boolean isReplaceDesertWithJungles()
     {
         return replaceDesertWithJungles;
     }
+    @Sea3D
     public void setReplaceDesertWithJungles(boolean replaceDesertWithJungles)
     {
         this.replaceDesertWithJungles = replaceDesertWithJungles;
     }
+    @Sea3D
     public boolean isReplaceDesertWithVolcanos()
     {
         return replaceDesertWithVolcanos;
     }
+    @Sea3D
     public void setReplaceDesertWithVolcanos(boolean replaceDesertWithVolcanos)
     {
         this.replaceDesertWithVolcanos = replaceDesertWithVolcanos;
