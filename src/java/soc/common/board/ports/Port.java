@@ -55,6 +55,11 @@ public abstract class Port
     {
         hexSide = hexLocation.GetSideLocation(rotationPosition);
     }
+    
+    public double getDivider()
+    {
+        throw new NotImplementedException();
+    }
 
 
     public Port()

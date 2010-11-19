@@ -19,6 +19,7 @@ public class PlacePortsGamePhase extends GamePhase
     {
         action.perform(game);
 
+        // When queue is empty, it means all ports are set
         if (game.getActionsQueue().size() == 0)
         {
             // Notify we want to start the placement phase
@@ -35,6 +36,12 @@ public class PlacePortsGamePhase extends GamePhase
         }
     }
 
+    /*
+     * Adds a PlacePort action for each port on the map,
+     * starting with the game starter (highroller player)
+     * 
+     * @see soc.common.game.gamePhase.GamePhase#start(soc.common.game.Game)
+     */
     @Override
     public void start(Game game)
     {
@@ -42,22 +49,24 @@ public class PlacePortsGamePhase extends GamePhase
 
         for (Territory t : game.getBoard().getTerritories())
         {
-            for (@SuppressWarnings("unused") 
-                    Port port : t.getPorts())
+            for (Port port : t.getPorts())
             {
                 game.getActionsQueue().enqueue
                 (
                     new PlacePort()
-                        // Placing ports goes chronologically starting with the winner.
-                        // The first player always has the advantage:
-                        // - For example with 5 ports and 4 players, first player may place twice
-                        //   while the rest only once.
-                        // - First player may place first, conveniently placing port alongside
-                        // - Since port stack is open, first player placing last port is 100% certain
-                        //   known port
+                        /*
+                           Placing ports goes chronologically starting with the winner.
+                           The first player always has the advantage:
+                         - For example with 5 ports and 4 players, first player may place twice
+                           while the rest only once.
+                         - First player may place first, conveniently placing port alongside
+                         - Since port stack is open, first player placing last port is 100% certain
+                           known port
+                        */
+                        
+                        // pass territoryID such that player knows to expect possible port locations
                         .setTerritoryID(t.getID())
                         .setPlayer(game.getPlayers().get(portCount % game.getPlayers().size()))
-                        // pass territoryID such that player knows to expect possible port locations
                 );
 
                 portCount++;
