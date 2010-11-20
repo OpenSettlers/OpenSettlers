@@ -24,6 +24,14 @@ public class DevelopmentCard
         return true;     
     }
     
+    /*
+     * Default is not to keep the DevelopmentCard in stock
+     */
+    public boolean keepInStock()
+    {
+        return false;
+    }
+    
     /* 
      * Returns true if player is allowed to play this card in given TurnPhase
      */

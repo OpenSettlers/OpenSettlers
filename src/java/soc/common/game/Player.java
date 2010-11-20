@@ -13,6 +13,7 @@ import soc.common.board.resources.ResourceList;
 import soc.common.board.resources.Sheep;
 import soc.common.board.resources.Timber;
 import soc.common.board.resources.Wheat;
+import soc.common.game.developmentCards.DevelopmentCard;
 import soc.common.game.developmentCards.DevelopmentCardList;
 
 import java.util.ArrayList;
@@ -45,6 +46,45 @@ public class Player extends User
     
     // Development cards in hand 
     private DevelopmentCardList developmentCards;
+
+    // Played development cards 
+    private DevelopmentCardList playedDevelopmentCards;
+    
+    public void removeResources(ResourceList resources)
+    {
+        resources.subtractResources(resources);
+    }
+    
+    public void addResources(ResourceList resources)
+    {
+        resources.addAll(resources);
+    }
+    
+    public void useDevelopmentCard(DevelopmentCard developmentCard)
+    {
+        // Get rid of the card in our list of devcards 
+        developmentCards.remove(developmentCard);
+        
+        // only place it in stock when we should
+        if (developmentCard.keepInStock())
+        {
+            playedDevelopmentCards.add(developmentCard);
+        }
+    }
+    public void addDevelopmentCard(DevelopmentCard developmentCard)
+    {
+        developmentCards.add(developmentCard);
+    }
+    
+    public int getDevelopmentCardsCount()
+    {
+        return developmentCards.size();
+    }
+    
+    public int getResourcesCount()
+    {
+        return resources.size();
+    }
     
     /**
      * @return the isOnTurn
@@ -52,28 +92,6 @@ public class Player extends User
     public boolean isOnTurn()
     {
         return isOnTurn;
-    }
-
-    /*
-     * Returns true of given piece can be paid for by the player
-     */
-    public boolean canPayPiece(PlayerPiece pieceToBuy)
-    {
-        // First, create a copy so we can safely remove resources from it
-        ResourceList copy = resources.copy();
-        
-        // Pay resources player can simply pay for
-        copy.subtractResources(pieceToBuy.getCost());
-        
-        // Calculate amount of gold we need
-        int neededGold =
-            // amount of resources the piece needs, minus
-            pieceToBuy.getCost().size() - 
-                // the resources the player can simply pay for 
-                (resources.size() - copy.size());
-        
-        // Player can pay given piece if he can trade exactly or more gold as needed
-        return amountGold(copy) <= neededGold;
     }
 
     /**
@@ -134,22 +152,7 @@ public class Player extends User
     public DevelopmentCardList getDevelopmentCards()
     {
         return developmentCards;
-    }
-
-    public boolean canBuildTown()
-    {
-        // We need a town in stock...
-        if (stock.ofType(new Town()).size() == 0) 
-            return false;
-        
-        // And we need a place to put it onto
-        
-        // TODO: port to java
-        //if (GetTownBuildPlaces(game, board).Count == 0) return false;
-        
-        return true;
-    }
-    
+    }    
     
     /*
      * Returns amount of gold a player can trade for at the bank using given ResourceList
