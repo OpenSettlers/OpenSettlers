@@ -17,6 +17,10 @@ public class Territory
     private int ID;
     private boolean isMainland;
     private boolean isIsland;
+    
+    // A territory may have a list of ports associated with them.
+    // These may be placed by players in a PlacePortGamePhase,
+    // or before start by the server, to replace randomports with. 
     private PortList ports;
     
     public String getName()

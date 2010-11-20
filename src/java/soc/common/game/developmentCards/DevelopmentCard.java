@@ -21,7 +21,7 @@ public class DevelopmentCard
     
     public boolean isValid(Game game)
     {
-        return true;     
+        return true;
     }
     
     /*
