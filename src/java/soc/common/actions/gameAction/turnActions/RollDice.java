@@ -1,5 +1,8 @@
 package soc.common.actions.gameAction.turnActions;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import soc.common.game.dices.StandardDice;
 
 
@@ -7,6 +10,15 @@ import soc.common.game.dices.StandardDice;
 public class RollDice extends TurnAction
 {
     private StandardDice dice;
+    private List<Integer> looserPlayers = new ArrayList<Integer>();
+    
+    /**
+     * @return the looserPlayers
+     */
+    public List<Integer> getLooserPlayers()
+    {
+        return looserPlayers;
+    }
 
     /**
      * @return the dice

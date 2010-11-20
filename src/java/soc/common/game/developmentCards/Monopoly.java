@@ -9,7 +9,7 @@ public class Monopoly extends DevelopmentCard
 {
     private Resource resource;
 
-    /* (non-Javadoc)
+    /* Valid when having non-null resource and resource is of a basic type
      * @see soc.common.game.developmentCards.DevelopmentCard#isValid(soc.common.game.Game)
      */
     @Override
@@ -21,6 +21,7 @@ public class Monopoly extends DevelopmentCard
         if (resource == null)
             return false;
         
+        // Allow only one of the 5 basic resources
         if (!(resource instanceof Timber) &&
             !(resource instanceof Wheat) &&
             !(resource instanceof Ore) &&
@@ -31,7 +32,7 @@ public class Monopoly extends DevelopmentCard
         return true;
     }
 
-    /* (non-Javadoc)
+    /* Steals all resources from opponents with given resource type
      * @see soc.common.game.developmentCards.DevelopmentCard#play(soc.common.game.Game, soc.common.game.Player)
      */
     @Override
@@ -54,6 +55,7 @@ public class Monopoly extends DevelopmentCard
                     // add resources to the development card owner
                     player.getResources().addAll(opponentResources);
 
+                    // TODO: fix formatting
                     msg.append(String.format("%s %s from %s, ",
                         opponentResources.size(), resource.toString(), player.getName()));
 
