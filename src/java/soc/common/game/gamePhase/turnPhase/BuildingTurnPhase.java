@@ -1,8 +1,7 @@
 package soc.common.game.gamePhase.turnPhase;
 
-import soc.common.actions.gameAction.GameAction;
+import soc.common.actions.gameAction.*;
 import soc.common.game.Game;
-import soc.message.EndTurn;
 
 public class BuildingTurnPhase extends TurnPhase
 {
@@ -29,31 +28,49 @@ public class BuildingTurnPhase extends TurnPhase
     @Override
     public TurnPhase processAction(GameAction action, Game game)
     {
+        if (action.isAllowed(this))
+        {
             action.perform(game);
-
+        
             //EndTurn endTurn = action as EndTurnAction;
             if (action instanceof EndTurn)
             {
                 return new BeforeDiceRollTurnPhase();
             }
             
+            // Players may build anything they can pay for in a turnphase
             return this;
         }
         else
         {
-            // Check if we are allowed to trade
-            TradeOfferAction tradeOffer = action as TradeOfferAction;
-            if (tradeOffer != null)
+            // Look if the action is allowed in the tradingPhase, and if we may go back
+            // to that phase, perform the action and return the phase
+            if (action.isAllowed(tradingTurnPhase))
             {
-                // Only when game setting allows it
-                if (game.Settings.TradingAfterBuilding)
-                {
-                    return _TradingPhase;
-                }
-                return null;
+                tradingTurnPhase.processAction(action, game);
+                return tradingTurnPhase; 
             }
-            return null;
+            else
+            {
+                throw new RuntimeException("We should not reach this code");
+            }
         }
     }
 
+    /* (non-Javadoc)
+     * @see soc.common.game.gamePhase.turnPhase.TurnPhase#isAllowed(soc.common.actions.gameAction.GameAction)
+     */
+    @Override
+    public boolean isAllowed(GameAction action)
+    {
+        if (action.isAllowed(this))
+        {
+            return true; 
+        }
+        else
+        {
+            // TODO: add chck for game setting
+            return action.isAllowed(tradingTurnPhase);
+        }
+    }
 }

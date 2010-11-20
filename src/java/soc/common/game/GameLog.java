@@ -48,7 +48,7 @@ public class GameLog extends ArrayList<GameAction> implements IGameLog
         List<RollDice> highRolls = new ArrayList<RollDice>();
         for (RollDice rollDice : rolledDices)
         {
-            if (rollDice.getDice() == highRoll)
+            if (rollDice.getDice().getDice() == highRoll)
                 highRolls.add(rollDice);
         }
 

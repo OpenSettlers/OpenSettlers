@@ -88,5 +88,15 @@ public class PlayTurnsGamePhase extends GamePhase
         super.start(game);
     }
 
+    /* (non-Javadoc)
+     * @see soc.common.game.gamePhase.GamePhase#isAllowed(soc.common.actions.gameAction.GameAction)
+     */
+    @Override
+    public boolean isAllowed(GameAction action)
+    {
+        // TODO Auto-generated method stub
+        return turnPhase.isAllowed(action);
+    }
+
 
 }

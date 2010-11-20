@@ -1,5 +1,7 @@
 package soc.common.game.dices;
 
+import java.util.Random;
+
 public class StandardDice extends Dice
 {
     private int dice1;
@@ -26,6 +28,15 @@ public class StandardDice extends Dice
         // Enables fluent interface usage
         // http://en.wikipedia.org/wiki/Fluent_interface
         return this;
+    }
+    /* (non-Javadoc)
+     * @see soc.common.game.dices.Dice#roll(java.util.Random)
+     */
+    @Override
+    public void roll(Random random)
+    {
+        dice1 = (int) (random.nextDouble() * 6);
+        dice2 = (int) (random.nextDouble() * 6);
     }
     /**
      * @return the dice2

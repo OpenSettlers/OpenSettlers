@@ -4,6 +4,6 @@ import java.util.Random;
 
 public class Dice
 {
-    private void roll(Random random) {};
+    public void roll(Random random) { };
     
 }

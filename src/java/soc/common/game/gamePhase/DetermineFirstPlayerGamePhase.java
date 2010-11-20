@@ -34,8 +34,8 @@ public class DetermineFirstPlayerGamePhase extends GamePhase
         
         for (RollDice rollDice : rolledDices)
         {
-            if (rollDice.getDice() > result)
-                result = rollDice.getDice();
+            if (rollDice.getDice().getDice() > result)
+                result = rollDice.getDice().getDice();
         }
         
         return result;
@@ -91,7 +91,7 @@ public class DetermineFirstPlayerGamePhase extends GamePhase
                     // Enqueue each highroller 
                     for (RollDice sameRoll : rolledDices)
                     {
-                        if (sameRoll.getDice() == highRoll) 
+                        if (sameRoll.getDice().getDice() == highRoll) 
                         {
                             game.getActionsQueue().enqueue
                             (

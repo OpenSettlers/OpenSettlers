@@ -9,37 +9,6 @@ public class TwoToOneResourcePort extends Port
 {
     private Resource resource;
 
-    @Override
-    public int possibleTradesCount(ResourceList resources)
-    {
-        int possibleTrades=0;
-        for (Resource resource : tradeTypes)
-        {
-            List<Resource> resourcesOfType = resources.ofType(resource);
-            possibleTrades += resourcesOfType.size() / 3;
-        }
-        return possibleTrades;
-    }
-    
-    
-    /* (non-Javadoc)
-     * @see soc.common.board.ports.Port#getDivider()
-     */
-    @Override
-    public double getDivider()
-    {
-        return 2;
-    }
-
-
-    /**
-     * @return the resource
-     */
-    public Resource getResource()
-    {
-        return resource;
-    }
-
     /**
      * @param resource the resource to set
      */
@@ -51,4 +20,47 @@ public class TwoToOneResourcePort extends Port
         // http://en.wikipedia.org/wiki/Fluent_interface
         return this;
     }
+
+
+    /* (non-Javadoc)
+     * @see soc.common.board.ports.Port#getInAmount()
+     */
+    @Override
+    public int getInAmount()
+    {
+        return 2;
+    }
+
+
+    /* (non-Javadoc)
+     * @see soc.common.board.ports.Port#getOutAmount()
+     */
+    @Override
+    public int getOutAmount()
+    {
+        return 1;
+    }
+
+
+    /* (non-Javadoc)
+     * @see soc.common.board.ports.Port#getResource()
+     */
+    @Override
+    public Resource getResource()
+    {
+        return resource;
+    }
+
+
+    /* (non-Javadoc)
+     * @see soc.common.board.ports.Port#divide(soc.common.board.resources.ResourceList, soc.common.board.resources.Resource)
+     */
+    @Override
+    public int divide(ResourceList resources, Resource type)
+    {
+        // TODO Auto-generated method stub
+        return resources.size() / getInAmount();
+    }
+
+
 }

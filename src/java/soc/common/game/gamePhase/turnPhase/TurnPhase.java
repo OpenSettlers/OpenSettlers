@@ -18,4 +18,9 @@ public abstract class TurnPhase
     {
         throw new NotImplementedException();
     }
+    
+    public boolean isAllowed(GameAction action)
+    {
+        return action.isAllowed(this);
+    }
 }

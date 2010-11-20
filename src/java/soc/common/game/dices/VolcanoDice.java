@@ -1,5 +1,7 @@
 package soc.common.game.dices;
 
+import java.util.Random;
+
 import soc.common.annotations.SeaFarers;
 
 @SeaFarers
@@ -13,6 +15,15 @@ public class VolcanoDice extends Dice
     public int getDice()
     {
         return dice;
+    }
+
+    /* (non-Javadoc)
+     * @see soc.common.game.dices.Dice#roll(java.util.Random)
+     */
+    @Override
+    public void roll(Random random)
+    {
+        dice = (int) (random.nextDouble() * 6);
     }
 
     /**

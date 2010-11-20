@@ -8,55 +8,26 @@ import soc.common.board.pieces.*;
 
 public class ResourceList extends ArrayList<Resource>
 {
-    public static ResourceList createList(Piece piece)
+    /*
+     * Returns a copy of this ResourceList
+     */
+    public ResourceList copy()
     {
         ResourceList result = new ResourceList();
         
-        if (piece instanceof Town)
-        {
-            result.add(new Timber());
-            result.add(new Wheat());
-            result.add(new Clay());
-            result.add(new Sheep());
-            
-            return result;
-        }        
-        if (piece instanceof City)
-        {
-            result.add(new Wheat());
-            result.add(new Wheat());
-            result.add(new Ore());
-            result.add(new Ore());
-            result.add(new Ore());
-            
-            return result;
-        }
-        if (piece instanceof Road)
-        {
-            result.add(new Timber());
-            result.add(new Clay());
-        }
+        result.addAll(this);
         
-        return null;
+        return result;
     }
     
-    private int countOfType(Resource type)
+    /*
+     * Returns a new ResourceList with only resources equivalent to given type
+     */
+    public ResourceList ofType(Resource type)
     {
-        int result = 0;
-        for (Resource res : this)
-        {
-            if (res.getClass() == type.getClass())
-            {
-                result++;                                                
-            }
-        }
-        return result;
-    }    
-    
-    public List<Resource> ofType(Resource type)
-    {
-        List<Resource> result = new ArrayList<Resource>();
+        ResourceList result = new ResourceList();
         
+        // Iterate over all resources and add the ones equalling given type
         for (Resource res : this)
         {
             if (res.getClass() == type.getClass())
@@ -81,8 +52,18 @@ public class ResourceList extends ArrayList<Resource>
             ofType(new Sheep()).size() >= toHave.ofType(new Sheep()).size();
     }
     
+    /*
+     * Swaps a given list of resources from a source to this list
+     */
     public void swapResourcesFrom(ResourceList resourcesToAdd, ResourceList from)
     {
+        // ResourceList where we take resources from, should be able to 
+        // provide the resources
+        if (!from.hasAtLeast(resourcesToAdd))
+        {
+            throw new RuntimeException("Trying to swap resources which ar not contained by the list");
+        }
+        
         // add the resources to this list...
         this.addAll(resourcesToAdd);
         
@@ -100,4 +81,30 @@ public class ResourceList extends ArrayList<Resource>
         if (count % 2 == 1) count--;
         return count / 2;
     }
+    
+    /*
+     * Checks each resource if contained in the list, if so removes it
+     */
+    public void subtractResources(ResourceList resourcesToSubtract)
+    {
+        for (Resource resource : resourcesToSubtract)
+        {
+            if (this.contains(resource))
+                this.remove(resource);
+        }
+    }
+    
+    public static ResourceList tradeableResources()
+    {
+        ResourceList result = new ResourceList();
+        
+        result.add(new Timber());
+        result.add(new Wheat());
+        result.add(new Ore());
+        result.add(new Clay());
+        result.add(new Sheep());
+        
+        return result;
+    }
+
 }

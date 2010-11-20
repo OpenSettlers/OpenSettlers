@@ -1,8 +1,14 @@
 package soc.common.board.ports;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import soc.common.board.HexLocation;
 import soc.common.board.HexSide;
 import soc.common.board.RotationPosition;
+import soc.common.board.resources.Resource;
 import soc.common.board.resources.ResourceList;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -11,7 +17,15 @@ public abstract class Port
     protected HexLocation hexLocation;
     protected HexSide hexSide;
     protected RotationPosition rotationPosition;
-    
+
+    /**
+     * @return the resource
+     */
+    public Resource getResource()
+    {
+        return null;
+    }
+
     /**
      * @return the hexLocation
      */
@@ -19,7 +33,6 @@ public abstract class Port
     {
         return hexLocation;
     }
-
 
     /**
      * @return the hexSide
@@ -29,15 +42,15 @@ public abstract class Port
         return hexSide;
     }
 
-
     /**
      * @param hexSide the hexSide to set
      */
-    public void setHexSide(HexSide hexSide)
+    public Port setHexSide(HexSide hexSide)
     {
         this.hexSide = hexSide;
+        
+        return this;
     }
-
 
     /**
      * @return the rotationPosition
@@ -51,12 +64,18 @@ public abstract class Port
      * @param hexLocation the hexLocation to set
      * @throws Exception 
      */
-    public void setHexLocation(HexLocation hexLocation) throws Exception
+    public Port setHexLocation(HexLocation hexLocation) throws Exception
     {
         hexSide = hexLocation.GetSideLocation(rotationPosition);
+        
+        return this;
     }
     
-    public double getDivider()
+    public int getInAmount()
+    {
+        throw new NotImplementedException();
+    }
+    public int getOutAmount()
     {
         throw new NotImplementedException();
     }
@@ -72,10 +91,27 @@ public abstract class Port
         super();
         this.hexLocation = hexLocation;
     }
-
-
-    public int possibleTradesCount(ResourceList resources)
+    
+    /*
+     * Returns amount of gold tradeable for given resource
+     */
+    public int divide(ResourceList resources, Resource type)
     {
-        throw new NotImplementedException();
+        // Have something to return, default on 0
+        int amountGold=0;
+
+        // Filter the list of resources by given type
+        List<Resource> resourcesOfType = resources.ofType(type);
+        
+        // When we have at least two resources,  determine amount of gold we can trade 
+        if (resourcesOfType.size() >= 2)
+        {
+            // Amount of gold is number of times we can trade by inAmount, times
+            // the amount of cards we get per trade
+            amountGold = (resourcesOfType.size() / getInAmount()) * getOutAmount();
+        }
+        
+        return amountGold;
     }
+
 }
