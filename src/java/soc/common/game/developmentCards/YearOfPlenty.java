@@ -12,8 +12,9 @@ public class YearOfPlenty extends DevelopmentCard
     @Override
     public void play(Game game, Player player)
     {
-        message = String.format("%s gained %s by playing a Year of Plenty card",
-                player.getName(), goldPick.toString());
+        // TODO: fix using external library        
+        //message = String.format("%s gained %s by playing a Year of Plenty card",
+        //        player.getName(), goldPick.toString());
             
         // give player the resources
         player.getResources().swapResourcesFrom(goldPick, game.getBank());

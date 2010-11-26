@@ -39,7 +39,8 @@ public class Monopoly extends DevelopmentCard
     public void play(Game game, Player player)
     {
         StringBuilder msg = new StringBuilder();
-        msg.append(String.format("%s stole ", player.getName()));
+        // TODO: fix using external library
+        //msg.append(String.format("%s stole ", player.getName()));
 
         for (Player opponent : game.getPlayers())
         {
@@ -55,9 +56,9 @@ public class Monopoly extends DevelopmentCard
                     // add resources to the development card owner
                     player.getResources().addAll(opponentResources);
 
-                    // TODO: fix formatting
-                    msg.append(String.format("%s %s from %s, ",
-                        opponentResources.size(), resource.toString(), player.getName()));
+                    // TODO: fix using external library
+                    //msg.append(String.format("%s %s from %s, ",
+                    //    opponentResources.size(), resource.toString(), player.getName()));
 
                     // remove resources at victims
                     opponent.removeResources(opponentResources);

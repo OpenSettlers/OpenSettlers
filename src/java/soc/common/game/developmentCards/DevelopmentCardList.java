@@ -2,8 +2,6 @@ package soc.common.game.developmentCards;
 
 import java.util.ArrayList;
 
-
-
 public class DevelopmentCardList extends ArrayList<DevelopmentCard>
 {
     public static DevelopmentCardList standard()

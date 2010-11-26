@@ -1,6 +1,5 @@
 package soc.common.board;
 
-import java.awt.List;
 import java.util.ArrayList;
 
 import soc.common.annotations.SeaFarers;
@@ -18,5 +17,12 @@ public class TerritoryList extends ArrayList<Territory>
         }
         
         throw new RuntimeException();
+    }
+   
+    public TerritoryList addNew(Territory t)
+    {
+        this.add(t);
+        
+        return this;
     }
 }

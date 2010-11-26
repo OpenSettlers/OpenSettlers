@@ -1,23 +1,31 @@
 package soc.common.board.ports;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
 
 import soc.common.board.HexLocation;
 import soc.common.board.HexSide;
 import soc.common.board.RotationPosition;
 import soc.common.board.resources.Resource;
 import soc.common.board.resources.ResourceList;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-public abstract class Port
+public class Port
 {
-    protected HexLocation hexLocation;
+    protected HexLocation seaLocation;
+    protected HexLocation landLocation;
     protected HexSide hexSide;
+    
     protected RotationPosition rotationPosition;
 
+    
+    /**
+     * @return the landLocation
+     */
+    public HexLocation getLandLocation()
+    {
+        return landLocation;
+    }
+    
     /**
      * @return the resource
      */
@@ -31,7 +39,7 @@ public abstract class Port
      */
     public HexLocation getHexLocation()
     {
-        return hexLocation;
+        return seaLocation;
     }
 
     /**
@@ -64,22 +72,23 @@ public abstract class Port
      * @param hexLocation the hexLocation to set
      * @throws Exception 
      */
-    public Port setHexLocation(HexLocation hexLocation) throws Exception
+    public Port setHexLocation(HexLocation hexLocation)
     {
-        hexSide = hexLocation.GetSideLocation(rotationPosition);
+        this.seaLocation = hexLocation;
+        
+        hexSide = hexLocation.getSideLocation(rotationPosition);
         
         return this;
     }
     
     public int getInAmount()
     {
-        throw new NotImplementedException();
+        throw new RuntimeException();
     }
     public int getOutAmount()
     {
-        throw new NotImplementedException();
+        throw new RuntimeException();
     }
-
 
     public Port()
     {
@@ -89,7 +98,17 @@ public abstract class Port
     public Port(HexLocation hexLocation)
     {
         super();
-        this.hexLocation = hexLocation;
+        
+        this.seaLocation = hexLocation;
+    }    
+    
+    public Port(HexLocation hexLocation, RotationPosition rotationPosition)
+    {
+        super();
+        
+        this.rotationPosition = rotationPosition;
+        this.setHexLocation(hexLocation);
+        this.landLocation = hexSide.getOtherLocation(seaLocation);
     }
     
     /*

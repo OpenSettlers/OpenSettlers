@@ -1,6 +1,6 @@
 package soc.common.board.resources;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import soc.common.utils.ClassUtils;
 
 /*
  * Enum design pattern for the resource types. 
@@ -8,16 +8,29 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
  */
 public class Resource
 {
-    public String name;
-
+    final String name;
+    
+    public Resource()
+    {
+        name = ClassUtils.getSimpleClassName(this.getClass().getName());
+    }
     @Override
     public String toString()
     {
         return "Resource [name=" + name + "]";
     }
-    
-    public Resource copy() throws CloneNotSupportedException
+
+    /**
+     * @return the name
+     */
+    public String getName()
     {
-        return (Resource)super.clone();
+        return name;
     }
+    
+    public String getColor()
+    {
+        throw new RuntimeException();
+    }
+
 }

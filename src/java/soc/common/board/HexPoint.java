@@ -233,7 +233,7 @@ public class HexPoint
         return result;
     }
     
-    public HexPoint(HexLocation hex1, HexLocation hex2, HexLocation hex3) throws Exception
+    public HexPoint(HexLocation hex1, HexLocation hex2, HexLocation hex3)
     {
         this.hex1 = hex1;
         this.hex2 = hex2;
@@ -241,7 +241,7 @@ public class HexPoint
         if (hex1.equals(hex2) ||
             hex1.equals(hex3) ||
             hex2.equals(hex3))
-            throw new IllegalArgumentException("WHOA");
+            throw new RuntimeException("WHOA");
     }
     
     public boolean getHasLocation(HexLocation location)
@@ -304,8 +304,10 @@ public class HexPoint
     
     public String toString()
     {
-        return String.format("hex1: %s, hex2: %s, hex3: %s",
-                hex1.toString(), hex2.toString(), hex3.toString());
+        // TODO: fix using external library
+        return "omg";
+        //return String.format("hex1: %s, hex2: %s, hex3: %s",
+        //        hex1.toString(), hex2.toString(), hex3.toString());
     }
     
     public int hashCode()

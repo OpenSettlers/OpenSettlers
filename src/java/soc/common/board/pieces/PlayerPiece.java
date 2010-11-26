@@ -3,13 +3,12 @@ package soc.common.board.pieces;
 import soc.common.board.Board;
 import soc.common.board.resources.ResourceList;
 import soc.common.game.Player;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class PlayerPiece extends Piece
 {
     public ResourceList getCost()
     {
-        throw new NotImplementedException();
+        throw new RuntimeException();
     }
     
     public boolean canPay(Player player)
@@ -32,6 +31,6 @@ public class PlayerPiece extends Piece
     
     public boolean canBuild(Board board, Player player)
     {
-        throw new NotImplementedException();
+        throw new RuntimeException();
     }
 }

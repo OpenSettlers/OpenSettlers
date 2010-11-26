@@ -6,7 +6,9 @@ import java.util.Random;
 import soc.common.board.hexes.Hex;
 import soc.common.board.hexes.ITerritoryHex;
 import soc.common.board.hexes.RandomHex;
-import soc.common.board.hexes.SeaHex;
+import soc.common.board.hexes.*;
+import soc.common.board.ports.Port;
+import soc.common.board.ports.PortList;
 import soc.common.game.GameSettings;
 
 
@@ -66,12 +68,32 @@ public class Board
     private int vpToWin = 10;
     private int width = 0;
     private int height = 0;
-    private TerritoryList territories;
+    private TerritoryList territories = 
+        new TerritoryList()
+            .addNew
+            (
+                new Territory()
+                    .setMainland(true)
+            );
 
     private int maximumCardsInHandWhenSeven = 7;
     
-    //private StandardDevCardStack _DevCards = new StandardDevCardStack(5, 2, 14, 2, 2);
-
+    public Board(int width, int height)
+    {
+        this.width = width;
+        this.height = height;
+        
+        this.hexes = new HexList(width,height);
+        
+        // Default empty board is filled with seahexes
+        for (int h = 0; h < this.height; h++)
+            for (int w = 0; w < this.width; w++)
+                hexes.add
+                (
+                    new SeaHex() 
+                        .setLocation(new HexLocation(w, h))
+                );
+    }
 
     /// <summary>
     /// Resizes the board to a new size. 
@@ -132,6 +154,45 @@ public class Board
         hexes = newboard;
     }
     
+
+    public PortList getAllowedPorts(SeaHex seaHex)
+    {
+        // a list with all allowed ports allowed to be set at designtime
+        PortList result = new PortList();
+        
+        HexLocation seaLocation = seaHex.getLocation();
+
+        // Each SeaHex has 6 possibilities. 
+        PortList possibilities = new PortList();
+        possibilities.add(new Port(seaLocation, RotationPosition.DEG0));
+        possibilities.add(new Port(seaLocation, RotationPosition.DEG60));
+        possibilities.add(new Port(seaLocation, RotationPosition.DEG120));
+        possibilities.add(new Port(seaLocation, RotationPosition.DEG180));
+        possibilities.add(new Port(seaLocation, RotationPosition.DEG240));
+        possibilities.add(new Port(seaLocation, RotationPosition.DEG300));
+        
+        // Test if the other hex of the hexside is a landhex, add it to the allowed
+        // hexes when so.
+        for (Port possibility : possibilities)
+        {
+            HexLocation land = possibility.getLandLocation(); 
+            
+            // The location must be exist on the board
+            if (!hexes.isValid(land))
+            {
+                Hex hex = this.hexes.get(land);
+            
+                // A port is placeable when the land location is actual land
+                if (hex instanceof LandHex)
+                {
+                    result.add(possibility);
+                }
+            }
+        }
+        
+        
+        return result;
+    }
     /// <summary>
     /// Prepares a saved board definition into a playable board.
     /// 1. Puts hexes from InitialRandomHexes list on RandomHexes

@@ -1,5 +1,6 @@
 package soc.common.game.rules;
 
+import soc.common.board.Board;
 import soc.common.board.resources.Clay;
 import soc.common.board.resources.Ore;
 import soc.common.board.resources.ResourceList;
@@ -16,6 +17,11 @@ public class RuleSet
     protected RuleSet nextRuleSet;
     private int bankAmount = 19;
     protected Game game;
+    
+    public void calculateLongestRoad(Board b)
+    {
+        
+    }
     
     public RuleSet(Game game)
     {

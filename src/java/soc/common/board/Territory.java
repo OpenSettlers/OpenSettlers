@@ -61,16 +61,24 @@ public class Territory
     {
         return isMainland;
     }
-    public void setMainland(boolean isMainland)
+    public Territory setMainland(boolean isMainland)
     {
         this.isMainland = isMainland;
+
+        isIsland= !isMainland();
+        
+        return this;
     }
     public boolean isIsland()
     {
         return isIsland;
     }
-    public void setIsland(boolean isIsland)
+    public Territory setIsland(boolean isIsland)
     {
         this.isIsland = isIsland;
+        
+        isIsland= !isMainland();
+        
+        return this;
     }
 }

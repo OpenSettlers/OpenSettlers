@@ -7,12 +7,11 @@ import java.util.List;
 import java.util.Map;
 
 import soc.common.board.resources.*;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class ThreeToOnePort extends Port
 {
 
-    /* (non-Javadoc)
+    /* Performs a 3:1 trade on a list of resources
      * @see soc.common.board.ports.Port#divide(soc.common.board.resources.ResourceList, soc.common.board.resources.Resource)
      */
     @Override
@@ -22,7 +21,7 @@ public class ThreeToOnePort extends Port
         return resources.size() / getInAmount();
     }
 
-    /* (non-Javadoc)
+    /* Three resources are needed for one trade
      * @see soc.common.board.ports.Port#getInAmount()
      */
     @Override
@@ -31,7 +30,7 @@ public class ThreeToOnePort extends Port
         return 3;
     }
 
-    /* (non-Javadoc)
+    /* One gold is gained from one trade
      * @see soc.common.board.ports.Port#getOutAmount()
      */
     @Override

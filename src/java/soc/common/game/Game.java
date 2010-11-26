@@ -11,7 +11,6 @@ import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.LobbyGamePhase;
 import soc.common.game.rules.Pioneers;
 import soc.common.game.rules.RuleSet;
-import soc.common.game.rules.Sea3D;
 
 public class Game
 {
@@ -205,6 +204,7 @@ public class Game
     {
         this.currentPhase = currentPhase;
     }
+    
     public Player getNextPlayer()
     {
         int index = players.indexOf(playerOnTurn) + 1;

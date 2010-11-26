@@ -15,6 +15,11 @@ public class Chit
     {
         // TODO Auto-generated constructor stub
     }
+    
+    public Chit Copy()
+    {
+        return new Chit(this.number);
+    }
 
     /**
      * @return the number

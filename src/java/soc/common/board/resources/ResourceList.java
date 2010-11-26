@@ -55,20 +55,20 @@ public class ResourceList extends ArrayList<Resource>
     /*
      * Swaps a given list of resources from a source to this list
      */
-    public void swapResourcesFrom(ResourceList resourcesToAdd, ResourceList from)
+    public void swapResourcesFrom(ResourceList resourcesToSwap, ResourceList from)
     {
         // ResourceList where we take resources from, should be able to 
         // provide the resources
-        if (!from.hasAtLeast(resourcesToAdd))
+        if (!from.hasAtLeast(resourcesToSwap))
         {
             throw new RuntimeException("Trying to swap resources which ar not contained by the list");
         }
         
         // add the resources to this list...
-        this.addAll(resourcesToAdd);
+        this.addAll(resourcesToSwap);
         
         // ...and remove them at the "from source"
-        from.removeAll(resourcesToAdd);
+        from.removeAll(resourcesToSwap);
     }
     
     /*

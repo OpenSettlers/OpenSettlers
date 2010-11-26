@@ -9,6 +9,7 @@ public class HexList extends ArrayList<Hex>
 {
     private final int width;
     private final int height;
+    private int heigth;
     
     public int getHeight()
     {
@@ -88,6 +89,24 @@ public class HexList extends ArrayList<Hex>
     {
         checkInput(location.getW(), location.getH());
         set(location.getW(), location.getH(), value);
+    }
+    
+    /*
+     * Return true when specified HexLocation can be contained within the
+     * HexList
+     */
+    public boolean isValid(HexLocation hexLocation)
+    {
+        // when location falls outside west & north bounds, return invalid
+        if (width < 0 || 
+            heigth < 0 ||
+            hexLocation.getH() >= height ||
+            hexLocation.getW() >= width)
+        {
+            return false;
+        }
+        
+        return true;
     }
     
 }

@@ -1,6 +1,7 @@
 package soc.common.board.hexes;
 
 import soc.common.board.HexLocation;
+import soc.common.utils.ClassUtils;
 
 /// Represents the base type for each hex.
 /// @seealso cref="http://www.codeproject.com/KB/cs/hexagonal_part1.aspx"/>
@@ -8,7 +9,9 @@ import soc.common.board.HexLocation;
 public class Hex
 {
     private HexLocation hexLocation;
-    private static double s = 10;
+    private String name;
+    protected String color;
+    private static double s = 50;
     private static double h;
     private static double r;
     private static double b;
@@ -62,6 +65,11 @@ public class Hex
     { 
         return h; 
     }
+    
+    public static double getHalfHeight()
+    {
+        return b/2;
+    }
 
     /// <summary>
     /// Size of the hex, measured one line
@@ -93,10 +101,17 @@ public class Hex
     {
         return degrees * Math.PI / 180;
     }
+    
+    public Hex()
+    {
+        name = ClassUtils.getSimpleClassName(this.getClass().getName());
+    }
 
-    public void setLocation(HexLocation hexLocation)
+    public Hex setLocation(HexLocation hexLocation)
     {
         this.hexLocation = hexLocation;   
+        
+        return this;
     }
     
     public HexLocation getLocation()
@@ -104,10 +119,9 @@ public class Hex
         return hexLocation;
     }
 
-    public Hex Copy()
+    public Hex Copy() 
     {
-        // TODO Auto-generated method stub
-        return null;
+        throw new RuntimeException();
     }
 
     /* (non-Javadoc)
@@ -118,7 +132,13 @@ public class Hex
     {
         return this.getClass().toString()+ " [hexLocation=" + hexLocation + "]";
     }
-    
-    
+    public String getName()
+    {
+        return name;
+    }
+    public String getColor()
+    {
+        return color;
+    }
     
 }

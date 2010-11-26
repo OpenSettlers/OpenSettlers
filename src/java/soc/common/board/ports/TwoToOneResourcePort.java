@@ -8,6 +8,11 @@ import soc.common.board.resources.ResourceList;
 public class TwoToOneResourcePort extends Port
 {
     private Resource resource;
+    
+    public TwoToOneResourcePort(Resource r)
+    {
+        resource=r;
+    }
 
     /**
      * @param resource the resource to set
@@ -42,7 +47,7 @@ public class TwoToOneResourcePort extends Port
     }
 
 
-    /* (non-Javadoc)
+    /* Resource this port trades against
      * @see soc.common.board.ports.Port#getResource()
      */
     @Override
@@ -52,7 +57,7 @@ public class TwoToOneResourcePort extends Port
     }
 
 
-    /* (non-Javadoc)
+    /* Returns amount of gold gained by given list of resources
      * @see soc.common.board.ports.Port#divide(soc.common.board.resources.ResourceList, soc.common.board.resources.Resource)
      */
     @Override

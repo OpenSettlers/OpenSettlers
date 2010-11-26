@@ -4,7 +4,6 @@ import soc.common.game.Game;
 
 public class Extended extends RuleSet
 {
-
     public Extended(Game game)
     {
         super(game);

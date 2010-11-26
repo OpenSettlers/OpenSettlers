@@ -217,6 +217,14 @@ public class HexSide
             return hexPoint1;
     }
     
+    public HexLocation getOtherLocation(HexLocation first)
+    {
+        if (first.equals(hex1)) 
+            return hex2;
+        else
+            return hex1;
+    }
+    
     /*
      * Returns true when given location is contained by this HexSide
      */

@@ -8,7 +8,7 @@ import soc.common.game.Player;
 import soc.common.game.User;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+//import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /*
  * A GameAction performed in a game
@@ -120,7 +120,7 @@ public class GameAction
      */
     public boolean isAllowed(TurnPhase turnPhase)
     {
-        throw new NotImplementedException();
+        throw new RuntimeException();
     }
     
     /* 
@@ -128,7 +128,7 @@ public class GameAction
      */
     public boolean isAllowed(GamePhase gamePhase)
     {
-        throw new NotImplementedException();
+        throw new RuntimeException();
     }
 
 }

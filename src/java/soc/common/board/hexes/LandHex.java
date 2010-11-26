@@ -1,21 +1,47 @@
 package soc.common.board.hexes;
 
+import com.google.gwt.event.shared.GwtEvent;
+import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.event.shared.HandlerRegistration;
+
+import soc.common.board.Territory;
+
+@SuppressWarnings("deprecation")
 public class LandHex extends Hex implements ITerritoryHex
 {
     //ID of territory hex belongs to. Default on mainland (ID=0).
-    private int territoryID = 0;
+    private Territory territory;
+    private HandlerManager handlerManager = new HandlerManager(this);
 
     @Override
-    public int getTerritoryID()
+    public void fireEvent(GwtEvent<?> event)
+    {
+        handlerManager.fireEvent(event);
+    }
+    
+    @Override
+    public HandlerRegistration addTerritoryChangedEventHandler(TerritoryChangedEventHandler handler)
+    {
+        return handlerManager.addHandler(TerritoryChangedEvent.TYPE, handler);
+    }
+    
+    @Override
+    public Territory getTerritory()
     {
         // TODO Auto-generated method stub
-        return territoryID;
+        return territory;
     }
 
     @Override
-    public void setTerritoryID(int id)
+    public ITerritoryHex setTerritory(Territory t)
     {
-        // TODO Auto-generated method stub
-        territoryID = id;
+        if (t != territory)
+        {
+            this.territory=t;
+            fireEvent(new TerritoryChangedEvent(t));
+        }
+        
+        return (ITerritoryHex)this;
     }
+
 }

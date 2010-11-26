@@ -78,7 +78,7 @@ public class HexLocation
         return result;
     }
     
-    public List<HexPoint> getNeighbourHexPoints() throws Exception
+    public List<HexPoint> getNeighbourHexPoints()
     {
         List<HexPoint> result = new ArrayList<HexPoint>();
 
@@ -118,7 +118,7 @@ public class HexLocation
         return result;
     }
     
-    public HexSide GetSideLocation(RotationPosition position) throws Exception
+    public HexSide getSideLocation(RotationPosition position)
     {
         List<HexPoint> neighbours = getNeighbourHexPoints();
         
@@ -137,6 +137,9 @@ public class HexLocation
     
     public String toString() 
     {
-        return String.format("w: %s, h: %s", w, h);
+        // TODO: fix using external library
+        return "omg";
+        //return String.format("w: %s, h: %s", 
+        //        Integer.toString(w), Integer.toString(h));
     }
 }

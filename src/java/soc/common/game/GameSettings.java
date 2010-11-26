@@ -56,7 +56,7 @@ public class GameSettings
     private String mame = null;
     private int host;
 
-    private UUID boardGuid;
+    private String boardGuid;
     private boolean isLadder = true;
     private Board board;
     
@@ -148,11 +148,11 @@ public class GameSettings
         this.host = host;
     }
 
-    public UUID getBoardGuid()
+    public String getBoardGuid()
     {
         return boardGuid;
     }
-    public void setBoardGuid(UUID boardGuid)
+    public void setBoardGuid(String boardGuid)
     {
         this.boardGuid = boardGuid;
     }

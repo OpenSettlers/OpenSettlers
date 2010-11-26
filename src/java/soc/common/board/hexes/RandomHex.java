@@ -1,20 +1,62 @@
 package soc.common.board.hexes;
 
+import com.google.gwt.event.shared.GwtEvent;
+import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.event.shared.HandlerRegistration;
+
+import soc.common.board.Territory;
+
+@SuppressWarnings("deprecation")
 public class RandomHex extends Hex implements ITerritoryHex
 {
-    private int territoryID;
-    
+    private Territory territory;
+    private HandlerManager handlerManager = new HandlerManager(this);
+
     @Override
-    public int getTerritoryID()
+    public Territory getTerritory()
     {
         // TODO Auto-generated method stub
-        return territoryID;
+        return territory;
     }
 
     @Override
-    public void setTerritoryID(int id)
+    public ITerritoryHex setTerritory(Territory t)
     {
         // TODO Auto-generated method stub
-        territoryID = id;
+        territory = t;
+        return (ITerritoryHex)this;
+    }
+
+    /* (non-Javadoc)
+     * @see soc.common.board.hexes.Hex#Copy()
+     */
+    @Override
+    public Hex Copy()
+    {
+        // TODO Auto-generated method stub
+        return new RandomHex();
+    }
+
+    /* (non-Javadoc)
+     * @see soc.common.board.hexes.Hex#getColor()
+     */
+    @Override
+    public String getColor()
+    {
+        // TODO Auto-generated method stub
+        return "White";
+    }
+
+    @Override
+    public HandlerRegistration addTerritoryChangedEventHandler(
+            TerritoryChangedEventHandler handler)
+    {
+        return handlerManager.addHandler(TerritoryChangedEvent.TYPE, handler);
+    }
+
+    @Override
+    public void fireEvent(GwtEvent<?> event)
+    {
+        handlerManager.fireEvent(event);
     }
 }
