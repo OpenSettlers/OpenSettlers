@@ -7,7 +7,7 @@ import soc.common.client.visuals.IPieceVisual;
 import soc.gwtClient.client.editBehaviour.BehaviourChanged;
 import soc.gwtClient.client.editBehaviour.IBehaviourChangedHandler;
 
-public class BoardVisual implements IBoardVisual, IBehaviourChangedHandler
+public abstract class BoardVisual implements IBoardVisual, IBehaviourChangedHandler
 {
     protected IInteractionBehaviour editBehaviour = new DefaultBehaviour();
     protected Board board; 

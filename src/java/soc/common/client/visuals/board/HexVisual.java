@@ -1,6 +1,5 @@
 package soc.common.client.visuals.board;
 
-import soc.common.board.Chit;
 import soc.common.board.hexes.ChitChangedEvent;
 import soc.common.board.hexes.ChitChangedEventHandler;
 import soc.common.board.hexes.Hex;
@@ -12,7 +11,7 @@ import soc.common.board.hexes.TerritoryChangedEventHandler;
 import soc.common.board.ports.Port;
 import soc.common.client.visuals.IPieceVisual;
 
-public class HexVisual implements IHexVisual, ChitChangedEventHandler, TerritoryChangedEventHandler
+public abstract class HexVisual implements IHexVisual, ChitChangedEventHandler, TerritoryChangedEventHandler
 {
     protected Hex hex;
 
@@ -115,9 +114,7 @@ public class HexVisual implements IHexVisual, ChitChangedEventHandler, Territory
 		updateHexVisual();
 		
 		// Update hex specific visuals
-		
-        // TODO: implement event handler
-        if (hex instanceof ResourceHex)
+		        if (hex instanceof ResourceHex)
         {
             ResourceHex resourceHex =(ResourceHex)hex;
             resourceHex.addChitChangedEventHandler(this);

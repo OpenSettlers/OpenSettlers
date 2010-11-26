@@ -8,7 +8,7 @@ import soc.common.board.RotationPosition;
 import soc.common.board.ports.Port;
 import soc.common.client.visuals.IPieceVisual;
 
-public class PortPossibilitiesVisual implements IPortPossibilitiesVisual
+public abstract class PortPossibilitiesVisual implements IPortPossibilitiesVisual
 {
     protected List<Port> ports = new ArrayList<Port>();
     protected List<IPortVisual> portVisuals = new ArrayList<IPortVisual>();

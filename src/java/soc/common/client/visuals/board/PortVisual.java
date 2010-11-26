@@ -3,7 +3,7 @@ package soc.common.client.visuals.board;
 import soc.common.board.ports.Port;
 import soc.common.client.visuals.IPieceVisual;
 
-public class PortVisual implements IPortVisual
+public abstract class PortVisual implements IPortVisual
 {
     protected Port port;
     protected IBoardVisual parent;

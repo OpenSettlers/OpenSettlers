@@ -3,7 +3,7 @@ package soc.common.client.visuals.board;
 import soc.common.board.Territory;
 import soc.common.client.visuals.IPieceVisual;
 
-public class TerritoryVisual implements ITerritoryVisual
+public abstract class TerritoryVisual implements ITerritoryVisual
 {
     protected Territory territory;
     
