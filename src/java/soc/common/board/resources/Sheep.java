@@ -9,8 +9,13 @@ public class Sheep extends Resource
     @Override
     public String getColor()
     {
-        // TODO Auto-generated method stub
         return "Green";
+    }
+
+    @Override
+    public Resource Copy()
+    {
+        return new Sheep();
     }
 
 }

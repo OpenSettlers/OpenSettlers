@@ -9,8 +9,13 @@ public class Wheat extends Resource
     @Override
     public String getColor()
     {
-        // TODO Auto-generated method stub
         return "Yellow";
+    }
+
+    @Override
+    public Resource Copy()
+    {
+        return new Wheat();
     }
 
 }

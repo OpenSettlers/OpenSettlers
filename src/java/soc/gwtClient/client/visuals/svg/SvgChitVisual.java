@@ -65,6 +65,15 @@ public class SvgChitVisual extends ChitVisual implements MouseMoveHandler, Mouse
         chitImage.setHref(img);
     }
 
+    /* (non-Javadoc)
+     * @see soc.common.client.visuals.board.ChitVisual#updateVisible()
+     */
+    @Override
+    protected void updateVisible()
+    {
+        chitImage.setVisible(visible);
+    }
+
     @Override
     public void onMouseMove(MouseMoveEvent event)
     {

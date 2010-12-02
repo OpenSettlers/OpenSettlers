@@ -1,5 +1,6 @@
 package soc.common.client.visuals.game;
 
+import soc.common.client.behaviour.game.IGameBehaviour;
 import soc.common.client.visuals.board.IBoardVisual;
 import soc.common.game.IGame;
 
@@ -26,6 +27,13 @@ public class GameVisual implements IGameVisual
     public IHexSidesVisual getHexSidesVisual()
     {
         return possibleSidesVisual;
+    }
+
+    @Override
+    public void setBehaviour(IGameBehaviour gameBehaviour)
+    {
+        // TODO Auto-generated method stub
+        
     }
 
 }

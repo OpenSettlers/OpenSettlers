@@ -11,7 +11,6 @@ public class BuildShipBehaviour extends BuildSideBehaviour
     @Override
     public void clicked(IPieceVisual pieceVisual, IBoardVisual board)
     {
-        // TODO Auto-generated method stub
         super.clicked(pieceVisual, board);
     }
 }

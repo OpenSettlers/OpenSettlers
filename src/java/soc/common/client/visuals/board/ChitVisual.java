@@ -2,11 +2,13 @@ package soc.common.client.visuals.board;
 
 import soc.common.board.Chit;
 import soc.common.client.visuals.IPieceVisual;
+import soc.common.client.visuals.PieceVisual;
 
-public class ChitVisual implements IChitVisual
+public class ChitVisual extends PieceVisual implements IChitVisual
 {
     protected Chit chit;
     final protected IBoardVisual parent;
+    protected void updateChit() {}
     
     public ChitVisual(Chit chit, IBoardVisual parent)
     {
@@ -17,7 +19,6 @@ public class ChitVisual implements IChitVisual
     @Override
     public Chit getChit()
     {
-        // TODO Auto-generated method stub
         return chit;
     }
 
@@ -28,56 +29,6 @@ public class ChitVisual implements IChitVisual
         
         updateChit();
         
-        // TODO Auto-generated method stub
         return this;
     }
-
-    @Override
-    public boolean isEnabled()
-    {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean isSelected()
-    {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean isVisible()
-    {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public IPieceVisual setEnabled(boolean enabled)
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public IPieceVisual setSelected(boolean selected)
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public IPieceVisual setVisible(boolean visible)
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    protected void updateChit()
-    {
-        // TODO Auto-generated method stub
-        
-    }
-
 }

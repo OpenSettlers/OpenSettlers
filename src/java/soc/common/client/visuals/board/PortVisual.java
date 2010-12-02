@@ -1,15 +1,12 @@
 package soc.common.client.visuals.board;
 
 import soc.common.board.ports.Port;
-import soc.common.client.visuals.IPieceVisual;
+import soc.common.client.visuals.PieceVisual;
 
-public abstract class PortVisual implements IPortVisual
+public abstract class PortVisual extends PieceVisual implements IPortVisual
 {
     protected Port port;
     protected IBoardVisual parent;
-    protected boolean selected = false;
-    protected boolean visible = true;
-    protected boolean enabled = true;
     protected boolean valid = false;
 
     protected void updatePort() {}
@@ -21,6 +18,28 @@ public abstract class PortVisual implements IPortVisual
         this.parent=parent;
     }
 
+    /* (non-Javadoc)
+     * @see soc.common.client.visuals.board.IPortVisual#isValid()
+     */
+    @Override
+    public boolean isValid()
+    {
+        return valid;
+    }
+    
+    /* (non-Javadoc)
+     * @see soc.common.client.visuals.board.IPortVisual#setValid(boolean)
+     */
+    @Override
+    public IPortVisual setValid(boolean valid)
+    {
+        this.valid=valid;
+
+        updateValid();
+
+        return this;
+    }
+    
     @Override
     public Port getPort()
     {
@@ -35,63 +54,5 @@ public abstract class PortVisual implements IPortVisual
         updatePort();
 
         return this;
-    }
-
-    @Override
-    public boolean isEnabled()
-    {
-        return enabled;
-    }
-
-    @Override
-    public boolean isSelected()
-    {
-        return selected;
-    }
-
-    @Override
-    public boolean isVisible()
-    {
-        return visible;
-    }
-
-    @Override
-    public IPieceVisual setEnabled(boolean enabled)
-    {
-        this.enabled=enabled;
-
-        return this;
-    }
-
-    @Override
-    public IPieceVisual setSelected(boolean selected)
-    {
-        this.selected=selected;
-        
-        return this;
-    }
-
-    @Override
-    public IPieceVisual setVisible(boolean visible)
-    {
-        this.visible=visible;
-
-        return this;
-    }
-
-    @Override
-    public boolean isValid()
-    {
-        return valid;
-    }
-
-    @Override
-    public IPortVisual setValid(boolean valid)
-    {
-        this.valid=valid;
-        
-        // TODO Auto-generated method stub
-        return this;
-    }
-   
+    }   
 }

@@ -3,7 +3,6 @@ package soc.common.board.hexes;
 import soc.common.board.Territory;
 
 import com.google.gwt.event.shared.GwtEvent;
-import com.google.gwt.event.shared.GwtEvent.Type;
 
 
 public class TerritoryChangedEvent extends GwtEvent<ChitChangedEventHandler>
@@ -15,6 +14,7 @@ public class TerritoryChangedEvent extends GwtEvent<ChitChangedEventHandler>
     {
         this.territory=territory;
     }
+    
     /**
      * @return the territory
      */
@@ -22,6 +22,7 @@ public class TerritoryChangedEvent extends GwtEvent<ChitChangedEventHandler>
     {
         return territory;
     }
+    
     @Override
     protected void dispatch(ChitChangedEventHandler handler)
     {
@@ -32,7 +33,6 @@ public class TerritoryChangedEvent extends GwtEvent<ChitChangedEventHandler>
     @Override
     public com.google.gwt.event.shared.GwtEvent.Type<ChitChangedEventHandler> getAssociatedType()
     {
-        // TODO Auto-generated method stub
         return null;
     }
 

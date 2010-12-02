@@ -25,4 +25,36 @@ public class TerritoryList extends ArrayList<Territory>
         
         return this;
     }
+    
+    private boolean containsMainland()
+    {
+        for (Territory territory : this)
+        {
+            if (territory.isMainland())
+                return true;
+        }
+        return false;
+    }
+    
+    public Territory createTerritory(boolean mainland)
+    {
+        Territory result = new Territory();
+    
+        if (mainland)
+        {
+            result.setID(0);
+        }
+        else
+        {
+            int id = this.size();
+            
+            if (!containsMainland())
+            {
+                id--;
+            }
+            result.setID(id);
+        }
+                
+        return result;
+    }
 }

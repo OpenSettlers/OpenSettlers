@@ -9,8 +9,13 @@ public class Timber extends Resource
     @Override
     public String getColor()
     {
-        // TODO Auto-generated method stub
         return "DarkGreen";
+    }
+
+    @Override
+    public Resource Copy()
+    {
+        return new Timber();
     }
 
 }

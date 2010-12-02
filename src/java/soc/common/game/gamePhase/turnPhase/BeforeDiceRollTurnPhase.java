@@ -12,7 +12,6 @@ public class BeforeDiceRollTurnPhase extends TurnPhase
     @Override
     public TurnPhase next()
     {
-        // TODO Auto-generated method stub
         return super.next();
     }
 
@@ -22,7 +21,6 @@ public class BeforeDiceRollTurnPhase extends TurnPhase
     @Override
     public TurnPhase processAction(GameAction action, Game game)
     {
-        // TODO Auto-generated method stub
         return super.processAction(action, game);
     }
 

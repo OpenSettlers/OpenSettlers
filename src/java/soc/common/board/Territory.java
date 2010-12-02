@@ -18,10 +18,32 @@ public class Territory
     private boolean isMainland;
     private boolean isIsland;
     
+    // Whether or not a bonus vp can be earned while building on it
+    private boolean isBonus;
+    
     // A territory may have a list of ports associated with them.
     // These may be placed by players in a PlacePortGamePhase,
     // or before start by the server, to replace randomports with. 
     private PortList ports;
+    
+    /**
+     * @return the isBonus
+     */
+    public boolean isBonus()
+    {
+        return isBonus;
+    }
+    /**
+     * @param isBonus the isBonus to set
+     */
+    public Territory setBonus(boolean isBonus)
+    {
+        this.isBonus = isBonus;
+    
+        // Enables fluent interface usage
+        // http://en.wikipedia.org/wiki/Fluent_interface
+        return this;
+    }
     
     public String getName()
     {
@@ -41,8 +63,6 @@ public class Territory
     {
         this.ports = ports;
     
-        // Enables fluent interface usage
-        // http://en.wikipedia.org/wiki/Fluent_interface
         return this;
     }
     public void setName(String name)
@@ -53,9 +73,11 @@ public class Territory
     {
         return ID;
     }
-    public void setID(int iD)
+    public Territory setID(int iD)
     {
         ID = iD;
+        
+        return this;
     }
     public boolean isMainland()
     {
@@ -77,7 +99,7 @@ public class Territory
     {
         this.isIsland = isIsland;
         
-        isIsland= !isMainland();
+        isIsland = !isMainland();
         
         return this;
     }

@@ -6,7 +6,7 @@ import java.util.List;
 import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.RolledSame;
 import soc.common.actions.gameAction.StartingPlayerDetermined;
-import soc.common.actions.gameAction.turnActions.RollDice;
+import soc.common.actions.gameAction.turnActions.standard.RollDice;
 import soc.common.board.Territory;
 import soc.common.board.ports.Port;
 import soc.common.game.Game;

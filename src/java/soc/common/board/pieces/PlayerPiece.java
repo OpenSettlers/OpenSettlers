@@ -21,13 +21,14 @@ public class PlayerPiece extends Piece
         
         // Calculate amount of gold we need
         int neededGold =
-            // amount of resources this piece needs, minus
+            // amount of resources this piece needs, minus...
             getCost().size() - 
                 // the resources the player can simply pay for 
                 (player.getResources().size() - copy.size());
         
         // Player can pay given piece if he can trade exactly or more gold as needed
-        return player.amountGold(copy) <= neededGold;    }
+        return player.amountGold(copy) <= neededGold;    
+    }
     
     public boolean canBuild(Board board, Player player)
     {

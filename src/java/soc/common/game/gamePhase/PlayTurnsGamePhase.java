@@ -84,7 +84,6 @@ public class PlayTurnsGamePhase extends GamePhase
     @Override
     public void start(Game game)
     {
-        // TODO Auto-generated method stub
         super.start(game);
     }
 
@@ -94,7 +93,6 @@ public class PlayTurnsGamePhase extends GamePhase
     @Override
     public boolean isAllowed(GameAction action)
     {
-        // TODO Auto-generated method stub
         return turnPhase.isAllowed(action);
     }
 

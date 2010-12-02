@@ -13,12 +13,30 @@ import com.google.gwt.event.dom.client.MouseOutHandler;
 import soc.common.board.hexes.Hex;
 import soc.common.board.ports.Port;
 import soc.common.client.visuals.board.IBoardVisual;
+import soc.common.client.visuals.board.IPortVisual;
 import soc.common.client.visuals.board.PortVisual;
 import soc.gwtClient.client.Point2D;
 
 public class SvgPortVisual extends PortVisual 
     implements MouseMoveHandler, ClickHandler, MouseOutHandler
 {
+    private final double fillOpacity = 0.5;
+    /* (non-Javadoc)
+     * @see soc.common.client.visuals.board.PortVisual#updateSelected()
+     */
+    @Override
+    protected void updateSelected()
+    {
+        if (selected)
+        {
+            territoryPath.setFillOpacity(0.8);
+        }
+        else
+        {
+            territoryPath.setFillOpacity(fillOpacity);
+        }
+    }
+
     Group group = new Group();
     Path territoryPath;
     /**
@@ -37,12 +55,14 @@ public class SvgPortVisual extends PortVisual
         
         this.point=point;
         
-        group=new Group();
-        territoryPath = new Path(point.getX(), point.getY());
+        this.group=new Group();
+        this.territoryPath = new Path(point.getX(), point.getY());
         if (port != null)
         {
             createPath();
         }
+        territoryPath.setStrokeOpacity(0.2);
+        territoryPath.setFillOpacity(fillOpacity);
         
         group.addMouseMoveHandler(this);
         group.addMouseOutHandler(this);
@@ -56,11 +76,40 @@ public class SvgPortVisual extends PortVisual
     @Override
     protected void updatePort()
     {
-        
+        if (port != null)
+        {
+            group.remove(territoryPath);
+            
+            territoryPath = new Path(point.getX(), point.getY());
+            territoryPath.setStrokeOpacity(0.2);
+            territoryPath.setFillOpacity(fillOpacity);
+
+            // Remove old stuff when it's there still
+            //for (int i=0; i< territoryPath.getStepCount(); i++)
+            {
+            //    territoryPath.removeStep(0);
+            }
+            
+            // Update the path to reflect current port
+            createPath();
+            
+            group.add(territoryPath);
+            
+            // Make sure the new port is visible
+            setVisible(true);
+        }
+        else
+        {
+            setVisible(false);
+        }
     }
     
+    /*
+     * Creates a port using a path svg element
+     */
     private void createPath()
     {
+        territoryPath.moveTo(point.getX(), point.getY());
         switch (port.getRotationPosition())
         {
         case DEG0:
@@ -71,7 +120,7 @@ public class SvgPortVisual extends PortVisual
         case DEG60:
             territoryPath.lineRelativelyTo((int)Hex.getHalfWidth(), -(int)Hex.getSize()/2);
             territoryPath.lineRelativelyTo(0, (int)Hex.getSize());
-            territoryPath.lineRelativelyTo(-(int)Hex.getHalfWidth(), (int)Hex.getSize()/2);
+            territoryPath.lineRelativelyTo(-(int)Hex.getHalfWidth(), -(int)Hex.getSize()/2);
             break;
         case DEG120:
             territoryPath.lineRelativelyTo((int)Hex.getHalfWidth(), (int)Hex.getSize()/2);
@@ -94,6 +143,7 @@ public class SvgPortVisual extends PortVisual
             territoryPath.lineRelativelyTo(0, (int)Hex.getHalfHeight());
             break;
         }
+        territoryPath.close();
     }
 
     /* (non-Javadoc)
@@ -129,4 +179,14 @@ public class SvgPortVisual extends PortVisual
     {
         parent.getInteractionBehaviour().mouseOut(this, parent);
     }
+
+    /* (non-Javadoc)
+     * @see soc.common.client.visuals.board.PortVisual#updateVisible()
+     */
+    @Override
+    protected void updateVisible()
+    {
+        group.setVisible(visible);
+    }
+
 }

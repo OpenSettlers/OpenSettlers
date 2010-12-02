@@ -9,10 +9,12 @@ public class Clay extends Resource
     @Override
     public String getColor()
     {
-        // TODO Auto-generated method stub
         return "Red";
     }
 
- 
-
+    @Override
+    public Resource Copy()
+    {
+        return new Clay();
+    }
 }

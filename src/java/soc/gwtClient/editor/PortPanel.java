@@ -9,8 +9,6 @@ import soc.common.board.resources.Sheep;
 import soc.common.board.resources.Timber;
 import soc.common.board.resources.Wheat;
 import soc.common.client.behaviour.SetPortBehaviour;
-import soc.gwtClient.client.editBehaviour.BehaviourChanged;
-import soc.gwtClient.client.editBehaviour.IBehaviourChangedHandler;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -20,9 +18,10 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PushButton;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 @SuppressWarnings("deprecation")
-public class PortPanel extends HorizontalPanel
+public class PortPanel extends VerticalPanel
 {
     private SetPortBehaviour behaviour;
     

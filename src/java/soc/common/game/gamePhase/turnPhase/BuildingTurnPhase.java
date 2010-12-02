@@ -18,7 +18,6 @@ public class BuildingTurnPhase extends TurnPhase
     @Override
     public TurnPhase next()
     {
-        // TODO Auto-generated method stub
         return super.next();
     }
 

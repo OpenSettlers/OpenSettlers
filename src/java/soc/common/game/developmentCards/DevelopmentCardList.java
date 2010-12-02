@@ -47,4 +47,17 @@ public class DevelopmentCardList extends ArrayList<DevelopmentCard>
         
         return result;
     }
+
+    public ArrayList<DevelopmentCard> ofType(DevelopmentCard type)
+    {
+        ArrayList<DevelopmentCard> result = new ArrayList<DevelopmentCard>();
+        
+        for (DevelopmentCard devcard : this)
+        {
+            if (devcard.getClass() == type.getClass())
+                result.add(devcard);
+        }
+        
+        return result;
+    }
 }

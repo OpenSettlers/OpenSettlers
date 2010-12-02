@@ -30,7 +30,7 @@ public class SvgHexVisual extends HexVisual
 
     private Group group = new Group();
 	private Point2D point;
-	final Path p; 
+	private final Path p; 
 	private Image hexImage;
 	private Path disabledOverlay;
 
@@ -77,7 +77,7 @@ public class SvgHexVisual extends HexVisual
         this.chit = new SvgChitVisual(null, parent, point);
         this.territory = new SvgTerritoryVisual(null, point);
         this.portPossibilities = new SvgPortPossiblitiesVisual(hex.getLocation(), (SvgBoardVisual)parent);
-        this.port = new SvgPortVisual(null, parent, point);
+        this.port = new SvgPortVisual(null, parent, getMiddlePoint(point));
         
         this.chit.setVisible(false);
         this.portPossibilities.setVisible(false);
@@ -103,6 +103,8 @@ public class SvgHexVisual extends HexVisual
 		group.addMouseMoveHandler(this);
 		group.addMouseOutHandler(this);
 		group.addClickHandler(this);
+		
+		this.setHex(hex);
 	}
     
     /* (non-Javadoc)
@@ -112,6 +114,11 @@ public class SvgHexVisual extends HexVisual
     protected void updateEnabled()
     {
         disabledOverlay.setVisible(!enabled);
+    }
+    
+    private Point2D getMiddlePoint(Point2D point)
+    {
+        return new Point2D((int)point.getX(), (int)(point.getY() + Hex.getHalfHeight()));
     }
 
     private Path createPath()

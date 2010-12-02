@@ -12,8 +12,13 @@ public class Diamond extends Resource
     @Override
     public String getColor()
     {
-        // TODO Auto-generated method stub
         return "Grey";
+    }
+
+    @Override
+    public Resource Copy()
+    {
+        return new Diamond();
     }
 
 }

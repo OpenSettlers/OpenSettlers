@@ -12,7 +12,7 @@ import soc.common.game.Game;
 /*
  * Basic standard settlers ruleset
  */
-public class RuleSet
+public abstract class RuleSet implements IRuleSet
 {
     protected RuleSet nextRuleSet;
     private int bankAmount = 19;
@@ -78,5 +78,11 @@ public class RuleSet
     {
         // TODO Auto-generated method stub
         
+    }
+    
+    @Override
+    public void addBuildablePieces()
+    {
+        // Empty default implementation
     }
 }

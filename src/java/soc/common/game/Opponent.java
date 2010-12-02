@@ -14,7 +14,6 @@ public class Opponent extends Player
     @Override
     public int getDevelopmentCardsCount()
     {
-        // TODO Auto-generated method stub
         return developmentCardsCount;
     }
 

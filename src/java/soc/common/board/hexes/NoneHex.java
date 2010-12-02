@@ -6,23 +6,21 @@ package soc.common.board.hexes;
 public class NoneHex extends Hex
 {
 
-    /* (non-Javadoc)
+    /* Returns copy of a NoneHex
      * @see soc.common.board.hexes.Hex#Copy()
      */
     @Override
-    public Hex Copy()
+    public Hex copy()
     {
-        // TODO Auto-generated method stub
         return new NoneHex();
     }
 
-    /* (non-Javadoc)
+    /* NoneHex has white color
      * @see soc.common.board.hexes.Hex#getColor()
      */
     @Override
     public String getColor()
     {
-        // TODO Auto-generated method stub
         return "White";
     }
 

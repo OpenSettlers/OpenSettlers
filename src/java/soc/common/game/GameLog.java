@@ -5,14 +5,13 @@ import java.util.List;
 
 import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.RolledSame;
-import soc.common.actions.gameAction.turnActions.RollDice;
+import soc.common.actions.gameAction.turnActions.standard.RollDice;
 
 public class GameLog extends ArrayList<GameAction> implements IGameLog
 {    
     @Override
     public void addAction(GameAction inGameAction)
     {
-        // TODO Auto-generated method stub
         
     }
     

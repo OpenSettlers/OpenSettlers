@@ -9,7 +9,6 @@ public class Sea3D extends RuleSet
     public Sea3D(Game game)
     {
         super(game);
-        // TODO Auto-generated constructor stub
     }
 
     @Override
@@ -32,5 +31,12 @@ public class Sea3D extends RuleSet
         {
             // find DetermineFirstPlayerPhase, and add PlacePortPhase after
         }
+    }
+
+    @Override
+    public void setRules()
+    {
+        // TODO Auto-generated method stub
+        
     }
 }

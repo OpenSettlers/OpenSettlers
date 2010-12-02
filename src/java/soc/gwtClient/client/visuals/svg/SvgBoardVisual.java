@@ -14,7 +14,7 @@ import soc.common.board.hexes.Hex;
 import soc.common.client.visuals.IPieceVisual;
 import soc.common.client.visuals.board.BoardVisual;
 import soc.gwtClient.client.Point2D;
-import soc.gwtClient.client.editBehaviour.BehaviourChanged;
+import soc.gwtClient.editor.BehaviourChanged;
 
 public class SvgBoardVisual extends BoardVisual 
 {
@@ -48,6 +48,7 @@ public class SvgBoardVisual extends BoardVisual
             final SvgHexVisual hv = new SvgHexVisual(hex, this, point);
             
             drawingArea.add(hv.getGroup());
+            hexVisuals.add(hv);
         }        
         
         enabledOverlay = new Rectangle(0,0,drawingArea.getWidth(), drawingArea.getHeight());
@@ -127,49 +128,12 @@ public class SvgBoardVisual extends BoardVisual
         editBehaviour = behaviourChanged.getBehaviour();
     }
 
+    /* (non-Javadoc)
+     * @see soc.common.client.visuals.PieceVisual#updateEnabled()
+     */
     @Override
-    public boolean isEnabled()
+    protected void updateEnabled()
     {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean isSelected()
-    {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean isVisible()
-    {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public IPieceVisual setEnabled(boolean enabled)
-    {
-        this.enabled=enabled;
-        
         enabledOverlay.setVisible(enabled);
-        
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public IPieceVisual setSelected(boolean selected)
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public IPieceVisual setVisible(boolean visible)
-    {
-        // TODO Auto-generated method stub
-        return null;
     }
 }

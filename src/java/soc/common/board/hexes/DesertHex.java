@@ -6,10 +6,13 @@ public class DesertHex extends LandHex
      * @see soc.common.board.hexes.Hex#Copy()
      */
     @Override
-    public Hex Copy()
+    public Hex copy()
     {
-        // TODO Auto-generated method stub
-        return new DesertHex();
+        DesertHex result = new DesertHex();
+        
+        result.setTerritory(territory);
+        
+        return result;
     }
 
     /* (non-Javadoc)
@@ -18,7 +21,6 @@ public class DesertHex extends LandHex
     @Override
     public String getColor()
     {
-        // TODO Auto-generated method stub
         return "DarkKhaki";
     }
 

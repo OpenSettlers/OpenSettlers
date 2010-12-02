@@ -12,8 +12,13 @@ public class Gold extends Resource
     @Override
     public String getColor()
     {
-        // TODO Auto-generated method stub
         return "Gold";
+    }
+
+    @Override
+    public Resource Copy()
+    {
+        return new Gold();
     }
 
 }

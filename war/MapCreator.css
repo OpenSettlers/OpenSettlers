@@ -32,3 +32,37 @@ h1 {
 #closeButton {
   margin: 15px 6px 6px;
 }
+
+.player-widget-yellow {
+  background-color: #FFFF99;
+  border-style: solid;
+  border-width: 5px;
+  border-color: gold;
+}
+.player-widget-white {
+  background-color: white;
+  border-style: solid;
+  border-width: 5px;
+  border-color: silver;
+}
+.player-widget-red {
+  background-color: pink;
+  border-style: solid;
+  border-width: 5px;
+  border-color: red;
+}
+.player-widget-green {
+  background-color: lightgreen;
+  border-style: solid;
+  border-width: 5px;
+  border-color: darkgreen;
+}
+.player-widget-blue {
+  background-color: lightblue;
+  border-style: solid;
+  border-width: 5px;
+  border-color: darkblue;
+}
+.chat-panel{
+  background-color: lightblue; !important
+}

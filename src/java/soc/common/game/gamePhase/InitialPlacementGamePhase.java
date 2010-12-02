@@ -2,10 +2,10 @@ package soc.common.game.gamePhase;
 
 import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.GamePhaseHasEnded;
-import soc.common.actions.gameAction.turnActions.BuildCity;
-import soc.common.actions.gameAction.turnActions.BuildRoad;
-import soc.common.actions.gameAction.turnActions.BuildShip;
-import soc.common.actions.gameAction.turnActions.BuildTown;
+import soc.common.actions.gameAction.turnActions.seaFarers.BuildShip;
+import soc.common.actions.gameAction.turnActions.standard.BuildCity;
+import soc.common.actions.gameAction.turnActions.standard.BuildRoad;
+import soc.common.actions.gameAction.turnActions.standard.BuildTown;
 import soc.common.game.Game;
 
 public class InitialPlacementGamePhase extends GamePhase

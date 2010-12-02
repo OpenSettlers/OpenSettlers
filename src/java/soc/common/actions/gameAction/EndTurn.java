@@ -1,6 +1,8 @@
 package soc.common.actions.gameAction;
 
-public class EndTurn extends GameAction
+import soc.common.actions.gameAction.turnActions.TurnAction;
+
+public class EndTurn extends TurnAction
 {
 
 }

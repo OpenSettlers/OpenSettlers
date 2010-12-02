@@ -7,12 +7,18 @@ public class Extended extends RuleSet
     public Extended(Game game)
     {
         super(game);
-        // TODO Auto-generated constructor stub
     }
     
     public void createBank(int amount)
     {
         // add 6 cards to each found type
+    }
+
+    @Override
+    public void setRules()
+    {
+        // TODO Auto-generated method stub
+        
     }
 
 }

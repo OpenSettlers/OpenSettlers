@@ -8,29 +8,47 @@ import soc.common.utils.ClassUtils;
 /// @seealso cref="http://gmc.yoyogames.com/index.php?showtopic=336183"/>
 public class Hex
 {
-    private HexLocation hexLocation;
+    protected HexLocation hexLocation;
     private String name;
     protected String color;
-    private static double s = 50;
+    private static double sideLength = 50;
     private static double h;
-    private static double r;
+    private static double halfWidth;
     private static double b;
-    private static double a;
+    private static double width;
 
     /// <summary>
     /// The width of the hex measured from outer left to the middle
+
+    ///
+    ///    HalfWidth
+    ///    |  |
+    ///      __
+    ///     /  \        
+    ///    |    |
+    ///     \  /
+    ///      --
     /// </summary>
     public static double getHalfWidth()
     {
-        return r; 
+        return halfWidth; 
     }
 
     /// <summary>
     /// Total width of the hex
     /// </summary>
+    ///
+    ///    Width
+    ///    |    |
+    ///      __
+    ///     /  \        
+    ///    |    |
+    ///     \  /
+    ///      --
+    /// </summary>
     public static double getWidth()
     {  
-        return a; 
+        return width; 
     }
 
     /// <summary>
@@ -50,14 +68,14 @@ public class Hex
     /// </summary>
     public static double getPartialHeight()
     { 
-        return s + h; 
+        return sideLength + h; 
     }
 
     /// <summary>
     /// Height measured from the top to the second line
     ///      __         _
     ///     /  \          } BottomHeight
-    ///    |    |       _
+    ///    |    |       _ ]
     ///     \  /
     ///      --
     /// </summary>
@@ -73,24 +91,26 @@ public class Hex
 
     /// <summary>
     /// Size of the hex, measured one line
-    ///     |  | --> size
+    ///
+    ///     size
+    ///     |  | 
     ///      __         
     ///     /  \    _    
-    ///    |    |   _ } --> size    
+    ///    |    |   _ } size    
     ///     \  /
     ///      --
     /// </summary>
     public static int getSize()
     {
-        return (int)s; 
+        return (int)sideLength; 
     }
     
     static 
     {
-        h = Math.sin(DegreesToRadians(30)) * s;
-        r = Math.cos(DegreesToRadians(30)) * s;
-        b = s + 2 * h;
-        a = 2 * r;
+        h = Math.sin(DegreesToRadians(30)) * sideLength;
+        halfWidth = Math.cos(DegreesToRadians(30)) * sideLength;
+        b = sideLength + 2 * h;
+        width = 2 * halfWidth;
     }
     
     /// <summary>
@@ -119,7 +139,7 @@ public class Hex
         return hexLocation;
     }
 
-    public Hex Copy() 
+    public Hex copy() 
     {
         throw new RuntimeException();
     }

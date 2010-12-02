@@ -9,9 +9,13 @@ import soc.common.board.hexes.SeaHex;
 import soc.common.board.hexes.TerritoryChangedEvent;
 import soc.common.board.hexes.TerritoryChangedEventHandler;
 import soc.common.board.ports.Port;
+import soc.common.board.ports.PortChangedEvent;
+import soc.common.board.ports.PortChangedEventHandler;
 import soc.common.client.visuals.IPieceVisual;
+import soc.common.client.visuals.PieceVisual;
 
-public abstract class HexVisual implements IHexVisual, ChitChangedEventHandler, TerritoryChangedEventHandler
+public abstract class HexVisual extends PieceVisual implements 
+    IHexVisual, ChitChangedEventHandler, TerritoryChangedEventHandler, PortChangedEventHandler
 {
     protected Hex hex;
 
@@ -19,31 +23,16 @@ public abstract class HexVisual implements IHexVisual, ChitChangedEventHandler, 
 	protected ITerritoryVisual territory;
 	protected IPortVisual port;
 	protected IPortPossibilitiesVisual portPossibilities;
-	
-	protected boolean visible = true;
-	protected boolean selected = false;
-	protected boolean enabled = true;
 
     protected IBoardVisual parent;
     
     protected void updateHexVisual() {}
     protected void updatePortPossibilitiesVisual() {}
-    protected void updateEnabled() {}
-    protected void updateSelected() {}
-    protected void updateVisible() {}
 
     protected void updatePortVisual() 
     {
-        Port p = ((SeaHex)hex).getPort();
-        if (p !=null)
-        {
-            port.setPort(p);
-            port.setVisible(true);
-        }
-        else
-        {
-            port.setVisible(false);
-        }       
+        port.setPort(
+                ((SeaHex)hex).getPort());
     }
     
     protected void updateChitVisual() 
@@ -55,38 +44,6 @@ public abstract class HexVisual implements IHexVisual, ChitChangedEventHandler, 
     {
         territory.setTerritory(
                 ((ITerritoryHex)hex).getTerritory());
-    }
-	/**
-	 * @return the selected
-	 */
-	public boolean isSelected() 
-	{
-		return selected;
-	}
-
-	/**
-	 * @param selected the selected to set
-	 */
-	@Override
-	public IPieceVisual setSelected(boolean selected)
-	{
-		this.selected = selected;
-	
-		updateSelected();
-		// Enables fluent interface usage
-		// http://en.wikipedia.org/wiki/Fluent_interface
-		return this;
-	}
-	
-
-    @Override
-    public IPieceVisual setVisible(boolean visible)
-    {
-        this.visible = visible;
-        
-        this.updateVisible();
-        
-        return this;
     }
 
     public HexVisual(Hex h, IBoardVisual parent)
@@ -114,49 +71,46 @@ public abstract class HexVisual implements IHexVisual, ChitChangedEventHandler, 
 		updateHexVisual();
 		
 		// Update hex specific visuals
-		        if (hex instanceof ResourceHex)
+		if (hex instanceof ResourceHex)
         {
             ResourceHex resourceHex =(ResourceHex)hex;
             resourceHex.addChitChangedEventHandler(this);
+            chit.setVisible(true);
             updateChitVisual();
         }
+		else
+		{
+            chit.setVisible(false);
+		}
 
         if (hex instanceof SeaHex)
+        {
+            SeaHex seaHex = (SeaHex)hex;
+            seaHex.addPortChangedEventHandler(this);
+            port.setVisible(true);
             updatePortVisual();
+        }
+        else
+        {
+            port.setVisible(false);
+        }
         
         if (hex instanceof ITerritoryHex)
         {
             ITerritoryHex territoryHex = (ITerritoryHex)hex;
             territoryHex.addTerritoryChangedEventHandler(this);
+            territory.setVisible(true);
             updateTerritoryVisual();
+        }
+        else
+        {
+            territory.setVisible(false);
         }
         
         // Enables fluent interface usage
         // http://en.wikipedia.org/wiki/Fluent_interface
         return this;		
 	}
-    
-    @Override
-    public boolean isEnabled()
-    {
-        return enabled;
-    }
-    
-    @Override
-    public IPieceVisual setEnabled(boolean enabled)
-    {
-        this.enabled=enabled;
-        
-        updateEnabled();
-        
-        return this;
-    }
-    
-    @Override
-    public boolean isVisible()
-    {
-        return visible;
-    }
     
     @Override
     public IChitVisual getChitVisual()
@@ -181,6 +135,7 @@ public abstract class HexVisual implements IHexVisual, ChitChangedEventHandler, 
     {
         return parent;
     }
+    
     @Override
     public void onChitChanged(ChitChangedEvent event)
     {
@@ -190,6 +145,10 @@ public abstract class HexVisual implements IHexVisual, ChitChangedEventHandler, 
     public void onTerritoryChanged(TerritoryChangedEvent event)
     {
         updateTerritoryVisual();
+    }    
+    @Override
+    public void onPortChanged(PortChangedEvent event)
+    {
+        updatePortVisual();
     }
-
 }

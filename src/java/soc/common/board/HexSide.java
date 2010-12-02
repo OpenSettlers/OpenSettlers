@@ -198,7 +198,8 @@ public class HexSide
         hexPoint2 = new HexPoint(hex1, hex2, loc2);
     }
     
-    public int getHashCode()
+    @Override
+    public int hashCode()
     {
         return hex1.hashCode() ^ hex2.hashCode();    
     }

@@ -1,6 +1,5 @@
 package soc.common.board.ports;
 
-
 import java.util.List;
 
 import soc.common.board.HexLocation;
@@ -14,7 +13,6 @@ public class Port
     protected HexLocation seaLocation;
     protected HexLocation landLocation;
     protected HexSide hexSide;
-    
     protected RotationPosition rotationPosition;
 
     

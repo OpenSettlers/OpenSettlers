@@ -10,8 +10,6 @@ public class ResourceHex extends LandHex implements HasHandlers
 {
     private Resource resource;
     private Chit chit;
-    
-    
     private HandlerManager handlerManager = new HandlerManager(this);
   
     /**
@@ -38,17 +36,13 @@ public class ResourceHex extends LandHex implements HasHandlers
      * @see soc.common.board.hexes.Hex#Copy()
      */
     @Override
-    public Hex Copy()
+    public Hex copy()
     {
-        // TODO Auto-generated method stub
         ResourceHex rh = new ResourceHex()
             .setChit(new Chit(5))
             .setResource(getResource());
+        rh.setTerritory(territory);
         return rh;
-        
-        //    .setTerritoryID(this.getTerritoryID());
-            
-            
     }
 
     /**
@@ -66,8 +60,6 @@ public class ResourceHex extends LandHex implements HasHandlers
     {
         this.resource = resource;
     
-        // Enables fluent interface usage
-        // http://en.wikipedia.org/wiki/Fluent_interface
         return this;
     }
 
@@ -101,7 +93,6 @@ public class ResourceHex extends LandHex implements HasHandlers
     @Override
     public String getColor()
     {
-        // TODO Auto-generated method stub
         return resource.getColor();
     }
 
@@ -111,7 +102,6 @@ public class ResourceHex extends LandHex implements HasHandlers
     @Override
     public String getName()
     {
-        // TODO Auto-generated method stub
         return resource.getName() + "Hex";
     }
 }

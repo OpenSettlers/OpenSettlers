@@ -128,7 +128,7 @@ public class Board
                     if (w == newWidth - 1 || w == 0 || h == newHeight - 1 || h == 0)
                         newHex = new SeaHex();
                     else
-                        newHex = defaultHex.Copy();
+                        newHex = defaultHex.copy();
 
                     newHex.setLocation(new HexLocation(w,h));
                     newboard.set(w, h, newHex);
@@ -143,10 +143,10 @@ public class Board
                     }
                     else
                     {
-                        newboard.set(w, h, defaultHex.Copy());
+                        newboard.set(w, h, defaultHex.copy());
                     }
 
-                    newboard.set(w, h, hexes.get(w, h).Copy());
+                    newboard.set(w, h, hexes.get(w, h).copy());
                 }
 
             }

@@ -7,10 +7,10 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import soc.common.board.Territory;
 
 @SuppressWarnings("deprecation")
-public class LandHex extends Hex implements ITerritoryHex
+public abstract class LandHex extends Hex implements ITerritoryHex
 {
     //ID of territory hex belongs to. Default on mainland (ID=0).
-    private Territory territory;
+    protected Territory territory;
     private HandlerManager handlerManager = new HandlerManager(this);
 
     @Override
@@ -28,7 +28,6 @@ public class LandHex extends Hex implements ITerritoryHex
     @Override
     public Territory getTerritory()
     {
-        // TODO Auto-generated method stub
         return territory;
     }
 

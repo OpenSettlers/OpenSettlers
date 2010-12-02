@@ -17,7 +17,6 @@ public class VolcanoHex extends ResourceHex
     @Override
     public Resource getResource()
     {
-        // TODO Auto-generated method stub
         return resource;
     }
 
@@ -27,7 +26,6 @@ public class VolcanoHex extends ResourceHex
     @Override
     public String getColor()
     {
-        // TODO Auto-generated method stub
         return "DarkRed";
     }
 
@@ -37,7 +35,6 @@ public class VolcanoHex extends ResourceHex
     @Override
     public String getName()
     {
-        // TODO Auto-generated method stub
         return ClassUtils.getSimpleClassName(this.getClass().getName());
     }
 
@@ -45,11 +42,14 @@ public class VolcanoHex extends ResourceHex
      * @see soc.common.board.hexes.ResourceHex#Copy()
      */
     @Override
-    public Hex Copy()
+    public Hex copy()
     {
-        // TODO Auto-generated method stub
-        return new VolcanoHex()
-            .setChit(new Chit(5));
+        VolcanoHex result = new VolcanoHex();
+        
+        result.setChit(new Chit(5));
+        result.setTerritory(territory);
+        
+        return result;
     }
 
 }

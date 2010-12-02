@@ -2,7 +2,7 @@ package soc.common.game.gamePhase;
 
 import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.GamePhaseHasEnded;
-import soc.common.actions.gameAction.PlacePort;
+import soc.common.actions.gameAction.turnActions.seaFarers.PlacePort;
 import soc.common.annotations.SeaFarers;
 import soc.common.board.Territory;
 import soc.common.board.ports.Port;
@@ -80,7 +80,6 @@ public class PlacePortsGamePhase extends GamePhase
     @Override
     public GamePhase next(Game game)
     {
-        // TODO Auto-generated method stub
         return new InitialPlacementGamePhase();
     }
 }

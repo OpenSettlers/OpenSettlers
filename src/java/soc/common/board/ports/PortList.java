@@ -1,11 +1,8 @@
 package soc.common.board.ports;
 
 import java.util.ArrayList;
-import java.util.List;
-
 import soc.common.board.resources.Resource;
 import soc.common.board.resources.ResourceList;
-import soc.common.board.resources.*;
 
 
 public class PortList extends ArrayList<Port>

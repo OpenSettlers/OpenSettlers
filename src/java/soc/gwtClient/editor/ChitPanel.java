@@ -1,9 +1,7 @@
 package soc.gwtClient.editor;
 
 import soc.common.board.Chit;
-import soc.common.client.behaviour.design.SetChitBehaviour;
-import soc.gwtClient.client.editBehaviour.BehaviourChanged;
-import soc.gwtClient.client.editBehaviour.IBehaviourChangedHandler;
+import soc.common.client.behaviour.editor.SetChitBehaviour;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -11,9 +9,10 @@ import com.google.gwt.event.shared.*;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PushButton;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 
-public class ChitPanel extends HorizontalPanel implements HasHandlers
+public class ChitPanel extends VerticalPanel implements HasHandlers
 {
     private SetChitBehaviour editBehaviour;
     

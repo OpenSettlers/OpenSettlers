@@ -1,5 +1,6 @@
 package soc.common.game.rules;
 
+import soc.common.board.pieces.Wall;
 import soc.common.game.Game;
 
 /*
@@ -15,7 +16,6 @@ public class Pioneers extends RuleSet
     public Pioneers(Game game)
     {
         super(game);
-        // TODO Auto-generated constructor stub
     }
     
     public void CreateBank(int amount)
@@ -29,5 +29,17 @@ public class Pioneers extends RuleSet
     public void Initialize(Game game)
     {
         // get the BuildingTurnPhase, and add BuildWall and BuildBridge as allowed actions
+    }
+
+    @Override
+    public void addBuildablePieces()
+    {
+    }
+
+    @Override
+    public void setRules()
+    {
+        // TODO Auto-generated method stub
+        
     }
 }

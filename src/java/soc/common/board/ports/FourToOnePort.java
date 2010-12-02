@@ -11,7 +11,6 @@ public class FourToOnePort extends Port
     @Override
     public int divide(ResourceList resources, Resource type)
     {
-        // TODO Auto-generated method stub
         return resources.size() / getInAmount();
     }
 
@@ -30,7 +29,6 @@ public class FourToOnePort extends Port
     @Override
     public int getOutAmount()
     {
-        // TODO Auto-generated method stub
         return 1;
     }
 }

@@ -1,30 +1,25 @@
 package soc.common.game;
 
-import soc.common.board.pieces.City;
-import soc.common.board.pieces.PlayerPiece;
 import soc.common.board.pieces.PlayerPieceList;
-import soc.common.board.pieces.Town;
-import soc.common.board.ports.Port;
 import soc.common.board.ports.PortList;
-import soc.common.board.resources.Clay;
-import soc.common.board.resources.Ore;
-import soc.common.board.resources.Resource;
 import soc.common.board.resources.ResourceList;
-import soc.common.board.resources.Sheep;
-import soc.common.board.resources.Timber;
-import soc.common.board.resources.Wheat;
 import soc.common.game.developmentCards.DevelopmentCard;
 import soc.common.game.developmentCards.DevelopmentCardList;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 public class Player extends User
 {
+    /**
+     * @return the playedDevelopmentCards
+     */
+    public DevelopmentCardList getPlayedDevelopmentCards()
+    {
+        return playedDevelopmentCards;
+    }
+
     // Hand resource cards
-    private ResourceList resources;
+    private ResourceList resources = new ResourceList();
+    
+    private String color;
     
     // Maximum cards the player may have in his hand
     // This is player specific, as a wall may increase this number
@@ -45,10 +40,10 @@ public class Player extends User
     private PortList ports;
     
     // Development cards in hand 
-    private DevelopmentCardList developmentCards;
+    private DevelopmentCardList developmentCards = new DevelopmentCardList();
 
     // Played development cards 
-    private DevelopmentCardList playedDevelopmentCards;
+    private DevelopmentCardList playedDevelopmentCards = new DevelopmentCardList();
     
     public void removeResources(ResourceList resources)
     {
@@ -201,6 +196,20 @@ public class Player extends User
     public void setResources(ResourceList resources)
     {
         this.resources = resources;
+    }
+
+    public Player setColor(String color)
+    {
+        this.color = color;
+        
+        // Enables fluent interface usage
+        // http://en.wikipedia.org/wiki/Fluent_interface
+        return this;
+    }
+
+    public String getColor()
+    {
+        return color;
     }
     
 }

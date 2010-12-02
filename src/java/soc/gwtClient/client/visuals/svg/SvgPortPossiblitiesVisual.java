@@ -27,7 +27,7 @@ public class SvgPortPossiblitiesVisual extends PortPossibilitiesVisual
         group = new Group();
         
         Point2D coordinates = parent.calculatePosition(seaLocation);
-        Point2D centeredCoordinates = new Point2D((int)coordinates.getX() , (int)(coordinates.getY()- Hex.getHalfHeight()));
+        Point2D centeredCoordinates = new Point2D((int)coordinates.getX() , (int)(coordinates.getY()+ Hex.getHalfHeight()));
         
         for (Port port : ports)
         {

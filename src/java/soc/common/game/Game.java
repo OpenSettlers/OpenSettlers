@@ -3,21 +3,38 @@ package soc.common.game;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
+import com.google.gwt.dev.util.collect.HashSet;
+
+import soc.common.actions.gameAction.turnActions.TurnAction;
 import soc.common.board.Board;
 import soc.common.board.HexLocation;
+import soc.common.board.resources.Resource;
 import soc.common.board.resources.ResourceList;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.LobbyGamePhase;
-import soc.common.game.rules.Pioneers;
-import soc.common.game.rules.RuleSet;
+import soc.common.game.rules.IRuleSet;
 
 public class Game
 {
-    private RuleSet ruleSet;
+    /**
+     * @param ruleSets the ruleSets to set
+     */
+    public Game setRuleSets(List<IRuleSet> ruleSets)
+    {
+        this.ruleSets = ruleSets;
+    
+        // Enables fluent interface usage
+        // http://en.wikipedia.org/wiki/Fluent_interface
+        return this;
+    }
+
+    private List<IRuleSet> ruleSets = new ArrayList<IRuleSet>();
     private LinkedList<GamePhase> gamePhases = new LinkedList<GamePhase>();
     private IActionsQueue actionsQueue = new ActionsQueue();
     private ResourceList bank = new ResourceList();
+    private int bankAmountPerResource = 19;
     private List<Player> players = new ArrayList<Player>();
     private GameLog gameLog = new GameLog();
     private HexLocation pirate = new HexLocation(0,0);
@@ -26,7 +43,71 @@ public class Game
     private Player playerOnTurn;
     private Board board;
     private Player gameStarter;
+    private List<TurnAction> possibleActions = new ArrayList<TurnAction>();
+    private List<Resource> playableResources = new ArrayList<Resource>();
+    /**
+     * @return the playableResources
+     */
+    public List<Resource> getPlayableResources()
+    {
+        return playableResources;
+    }
+
+    private List<StockItem> stockPieces = new ArrayList<StockItem>();
+    private boolean enableLargestArmy;
     
+    public void makeRulesPermanent()
+    {
+        for (IRuleSet ruleset : ruleSets)
+        {
+            ruleset.setRules();
+        }
+        
+        createBank();
+    }
+    
+    private void createBank()
+    {
+        for (Resource resource : playableResources)
+        {
+            for (int i=0; i< bankAmountPerResource; i++)
+            {
+                bank.add(resource.Copy());
+            }
+        }
+    }
+    /**
+     * @return the stockPieces
+     */
+    public List<StockItem> getStockPieces()
+    {
+        return stockPieces;
+    }
+    /**
+     * @return the enableLargestArmy
+     */
+    public boolean isEnableLargestArmy()
+    {
+        return enableLargestArmy;
+    }
+    /**
+     * @param enableLargestArmy the enableLargestArmy to set
+     */
+    public Game setEnableLargestArmy(boolean enableLargestArmy)
+    {
+        this.enableLargestArmy = enableLargestArmy;
+    
+        // Enables fluent interface usage
+        // http://en.wikipedia.org/wiki/Fluent_interface
+        return this;
+    }
+    /**
+     * @return the ruleSets
+     */
+    public List<IRuleSet> getRuleSets()
+    {
+        return ruleSets;
+    }
     /**
      * @return the gameStarter
      */
@@ -34,6 +115,7 @@ public class Game
     {
         return gameStarter;
     }
+
     /**
      * @param gameStarter the gameStarter to set
      */
@@ -51,6 +133,13 @@ public class Game
     public Board getBoard()
     {
         return board;
+    }
+    /**
+     * @return the possibleActions
+     */
+    public List<TurnAction> getPossibleActions()
+    {
+        return possibleActions;
     }
     /**
      * @param board the board to set
@@ -115,14 +204,20 @@ public class Game
         this.gameSettings = gameSettings;
     }
 
-    Game()
+    public Game()
     {
-        ruleSet = new RuleSet(this);
-        ruleSet.setNextRuleSet(new Pioneers(this));
         
-        ruleSet.createBank(19);
+    }
+    public Game(List<IRuleSet> ruleSets)
+    {
+        this.ruleSets = ruleSets;
         
-        ruleSet.initialize();
+        for (IRuleSet ruleSet : ruleSets)
+        {
+            // Initialize the list of pieces allowed to be built
+            ruleSet.addBuildablePieces();
+        }
+        
     }
     
     public ResourceList getBank()
@@ -143,16 +238,6 @@ public class Game
     public void setGamePhases(LinkedList<GamePhase> gamePhases)
     {
         this.gamePhases = gamePhases;
-    }
-
-    public RuleSet getRuleSet()
-    {
-        return ruleSet;
-    }
-
-    public void setRuleSet(RuleSet ruleSet)
-    {
-        this.ruleSet = ruleSet;
     }
 
     public IActionsQueue getActionsQueue()
@@ -213,5 +298,17 @@ public class Game
             index = 0;
         }
         return players.get(index);
+    }
+    public Game setBankAmountPerResource(int bankAmountPerResource)
+    {
+        this.bankAmountPerResource = bankAmountPerResource;
+        
+        // Enables fluent interface usage
+        // http://en.wikipedia.org/wiki/Fluent_interface
+        return this;
+    }
+    public int getBankAmountPerResource()
+    {
+        return bankAmountPerResource;
     }  
 }

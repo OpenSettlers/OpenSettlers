@@ -6,7 +6,7 @@ import soc.common.utils.ClassUtils;
  * Enum design pattern for the resource types. 
  * Each enum member is actually implmented as a class definition
  */
-public class Resource
+public abstract class Resource
 {
     final String name;
     
@@ -32,5 +32,6 @@ public class Resource
     {
         throw new RuntimeException();
     }
-
+    
+    public abstract Resource Copy();
 }

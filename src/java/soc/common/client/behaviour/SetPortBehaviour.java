@@ -5,6 +5,7 @@ import soc.common.board.ports.Port;
 import soc.common.client.visuals.IPieceVisual;
 import soc.common.client.visuals.board.IBoardVisual;
 import soc.common.client.visuals.board.IHexVisual;
+import soc.common.client.visuals.board.IPortVisual;
 
 public class SetPortBehaviour implements IInteractionBehaviour
 {
@@ -31,15 +32,14 @@ public class SetPortBehaviour implements IInteractionBehaviour
     }
 
     @Override
-    public void clicked(IPieceVisual hex, IBoardVisual board)
+    public void clicked(IPieceVisual pieceVisual, IBoardVisual board)
     {
-        if (hex instanceof IHexVisual)
+        if (pieceVisual instanceof IPortVisual)
         {
-            IHexVisual hexVisual = (IHexVisual)hex;
-            if (hexVisual.getHex() instanceof SeaHex)
-            {
-
-            }
+            IPortVisual portVisual = (IPortVisual)pieceVisual;
+            SeaHex seaHex = (SeaHex)currentHexVisual.getHex();
+            Port p = new Port(seaHex.getLocation(), portVisual.getPort().getRotationPosition());
+            seaHex.setPort(p);
         }
     }
 
@@ -53,14 +53,35 @@ public class SetPortBehaviour implements IInteractionBehaviour
             {
                 hexVisual.setSelected(true);
                 hexVisual.getPortPossibilitiesVisual().setVisible(true);
+                hexVisual.getPortPossibilitiesVisual().updatePossibilities();
+                currentHexVisual = hexVisual;
             }
+        }        
+        if (pieceVisual instanceof IPortVisual)
+        {
+            IPortVisual portVisual = (IPortVisual)pieceVisual; 
+            portVisual.setSelected(true);
         }
     }
 
     @Override
-    public void mouseOut(IPieceVisual hex, IBoardVisual board)
+    public void mouseOut(IPieceVisual pieceVisual, IBoardVisual board)
     {
-        hex.setSelected(false);
+        if (pieceVisual instanceof IHexVisual)
+        {
+            IHexVisual hexVisual = (IHexVisual)pieceVisual; 
+            if (hexVisual.getHex() instanceof SeaHex)
+            {
+                hexVisual.setSelected(false);
+                hexVisual.getPortPossibilitiesVisual().setVisible(false);
+                currentHexVisual=null;
+            }
+        }
+        if (pieceVisual instanceof IPortVisual)
+        {
+            IPortVisual portVisual = (IPortVisual)pieceVisual; 
+            portVisual.setSelected(false);
+        }
     }
 
 }

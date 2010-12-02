@@ -1,7 +1,7 @@
 package soc.common.game.gamePhase.turnPhase;
 
 import soc.common.actions.gameAction.*;
-import soc.common.actions.gameAction.turnActions.RollDice;
+import soc.common.actions.gameAction.turnActions.standard.RollDice;
 import soc.common.game.Game;
 
 public class RollDiceTurnPhase extends TurnPhase
@@ -13,7 +13,6 @@ public class RollDiceTurnPhase extends TurnPhase
     @Override
     public TurnPhase next()
     {
-        // TODO Auto-generated method stub
         return super.next();
     }
     
@@ -23,7 +22,6 @@ public class RollDiceTurnPhase extends TurnPhase
     @Override
     public boolean isAllowed(GameAction action)
     {
-        // TODO Auto-generated method stub
         return super.isAllowed(action);
     }
     

@@ -7,19 +7,15 @@ import soc.common.board.HexLocation;
 import soc.common.board.RotationPosition;
 import soc.common.board.ports.Port;
 import soc.common.client.visuals.IPieceVisual;
+import soc.common.client.visuals.PieceVisual;
 
-public abstract class PortPossibilitiesVisual implements IPortPossibilitiesVisual
+public abstract class PortPossibilitiesVisual extends PieceVisual implements IPortPossibilitiesVisual
 {
     protected List<Port> ports = new ArrayList<Port>();
     protected List<IPortVisual> portVisuals = new ArrayList<IPortVisual>();
     protected HexLocation hexLocation;
     protected IBoardVisual parent;
-    
-    protected boolean visible = true;
-    protected boolean selected = false;
-    protected boolean enabled = true;
-    protected void updateVisible() {}
-    
+
     public PortPossibilitiesVisual(HexLocation hexLocation, IBoardVisual parent)
     {
         this.parent=parent;
@@ -40,55 +36,9 @@ public abstract class PortPossibilitiesVisual implements IPortPossibilitiesVisua
         // hexes when so.
         for (IPortVisual possibility : portVisuals)
         {
+            HexLocation landLocation = possibility.getPort().getLandLocation();
             // Update validity
-            possibility.setValid(parent.getBoard().getHexes().isValid(hexLocation));
+            possibility.setValid(parent.getBoard().getHexes().isValid(landLocation));
         }
     }
-
-    @Override
-    public boolean isEnabled()
-    {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean isSelected()
-    {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean isVisible()
-    {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public IPieceVisual setEnabled(boolean enabled)
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public IPieceVisual setSelected(boolean selected)
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public IPieceVisual setVisible(boolean visible)
-    {
-        this.visible=visible;
-        
-        updateVisible();
-
-        return this;
-    }
-
-
 }

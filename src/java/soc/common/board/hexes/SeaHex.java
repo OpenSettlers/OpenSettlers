@@ -1,13 +1,22 @@
 package soc.common.board.hexes;
 
-import soc.common.board.ports.Port;
+import com.google.gwt.event.shared.GwtEvent;
+import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.event.shared.HasHandlers;
 
-public class SeaHex extends Hex
+import soc.common.board.ports.Port;
+import soc.common.board.ports.PortChangedEvent;
+import soc.common.board.ports.PortChangedEventHandler;
+
+@SuppressWarnings("deprecation")
+public class SeaHex extends Hex implements HasHandlers
 {
     /*
      * A SeaHex may have a port associated with it
      */
-    private Port port = null;
+    private Port port;
+    private HandlerManager handlerManager = new HandlerManager(this);
 
     /**
      * @return the port
@@ -20,9 +29,11 @@ public class SeaHex extends Hex
     /**
      * @param port the port to set
      */
-    public SeaHex setPort(Port port)
+    public SeaHex setPort(Port p)
     {
-        this.port = port;
+        this.port = p;
+        
+        fireEvent(new PortChangedEvent(port));
         
         return this;
     }
@@ -31,10 +42,10 @@ public class SeaHex extends Hex
      * @see soc.common.board.hexes.Hex#Copy()
      */
     @Override
-    public Hex Copy()
+    public Hex copy()
     {
-        // TODO Auto-generated method stub
-        return new SeaHex();
+        return new SeaHex()
+            .setLocation(hexLocation);
     }
 
     /* (non-Javadoc)
@@ -43,7 +54,17 @@ public class SeaHex extends Hex
     @Override
     public String getColor()
     {
-        // TODO Auto-generated method stub
         return "DarkBlue";
+    }
+
+    @Override
+    public void fireEvent(GwtEvent<?> event)
+    {
+        handlerManager.fireEvent(event);
+    }
+    
+    public HandlerRegistration addPortChangedEventHandler(PortChangedEventHandler handler)
+    {
+        return handlerManager.addHandler(PortChangedEvent.TYPE, handler);
     }
 }

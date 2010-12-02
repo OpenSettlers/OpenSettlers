@@ -2,6 +2,8 @@ package soc.gwtClient.editor;
 
 import soc.common.board.hexes.DesertHex;
 import soc.common.board.hexes.DiscoveryHex;
+import soc.common.board.hexes.Hex;
+import soc.common.board.hexes.ITerritoryHex;
 import soc.common.board.hexes.NoneHex;
 import soc.common.board.hexes.RandomHex;
 import soc.common.board.hexes.ResourceHex;
@@ -14,9 +16,9 @@ import soc.common.board.resources.Ore;
 import soc.common.board.resources.Sheep;
 import soc.common.board.resources.Timber;
 import soc.common.board.resources.Wheat;
-import soc.common.client.behaviour.design.SetHexBehaviour;
-import soc.gwtClient.client.editBehaviour.BehaviourChanged;
-import soc.gwtClient.client.editBehaviour.IBehaviourChangedHandler;
+import soc.common.client.behaviour.editor.SetChitBehaviour;
+import soc.common.client.behaviour.editor.SetHexBehaviour;
+import soc.common.client.behaviour.editor.SetTerritoryBehaviour;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -25,10 +27,13 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PushButton;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class HexPanel extends HorizontalPanel implements HasHandlers
+public class HexPanel extends VerticalPanel implements HasHandlers
 {
     private SetHexBehaviour editBehaviour;
+    private SetTerritoryBehaviour setTerritoryBehaviour;
+    private SetChitBehaviour setChitBehaviour; 
     
     @SuppressWarnings("deprecation")
     private HandlerManager handlerManager = new HandlerManager(this);
@@ -49,21 +54,41 @@ public class HexPanel extends HorizontalPanel implements HasHandlers
     {
         
     }
+    
+    private Hex createDefaultHex(Hex hex)
+    {
+        if (hex instanceof ITerritoryHex)
+        {
+            ITerritoryHex territoryHex = (ITerritoryHex)hex;
+            territoryHex.setTerritory(setTerritoryBehaviour.getTerritory());
+        }
+        if (hex instanceof ResourceHex)
+        {
+            ResourceHex resourceHex = (ResourceHex)hex;
+            resourceHex.setChit(setChitBehaviour.getCurrentChit());
+        }
+        return hex;
+    }
     private void vuur()
     {
         fireEvent(new BehaviourChanged(editBehaviour));
     }
-    public HexPanel(SetHexBehaviour behaviour)
+    public HexPanel(SetHexBehaviour behaviour, 
+            SetTerritoryBehaviour setTerritoryBehaviour,
+            SetChitBehaviour setChitBehaviour)
     {
         super();
         
         editBehaviour=behaviour;
+        this.setTerritoryBehaviour = setTerritoryBehaviour;
+        this.setChitBehaviour = setChitBehaviour;
         
         PushButton btnTimber = new PushButton(new Image("icons/32/timber.png"));
         btnTimber.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                editBehaviour.setHex(new ResourceHex(new Timber()));
+                editBehaviour.setHex(
+                        createDefaultHex(new ResourceHex(new Timber())));
                 vuur();
             }
         });
@@ -73,7 +98,8 @@ public class HexPanel extends HorizontalPanel implements HasHandlers
         btnWheat.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                editBehaviour.setHex(new ResourceHex(new Wheat()));
+                editBehaviour.setHex(
+                        createDefaultHex(new ResourceHex(new Wheat())));
                 vuur();
             }
         });
@@ -83,7 +109,8 @@ public class HexPanel extends HorizontalPanel implements HasHandlers
         btnOre.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                editBehaviour.setHex(new ResourceHex(new Ore()));
+                editBehaviour.setHex(
+                        createDefaultHex(new ResourceHex(new Ore())));
                 vuur();
             }
         });
@@ -93,7 +120,8 @@ public class HexPanel extends HorizontalPanel implements HasHandlers
         btnClay.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                editBehaviour.setHex(new ResourceHex(new Clay()));
+                editBehaviour.setHex(
+                        createDefaultHex(new ResourceHex(new Clay())));
                 vuur();
             }
         });
@@ -103,7 +131,8 @@ public class HexPanel extends HorizontalPanel implements HasHandlers
         btnSheep.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                editBehaviour.setHex(new ResourceHex(new Sheep()));
+                editBehaviour.setHex(
+                        createDefaultHex(new ResourceHex(new Sheep())));
                 vuur();
             }
         });
@@ -113,7 +142,8 @@ public class HexPanel extends HorizontalPanel implements HasHandlers
         btnGold.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                editBehaviour.setHex(new ResourceHex(new Gold()));
+                editBehaviour.setHex(
+                        createDefaultHex(new ResourceHex(new Gold())));
                 vuur();
             }
         });
@@ -123,7 +153,8 @@ public class HexPanel extends HorizontalPanel implements HasHandlers
         btnJungle.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                editBehaviour.setHex(new ResourceHex(new Diamond()));
+                editBehaviour.setHex(
+                        createDefaultHex(new ResourceHex(new Diamond())));
                 vuur();
             }
         });
@@ -133,7 +164,8 @@ public class HexPanel extends HorizontalPanel implements HasHandlers
         btnVolcano.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                editBehaviour.setHex(new VolcanoHex());
+                editBehaviour.setHex(
+                        createDefaultHex(new VolcanoHex()));
                 vuur();
             }
         });
@@ -143,7 +175,8 @@ public class HexPanel extends HorizontalPanel implements HasHandlers
         btnDesert.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                editBehaviour.setHex(new DesertHex());
+                editBehaviour.setHex(
+                        createDefaultHex(new DesertHex()));
                 vuur();
             }
         });
@@ -153,7 +186,8 @@ public class HexPanel extends HorizontalPanel implements HasHandlers
         btnSea.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                editBehaviour.setHex(new SeaHex());
+                editBehaviour.setHex(
+                        createDefaultHex(new SeaHex()));
                 vuur();
             }
         });        
@@ -163,7 +197,8 @@ public class HexPanel extends HorizontalPanel implements HasHandlers
         btnNone.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                editBehaviour.setHex(new NoneHex());
+                editBehaviour.setHex(
+                        createDefaultHex(new NoneHex()));
                 vuur();
             }
         });
@@ -173,7 +208,8 @@ public class HexPanel extends HorizontalPanel implements HasHandlers
         btnRandom.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                editBehaviour.setHex(new RandomHex());
+                editBehaviour.setHex(
+                        createDefaultHex(new RandomHex()));
                 vuur();
             }
         });        
@@ -183,7 +219,8 @@ public class HexPanel extends HorizontalPanel implements HasHandlers
         btnDiscovery.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                editBehaviour.setHex(new DiscoveryHex());
+                editBehaviour.setHex(
+                        createDefaultHex(new DiscoveryHex()));
                 vuur();
             }
         });

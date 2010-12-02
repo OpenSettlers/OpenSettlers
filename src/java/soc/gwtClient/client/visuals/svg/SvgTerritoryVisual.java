@@ -6,10 +6,10 @@ import soc.common.board.Territory;
 import soc.common.client.visuals.board.TerritoryVisual;
 import soc.gwtClient.client.Point2D;
 
-
 public class SvgTerritoryVisual extends TerritoryVisual
 {
     Image image;
+    Point2D point;
     /**
      * @return the image
      */
@@ -18,13 +18,9 @@ public class SvgTerritoryVisual extends TerritoryVisual
         return image;
     }
 
-
-    Point2D point;
-
     public SvgTerritoryVisual(Territory territory, Point2D point)
     {
         super(territory);
-        // TODO Auto-generated constructor stub
 
         this.point = point;
         
@@ -32,7 +28,6 @@ public class SvgTerritoryVisual extends TerritoryVisual
         
         updateTerritory();
     }
-    
     
     /* (non-Javadoc)
      * @see soc.common.client.visuals.board.TerritoryVisual#updateTerritory()
@@ -50,9 +45,18 @@ public class SvgTerritoryVisual extends TerritoryVisual
             }
             else
             {
-                img  = "/images/island" + territory.getID() + ".png";
+                img  = "images/island" + territory.getID() + ".png";
             }
         }
         image.setHref(img);
+    }
+
+    /* (non-Javadoc)
+     * @see soc.common.client.visuals.board.TerritoryVisual#updateVisible()
+     */
+    @Override
+    protected void updateVisible()
+    {
+        image.setVisible(visible);
     }
 }

@@ -9,8 +9,13 @@ public class Ore extends Resource
     @Override
     public String getColor()
     {
-        // TODO Auto-generated method stub
         return "Purple";
+    }
+
+    @Override
+    public Resource Copy()
+    {
+        return new Ore();
     }
 
 }

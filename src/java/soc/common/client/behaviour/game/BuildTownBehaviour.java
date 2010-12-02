@@ -16,7 +16,6 @@ public class BuildTownBehaviour extends BuildPointBehaviour
     @Override
     public void clicked(IPieceVisual pieceVisual, IBoardVisual board)
     {
-        // TODO Auto-generated method stub
         
     }
 }

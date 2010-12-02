@@ -2,6 +2,7 @@ package soc.common.client.visuals;
 
 /*
  * Base interface of every visual representation of a piece
+ * Every piece on th board should be able to be selected, enabled and visibility toggled on/off. 
  */
 public interface IPieceVisual
 {

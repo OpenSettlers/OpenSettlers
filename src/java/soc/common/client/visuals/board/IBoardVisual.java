@@ -9,4 +9,6 @@ public interface IBoardVisual extends IPieceVisual
     public Board getBoard();
     public IInteractionBehaviour getInteractionBehaviour();
     public IBoardVisual setInteractionBehaviour(IInteractionBehaviour behaviour);
+    public void showTerritories();
+    public void hideTerritories();
 }
