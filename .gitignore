@@ -7,3 +7,4 @@ target/lib/*
 target/classes
 target/classes/*
 war/mapcreator/*
+war/WEB-INF/*

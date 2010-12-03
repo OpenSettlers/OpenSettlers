@@ -25,7 +25,7 @@ import java.lang.annotation.*;
 // No need to keep this annotation at runtime 
 @Retention(RetentionPolicy.SOURCE)
 
-
+@Sea3D
 public @interface Sea3D
 {
 
