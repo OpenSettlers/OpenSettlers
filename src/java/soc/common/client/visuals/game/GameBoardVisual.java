@@ -1,12 +1,18 @@
 package soc.common.client.visuals.game;
 
+import com.google.gwt.user.client.ui.Widget;
+
+import soc.common.board.Board;
+import soc.common.client.behaviour.IInteractionBehaviour;
 import soc.common.client.behaviour.game.IGameBehaviour;
+import soc.common.client.visuals.IPieceVisual;
 import soc.common.client.visuals.board.IBoardVisual;
+import soc.common.game.Game;
 import soc.common.game.IGame;
 
-public class GameVisual implements IGameVisual 
+public class GameBoardVisual implements IGameBoardVisual 
 {
-    protected IGame game;
+    protected Game game;
     protected IBoardVisual boardVisual;
     protected IHexPointsVisual possiblePointsVisual;
     protected IHexSidesVisual possibleSidesVisual;
@@ -34,6 +40,90 @@ public class GameVisual implements IGameVisual
     {
         // TODO Auto-generated method stub
         
+    }
+
+    @Override
+    public Board getBoard()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public IInteractionBehaviour getInteractionBehaviour()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Widget getWidget()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void hideTerritories()
+    {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public IBoardVisual setInteractionBehaviour(IInteractionBehaviour behaviour)
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void showTerritories()
+    {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public boolean isEnabled()
+    {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean isSelected()
+    {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean isVisible()
+    {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public IPieceVisual setEnabled(boolean enabled)
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public IPieceVisual setSelected(boolean selected)
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public IPieceVisual setVisible(boolean visible)
+    {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

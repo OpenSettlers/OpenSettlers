@@ -1,4 +1,4 @@
-package soc.gwtClient.client.game;
+package soc.gwtClient.game.abstractWidgets;
 
 import soc.common.board.resources.Resource;
 import soc.common.board.resources.ResourceList;

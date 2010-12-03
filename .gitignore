@@ -6,3 +6,4 @@ target/lib
 target/lib/*
 target/classes
 target/classes/*
+war/mapcreator/*

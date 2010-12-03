@@ -1,17 +1,17 @@
-package soc.gwtClient.client.game.standard.bitmap;
+package soc.gwtClient.game.widgets.standard.bitmap;
 
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 
 import soc.common.game.Game;
 import soc.common.game.Player;
-import soc.gwtClient.client.game.AbstractPlayerWidget;
-import soc.gwtClient.client.game.IDevelopmentCardsAmountWidget;
-import soc.gwtClient.client.game.ILargestArmyWidget;
-import soc.gwtClient.client.game.ILongestRoadWidget;
-import soc.gwtClient.client.game.IResourceAmountWidget;
-import soc.gwtClient.client.game.IStockWidget;
-import soc.gwtClient.client.game.IVictoryPointsWidget;
+import soc.gwtClient.game.abstractWidgets.AbstractPlayerWidget;
+import soc.gwtClient.game.abstractWidgets.IDevelopmentCardsAmountWidget;
+import soc.gwtClient.game.abstractWidgets.ILargestArmyWidget;
+import soc.gwtClient.game.abstractWidgets.ILongestRoadWidget;
+import soc.gwtClient.game.abstractWidgets.IResourceAmountWidget;
+import soc.gwtClient.game.abstractWidgets.IStockWidget;
+import soc.gwtClient.game.abstractWidgets.IVictoryPointsWidget;
 
 public class BitmapPlayerWidget extends AbstractPlayerWidget
 {

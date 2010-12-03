@@ -2,6 +2,7 @@ package soc.gwtClient.editor;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -12,14 +13,14 @@ import soc.common.client.behaviour.SetPortBehaviour;
 import soc.common.client.behaviour.editor.SetChitBehaviour;
 import soc.common.client.behaviour.editor.SetHexBehaviour;
 import soc.common.client.behaviour.editor.SetTerritoryBehaviour;
-import soc.gwtClient.client.ICenterWidget;
-import soc.gwtClient.client.visuals.svg.SvgBoardVisual;
+import soc.gwtClient.game.ICenterWidget;
+import soc.gwtClient.visuals.svg.SvgBoardVisual;
 
 public class SvgMapEditor extends MapEditor 
     implements IBehaviourChangedHandler, ICenterWidget
 {
     Label lblStatus = new Label();
-    VerticalPanel rootPanel = new VerticalPanel();
+    LayoutPanel rootPanel = new LayoutPanel();
     HorizontalPanel horizontalBaseLayout = new HorizontalPanel();
 
     public SvgMapEditor()
@@ -64,7 +65,7 @@ public class SvgMapEditor extends MapEditor
     }
 
     @Override
-    public Panel getRootWidget()
+    public LayoutPanel getRootWidget()
     {
         return rootPanel;
     }

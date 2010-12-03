@@ -1,12 +1,12 @@
-package soc.gwtClient.client.game.standard.bitmap;
+package soc.gwtClient.game.widgets.standard.bitmap;
 
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.Widget;
 
 import soc.common.actions.gameAction.turnActions.TurnAction;
 import soc.common.game.Player;
-import soc.gwtClient.client.game.AbstractActionWidget;
-import soc.gwtClient.client.game.IGamePanel;
+import soc.gwtClient.game.abstractWidgets.AbstractActionWidget;
+import soc.gwtClient.game.abstractWidgets.IGamePanel;
 
 public class BitmapPlayDevelopmentCardWidget extends AbstractActionWidget
 {

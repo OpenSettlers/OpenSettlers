@@ -1,13 +1,13 @@
-package soc.gwtClient.client.game.standard.bitmap;
+package soc.gwtClient.game.widgets.standard.bitmap;
 
 import soc.common.game.Player;
-import soc.gwtClient.client.game.AbstractActionsWidget;
-import soc.gwtClient.client.game.IActionWidgetFactory;
-import soc.gwtClient.client.game.IGamePanel;
+import soc.gwtClient.game.abstractWidgets.AbstractActionsWidget;
+import soc.gwtClient.game.abstractWidgets.IActionWidgetFactory;
+import soc.gwtClient.game.abstractWidgets.IGamePanel;
 
 public class BitmapActionsWidget extends AbstractActionsWidget
 {
-    BitmapActionWidgetFactory widgetFactory = new BitmapActionWidgetFactory();
+    BitmapActionWidgetFactory widgetFactory;
 
     public BitmapActionsWidget(IGamePanel gamePanel, Player player)
     {
@@ -17,6 +17,6 @@ public class BitmapActionsWidget extends AbstractActionsWidget
     @Override
     public IActionWidgetFactory getActionWidgetFactory()
     {
-        return widgetFactory;
+        return new BitmapActionWidgetFactory();
     }
 }

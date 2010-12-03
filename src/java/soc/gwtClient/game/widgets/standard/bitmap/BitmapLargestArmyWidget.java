@@ -1,11 +1,11 @@
-package soc.gwtClient.client.game.standard.bitmap;
+package soc.gwtClient.game.widgets.standard.bitmap;
 
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 
 import soc.common.game.Player;
 import soc.common.game.developmentCards.Soldier;
-import soc.gwtClient.client.game.AbstractLargestArmyWidget;
+import soc.gwtClient.game.abstractWidgets.AbstractLargestArmyWidget;
 
 public class BitmapLargestArmyWidget extends AbstractLargestArmyWidget
 {

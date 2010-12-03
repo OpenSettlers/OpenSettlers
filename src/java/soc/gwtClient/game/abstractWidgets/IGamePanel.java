@@ -1,7 +1,9 @@
-package soc.gwtClient.client.game;
+package soc.gwtClient.game.abstractWidgets;
 
 import soc.common.actions.gameAction.turnActions.TurnAction;
+import soc.common.board.Board;
 import soc.common.board.pieces.PlayerPiece;
+import soc.common.client.visuals.game.IGameBoardVisual;
 import soc.common.game.Game;
 import soc.common.game.Player;
 
@@ -19,4 +21,5 @@ public interface IGamePanel
     public IActionsWidget createActionsWidget();
     public IPlayersWidget createPlayersWidget();
     public IBankStockPanel createBankStockPanel();
+    public IGameBoardVisual createGameBoard(int width, int height, Board board);
 }

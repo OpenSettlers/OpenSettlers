@@ -1,4 +1,4 @@
-package soc.gwtClient.client.game;
+package soc.gwtClient.game.abstractWidgets;
 
 import soc.common.actions.gameAction.turnActions.TurnAction;
 import soc.common.game.Player;
@@ -9,5 +9,5 @@ import soc.common.game.Player;
  */
 public interface IActionWidgetFactory
 {
-    public IActionWidget createActionPanel(TurnAction action, Player player, IGamePanel gamePanel);
+    public IActionWidget createActionWidget(TurnAction action, Player player, IGamePanel gamePanel);
 }

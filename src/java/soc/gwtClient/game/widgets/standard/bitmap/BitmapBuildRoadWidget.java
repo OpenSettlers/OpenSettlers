@@ -1,4 +1,4 @@
-package soc.gwtClient.client.game.standard.bitmap;
+package soc.gwtClient.game.widgets.standard.bitmap;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -10,9 +10,9 @@ import soc.common.actions.gameAction.turnActions.TurnAction;
 import soc.common.actions.gameAction.turnActions.standard.*;
 import soc.common.board.pieces.Road;
 import soc.common.game.Player;
-import soc.gwtClient.client.game.AbstractActionWidget;
-import soc.gwtClient.client.game.IActionWidget;
-import soc.gwtClient.client.game.IGamePanel;
+import soc.gwtClient.game.abstractWidgets.AbstractActionWidget;
+import soc.gwtClient.game.abstractWidgets.IActionWidget;
+import soc.gwtClient.game.abstractWidgets.IGamePanel;
 
 
 public class BitmapBuildRoadWidget extends AbstractActionWidget

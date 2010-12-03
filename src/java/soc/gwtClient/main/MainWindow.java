@@ -1,30 +1,38 @@
-package soc.gwtClient.client;
+package soc.gwtClient.main;
 
 
 import java.util.ArrayList;
 
+import soc.common.board.Board;
 import soc.common.game.Game;
 import soc.common.game.Player;
 import soc.common.game.rules.IRuleSet;
 import soc.common.game.rules.Standard;
-import soc.gwtClient.client.game.standard.bitmap.BitmapGamePanel;
 import soc.gwtClient.editor.SvgMapEditor;
+import soc.gwtClient.game.ICenterWidget;
+import soc.gwtClient.game.widgets.standard.bitmap.BitmapGamePanel;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.PushButton;
+import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class MainWindow implements EntryPoint
 {
-    VerticalPanel rootPanel = new VerticalPanel();
+    
+    DockLayoutPanel rootPanel = new DockLayoutPanel(Unit.EM);
     HorizontalPanel menu = new HorizontalPanel();
-    SimplePanel centerWidget = new SimplePanel();
+    LayoutPanel centerWidget = new LayoutPanel();
     HorizontalPanel statusBar = new HorizontalPanel();
     ICenterWidget mapEditor;
     ICenterWidget welcomePanel;
@@ -47,13 +55,17 @@ public class MainWindow implements EntryPoint
         mapEditor = new SvgMapEditor();
         welcomePanel = new WelcomePanel(this);
         hotseatGame = new BitmapGamePanel(createGame());
+        
+        Label lblSomeStatusLabel = new Label("Some text here to show we have an awesome statusbar");
+        statusBar.add(lblSomeStatusLabel);
+        
         currentWidget = welcomePanel;
         centerWidget.add(currentWidget.getRootWidget());
-        rootPanel.add(menu);
+        rootPanel.addNorth(menu, 3);
+        rootPanel.addSouth(statusBar, 2);
         rootPanel.add(centerWidget);
-        rootPanel.add(statusBar);
         
-        RootPanel.get().add(rootPanel);
+        RootLayoutPanel.get().add(rootPanel);
     }
     /**
      * @return the mapEditor
@@ -64,10 +76,8 @@ public class MainWindow implements EntryPoint
     }
     private void createMenu()
     {
-        menu.setHeight("20px");
-
-        HTML title = new HTML();
-        title.setHTML("<h1>OpenSettlers</h1>");
+        Label title = new Label("OpenSettlers");
+        title.setStyleName("label-title");
         menu.add(title);
         
         PushButton btnWelcomePanel = new PushButton("welcomePanel");
@@ -132,10 +142,14 @@ public class MainWindow implements EntryPoint
                 .setId(1)
                 .setName("Henk")
         );
+        
+        result.setBoard(new Board(8,8));
 
         result.setPlayers(players);
         
         result.makeRulesPermanent();
+        
+        
         
         return result;
     }

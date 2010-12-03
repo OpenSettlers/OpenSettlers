@@ -1,10 +1,10 @@
-package soc.gwtClient.client.visuals.svg;
+package soc.gwtClient.visuals.svg;
 
 import org.vaadin.gwtgraphics.client.Image;
 
 import soc.common.board.Territory;
 import soc.common.client.visuals.board.TerritoryVisual;
-import soc.gwtClient.client.Point2D;
+import soc.gwtClient.game.Point2D;
 
 public class SvgTerritoryVisual extends TerritoryVisual
 {

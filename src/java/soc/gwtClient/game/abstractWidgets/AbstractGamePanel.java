@@ -1,14 +1,15 @@
-package soc.gwtClient.client.game;
+package soc.gwtClient.game.abstractWidgets;
 
 import soc.common.actions.gameAction.turnActions.TurnAction;
 import soc.common.board.pieces.PlayerPiece;
 import soc.common.client.behaviour.GameBehaviourFactory;
 import soc.common.client.behaviour.IBehaviourFactory;
 import soc.common.client.behaviour.game.IGameBehaviour;
-import soc.common.client.visuals.game.IGameVisual;
+import soc.common.client.visuals.game.IGameBoardVisual;
 import soc.common.game.Game;
 import soc.common.game.Player;
-import soc.gwtClient.client.ICenterWidget;
+import soc.gwtClient.game.ICenterWidget;
+import soc.gwtClient.game.dialogs.NewGameDialog;
 
 public abstract class AbstractGamePanel implements IGamePanel, ICenterWidget
 {
@@ -19,9 +20,10 @@ public abstract class AbstractGamePanel implements IGamePanel, ICenterWidget
     protected IBankStockPanel bankStockPanel;
     protected IBankTradeUI bankTradeUI;
     protected IBehaviourFactory gameBehaviourFactory;
-    protected IGameVisual gameVisual;
+    protected IGameBoardVisual gameVisual;
     protected TurnAction performingAction;
     protected IPlayersWidget playersWidget;
+    protected IGameBoardVisual gameBoard;
     
     public AbstractGamePanel(Game game)
     {
@@ -32,6 +34,7 @@ public abstract class AbstractGamePanel implements IGamePanel, ICenterWidget
         bankStockPanel = createBankStockPanel();
         buildPallette = createActionsWidget();
         playersWidget = createPlayersWidget();
+        gameBoard = createGameBoard(500,500, game.getBoard());
     }
     
     @Override

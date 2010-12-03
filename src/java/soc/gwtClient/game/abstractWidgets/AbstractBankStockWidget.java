@@ -1,8 +1,8 @@
-package soc.gwtClient.client.game;
+package soc.gwtClient.game.abstractWidgets;
 
 import soc.common.board.resources.Resource;
 import soc.common.game.Game;
-import soc.gwtClient.client.game.standard.bitmap.BitmapBankStockResourceWidget;
+import soc.gwtClient.game.widgets.standard.bitmap.BitmapBankStockResourceWidget;
 
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;

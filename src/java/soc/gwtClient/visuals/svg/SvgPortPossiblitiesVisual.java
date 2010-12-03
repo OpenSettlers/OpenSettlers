@@ -1,4 +1,4 @@
-package soc.gwtClient.client.visuals.svg;
+package soc.gwtClient.visuals.svg;
 
 import org.vaadin.gwtgraphics.client.Group;
 
@@ -6,7 +6,7 @@ import soc.common.board.HexLocation;
 import soc.common.board.hexes.Hex;
 import soc.common.board.ports.Port;
 import soc.common.client.visuals.board.PortPossibilitiesVisual;
-import soc.gwtClient.client.Point2D;
+import soc.gwtClient.game.Point2D;
 
 public class SvgPortPossiblitiesVisual extends PortPossibilitiesVisual
 {

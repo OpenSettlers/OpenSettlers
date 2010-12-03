@@ -6,7 +6,7 @@ import java.util.List;
 import soc.common.board.HexPoint;
 import soc.common.client.visuals.IPieceVisual;
 import soc.common.client.visuals.board.IBoardVisual;
-import soc.common.client.visuals.game.IGameVisual;
+import soc.common.client.visuals.game.IGameBoardVisual;
 import soc.common.client.visuals.game.IHexPointVisual;
 
 public class BuildPointBehaviour implements IGameBehaviour
@@ -34,13 +34,13 @@ public class BuildPointBehaviour implements IGameBehaviour
     }
 
     @Override
-    public void setNeutral(IGameVisual visual)
+    public void setNeutral(IGameBoardVisual visual)
     {
         visual.getHexPointsVisual().setVisible(false);
     }
 
     @Override
-    public void start(IGameVisual gameVisual)
+    public void start(IGameBoardVisual gameVisual)
     {
         gameVisual.getHexPointsVisual().updatePoints(possibleLocations);
     }

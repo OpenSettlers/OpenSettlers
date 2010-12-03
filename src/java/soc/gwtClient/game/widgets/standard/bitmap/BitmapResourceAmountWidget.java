@@ -1,10 +1,10 @@
-package soc.gwtClient.client.game.standard.bitmap;
+package soc.gwtClient.game.widgets.standard.bitmap;
 
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 
 import soc.common.game.Player;
-import soc.gwtClient.client.game.AbstractResourceAmountWidget;
+import soc.gwtClient.game.abstractWidgets.AbstractResourceAmountWidget;
 
 public class BitmapResourceAmountWidget extends AbstractResourceAmountWidget
 {

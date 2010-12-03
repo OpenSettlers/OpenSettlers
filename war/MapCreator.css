@@ -64,5 +64,18 @@ h1 {
   border-color: darkblue;
 }
 .chat-panel{
-  background-color: lightblue; !important
+  background-color: lightblue; 
+  height: 200px;
+}
+.label-title {
+  font-size: 20px;
+  color: DarkBlue;
+  font-weight: bolder;
+  margin-top:10px;
+  margin-bottom:10px;
+  margin-right:10px;
+  margin-left:10px;
+}
+.chathistorydebug{
+  background-color: red;
 }

@@ -1,8 +1,8 @@
-package soc.gwtClient.client.visuals.svg;
+package soc.gwtClient.visuals.svg;
 
-import soc.common.client.visuals.game.GameVisual;
+import soc.common.client.visuals.game.GameBoardVisual;
 
-public class SvgGameVisual extends GameVisual
+public class SvgGameVisual extends GameBoardVisual
 {
     
 }

@@ -1,4 +1,4 @@
-package soc.gwtClient.client.visuals.svg;
+package soc.gwtClient.visuals.svg;
 
 import org.vaadin.gwtgraphics.client.Image;
 
@@ -12,7 +12,7 @@ import com.google.gwt.event.dom.client.MouseOutHandler;
 import soc.common.board.Chit;
 import soc.common.client.visuals.board.ChitVisual;
 import soc.common.client.visuals.board.IBoardVisual;
-import soc.gwtClient.client.Point2D;
+import soc.gwtClient.game.Point2D;
 
 
 public class SvgChitVisual extends ChitVisual implements MouseMoveHandler, MouseOutHandler, ClickHandler

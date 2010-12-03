@@ -1,7 +1,6 @@
-package soc.gwtClient.client;
+package soc.gwtClient.game;
 
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.Widget;
 
 public interface ICenterWidget
 {

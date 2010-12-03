@@ -1,8 +1,10 @@
-package soc.gwtClient.client.game.standard.bitmap;
+package soc.gwtClient.game.widgets.standard.bitmap;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.cellview.client.CellList;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
@@ -11,58 +13,53 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import soc.common.board.Board;
+import soc.common.client.visuals.game.IGameBoardVisual;
 import soc.common.game.Game;
-import soc.gwtClient.client.ICenterWidget;
-import soc.gwtClient.client.game.AbstractBankStockWidget;
-import soc.gwtClient.client.game.AbstractGamePanel;
-import soc.gwtClient.client.game.IActionsWidget;
-import soc.gwtClient.client.game.IBankStockPanel;
-import soc.gwtClient.client.game.IPlayersWidget;
+import soc.gwtClient.game.ICenterWidget;
+import soc.gwtClient.game.abstractWidgets.AbstractBankStockWidget;
+import soc.gwtClient.game.abstractWidgets.AbstractGamePanel;
+import soc.gwtClient.game.abstractWidgets.IActionsWidget;
+import soc.gwtClient.game.abstractWidgets.IBankStockPanel;
+import soc.gwtClient.game.abstractWidgets.IPlayersWidget;
+import soc.gwtClient.game.widgets.SvgGameBoardVisual;
 
 public class BitmapGamePanel extends AbstractGamePanel implements ICenterWidget
 {
-    HorizontalPanel rootPanel = new HorizontalPanel();
-    VerticalPanel playersBankChatPanel=new VerticalPanel();
-    VerticalPanel boardActionResourcesPanel= new VerticalPanel();
+    DockLayoutPanel rootPanel = new DockLayoutPanel(Unit.EM);
+    DockLayoutPanel playersBankChatPanel=new DockLayoutPanel(Unit.EM);
+    DockLayoutPanel boardActionResourcesPanel= new DockLayoutPanel(Unit.EM);
     TabLayoutPanel chatHistoryDebugPanel = new TabLayoutPanel(20.0, Unit.PX);
-    VerticalPanel chatPanel = new VerticalPanel();
+    VerticalPanel jeuj = new VerticalPanel();
+    DockLayoutPanel chatPanel = new DockLayoutPanel(Unit.EM);
     SimplePanel boardVisualPanel = new SimplePanel();
     
     public BitmapGamePanel(Game game)
     {
         super(game);
         
-        rootPanel.setSize("100%", "100%");
-        playersBankChatPanel.setSize("30%", "100");
-        
         createChatHistoryDebugPanel();
         
-        boardActionResourcesPanel.setStyleName("game-right-panel");
-        boardActionResourcesPanel.setSize("70%", "100%");
+        boardActionResourcesPanel.addSouth(buildPallette.asWidget(), 5);
+        boardActionResourcesPanel.add(gameBoard.getWidget());
 
-        playersBankChatPanel.setStyleName("game-left-panel");
-        playersBankChatPanel.add(playersWidget);
-        playersBankChatPanel.add(bankStockPanel);
+        playersBankChatPanel.addNorth(playersWidget.asWidget(), 20);
+        playersBankChatPanel.addNorth(bankStockPanel.asWidget(), 5);
         playersBankChatPanel.add(chatHistoryDebugPanel);
         
-        rootPanel.add(playersBankChatPanel);
+        rootPanel.addWest(playersBankChatPanel, 20);
         rootPanel.add(boardActionResourcesPanel);
     }
 
     private void createChatHistoryDebugPanel()
     {
-        chatPanel.setSize("100%", "100%");
-        chatPanel.setStyleName("chat-panel");
         TextArea chats = new TextArea();
-        chats.setHeight("100%");
         TextBox saySomething = new TextBox();
-        saySomething.setHeight("20px");
+        chatPanel.addSouth(saySomething, 2);
         chatPanel.add(chats);
-        chatPanel.add(saySomething);
         chatHistoryDebugPanel.add(chatPanel, "chat");
         chatHistoryDebugPanel.add(new SimplePanel(), "history");
         chatHistoryDebugPanel.add(new SimplePanel(), "debug");
-        chatHistoryDebugPanel.setSize("100%", "100%");
     }
 
     @Override
@@ -87,5 +84,11 @@ public class BitmapGamePanel extends AbstractGamePanel implements ICenterWidget
     public IBankStockPanel createBankStockPanel()
     {
         return new AbstractBankStockWidget(game);
+    }
+
+    @Override
+    public IGameBoardVisual createGameBoard(int width, int height, Board board)
+    {
+        return new SvgGameBoardVisual(width, height, board);
     }
 }

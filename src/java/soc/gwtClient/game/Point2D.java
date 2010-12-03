@@ -1,4 +1,4 @@
-package soc.gwtClient.client;
+package soc.gwtClient.game;
 
 public class Point2D
 {

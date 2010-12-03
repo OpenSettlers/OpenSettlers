@@ -2,20 +2,20 @@ package soc.common.client.behaviour.game;
 
 import soc.common.client.visuals.IPieceVisual;
 import soc.common.client.visuals.board.IBoardVisual;
-import soc.common.client.visuals.game.IGameVisual;
+import soc.common.client.visuals.game.IGameBoardVisual;
 import soc.common.client.visuals.game.IHexSideVisual;
 
 public class BuildSideBehaviour implements IGameBehaviour
 {
 
     @Override
-    public void setNeutral(IGameVisual visual)
+    public void setNeutral(IGameBoardVisual visual)
     {
         visual.getHexSidesVisual().setVisible(false);
     }
 
     @Override
-    public void start(IGameVisual gameVisual)
+    public void start(IGameBoardVisual gameVisual)
     {
         gameVisual.getHexSidesVisual().setVisible(true);
     }

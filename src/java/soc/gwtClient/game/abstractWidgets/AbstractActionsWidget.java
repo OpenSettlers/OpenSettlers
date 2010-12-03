@@ -1,13 +1,24 @@
-package soc.gwtClient.client.game;
+package soc.gwtClient.game.abstractWidgets;
 
 import soc.common.actions.gameAction.turnActions.TurnAction;
 import soc.common.game.Player;
 
 import com.google.gwt.user.client.ui.ComplexPanel;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public abstract class AbstractActionsWidget implements IActionsWidget
 {
+    /* (non-Javadoc)
+     * @see soc.gwtClient.client.game.IActionsWidget#createRootPanel()
+     */
+    @Override
+    public ComplexPanel createRootPanel()
+    {
+        return new HorizontalPanel();
+    }
+
     protected ComplexPanel rootPanel;
     protected Player player;
     protected IGamePanel gamePanel;
@@ -17,12 +28,15 @@ public abstract class AbstractActionsWidget implements IActionsWidget
         this.player=player;
         this.gamePanel=gamePanel;
         
+        rootPanel = createRootPanel();
+        
         IActionWidgetFactory widgetFactory = getActionWidgetFactory();
         
         for (TurnAction turnAction : gamePanel.getGame().getPossibleActions())
         {
-            rootPanel.add(widgetFactory.createActionPanel(turnAction, player, gamePanel));
+            rootPanel.add(widgetFactory.createActionWidget(turnAction, player, gamePanel));
         }
+        ((HorizontalPanel)rootPanel).setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
     }
 
     @Override

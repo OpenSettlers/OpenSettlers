@@ -1,9 +1,11 @@
-package soc.gwtClient.client.visuals.svg;
+package soc.gwtClient.visuals.svg;
 
 import org.vaadin.gwtgraphics.client.DrawingArea;
 import org.vaadin.gwtgraphics.client.animation.Animatable;
 import org.vaadin.gwtgraphics.client.animation.Animate;
 import org.vaadin.gwtgraphics.client.shape.Rectangle;
+
+import com.google.gwt.user.client.ui.Widget;
 
 import soc.common.board.Board;
 import soc.common.board.HexLocation;
@@ -13,8 +15,8 @@ import soc.common.board.HexSide;
 import soc.common.board.hexes.Hex;
 import soc.common.client.visuals.IPieceVisual;
 import soc.common.client.visuals.board.BoardVisual;
-import soc.gwtClient.client.Point2D;
 import soc.gwtClient.editor.BehaviourChanged;
+import soc.gwtClient.game.Point2D;
 
 public class SvgBoardVisual extends BoardVisual 
 {
@@ -135,5 +137,11 @@ public class SvgBoardVisual extends BoardVisual
     protected void updateEnabled()
     {
         enabledOverlay.setVisible(enabled);
+    }
+
+    @Override
+    public Widget getWidget()
+    {
+        return drawingArea;
     }
 }

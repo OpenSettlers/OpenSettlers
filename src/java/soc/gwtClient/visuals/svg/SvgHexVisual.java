@@ -1,4 +1,4 @@
-package soc.gwtClient.client.visuals.svg;
+package soc.gwtClient.visuals.svg;
 
 import org.vaadin.gwtgraphics.client.Group;
 import org.vaadin.gwtgraphics.client.Image;
@@ -15,7 +15,7 @@ import soc.common.board.hexes.Hex;
 import soc.common.client.visuals.IPieceVisual;
 import soc.common.client.visuals.board.HexVisual;
 import soc.common.client.visuals.board.IBoardVisual;
-import soc.gwtClient.client.Point2D;
+import soc.gwtClient.game.Point2D;
 
 public class SvgHexVisual extends HexVisual 
     implements MouseMoveHandler, ClickHandler, MouseOutHandler

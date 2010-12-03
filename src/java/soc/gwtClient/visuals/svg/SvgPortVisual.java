@@ -1,4 +1,4 @@
-package soc.gwtClient.client.visuals.svg;
+package soc.gwtClient.visuals.svg;
 
 import org.vaadin.gwtgraphics.client.Group;
 import org.vaadin.gwtgraphics.client.shape.Path;
@@ -15,7 +15,7 @@ import soc.common.board.ports.Port;
 import soc.common.client.visuals.board.IBoardVisual;
 import soc.common.client.visuals.board.IPortVisual;
 import soc.common.client.visuals.board.PortVisual;
-import soc.gwtClient.client.Point2D;
+import soc.gwtClient.game.Point2D;
 
 public class SvgPortVisual extends PortVisual 
     implements MouseMoveHandler, ClickHandler, MouseOutHandler

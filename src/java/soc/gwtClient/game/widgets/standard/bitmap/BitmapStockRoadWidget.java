@@ -1,11 +1,11 @@
-package soc.gwtClient.client.game.standard.bitmap;
+package soc.gwtClient.game.widgets.standard.bitmap;
 
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 
 import soc.common.board.pieces.Road;
 import soc.common.game.Player;
-import soc.gwtClient.client.game.AbstractStockItemWidget;
+import soc.gwtClient.game.abstractWidgets.AbstractStockItemWidget;
 
 public class BitmapStockRoadWidget extends AbstractStockItemWidget
 {

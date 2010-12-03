@@ -4,6 +4,9 @@ import soc.common.actions.gameAction.EndTurn;
 import soc.common.actions.gameAction.turnActions.standard.BuildCity;
 import soc.common.actions.gameAction.turnActions.standard.BuildRoad;
 import soc.common.actions.gameAction.turnActions.standard.BuildTown;
+import soc.common.actions.gameAction.turnActions.standard.ClaimVictory;
+import soc.common.actions.gameAction.turnActions.standard.TradeBank;
+import soc.common.actions.gameAction.turnActions.standard.TradePlayer;
 import soc.common.board.pieces.City;
 import soc.common.board.pieces.Road;
 import soc.common.board.pieces.Ship;
@@ -62,6 +65,18 @@ public class Standard extends RuleSet
         game.getPlayableResources().add(new Ore());
         game.getPlayableResources().add(new Clay());
         game.getPlayableResources().add(new Sheep());
+        
+        addActions();
+    }
+    private void addActions()
+    {
+        game.getPossibleActions().add(new BuildRoad());
+        game.getPossibleActions().add(new BuildTown());
+        game.getPossibleActions().add(new BuildCity());
+        game.getPossibleActions().add(new EndTurn());
+        game.getPossibleActions().add(new TradeBank());
+        game.getPossibleActions().add(new TradePlayer());
+        game.getPossibleActions().add(new ClaimVictory());
     }
 
 }

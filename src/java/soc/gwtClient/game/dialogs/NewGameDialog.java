@@ -1,4 +1,4 @@
-package soc.gwtClient.client.game;
+package soc.gwtClient.game.dialogs;
 
 import com.google.gwt.user.client.ui.DialogBox;
 
