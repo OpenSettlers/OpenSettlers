@@ -118,7 +118,7 @@ public class Port
         int amountGold=0;
 
         // Filter the list of resources by given type
-        List<Resource> resourcesOfType = resources.ofType(type);
+        ResourceList resourcesOfType = resources.ofType(type);
         
         // When we have at least two resources,  determine amount of gold we can trade 
         if (resourcesOfType.size() >= 2)

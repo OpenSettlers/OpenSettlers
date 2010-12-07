@@ -54,7 +54,7 @@ public class Monopoly extends DevelopmentCard
                 if (opponentResources.size() > 0)
                 {
                     // add resources to the development card owner
-                    player.getResources().addAll(opponentResources);
+                    player.getResources().add(opponentResources);
 
                     // TODO: fix using external library
                     //msg.append(String.format("%s %s from %s, ",

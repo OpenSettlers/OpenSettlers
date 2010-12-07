@@ -1,13 +1,98 @@
 package soc.common.board.resources;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+
+import com.google.gwt.event.shared.SimpleEventBus;
 
 import soc.common.board.hexes.Hex;
 import soc.common.board.pieces.*;
 
-public class ResourceList extends ArrayList<Resource>
+public class ResourceList implements Iterable<Resource>
 {
+    // Notification mechanism
+    SimpleEventBus eventBus = new SimpleEventBus();
+    
+    // Encapsulated list of resources
+    List<Resource> resources = new ArrayList<Resource>();
+    
+    /*
+     * Adds given ResourceList to this list of resources
+     */
+    public void add(ResourceList resourcesToAdd)
+    {
+        for (Resource resource : resourcesToAdd)
+        {
+            resources.add(resource);
+        }
+        eventBus.fireEvent(new ResourcesChangedEvent(resourcesToAdd, null));
+    }
+    
+    /*
+     * Adds given resource to this list of resources
+     */
+    public void add(Resource resource)
+    {
+        resources.add(resource);
+        
+        // Notify the list has been changed with only one resource
+        ResourceList addedResource = new ResourceList();
+        addedResource.add(resource);
+        eventBus.fireEvent(new ResourcesChangedEvent(addedResource, null));
+    }
+    
+    /*
+     * Removes given resource from this list of resources
+     */
+    public void remove(Resource resource)
+    {
+        resources.remove(resource);
+        
+        // Notify the list has been changed with only one resource
+        ResourceList removedResource = new ResourceList();
+        removedResource.add(resource);
+        eventBus.fireEvent(new ResourcesChangedEvent(null, removedResource));
+    }
+    
+    /*
+     * Removes given resources from this list. If checkIfPossible is set,
+     * this list should contain all of the resources contained in the given 
+     * list
+     */
+    public void remove(ResourceList resourcesToRemove, boolean checkIfPossible)
+    {
+        if (checkIfPossible)
+        {
+            // First check if this list contains all resources in given list
+            if (hasAtLeast(resourcesToRemove))
+            {
+                remove(resourcesToRemove, checkIfPossible);
+            }
+            else
+            {
+                throw new RuntimeException("Wants to remove non-existing resources");
+            }
+        }
+        else
+        {
+            removeAll(resourcesToRemove);
+        }
+    }
+    
+    /*
+     * Removes given resources from the list. Given resource does not need to be contained
+     */
+    private void removeAll(ResourceList resourcesToRemove)
+    {
+        for (Resource resource : resourcesToRemove)
+        {
+            resources.remove(resource);
+        }
+        
+        eventBus.fireEvent(new ResourcesChangedEvent(null, resourcesToRemove));
+    }
+    
     /*
      * Returns a copy of this ResourceList
      */
@@ -15,7 +100,7 @@ public class ResourceList extends ArrayList<Resource>
     {
         ResourceList result = new ResourceList();
         
-        result.addAll(this);
+        result.add(this);
         
         return result;
     }
@@ -28,7 +113,7 @@ public class ResourceList extends ArrayList<Resource>
         ResourceList result = new ResourceList();
         
         // Iterate over all resources and add the ones equalling given type
-        for (Resource res : this)
+        for (Resource res : resources)
         {
             if (res.getClass() == type.getClass())
             {
@@ -45,11 +130,13 @@ public class ResourceList extends ArrayList<Resource>
     public boolean hasAtLeast(ResourceList toHave)
     {
         return
-            ofType(new Timber()).size() >= toHave.ofType(new Timber()).size() &&
-            ofType(new Wheat()).size() >= toHave.ofType(new Wheat()).size()   &&
-            ofType(new Ore()).size() >= toHave.ofType(new Ore()).size()       &&
-            ofType(new Clay()).size() >= toHave.ofType(new Clay()).size()     &&
-            ofType(new Sheep()).size() >= toHave.ofType(new Sheep()).size();
+            ofType(new Timber()).size() >= toHave.ofType(new Timber()).size()   &&
+            ofType(new Wheat()).size() >= toHave.ofType(new Wheat()).size()     &&
+            ofType(new Ore()).size() >= toHave.ofType(new Ore()).size()         &&
+            ofType(new Clay()).size() >= toHave.ofType(new Clay()).size()       &&
+            ofType(new Sheep()).size() >= toHave.ofType(new Sheep()).size(  )   &&
+            ofType(new Diamond()).size() >= toHave.ofType(new Diamond()).size() &&
+            ofType(new Gold()).size() >= toHave.ofType(new Gold()).size();
     }
     
     /*
@@ -65,10 +152,10 @@ public class ResourceList extends ArrayList<Resource>
         }
         
         // add the resources to this list...
-        this.addAll(resourcesToSwap);
+        this.add(resourcesToSwap);
         
         // ...and remove them at the "from source"
-        from.removeAll(resourcesToSwap);
+        from.remove(resourcesToSwap, true);
     }
     
     /*
@@ -107,4 +194,19 @@ public class ResourceList extends ArrayList<Resource>
         return result;
     }
 
+
+    @Override
+    public Iterator<Resource> iterator()
+    {
+        return resources.iterator();
+    }
+    
+    public int size()
+    {
+        return resources.size();
+    }
+    public boolean contains(Resource resource)
+    {
+        return resources.contains(resource);
+    }
 }

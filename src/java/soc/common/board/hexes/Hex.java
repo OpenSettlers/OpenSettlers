@@ -3,9 +3,10 @@ package soc.common.board.hexes;
 import soc.common.board.HexLocation;
 import soc.common.utils.ClassUtils;
 
-/// Represents the base type for each hex.
-/// @seealso cref="http://www.codeproject.com/KB/cs/hexagonal_part1.aspx"/>
-/// @seealso cref="http://gmc.yoyogames.com/index.php?showtopic=336183"/>
+/* Represents the base type for each hex.
+ * @seealso cref="http://www.codeproject.com/KB/cs/hexagonal_part1.aspx"/>
+ * @seealso cref="http://gmc.yoyogames.com/index.php?showtopic=336183"/>
+ */
 public class Hex
 {
     protected HexLocation hexLocation;
@@ -156,6 +157,7 @@ public class Hex
     {
         return name;
     }
+    
     public String getColor()
     {
         return color;

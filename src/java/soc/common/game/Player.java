@@ -52,7 +52,7 @@ public class Player extends User
     
     public void addResources(ResourceList resources)
     {
-        resources.addAll(resources);
+        resources.add(resources);
     }
     
     public void useDevelopmentCard(DevelopmentCard developmentCard)
