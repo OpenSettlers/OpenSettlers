@@ -138,7 +138,7 @@ public class HexLocation
     public String toString() 
     {
         // TODO: fix using external library
-        return "omg";
+        return "oh noes";
         //return String.format("w: %s, h: %s", 
         //        Integer.toString(w), Integer.toString(h));
     }

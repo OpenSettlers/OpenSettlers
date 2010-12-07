@@ -5,12 +5,10 @@ import com.google.gwt.event.shared.*;
 import soc.common.board.Chit;
 import soc.common.board.resources.Resource;
 
-@SuppressWarnings("deprecation")
-public class ResourceHex extends LandHex implements HasHandlers
+public class ResourceHex extends LandHex
 {
     private Resource resource;
     private Chit chit;
-    private HandlerManager handlerManager = new HandlerManager(this);
   
     /**
      * @return the chit
@@ -27,7 +25,7 @@ public class ResourceHex extends LandHex implements HasHandlers
     {
         this.chit = c;
         
-        fireEvent(new ChitChangedEvent(c));
+        eventBus.fireEvent(new ChitChangedEvent(c));
         
         return this;
     }
@@ -76,15 +74,9 @@ public class ResourceHex extends LandHex implements HasHandlers
     {
     }
 
-    @Override
-    public void fireEvent(GwtEvent<?> event)
-    {
-        handlerManager.fireEvent(event);
-    }
-
     public HandlerRegistration addChitChangedEventHandler(ChitChangedEventHandler handler)
     {
-        return handlerManager.addHandler(ChitChangedEvent.TYPE, handler);
+        return eventBus.addHandler(ChitChangedEvent.TYPE, handler);
     }
 
     /* (non-Javadoc)

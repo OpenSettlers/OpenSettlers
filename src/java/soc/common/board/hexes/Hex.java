@@ -75,7 +75,7 @@ public class Hex
     /// Height measured from the top to the second line
     ///      __         _
     ///     /  \          } BottomHeight
-    ///    |    |       _ ]
+    ///    |    |       _ }
     ///     \  /
     ///      --
     /// </summary>

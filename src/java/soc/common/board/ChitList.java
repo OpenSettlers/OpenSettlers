@@ -1,12 +1,13 @@
 package soc.common.board;
 
-
 import java.util.ArrayList;
 import java.util.Random;
 
 import soc.common.annotations.SeaFarers;
 
-
+/*
+ * Represents a list of chits
+ */
 public class ChitList extends ArrayList<Chit>
 {
     /*
@@ -39,13 +40,12 @@ public class ChitList extends ArrayList<Chit>
         result.add(new Chit(8));
         result.add(new Chit(8));
 
-        
         return result;
     }
     
     /* 
      * Returns a Seafarers swapbag for Greater Catan maps
-     * A swapbag has 2,3,4,5, 9,10,11
+     * A swapbag has 7 numbers: 2,3,4,5, 9,10,11
      */
     @SeaFarers
     public static ChitList getSwapBag()
@@ -65,6 +65,7 @@ public class ChitList extends ArrayList<Chit>
         
         return result;
     }
+    
     /*
      * Returns a random instance from this list
      */

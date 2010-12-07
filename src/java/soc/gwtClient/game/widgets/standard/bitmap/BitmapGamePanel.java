@@ -30,7 +30,6 @@ public class BitmapGamePanel extends AbstractGamePanel implements ICenterWidget
     DockLayoutPanel playersBankChatPanel=new DockLayoutPanel(Unit.EM);
     DockLayoutPanel boardActionResourcesPanel= new DockLayoutPanel(Unit.EM);
     TabLayoutPanel chatHistoryDebugPanel = new TabLayoutPanel(20.0, Unit.PX);
-    VerticalPanel jeuj = new VerticalPanel();
     DockLayoutPanel chatPanel = new DockLayoutPanel(Unit.EM);
     SimplePanel boardVisualPanel = new SimplePanel();
     

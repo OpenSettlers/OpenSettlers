@@ -1,23 +1,20 @@
 package soc.common.board.hexes;
 
-import com.google.gwt.event.shared.GwtEvent;
-import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.event.shared.HasHandlers;
+import com.google.gwt.event.shared.SimpleEventBus;
 
 import soc.common.board.ports.Port;
 import soc.common.board.ports.PortChangedEvent;
 import soc.common.board.ports.PortChangedEventHandler;
 
-@SuppressWarnings("deprecation")
-public class SeaHex extends Hex implements HasHandlers
+public class SeaHex extends Hex
 {
-    /*
-     * A SeaHex may have a port associated with it
-     */
+    // A SeaHex may have a port associated with it
     private Port port;
-    private HandlerManager handlerManager = new HandlerManager(this);
-
+    
+    // Event notification instance
+    private SimpleEventBus eventBus = new SimpleEventBus();
+    
     /**
      * @return the port
      */
@@ -33,7 +30,7 @@ public class SeaHex extends Hex implements HasHandlers
     {
         this.port = p;
         
-        fireEvent(new PortChangedEvent(port));
+        eventBus.fireEvent(new PortChangedEvent(port));
         
         return this;
     }
@@ -57,14 +54,8 @@ public class SeaHex extends Hex implements HasHandlers
         return "DarkBlue";
     }
 
-    @Override
-    public void fireEvent(GwtEvent<?> event)
-    {
-        handlerManager.fireEvent(event);
-    }
-    
     public HandlerRegistration addPortChangedEventHandler(PortChangedEventHandler handler)
     {
-        return handlerManager.addHandler(PortChangedEvent.TYPE, handler);
+        return eventBus.addHandler(PortChangedEvent.TYPE, handler);
     }
 }

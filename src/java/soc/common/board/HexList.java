@@ -9,7 +9,6 @@ public class HexList extends ArrayList<Hex>
 {
     private final int width;
     private final int height;
-    private int heigth;
     
     public int getHeight()
     {
@@ -99,7 +98,7 @@ public class HexList extends ArrayList<Hex>
     {
         // when location falls outside west & north bounds, return invalid
         if (width < 0 || 
-            heigth < 0 ||
+            height < 0 ||
             hexLocation.getH() >= height ||
             hexLocation.getW() >= width)
         {

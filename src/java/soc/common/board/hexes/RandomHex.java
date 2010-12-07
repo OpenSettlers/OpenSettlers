@@ -1,15 +1,14 @@
 package soc.common.board.hexes;
 
-import com.google.gwt.event.shared.GwtEvent;
-import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.event.shared.SimpleEventBus;
 
 import soc.common.board.Territory;
 
-@SuppressWarnings("deprecation")
-public class RandomHex extends Hex
+public class RandomHex extends Hex implements ITerritoryHex
 {
     private Territory territory;
+    protected SimpleEventBus eventBus = new SimpleEventBus(); 
 
     /* (non-Javadoc)
      * @see soc.common.board.hexes.Hex#Copy()
@@ -27,5 +26,28 @@ public class RandomHex extends Hex
     public String getColor()
     {
         return "White";
+    }
+
+    public HandlerRegistration addTerritoryChangedEventHandler(TerritoryChangedEventHandler handler)
+    {
+        return eventBus.addHandler(TerritoryChangedEvent.TYPE, handler);
+    }
+    
+    @Override
+    public Territory getTerritory()
+    {
+        return territory;
+    }
+
+    @Override
+    public ITerritoryHex setTerritory(Territory t)
+    {
+        if (t != territory)
+        {
+            this.territory=t;
+            eventBus.fireEvent(new TerritoryChangedEvent(t));
+        }
+        
+        return (ITerritoryHex)this;
     }
 }

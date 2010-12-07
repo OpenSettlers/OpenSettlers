@@ -7,7 +7,7 @@ import soc.common.annotations.SeaFarers;
 import soc.common.board.Territory;
 
 @SeaFarers
-public interface ITerritoryHex extends HasHandlers
+public interface ITerritoryHex
 {
     public Territory getTerritory();
     public ITerritoryHex setTerritory(Territory territory);

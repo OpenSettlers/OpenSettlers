@@ -127,6 +127,9 @@ public class HexPoint
         return null;
     }
     
+    /*
+     * TODO: cache value
+     */
     public List<HexPoint> getNeighbours() throws Exception
     {
         List<HexPoint> result = new ArrayList<HexPoint>();
@@ -241,10 +244,10 @@ public class HexPoint
         if (hex1.equals(hex2) ||
             hex1.equals(hex3) ||
             hex2.equals(hex3))
-            throw new RuntimeException("WHOA");
+            throw new RuntimeException("Impossible hexpoint detected");
     }
     
-    public boolean getHasLocation(HexLocation location)
+    public boolean hasLocation(HexLocation location)
     {
         return hex1.equals(location) ||
             hex2.equals(location) ||

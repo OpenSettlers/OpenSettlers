@@ -1,19 +1,16 @@
 package soc.common.board.hexes;
 
-import com.google.gwt.event.shared.GwtEvent;
-import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.event.shared.HasHandlers;
+import com.google.gwt.event.shared.SimpleEventBus;
 
 import soc.common.annotations.SeaFarers;
 import soc.common.board.Territory;
 
-@SuppressWarnings("deprecation")
 @SeaFarers
-public class DiscoveryHex extends Hex implements ITerritoryHex, HasHandlers
+public class DiscoveryHex extends Hex implements ITerritoryHex
 {
     protected Territory territory;
-    private HandlerManager handlerManager = new HandlerManager(this);
+    protected SimpleEventBus eventBus = new SimpleEventBus(); 
     
     /* (non-Javadoc)
      * @see soc.common.board.hexes.Hex#Copy()
@@ -41,7 +38,7 @@ public class DiscoveryHex extends Hex implements ITerritoryHex, HasHandlers
     public HandlerRegistration addTerritoryChangedEventHandler(
             TerritoryChangedEventHandler handler)
     {
-        return handlerManager.addHandler(TerritoryChangedEvent.TYPE, handler);
+        return eventBus.addHandler(TerritoryChangedEvent.TYPE, handler);
     }
 
     @Override
@@ -55,15 +52,8 @@ public class DiscoveryHex extends Hex implements ITerritoryHex, HasHandlers
     {
         this.territory=territory;
         
-        fireEvent(new TerritoryChangedEvent(territory));
+        eventBus.fireEvent(new TerritoryChangedEvent(territory));
         
         return this;
     }
-
-    @Override
-    public void fireEvent(GwtEvent<?> event)
-    {
-        handlerManager.fireEvent(event);
-    }
-
 }
