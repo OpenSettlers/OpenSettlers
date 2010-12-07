@@ -2,7 +2,7 @@ package soc.gwtClient.visuals.svg;
 
 import org.vaadin.gwtgraphics.client.Image;
 
-import soc.common.board.Territory;
+import soc.common.board.territories.Territory;
 import soc.common.client.visuals.board.TerritoryVisual;
 import soc.gwtClient.game.Point2D;
 

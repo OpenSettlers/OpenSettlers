@@ -1,4 +1,4 @@
-package soc.common.board;
+package soc.common.board.territories;
 
 import soc.common.annotations.SeaFarers;
 import soc.common.board.ports.PortList;

@@ -1,9 +1,28 @@
 package soc.common.game.developmentCards;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
-public class DevelopmentCardList extends ArrayList<DevelopmentCard>
+import com.google.gwt.event.shared.SimpleEventBus;
+
+public class DevelopmentCardList implements Iterable<DevelopmentCard>
 {
+    private List<DevelopmentCard> devCards = new ArrayList<DevelopmentCard>();
+    private SimpleEventBus eventBus = new SimpleEventBus();
+    
+    public void add(DevelopmentCard card)
+    {
+        devCards.add(card);
+        eventBus.fireEvent(new DevelopmentCardsChangedEvent(card, null));
+    }
+    
+    public void remove(DevelopmentCard cardToRemove)
+    {
+        devCards.remove(cardToRemove);
+        eventBus.fireEvent(new DevelopmentCardsChangedEvent(null, cardToRemove));
+    }
+    
     public static DevelopmentCardList standard()
     {
         DevelopmentCardList result = new DevelopmentCardList();
@@ -59,5 +78,16 @@ public class DevelopmentCardList extends ArrayList<DevelopmentCard>
         }
         
         return result;
+    }
+
+    @Override
+    public Iterator<DevelopmentCard> iterator()
+    {
+        return devCards.iterator();
+    }
+    
+    public int size()
+    {
+        return devCards.size();
     }
 }

@@ -2,6 +2,7 @@ package soc.common.client.behaviour.editor;
 
 import soc.common.board.*;
 import soc.common.board.hexes.ITerritoryHex;
+import soc.common.board.territories.Territory;
 import soc.common.client.behaviour.IInteractionBehaviour;
 import soc.common.client.visuals.IPieceVisual;
 import soc.common.client.visuals.board.IBoardVisual;

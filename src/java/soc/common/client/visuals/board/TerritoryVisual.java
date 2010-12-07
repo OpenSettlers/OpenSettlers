@@ -1,6 +1,6 @@
 package soc.common.client.visuals.board;
 
-import soc.common.board.Territory;
+import soc.common.board.territories.Territory;
 import soc.common.client.visuals.PieceVisual;
 
 public abstract class TerritoryVisual extends PieceVisual implements ITerritoryVisual

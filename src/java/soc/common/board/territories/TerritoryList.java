@@ -1,12 +1,25 @@
-package soc.common.board;
+package soc.common.board.territories;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import com.google.gwt.event.shared.SimpleEventBus;
 
 import soc.common.annotations.SeaFarers;
+import soc.common.board.hexes.TerritoryChangedEvent;
 
 @SeaFarers
-public class TerritoryList extends ArrayList<Territory>
+public class TerritoryList implements Iterable<Territory>
 {
+    List<Territory> territories = new ArrayList<Territory>();
+    SimpleEventBus eventBus = new SimpleEventBus();
+    
+    public void add(Territory territory)
+    {
+        territories.add(territory);
+        eventBus.fireEvent(new TerritoriesChangedEvent(territory, null));
+    }
 
     public Territory findByID(int id)
     {
@@ -56,5 +69,21 @@ public class TerritoryList extends ArrayList<Territory>
         }
                 
         return result;
+    }
+
+    @Override
+    public Iterator<Territory> iterator()
+    {
+        return territories.iterator();
+    }
+    
+    public int size()
+    {
+        return territories.size();
+    }
+    
+    public Territory get(int index)
+    {
+        return territories.get(index);
     }
 }

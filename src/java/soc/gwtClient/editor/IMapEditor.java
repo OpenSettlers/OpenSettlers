@@ -1,6 +1,6 @@
 package soc.gwtClient.editor;
 
-import soc.common.board.Territory;
+import soc.common.board.territories.Territory;
 
 public interface IMapEditor
 {

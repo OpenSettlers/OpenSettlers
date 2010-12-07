@@ -3,12 +3,11 @@ package soc.common.board;
 import java.util.List;
 import java.util.Random;
 
-import soc.common.board.hexes.Hex;
-import soc.common.board.hexes.ITerritoryHex;
-import soc.common.board.hexes.RandomHex;
 import soc.common.board.hexes.*;
 import soc.common.board.ports.Port;
 import soc.common.board.ports.PortList;
+import soc.common.board.territories.Territory;
+import soc.common.board.territories.TerritoryList;
 import soc.common.game.GameSettings;
 
 

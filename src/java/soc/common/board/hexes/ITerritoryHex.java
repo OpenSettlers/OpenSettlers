@@ -4,7 +4,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.HasHandlers;
 
 import soc.common.annotations.SeaFarers;
-import soc.common.board.Territory;
+import soc.common.board.territories.Territory;
 
 @SeaFarers
 public interface ITerritoryHex

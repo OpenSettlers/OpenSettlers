@@ -7,8 +7,8 @@ import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.RolledSame;
 import soc.common.actions.gameAction.StartingPlayerDetermined;
 import soc.common.actions.gameAction.turnActions.standard.RollDice;
-import soc.common.board.Territory;
 import soc.common.board.ports.Port;
+import soc.common.board.territories.Territory;
 import soc.common.game.Game;
 import soc.common.game.Player;
 

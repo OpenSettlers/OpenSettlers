@@ -1,6 +1,6 @@
 package soc.gwtClient.editor;
 
-import soc.common.board.Territory;
+import soc.common.board.territories.Territory;
 import soc.common.client.behaviour.IInteractionBehaviour;
 
 public class MapEditor implements IMapEditor

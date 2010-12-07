@@ -3,7 +3,7 @@ package soc.common.board.hexes;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
 
-import soc.common.board.Territory;
+import soc.common.board.territories.Territory;
 
 public abstract class LandHex extends Hex implements ITerritoryHex
 {

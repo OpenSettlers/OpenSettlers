@@ -1,6 +1,6 @@
 package soc.gwtClient.editor;
 
-import soc.common.board.Territory;
+import soc.common.board.territories.Territory;
 import soc.common.client.behaviour.editor.SetTerritoryBehaviour;
 import soc.common.client.visuals.board.IBoardVisual;
 

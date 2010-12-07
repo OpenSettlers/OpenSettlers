@@ -4,7 +4,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
 
 import soc.common.annotations.SeaFarers;
-import soc.common.board.Territory;
+import soc.common.board.territories.Territory;
 
 @SeaFarers
 public class DiscoveryHex extends Hex implements ITerritoryHex

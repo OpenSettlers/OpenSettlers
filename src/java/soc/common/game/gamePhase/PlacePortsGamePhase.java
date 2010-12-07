@@ -4,8 +4,8 @@ import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.GamePhaseHasEnded;
 import soc.common.actions.gameAction.turnActions.seaFarers.PlacePort;
 import soc.common.annotations.SeaFarers;
-import soc.common.board.Territory;
 import soc.common.board.ports.Port;
+import soc.common.board.territories.Territory;
 import soc.common.game.Game;
 
 @SeaFarers
