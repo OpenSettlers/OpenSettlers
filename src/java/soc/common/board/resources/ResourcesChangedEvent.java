@@ -4,6 +4,7 @@ import com.google.gwt.event.shared.GwtEvent;
 
 public class ResourcesChangedEvent extends GwtEvent<ResourcesChangedEventHandler>
 {
+    private static Type<ResourcesChangedEventHandler> TYPE = new Type<ResourcesChangedEventHandler>();
     private ResourceList addedResources;
     private ResourceList removedResources;
 
@@ -30,15 +31,13 @@ public class ResourcesChangedEvent extends GwtEvent<ResourcesChangedEventHandler
     @Override
     protected void dispatch(ResourcesChangedEventHandler handler)
     {
-        // TODO Auto-generated method stub
-        
+        handler.onResourcesChanged(this);
     }
 
     @Override
     public com.google.gwt.event.shared.GwtEvent.Type<ResourcesChangedEventHandler> getAssociatedType()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return TYPE;
     }
 
 }
