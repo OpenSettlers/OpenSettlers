@@ -23,5 +23,19 @@ public class ActionsQueue extends ArrayList<GameAction> implements IActionsQueue
         return null;
     }
 
+    @Override
+    public void dequeue()
+    {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public boolean isExpected(GameAction action, Game game)
+    {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
 
 }

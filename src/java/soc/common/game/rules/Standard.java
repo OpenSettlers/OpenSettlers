@@ -19,6 +19,7 @@ import soc.common.board.resources.Timber;
 import soc.common.board.resources.Wheat;
 import soc.common.game.Game;
 import soc.common.game.StockItem;
+import soc.common.game.developmentCards.DevelopmentCardList;
 
 public class Standard extends RuleSet
 {
@@ -67,6 +68,8 @@ public class Standard extends RuleSet
         game.getPlayableResources().add(new Sheep());
         
         addActions();
+        
+        game.setDevelopmentCards(DevelopmentCardList.standard());
     }
     private void addActions()
     {
@@ -78,5 +81,4 @@ public class Standard extends RuleSet
         game.getPossibleActions().add(new TradePlayer());
         game.getPossibleActions().add(new ClaimVictory());
     }
-
 }

@@ -5,8 +5,10 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import soc.common.game.Player;
+import soc.common.game.developmentCards.DevelopmentCardsChangedEventHandler;
 
-public abstract class AbstractLargestArmyWidget implements ILargestArmyWidget
+public abstract class AbstractLargestArmyWidget 
+    implements ILargestArmyWidget, DevelopmentCardsChangedEventHandler
 {
     protected ComplexPanel rootPanel;
     protected Player player; 
@@ -16,6 +18,8 @@ public abstract class AbstractLargestArmyWidget implements ILargestArmyWidget
         this.player=player;
         
         rootPanel = createRootPanel();
+        
+        player.getPlayedDevelopmentCards().addDevelopmentCardsChangedEventHandler(this);
     }
 
     @Override
@@ -23,6 +27,7 @@ public abstract class AbstractLargestArmyWidget implements ILargestArmyWidget
     {
         return rootPanel;
     }
+    
     /* (non-Javadoc)
      * @see soc.gwtClient.client.game.ILargestArmyWidget#createRootPanel()
      */

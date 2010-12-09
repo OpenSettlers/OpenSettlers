@@ -1,6 +1,6 @@
 package soc.common.game.dices;
 
-import java.util.Random;
+import com.google.gwt.user.client.Random;
 
 import soc.common.annotations.SeaFarers;
 

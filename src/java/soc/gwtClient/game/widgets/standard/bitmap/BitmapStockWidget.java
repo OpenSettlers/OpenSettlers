@@ -1,23 +1,15 @@
 package soc.gwtClient.game.widgets.standard.bitmap;
 
-import com.google.gwt.user.client.ui.ComplexPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import soc.common.board.pieces.City;
 import soc.common.board.pieces.PlayerPiece;
 import soc.common.board.pieces.Road;
-import soc.common.board.pieces.Ship;
 import soc.common.board.pieces.Town;
 import soc.common.game.Game;
 import soc.common.game.Player;
 import soc.gwtClient.game.abstractWidgets.AbstractStockWidget;
-import soc.gwtClient.game.abstractWidgets.IDevelopmentCardsAmountWidget;
-import soc.gwtClient.game.abstractWidgets.ILargestArmyWidget;
-import soc.gwtClient.game.abstractWidgets.ILongestRoadWidget;
-import soc.gwtClient.game.abstractWidgets.IResourceAmountWidget;
 import soc.gwtClient.game.abstractWidgets.IStockItemWidget;
-import soc.gwtClient.game.abstractWidgets.IVictoryPointsWidget;
 
 public class BitmapStockWidget extends AbstractStockWidget
 {

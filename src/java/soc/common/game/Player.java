@@ -8,14 +8,6 @@ import soc.common.game.developmentCards.DevelopmentCardList;
 
 public class Player extends User
 {
-    /**
-     * @return the playedDevelopmentCards
-     */
-    public DevelopmentCardList getPlayedDevelopmentCards()
-    {
-        return playedDevelopmentCards;
-    }
-
     // Hand resource cards
     private ResourceList resources = new ResourceList();
     
@@ -37,7 +29,7 @@ public class Player extends User
     private boolean isOnTurn=false;
     
     // List of ports the player has developed
-    private PortList ports;
+    private PortList ports = new PortList();
     
     // Development cards in hand 
     private DevelopmentCardList developmentCards = new DevelopmentCardList();
@@ -45,6 +37,25 @@ public class Player extends User
     // Played development cards 
     private DevelopmentCardList playedDevelopmentCards = new DevelopmentCardList();
     
+    // List of victory points
+    private VictoryPointsList victoryPoints = new VictoryPointsList();
+    
+    /**
+     * @return the victoryPoints
+     */
+    public VictoryPointsList getVictoryPoints()
+    {
+        return victoryPoints;
+    }
+    
+    /**
+     * @return the playedDevelopmentCards
+     */
+    public DevelopmentCardList getPlayedDevelopmentCards()
+    {
+        return playedDevelopmentCards;
+    }
+
     public void removeResources(ResourceList resources)
     {
         resources.subtractResources(resources);

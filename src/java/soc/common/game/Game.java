@@ -5,13 +5,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import com.google.gwt.dev.util.collect.HashSet;
+import com.google.gwt.event.shared.SimpleEventBus;
+import com.google.gwt.event.shared.GwtEvent.Type;
 
 import soc.common.actions.gameAction.turnActions.TurnAction;
 import soc.common.board.Board;
 import soc.common.board.HexLocation;
 import soc.common.board.resources.Resource;
 import soc.common.board.resources.ResourceList;
+import soc.common.game.developmentCards.DevelopmentCardList;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.LobbyGamePhase;
 import soc.common.game.rules.IRuleSet;
@@ -30,6 +32,7 @@ public class Game
         return this;
     }
 
+    private SimpleEventBus eventBus = new SimpleEventBus();
     private List<IRuleSet> ruleSets = new ArrayList<IRuleSet>();
     private LinkedList<GamePhase> gamePhases = new LinkedList<GamePhase>();
     private IActionsQueue actionsQueue = new ActionsQueue();
@@ -45,6 +48,39 @@ public class Game
     private Player gameStarter;
     private List<TurnAction> possibleActions = new ArrayList<TurnAction>();
     private List<Resource> playableResources = new ArrayList<Resource>();
+    private DevelopmentCardList developmentCards = new DevelopmentCardList();
+    private List<StockItem> stockPieces = new ArrayList<StockItem>();
+    private boolean enableLargestArmy;
+    
+    public void addPlayerOnTurnChangedEventHandler(PlayerOnTurnChangedEventHandler handler)
+    {
+        eventBus.addHandler(PlayerOnTurnChangedEvent.TYPE, handler);
+    }    
+    public void addGamePhaseChangedEventHandler(GamePhaseChangedEventHandler handler)
+    {
+        eventBus.addHandler(GamePhaseChangedEvent.TYPE, handler);
+    }
+    
+    /**
+     * @return the developmentCards
+     */
+    public DevelopmentCardList getDevelopmentCards()
+    {
+        return developmentCards;
+    }
+
+    /**
+     * @param developmentCards the developmentCards to set
+     */
+    public Game setDevelopmentCards(DevelopmentCardList developmentCards)
+    {
+        this.developmentCards = developmentCards;
+    
+        // Enables fluent interface usage
+        // http://en.wikipedia.org/wiki/Fluent_interface
+        return this;
+    }
+
     /**
      * @return the playableResources
      */
@@ -53,8 +89,7 @@ public class Game
         return playableResources;
     }
 
-    private List<StockItem> stockPieces = new ArrayList<StockItem>();
-    private boolean enableLargestArmy;
+
     
     public void makeRulesPermanent()
     {
@@ -179,12 +214,17 @@ public class Game
      */
     public Game setPlayerOnTurn(Player playerOnTurn)
     {
+        // Create an event 
+        PlayerOnTurnChangedEvent event = new PlayerOnTurnChangedEvent(this.playerOnTurn, playerOnTurn);
+        
+        // Set the new values
         playerOnTurn.setOnTurn(false);
         this.playerOnTurn = playerOnTurn;
         playerOnTurn.setOnTurn(true);
+        
+        // fire the event
+        eventBus.fireEvent(event);
     
-        // Enables fluent interface usage
-        // http://en.wikipedia.org/wiki/Fluent_interface
         return this;
     }
 
@@ -285,9 +325,14 @@ public class Game
         return currentPhase;
     }
 
-    public void setCurrentPhase(GamePhase currentPhase)
+    public Game setCurrentPhase(GamePhase currentPhase)
     {
+        GamePhaseChangedEvent event = new GamePhaseChangedEvent(this.currentPhase, currentPhase);
+        
         this.currentPhase = currentPhase;
+        eventBus.fireEvent(event);
+        
+        return this;
     }
     
     public Player getNextPlayer()

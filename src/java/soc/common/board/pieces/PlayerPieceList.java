@@ -6,11 +6,20 @@ import java.util.List;
 
 
 import com.google.gwt.event.shared.SimpleEventBus;
+import com.google.gwt.event.shared.GwtEvent.Type;
 
 public class PlayerPieceList implements Iterable<PlayerPiece>
 {
     List<PlayerPiece> playerPieces = new ArrayList<PlayerPiece>();
-    SimpleEventBus eventBus = new SimpleEventBus();
+    SimpleEventBus eventBus;
+    
+    private void safelyFireEvent(PiecesChangedEvent event)
+    {
+        if (eventBus != null)
+        {
+            eventBus.fireEvent(event);
+        }
+    }
 
     @Override
     public Iterator<PlayerPiece> iterator()
@@ -37,17 +46,32 @@ public class PlayerPieceList implements Iterable<PlayerPiece>
     public void add(PlayerPiece piece)
     {
         playerPieces.add(piece);
-        eventBus.fireEvent(new PiecesChangedEvent(piece, null));
+        safelyFireEvent(new PiecesChangedEvent(piece, null));
     }
     
     public void remove(PlayerPiece piece)
     {
         playerPieces.remove(piece);
-        eventBus.fireEvent(new PiecesChangedEvent(null, piece));
+        safelyFireEvent(new PiecesChangedEvent(null, piece));
     }
     
     public int size()
     {
         return playerPieces.size();
+    }
+    
+    public void addPiecesChangedEventHandler(PiecesChangedEventHandler handler)
+    {
+        getEventBus().addHandler(PiecesChangedEvent.TYPE, handler);
+    }
+    
+    private SimpleEventBus getEventBus()
+    {
+        if (eventBus == null)
+        {
+            eventBus = new SimpleEventBus();
+        }
+        
+        return eventBus;
     }
 }

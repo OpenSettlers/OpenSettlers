@@ -4,7 +4,7 @@ import com.google.gwt.event.shared.GwtEvent;
 
 public class ResourcesChangedEvent extends GwtEvent<ResourcesChangedEventHandler>
 {
-    private static Type<ResourcesChangedEventHandler> TYPE = new Type<ResourcesChangedEventHandler>();
+    public static Type<ResourcesChangedEventHandler> TYPE = new Type<ResourcesChangedEventHandler>();
     private ResourceList addedResources;
     private ResourceList removedResources;
 
@@ -27,6 +27,14 @@ public class ResourcesChangedEvent extends GwtEvent<ResourcesChangedEventHandler
     public ResourceList getRemovedResources()
     {
         return removedResources;
+    }
+    
+    /*
+     * Returns the added or removed resources depending on which is not-null.
+     */
+    public ResourceList getChangedResources()
+    {
+        return addedResources != null ? addedResources : removedResources;
     }
     @Override
     protected void dispatch(ResourcesChangedEventHandler handler)

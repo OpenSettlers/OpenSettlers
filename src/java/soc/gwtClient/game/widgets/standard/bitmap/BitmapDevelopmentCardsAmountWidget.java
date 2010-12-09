@@ -4,10 +4,10 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 
 import soc.common.game.Player;
+import soc.common.game.developmentCards.DevelopmentCardsChangedEvent;
 import soc.gwtClient.game.abstractWidgets.AbstractDevelopmentCardsAmountWidget;
 
-public class BitmapDevelopmentCardsAmountWidget extends
-        AbstractDevelopmentCardsAmountWidget
+public class BitmapDevelopmentCardsAmountWidget extends AbstractDevelopmentCardsAmountWidget
 {
     Image devcardImage = new Image("icons/48/BlankCard48.png");
     Label amountDevcards = new Label();
@@ -23,4 +23,12 @@ public class BitmapDevelopmentCardsAmountWidget extends
         rootPanel.add(amountDevcards);
     }
 
+    /* (non-Javadoc)
+     * @see soc.gwtClient.game.abstractWidgets.AbstractDevelopmentCardsAmountWidget#onDevelopmentCardsChanged(soc.common.game.developmentCards.DevelopmentCardsChangedEvent)
+     */
+    public void onDevelopmentCardsChanged(DevelopmentCardsChangedEvent event)
+    {
+        amountDevcards.setText(
+                Integer.toString(player.getDevelopmentCardsCount()));
+    }
 }

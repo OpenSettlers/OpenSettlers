@@ -23,5 +23,6 @@ public class BitmapLongestRoadWidget extends AbstractLongestRoadWidget
         rootPanel.add(longestRoadImage);
         rootPanel.add(lblLongestRoadLength);
     }
-
+    
+    //TODO: implement changed longest road
 }

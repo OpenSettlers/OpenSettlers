@@ -9,7 +9,7 @@ import com.google.gwt.event.shared.GwtEvent;
  */
 public class PiecesChangedEvent extends GwtEvent<PiecesChangedEventHandler>
 {
-    private static Type<PiecesChangedEventHandler> TYPE = new Type<PiecesChangedEventHandler>();
+    public static Type<PiecesChangedEventHandler> TYPE = new Type<PiecesChangedEventHandler>();
     private PlayerPiece addedPiece;
     private PlayerPiece removedPiece;
     
@@ -33,6 +33,14 @@ public class PiecesChangedEvent extends GwtEvent<PiecesChangedEventHandler>
     public PlayerPiece getRemovedPiece()
     {
         return removedPiece;
+    }
+    
+    /*
+     * Returns the either the removed of added piece depending on what piece is not null
+     */
+    public PlayerPiece getChangedPiece()
+    {
+        return addedPiece == null ? addedPiece : removedPiece; 
     }
 
     @Override

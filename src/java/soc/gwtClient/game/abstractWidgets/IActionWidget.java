@@ -12,7 +12,6 @@ import soc.common.game.Player;
  */
 public interface IActionWidget extends IsWidget
 {
-    public TurnAction getNewAction();
     public Player getPlayer();
-    public void updateState();
+    public IActionWidget setEnabled(boolean enabled);
 }

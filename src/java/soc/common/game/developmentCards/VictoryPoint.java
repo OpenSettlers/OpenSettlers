@@ -1,8 +1,9 @@
 package soc.common.game.developmentCards;
 
 import soc.common.game.Game;
+import soc.common.game.IVictoryPointItem;
 
-public class VictoryPoint extends DevelopmentCard
+public class VictoryPoint extends DevelopmentCard implements IVictoryPointItem
 {
     /* A victoryPoint development card returns into stock after playing
      * @see soc.common.game.developmentCards.DevelopmentCard#keepInStock()
@@ -20,6 +21,12 @@ public class VictoryPoint extends DevelopmentCard
     public boolean isValid(Game game)
     {
         return true;
+    }
+
+    @Override
+    public int getVictoryPoints()
+    {
+        return 1;
     }
 
 }

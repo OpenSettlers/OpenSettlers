@@ -5,23 +5,21 @@ import com.google.gwt.user.client.ui.Widget;
 
 import soc.common.actions.gameAction.turnActions.TurnAction;
 import soc.common.game.Player;
+import soc.common.game.developmentCards.DevelopmentCardsChangedEvent;
+import soc.common.game.developmentCards.DevelopmentCardsChangedEventHandler;
 import soc.gwtClient.game.abstractWidgets.AbstractActionWidget;
 import soc.gwtClient.game.abstractWidgets.IGamePanel;
 
-public class BitmapPlayDevelopmentCardWidget extends AbstractActionWidget
+public class BitmapPlayDevelopmentCardWidget extends AbstractActionWidget 
+    implements DevelopmentCardsChangedEventHandler
 {
     MenuBar menu = new MenuBar(true);
     
     public BitmapPlayDevelopmentCardWidget(IGamePanel gamePanel, Player player)
     {
         super(gamePanel, player);
-    }
-
-    @Override
-    public TurnAction getNewAction()
-    {
-        // TODO Auto-generated method stub
-        return null;
+        
+        player.getDevelopmentCards().addDevelopmentCardsChangedEventHandler(this);
     }
 
     @Override
@@ -31,10 +29,14 @@ public class BitmapPlayDevelopmentCardWidget extends AbstractActionWidget
     }
 
     @Override
-    public void updateState()
+    protected void updateEnabled()
     {
-        // TODO Auto-generated method stub
-        
+        //TODO: enable/disable all menu items
     }
 
+    @Override
+    public void onDevelopmentCardsChanged(DevelopmentCardsChangedEvent event)
+    {
+        //TODO:implement
+    }
 }

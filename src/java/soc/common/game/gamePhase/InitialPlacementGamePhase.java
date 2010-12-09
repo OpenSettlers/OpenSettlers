@@ -102,7 +102,6 @@ public class InitialPlacementGamePhase extends GamePhase
                 game.getActionsQueue().enqueue
                 (
                     new GamePhaseHasEnded()
-                        .setEndedGamePhase(this)
                         .setSender(0)
                 );
             }

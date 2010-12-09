@@ -9,18 +9,29 @@ import com.google.gwt.user.client.ui.Widget;
 
 import soc.common.actions.gameAction.EndTurn;
 import soc.common.actions.gameAction.turnActions.TurnAction;
+import soc.common.board.resources.ResourcesChangedEvent;
+import soc.common.game.GamePhaseChangedEvent;
+import soc.common.game.GamePhaseChangedEventHandler;
 import soc.common.game.Player;
+import soc.common.game.PlayerOnTurnChangedEvent;
+import soc.common.game.PlayerOnTurnChangedEventHandler;
 import soc.gwtClient.game.abstractWidgets.AbstractActionWidget;
 import soc.gwtClient.game.abstractWidgets.IActionWidget;
 import soc.gwtClient.game.abstractWidgets.IGamePanel;
 
-public class BitmapEndTurnWidget extends AbstractActionWidget
+public class BitmapEndTurnWidget extends AbstractActionWidget implements PlayerOnTurnChangedEventHandler, GamePhaseChangedEventHandler
 {
     public PushButton btnEndTurn = new PushButton(new Image("icons/32/EndTurn32.png"));
+    private EndTurn endTurn = new EndTurn();
 
     public BitmapEndTurnWidget(final IGamePanel gamePanel, final Player player)
     {
         super(gamePanel, player);
+        
+        endTurn.setPlayer(player);
+        
+        gamePanel.getGame().addPlayerOnTurnChangedEventHandler(this);
+        gamePanel.getGame().addGamePhaseChangedEventHandler(this);
         
         btnEndTurn.addClickHandler(new ClickHandler()
         {
@@ -35,12 +46,6 @@ public class BitmapEndTurnWidget extends AbstractActionWidget
             }
         });
     }
-    
-    @Override
-    public TurnAction getNewAction()
-    {
-        return null;
-    }
 
     @Override
     public Widget asWidget()
@@ -48,11 +53,35 @@ public class BitmapEndTurnWidget extends AbstractActionWidget
         return btnEndTurn;
     }
 
+    @Override
+    protected void updateEnabled()
+    {
+        btnEndTurn.setEnabled(enabled);
+    }
 
     @Override
-    public void updateState()
+    public void onPlayerOnTurnChanged(PlayerOnTurnChangedEvent event)
     {
-        // TODO Auto-generated method stub
+        checkEnabled();
+    }
+
+    @Override
+    public void onGamePhaseChanged(GamePhaseChangedEvent event)
+    {
+        checkEnabled();
+    }
+    
+    private void checkEnabled()
+    {
+        if (onTurn)
+        {
+            if (gamePanel.getGame().getCurrentPhase().isAllowed(endTurn))
+            {
+                setEnabled(true);
+                return;
+            }
+        }
         
+        setEnabled(false);
     }
 }

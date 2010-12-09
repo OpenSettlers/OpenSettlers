@@ -1,6 +1,7 @@
 package soc.common.game.dices;
 
-import java.util.Random;
+import com.google.gwt.user.client.Random;
+
 
 public class StandardDice extends Dice
 {

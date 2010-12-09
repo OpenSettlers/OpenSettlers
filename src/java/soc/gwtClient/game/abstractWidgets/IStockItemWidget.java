@@ -8,4 +8,5 @@ import soc.common.board.pieces.PlayerPiece;
 public interface IStockItemWidget extends IsWidget
 {
     public ComplexPanel createRootPanel();
+    public PlayerPiece getStockPiece();
 }

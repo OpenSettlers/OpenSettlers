@@ -2,9 +2,10 @@ package soc.common.board.pieces;
 
 import soc.common.board.Board;
 import soc.common.board.resources.*;
+import soc.common.game.IVictoryPointItem;
 import soc.common.game.Player;
 
-public class City extends PlayerPiece
+public class City extends PlayerPiece implements IVictoryPointItem
 {
     @Override
     public ResourceList getCost()
@@ -41,5 +42,15 @@ public class City extends PlayerPiece
             return false;
         
         return true;
+    }
+
+    /*
+     * City is worth 2 victory points
+     * @see soc.common.game.IVictoryPointItem#amount()
+     */
+    @Override
+    public int getVictoryPoints()
+    {
+        return 2;
     }
 }

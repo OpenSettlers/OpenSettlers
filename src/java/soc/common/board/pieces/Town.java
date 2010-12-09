@@ -2,9 +2,10 @@ package soc.common.board.pieces;
 
 import soc.common.board.Board;
 import soc.common.board.resources.*;
+import soc.common.game.IVictoryPointItem;
 import soc.common.game.Player;
 
-public class Town extends PlayerPiece
+public class Town extends PlayerPiece implements IVictoryPointItem
 {
     @Override
     public String toString()
@@ -41,5 +42,11 @@ public class Town extends PlayerPiece
         //if (GetTownBuildPlaces(game, board).Count == 0) return false;
         
         return true;
+    }
+
+    @Override
+    public int getVictoryPoints()
+    {
+        return 1;
     }
 }

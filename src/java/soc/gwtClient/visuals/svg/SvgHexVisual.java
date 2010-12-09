@@ -138,8 +138,8 @@ public class SvgHexVisual extends HexVisual
 	@Override
 	protected void updateHexVisual()
 	{
-       String img = "images/"+ hex.getName() +".png";
-       String color = hex.getColor();
+        String img = "images/"+ hex.getName() +".png";
+        String color = hex.getColor();
         
         if (hexImage==null)
         {

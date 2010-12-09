@@ -4,23 +4,32 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
 
 public class DevelopmentCardList implements Iterable<DevelopmentCard>
 {
     private List<DevelopmentCard> devCards = new ArrayList<DevelopmentCard>();
-    private SimpleEventBus eventBus = new SimpleEventBus();
+    private SimpleEventBus eventBus;
+    
+    private void safelyFireEvent(DevelopmentCardsChangedEvent event)
+    {
+        if (eventBus != null)
+        {
+            eventBus.fireEvent(event);
+        }
+    }
     
     public void add(DevelopmentCard card)
     {
         devCards.add(card);
-        eventBus.fireEvent(new DevelopmentCardsChangedEvent(card, null));
+        safelyFireEvent(new DevelopmentCardsChangedEvent(card, null));
     }
     
     public void remove(DevelopmentCard cardToRemove)
     {
         devCards.remove(cardToRemove);
-        eventBus.fireEvent(new DevelopmentCardsChangedEvent(null, cardToRemove));
+        safelyFireEvent(new DevelopmentCardsChangedEvent(null, cardToRemove));
     }
     
     public static DevelopmentCardList standard()
@@ -89,5 +98,32 @@ public class DevelopmentCardList implements Iterable<DevelopmentCard>
     public int size()
     {
         return devCards.size();
+    }
+    
+    public DevelopmentCard drawTop()
+    {
+        // Get top dvelopmentcard
+        DevelopmentCard result = devCards.get(devCards.size()-1);
+        
+        // remove it from the deck
+        devCards.remove(devCards.size()-1);
+        
+        // return the card
+        return result;
+    }
+    
+    public HandlerRegistration addDevelopmentCardsChangedEventHandler(DevelopmentCardsChangedEventHandler handler)
+    {
+        return getEventBus().addHandler(DevelopmentCardsChangedEvent.TYPE, handler);
+    }
+
+    private SimpleEventBus getEventBus()
+    {
+        if (eventBus == null)
+        {
+            eventBus = new SimpleEventBus();
+        }
+        
+        return eventBus;
     }
 }

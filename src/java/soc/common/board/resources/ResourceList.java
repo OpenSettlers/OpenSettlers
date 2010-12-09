@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
+import com.google.gwt.event.shared.GwtEvent.Type;
+import com.google.gwt.user.client.Random;
 
 import soc.common.board.hexes.Hex;
 import soc.common.board.pieces.*;
@@ -12,10 +15,27 @@ import soc.common.board.pieces.*;
 public class ResourceList implements Iterable<Resource>
 {
     // Notification mechanism
-    SimpleEventBus eventBus = new SimpleEventBus();
+    SimpleEventBus eventBus;
     
     // Encapsulated list of resources
     List<Resource> resources = new ArrayList<Resource>();
+    
+    private SimpleEventBus getEventBus()
+    {
+        if (eventBus == null)
+        {
+            eventBus = new SimpleEventBus();
+        }   
+        return eventBus;
+    }
+    
+    private void fireSafeEvent(ResourcesChangedEvent event)
+    {
+        if (eventBus !=null)
+        {
+            eventBus.fireEvent(event);
+        }
+    }
     
     /*
      * Adds given ResourceList to this list of resources
@@ -26,7 +46,7 @@ public class ResourceList implements Iterable<Resource>
         {
             resources.add(resource);
         }
-        eventBus.fireEvent(new ResourcesChangedEvent(resourcesToAdd, null));
+        fireSafeEvent(new ResourcesChangedEvent(resourcesToAdd, null));
     }
     
     /*
@@ -36,10 +56,13 @@ public class ResourceList implements Iterable<Resource>
     {
         resources.add(resource);
         
-        // Notify the list has been changed with only one resource
-        ResourceList addedResource = new ResourceList();
-        addedResource.add(resource);
-        eventBus.fireEvent(new ResourcesChangedEvent(addedResource, null));
+        if (eventBus !=null)
+        {
+            // Notify the list has been changed with only one resource
+            ResourceList addedResource = new ResourceList();
+            addedResource.add(resource);
+            fireSafeEvent(new ResourcesChangedEvent(addedResource, null));
+        }
     }
     
     /*
@@ -49,10 +72,13 @@ public class ResourceList implements Iterable<Resource>
     {
         resources.remove(resource);
         
-        // Notify the list has been changed with only one resource
-        ResourceList removedResource = new ResourceList();
-        removedResource.add(resource);
-        eventBus.fireEvent(new ResourcesChangedEvent(null, removedResource));
+        if (eventBus != null)
+        {
+            // Notify the list has been changed with only one resource
+            ResourceList removedResource = new ResourceList();
+            removedResource.add(resource);
+            fireSafeEvent(new ResourcesChangedEvent(null, removedResource));
+        }
     }
     
     /*
@@ -90,7 +116,7 @@ public class ResourceList implements Iterable<Resource>
             resources.remove(resource);
         }
         
-        eventBus.fireEvent(new ResourcesChangedEvent(null, resourcesToRemove));
+        fireSafeEvent(new ResourcesChangedEvent(null, resourcesToRemove));
     }
     
     /*
@@ -208,5 +234,16 @@ public class ResourceList implements Iterable<Resource>
     public boolean contains(Resource resource)
     {
         return resources.contains(resource);
+    }
+    
+    public HandlerRegistration addResourcesChangedEventHandler(ResourcesChangedEventHandler handler)
+    {
+        return getEventBus().addHandler(ResourcesChangedEvent.TYPE, handler);
+    }
+
+    public Resource getRandom(Random random)
+    {
+        int randomResource = random.nextInt(resources.size());
+        return resources.get(randomResource);
     }
 }

@@ -1,9 +1,12 @@
 package soc.gwtClient.editor;
 
+import soc.common.board.territories.TerritoriesChangedEvent;
+import soc.common.board.territories.TerritoriesChangedEventHandler;
 import soc.common.board.territories.Territory;
 import soc.common.client.behaviour.editor.SetTerritoryBehaviour;
 import soc.common.client.visuals.board.IBoardVisual;
 
+import com.google.gwt.dev.util.collect.HashMap;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.GwtEvent;
@@ -19,7 +22,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 @SuppressWarnings("deprecation")
-public class TerritoryPanel extends VerticalPanel
+public class TerritoryPanel extends VerticalPanel implements TerritoriesChangedEventHandler
 {
     SetTerritoryBehaviour behaviour;
     IBoardVisual board;
@@ -47,6 +50,7 @@ public class TerritoryPanel extends VerticalPanel
         
         createAddTerritoryWindow();
         createPanel();
+        
     }
     
     private void createPanel()
@@ -92,27 +96,31 @@ public class TerritoryPanel extends VerticalPanel
         
         for (final Territory t : board.getBoard().getTerritories())
         {
-            String icon = ""; 
-        
-            if (t.isMainland())
-            {
-                icon="icons/32/mainland.png";
-            }
-            else
-            {
-                icon="icons/32/island" + t.getID() + ".png";
-            }
-            
-            PushButton btnTerritory = new PushButton(new Image(icon));
-            btnTerritory.addClickHandler(new ClickHandler() {
-                @Override
-                public void onClick(ClickEvent event) {
-                    behaviour.setTerritory(t);
-                    fireEvent(new BehaviourChanged(behaviour));
-                }
-            });
-            this.add(btnTerritory);
+            addTerritoryButton(t);
         }
+    }
+    private void addTerritoryButton(final Territory territory)
+    {
+        String icon = ""; 
+        
+        if (territory.isMainland())
+        {
+            icon="icons/32/mainland.png";
+        }
+        else
+        {
+            icon="icons/32/island" + territory.getID() + ".png";
+        }
+        
+        PushButton btnTerritory = new PushButton(new Image(icon));
+        btnTerritory.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                behaviour.setTerritory(territory);
+                fireEvent(new BehaviourChanged(behaviour));
+            }
+        });
+        this.add(btnTerritory);
     }
 
     private void createAddTerritoryWindow()
@@ -156,5 +164,24 @@ public class TerritoryPanel extends VerticalPanel
                 */
             }
         });
+    }
+
+    @Override
+    public void onTerritoriesChanged(TerritoriesChangedEvent event)
+    {
+        if (event.getAddedTerritory() != null)
+        {
+            this.addTerritoryButton(event.getAddedTerritory());
+        }
+        if (event.getRemovedTerritory() !=null)
+        {
+            this.removeTerritoryButton(event.getRemovedTerritory());
+        }
+    }
+
+    private void removeTerritoryButton(Territory removedTerritory)
+    {
+        // TODO Auto-generated method stub
+        
     }
 }

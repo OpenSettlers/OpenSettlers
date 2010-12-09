@@ -1,5 +1,6 @@
 package soc.common.actions.gameAction;
 
+import soc.common.game.Game;
 import soc.common.game.gamePhase.GamePhase;
 
 /*
@@ -8,6 +9,34 @@ import soc.common.game.gamePhase.GamePhase;
 public class GamePhaseHasEnded extends GameAction
 {
     private GamePhase endedGamePhase;
+    private GamePhase newPhase;
+
+    /**
+     * @return the newPhase
+     */
+    public GamePhase getNewPhase()
+    {
+        return newPhase;
+    }
+
+    /* (non-Javadoc)
+     * @see soc.common.actions.gameAction.GameAction#perform(soc.common.game.Game)
+     */
+    @Override
+    public void perform(Game game)
+    {
+        super.perform(game);
+        
+        endedGamePhase = game.getCurrentPhase();
+        
+        // Advance the phase to next phase
+        game.setCurrentPhase(game.getCurrentPhase().next(game));
+        
+        // Start the next phase
+        game.getCurrentPhase().start(game);
+        
+        newPhase = game.getCurrentPhase();
+    }
 
     /**
      * @return the endedGamePhase
@@ -24,8 +53,6 @@ public class GamePhaseHasEnded extends GameAction
     {
         this.endedGamePhase = endedGamePhase;
     
-        // Enables fluent interface usage
-        // http://en.wikipedia.org/wiki/Fluent_interface
         return this;
     }
 }

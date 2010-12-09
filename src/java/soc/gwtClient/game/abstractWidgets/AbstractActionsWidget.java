@@ -10,15 +10,6 @@ import com.google.gwt.user.client.ui.Widget;
 
 public abstract class AbstractActionsWidget implements IActionsWidget
 {
-    /* (non-Javadoc)
-     * @see soc.gwtClient.client.game.IActionsWidget#createRootPanel()
-     */
-    @Override
-    public ComplexPanel createRootPanel()
-    {
-        return new HorizontalPanel();
-    }
-
     protected ComplexPanel rootPanel;
     protected Player player;
     protected IGamePanel gamePanel;
@@ -38,11 +29,19 @@ public abstract class AbstractActionsWidget implements IActionsWidget
         }
         ((HorizontalPanel)rootPanel).setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
     }
-
+    
+    /* (non-Javadoc)
+     * @see soc.gwtClient.client.game.IActionsWidget#createRootPanel()
+     */
+    @Override
+    public ComplexPanel createRootPanel()
+    {
+        return new HorizontalPanel();
+    }
+    
     @Override
     public Widget asWidget()
     {
         return rootPanel;
     }
-
 }
