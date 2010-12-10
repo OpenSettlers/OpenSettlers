@@ -7,7 +7,7 @@ import soc.common.board.HexPoint;
 import soc.common.client.visuals.IPieceVisual;
 import soc.common.client.visuals.board.IBoardVisual;
 import soc.common.client.visuals.game.IGameBoardVisual;
-import soc.common.client.visuals.game.IHexPointVisual;
+import soc.common.client.visuals.game.IPointVisual;
 
 public class BuildPointBehaviour implements IGameBehaviour
 {
@@ -16,9 +16,9 @@ public class BuildPointBehaviour implements IGameBehaviour
     @Override
     public void mouseEnter(IPieceVisual pieceVisual, IBoardVisual board)
     {
-        if (pieceVisual instanceof IHexPointVisual)
+        if (pieceVisual instanceof IPointVisual)
         {
-            IHexPointVisual hexPointVisual = (IHexPointVisual) pieceVisual;
+            IPointVisual hexPointVisual = (IPointVisual) pieceVisual;
             hexPointVisual.setSelected(true);
         }
     }
@@ -26,9 +26,9 @@ public class BuildPointBehaviour implements IGameBehaviour
     @Override
     public void mouseOut(IPieceVisual pieceVisual, IBoardVisual board)
     {
-        if (pieceVisual instanceof IHexPointVisual)
+        if (pieceVisual instanceof IPointVisual)
         {
-            IHexPointVisual hexPointVisual = (IHexPointVisual) pieceVisual;
+            IPointVisual hexPointVisual = (IPointVisual) pieceVisual;
             hexPointVisual.setSelected(false);
         }
     }

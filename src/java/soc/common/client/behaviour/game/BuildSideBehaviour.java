@@ -3,7 +3,7 @@ package soc.common.client.behaviour.game;
 import soc.common.client.visuals.IPieceVisual;
 import soc.common.client.visuals.board.IBoardVisual;
 import soc.common.client.visuals.game.IGameBoardVisual;
-import soc.common.client.visuals.game.IHexSideVisual;
+import soc.common.client.visuals.game.ISideVisual;
 
 public class BuildSideBehaviour implements IGameBehaviour
 {
@@ -29,7 +29,7 @@ public class BuildSideBehaviour implements IGameBehaviour
     @Override
     public void mouseEnter(IPieceVisual pieceVisual, IBoardVisual board)
     {
-        if (pieceVisual instanceof IHexSideVisual)
+        if (pieceVisual instanceof ISideVisual)
         {
             pieceVisual.setSelected(true);
         }
@@ -38,7 +38,7 @@ public class BuildSideBehaviour implements IGameBehaviour
     @Override
     public void mouseOut(IPieceVisual pieceVisual, IBoardVisual board)
     {
-        if (pieceVisual instanceof IHexSideVisual)
+        if (pieceVisual instanceof ISideVisual)
         {
             pieceVisual.setSelected(false);
         }
