@@ -38,7 +38,7 @@ public class BitmapEndTurnWidget extends AbstractActionWidget implements PlayerO
             @Override
             public void onClick(ClickEvent event)
             {
-                gamePanel.performAction
+                gamePanel.startAction
                 (
                     (TurnAction)new EndTurn()
                         .setPlayer(player)

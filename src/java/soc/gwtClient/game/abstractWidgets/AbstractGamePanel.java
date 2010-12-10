@@ -48,7 +48,6 @@ public abstract class AbstractGamePanel
     {
         // perform the action
         game.getCurrentPhase().performAction(action, game);
-        
     }
     
     @Override
@@ -58,11 +57,10 @@ public abstract class AbstractGamePanel
     }
 
     @Override
-    public void performAction(TurnAction turnAction)
+    public void startAction(TurnAction turnAction)
     {
         // Create a behaviour based on our action
-        IGameBehaviour gameBehaviour = gameBehaviourFactory.createBehaviour(turnAction);
-        
+        IGameBehaviour gameBehaviour = gameBehaviourFactory.createBehaviour(turnAction, game);
         
         if (gameBehaviour == null)
         {

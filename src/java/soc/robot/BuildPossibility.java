@@ -22,7 +22,6 @@ import soc.game.PlayingPiece;
 
 import java.util.Vector;
 
-
 /**
  * This represents a possible thing to build.
  * It includes what and where to build.  A score

@@ -13,7 +13,7 @@ public interface IGamePanel
     public Game getGame();
     
     // Called by ActionWidget to execute a TurnAction
-    public void performAction(TurnAction turnAction);
+    public void startAction(TurnAction turnAction);
     
     // Called by ActionWidgets to notify a BankTrade is needed 
     public void requestBankTrade(PlayerPiece piece, Player player);

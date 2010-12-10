@@ -213,8 +213,6 @@ public class Player extends User
     {
         this.color = color;
         
-        // Enables fluent interface usage
-        // http://en.wikipedia.org/wiki/Fluent_interface
         return this;
     }
 

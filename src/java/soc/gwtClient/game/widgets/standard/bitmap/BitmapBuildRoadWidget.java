@@ -47,7 +47,7 @@ public class BitmapBuildRoadWidget extends AbstractActionWidget
             {
                 if (player.getResources().hasAtLeast(road.getCost()))
                 {
-                    gamePanel.performAction
+                    gamePanel.startAction
                     (
                         (TurnAction)new BuildRoad()
                             .setPlayer(player)

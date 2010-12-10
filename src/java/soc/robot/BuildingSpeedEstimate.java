@@ -30,7 +30,6 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
 
-
 /**
  * This class calculates approximately how
  * long it would take a player to build something.

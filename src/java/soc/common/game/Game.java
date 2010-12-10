@@ -41,6 +41,7 @@ public class Game
     private List<Player> players = new ArrayList<Player>();
     private GameLog gameLog = new GameLog();
     private HexLocation pirate = new HexLocation(0,0);
+    private HexLocation robber = new HexLocation(0,0);
     private GamePhase currentPhase = new LobbyGamePhase();
     private GameSettings gameSettings = new GameSettings();
     private Player playerOnTurn;
@@ -61,6 +62,24 @@ public class Game
         eventBus.addHandler(GamePhaseChangedEvent.TYPE, handler);
     }
     
+    /**
+     * @return the robber
+     */
+    public HexLocation getRobber()
+    {
+        return robber;
+    }
+    /**
+     * @param robber the robber to set
+     */
+    public Game setRobber(HexLocation robber)
+    {
+        this.robber = robber;
+    
+        // Enables fluent interface usage
+        // http://en.wikipedia.org/wiki/Fluent_interface
+        return this;
+    }
     /**
      * @return the developmentCards
      */

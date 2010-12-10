@@ -40,7 +40,6 @@ public class TerritoryPanel extends VerticalPanel implements TerritoriesChangedE
         return handlerManager.addHandler(BehaviourChanged.TYPE, handler);
     }
     
-    
     public TerritoryPanel(SetTerritoryBehaviour b, final IBoardVisual board)
     {
         super();
@@ -50,7 +49,6 @@ public class TerritoryPanel extends VerticalPanel implements TerritoriesChangedE
         
         createAddTerritoryWindow();
         createPanel();
-        
     }
     
     private void createPanel()

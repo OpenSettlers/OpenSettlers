@@ -9,7 +9,7 @@ public class GwtGame implements IGameServerCallback
     @Override
     public void receive(GameAction action)
     {
-                
+         
     }
 
 }
