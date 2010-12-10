@@ -22,5 +22,4 @@ public class BuildCityBehaviour extends BuildPointBehaviour
     {
         super.clicked(pieceVisual, board);
     }
-
 }

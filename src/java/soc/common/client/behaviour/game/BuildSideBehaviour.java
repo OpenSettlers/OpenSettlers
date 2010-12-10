@@ -7,7 +7,7 @@ import soc.common.client.visuals.game.IHexSideVisual;
 
 public class BuildSideBehaviour implements IGameBehaviour
 {
-
+    
     @Override
     public void setNeutral(IGameBoardVisual visual)
     {

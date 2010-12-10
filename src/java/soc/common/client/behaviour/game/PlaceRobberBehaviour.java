@@ -80,5 +80,4 @@ public class PlaceRobberBehaviour implements IGameBehaviour
         }
         return false;
     }
-
 }
