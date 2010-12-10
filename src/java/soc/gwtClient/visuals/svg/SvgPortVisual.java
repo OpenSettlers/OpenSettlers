@@ -21,6 +21,10 @@ public class SvgPortVisual extends PortVisual
     implements MouseMoveHandler, ClickHandler, MouseOutHandler
 {
     private final double fillOpacity = 0.5;
+    private Group group = new Group();
+    private Path territoryPath;
+    private Point2D point;
+    
     /* (non-Javadoc)
      * @see soc.common.client.visuals.board.PortVisual#updateSelected()
      */
@@ -37,8 +41,6 @@ public class SvgPortVisual extends PortVisual
         }
     }
 
-    Group group = new Group();
-    Path territoryPath;
     /**
      * @return the group
      */
@@ -46,8 +48,6 @@ public class SvgPortVisual extends PortVisual
     {
         return group;
     }
-
-    Point2D point;
     
     public SvgPortVisual(Port port, IBoardVisual parent, Point2D point)
     {
