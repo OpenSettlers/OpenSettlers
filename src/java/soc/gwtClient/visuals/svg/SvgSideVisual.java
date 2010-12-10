@@ -9,6 +9,9 @@ import soc.common.board.hexes.Hex;
 import soc.common.client.visuals.game.SideVisual;
 import soc.gwtClient.game.Point2D;
 
+/*
+ * Represents an HexSide drawn using SVG web technology
+ */
 public class SvgSideVisual extends SideVisual
 {
     private Point2D location;
@@ -55,13 +58,13 @@ public class SvgSideVisual extends SideVisual
     {
         if (selected)
         {
-            new Animate(rectangle, "width", width, width * 1.25, 500);
-            new Animate(rectangle, "height", height, height * 1.25, 500);
+            new Animate(rectangle, "width", width, width * 1.25, 500).start();
+            new Animate(rectangle, "height", height, height * 1.25, 500).start();
         }
         else
         {
-            new Animate(rectangle, "width", width * 1.25, width, 500);
-            new Animate(rectangle, "height", height * 1.25, height, 500);
+            new Animate(rectangle, "width", width * 1.25, width, 500).start();
+            new Animate(rectangle, "height", height * 1.25, height, 500).start();
         }
     }
     

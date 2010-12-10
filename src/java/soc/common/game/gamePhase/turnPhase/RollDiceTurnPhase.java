@@ -1,6 +1,7 @@
 package soc.common.game.gamePhase.turnPhase;
 
 import soc.common.actions.gameAction.*;
+import soc.common.actions.gameAction.turnActions.standard.BuildRoad;
 import soc.common.actions.gameAction.turnActions.standard.RollDice;
 import soc.common.game.Game;
 
@@ -47,7 +48,7 @@ public class RollDiceTurnPhase extends TurnPhase
                     {
                         game.getActionsQueue().enqueue
                         (
-                                null
+                                new BuildRoad()
                                 // TODO: port to java
                                 //new LooseCardsAction()
                                 //    .setPlayer(game.getPlayer(i));

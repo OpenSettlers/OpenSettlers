@@ -6,6 +6,8 @@ import soc.common.board.Board;
 import soc.common.board.HexLocation;
 import soc.common.board.resources.ResourceList;
 import soc.common.game.gamePhase.GamePhase;
+import soc.common.game.logs.IActionsQueue;
+import soc.common.game.logs.IGameLog;
 
 public interface IGame
 {

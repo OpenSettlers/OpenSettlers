@@ -3,10 +3,8 @@ package soc.common.game;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 import com.google.gwt.event.shared.SimpleEventBus;
-import com.google.gwt.event.shared.GwtEvent.Type;
 
 import soc.common.actions.gameAction.turnActions.TurnAction;
 import soc.common.board.Board;
@@ -16,10 +14,49 @@ import soc.common.board.resources.ResourceList;
 import soc.common.game.developmentCards.DevelopmentCardList;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.LobbyGamePhase;
+import soc.common.game.logs.ActionsQueue;
+import soc.common.game.logs.ChatLog;
+import soc.common.game.logs.GameLog;
+import soc.common.game.logs.IActionsQueue;
+import soc.common.game.logs.IChatLog;
+import soc.common.game.logs.IGameLog;
 import soc.common.game.rules.IRuleSet;
 
 public class Game
 {
+    private SimpleEventBus eventBus = new SimpleEventBus();
+    
+    private LinkedList<GamePhase> gamePhases = new LinkedList<GamePhase>();
+    private IActionsQueue actionsQueue = new ActionsQueue();
+    private IGameLog gameLog = new GameLog();
+    private IChatLog chatLog = new ChatLog();
+
+    private List<IRuleSet> ruleSets = new ArrayList<IRuleSet>();
+    private List<TurnAction> possibleActions = new ArrayList<TurnAction>();
+    private List<Resource> playableResources = new ArrayList<Resource>();
+    private List<StockItem> stockPieces = new ArrayList<StockItem>();
+    private int bankAmountPerResource = 19;
+    private ResourceList bank = new ResourceList();
+    
+    private List<Player> players = new ArrayList<Player>();
+    private HexLocation pirate = new HexLocation(0,0);
+    private HexLocation robber = new HexLocation(0,0);
+    private GamePhase currentPhase = new LobbyGamePhase();
+    private GameSettings gameSettings = new GameSettings();
+    private Player playerOnTurn;
+    private Board board;
+    private Player gameStarter;
+    private DevelopmentCardList developmentCards = new DevelopmentCardList();
+    private boolean enableLargestArmy;
+    
+    /**
+     * @return the chatLog
+     */
+    public IChatLog getChatLog()
+    {
+        return chatLog;
+    }
+
     /**
      * @param ruleSets the ruleSets to set
      */
@@ -31,27 +68,6 @@ public class Game
         // http://en.wikipedia.org/wiki/Fluent_interface
         return this;
     }
-
-    private SimpleEventBus eventBus = new SimpleEventBus();
-    private List<IRuleSet> ruleSets = new ArrayList<IRuleSet>();
-    private LinkedList<GamePhase> gamePhases = new LinkedList<GamePhase>();
-    private IActionsQueue actionsQueue = new ActionsQueue();
-    private ResourceList bank = new ResourceList();
-    private int bankAmountPerResource = 19;
-    private List<Player> players = new ArrayList<Player>();
-    private GameLog gameLog = new GameLog();
-    private HexLocation pirate = new HexLocation(0,0);
-    private HexLocation robber = new HexLocation(0,0);
-    private GamePhase currentPhase = new LobbyGamePhase();
-    private GameSettings gameSettings = new GameSettings();
-    private Player playerOnTurn;
-    private Board board;
-    private Player gameStarter;
-    private List<TurnAction> possibleActions = new ArrayList<TurnAction>();
-    private List<Resource> playableResources = new ArrayList<Resource>();
-    private DevelopmentCardList developmentCards = new DevelopmentCardList();
-    private List<StockItem> stockPieces = new ArrayList<StockItem>();
-    private boolean enableLargestArmy;
     
     public void addPlayerOnTurnChangedEventHandler(PlayerOnTurnChangedEventHandler handler)
     {
@@ -76,8 +92,6 @@ public class Game
     {
         this.robber = robber;
     
-        // Enables fluent interface usage
-        // http://en.wikipedia.org/wiki/Fluent_interface
         return this;
     }
     /**
@@ -95,8 +109,6 @@ public class Game
     {
         this.developmentCards = developmentCards;
     
-        // Enables fluent interface usage
-        // http://en.wikipedia.org/wiki/Fluent_interface
         return this;
     }
 
@@ -263,10 +275,13 @@ public class Game
         this.gameSettings = gameSettings;
     }
 
+    /*
+     * Parameterless deserialization constructor
+     */
     public Game()
-    {
-        
+    {        
     }
+    
     public Game(List<IRuleSet> ruleSets)
     {
         this.ruleSets = ruleSets;
@@ -319,7 +334,7 @@ public class Game
         this.players = players;
     }
 
-    public GameLog getGameLog()
+    public IGameLog getGameLog()
     {
         return gameLog;
     }

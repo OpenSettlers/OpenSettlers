@@ -65,7 +65,7 @@ public class SvgBoardVisual extends BoardVisual
         double x = location.getW() * (Hex.getWidth() + margin);
         double y = location.getH() * (Hex.getPartialHeight() + margin);
         
-        x+= marginLeft;
+        x += marginLeft;
 
         //Alternate half the width of an hex 
         if (location.getH() % 2 == 0) x += Hex.getHalfWidth();

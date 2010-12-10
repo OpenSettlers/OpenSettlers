@@ -1,14 +1,19 @@
-package soc.common.game;
+package soc.common.game.logs;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.RolledSame;
 import soc.common.actions.gameAction.turnActions.standard.RollDice;
+import soc.common.game.Game;
+import soc.common.game.Player;
 
-public class GameLog extends ArrayList<GameAction> implements IGameLog
+public class GameLog implements IGameLog
 {    
+    private List<GameAction> actions = new ArrayList<GameAction>();
+    
     @Override
     public void addAction(GameAction inGameAction)
     {
@@ -20,9 +25,9 @@ public class GameLog extends ArrayList<GameAction> implements IGameLog
         List<RollDice> result = new ArrayList<RollDice>();
 
         //We run the like a stack, first to examine is Last in the list
-        for (int i = size() -1; i > 0; i--)
+        for (int i = actions.size() -1; i > 0; i--)
         {
-            GameAction action = this.get(i);
+            GameAction action = actions.get(i);
             // we break the loop when we encountered a rolledsame action
             if (action instanceof RolledSame)
                 break;
@@ -62,5 +67,11 @@ public class GameLog extends ArrayList<GameAction> implements IGameLog
             // return false
             return null;
         }
+    }
+
+    @Override
+    public Iterator<GameAction> iterator()
+    {
+        return actions.iterator();
     }
 }

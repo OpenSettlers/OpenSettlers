@@ -110,7 +110,7 @@ public class InitialPlacementGamePhase extends GamePhase
                 // Next player is the player of the first action on the queue
                 game.setPlayerOnTurn
                 (
-                    game.getActionsQueue().peek().getPlayer()
+                    game.getActionsQueue().peek().getAction().getPlayer()
                 );
             }
         }

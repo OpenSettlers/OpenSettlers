@@ -60,7 +60,7 @@ public class HotSeatServer implements IGameServer
                 else
                 {
                     // Grab the expected action
-                    GameAction expected = game.getActionsQueue().peek();
+                    GameAction expected = game.getActionsQueue().peekAction();
 
                     // Notify we did not expect current action
                     callback.receive
