@@ -5,9 +5,50 @@ import soc.common.board.resources.ResourceList;
 import soc.common.game.Game;
 import soc.common.game.Player;
 
+/*
+ * Standard monopoly
+ * Steals all resources of a chosen type from all opponents
+ */
 public class Monopoly extends DevelopmentCard
 {
+    public static ResourceList staticMonoPolyableResources;
     private Resource resource;
+    
+    static 
+    {
+        staticMonoPolyableResources.add(new Timber());
+        staticMonoPolyableResources.add(new Wheat());
+        staticMonoPolyableResources.add(new Ore());
+        staticMonoPolyableResources.add(new Clay());
+        staticMonoPolyableResources.add(new Sheep());
+    }
+    
+    /**
+     * @return the resource
+     */
+    public Resource getResource()
+    {
+        return resource;
+    }
+
+    /**
+     * @param resource the resource type to steal all opponents' resources
+     */
+    public Monopoly setResource(Resource resource)
+    {
+        this.resource = resource;
+    
+        return this;
+    }
+
+    /**
+     * @return A ResourceList with unique resource types this monopoly can steal 
+     * from other players
+     */
+    public ResourceList getMonopolyableResources()
+    {
+        return staticMonoPolyableResources;
+    }
 
     /* Valid when having non-null resource and resource is of a basic type
      * @see soc.common.game.developmentCards.DevelopmentCard#isValid(soc.common.game.Game)
