@@ -41,6 +41,7 @@ public class ChatLog implements IChatLog
         safelyFireEvent(new SaidEvent(gameChat));
     }
     
+    @Override
     public void addSaidEventHandler(SaidEventHandler handler)
     {
         getEventBus().addHandler(SaidEvent.TYPE, handler);

@@ -6,8 +6,6 @@ import java.util.List;
 import soc.common.actions.gameAction.turnActions.TurnAction;
 import soc.common.game.dices.StandardDice;
 
-
-
 public class RollDice extends TurnAction
 {
     private StandardDice dice;
@@ -40,5 +38,4 @@ public class RollDice extends TurnAction
         // http://en.wikipedia.org/wiki/Fluent_interface
         return this;
     }
-
 }

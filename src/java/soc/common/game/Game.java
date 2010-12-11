@@ -389,5 +389,10 @@ public class Game
     public int getBankAmountPerResource()
     {
         return bankAmountPerResource;
+    }
+
+    public Game copy()
+    {
+        return null;
     }  
 }

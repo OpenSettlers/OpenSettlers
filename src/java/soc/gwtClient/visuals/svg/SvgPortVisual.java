@@ -1,6 +1,7 @@
 package soc.gwtClient.visuals.svg;
 
 import org.vaadin.gwtgraphics.client.Group;
+import org.vaadin.gwtgraphics.client.shape.Circle;
 import org.vaadin.gwtgraphics.client.shape.Path;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -12,6 +13,7 @@ import com.google.gwt.event.dom.client.MouseOutHandler;
 
 import soc.common.board.hexes.Hex;
 import soc.common.board.ports.Port;
+import soc.common.board.ports.TwoToOneResourcePort;
 import soc.common.client.visuals.board.IBoardVisual;
 import soc.common.client.visuals.board.IPortVisual;
 import soc.common.client.visuals.board.PortVisual;
@@ -23,6 +25,7 @@ public class SvgPortVisual extends PortVisual
     private final double fillOpacity = 0.5;
     private Group group = new Group();
     private Path territoryPath;
+    private Circle circle;
     private Point2D point;
     
     /* (non-Javadoc)
@@ -64,10 +67,22 @@ public class SvgPortVisual extends PortVisual
         territoryPath.setStrokeOpacity(0.2);
         territoryPath.setFillOpacity(fillOpacity);
         
+        circle = new Circle(point.getX(), point.getY(), Hex.getSize()/3);
+        String color = "White";
+        if (port instanceof TwoToOneResourcePort)
+        {
+            TwoToOneResourcePort twoToOneResourcePort = (TwoToOneResourcePort) port;
+            color = twoToOneResourcePort.getResource().getColor();
+        }
+        circle.setFillColor(color);
+        circle.setFillOpacity(fillOpacity);
+        circle.setStrokeWidth(0);
+        
         group.addMouseMoveHandler(this);
         group.addMouseOutHandler(this);
         group.addClickHandler(this);
         group.add(territoryPath);
+        group.add(circle);
     }
 
     /* (non-Javadoc)

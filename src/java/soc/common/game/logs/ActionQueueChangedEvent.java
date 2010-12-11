@@ -1,6 +1,5 @@
 package soc.common.game.logs;
 
-
 import com.google.gwt.event.shared.GwtEvent;
 
 public class ActionQueueChangedEvent extends
@@ -16,6 +15,22 @@ public class ActionQueueChangedEvent extends
         super();
         this.dequeuedAction = dequeuedAction;
         this.enqueuedAction = enqueuedAction;
+    }
+
+    /**
+     * @return the dequeuedAction
+     */
+    public QueuedAction getDequeuedAction()
+    {
+        return dequeuedAction;
+    }
+
+    /**
+     * @return the enqueuedAction
+     */
+    public QueuedAction getEnqueuedAction()
+    {
+        return enqueuedAction;
     }
 
     @Override

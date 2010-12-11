@@ -133,6 +133,6 @@ public class GameAction
     
     public boolean isValid()
     {
-        throw new RuntimeException();
+        return true;
     }
 }

@@ -9,6 +9,8 @@ import soc.common.client.behaviour.game.IGameBehaviour;
 import soc.common.client.visuals.game.IGameBoardVisual;
 import soc.common.game.Game;
 import soc.common.game.Player;
+import soc.common.server.HotSeatServer;
+import soc.common.server.IGameServer;
 import soc.common.server.IGameServerCallback;
 import soc.gwtClient.game.ICenterWidget;
 import soc.gwtClient.game.dialogs.NewGameDialog;
@@ -16,7 +18,7 @@ import soc.gwtClient.game.dialogs.NewGameDialog;
 public abstract class AbstractGamePanel 
     implements IGamePanel, ICenterWidget, IGameServerCallback
 {
-    protected IServer server;
+    protected IGameServer server;
     protected Game game;
     protected NewGameDialog newGameWindow;
     protected IActionsWidget buildPallette;
@@ -24,13 +26,15 @@ public abstract class AbstractGamePanel
     protected IBankTradeUI bankTradeUI;
     protected IBehaviourFactory gameBehaviourFactory;
     protected IGameBoardVisual gameVisual;
-    protected TurnAction performingAction;
+    protected GameAction performingAction;
     protected IPlayersWidget playersWidget;
     protected IGameBoardVisual gameBoard;
+    protected Player player;
     
     public AbstractGamePanel(Game game)
     {
         this.game=game;
+        
         
         gameBehaviourFactory = new GameBehaviourFactory();
         
@@ -57,23 +61,32 @@ public abstract class AbstractGamePanel
     }
 
     @Override
-    public void startAction(TurnAction turnAction)
+    public void startAction(GameAction action)
     {
-        // Create a behaviour based on our action
-        IGameBehaviour gameBehaviour = gameBehaviourFactory.createBehaviour(turnAction, game);
-        
-        if (gameBehaviour == null)
+        if (action instanceof TurnAction)
         {
-            // no behaviour found for the action, send the action right away
-            server.sendAction(turnAction);
+            TurnAction turnAction = (TurnAction)action;
+            // Create a behaviour based on our action
+            IGameBehaviour gameBehaviour = gameBehaviourFactory.createBehaviour(turnAction, game);
+            
+            if (gameBehaviour == null)
+            {
+                // no behaviour found for the action, send the action right away
+                server.sendAction(turnAction);
+            }
+            else
+            {
+                // Tell our GameVisual it needs to display the behaviour
+                gameVisual.setBehaviour(gameBehaviour);
+                
+                // Keep a reference to the action we are currently performing
+                performingAction = turnAction;
+            }
         }
         else
         {
-            // Tell our GameVisual it needs to display the behaviour
-            gameVisual.setBehaviour(gameBehaviour);
-            
-            // Keep a reference to the action we are currently performing
-            performingAction = turnAction;
+            // Simply send the action
+            server.sendAction(action);
         }
     }
 
@@ -82,5 +95,14 @@ public abstract class AbstractGamePanel
     {
         bankTradeUI.setPiece(piece);
         bankTradeUI.show();
+    }
+
+    /* (non-Javadoc)
+     * @see soc.gwtClient.game.abstractWidgets.IGamePanel#getPlayingPlayer()
+     */
+    @Override
+    public Player getPlayingPlayer()
+    {
+        return player;
     }
 }

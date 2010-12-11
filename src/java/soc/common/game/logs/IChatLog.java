@@ -9,4 +9,7 @@ public interface IChatLog
     
     // Returns a copy of the chatlog
     public IChatLog copy();
+    
+    // Ability for listeners to register themselves
+    public void addSaidEventHandler(SaidEventHandler handler);
 }

@@ -19,7 +19,7 @@ public class HostStartsGame extends GameAction
      */
     public HostStartsGame setGame(Game game)
     {
-        this.game = game;
+        this.game = game.copy();
     
         // Enables fluent interface usage
         // http://en.wikipedia.org/wiki/Fluent_interface

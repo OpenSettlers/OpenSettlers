@@ -6,6 +6,5 @@
   <source path='client'/>
   <source path='utils'/>
   <source path='annotations'/>
-  <source path='server'/>
-      
+  <source path='server'/>  
 </module>

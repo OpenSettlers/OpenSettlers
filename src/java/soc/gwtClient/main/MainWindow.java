@@ -10,7 +10,7 @@ import soc.common.game.rules.IRuleSet;
 import soc.common.game.rules.Standard;
 import soc.gwtClient.editor.SvgMapEditor;
 import soc.gwtClient.game.ICenterWidget;
-import soc.gwtClient.game.widgets.standard.bitmap.BitmapGamePanel;
+import soc.gwtClient.game.widgets.HotSeatGamePanel;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.Style.Unit;
@@ -26,6 +26,9 @@ import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.MenuItem;
+import com.google.gwt.user.client.Command;
 
 public class MainWindow implements EntryPoint
 {
@@ -38,6 +41,10 @@ public class MainWindow implements EntryPoint
     ICenterWidget welcomePanel;
     ICenterWidget currentWidget;
     ICenterWidget hotseatGame;
+    private final MenuBar menuBar = new MenuBar(true);
+    private MenuItem menuItem;
+    private MenuItem menuItem_1;
+    private MenuItem menuItem_2;
     
     /**
      * @return the hotseatGame
@@ -54,7 +61,7 @@ public class MainWindow implements EntryPoint
         createMenu();
         mapEditor = new SvgMapEditor();
         welcomePanel = new WelcomePanel(this);
-        hotseatGame = new BitmapGamePanel(createGame());
+        hotseatGame = new HotSeatGamePanel(createGame());
         
         Label lblSomeStatusLabel = new Label("Some text here to show we have an awesome statusbar");
         statusBar.add(lblSomeStatusLabel);
@@ -62,6 +69,32 @@ public class MainWindow implements EntryPoint
         currentWidget = welcomePanel;
         centerWidget.add(currentWidget.getRootWidget());
         rootPanel.addNorth(menu, 3);
+        menuBar.setAutoOpen(true);
+        menu.add(menuBar);
+        MenuBar menuBar_1 = new MenuBar(true);
+        
+        menuItem_2 = new MenuItem("New menu", false, menuBar_1);
+        menuItem_2.setHTML("OpenSettlers");
+        
+        menuItem = new MenuItem("New item", false, (Command) null);
+        menuBar_1.addItem(menuItem);
+        menuItem.setHTML("MapCreator");
+        
+        menuItem_1 = new MenuItem("New item", false, (Command) null);
+        menuBar_1.addItem(menuItem_1);
+        menuItem_1.setHTML("Hotseat game");
+        menuBar.addItem(menuItem_2);
+        
+        PushButton btnWelcomePanel = new PushButton("welcomePanel");
+        btnWelcomePanel.addClickHandler(new ClickHandler()
+        {
+            @Override
+            public void onClick(ClickEvent event)
+            {
+                setCurrentWidget(welcomePanel);
+            }
+        });
+        menu.add(btnWelcomePanel);
         rootPanel.addSouth(statusBar, 2);
         rootPanel.add(centerWidget);
         
@@ -76,20 +109,6 @@ public class MainWindow implements EntryPoint
     }
     private void createMenu()
     {
-        Label title = new Label("OpenSettlers");
-        title.setStyleName("label-title");
-        menu.add(title);
-        
-        PushButton btnWelcomePanel = new PushButton("welcomePanel");
-        btnWelcomePanel.addClickHandler(new ClickHandler()
-        {
-            @Override
-            public void onClick(ClickEvent event)
-            {
-                setCurrentWidget(welcomePanel);
-            }
-        });
-        menu.add(btnWelcomePanel);
         
     }
 

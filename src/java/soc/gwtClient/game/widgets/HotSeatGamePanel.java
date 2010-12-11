@@ -1,41 +1,42 @@
-package soc.gwtClient.game.widgets.standard.bitmap;
+package soc.gwtClient.game.widgets;
 
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.cellview.client.CellList;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
-import com.google.gwt.user.client.ui.TabPanel;
-import com.google.gwt.user.client.ui.TextArea;
-import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
+import soc.common.actions.gameAction.HostStartsGame;
 import soc.common.board.Board;
 import soc.common.client.visuals.game.IGameBoardVisual;
 import soc.common.game.Game;
+import soc.common.server.HotSeatServer;
 import soc.gwtClient.game.ICenterWidget;
 import soc.gwtClient.game.abstractWidgets.AbstractBankStockWidget;
 import soc.gwtClient.game.abstractWidgets.AbstractGamePanel;
 import soc.gwtClient.game.abstractWidgets.IActionsWidget;
 import soc.gwtClient.game.abstractWidgets.IBankStockPanel;
 import soc.gwtClient.game.abstractWidgets.IPlayersWidget;
-import soc.gwtClient.game.widgets.SvgGameBoardVisual;
+import soc.gwtClient.game.widgets.standard.bitmap.BitmapActionsWidget;
+import soc.gwtClient.game.widgets.standard.bitmap.BitmapPlayersWidget;
 
-public class BitmapGamePanel extends AbstractGamePanel implements ICenterWidget
+public class HotSeatGamePanel extends AbstractGamePanel implements ICenterWidget
 {
     DockLayoutPanel rootPanel = new DockLayoutPanel(Unit.EM);
     DockLayoutPanel playersBankChatPanel=new DockLayoutPanel(Unit.EM);
     DockLayoutPanel boardActionResourcesPanel= new DockLayoutPanel(Unit.EM);
     TabLayoutPanel chatHistoryDebugPanel = new TabLayoutPanel(20.0, Unit.PX);
-    DockLayoutPanel chatPanel = new DockLayoutPanel(Unit.EM);
     SimplePanel boardVisualPanel = new SimplePanel();
+    ChatPanel chatPanel;
     
-    public BitmapGamePanel(Game game)
+    public HotSeatGamePanel(Game game)
     {
         super(game);
+
+        server = new HotSeatServer(this);
+        player = game.getPlayers().get(0);
+        
+        chatPanel = new ChatPanel(this);
         
         createChatHistoryDebugPanel();
         
@@ -48,14 +49,15 @@ public class BitmapGamePanel extends AbstractGamePanel implements ICenterWidget
         
         rootPanel.addWest(playersBankChatPanel, 20);
         rootPanel.add(boardActionResourcesPanel);
+        
+        HostStartsGame start = new HostStartsGame();
+        start.setPlayer(player);
+        
+        server.sendAction(start);
     }
 
     private void createChatHistoryDebugPanel()
     {
-        TextArea chats = new TextArea();
-        TextBox saySomething = new TextBox();
-        chatPanel.addSouth(saySomething, 2);
-        chatPanel.add(chats);
         chatHistoryDebugPanel.add(chatPanel, "chat");
         chatHistoryDebugPanel.add(new SimplePanel(), "history");
         chatHistoryDebugPanel.add(new SimplePanel(), "debug");

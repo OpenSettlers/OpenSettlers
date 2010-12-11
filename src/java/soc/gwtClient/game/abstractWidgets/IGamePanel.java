@@ -1,5 +1,7 @@
 package soc.gwtClient.game.abstractWidgets;
 
+import soc.common.actions.gameAction.GameAction;
+import soc.common.actions.gameAction.GameChat;
 import soc.common.actions.gameAction.turnActions.TurnAction;
 import soc.common.board.Board;
 import soc.common.board.pieces.PlayerPiece;
@@ -13,7 +15,7 @@ public interface IGamePanel
     public Game getGame();
     
     // Called by ActionWidget to execute a TurnAction
-    public void startAction(TurnAction turnAction);
+    public void startAction(GameAction chat);
     
     // Called by ActionWidgets to notify a BankTrade is needed 
     public void requestBankTrade(PlayerPiece piece, Player player);
@@ -22,4 +24,8 @@ public interface IGamePanel
     public IPlayersWidget createPlayersWidget();
     public IBankStockPanel createBankStockPanel();
     public IGameBoardVisual createGameBoard(int width, int height, Board board);
+    
+    // Returns the player currrently playing.
+    // This may change in a hotseat game
+    public Player getPlayingPlayer();
 }
