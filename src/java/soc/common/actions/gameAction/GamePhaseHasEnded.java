@@ -25,7 +25,6 @@ public class GamePhaseHasEnded extends GameAction
     @Override
     public void perform(Game game)
     {
-        super.perform(game);
         
         endedGamePhase = game.getCurrentPhase();
         
@@ -36,6 +35,8 @@ public class GamePhaseHasEnded extends GameAction
         game.getCurrentPhase().start(game);
         
         newPhase = game.getCurrentPhase();
+
+        super.perform(game);
     }
 
     /**

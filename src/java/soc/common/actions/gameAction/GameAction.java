@@ -3,12 +3,10 @@ package soc.common.actions.gameAction;
 import java.util.Date;
 
 import soc.common.game.Game;
-import soc.common.game.IGame;
 import soc.common.game.Player;
 import soc.common.game.User;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
-//import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /*
  * A GameAction performed in a game
@@ -28,7 +26,8 @@ public class GameAction
     protected Date dateTimeExecuted;
 
     /**
-     * @return the toDoMessage
+     * @return When an action is required to perform for a user,
+     * this message is displayed
      */
     public String getToDoMessage()
     {
@@ -36,7 +35,7 @@ public class GameAction
     }
     
     /**
-     * @return the dateTimeExecuted
+     * @return DateTime when this action is performed 
      */
     public Date getDateTimeExecuted()
     {
@@ -44,7 +43,8 @@ public class GameAction
     }
 
     /**
-     * @return the sender
+     * @return ID of the player initiating this action
+     * ID of 0 means the server initiated this action
      */
     public int getSender()
     {
@@ -58,13 +58,11 @@ public class GameAction
     {
         this.sender = sender;
     
-        // Enables fluent interface usage
-        // http://en.wikipedia.org/wiki/Fluent_interface
         return  this;
     }
 
     /**
-     * @return the invalidMessage
+     * @return Message explaining why this action is in invalid state
      */
     public String getInvalidMessage()
     {
@@ -73,7 +71,7 @@ public class GameAction
 
 
     /**
-     * @return the message
+     * @return Message set after this action is performed
      */
     public String getMessage()
     {
@@ -105,14 +103,20 @@ public class GameAction
         this.player = player;
         this.sender = player.getId();        
 
-        // Enables fluent interface usage
-        // http://en.wikipedia.org/wiki/Fluent_interface
         return this;
     }
 
+    /*
+     * Subclasses should call this method after they have performed
+     * their specific implementation (at the end of the method)
+     */
     public void perform(Game game)
     {
+        // Set the dateTime when this action is performed
         dateTimeExecuted = new Date();
+        
+        // Add this action to the gamelog
+        game.getGameLog().addAction(this);
     }
 
     /* 
@@ -120,7 +124,7 @@ public class GameAction
      */
     public boolean isAllowed(TurnPhase turnPhase)
     {
-        throw new RuntimeException();
+        throw new RuntimeException("Not yet implemented");
     }
     
     /* 
@@ -128,7 +132,7 @@ public class GameAction
      */
     public boolean isAllowed(GamePhase gamePhase)
     {
-        throw new RuntimeException();
+        throw new RuntimeException("Not yet implemented");
     }
     
     public boolean isValid()

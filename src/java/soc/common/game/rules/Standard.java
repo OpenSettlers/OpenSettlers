@@ -32,40 +32,40 @@ public class Standard extends RuleSet
     @Override
     public void addBuildablePieces()
     {
-        game.getPossibleActions().add(new BuildRoad());
-        game.getPossibleActions().add(new BuildCity());
-        game.getPossibleActions().add(new BuildTown());
-        game.getPossibleActions().add(new EndTurn());
+        game.getGameRules().getPossibleActions().add(new BuildRoad());
+        game.getGameRules().getPossibleActions().add(new BuildCity());
+        game.getGameRules().getPossibleActions().add(new BuildTown());
+        game.getGameRules().getPossibleActions().add(new EndTurn());
     }
 
     @Override
     public void setRules()
     {
         game.setEnableLargestArmy(true);
-        game.getStockPieces().add
+        game.getGameRules().getStockPieces().add
         (
                 new StockItem()
                 .setPiece(new Road())
                 .setAmount(15)
         );
-        game.getStockPieces().add
+        game.getGameRules().getStockPieces().add
         (
                 new StockItem()
                 .setPiece(new Town())
                 .setAmount(5)
         );
-        game.getStockPieces().add
+        game.getGameRules().getStockPieces().add
         (
                 new StockItem()
                 .setPiece(new City())
                 .setAmount(4)
         );
         
-        game.getPlayableResources().add(new Timber());
-        game.getPlayableResources().add(new Wheat());
-        game.getPlayableResources().add(new Ore());
-        game.getPlayableResources().add(new Clay());
-        game.getPlayableResources().add(new Sheep());
+        game.getGameRules().getPlayableResources().add(new Timber());
+        game.getGameRules().getPlayableResources().add(new Wheat());
+        game.getGameRules().getPlayableResources().add(new Ore());
+        game.getGameRules().getPlayableResources().add(new Clay());
+        game.getGameRules().getPlayableResources().add(new Sheep());
         
         addActions();
         
@@ -73,12 +73,12 @@ public class Standard extends RuleSet
     }
     private void addActions()
     {
-        game.getPossibleActions().add(new BuildRoad());
-        game.getPossibleActions().add(new BuildTown());
-        game.getPossibleActions().add(new BuildCity());
-        game.getPossibleActions().add(new EndTurn());
-        game.getPossibleActions().add(new TradeBank());
-        game.getPossibleActions().add(new TradePlayer());
-        game.getPossibleActions().add(new ClaimVictory());
+        game.getGameRules().getPossibleActions().add(new BuildRoad());
+        game.getGameRules().getPossibleActions().add(new BuildTown());
+        game.getGameRules().getPossibleActions().add(new BuildCity());
+        game.getGameRules().getPossibleActions().add(new EndTurn());
+        game.getGameRules().getPossibleActions().add(new TradeBank());
+        game.getGameRules().getPossibleActions().add(new TradePlayer());
+        game.getGameRules().getPossibleActions().add(new ClaimVictory());
     }
 }

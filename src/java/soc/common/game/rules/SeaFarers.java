@@ -17,7 +17,7 @@ public class SeaFarers extends RuleSet
     @Override
     public void addBuildablePieces()
     {
-        game.getPossibleActions().add(new BuildShip());
+        game.getGameRules().getPossibleActions().add(new BuildShip());
     }
 
     @Override

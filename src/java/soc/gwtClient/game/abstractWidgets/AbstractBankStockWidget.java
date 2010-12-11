@@ -18,7 +18,7 @@ public class AbstractBankStockWidget implements IBankStockPanel
         this.game=game;
         rootPanel = createRootPanel();
         
-        for (Resource playableResource : game.getPlayableResources())
+        for (Resource playableResource : game.getGameRules().getPlayableResources())
         {
             IBankStockResourceWidget bankResourceWidget = 
                 createBankStockResourceWidget(playableResource);

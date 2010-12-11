@@ -30,12 +30,11 @@ public class Game
     private IActionsQueue actionsQueue = new ActionsQueue();
     private IGameLog gameLog = new GameLog();
     private IChatLog chatLog = new ChatLog();
+    
+    private IGameRules gameRules = new GameRules();
 
     private List<IRuleSet> ruleSets = new ArrayList<IRuleSet>();
-    private List<TurnAction> possibleActions = new ArrayList<TurnAction>();
-    private List<Resource> playableResources = new ArrayList<Resource>();
-    private List<StockItem> stockPieces = new ArrayList<StockItem>();
-    private int bankAmountPerResource = 19;
+
     private ResourceList bank = new ResourceList();
     
     private List<Player> players = new ArrayList<Player>();
@@ -49,6 +48,14 @@ public class Game
     private DevelopmentCardList developmentCards = new DevelopmentCardList();
     private boolean enableLargestArmy;
     
+    /**
+     * @return the gameRules
+     */
+    public IGameRules getGameRules()
+    {
+        return gameRules;
+    }
+
     /**
      * @return the chatLog
      */
@@ -111,17 +118,6 @@ public class Game
     
         return this;
     }
-
-    /**
-     * @return the playableResources
-     */
-    public List<Resource> getPlayableResources()
-    {
-        return playableResources;
-    }
-
-
-    
     public void makeRulesPermanent()
     {
         for (IRuleSet ruleset : ruleSets)
@@ -134,21 +130,15 @@ public class Game
     
     private void createBank()
     {
-        for (Resource resource : playableResources)
+        for (Resource resource : gameRules.getPlayableResources())
         {
-            for (int i=0; i< bankAmountPerResource; i++)
+            for (int i=0; i< gameRules.getBankAmountPerResource(); i++)
             {
                 bank.add(resource.Copy());
             }
         }
     }
-    /**
-     * @return the stockPieces
-     */
-    public List<StockItem> getStockPieces()
-    {
-        return stockPieces;
-    }
+
     /**
      * @return the enableLargestArmy
      */
@@ -200,13 +190,7 @@ public class Game
     {
         return board;
     }
-    /**
-     * @return the possibleActions
-     */
-    public List<TurnAction> getPossibleActions()
-    {
-        return possibleActions;
-    }
+
     /**
      * @param board the board to set
      */
@@ -377,18 +361,6 @@ public class Game
             index = 0;
         }
         return players.get(index);
-    }
-    public Game setBankAmountPerResource(int bankAmountPerResource)
-    {
-        this.bankAmountPerResource = bankAmountPerResource;
-        
-        // Enables fluent interface usage
-        // http://en.wikipedia.org/wiki/Fluent_interface
-        return this;
-    }
-    public int getBankAmountPerResource()
-    {
-        return bankAmountPerResource;
     }
 
     public Game copy()

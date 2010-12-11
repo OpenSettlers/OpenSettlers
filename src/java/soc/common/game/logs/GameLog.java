@@ -96,4 +96,10 @@ public class GameLog implements IGameLog
     {
         return actions.iterator();
     }
+    
+    @Override
+    public void addActionPerformedEventHandler(ActionPerformedEventHandler handler)
+    {
+        getEventBus().addHandler(ActionPerformedEvent.TYPE, handler);
+    }
 }

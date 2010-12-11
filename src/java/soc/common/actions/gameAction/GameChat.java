@@ -2,6 +2,9 @@ package soc.common.actions.gameAction;
 
 import soc.common.game.Game;
 
+/*
+ * A player is saying something in this game using a text chat interface
+ */
 public class GameChat extends GameAction
 {
     private String chatMessage;
@@ -21,8 +24,6 @@ public class GameChat extends GameAction
     {
         this.chatMessage = chatMessage;
     
-        // Enables fluent interface usage
-        // http://en.wikipedia.org/wiki/Fluent_interface
         return this;
     }
 
@@ -32,6 +33,7 @@ public class GameChat extends GameAction
     @Override
     public void perform(Game game)
     {
+        // Add the chat message to the chat log of this game
         game.getChatLog().say(this);
 
         super.perform(game);

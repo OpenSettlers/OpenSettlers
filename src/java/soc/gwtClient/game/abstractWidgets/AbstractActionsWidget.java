@@ -23,7 +23,7 @@ public abstract class AbstractActionsWidget implements IActionsWidget
         
         IActionWidgetFactory widgetFactory = getActionWidgetFactory();
         
-        for (TurnAction turnAction : gamePanel.getGame().getPossibleActions())
+        for (TurnAction turnAction : gamePanel.getGame().getGameRules().getPossibleActions())
         {
             rootPanel.add(widgetFactory.createActionWidget(turnAction, player, gamePanel));
         }
