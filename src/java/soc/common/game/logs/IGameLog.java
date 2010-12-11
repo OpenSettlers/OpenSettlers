@@ -7,6 +7,9 @@ import soc.common.actions.gameAction.turnActions.standard.RollDice;
 import soc.common.game.Game;
 import soc.common.game.Player;
 
+/*
+ * List of GameActions which occurred during a game
+ */
 public interface IGameLog extends Iterable<GameAction>
 {
     public void addAction(GameAction inGameAction);

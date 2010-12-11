@@ -3,6 +3,11 @@ package soc.common.game.developmentCards;
 import soc.common.game.Game;
 import soc.common.game.IVictoryPointItem;
 
+/*
+ * Standard ruleset VictoryPoint development card
+ * Playable any time during a players' turn and not immediately played when
+ * receiving the card
+ */
 public class VictoryPoint extends DevelopmentCard implements IVictoryPointItem
 {
     /* A victoryPoint development card returns into stock after playing

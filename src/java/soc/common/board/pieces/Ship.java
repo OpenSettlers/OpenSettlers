@@ -11,7 +11,6 @@ import soc.common.game.Player;
 @SeaFarers
 public class Ship extends PlayerPiece
 {
-
     /* (non-Javadoc)
      * @see soc.common.board.pieces.PlayerPiece#canBuild(soc.common.board.Board, soc.common.game.Player)
      */

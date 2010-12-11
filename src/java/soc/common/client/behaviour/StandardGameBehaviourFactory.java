@@ -9,9 +9,11 @@ import soc.common.client.behaviour.game.IGameBehaviour;
 import soc.common.client.behaviour.game.PlaceRobberBehaviour;
 import soc.common.game.Game;
 
-public class GameBehaviourFactory implements IBehaviourFactory
+/*
+ * Viewport GameBehaviour factory for a TurnAction using standard ruleset
+ */
+public class StandardGameBehaviourFactory implements IGameBehaviourFactory
 {
-
     @Override
     public IGameBehaviour createBehaviour(TurnAction turnAction, Game game)
     {

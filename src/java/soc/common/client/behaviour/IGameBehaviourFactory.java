@@ -5,9 +5,11 @@ import soc.common.client.behaviour.game.IGameBehaviour;
 import soc.common.game.Game;
 
 /*
- * Creates GameVisual behavior based on a TurnAction 
+ * Relates a TurnAction to a viewport GameBehaviour. 
+ * Different variants will have different factories depending on the TurnActions
+ * specific for that variant.
  */
-public interface IBehaviourFactory
+public interface IGameBehaviourFactory
 {
     public IGameBehaviour createBehaviour(TurnAction turnAction, Game game);
 }

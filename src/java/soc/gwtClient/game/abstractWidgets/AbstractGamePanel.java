@@ -3,8 +3,8 @@ package soc.gwtClient.game.abstractWidgets;
 import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.turnActions.TurnAction;
 import soc.common.board.pieces.PlayerPiece;
-import soc.common.client.behaviour.GameBehaviourFactory;
-import soc.common.client.behaviour.IBehaviourFactory;
+import soc.common.client.behaviour.StandardGameBehaviourFactory;
+import soc.common.client.behaviour.IGameBehaviourFactory;
 import soc.common.client.behaviour.game.IGameBehaviour;
 import soc.common.client.visuals.game.IGameBoardVisual;
 import soc.common.game.Game;
@@ -24,7 +24,7 @@ public abstract class AbstractGamePanel
     protected IActionsWidget buildPallette;
     protected IBankStockPanel bankStockPanel;
     protected IBankTradeUI bankTradeUI;
-    protected IBehaviourFactory gameBehaviourFactory;
+    protected IGameBehaviourFactory gameBehaviourFactory;
     protected IGameBoardVisual gameVisual;
     protected GameAction performingAction;
     protected IPlayersWidget playersWidget;
@@ -36,7 +36,7 @@ public abstract class AbstractGamePanel
         this.game=game;
         
         
-        gameBehaviourFactory = new GameBehaviourFactory();
+        gameBehaviourFactory = new StandardGameBehaviourFactory();
         
         bankStockPanel = createBankStockPanel();
         buildPallette = createActionsWidget();

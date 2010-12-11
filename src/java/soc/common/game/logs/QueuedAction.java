@@ -23,6 +23,9 @@ public class QueuedAction
     private boolean isBlocking = false;
     private boolean isOptional = false;
     
+    /*
+     * Creates QueuedAction with default values blocking and optional both false
+     */
     public QueuedAction(GameAction action)
     {
         super();
@@ -66,7 +69,7 @@ public class QueuedAction
     }
 
     /**
-     * @return the action
+     * @return the queued action
      */
     public GameAction getAction()
     {
@@ -82,7 +85,8 @@ public class QueuedAction
         return this;
     }
     /**
-     * @return the isBlocking
+     * @return when set, this queued action must be performed before the game
+     * can continue
      */
     public boolean isBlocking()
     {

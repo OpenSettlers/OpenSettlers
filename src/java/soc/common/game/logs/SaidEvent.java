@@ -4,6 +4,9 @@ import soc.common.actions.gameAction.GameChat;
 
 import com.google.gwt.event.shared.GwtEvent;
 
+/*
+ * Occurs when a player said something during a game using a text chat interface
+ */
 public class SaidEvent extends GwtEvent<SaidEventHandler>
 {
     public static Type<SaidEventHandler> TYPE = new Type<SaidEventHandler>();
