@@ -22,7 +22,7 @@ public class CitiesKnights extends RuleSet
     @Override
     public void setRules()
     {
-        game.setEnableLargestArmy(false);
+        game.getGameRules().setEnableLargestArmy(false);
         game.getGameRules().getStockPieces().add
         (
                 new StockItem()

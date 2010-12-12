@@ -1,13 +1,17 @@
 package soc.common.game;
 
+import com.google.gwt.event.shared.SimpleEventBus;
+
 import soc.common.board.pieces.PlayerPieceList;
 import soc.common.board.ports.PortList;
 import soc.common.board.resources.ResourceList;
 import soc.common.game.developmentCards.DevelopmentCard;
 import soc.common.game.developmentCards.DevelopmentCardList;
+import soc.common.game.logs.SaidEvent;
 
 public class Player extends User
 {
+    private SimpleEventBus eventBus;
     // Hand resource cards
     private ResourceList resources = new ResourceList();
     
@@ -40,6 +44,22 @@ public class Player extends User
     // List of victory points
     private VictoryPointsList victoryPoints = new VictoryPointsList();
     
+    private void safelyFireEvent(TurnChangedEvent turnChangedEvent)
+    {
+        if (eventBus != null)
+        {
+            eventBus.fireEvent(turnChangedEvent);
+        }
+    }
+    private SimpleEventBus getEventBus()
+    {
+        if (eventBus == null)
+        {
+            eventBus = new SimpleEventBus();
+        }
+        
+        return eventBus;
+    }
     /**
      * @return the victoryPoints
      */
@@ -182,9 +202,9 @@ public class Player extends User
     public Player setOnTurn(boolean isOnTurn)
     {
         this.isOnTurn = isOnTurn;
-    
-        // Enables fluent interface usage
-        // http://en.wikipedia.org/wiki/Fluent_interface
+
+        safelyFireEvent(new TurnChangedEvent(isOnTurn));
+        
         return this;
     }
 
@@ -220,5 +240,8 @@ public class Player extends User
     {
         return color;
     }
-    
+    public void addOnTurnChangedEventHandler(TurnChangedEventHandler handler)
+    {
+        getEventBus().addHandler(TurnChangedEvent.TYPE, handler);
+    }
 }

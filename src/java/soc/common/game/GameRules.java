@@ -12,7 +12,8 @@ public class GameRules implements IGameRules
     private List<Resource> playableResources = new ArrayList<Resource>();
     private List<StockItem> stockPieces = new ArrayList<StockItem>();
     private int bankAmountPerResource = 19;
-    
+    private boolean enableLargestArmy;
+
     @Override
     public TurnAction createPlaceRobberPirateAction()
     {
@@ -51,5 +52,22 @@ public class GameRules implements IGameRules
         return bankAmountPerResource;
     }
 
-
+    /**
+     * @return the enableLargestArmy
+     */
+    public boolean getEnableLargestArmy()
+    {
+        return enableLargestArmy;
+    }
+    /**
+     * @param enableLargestArmy the enableLargestArmy to set
+     */
+    public GameRules setEnableLargestArmy(boolean enableLargestArmy)
+    {
+        this.enableLargestArmy = enableLargestArmy;
+    
+        // Enables fluent interface usage
+        // http://en.wikipedia.org/wiki/Fluent_interface
+        return this;
+    }
 }

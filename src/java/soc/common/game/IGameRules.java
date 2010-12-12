@@ -36,4 +36,6 @@ public interface IGameRules
      */
     public int getBankAmountPerResource();
 
+    public boolean getEnableLargestArmy();
+    public GameRules setEnableLargestArmy(boolean enableLargestArmy);
 }

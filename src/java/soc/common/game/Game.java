@@ -24,13 +24,17 @@ import soc.common.game.rules.IRuleSet;
 
 public class Game
 {
+    // Event subscribers/broadcasting mechanism
     private SimpleEventBus eventBus = new SimpleEventBus();
     
     private LinkedList<GamePhase> gamePhases = new LinkedList<GamePhase>();
+
+    // Lists of actions, logs & future actions
     private IActionsQueue actionsQueue = new ActionsQueue();
     private IGameLog gameLog = new GameLog();
     private IChatLog chatLog = new ChatLog();
     
+    // Abstracted rules
     private IGameRules gameRules = new GameRules();
 
     private List<IRuleSet> ruleSets = new ArrayList<IRuleSet>();
@@ -46,7 +50,6 @@ public class Game
     private Board board;
     private Player gameStarter;
     private DevelopmentCardList developmentCards = new DevelopmentCardList();
-    private boolean enableLargestArmy;
     
     /**
      * @return the gameRules
@@ -128,6 +131,10 @@ public class Game
         createBank();
     }
     
+    /*
+     * Creates a bank. Adds X amount of resources per resource type found in
+     * the list of playable resources, where X is amount per resource
+     */
     private void createBank()
     {
         for (Resource resource : gameRules.getPlayableResources())
@@ -139,24 +146,6 @@ public class Game
         }
     }
 
-    /**
-     * @return the enableLargestArmy
-     */
-    public boolean isEnableLargestArmy()
-    {
-        return enableLargestArmy;
-    }
-    /**
-     * @param enableLargestArmy the enableLargestArmy to set
-     */
-    public Game setEnableLargestArmy(boolean enableLargestArmy)
-    {
-        this.enableLargestArmy = enableLargestArmy;
-    
-        // Enables fluent interface usage
-        // http://en.wikipedia.org/wiki/Fluent_interface
-        return this;
-    }
     /**
      * @return the ruleSets
      */

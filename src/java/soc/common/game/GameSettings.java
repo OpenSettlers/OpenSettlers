@@ -1,7 +1,5 @@
 package soc.common.game;
 
-import java.util.UUID;
-
 import soc.common.annotations.Sea3D;
 import soc.common.board.Board;
 import soc.common.board.BoardSettings;

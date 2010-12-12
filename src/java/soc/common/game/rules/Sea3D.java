@@ -16,7 +16,7 @@ public class Sea3D extends RuleSet
     {
         ResourceList result = game.getBank();
 
-        // Sea3D supports Jungle's which produce diamonds
+        // Sea3D supports Jungles which produce diamonds
         for (int i = 0; i < amount * 2; i++)
             result.add(new Diamond());
         

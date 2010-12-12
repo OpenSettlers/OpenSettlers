@@ -23,7 +23,6 @@ import soc.common.game.developmentCards.DevelopmentCardList;
 
 public class Standard extends RuleSet
 {
-
     public Standard(Game game)
     {
         super(game);
@@ -41,7 +40,7 @@ public class Standard extends RuleSet
     @Override
     public void setRules()
     {
-        game.setEnableLargestArmy(true);
+        game.getGameRules().setEnableLargestArmy(true);
         game.getGameRules().getStockPieces().add
         (
                 new StockItem()
