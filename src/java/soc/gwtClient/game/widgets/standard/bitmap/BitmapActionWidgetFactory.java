@@ -6,12 +6,13 @@ import soc.common.actions.gameAction.turnActions.standard.BuildCity;
 import soc.common.actions.gameAction.turnActions.standard.BuildRoad;
 import soc.common.actions.gameAction.turnActions.standard.BuildTown;
 import soc.common.actions.gameAction.turnActions.standard.ClaimVictory;
+import soc.common.actions.gameAction.turnActions.standard.PlayDevelopmentCard;
 import soc.common.actions.gameAction.turnActions.standard.TradeBank;
 import soc.common.actions.gameAction.turnActions.standard.TradePlayer;
 import soc.common.game.Player;
 import soc.gwtClient.game.abstractWidgets.IActionWidget;
-import soc.gwtClient.game.abstractWidgets.IActionWidgetFactory;
 import soc.gwtClient.game.abstractWidgets.IGamePanel;
+import soc.gwtClient.game.abstractWidgets.factories.IActionWidgetFactory;
 
 /*
  * Constructs game UI using bitmap UI elements like png icons
@@ -55,6 +56,10 @@ public class BitmapActionWidgetFactory implements IActionWidgetFactory
         if (action instanceof TradeBank)
         {
             return new BitmapTradeBankWidget(gamePanel, player);
+        }        
+        if (action instanceof PlayDevelopmentCard)
+        {
+            return new BitmapPlayDevelopmentCardWidget(player, gamePanel);
         }
         
         return null;

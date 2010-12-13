@@ -7,6 +7,10 @@ import soc.common.actions.gameAction.MessageFromServer;
 import soc.common.game.Game;
 import soc.common.server.actions.IServerAction;
 
+/*
+ * Abstracted implementation of a gameserver. Should be able to be used locally 
+ * as hotseat implementation, as well as a remote server deployment.
+ */
 public abstract class AbstractGameServer implements IGameServer
 {
     protected IGameServerCallback callback;

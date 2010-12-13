@@ -1,42 +1,69 @@
 package soc.gwtClient.game.widgets.standard.bitmap;
 
-import com.google.gwt.user.client.ui.MenuBar;
-import com.google.gwt.user.client.ui.Widget;
-
-import soc.common.actions.gameAction.turnActions.TurnAction;
 import soc.common.game.Player;
+import soc.common.game.developmentCards.DevelopmentCard;
 import soc.common.game.developmentCards.DevelopmentCardsChangedEvent;
 import soc.common.game.developmentCards.DevelopmentCardsChangedEventHandler;
-import soc.gwtClient.game.abstractWidgets.AbstractActionWidget;
+import soc.gwtClient.game.abstractWidgets.IActionWidget;
 import soc.gwtClient.game.abstractWidgets.IGamePanel;
+import soc.gwtClient.game.abstractWidgets.IPlayDevelopmentCardWidget;
 
-public class BitmapPlayDevelopmentCardWidget extends AbstractActionWidget 
-    implements DevelopmentCardsChangedEventHandler
+import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.MenuItem;
+import com.google.gwt.user.client.ui.Widget;
+
+public class BitmapPlayDevelopmentCardWidget implements
+        IPlayDevelopmentCardWidget, DevelopmentCardsChangedEventHandler, IActionWidget
 {
-    MenuBar menu = new MenuBar(true);
+    protected MenuBar menuBar = new MenuBar();
+    protected MenuItem rootMenuItem;
+    protected MenuBar secondMenu = new MenuBar(true);
+    protected Player player;
+    protected IGamePanel gamePanel;
     
-    public BitmapPlayDevelopmentCardWidget(IGamePanel gamePanel, Player player)
+    public BitmapPlayDevelopmentCardWidget(Player player, IGamePanel gamePanel)
     {
-        super(gamePanel, player);
+        this.player=player;
+        this.gamePanel=gamePanel;
+        rootMenuItem = new MenuItem("menu", false, secondMenu);
+        rootMenuItem.setHTML("<img src=\"icons/48/BlankCard48.png\" />");
+        menuBar.addItem(rootMenuItem);
         
+        for (DevelopmentCard devCard : player.getDevelopmentCards())
+        {
+            secondMenu.addItem(new BitmapDevelopmentCardMenuItem(devCard, gamePanel));
+        }
         player.getDevelopmentCards().addDevelopmentCardsChangedEventHandler(this);
+        menuBar.addItem(rootMenuItem);
     }
 
     @Override
     public Widget asWidget()
     {
-        return menu;
-    }
-
-    @Override
-    protected void updateEnabled()
-    {
-        //TODO: enable/disable all menu items
+        return menuBar;
     }
 
     @Override
     public void onDevelopmentCardsChanged(DevelopmentCardsChangedEvent event)
     {
-        //TODO:implement
+        if (event.getAddedCard() !=null)
+        {
+            secondMenu.addItem(new BitmapDevelopmentCardMenuItem(event.getAddedCard(), gamePanel));
+        }
+        //TODO:implement remove
     }
+
+    @Override
+    public Player getPlayer()
+    {
+        return player;
+    }
+
+    @Override
+    public IActionWidget setEnabled(boolean enabled)
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

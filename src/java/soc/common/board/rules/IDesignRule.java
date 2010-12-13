@@ -8,7 +8,7 @@ import soc.common.board.Board;
  */
 public interface IDesignRule
 {
-    boolean invoke(Board b);
-    String getProblem();
-    RuleSeverity getSeverity();
+    public boolean invoke(Board b);
+    public String getProblem();
+    public RuleSeverity getSeverity();
 }

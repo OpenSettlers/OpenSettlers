@@ -30,11 +30,13 @@ public abstract class AbstractGamePanel
     protected IPlayersWidget playersWidget;
     protected IGameBoardVisual gameBoard;
     protected Player player;
+    protected IHandCardsWidget handCards;
+    protected IStatusDicePanel statusDicePanel;
     
     public AbstractGamePanel(Game game)
     {
         this.game=game;
-        
+        player = game.getPlayers().get(0);
         
         gameBehaviourFactory = new StandardGameBehaviourFactory();
         
@@ -42,6 +44,8 @@ public abstract class AbstractGamePanel
         buildPallette = createActionsWidget();
         playersWidget = createPlayersWidget();
         gameBoard = createGameBoard(500,500, game.getBoard());
+        handCards = createHandCardsWidget(player);
+        statusDicePanel = createStatusDicePanel(this);
     }
     
     /* (non-Javadoc)

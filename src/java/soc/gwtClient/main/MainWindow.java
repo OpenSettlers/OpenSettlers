@@ -4,8 +4,17 @@ package soc.gwtClient.main;
 import java.util.ArrayList;
 
 import soc.common.board.Board;
+import soc.common.board.resources.Clay;
+import soc.common.board.resources.Ore;
+import soc.common.board.resources.Sheep;
+import soc.common.board.resources.Wheat;
 import soc.common.game.Game;
 import soc.common.game.Player;
+import soc.common.game.developmentCards.Monopoly;
+import soc.common.game.developmentCards.RoadBuilding;
+import soc.common.game.developmentCards.Soldier;
+import soc.common.game.developmentCards.VictoryPoint;
+import soc.common.game.developmentCards.YearOfPlenty;
 import soc.common.game.rules.IRuleSet;
 import soc.common.game.rules.Standard;
 import soc.gwtClient.editor.SvgMapEditor;
@@ -41,10 +50,10 @@ public class MainWindow implements EntryPoint
     ICenterWidget welcomePanel;
     ICenterWidget currentWidget;
     ICenterWidget hotseatGame;
-    private final MenuBar menuBar = new MenuBar(true);
-    private MenuItem menuItem;
-    private MenuItem menuItem_1;
-    private MenuItem menuItem_2;
+    private final MenuBar rootMenuBar = new MenuBar(true);
+    private MenuItem editorMenutItem;
+    private MenuItem hotseatMenuItem;
+    private MenuItem rootMenuItem;
     
     /**
      * @return the hotseatGame
@@ -69,21 +78,21 @@ public class MainWindow implements EntryPoint
         currentWidget = welcomePanel;
         centerWidget.add(currentWidget.getRootWidget());
         rootPanel.addNorth(menu, 3);
-        menuBar.setAutoOpen(true);
-        menu.add(menuBar);
-        MenuBar menuBar_1 = new MenuBar(true);
+        rootMenuBar.setAutoOpen(false);
+        menu.add(rootMenuBar);
+        MenuBar firstMenu = new MenuBar(true);
         
-        menuItem_2 = new MenuItem("New menu", false, menuBar_1);
-        menuItem_2.setHTML("OpenSettlers");
+        rootMenuItem = new MenuItem("New menu", false, firstMenu);
+        rootMenuItem.setHTML("OpenSettlers");
         
-        menuItem = new MenuItem("New item", false, (Command) null);
-        menuBar_1.addItem(menuItem);
-        menuItem.setHTML("MapCreator");
+        editorMenutItem = new MenuItem("New item", false, (Command) null);
+        firstMenu.addItem(editorMenutItem);
+        editorMenutItem.setHTML("MapCreator");
         
-        menuItem_1 = new MenuItem("New item", false, (Command) null);
-        menuBar_1.addItem(menuItem_1);
-        menuItem_1.setHTML("Hotseat game");
-        menuBar.addItem(menuItem_2);
+        hotseatMenuItem = new MenuItem("New item", false, (Command) null);
+        firstMenu.addItem(hotseatMenuItem);
+        hotseatMenuItem.setHTML("Hotseat game");
+        rootMenuBar.addItem(rootMenuItem);
         
         PushButton btnWelcomePanel = new PushButton("welcomePanel");
         btnWelcomePanel.addClickHandler(new ClickHandler()
@@ -168,8 +177,31 @@ public class MainWindow implements EntryPoint
         
         result.makeRulesPermanent();
         
+        result.getPlayers().get(0).getDevelopmentCards().add(new Soldier());
+        result.getPlayers().get(0).getDevelopmentCards().add(new Monopoly());
+        result.getPlayers().get(0).getDevelopmentCards().add(new YearOfPlenty());
+        result.getPlayers().get(0).getDevelopmentCards().add(new RoadBuilding());
+        result.getPlayers().get(0).getDevelopmentCards().add(new VictoryPoint());
         
+        result.getPlayers().get(0).getResources().add(new Wheat());
+        result.getPlayers().get(0).getResources().add(new Wheat());
+        result.getPlayers().get(0).getResources().add(new Wheat());
+        result.getPlayers().get(0).getResources().add(new Wheat());
         
+        result.getPlayers().get(0).getResources().add(new Ore());
+        result.getPlayers().get(0).getResources().add(new Ore());
+        result.getPlayers().get(0).getResources().add(new Ore());
+        
+        result.getPlayers().get(0).getResources().add(new Clay());
+        result.getPlayers().get(0).getResources().add(new Clay());
+        result.getPlayers().get(0).getResources().add(new Clay());
+        result.getPlayers().get(0).getResources().add(new Clay());
+        result.getPlayers().get(0).getResources().add(new Clay());
+        result.getPlayers().get(0).getResources().add(new Clay());
+
+        result.getPlayers().get(0).getResources().add(new Sheep());
+        result.getPlayers().get(0).getResources().add(new Sheep());
+
         return result;
     }
 }

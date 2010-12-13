@@ -10,15 +10,21 @@ import soc.common.actions.gameAction.HostStartsGame;
 import soc.common.board.Board;
 import soc.common.client.visuals.game.IGameBoardVisual;
 import soc.common.game.Game;
+import soc.common.game.Player;
 import soc.common.server.HotSeatServer;
 import soc.gwtClient.game.ICenterWidget;
 import soc.gwtClient.game.abstractWidgets.AbstractBankStockWidget;
 import soc.gwtClient.game.abstractWidgets.AbstractGamePanel;
 import soc.gwtClient.game.abstractWidgets.IActionsWidget;
 import soc.gwtClient.game.abstractWidgets.IBankStockPanel;
+import soc.gwtClient.game.abstractWidgets.IGamePanel;
+import soc.gwtClient.game.abstractWidgets.IHandCardsWidget;
 import soc.gwtClient.game.abstractWidgets.IPlayersWidget;
+import soc.gwtClient.game.abstractWidgets.IStatusDicePanel;
 import soc.gwtClient.game.widgets.standard.bitmap.BitmapActionsWidget;
+import soc.gwtClient.game.widgets.standard.bitmap.BitmapHandCardsWidget;
 import soc.gwtClient.game.widgets.standard.bitmap.BitmapPlayersWidget;
+import soc.gwtClient.game.widgets.standard.bitmap.BitmapStatusDicePanel;
 
 public class HotSeatGamePanel extends AbstractGamePanel implements ICenterWidget
 {
@@ -34,13 +40,14 @@ public class HotSeatGamePanel extends AbstractGamePanel implements ICenterWidget
         super(game);
 
         server = new HotSeatServer(this);
-        player = game.getPlayers().get(0);
         
         chatPanel = new ChatPanel(this);
         
         createChatHistoryDebugPanel();
         
+        boardActionResourcesPanel.addSouth(handCards.asWidget(),5);
         boardActionResourcesPanel.addSouth(buildPallette.asWidget(), 5);
+        boardActionResourcesPanel.addSouth(statusDicePanel.asWidget(), 5);
         boardActionResourcesPanel.add(gameBoard.getWidget());
 
         playersBankChatPanel.addNorth(playersWidget.asWidget(), 20);
@@ -91,5 +98,17 @@ public class HotSeatGamePanel extends AbstractGamePanel implements ICenterWidget
     public IGameBoardVisual createGameBoard(int width, int height, Board board)
     {
         return new SvgGameBoardVisual(width, height, board);
+    }
+
+    @Override
+    public IHandCardsWidget createHandCardsWidget(Player player)
+    {
+        return new BitmapHandCardsWidget(player);
+    }
+
+    @Override
+    public IStatusDicePanel createStatusDicePanel(IGamePanel gamePanel)
+    {
+        return new BitmapStatusDicePanel(gamePanel);
     }
 }

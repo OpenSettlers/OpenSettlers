@@ -5,6 +5,7 @@ import soc.common.actions.gameAction.turnActions.standard.BuildCity;
 import soc.common.actions.gameAction.turnActions.standard.BuildRoad;
 import soc.common.actions.gameAction.turnActions.standard.BuildTown;
 import soc.common.actions.gameAction.turnActions.standard.ClaimVictory;
+import soc.common.actions.gameAction.turnActions.standard.PlayDevelopmentCard;
 import soc.common.actions.gameAction.turnActions.standard.TradeBank;
 import soc.common.actions.gameAction.turnActions.standard.TradePlayer;
 import soc.common.board.pieces.City;
@@ -20,6 +21,7 @@ import soc.common.board.resources.Wheat;
 import soc.common.game.Game;
 import soc.common.game.StockItem;
 import soc.common.game.developmentCards.DevelopmentCardList;
+import soc.common.game.dices.StandardDice;
 
 public class Standard extends RuleSet
 {
@@ -69,15 +71,19 @@ public class Standard extends RuleSet
         addActions();
         
         game.setDevelopmentCards(DevelopmentCardList.standard());
+        
+        // Use a standard dice
+        game.getGameRules().setDiceType(new StandardDice());
     }
     private void addActions()
     {
+        game.getGameRules().getPossibleActions().add(new PlayDevelopmentCard());
         game.getGameRules().getPossibleActions().add(new BuildRoad());
         game.getGameRules().getPossibleActions().add(new BuildTown());
         game.getGameRules().getPossibleActions().add(new BuildCity());
-        game.getGameRules().getPossibleActions().add(new EndTurn());
         game.getGameRules().getPossibleActions().add(new TradeBank());
         game.getGameRules().getPossibleActions().add(new TradePlayer());
+        game.getGameRules().getPossibleActions().add(new EndTurn());
         game.getGameRules().getPossibleActions().add(new ClaimVictory());
     }
 }

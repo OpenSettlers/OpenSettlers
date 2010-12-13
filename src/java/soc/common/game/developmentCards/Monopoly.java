@@ -11,7 +11,7 @@ import soc.common.game.Player;
  */
 public class Monopoly extends DevelopmentCard
 {
-    public static ResourceList staticMonoPolyableResources;
+    public static ResourceList staticMonoPolyableResources = new ResourceList();
     private Resource resource;
     
     static 

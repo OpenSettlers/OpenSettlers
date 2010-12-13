@@ -2,9 +2,7 @@ package soc.common.game.dices;
 
 import com.google.gwt.user.client.Random;
 
-
-public class Dice
+public interface IDice
 {
-    public void roll(Random random) { };
-    
+    public void roll(Random random);
 }

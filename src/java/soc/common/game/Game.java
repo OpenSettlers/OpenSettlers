@@ -12,6 +12,7 @@ import soc.common.board.HexLocation;
 import soc.common.board.resources.Resource;
 import soc.common.board.resources.ResourceList;
 import soc.common.game.developmentCards.DevelopmentCardList;
+import soc.common.game.dices.IDice;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.LobbyGamePhase;
 import soc.common.game.logs.ActionsQueue;
@@ -74,8 +75,6 @@ public class Game
     {
         this.ruleSets = ruleSets;
     
-        // Enables fluent interface usage
-        // http://en.wikipedia.org/wiki/Fluent_interface
         return this;
     }
     
@@ -86,6 +85,10 @@ public class Game
     public void addGamePhaseChangedEventHandler(GamePhaseChangedEventHandler handler)
     {
         eventBus.addHandler(GamePhaseChangedEvent.TYPE, handler);
+    }
+    public void addDiceChangedEventHandler(DiceChangedEventHandler handler)
+    {
+        eventBus.addHandler(DiceChangedEvent.TYPE, handler);
     }
     
     /**
@@ -168,8 +171,6 @@ public class Game
     {
         this.gameStarter = gameStarter;
     
-        // Enables fluent interface usage
-        // http://en.wikipedia.org/wiki/Fluent_interface
         return this;
     }
     /**
@@ -187,8 +188,6 @@ public class Game
     {
         this.board = board;
     
-        // Enables fluent interface usage
-        // http://en.wikipedia.org/wiki/Fluent_interface
         return this;
     }
     public Player getPlayerByID(int id)

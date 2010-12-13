@@ -9,6 +9,7 @@ import soc.common.board.resources.Timber;
 import soc.common.board.resources.Wheat;
 import soc.common.game.Game;
 import soc.common.game.StockItem;
+import soc.common.game.dices.CitiesKnightsDice;
 
 public class CitiesKnights extends RuleSet 
 {
@@ -29,6 +30,9 @@ public class CitiesKnights extends RuleSet
                 .setPiece(new Wall())
                 .setAmount(3)
         );
+        
+        // Overrule standard dice type with CitisKnights dices
+        game.getGameRules().setDiceType(new CitiesKnightsDice());
     }
 
 }

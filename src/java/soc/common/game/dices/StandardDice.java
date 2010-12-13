@@ -3,7 +3,7 @@ package soc.common.game.dices;
 import com.google.gwt.user.client.Random;
 
 
-public class StandardDice extends Dice
+public class StandardDice implements IDice
 {
     private int dice1;
     private int dice2;

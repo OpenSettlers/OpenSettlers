@@ -1,9 +1,14 @@
 package soc.common.game.developmentCards;
 
+import soc.common.board.resources.Ore;
+import soc.common.board.resources.ResourceList;
+import soc.common.board.resources.Sheep;
+import soc.common.board.resources.Wheat;
 import soc.common.game.Game;
 import soc.common.game.Player;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
+import soc.common.utils.ClassUtils;
 
 public class DevelopmentCard
 {
@@ -12,6 +17,24 @@ public class DevelopmentCard
     protected int _turnBought = 0;
     private int id = 0;
     private boolean isPlayable = false;
+    private static ResourceList cost = new ResourceList();
+    static
+    {
+        cost.add(new Wheat());
+        cost.add(new Ore());
+        cost.add(new Sheep());
+    }
+    
+    public static boolean canPay(Player player)
+    {
+        //TODO: implement
+        return true;
+    }
+    
+    public ResourceList getCost()
+    {
+        return cost;
+    }
     
     public void play(Game game, Player player)
     {
@@ -87,4 +110,15 @@ public class DevelopmentCard
     {
         this.isPlayable = isPlayable;
     }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString()
+    {
+        return ClassUtils.getSimpleClassName(this.getClass().getName());
+    }
+    
+    
 }

@@ -4,7 +4,7 @@ import soc.common.utils.ClassUtils;
 
 /*
  * Enum design pattern for the resource types. 
- * Each enum member is actually implmented as a class definition
+ * Each enum member is actually implemented as a class definition
  */
 public abstract class Resource
 {

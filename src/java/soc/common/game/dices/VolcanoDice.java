@@ -5,7 +5,7 @@ import com.google.gwt.user.client.Random;
 import soc.common.annotations.SeaFarers;
 
 @SeaFarers
-public class VolcanoDice extends Dice
+public class VolcanoDice implements IDice
 {
     private int dice = 0;
 

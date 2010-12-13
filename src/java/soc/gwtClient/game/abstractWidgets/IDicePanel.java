@@ -1,8 +1,8 @@
 package soc.gwtClient.game.abstractWidgets;
 
-import soc.common.game.dices.Dice;
+import soc.common.game.dices.IDice;
 
 public interface IDicePanel
 {
-    public Dice getDice();
+    public IDice getDice();
 }

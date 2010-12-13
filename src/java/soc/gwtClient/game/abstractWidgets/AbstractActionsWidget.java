@@ -2,6 +2,7 @@ package soc.gwtClient.game.abstractWidgets;
 
 import soc.common.actions.gameAction.turnActions.TurnAction;
 import soc.common.game.Player;
+import soc.gwtClient.game.abstractWidgets.factories.IActionWidgetFactory;
 
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;

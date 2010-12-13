@@ -13,8 +13,8 @@ import soc.common.game.gamePhase.turnPhase.TurnPhase;
  */
 public class GameAction
 {
-    private Player player;
-    private int sender;
+    protected Player player;
+    protected int sender;
     protected String invalidMessage;
     protected String toDoMessage;
     protected String message;

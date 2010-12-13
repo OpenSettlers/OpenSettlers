@@ -4,7 +4,6 @@ import com.google.gwt.user.client.Random;
 
 import soc.common.actions.gameAction.GameAction;
 import soc.common.game.Game;
-import soc.common.game.dices.Dice;
 import soc.common.game.dices.StandardDice;
 import soc.common.server.actions.IServerAction;
 

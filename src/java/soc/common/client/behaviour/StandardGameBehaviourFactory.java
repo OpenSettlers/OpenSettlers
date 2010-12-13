@@ -8,6 +8,7 @@ import soc.common.client.behaviour.game.BuildTownBehaviour;
 import soc.common.client.behaviour.game.IGameBehaviour;
 import soc.common.client.behaviour.game.PlaceRobberBehaviour;
 import soc.common.game.Game;
+import soc.common.game.developmentCards.Soldier;
 
 /*
  * Viewport GameBehaviour factory for a TurnAction using standard ruleset

@@ -4,6 +4,7 @@ import java.util.List;
 
 import soc.common.actions.gameAction.turnActions.TurnAction;
 import soc.common.board.resources.Resource;
+import soc.common.game.dices.IDice;
 
 /*
  * Abstracted properties for game {@see IRuleSet} to modify
@@ -38,4 +39,10 @@ public interface IGameRules
 
     public boolean getEnableLargestArmy();
     public GameRules setEnableLargestArmy(boolean enableLargestArmy);
+
+    // Returns the type of the dice rolled by the player on turn in the RollDiceTurnPhase
+    public IDice getDiceType();
+    
+    // Sets the type of the dice 
+    public GameRules setDiceType(IDice diceType);
 }
