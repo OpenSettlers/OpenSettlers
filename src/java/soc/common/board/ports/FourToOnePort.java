@@ -31,4 +31,14 @@ public class FourToOnePort extends Port
     {
         return 1;
     }
+
+    /* (non-Javadoc)
+     * @see soc.common.board.ports.Port#canTrade(soc.common.board.resources.Resource)
+     */
+    @Override
+    public boolean canTrade(Resource resource)
+    {
+        return true;
+    }
+    
 }

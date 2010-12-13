@@ -5,7 +5,7 @@ import soc.gwtClient.game.abstractWidgets.IDiceWidget;
 import soc.gwtClient.game.abstractWidgets.IGamePanel;
 
 /*
- * Creates an instanc of IDiceWidget based upon a dicetype
+ * Creates an instance of IDiceWidget based upon a dice type
  */
 public interface IDiceWidgetFactory
 {

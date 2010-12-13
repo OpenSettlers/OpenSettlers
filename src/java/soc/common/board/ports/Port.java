@@ -130,5 +130,9 @@ public class Port
         
         return amountGold;
     }
-
+    
+    public boolean canTrade(Resource resource)
+    {
+        throw new RuntimeException();
+    }
 }

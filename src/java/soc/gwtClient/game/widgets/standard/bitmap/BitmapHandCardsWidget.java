@@ -1,17 +1,15 @@
 package soc.gwtClient.game.widgets.standard.bitmap;
 
+
 import soc.common.board.resources.Resource;
 import soc.common.board.resources.ResourcesChangedEvent;
 import soc.common.game.Player;
 import soc.gwtClient.game.abstractWidgets.AbstractHandCardsWidget;
 
-import com.google.gwt.layout.client.Layout.Alignment;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment.HorizontalAlignmentConstant;
 
 public class BitmapHandCardsWidget extends AbstractHandCardsWidget
 {
@@ -51,7 +49,7 @@ public class BitmapHandCardsWidget extends AbstractHandCardsWidget
         }
         if (resourcesChanged.getRemovedResources() !=null)
         {
-            //TODO:remove resources from panel
+            //TODO: Remove widgets
         }
     }
 

@@ -1,7 +1,5 @@
 package soc.common.board.ports;
 
-import java.util.List;
-
 import soc.common.board.resources.Resource;
 import soc.common.board.resources.ResourceList;
 
@@ -64,6 +62,15 @@ public class TwoToOneResourcePort extends Port
     public int divide(ResourceList resources, Resource type)
     {
         return resources.size() / getInAmount();
+    }
+
+    /* Returns true when given resource type quals resource type of this port
+     * @see soc.common.board.ports.Port#canTrade(soc.common.board.resources.Resource)
+     */
+    @Override
+    public boolean canTrade(Resource resource)
+    {
+        return resource.getClass() == this.resource.getClass();
     }
 
 

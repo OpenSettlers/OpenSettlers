@@ -97,6 +97,29 @@ public class PortList implements Iterable<Port>
         safelyFireEvent(new PortListChangedEvent(null, port));
     }
     
+    /*
+     * Returns amount of resources of given type needed to make a trade
+     */
+    public int amountNeededToTrade(Resource resourceType)
+    {
+        int amountNeeded = 6;
+        
+        for (Port port : ports)
+        {
+            // Check if we can use the port to trade the given resource type with
+            if (port.canTrade(resourceType))
+            {
+                // When a port tops production of any previous port, set it 
+                if (port.getInAmount() < amountNeeded)
+                {
+                    amountNeeded=port.getInAmount();
+                }
+            }
+        }
+        
+        return amountNeeded;
+    }
+    
     @Override
     public Iterator<Port> iterator()
     {
