@@ -7,8 +7,6 @@ import org.vaadin.gwtgraphics.client.shape.Rectangle;
 
 import com.google.gwt.user.client.ui.Widget;
 
-import soc.common.game.DiceChangedEvent;
-import soc.gwtClient.game.abstractWidgets.AbstractDiceWidget;
 import soc.gwtClient.game.abstractWidgets.ISingleDiceWidget;
 
 public class SvgSingleDiceWidget implements ISingleDiceWidget
@@ -30,6 +28,7 @@ public class SvgSingleDiceWidget implements ISingleDiceWidget
         group = new Group();
         rectangle = new Rectangle(0, 0, 50, 50);
         rectangle.setRoundedCorners(10);
+        rectangle.setStrokeWidth(3);
         dot1 = createCircle(8,9);
         dot2 = createCircle(8,21);
         dot3 = createCircle(8,33);
