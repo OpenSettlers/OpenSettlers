@@ -4,6 +4,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 
 import soc.common.game.Player;
+import soc.common.game.VictoryPointsChangedEvent;
 import soc.gwtClient.game.abstractWidgets.AbstractVictoryPointsWidget;
 
 public class BitmapVictoryPointsWidget extends AbstractVictoryPointsWidget
@@ -16,11 +17,18 @@ public class BitmapVictoryPointsWidget extends AbstractVictoryPointsWidget
         super(player);
         
         victoryPointsImage.setSize("24px", "24px");
-        //TODO: add player.getVictoryPoints();
-        //lblVictoryPointsAmount.setText(player.getVictoryPoints());
+        lblVictoryPointsAmount.setText(
+                Integer.toString(player.getVictoryPoints().getTotalPoints()));
         
         rootPanel.add(victoryPointsImage);
         rootPanel.add(lblVictoryPointsAmount);
+    }
+
+    @Override
+    public void onVictoryPointsChanged(VictoryPointsChangedEvent event)
+    {
+        lblVictoryPointsAmount.setText(
+                Integer.toString(player.getVictoryPoints().getTotalPoints()));        
     }
 
 }
