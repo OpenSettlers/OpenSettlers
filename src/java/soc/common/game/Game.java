@@ -22,6 +22,7 @@ import soc.common.game.logs.IActionsQueue;
 import soc.common.game.logs.IChatLog;
 import soc.common.game.logs.IGameLog;
 import soc.common.game.rules.IRuleSet;
+import soc.common.game.statuses.IGameStatus;
 
 public class Game
 {
@@ -51,7 +52,25 @@ public class Game
     private Board board;
     private Player gameStarter;
     private DevelopmentCardList developmentCards = new DevelopmentCardList();
+    private ITurn currentTurn;
+    private IGameStatus gameStatus;
     
+    /**
+     * @return the gameStatus
+     */
+    public IGameStatus getGameStatus()
+    {
+        return gameStatus;
+    }
+
+    /**
+     * @return the currentTurn
+     */
+    public ITurn getCurrentTurn()
+    {
+        return currentTurn;
+    }
+
     /**
      * @return the gameRules
      */
