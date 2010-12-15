@@ -70,7 +70,7 @@ public class PlaySoldierDialog extends DialogBox
         Button btnCancel = new Button("New button");
         btnCancel.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent arg0) {
-                close();
+                hide();
             }
         });
         btnCancel.setText("Cancel");
@@ -80,14 +80,10 @@ public class PlaySoldierDialog extends DialogBox
         btnPlay.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent arg0) {
                 gamePanel.startAction(playDevelopmentCard);
-                close();
+                hide();
             }
         });
         btnPlay.setText("Play soldier");
         horizontalPanel_1.add(btnPlay);
-    }
-    private void close()
-    {
-        this.hide();
     }
 }

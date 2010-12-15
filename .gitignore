@@ -8,3 +8,5 @@ target/classes
 target/classes/*
 war/mapcreator/*
 war/WEB-INF/*
+.gwt/*
+lib/*

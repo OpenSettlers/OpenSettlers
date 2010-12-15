@@ -14,6 +14,7 @@ import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Image;
 
 public class EditTerritory extends DialogBox
 {
@@ -32,6 +33,7 @@ public class EditTerritory extends DialogBox
         
         VerticalPanel variants = new VerticalPanel();
         horizontalPanel.add(variants);
+        variants.setWidth("135px");
         
         CheckBox chckbxStandard = new CheckBox("Standard");
         variants.add(chckbxStandard);
@@ -42,14 +44,21 @@ public class EditTerritory extends DialogBox
         CheckBox chckbxCitiesKnights = new CheckBox("Cities & Knights");
         variants.add(chckbxCitiesKnights);
         
-        CheckBox chckbxPioneers = new CheckBox("Pioneers");
-        variants.add(chckbxPioneers);
-        
         CheckBox chckbxSead = new CheckBox("Sea3D");
         variants.add(chckbxSead);
         
         CheckBox chckbxExtended = new CheckBox("Extended");
         variants.add(chckbxExtended);
+        
+        HorizontalPanel horizontalPanel_1 = new HorizontalPanel();
+        horizontalPanel_1.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+        variants.add(horizontalPanel_1);
+        
+        Image image = new Image("icons/32/Pioneers.png");
+        horizontalPanel_1.add(image);
+        
+        CheckBox chckbxPioneers = new CheckBox("Pioneers");
+        horizontalPanel_1.add(chckbxPioneers);
         
         VerticalPanel hexList = new VerticalPanel();
         horizontalPanel.add(hexList);

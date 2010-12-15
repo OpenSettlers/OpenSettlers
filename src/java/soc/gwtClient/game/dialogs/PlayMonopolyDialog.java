@@ -68,7 +68,7 @@ public class PlayMonopolyDialog extends DialogBox
         Button btnCancel = new Button("New button");
         btnCancel.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent arg0) {
-                close();
+                hide();
             }
         });
         btnCancel.setText("Cancel");
@@ -78,14 +78,10 @@ public class PlayMonopolyDialog extends DialogBox
         btnPlayMonopoly.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent arg0) {
                 gamePanel.startAction(playDevelopmentCard);
-                close();
+                hide();
             }
         });
         btnPlayMonopoly.setText("Play monopoly");
         horizontalPanel_1.add(btnPlayMonopoly);
-    }
-    private void close()
-    {
-        this.hide();
     }
 }

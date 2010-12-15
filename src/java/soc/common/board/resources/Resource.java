@@ -34,4 +34,12 @@ public abstract class Resource
     }
     
     public abstract Resource Copy();
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj)
+    {
+        return obj.getClass() == this.getClass();
+    }
 }

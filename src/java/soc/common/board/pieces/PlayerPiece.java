@@ -3,6 +3,7 @@ package soc.common.board.pieces;
 import soc.common.board.Board;
 import soc.common.board.resources.ResourceList;
 import soc.common.game.Player;
+import soc.common.utils.ClassUtils;
 
 public class PlayerPiece extends Piece
 {
@@ -33,5 +34,10 @@ public class PlayerPiece extends Piece
     public boolean canBuild(Board board, Player player)
     {
         throw new RuntimeException();
+    }
+    
+    public String getName()
+    {
+        return ClassUtils.getSimpleClassName(this.getClass().getName());
     }
 }

@@ -9,12 +9,13 @@ import soc.common.board.pieces.PlayerPiece;
 import soc.common.board.pieces.Road;
 import soc.common.game.Player;
 import soc.gwtClient.game.abstractWidgets.AbstractStockItemWidget;
+import soc.gwtClient.game.widgets.bitmap.ImageLibrary;
 
 public class BitmapStockRoadWidget extends AbstractStockItemWidget implements PiecesChangedEventHandler
 {
-    private Image roadImage = new Image("icons/48/Road48.png");
-    private Label roadAmount = new Label();
     private Road road = new Road();
+    private Image roadImage = new Image(ImageLibrary.getIcon(road, 48));
+    private Label roadAmount = new Label();
     
     public BitmapStockRoadWidget(Player player)
     {

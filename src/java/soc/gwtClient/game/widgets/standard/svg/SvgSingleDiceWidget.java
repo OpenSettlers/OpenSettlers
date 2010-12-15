@@ -5,12 +5,16 @@ import org.vaadin.gwtgraphics.client.Group;
 import org.vaadin.gwtgraphics.client.shape.Circle;
 import org.vaadin.gwtgraphics.client.shape.Rectangle;
 
+import com.google.gwt.event.dom.client.MouseMoveEvent;
+import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.user.client.ui.Widget;
 
 import soc.gwtClient.game.abstractWidgets.ISingleDiceWidget;
 
 public class SvgSingleDiceWidget implements ISingleDiceWidget
 {
+    private int offset = 3;
+    private int diceOffset = 7;
     private DrawingArea canvas;
     private Circle dot1;
     private Circle dot2;
@@ -24,18 +28,19 @@ public class SvgSingleDiceWidget implements ISingleDiceWidget
     
     public SvgSingleDiceWidget()
     {
-        canvas = new DrawingArea(50, 50);
+        canvas = new DrawingArea(56, 56);
         group = new Group();
-        rectangle = new Rectangle(0, 0, 50, 50);
+        rectangle = new Rectangle(offset, offset, 50, 50);
         rectangle.setRoundedCorners(10);
         rectangle.setStrokeWidth(3);
-        dot1 = createCircle(8,9);
-        dot2 = createCircle(8,21);
-        dot3 = createCircle(8,33);
-        dot4 = createCircle(34,9);
-        dot5 = createCircle(34,21);
-        dot6 = createCircle(34,33);
-        dot7 = createCircle(22,21);
+        dot1 = createCircle(diceOffset + 8,diceOffset + 9);
+        dot2 = createCircle(diceOffset + 8,diceOffset + 21);
+        dot3 = createCircle(diceOffset + 8,diceOffset + 33);
+        dot4 = createCircle(diceOffset + 34,diceOffset + 9);
+        dot5 = createCircle(diceOffset + 34,diceOffset + 21);
+        dot6 = createCircle(diceOffset + 34,diceOffset + 33);
+        dot7 = createCircle(diceOffset + 22,diceOffset + 21);
+        group.add(rectangle);
         group.add(dot1);
         group.add(dot2);
         group.add(dot3);
@@ -43,7 +48,6 @@ public class SvgSingleDiceWidget implements ISingleDiceWidget
         group.add(dot5);
         group.add(dot6);
         group.add(dot7);
-        group.add(rectangle);
         canvas.add(group);
     }
     private Circle createCircle(int x, int y)

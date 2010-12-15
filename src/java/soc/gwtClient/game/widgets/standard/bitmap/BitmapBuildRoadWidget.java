@@ -2,8 +2,10 @@ package soc.gwtClient.game.widgets.standard.bitmap;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PushButton;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import soc.common.actions.gameAction.turnActions.TurnAction;
@@ -20,18 +22,25 @@ import soc.common.game.Player;
 import soc.gwtClient.game.abstractWidgets.AbstractActionWidget;
 import soc.gwtClient.game.abstractWidgets.IActionWidget;
 import soc.gwtClient.game.abstractWidgets.IGamePanel;
+import soc.gwtClient.game.widgets.bitmap.ImageLibrary;
 
 
 public class BitmapBuildRoadWidget extends AbstractActionWidget 
     implements ResourcesChangedEventHandler, PiecesChangedEventHandler, GamePhaseChangedEventHandler
 {
-    PushButton btnBuildRoad = new PushButton(new Image("icons/48/Road48.png"));
+    AbsolutePanel absolutePanel = new AbsolutePanel();
+    VerticalPanel tradesPanel = new VerticalPanel();
     Road road = new Road();
+    PushButton btnBuildRoad = new PushButton(new Image(ImageLibrary.getIcon(road, 48)));
+    Image trade1 = new Image(ImageLibrary.getTradeIcon(16));
+    Image trade2 = new Image(ImageLibrary.getTradeIcon(16));
     BuildRoad buildRoad;
     
     public BitmapBuildRoadWidget(final IGamePanel gamePanel, final Player player)
     {
         super(gamePanel, player);
+        
+        absolutePanel.setSize("60px", "60px");
         
         buildRoad = new BuildRoad();
         buildRoad.setPlayer(player);
@@ -55,12 +64,18 @@ public class BitmapBuildRoadWidget extends AbstractActionWidget
                 }
             }
         });
+        
+        tradesPanel.add(trade1);
+        tradesPanel.add(trade2);
+        
+        absolutePanel.add(btnBuildRoad, 0,0);
+        absolutePanel.add(tradesPanel, 3,3);
     }
 
     @Override
     public Widget asWidget()
     {
-        return btnBuildRoad;
+        return absolutePanel;
     }
 
     @Override
@@ -98,9 +113,17 @@ public class BitmapBuildRoadWidget extends AbstractActionWidget
                     road.canPay(player))                           // we need resources
             {
                 setEnabled(true);
+                setTradesNeededToBuild();
                 return;
             }
         }
         setEnabled(false);
+    }
+
+    private void setTradesNeededToBuild()
+    {
+        int amountTradesNeeded = player.getResources().getNeededResources(road.getCost()).size();
+        trade1.setVisible(amountTradesNeeded >= 1);
+        trade1.setVisible(amountTradesNeeded >= 2);
     }
 }

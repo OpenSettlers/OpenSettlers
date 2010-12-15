@@ -69,7 +69,7 @@ public class PlayYearOfPlentyDialog extends DialogBox
         Button button = new Button("New button");
         button.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent arg0) {
-                close();
+                hide();
             }
         });
         button.setText("Cancel");
@@ -79,14 +79,10 @@ public class PlayYearOfPlentyDialog extends DialogBox
         button_1.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent arg0) {
                 gamePanel.startAction(playDevelopmentCard);
-                close();
+                hide();
             }
         });
         button_1.setText("Play soldier");
         horizontalPanel_1.add(button_1);
-    }
-    private void close()
-    {
-        this.hide();
     }
 }

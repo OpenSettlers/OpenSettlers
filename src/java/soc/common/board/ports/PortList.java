@@ -102,22 +102,7 @@ public class PortList implements Iterable<Port>
      */
     public int amountNeededToTrade(Resource resourceType)
     {
-        int amountNeeded = 6;
-        
-        for (Port port : ports)
-        {
-            // Check if we can use the port to trade the given resource type with
-            if (port.canTrade(resourceType))
-            {
-                // When a port tops production of any previous port, set it 
-                if (port.getInAmount() < amountNeeded)
-                {
-                    amountNeeded=port.getInAmount();
-                }
-            }
-        }
-        
-        return amountNeeded;
+        return getPort(resourceType, false).getInAmount();
     }
     
     @Override
@@ -129,5 +114,35 @@ public class PortList implements Iterable<Port>
     public void addPortListChangedEventHandler(PortListChangedEventHandler handler)
     {
         getEventBus().addHandler(PortListChangedEvent.TYPE, handler);
+    }
+    
+    /*
+     * Returns best port to trade with given the resource type. When this port is a
+     * 4:1 port, it ignores this port and returns null
+     */
+    public Port getPort(Resource resourceType, boolean ignoreFourToOne)
+    {
+        Port result=null;
+        int amountNeeded = 6;
+        
+        for (Port port : ports)
+        {
+            // Check if we can use the port to trade the given resource type with
+            if (port.canTrade(resourceType))
+            {
+                // When a port tops production of any previous port, set it 
+                if (port.getInAmount() < amountNeeded)
+                {
+                    amountNeeded=port.getInAmount();
+                    result=port;
+                }
+            }
+        }
+        if (amountNeeded == 4 && ignoreFourToOne)
+        {
+            result=null;
+        }
+        
+        return result;
     }
 }

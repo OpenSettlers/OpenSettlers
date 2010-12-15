@@ -196,6 +196,23 @@ public class ResourceList implements Iterable<Resource>
     }
     
     /*
+     * Returns a list of resources needed
+     */
+    public ResourceList getNeededResources(ResourceList neededResources)
+    {
+        ResourceList result = new ResourceList();
+        
+        result.add(neededResources);
+        for (Resource resource : neededResources)
+        {
+            if (this.contains(resource))
+                result.remove(resource);
+        }
+        
+        return result;
+    }
+    
+    /*
      * Checks each resource if contained in the list, if so removes it
      */
     public void subtractResources(ResourceList resourcesToSubtract)
@@ -220,6 +237,13 @@ public class ResourceList implements Iterable<Resource>
         return result;
     }
 
+    /*
+     * Removes all resources from this list
+     */
+    public void clear()
+    {
+        removeAll(this);
+    }
 
     @Override
     public Iterator<Resource> iterator()

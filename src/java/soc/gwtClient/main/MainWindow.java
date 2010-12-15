@@ -4,9 +4,12 @@ package soc.gwtClient.main;
 import java.util.ArrayList;
 
 import soc.common.board.Board;
+import soc.common.board.ports.ThreeToOnePort;
+import soc.common.board.ports.TwoToOneResourcePort;
 import soc.common.board.resources.Clay;
 import soc.common.board.resources.Ore;
 import soc.common.board.resources.Sheep;
+import soc.common.board.resources.Timber;
 import soc.common.board.resources.Wheat;
 import soc.common.game.Game;
 import soc.common.game.Player;
@@ -202,6 +205,9 @@ public class MainWindow implements EntryPoint
         result.getPlayers().get(0).getResources().add(new Sheep());
         result.getPlayers().get(0).getResources().add(new Sheep());
 
+        result.getPlayers().get(0).getPorts().add(new TwoToOneResourcePort(new Clay()));
+        result.getPlayers().get(0).getPorts().add(new TwoToOneResourcePort(new Timber()));
+        result.getPlayers().get(0).getPorts().add(new ThreeToOnePort());
         return result;
     }
 }

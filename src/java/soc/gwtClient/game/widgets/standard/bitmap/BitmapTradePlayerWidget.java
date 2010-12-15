@@ -1,5 +1,7 @@
 package soc.gwtClient.game.widgets.standard.bitmap;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.Widget;
@@ -13,9 +15,10 @@ import soc.common.game.GamePhaseChangedEventHandler;
 import soc.common.game.Player;
 import soc.gwtClient.game.abstractWidgets.AbstractActionWidget;
 import soc.gwtClient.game.abstractWidgets.IGamePanel;
+import soc.gwtClient.game.dialogs.TradePlayersDialog;
 
 public class BitmapTradePlayerWidget extends AbstractActionWidget implements 
-        GamePhaseChangedEventHandler, ResourcesChangedEventHandler
+        GamePhaseChangedEventHandler, ResourcesChangedEventHandler, ClickHandler
 {
     PushButton btnTradePlayer = new PushButton(new Image("icons/48/TradePlayer48.png"));
     TradePlayer tradePlayer = new TradePlayer();
@@ -28,6 +31,7 @@ public class BitmapTradePlayerWidget extends AbstractActionWidget implements
         
         player.getResources().addResourcesChangedEventHandler(this);
         gamePanel.getGame().addGamePhaseChangedEventHandler(this);
+        btnTradePlayer.addClickHandler(this);
     }
 
     @Override
@@ -64,5 +68,11 @@ public class BitmapTradePlayerWidget extends AbstractActionWidget implements
         }
         
         setEnabled(false);
+    }
+
+    @Override
+    public void onClick(ClickEvent arg0)
+    {
+        gamePanel.showTradePlayersPanel();
     }
 }

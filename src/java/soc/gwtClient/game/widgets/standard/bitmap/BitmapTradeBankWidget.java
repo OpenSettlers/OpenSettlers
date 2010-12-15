@@ -1,5 +1,7 @@
 package soc.gwtClient.game.widgets.standard.bitmap;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.Widget;
@@ -14,11 +16,13 @@ import soc.common.game.GamePhaseChangedEventHandler;
 import soc.common.game.Player;
 import soc.gwtClient.game.abstractWidgets.AbstractActionWidget;
 import soc.gwtClient.game.abstractWidgets.IGamePanel;
+import soc.gwtClient.game.dialogs.TradeBankDialog;
 
 public class BitmapTradeBankWidget extends AbstractActionWidget implements 
-        ResourcesChangedEventHandler, PortListChangedEventHandler, GamePhaseChangedEventHandler
+        ResourcesChangedEventHandler, PortListChangedEventHandler, GamePhaseChangedEventHandler, ClickHandler
 {
     PushButton btnTradeBank = new PushButton(new Image("icons/48/BankTrade48.png"));
+    TradeBankDialog tradeBank = new TradeBankDialog(gamePanel);
     
     public BitmapTradeBankWidget(IGamePanel gamePanel, Player player)
     {
@@ -27,6 +31,8 @@ public class BitmapTradeBankWidget extends AbstractActionWidget implements
         player.getResources().addResourcesChangedEventHandler(this);
         player.getPorts().addPortListChangedEventHandler(this);
         gamePanel.getGame().addGamePhaseChangedEventHandler(this);
+        
+        btnTradeBank.addClickHandler(this);
     }
 
     @Override
@@ -71,6 +77,12 @@ public class BitmapTradeBankWidget extends AbstractActionWidget implements
         }
         
         setEnabled(false);
+    }
+
+    @Override
+    public void onClick(ClickEvent arg0)
+    {
+        tradeBank.show();
     }
 
 }

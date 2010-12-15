@@ -69,7 +69,7 @@ public class PlayRoadBuildingDialog extends DialogBox
         Button btnCancel = new Button("New button");
         btnCancel.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent arg0) {
-                close();
+                hide();
             }
         });
         btnCancel.setText("Cancel");
@@ -79,14 +79,10 @@ public class PlayRoadBuildingDialog extends DialogBox
         btnPlayRoadBuilding.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent arg0) {
                 gamePanel.startAction(playDevelopmentCard);
-                close();
+                hide();
             }
         });
         btnPlayRoadBuilding.setText("Play road building");
         horizontalPanel_1.add(btnPlayRoadBuilding);
-    }
-    private void close()
-    {
-        this.hide();
     }
 }

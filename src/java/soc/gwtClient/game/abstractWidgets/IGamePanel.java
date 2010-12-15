@@ -30,4 +30,7 @@ public interface IGamePanel
     // Returns the player currrently playing.
     // This may change in a hotseat game
     public Player getPlayingPlayer();
+    
+    public void showTradePlayersPanel();
+    public IPlayersWidget getPlayersWidget();
 }

@@ -13,7 +13,9 @@ import soc.common.server.HotSeatServer;
 import soc.common.server.IGameServer;
 import soc.common.server.IGameServerCallback;
 import soc.gwtClient.game.ICenterWidget;
+import soc.gwtClient.game.Point2D;
 import soc.gwtClient.game.dialogs.NewGameDialog;
+import soc.gwtClient.game.dialogs.TradePlayersDialog;
 
 public abstract class AbstractGamePanel 
     implements IGamePanel, ICenterWidget, IGameServerCallback
@@ -32,6 +34,7 @@ public abstract class AbstractGamePanel
     protected Player player;
     protected IHandCardsWidget handCards;
     protected IStatusDicePanel statusDicePanel;
+    protected TradePlayersDialog tradePlayers;
     
     public AbstractGamePanel(Game game)
     {
@@ -46,8 +49,25 @@ public abstract class AbstractGamePanel
         gameBoard = createGameBoard(500,500, game.getBoard());
         handCards = createHandCardsWidget(player);
         statusDicePanel = createStatusDicePanel(this);
+        tradePlayers = new TradePlayersDialog(this); 
     }
     
+    /**
+     * @return the playersWidget
+     */
+    public IPlayersWidget getPlayersWidget()
+    {
+        return playersWidget;
+    }
+
+    /**
+     * @return the tradePlayers
+     */
+    public TradePlayersDialog getTradePlayers()
+    {
+        return tradePlayers;
+    }
+
     /* (non-Javadoc)
      * @see soc.common.server.IGameServerCallback#receive(soc.common.actions.gameAction.GameAction)
      */
@@ -108,5 +128,13 @@ public abstract class AbstractGamePanel
     public Player getPlayingPlayer()
     {
         return player;
+    }
+    public void showTradePlayersPanel()
+    {
+        Point2D location = playersWidget.getTopRightLocation();
+        tradePlayers.setPopupPosition(
+                location.getX(), 
+                location.getY());
+        tradePlayers.show();
     }
 }

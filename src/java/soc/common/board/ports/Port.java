@@ -1,7 +1,5 @@
 package soc.common.board.ports;
 
-import java.util.List;
-
 import soc.common.board.HexLocation;
 import soc.common.board.HexSide;
 import soc.common.board.RotationPosition;
@@ -15,7 +13,6 @@ public class Port
     protected HexSide hexSide;
     protected RotationPosition rotationPosition;
 
-    
     /**
      * @return the landLocation
      */
@@ -83,6 +80,7 @@ public class Port
     {
         throw new RuntimeException();
     }
+    
     public int getOutAmount()
     {
         throw new RuntimeException();
