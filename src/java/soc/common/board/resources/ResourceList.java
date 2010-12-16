@@ -285,4 +285,34 @@ public class ResourceList implements Iterable<Resource>
         }
         return false;
     }
+    
+    public ResourceList getTradeableResources()
+    {
+        ResourceList result = new ResourceList();
+        
+        for (Resource resource : resources)
+        {
+            if (resource.isTradeable())
+            {
+                result.add(resource);
+            }
+        }
+        
+        return result;
+    }
+    
+    public ResourceList getNonTradeableResources()
+    {
+        ResourceList result = new ResourceList();
+        
+        for (Resource resource : resources)
+        {
+            if (!resource.isTradeable())
+            {
+                result.add(resource);
+            }
+        }
+        
+        return result;
+    }
 }
