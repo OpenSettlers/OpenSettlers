@@ -270,4 +270,19 @@ public class ResourceList implements Iterable<Resource>
         int randomResource = random.nextInt(resources.size());
         return resources.get(randomResource);
     }
+    
+    /*
+     * Returns true if this list contains resources which are tradeable
+     */
+    public boolean hasTradeableResources()
+    {
+        for (Resource resource : resources)
+        {
+            if (resource.isTradeable())
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }

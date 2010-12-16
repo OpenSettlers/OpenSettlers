@@ -21,4 +21,13 @@ public class Gold extends Resource
         return new Gold();
     }
 
+    /* (non-Javadoc)
+     * @see soc.common.board.resources.Resource#isTradeable()
+     */
+    @Override
+    public boolean isTradeable()
+    {
+        return false;
+    }
+
 }

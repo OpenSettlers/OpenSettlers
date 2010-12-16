@@ -2,7 +2,9 @@ package soc.common.game;
 
 import com.google.gwt.event.shared.SimpleEventBus;
 
+import soc.common.board.pieces.City;
 import soc.common.board.pieces.PlayerPieceList;
+import soc.common.board.pieces.Town;
 import soc.common.board.ports.PortList;
 import soc.common.board.resources.ResourceList;
 import soc.common.game.developmentCards.DevelopmentCard;
@@ -61,7 +63,15 @@ public class Player extends User
         
         return eventBus;
     }
-    
+    public PlayerPieceList getTownsCities()
+    {
+        PlayerPieceList result = new PlayerPieceList();
+        
+        result.add(buildPieces.ofType(Town.class));
+        result.add(buildPieces.ofType(City.class));
+        
+        return result;
+    }
     /**
      * @return the roadBuildingTokens
      */

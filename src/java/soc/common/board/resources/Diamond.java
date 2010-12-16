@@ -21,4 +21,13 @@ public class Diamond extends Resource
         return new Diamond();
     }
 
+    /* (non-Javadoc)
+     * @see soc.common.board.resources.Resource#isTradeable()
+     */
+    @Override
+    public boolean isTradeable()
+    {
+        return false; 
+    }
+
 }

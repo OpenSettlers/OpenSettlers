@@ -42,4 +42,9 @@ public abstract class Resource
     {
         return obj.getClass() == this.getClass();
     }
+    
+    public boolean isTradeable()
+    {
+        return true;
+    }
 }
