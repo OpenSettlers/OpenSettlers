@@ -5,5 +5,5 @@ import soc.common.game.Player;
 
 public class TurnAction extends GameAction
 {
-
+    
 }

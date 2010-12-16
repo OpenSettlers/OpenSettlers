@@ -1,5 +1,10 @@
 package soc.common.actions.gameAction;
 
+/*
+ * A generic message from the server. Currently used as error message
+ * for debugging purposes. POssible future use is for example servers
+ * rebooting.
+ */
 public class MessageFromServer extends GameAction
 {
     private String serverMessage;
@@ -19,8 +24,6 @@ public class MessageFromServer extends GameAction
     {
         this.serverMessage = serverMessage;
     
-        // Enables fluent interface usage
-        // http://en.wikipedia.org/wiki/Fluent_interface
         return this;
     } 
 }

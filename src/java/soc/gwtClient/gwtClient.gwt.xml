@@ -8,6 +8,7 @@
 
   <inherits name='soc.common.OSCommon' />
   <inherits name='org.vaadin.gwtgraphics.GWTGraphics' />
+  <inherits name='org.JGraphT' />
   
   <entry-point class='soc.gwtClient.main.MainWindow'/>
 

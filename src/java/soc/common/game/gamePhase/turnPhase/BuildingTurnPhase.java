@@ -1,6 +1,7 @@
 package soc.common.game.gamePhase.turnPhase;
 
 import soc.common.actions.gameAction.*;
+import soc.common.actions.gameAction.turnActions.EndTurn;
 import soc.common.game.Game;
 
 public class BuildingTurnPhase extends TurnPhase

@@ -1,6 +1,6 @@
 package soc.gwtClient.game.widgets.standard.bitmap;
 
-import soc.common.actions.gameAction.EndTurn;
+import soc.common.actions.gameAction.turnActions.EndTurn;
 import soc.common.actions.gameAction.turnActions.TurnAction;
 import soc.common.actions.gameAction.turnActions.standard.BuildCity;
 import soc.common.actions.gameAction.turnActions.standard.BuildRoad;

@@ -1,6 +1,9 @@
 package soc.common.actions.gameAction;
 
 import soc.common.game.Game;
+import soc.common.game.gamePhase.GamePhase;
+import soc.common.game.gamePhase.LobbyGamePhase;
+import soc.common.game.gamePhase.turnPhase.TurnPhase;
 
 public class HostStartsGame extends GameAction
 {
@@ -21,9 +24,25 @@ public class HostStartsGame extends GameAction
     {
         this.game = game.copy();
     
-        // Enables fluent interface usage
-        // http://en.wikipedia.org/wiki/Fluent_interface
         return this;
+    }
+
+    /* (non-Javadoc)
+     * @see soc.common.actions.gameAction.GameAction#isAllowed(soc.common.game.gamePhase.GamePhase)
+     */
+    @Override
+    public boolean isAllowed(GamePhase gamePhase)
+    {
+        return gamePhase instanceof LobbyGamePhase;
+    }
+
+    /* (non-Javadoc)
+     * @see soc.common.actions.gameAction.GameAction#isAllowed(soc.common.game.gamePhase.turnPhase.TurnPhase)
+     */
+    @Override
+    public boolean isAllowed(TurnPhase turnPhase)
+    {
+        return false;
     }
 
 }

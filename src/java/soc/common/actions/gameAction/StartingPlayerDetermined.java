@@ -1,8 +1,29 @@
 package soc.common.actions.gameAction;
 
+import soc.common.game.Player;
+
 public class StartingPlayerDetermined extends GameAction
 {
     private int diceRoll;
+    private Player gameStarter;
+
+    /**
+     * @return the gameStarter
+     */
+    public Player getGameStarter()
+    {
+        return gameStarter;
+    }
+
+    /**
+     * @param gameStarter the gameStarter to set
+     */
+    public StartingPlayerDetermined setGameStarter(Player gameStarter)
+    {
+        this.gameStarter = gameStarter;
+    
+        return this;
+    }
 
     /**
      * @return the diceRoll

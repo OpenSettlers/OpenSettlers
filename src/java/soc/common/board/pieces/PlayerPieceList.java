@@ -4,14 +4,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import soc.common.board.HexLocation;
 import soc.common.board.HexPoint;
 import soc.common.board.HexSide;
-import sun.nio.ch.SocketOpts.IP;
 
-
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.SimpleEventBus;
-import com.google.gwt.event.shared.GwtEvent.Type;
 
 public class PlayerPieceList implements Iterable<PlayerPiece>
 {
@@ -41,7 +38,7 @@ public class PlayerPieceList implements Iterable<PlayerPiece>
         
         for (PlayerPiece piece : this)
         {
-            if (piece.getClass().isInstance(clazz))
+            if (piece.getClass().toString().equals(GWT.getTypeName(clazz)))
                 result.add(piece);
         }
         
@@ -171,11 +168,11 @@ public class PlayerPieceList implements Iterable<PlayerPiece>
         return playerPieceToRemove;
     }
 
-    public PlayerPiece get(Class clazz)
+    public PlayerPiece get(PlayerPiece pieceType)
     {
         for (PlayerPiece playerPiece : playerPieces)
         {
-            if (playerPiece.getClass().isInstance(clazz))
+            if (playerPiece.getClass() == pieceType.getClass())
             {
                 return playerPiece;
             }

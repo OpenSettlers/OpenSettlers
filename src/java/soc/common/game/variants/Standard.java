@@ -1,6 +1,6 @@
 package soc.common.game.variants;
 
-import soc.common.actions.gameAction.EndTurn;
+import soc.common.actions.gameAction.turnActions.EndTurn;
 import soc.common.actions.gameAction.turnActions.standard.BuildCity;
 import soc.common.actions.gameAction.turnActions.standard.BuildRoad;
 import soc.common.actions.gameAction.turnActions.standard.BuildTown;

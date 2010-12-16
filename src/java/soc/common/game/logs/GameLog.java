@@ -7,7 +7,7 @@ import java.util.List;
 import com.google.gwt.event.shared.SimpleEventBus;
 
 import soc.common.actions.gameAction.GameAction;
-import soc.common.actions.gameAction.RolledSame;
+import soc.common.actions.gameAction.turnActions.RolledSame;
 import soc.common.actions.gameAction.turnActions.standard.RollDice;
 import soc.common.game.Game;
 import soc.common.game.Player;

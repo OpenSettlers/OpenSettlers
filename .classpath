@@ -2,7 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path="src/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.12-bin.jar"/>
 	<classpathentry kind="lib" path="lib/gwt-graphics-0.9.7.jar"/>
 	<classpathentry kind="lib" path="lib/log4j-1.2.15.jar"/>
 	<classpathentry kind="lib" path="lib/gwt-api-checker.jar"/>
@@ -20,5 +19,6 @@
 			<attribute name="javadoc_location" value="file:/home/ruud/.eclipse/org.eclipse.platform_3.5.0_155965261/plugins/com.google.gwt.eclipse.sdkbundle.2.1.0_2.1.0.v201010280047/gwt-2.1.0/doc/javadoc/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="/home/ruud/workspace/OpenSettlers/lib/mysql-connector-java-5.1.14-bin.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

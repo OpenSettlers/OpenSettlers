@@ -90,7 +90,7 @@ public class BuildCity extends TurnAction
         if (game.getCurrentPhase() instanceof PlayTurnsGamePhase)
         {
             PlayerPiece town = player.getBuildPieces().ofType(Town.class).remove(pointLocation);
-            City city = (City) player.getStock().get(City.class);
+            City city = (City) player.getStock().get(Town.TOWN);
             city.setPoint(pointLocation);
             player.getBuildPieces().add(city);
             player.getResources().subtractResources(city.getCost());
@@ -100,7 +100,7 @@ public class BuildCity extends TurnAction
         }
         if (game.getCurrentPhase() instanceof InitialPlacementGamePhase)
         {
-            PlayerPiece city = player.getStock().get(City.class);
+            PlayerPiece city = player.getStock().get(City.CITY);
             player.getBuildPieces().add(city);
             player.getStock().remove(city);
 

@@ -7,7 +7,7 @@ import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import soc.common.actions.gameAction.EndTurn;
+import soc.common.actions.gameAction.turnActions.EndTurn;
 import soc.common.actions.gameAction.turnActions.TurnAction;
 import soc.common.board.resources.ResourcesChangedEvent;
 import soc.common.game.GamePhaseChangedEvent;
