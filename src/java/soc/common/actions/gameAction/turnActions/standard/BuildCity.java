@@ -58,30 +58,12 @@ public class BuildCity extends TurnAction
         // player should have a ship or road at some neighbour
         Player player = game.getPlayerByID(sender);
 
-        // Check if we have an ISidePiece
-        if (!(game.getCurrentPhase() instanceof InitialPlacementGamePhase))
-        {
-            boolean contains = true;
-            for (HexSide neighbour : pointLocation.getNeighbourSides())
-            {
-                if (player.getBuildPieces().ofType(ISidePiece.class).contains(neighbour))
-                {
-                    contains = false;
-                    break;
-                }
-            }
-            if (!contains)
-            {
-                invalidMessage = "No neighbouring ship or road found";
-                return false;
-            }
-        }
-
         if (!(player.getBuildPieces().ofType(Town.class).contains(pointLocation)))
         {
             invalidMessage = "No town found to replace with a city";
             return false;
         }
+        
         if (!City.CITY.canBuild(game.getBoard(), player))
         {
             invalidMessage = "Player cannot build the city";

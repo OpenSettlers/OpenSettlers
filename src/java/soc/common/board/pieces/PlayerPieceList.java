@@ -54,6 +54,14 @@ public class PlayerPieceList implements Iterable<PlayerPiece>
         safelyFireEvent(new PiecesChangedEvent(piece, null));
     }
     
+    public void add(PlayerPieceList pieces)
+    {
+        for (PlayerPiece playerPiece : pieces)
+        {
+            playerPieces.add(playerPiece);
+        }
+    }
+    
     public void remove(PlayerPiece piece)
     {
         playerPieces.remove(piece);
