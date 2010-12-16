@@ -15,6 +15,8 @@ public class Player extends User
     // Hand resource cards
     private ResourceList resources = new ResourceList();
     
+    private int roadBuildingTokens;
+    
     private String color;
     
     // Maximum cards the player may have in his hand
@@ -58,6 +60,25 @@ public class Player extends User
         }
         
         return eventBus;
+    }
+    
+    /**
+     * @return the roadBuildingTokens
+     */
+    public int getRoadBuildingTokens()
+    {
+        return roadBuildingTokens;
+    }
+    /**
+     * @param roadBuildingTokens the roadBuildingTokens to set
+     */
+    public Player setRoadBuildingTokens(int roadBuildingTokens)
+    {
+        this.roadBuildingTokens = roadBuildingTokens;
+    
+        // Enables fluent interface usage
+        // http://en.wikipedia.org/wiki/Fluent_interface
+        return this;
     }
     /**
      * @return the victoryPoints

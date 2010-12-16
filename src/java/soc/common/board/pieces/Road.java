@@ -6,6 +6,7 @@ import soc.common.game.Player;
 
 public class Road extends PlayerPiece
 {
+    public static Road ROAD = new Road();
     @Override
     public String toString()
     {

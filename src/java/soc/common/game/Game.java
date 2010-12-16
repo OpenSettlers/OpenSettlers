@@ -9,6 +9,7 @@ import com.google.gwt.event.shared.SimpleEventBus;
 import soc.common.actions.gameAction.turnActions.TurnAction;
 import soc.common.board.Board;
 import soc.common.board.HexLocation;
+import soc.common.board.pieces.IPointPiece;
 import soc.common.board.pieces.ISidePiece;
 import soc.common.board.pieces.PlayerPieceList;
 import soc.common.board.resources.Resource;
@@ -63,6 +64,18 @@ public class Game
     public PlayerPieceList getAllPointPieces()
     {
         PlayerPieceList result  = new PlayerPieceList();
+        
+        for (Player player : players)
+        {
+            result.add(player.getBuildPieces().ofType(IPointPiece.class));
+        }
+        
+        return result;
+    }
+    
+    public PlayerPieceList getAllSidePieces()
+    {
+        PlayerPieceList result = new PlayerPieceList();
         
         for (Player player : players)
         {

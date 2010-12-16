@@ -12,7 +12,6 @@ import soc.common.board.hexes.ResourceHex;
 import soc.common.board.hexes.SeaHex;
 import soc.common.board.pieces.ISidePiece;
 import soc.common.board.pieces.PlayerPiece;
-import soc.common.board.pieces.Town;
 import soc.common.board.ports.Port;
 import soc.common.game.Game;
 import soc.common.game.Player;
