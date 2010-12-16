@@ -1,14 +1,36 @@
 package soc.common.board.pieces;
 
 import soc.common.board.Board;
+import soc.common.board.HexPoint;
 import soc.common.board.resources.*;
 import soc.common.game.IVictoryPointItem;
 import soc.common.game.Player;
 
-public class Town extends PlayerPiece implements IVictoryPointItem
+public class Town extends PlayerPiece implements IVictoryPointItem, IPointPiece
 {
     public static Town TOWN  = new Town();
+    private HexPoint pointLocation;
     
+    /**
+     * @return the pointLocation
+     */
+    @Override
+    public HexPoint getPoint()
+    {
+        return pointLocation;
+    }
+
+    /**
+     * @param pointLocation the pointLocation to set
+     */
+    @Override
+    public IPointPiece setPoint(HexPoint pointLocation)
+    {
+        this.pointLocation = pointLocation;
+    
+        return this;
+    }
+
     @Override
     public String toString()
     {

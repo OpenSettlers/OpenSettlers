@@ -5,7 +5,6 @@ import java.util.List;
 import soc.common.actions.gameAction.turnActions.TurnAction;
 import soc.common.board.HexLocation;
 import soc.common.board.HexPoint;
-import soc.common.board.pieces.IPointPiece;
 import soc.common.board.resources.Resource;
 import soc.common.game.Game;
 import soc.common.game.Player;
