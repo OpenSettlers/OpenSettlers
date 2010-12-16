@@ -21,5 +21,18 @@ public class Turn implements ITurn
     {
         return player;
     }
+
+    @Override
+    public int getID()
+    {
+        return id;
+    }
+
+    @Override
+    public ITurn setID(int id)
+    {
+        this.id=id;
+        return this;
+    }
     
 }

@@ -34,4 +34,13 @@ public class VictoryPoint extends DevelopmentCard implements IVictoryPointItem
         return 1;
     }
 
+    /* (non-Javadoc)
+     * @see soc.common.game.developmentCards.DevelopmentCard#isHasSummoningSickness()
+     */
+    @Override
+    public boolean isHasSummoningSickness()
+    {
+        return false;
+    }
+
 }

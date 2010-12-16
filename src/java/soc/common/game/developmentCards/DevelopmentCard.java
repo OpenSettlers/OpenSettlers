@@ -14,10 +14,11 @@ public class DevelopmentCard
 {
     protected String invalidMessage;
     protected String message;
-    protected int _turnBought = 0;
+    protected int turnBought = 0;
     private int id = 0;
     private boolean isPlayable = false;
     private static ResourceList cost = new ResourceList();
+    
     static
     {
         cost.add(new Wheat());
@@ -25,6 +26,14 @@ public class DevelopmentCard
         cost.add(new Sheep());
     }
     
+    /**
+     * @return the hasSummoningSickness
+     */
+    public boolean isHasSummoningSickness()
+    {
+        return true;
+    }
+
     public static boolean canPay(Player player)
     {
         //TODO: implement
@@ -86,13 +95,13 @@ public class DevelopmentCard
     {
         this.message = message;
     }
-    public int get_turnBought()
+    public int getTurnBought()
     {
-        return _turnBought;
+        return turnBought;
     }
-    public void set_turnBought(int turnBought)
+    public void setTurnBought(int turnBought)
     {
-        _turnBought = turnBought;
+        this.turnBought = turnBought;
     }
     public int getId()
     {
