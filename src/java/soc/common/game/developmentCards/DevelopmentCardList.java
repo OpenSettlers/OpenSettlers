@@ -126,4 +126,8 @@ public class DevelopmentCardList implements Iterable<DevelopmentCard>
         
         return eventBus;
     }
+    public boolean contains(DevelopmentCard devCard)
+    {
+        return devCards.contains(devCard);
+    }
 }

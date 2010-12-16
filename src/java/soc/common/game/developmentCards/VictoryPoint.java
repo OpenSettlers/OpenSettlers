@@ -2,6 +2,7 @@ package soc.common.game.developmentCards;
 
 import soc.common.game.Game;
 import soc.common.game.IVictoryPointItem;
+import soc.common.game.Player;
 
 /*
  * Standard ruleset VictoryPoint development card
@@ -34,13 +35,33 @@ public class VictoryPoint extends DevelopmentCard implements IVictoryPointItem
         return 1;
     }
 
-    /* (non-Javadoc)
+    /* VictoryPoint card can be played instantly
      * @see soc.common.game.developmentCards.DevelopmentCard#isHasSummoningSickness()
      */
     @Override
     public boolean isHasSummoningSickness()
     {
         return false;
+    }
+
+    /* VictoryPoint cards can be played without limits
+     * @see soc.common.game.developmentCards.DevelopmentCard#isLimitOnePerTurn()
+     */
+    @Override
+    public boolean isLimitOnePerTurn()
+    {
+        return false;
+    }
+
+    /* (non-Javadoc)
+     * @see soc.common.game.developmentCards.DevelopmentCard#play(soc.common.game.Game, soc.common.game.Player)
+     */
+    @Override
+    public void play(Game game, Player player)
+    {
+        player.getVictoryPoints().add(this);
+        
+        super.play(game, player);
     }
 
 }

@@ -23,12 +23,15 @@ public class QueuedAction
     private boolean isBlocking = false;
     private boolean isOptional = false;
     
+    public QueuedAction()
+    {
+    }
+
     /*
      * Creates QueuedAction with default values blocking and optional both false
      */
     public QueuedAction(GameAction action)
     {
-        super();
         this.action = action;
     }
 

@@ -25,7 +25,10 @@ public class DevelopmentCard
         cost.add(new Ore());
         cost.add(new Sheep());
     }
-    
+    public boolean isLimitOnePerTurn()
+    {
+        return true;
+    }
     /**
      * @return the hasSummoningSickness
      */
