@@ -29,7 +29,7 @@ public class Road extends PlayerPiece
     @Override
     public boolean canBuild(Board board, Player player)
     {
-        if (player.getStock().ofType(this).size() == 0) return false;
+        if (player.getStock().ofType(Road.class).size() == 0) return false;
 
         // TODO: port to java
         // if (GetRoadBuildPlaces(game, board).Count == 0) return false;

@@ -32,6 +32,7 @@ public class EditTerritory extends DialogBox
         dockPanel.add(horizontalPanel, DockPanel.EAST);
         
         VerticalPanel variants = new VerticalPanel();
+        variants.setSpacing(5);
         horizontalPanel.add(variants);
         variants.setWidth("135px");
         
@@ -43,9 +44,6 @@ public class EditTerritory extends DialogBox
         
         CheckBox chckbxCitiesKnights = new CheckBox("Cities & Knights");
         variants.add(chckbxCitiesKnights);
-        
-        CheckBox chckbxSead = new CheckBox("Sea3D");
-        variants.add(chckbxSead);
         
         CheckBox chckbxExtended = new CheckBox("Extended");
         variants.add(chckbxExtended);
@@ -59,6 +57,16 @@ public class EditTerritory extends DialogBox
         
         CheckBox chckbxPioneers = new CheckBox("Pioneers");
         horizontalPanel_1.add(chckbxPioneers);
+        
+        HorizontalPanel horizontalPanel_2 = new HorizontalPanel();
+        variants.add(horizontalPanel_2);
+        
+        Image image_1 = new Image("icons/32/Sea3D.png");
+        horizontalPanel_2.add(image_1);
+        image_1.setSize("32", "32");
+        
+        CheckBox chckbxSead = new CheckBox("Sea3D");
+        horizontalPanel_2.add(chckbxSead);
         
         VerticalPanel hexList = new VerticalPanel();
         horizontalPanel.add(hexList);

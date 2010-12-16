@@ -1,12 +1,16 @@
 package soc.common.board.pieces;
 
 import soc.common.board.Board;
+import soc.common.board.HexPoint;
 import soc.common.board.resources.*;
 import soc.common.game.IVictoryPointItem;
 import soc.common.game.Player;
 
-public class City extends PlayerPiece implements IVictoryPointItem
+public class City extends PlayerPiece implements IVictoryPointItem, IPointPiece
 {
+    public static City CITY = new City();
+    private HexPoint pointLocation;
+    
     @Override
     public ResourceList getCost()
     {
@@ -34,11 +38,11 @@ public class City extends PlayerPiece implements IVictoryPointItem
     public boolean canBuild(Board board, Player player)
     {
         // We need a city in stock...
-        if (player.getStock().ofType(this).size() == 0) 
+        if (player.getStock().ofType(City.class).size() == 0) 
             return false;
         
         // And we need a town to replace.
-        if (player.getTowns().size() == 0)
+        if (player.getBuildPieces().ofType(Town.class).size() == 0)
             return false;
         
         return true;
@@ -52,5 +56,19 @@ public class City extends PlayerPiece implements IVictoryPointItem
     public int getVictoryPoints()
     {
         return 2;
+    }
+
+    @Override
+    public HexPoint getPoint()
+    {
+        return pointLocation;
+    }
+
+    @Override
+    public IPointPiece setPoint(HexPoint point)
+    {
+        pointLocation=point;
+        
+        return null;
     }
 }

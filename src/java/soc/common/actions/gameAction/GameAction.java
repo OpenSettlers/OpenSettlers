@@ -7,6 +7,7 @@ import soc.common.game.Player;
 import soc.common.game.User;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
+import soc.common.utils.ClassUtils;
 
 /*
  * A GameAction performed in a game
@@ -135,8 +136,18 @@ public class GameAction
         throw new RuntimeException("Not yet implemented");
     }
     
-    public boolean isValid()
+    public boolean isValid(Game game)
     {
+        if (!isAllowed(game.getCurrentPhase()))
+        {
+            invalidMessage=getName() + " is not allowed during " + game.getCurrentPhase().getName();
+            return false;
+        }
+        
         return true;
+    }
+    public String getName()
+    {
+        return ClassUtils.getSimpleClassName(this.getClass().getName());
     }
 }

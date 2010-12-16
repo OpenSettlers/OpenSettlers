@@ -34,4 +34,11 @@ public class ServerRobPlayer implements IServerAction
         return robPlayer;
     }
 
+    @Override
+    public GameAction getOpponentAction()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

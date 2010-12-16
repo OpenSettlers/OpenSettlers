@@ -25,10 +25,9 @@ public class Player extends User
     // player has in stock
     private PlayerPieceList stock = new PlayerPieceList();
     
-    private PlayerPieceList towns = new PlayerPieceList();
-    private PlayerPieceList cities = new PlayerPieceList();
-    private PlayerPieceList roads = new PlayerPieceList();
-
+    // List of pieces the player has built
+    private PlayerPieceList buildPieces = new PlayerPieceList();
+    
     // Keep track of being on turn
     private boolean isOnTurn=false;
     
@@ -141,29 +140,12 @@ public class Player extends User
     }
 
     /**
-     * @return the towns
+     * @return the buildPieces
      */
-    public PlayerPieceList getTowns()
+    public PlayerPieceList getBuildPieces()
     {
-        return towns;
+        return buildPieces;
     }
-
-    /**
-     * @return the cities
-     */
-    public PlayerPieceList getCities()
-    {
-        return cities;
-    }
-
-    /**
-     * @return the roads
-     */
-    public PlayerPieceList getRoads()
-    {
-        return roads;
-    }
-
     /**
      * @return the ports
      */

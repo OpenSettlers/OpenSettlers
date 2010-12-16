@@ -16,4 +16,11 @@ public class Wall extends PlayerPiece implements IPointPiece
         return null;
     }
 
+    @Override
+    public IPointPiece setPoint(HexPoint point)
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

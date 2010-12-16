@@ -108,10 +108,12 @@ public class InitialPlacementGamePhase extends GamePhase
             else
             {
                 // Next player is the player of the first action on the queue
+                /* TODO: set turn of game instead of setPlaterOnTurn
                 game.setPlayerOnTurn
                 (
                     game.getActionsQueue().peek().getAction().getPlayer()
                 );
+                */
             }
         }
        

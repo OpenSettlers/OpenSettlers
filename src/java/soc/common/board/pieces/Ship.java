@@ -17,7 +17,7 @@ public class Ship extends PlayerPiece
     @Override
     public boolean canBuild(Board board, Player player)
     {
-        if (player.getStock().ofType(this).size() == 0) return false;
+        if (player.getStock().ofType(Ship.class).size() == 0) return false;
 
         // TODO: port to java
         //if (GetShipBuildPlaces(game, board).Count == 0) return false;

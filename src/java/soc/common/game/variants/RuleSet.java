@@ -1,4 +1,4 @@
-package soc.common.game.rules;
+package soc.common.game.variants;
 
 import soc.common.board.Board;
 import soc.common.board.resources.Clay;
@@ -12,7 +12,7 @@ import soc.common.game.Game;
 /*
  * Basic standard settlers ruleset
  */
-public abstract class RuleSet implements IRuleSet
+public abstract class RuleSet implements IVariant
 {
     protected RuleSet nextRuleSet;
     private int bankAmount = 19;

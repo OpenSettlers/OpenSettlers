@@ -22,7 +22,7 @@ public class BitmapStockRoadWidget extends AbstractStockItemWidget implements Pi
         super(player);
         
         roadImage.setSize("24px", "24px");
-        roadAmount.setText(Integer.toString(player.getStock().ofType(new Road()).size()));
+        roadAmount.setText(Integer.toString(player.getStock().ofType(Road.class).size()));
         
         rootPanel.add(roadImage);
         rootPanel.add(roadAmount);
@@ -41,7 +41,7 @@ public class BitmapStockRoadWidget extends AbstractStockItemWidget implements Pi
     {
         if (event.getChangedPiece() instanceof Road)
         {
-            roadAmount.setText(Integer.toString(player.getStock().ofType(road).size()));
+            roadAmount.setText(Integer.toString(player.getStock().ofType(Road.class).size()));
         }
     }
 }

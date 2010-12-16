@@ -1,4 +1,4 @@
-package soc.common.game.rules;
+package soc.common.game.variants;
 
 import soc.common.actions.gameAction.turnActions.seaFarers.BuildShip;
 import soc.common.board.pieces.Ship;

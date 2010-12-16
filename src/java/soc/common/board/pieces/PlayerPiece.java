@@ -7,6 +7,28 @@ import soc.common.utils.ClassUtils;
 
 public class PlayerPiece extends Piece
 {
+    protected Player player;
+    
+    /**
+     * @return the player
+     */
+    public Player getPlayer()
+    {
+        return player;
+    }
+
+    /**
+     * @param player the player to set
+     */
+    public PlayerPiece setPlayer(Player player)
+    {
+        this.player = player;
+    
+        // Enables fluent interface usage
+        // http://en.wikipedia.org/wiki/Fluent_interface
+        return this;
+    }
+
     public ResourceList getCost()
     {
         throw new RuntimeException();

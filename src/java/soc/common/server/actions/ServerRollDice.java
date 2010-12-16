@@ -1,11 +1,11 @@
-package soc.common.actions.gameAction.turnActions.standard;
+package soc.common.server.actions;
 
 import com.google.gwt.user.client.Random;
 
 import soc.common.actions.gameAction.GameAction;
+import soc.common.actions.gameAction.turnActions.standard.RollDice;
 import soc.common.game.Game;
 import soc.common.game.dices.StandardDice;
-import soc.common.server.actions.IServerAction;
 
 public class ServerRollDice implements IServerAction
 {
@@ -33,6 +33,13 @@ public class ServerRollDice implements IServerAction
     public GameAction getAction()
     {
         return rollDice;
+    }
+
+    @Override
+    public GameAction getOpponentAction()
+    {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

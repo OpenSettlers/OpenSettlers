@@ -1,4 +1,4 @@
-package soc.common.game.rules;
+package soc.common.game.variants;
 
 import soc.common.actions.gameAction.EndTurn;
 import soc.common.actions.gameAction.turnActions.standard.BuildCity;

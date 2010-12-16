@@ -32,7 +32,8 @@ public class PlacePortsGamePhase extends GamePhase
         else
         {
             // Move to the next player
-            game.setPlayerOnTurn(game.getNextPlayer());
+            // TODO: use game.getTurn()
+            //game.setPlayerOnTurn(game.getNextPlayer());
         }
     }
 

@@ -13,13 +13,11 @@ import soc.common.board.resources.ResourcesChangedEvent;
 import soc.common.game.GamePhaseChangedEvent;
 import soc.common.game.GamePhaseChangedEventHandler;
 import soc.common.game.Player;
-import soc.common.game.PlayerOnTurnChangedEvent;
-import soc.common.game.PlayerOnTurnChangedEventHandler;
 import soc.gwtClient.game.abstractWidgets.AbstractActionWidget;
 import soc.gwtClient.game.abstractWidgets.IActionWidget;
 import soc.gwtClient.game.abstractWidgets.IGamePanel;
 
-public class BitmapEndTurnWidget extends AbstractActionWidget implements PlayerOnTurnChangedEventHandler, GamePhaseChangedEventHandler
+public class BitmapEndTurnWidget extends AbstractActionWidget implements GamePhaseChangedEventHandler
 {
     public PushButton btnEndTurn = new PushButton(new Image("icons/32/EndTurn32.png"));
     private EndTurn endTurn = new EndTurn();
@@ -30,7 +28,8 @@ public class BitmapEndTurnWidget extends AbstractActionWidget implements PlayerO
         
         endTurn.setPlayer(player);
         
-        gamePanel.getGame().addPlayerOnTurnChangedEventHandler(this);
+        // TODO: switch to game.getTurn
+        //gamePanel.getGame().addPlayerOnTurnChangedEventHandler(this);
         gamePanel.getGame().addGamePhaseChangedEventHandler(this);
         
         btnEndTurn.addClickHandler(new ClickHandler()
@@ -59,11 +58,13 @@ public class BitmapEndTurnWidget extends AbstractActionWidget implements PlayerO
         btnEndTurn.setEnabled(enabled);
     }
 
+    /*
     @Override
     public void onPlayerOnTurnChanged(PlayerOnTurnChangedEvent event)
     {
         checkEnabled();
     }
+    */
 
     @Override
     public void onGamePhaseChanged(GamePhaseChangedEvent event)

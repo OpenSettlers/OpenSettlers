@@ -7,6 +7,8 @@ import soc.common.game.Player;
 
 public class Town extends PlayerPiece implements IVictoryPointItem
 {
+    public static Town TOWN  = new Town();
+    
     @Override
     public String toString()
     {
@@ -33,7 +35,7 @@ public class Town extends PlayerPiece implements IVictoryPointItem
     public boolean canBuild(Board board, Player player)
     {
         // We need a town in stock...
-        if (player.getStock().ofType(this).size() == 0) 
+        if (player.getStock().ofType(Town.class).size() == 0) 
             return false;
         
         // And we need a place to put it onto

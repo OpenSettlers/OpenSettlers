@@ -13,8 +13,8 @@ import soc.common.game.Game;
 import soc.common.game.Player;
 import soc.common.game.developmentCards.DevelopmentCard;
 import soc.common.game.developmentCards.DevelopmentCardList;
-import soc.common.game.rules.IRuleSet;
-import soc.common.game.rules.Standard;
+import soc.common.game.variants.IVariant;
+import soc.common.game.variants.Standard;
 
 public class ServerStartGame implements IServerAction
 {
@@ -45,7 +45,7 @@ public class ServerStartGame implements IServerAction
     private void createNewGame()
     {
         Game result = new Game();
-        ArrayList<IRuleSet> rules = new ArrayList<IRuleSet>();
+        ArrayList<IVariant> rules = new ArrayList<IVariant>();
         rules.add(new Standard(result));
         result.setRuleSets(rules);
         ArrayList<Player> players = new ArrayList<Player>();
@@ -122,6 +122,13 @@ public class ServerStartGame implements IServerAction
         //    id++;
         //}
 
+        return null;
+    }
+
+    @Override
+    public GameAction getOpponentAction()
+    {
+        // TODO Auto-generated method stub
         return null;
     }
 }

@@ -1,6 +1,6 @@
-package soc.common.game.rules;
+package soc.common.game.variants;
 
-public interface IRuleSet
+public interface IVariant
 {
     public void addBuildablePieces();
     public void setRules();

@@ -79,7 +79,7 @@ public class HexPoint
     /*
      * Returns a list of three HexSides adjacent to this point
      */
-    public List<HexSide> getNeighbourSides() throws Exception
+    public List<HexSide> getNeighbourSides()
     {
         List<HexSide> result = new ArrayList<HexSide>();
 
@@ -317,5 +317,14 @@ public class HexPoint
     {
         return hex1.hashCode() ^ hex2.hashCode() ^ hex3.hashCode();
     }
-    
+    public List<HexLocation> getHexLocations()
+    {
+        List<HexLocation> result = new ArrayList<HexLocation>();
+        
+        result.add(hex1);
+        result.add(hex2);
+        result.add(hex3);
+        
+        return result;
+    }
 }

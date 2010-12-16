@@ -21,8 +21,8 @@ import soc.common.game.logs.GameLog;
 import soc.common.game.logs.IActionsQueue;
 import soc.common.game.logs.IChatLog;
 import soc.common.game.logs.IGameLog;
-import soc.common.game.rules.IRuleSet;
 import soc.common.game.statuses.IGameStatus;
+import soc.common.game.variants.IVariant;
 
 public class Game
 {
@@ -39,7 +39,7 @@ public class Game
     // Abstracted rules
     private IGameRules gameRules = new GameRules();
 
-    private List<IRuleSet> ruleSets = new ArrayList<IRuleSet>();
+    private List<IVariant> ruleSets = new ArrayList<IVariant>();
 
     private ResourceList bank = new ResourceList();
     
@@ -90,17 +90,13 @@ public class Game
     /**
      * @param ruleSets the ruleSets to set
      */
-    public Game setRuleSets(List<IRuleSet> ruleSets)
+    public Game setRuleSets(List<IVariant> ruleSets)
     {
         this.ruleSets = ruleSets;
     
         return this;
     }
     
-    public void addPlayerOnTurnChangedEventHandler(PlayerOnTurnChangedEventHandler handler)
-    {
-        eventBus.addHandler(PlayerOnTurnChangedEvent.TYPE, handler);
-    }    
     public void addGamePhaseChangedEventHandler(GamePhaseChangedEventHandler handler)
     {
         eventBus.addHandler(GamePhaseChangedEvent.TYPE, handler);
@@ -145,7 +141,7 @@ public class Game
     }
     public void makeRulesPermanent()
     {
-        for (IRuleSet ruleset : ruleSets)
+        for (IVariant ruleset : ruleSets)
         {
             ruleset.setRules();
         }
@@ -171,7 +167,7 @@ public class Game
     /**
      * @return the ruleSets
      */
-    public List<IRuleSet> getRuleSets()
+    public List<IVariant> getRuleSets()
     {
         return ruleSets;
     }
@@ -219,36 +215,6 @@ public class Game
         throw new RuntimeException(
                 "Trying to get non-existing player. ID " + id + " is unknown");
     }
-    /**
-     * @return the playerOnTurn
-     */
-    public Player getPlayerOnTurn()
-    {
-        if (playerOnTurn == null)
-        {
-            playerOnTurn = players.get(0);
-        }
-        return playerOnTurn;
-    }
-
-    /**
-     * @param playerOnTurn the playerOnTurn to set
-     */
-    public Game setPlayerOnTurn(Player playerOnTurn)
-    {
-        // Create an event 
-        PlayerOnTurnChangedEvent event = new PlayerOnTurnChangedEvent(this.playerOnTurn, playerOnTurn);
-        
-        // Set the new values
-        playerOnTurn.setOnTurn(false);
-        this.playerOnTurn = playerOnTurn;
-        playerOnTurn.setOnTurn(true);
-        
-        // fire the event
-        eventBus.fireEvent(event);
-    
-        return this;
-    }
 
     /**
      * @return the gameSettings
@@ -273,11 +239,11 @@ public class Game
     {        
     }
     
-    public Game(List<IRuleSet> ruleSets)
+    public Game(List<IVariant> ruleSets)
     {
         this.ruleSets = ruleSets;
         
-        for (IRuleSet ruleSet : ruleSets)
+        for (IVariant ruleSet : ruleSets)
         {
             // Initialize the list of pieces allowed to be built
             ruleSet.addBuildablePieces();

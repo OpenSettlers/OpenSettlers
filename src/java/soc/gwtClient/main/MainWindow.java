@@ -18,8 +18,8 @@ import soc.common.game.developmentCards.RoadBuilding;
 import soc.common.game.developmentCards.Soldier;
 import soc.common.game.developmentCards.VictoryPoint;
 import soc.common.game.developmentCards.YearOfPlenty;
-import soc.common.game.rules.IRuleSet;
-import soc.common.game.rules.Standard;
+import soc.common.game.variants.IVariant;
+import soc.common.game.variants.Standard;
 import soc.gwtClient.editor.SvgMapEditor;
 import soc.gwtClient.game.ICenterWidget;
 import soc.gwtClient.game.widgets.HotSeatGamePanel;
@@ -135,7 +135,7 @@ public class MainWindow implements EntryPoint
     private Game createGame()
     {
         Game result = new Game();
-        ArrayList<IRuleSet> rules = new ArrayList<IRuleSet>();
+        ArrayList<IVariant> rules = new ArrayList<IVariant>();
         rules.add(new Standard(result));
         result.setRuleSets(rules);
         ArrayList<Player> players = new ArrayList<Player>();

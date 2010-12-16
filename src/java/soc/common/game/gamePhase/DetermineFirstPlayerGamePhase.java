@@ -102,7 +102,8 @@ public class DetermineFirstPlayerGamePhase extends GamePhase
                     }
 
                     // First player is on turn
-                    game.setPlayerOnTurn(game.getActionsQueue().peek().getAction().getPlayer());
+                    // TODO: set current player on turn using game.GetTurn
+                    //game.setPlayerOnTurn(game.getActionsQueue().peek().getAction().getPlayer());
                     return;
                 }
             }

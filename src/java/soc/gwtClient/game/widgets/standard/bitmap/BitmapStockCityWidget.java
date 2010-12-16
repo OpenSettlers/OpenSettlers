@@ -21,7 +21,7 @@ public class BitmapStockCityWidget extends AbstractStockItemWidget implements Pi
         super(player);
         
         cityImage.setSize("24px", "24px");
-        amountCities.setText(Integer.toString(player.getStock().ofType(city).size()));
+        amountCities.setText(Integer.toString(player.getStock().ofType(City.class).size()));
         
         rootPanel.add(cityImage);
         rootPanel.add(amountCities);
@@ -40,7 +40,7 @@ public class BitmapStockCityWidget extends AbstractStockItemWidget implements Pi
     {
         if (event.getChangedPiece() instanceof City)
         {
-            amountCities.setText(Integer.toString(player.getStock().ofType(city).size()));            
+            amountCities.setText(Integer.toString(player.getStock().ofType(City.class).size()));            
         }
     }
 

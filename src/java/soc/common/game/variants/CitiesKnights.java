@@ -1,4 +1,4 @@
-package soc.common.game.rules;
+package soc.common.game.variants;
 
 import soc.common.board.pieces.Wall;
 import soc.common.board.resources.Clay;

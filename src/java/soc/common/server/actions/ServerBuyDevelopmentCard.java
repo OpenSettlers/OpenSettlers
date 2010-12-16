@@ -28,4 +28,11 @@ public class ServerBuyDevelopmentCard implements IServerAction
         return buyDevCard;
     }
 
+    @Override
+    public GameAction getOpponentAction()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

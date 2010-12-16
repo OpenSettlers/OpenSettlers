@@ -26,7 +26,7 @@ public abstract class AbstractGameServer implements IGameServer
     {
         if (action != null)
         {
-            if (!action.isValid())
+            if (!action.isValid(game))
             {
                 callback.receive
                 (

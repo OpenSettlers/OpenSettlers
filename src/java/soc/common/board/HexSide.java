@@ -41,7 +41,7 @@ public class HexSide
         return hexPoint2;
     }
     
-    HexSide(HexLocation hex1, HexLocation hex2) throws Exception
+    HexSide(HexLocation hex1, HexLocation hex2)
     {
         this.hex1=hex1;
         this.hex2=hex2;
@@ -172,7 +172,7 @@ public class HexSide
      *  Creates two HexPoints, each consisting of three HexLocations
      *  TODO: copy+paste image reference from paper
      */
-    private void calculatePoints() throws Exception
+    private void calculatePoints()
     {
         HexLocation loc1 = null;
         HexLocation loc2 = null;
