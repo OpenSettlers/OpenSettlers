@@ -1,5 +1,6 @@
 package soc.gwtClient.game.dialogs;
 
+import soc.common.actions.gameAction.turnActions.AbstractTurnAction;
 import soc.common.actions.gameAction.turnActions.TurnAction;
 import soc.common.actions.gameAction.turnActions.standard.BuildRoad;
 import soc.common.game.Player;

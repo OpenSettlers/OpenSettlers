@@ -1,8 +1,8 @@
 package soc.gwtClient.game.abstractWidgets;
 
-import soc.common.actions.gameAction.GameAction;
+import soc.common.actions.gameAction.AbstractGameAction;
 
 public interface IServer
 {
-    public void sendAction(GameAction gameAction); 
+    public void sendAction(AbstractGameAction gameAction); 
 }

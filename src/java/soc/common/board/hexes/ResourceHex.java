@@ -3,11 +3,11 @@ package soc.common.board.hexes;
 import com.google.gwt.event.shared.*;
 
 import soc.common.board.Chit;
-import soc.common.board.resources.Resource;
+import soc.common.board.resources.AbstractResource;
 
-public class ResourceHex extends LandHex
+public class ResourceHex extends AbstractHex
 {
-    private Resource resource;
+    private AbstractResource resource;
     private Chit chit;
   
     /**
@@ -34,7 +34,7 @@ public class ResourceHex extends LandHex
      * @see soc.common.board.hexes.Hex#Copy()
      */
     @Override
-    public Hex copy()
+    public AbstractHex copy()
     {
         ResourceHex rh = new ResourceHex()
             .setChit(new Chit(5))
@@ -46,7 +46,7 @@ public class ResourceHex extends LandHex
     /**
      * @return the production
      */
-    public Resource getResource()
+    public AbstractResource getResource()
     {
         return resource;
     }
@@ -54,7 +54,7 @@ public class ResourceHex extends LandHex
     /**
      * @param resource the resource to set
      */
-    public ResourceHex setResource(Resource resource)
+    public ResourceHex setResource(AbstractResource resource)
     {
         this.resource = resource;
     
@@ -64,7 +64,7 @@ public class ResourceHex extends LandHex
     /*
      *  At init time, we want a resource
      */
-    public ResourceHex(Resource resource)
+    public ResourceHex(AbstractResource resource)
     {
         super();
         this.resource = resource;
@@ -95,5 +95,51 @@ public class ResourceHex extends LandHex
     public String getName()
     {
         return resource.getName() + "Hex";
+    }
+    
+    /* (non-Javadoc)
+     * @see soc.common.board.hexes.IHex#isBuildableLand()
+     */
+    @Override
+    public boolean isBuildableLand()
+    {
+        return true;
+    }
+
+    /* (non-Javadoc)
+     * @see soc.common.board.hexes.IHex#isBuildableSea()
+     */
+    @Override
+    public boolean isBuildableSea()
+    {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    /* (non-Javadoc)
+     * @see soc.common.board.hexes.IHex#isPartOfGame()
+     */
+    @Override
+    public boolean isPartOfGame()
+    {
+        return true;
+    }
+
+    /* (non-Javadoc)
+     * @see soc.common.board.hexes.IHex#isPiratePlaceable()
+     */
+    @Override
+    public boolean isPiratePlaceable()
+    {
+        return false;
+    }
+
+    /* (non-Javadoc)
+     * @see soc.common.board.hexes.IHex#isRobberPlaceable()
+     */
+    @Override
+    public boolean isRobberPlaceable()
+    {
+        return true;
     }
 }

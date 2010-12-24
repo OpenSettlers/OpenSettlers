@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 import com.google.gwt.user.client.Random;
 
-import soc.common.actions.gameAction.GameAction;
+import soc.common.actions.gameAction.AbstractGameAction;
 import soc.common.actions.gameAction.HostStartsGame;
 import soc.common.actions.gameAction.turnActions.StartGame;
 import soc.common.board.Board;
@@ -16,7 +16,7 @@ import soc.common.game.developmentCards.DevelopmentCardList;
 import soc.common.game.variants.IVariant;
 import soc.common.game.variants.Standard;
 
-public class ServerStartGame implements IServerAction
+public class ServerStartGame implements ServerAction
 {
     HostStartsGame hostStartsGame;
     Random random;
@@ -29,7 +29,7 @@ public class ServerStartGame implements IServerAction
     }
 
     @Override
-    public GameAction getAction()
+    public AbstractGameAction getAction()
     {
         return hostStartsGame;
     }
@@ -126,7 +126,7 @@ public class ServerStartGame implements IServerAction
     }
 
     @Override
-    public GameAction getOpponentAction()
+    public AbstractGameAction getOpponentAction()
     {
         // TODO Auto-generated method stub
         return null;

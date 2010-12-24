@@ -1,12 +1,15 @@
 package soc.common.actions.gameAction.turnActions.standard;
 
-import soc.common.actions.gameAction.turnActions.TurnAction;
+import soc.common.actions.gameAction.turnActions.AbstractTurnAction;
 import soc.common.board.resources.Resource;
 import soc.common.board.resources.ResourceList;
 import soc.common.game.Game;
+import soc.common.game.gamePhase.GamePhase;
+import soc.common.game.gamePhase.turnPhase.TurnPhase;
 
-public class TradeBank extends TurnAction
+public class TradeBank extends AbstractTurnAction
 {
+    private static final long serialVersionUID = 7756281155996246492L;
     private ResourceList wantedResources;
     private ResourceList offeredResources;
     /**
@@ -87,7 +90,7 @@ public class TradeBank extends TurnAction
             return false;
         }
         
-        for (Resource resource : game.getGameRules().getPlayableResources())
+        for (Resource resource : game.getGameRules().getSupportedResources())
         {
             int amountOfType = offeredResources.ofType(resource).size(); 
             if (amountOfType > 0)
@@ -128,6 +131,18 @@ public class TradeBank extends TurnAction
             " for " + wantedResources.toString() + ".";
         
         super.perform(game);
+    }
+    @Override
+    public boolean isAllowed(TurnPhase turnPhase)
+    {
+        // TODO Auto-generated method stub
+        return false;
+    }
+    @Override
+    public boolean isAllowed(GamePhase gamePhase)
+    {
+        // TODO Auto-generated method stub
+        return false;
     }
     
 }

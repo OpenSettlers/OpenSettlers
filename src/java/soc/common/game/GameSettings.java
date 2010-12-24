@@ -11,20 +11,6 @@ public class GameSettings
     // original boardsettings)
     private BoardSettings boardSettings = BoardSettings.standard();
     
-    /**
-     * @return the boardSettings
-     */
-    public BoardSettings getBoardSettings()
-    {
-        return boardSettings;
-    }
-    /**
-     * @param boardSettings the boardSettings to set
-     */
-    public void setBoardSettings(BoardSettings boardSettings)
-    {
-        this.boardSettings = boardSettings;
-    }
     // Whether or not deserts will be replaced by jungles
     @Sea3D
     private boolean replaceDesertWithJungles = false;
@@ -58,6 +44,21 @@ public class GameSettings
     private boolean isLadder = true;
     private Board board;
     
+    /**
+     * @return the boardSettings
+     */
+    public BoardSettings getBoardSettings()
+    {
+        return boardSettings;
+    }
+    
+    /**
+     * @param boardSettings the boardSettings to set
+     */
+    public void setBoardSettings(BoardSettings boardSettings)
+    {
+        this.boardSettings = boardSettings;
+    }
     @Sea3D
     public boolean isReplaceDesertWithJungles()
     {

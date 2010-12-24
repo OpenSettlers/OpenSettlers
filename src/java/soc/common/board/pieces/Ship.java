@@ -11,13 +11,15 @@ import soc.common.game.Player;
 @SeaFarers
 public class Ship extends PlayerPiece
 {
+    public static Ship SHIP = new Ship();
+    
     /* (non-Javadoc)
      * @see soc.common.board.pieces.PlayerPiece#canBuild(soc.common.board.Board, soc.common.game.Player)
      */
     @Override
     public boolean canBuild(Board board, Player player)
     {
-        if (player.getStock().ofType(Ship.class).size() == 0) return false;
+        if (player.getStock().ofType(Ship.SHIP).size() == 0) return false;
 
         // TODO: port to java
         //if (GetShipBuildPlaces(game, board).Count == 0) return false;
@@ -39,14 +41,13 @@ public class Ship extends PlayerPiece
         return result;
     }
     
+    // TODO: port to java
     public boolean canMove(Board board, Player player)
     {
         // If there is no ship to move, bugger out
-        // TODO: implment Seafarers
         //if (player.getShips().size() == 0)
         //    return false;
 
-        // TODO: port to java
         
         // when can only move a ship once per turn
         //var movedShip = (from MoveShipAction ms in game.GameLog.OfType<MoveShipAction>()

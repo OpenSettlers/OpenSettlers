@@ -11,7 +11,7 @@ import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 
-import soc.common.board.hexes.Hex;
+import soc.common.board.hexes.AbstractHex;
 import soc.common.board.ports.Port;
 import soc.common.board.ports.TwoToOneResourcePort;
 import soc.common.client.visuals.board.IBoardVisual;
@@ -67,7 +67,7 @@ public class SvgPortVisual extends PortVisual
         territoryPath.setStrokeOpacity(0.2);
         territoryPath.setFillOpacity(fillOpacity);
         
-        circle = new Circle(point.getX(), point.getY(), Hex.getSize()/3);
+        circle = new Circle(point.getX(), point.getY(), AbstractHex.getSize()/3);
         String color = "White";
         if (port instanceof TwoToOneResourcePort)
         {
@@ -128,34 +128,34 @@ public class SvgPortVisual extends PortVisual
         switch (port.getRotationPosition())
         {
         case DEG0:
-            territoryPath.lineRelativelyTo(0, -(int)Hex.getHalfHeight());
-            territoryPath.lineRelativelyTo((int)Hex.getHalfWidth(), (int)Hex.getBottomHeight());
-            territoryPath.lineRelativelyTo(-(int)Hex.getHalfWidth(), (int)Hex.getSize()/2);
+            territoryPath.lineRelativelyTo(0, -(int)AbstractHex.getHalfHeight());
+            territoryPath.lineRelativelyTo((int)AbstractHex.getHalfWidth(), (int)AbstractHex.getBottomHeight());
+            territoryPath.lineRelativelyTo(-(int)AbstractHex.getHalfWidth(), (int)AbstractHex.getSize()/2);
             break;
         case DEG60:
-            territoryPath.lineRelativelyTo((int)Hex.getHalfWidth(), -(int)Hex.getSize()/2);
-            territoryPath.lineRelativelyTo(0, (int)Hex.getSize());
-            territoryPath.lineRelativelyTo(-(int)Hex.getHalfWidth(), -(int)Hex.getSize()/2);
+            territoryPath.lineRelativelyTo((int)AbstractHex.getHalfWidth(), -(int)AbstractHex.getSize()/2);
+            territoryPath.lineRelativelyTo(0, (int)AbstractHex.getSize());
+            territoryPath.lineRelativelyTo(-(int)AbstractHex.getHalfWidth(), -(int)AbstractHex.getSize()/2);
             break;
         case DEG120:
-            territoryPath.lineRelativelyTo((int)Hex.getHalfWidth(), (int)Hex.getSize()/2);
-            territoryPath.lineRelativelyTo(-(int)Hex.getHalfWidth(), (int)Hex.getBottomHeight());
-            territoryPath.lineRelativelyTo(0, -(int)Hex.getHalfHeight());
+            territoryPath.lineRelativelyTo((int)AbstractHex.getHalfWidth(), (int)AbstractHex.getSize()/2);
+            territoryPath.lineRelativelyTo(-(int)AbstractHex.getHalfWidth(), (int)AbstractHex.getBottomHeight());
+            territoryPath.lineRelativelyTo(0, -(int)AbstractHex.getHalfHeight());
             break;
         case DEG180:
-            territoryPath.lineRelativelyTo(0, (int)Hex.getHalfHeight());
-            territoryPath.lineRelativelyTo(-(int)Hex.getHalfWidth(), -(int)Hex.getBottomHeight());
-            territoryPath.lineRelativelyTo((int)Hex.getHalfWidth(), -(int)Hex.getSize()/2);
+            territoryPath.lineRelativelyTo(0, (int)AbstractHex.getHalfHeight());
+            territoryPath.lineRelativelyTo(-(int)AbstractHex.getHalfWidth(), -(int)AbstractHex.getBottomHeight());
+            territoryPath.lineRelativelyTo((int)AbstractHex.getHalfWidth(), -(int)AbstractHex.getSize()/2);
             break;
         case DEG240:
-            territoryPath.lineRelativelyTo(-(int)Hex.getHalfWidth(), (int)Hex.getSize()/2);
-            territoryPath.lineRelativelyTo(0, -(int)Hex.getSize());
-            territoryPath.lineRelativelyTo((int)Hex.getHalfWidth(), (int)Hex.getSize()/2);
+            territoryPath.lineRelativelyTo(-(int)AbstractHex.getHalfWidth(), (int)AbstractHex.getSize()/2);
+            territoryPath.lineRelativelyTo(0, -(int)AbstractHex.getSize());
+            territoryPath.lineRelativelyTo((int)AbstractHex.getHalfWidth(), (int)AbstractHex.getSize()/2);
             break;
         case DEG300:
-            territoryPath.lineRelativelyTo(-(int)Hex.getHalfWidth(), -(int)Hex.getSize()/2);
-            territoryPath.lineRelativelyTo((int)Hex.getHalfWidth(), -(int)Hex.getBottomHeight());
-            territoryPath.lineRelativelyTo(0, (int)Hex.getHalfHeight());
+            territoryPath.lineRelativelyTo(-(int)AbstractHex.getHalfWidth(), -(int)AbstractHex.getSize()/2);
+            territoryPath.lineRelativelyTo((int)AbstractHex.getHalfWidth(), -(int)AbstractHex.getBottomHeight());
+            territoryPath.lineRelativelyTo(0, (int)AbstractHex.getHalfHeight());
             break;
         }
         territoryPath.close();

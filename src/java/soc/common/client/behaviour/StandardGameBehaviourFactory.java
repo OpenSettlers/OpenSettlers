@@ -1,6 +1,6 @@
 package soc.common.client.behaviour;
 
-import soc.common.actions.gameAction.turnActions.TurnAction;
+import soc.common.actions.gameAction.turnActions.AbstractTurnAction;
 import soc.common.actions.gameAction.turnActions.standard.*;
 import soc.common.client.behaviour.game.BuildCityBehaviour;
 import soc.common.client.behaviour.game.BuildRoadBehaviour;
@@ -8,7 +8,7 @@ import soc.common.client.behaviour.game.BuildTownBehaviour;
 import soc.common.client.behaviour.game.IGameBehaviour;
 import soc.common.client.behaviour.game.PlaceRobberBehaviour;
 import soc.common.game.Game;
-import soc.common.game.developmentCards.Soldier;
+import soc.common.game.developmentCards.standard.Soldier;
 
 /*
  * Viewport GameBehaviour factory for a TurnAction using standard ruleset
@@ -16,7 +16,7 @@ import soc.common.game.developmentCards.Soldier;
 public class StandardGameBehaviourFactory implements IGameBehaviourFactory
 {
     @Override
-    public IGameBehaviour createBehaviour(TurnAction turnAction, Game game)
+    public IGameBehaviour createBehaviour(AbstractTurnAction turnAction, Game game)
     {
         if (turnAction instanceof BuildRoad)
         {

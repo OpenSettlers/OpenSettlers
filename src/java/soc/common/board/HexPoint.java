@@ -3,6 +3,8 @@ package soc.common.board;
 import java.util.ArrayList;
 import java.util.List;
 
+import soc.common.board.routing.IGraphPoint;
+
 public class HexPoint
 {
     private HexLocation hex1;
@@ -64,7 +66,7 @@ public class HexPoint
             PointPositionOnHex.BOTTOMMIDDLE : PointPositionOnHex.BOTTOMRIGHT;
     }
     
-    public List<HexSide> getOtherSides(HexSide side) throws Exception
+    public List<HexSide> getOtherSides(HexSide side)
     {
         List<HexSide> result = new ArrayList<HexSide>();
 
@@ -130,7 +132,7 @@ public class HexPoint
     /*
      * TODO: cache value
      */
-    public List<HexPoint> getNeighbours() throws Exception
+    public List<HexPoint> getNeighbours()
     {
         List<HexPoint> result = new ArrayList<HexPoint>();
         HexLocation topmost = getTopMost();
@@ -227,7 +229,7 @@ public class HexPoint
         return result;
     }
     
-    public List<HexPoint> getOtherNeighbours(HexPoint center, HexPoint ignore) throws Exception
+    public List<HexPoint> getOtherNeighbours(HexPoint ignore)
     {
         List<HexPoint> result = getNeighbours();
         
@@ -327,4 +329,15 @@ public class HexPoint
         
         return result;
     }
+    public boolean fallsWithinBoardBounds(int width, int height)
+    {
+        if ((!hex1.fallsInsideBoardBounds(width, height)) ||
+            (!hex2.fallsInsideBoardBounds(width, height)) ||
+            (!hex3.fallsInsideBoardBounds(width, height)))
+        {
+            return false;
+        }
+        return true;
+    }
+
 }

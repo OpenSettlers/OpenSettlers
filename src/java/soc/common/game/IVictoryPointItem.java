@@ -1,7 +1,7 @@
 package soc.common.game;
 
 /*
- * Any item which generates a VictoryPoint implements this interface
+ * Any item which generates (a) VictoryPoint(s) implements this interface
  */
 public interface IVictoryPointItem
 {

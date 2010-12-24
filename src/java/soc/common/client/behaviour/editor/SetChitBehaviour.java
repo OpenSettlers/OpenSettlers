@@ -1,7 +1,7 @@
 package soc.common.client.behaviour.editor;
 
 import soc.common.board.Chit;
-import soc.common.board.hexes.Hex;
+import soc.common.board.hexes.AbstractHex;
 import soc.common.board.hexes.ResourceHex;
 import soc.common.client.behaviour.IInteractionBehaviour;
 import soc.common.client.visuals.IPieceVisual;
@@ -18,7 +18,7 @@ public class SetChitBehaviour implements IInteractionBehaviour
         if (pieceVisual instanceof IHexVisual)
         {
             IHexVisual hexVisual = (IHexVisual)pieceVisual;
-            Hex hex = hexVisual.getHex();
+            AbstractHex hex = hexVisual.getHex();
             if (hex instanceof ResourceHex)
             {
                 ResourceHex resourceHex = (ResourceHex)hex;

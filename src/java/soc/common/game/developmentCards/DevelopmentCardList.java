@@ -4,6 +4,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import soc.common.game.developmentCards.standard.Monopoly;
+import soc.common.game.developmentCards.standard.RoadBuilding;
+import soc.common.game.developmentCards.standard.Soldier;
+import soc.common.game.developmentCards.standard.VictoryPoint;
+import soc.common.game.developmentCards.standard.YearOfPlenty;
+
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
 
@@ -102,7 +108,7 @@ public class DevelopmentCardList implements Iterable<DevelopmentCard>
     
     public DevelopmentCard drawTop()
     {
-        // Get top dvelopmentcard
+        // Get top developmentcard
         DevelopmentCard result = devCards.get(devCards.size()-1);
         
         // remove it from the deck

@@ -1,15 +1,15 @@
 package soc.common.game.logs;
 
-import soc.common.actions.gameAction.GameAction;
+import soc.common.actions.gameAction.AbstractGameAction;
 
 import com.google.gwt.event.shared.GwtEvent;
 
 public class ActionPerformedEvent extends GwtEvent<ActionPerformedEventHandler>
 {
     public static Type<ActionPerformedEventHandler> TYPE = new Type<ActionPerformedEventHandler>(); 
-    private GameAction performedAction;
+    private AbstractGameAction performedAction;
     
-    public ActionPerformedEvent(GameAction performedAction)
+    public ActionPerformedEvent(AbstractGameAction performedAction)
     {
         super();
         this.performedAction = performedAction;
@@ -18,7 +18,7 @@ public class ActionPerformedEvent extends GwtEvent<ActionPerformedEventHandler>
     /**
      * @return the performedAction
      */
-    public GameAction getPerformedAction()
+    public AbstractGameAction getPerformedAction()
     {
         return performedAction;
     }

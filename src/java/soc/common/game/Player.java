@@ -9,7 +9,6 @@ import soc.common.board.ports.PortList;
 import soc.common.board.resources.ResourceList;
 import soc.common.game.developmentCards.DevelopmentCard;
 import soc.common.game.developmentCards.DevelopmentCardList;
-import soc.common.game.logs.SaidEvent;
 
 public class Player extends User
 {
@@ -67,8 +66,8 @@ public class Player extends User
     {
         PlayerPieceList result = new PlayerPieceList();
         
-        result.add(buildPieces.ofType(Town.class));
-        result.add(buildPieces.ofType(City.class));
+        result.add(buildPieces.ofType(Town.TOWN));
+        result.add(buildPieces.ofType(City.CITY));
         
         return result;
     }
@@ -236,7 +235,9 @@ public class Player extends User
     {
         return resources;
     }
+    
 
+    
     public void setResources(ResourceList resources)
     {
         this.resources = resources;
@@ -256,5 +257,9 @@ public class Player extends User
     public void addOnTurnChangedEventHandler(TurnChangedEventHandler handler)
     {
         getEventBus().addHandler(TurnChangedEvent.TYPE, handler);
+    }
+    public void addRoadTokenChangedEventHandler(RoadTokensChangedEventHandler handler)
+    {
+        getEventBus().addHandler(RoadTokensChangedEvent.TYPE, handler);
     }
 }

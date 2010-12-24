@@ -1,8 +1,8 @@
 package soc.common.game.dices;
 
-import com.google.gwt.user.client.Random;
-
 import soc.common.annotations.SeaFarers;
+
+import com.google.gwt.user.client.Random;
 
 @SeaFarers
 public class VolcanoDice implements IDice
@@ -17,26 +17,28 @@ public class VolcanoDice implements IDice
         return dice;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.game.dices.Dice#roll(java.util.Random)
      */
     @Override
     public void roll(Random random)
     {
-        dice = (int) (random.nextDouble() * 6);
+        dice = (int) (Random.nextDouble() * 6);
     }
 
     /**
-     * @param dice the dice to set
+     * @param dice
+     *            the dice to set
      */
     public VolcanoDice setDice(int dice)
     {
         this.dice = dice;
-    
+
         // Enables fluent interface usage
         // http://en.wikipedia.org/wiki/Fluent_interface
         return this;
     }
-    
-    
+
 }

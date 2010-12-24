@@ -1,0 +1,19 @@
+package soc.common.game.statuses;
+
+/*
+ * When the game does not have enough players to continue with playing
+ */
+public class WaitingForPlayers implements IGameStatus
+{
+
+    /*
+     * Returns true; when waiting for players, the game can't continue
+     * @see soc.common.game.statuses.IGameStatus#isGameBlocking()
+     */
+    @Override
+    public boolean isGameBlocking()
+    {
+        return true;
+    }
+
+}

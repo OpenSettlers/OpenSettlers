@@ -2,8 +2,7 @@ package soc.gwtClient.editor;
 
 import soc.common.board.hexes.DesertHex;
 import soc.common.board.hexes.DiscoveryHex;
-import soc.common.board.hexes.Hex;
-import soc.common.board.hexes.ITerritoryHex;
+import soc.common.board.hexes.AbstractHex;
 import soc.common.board.hexes.NoneHex;
 import soc.common.board.hexes.RandomHex;
 import soc.common.board.hexes.ResourceHex;
@@ -19,6 +18,7 @@ import soc.common.board.resources.Wheat;
 import soc.common.client.behaviour.editor.SetChitBehaviour;
 import soc.common.client.behaviour.editor.SetHexBehaviour;
 import soc.common.client.behaviour.editor.SetTerritoryBehaviour;
+import soc.gwtClient.game.widgets.bitmap.ImageLibrary;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -34,6 +34,19 @@ public class HexPanel extends VerticalPanel implements HasHandlers
     private SetHexBehaviour editBehaviour;
     private SetTerritoryBehaviour setTerritoryBehaviour;
     private SetChitBehaviour setChitBehaviour; 
+    private final AbstractHex wheatHex = new ResourceHex(new Wheat());
+    private final AbstractHex timberHex = new ResourceHex(new Timber());
+    private final AbstractHex oreHex = new ResourceHex(new Ore());
+    private final AbstractHex clayHex = new ResourceHex(new Clay());
+    private final AbstractHex sheepHex = new ResourceHex(new Sheep());
+    private final AbstractHex goldHex = new ResourceHex(new Gold());
+    private final AbstractHex jungleHex = new ResourceHex(new Diamond());
+    private final AbstractHex volcanoHex = new VolcanoHex();
+    private final AbstractHex noneHex = new NoneHex();
+    private final AbstractHex discoveryHex = new DiscoveryHex();
+    private final AbstractHex randomHex = new RandomHex();
+    private final AbstractHex seaHex = new SeaHex();
+    private final AbstractHex desertHex = new DesertHex();
     
     @SuppressWarnings("deprecation")
     private HandlerManager handlerManager = new HandlerManager(this);
@@ -55,13 +68,9 @@ public class HexPanel extends VerticalPanel implements HasHandlers
         
     }
     
-    private Hex createDefaultHex(Hex hex)
+    private AbstractHex createDefaultHex(AbstractHex hex)
     {
-        if (hex instanceof ITerritoryHex)
-        {
-            ITerritoryHex territoryHex = (ITerritoryHex)hex;
-            territoryHex.setTerritory(setTerritoryBehaviour.getTerritory());
-        }
+        hex.setTerritory(setTerritoryBehaviour.getTerritory());
         if (hex instanceof ResourceHex)
         {
             ResourceHex resourceHex = (ResourceHex)hex;
@@ -69,6 +78,7 @@ public class HexPanel extends VerticalPanel implements HasHandlers
         }
         return hex;
     }
+    
     private void vuur()
     {
         fireEvent(new BehaviourChanged(editBehaviour));
@@ -83,144 +93,144 @@ public class HexPanel extends VerticalPanel implements HasHandlers
         this.setTerritoryBehaviour = setTerritoryBehaviour;
         this.setChitBehaviour = setChitBehaviour;
         
-        PushButton btnTimber = new PushButton(new Image("icons/32/timber.png"));
+        PushButton btnTimber = new PushButton(new Image(ImageLibrary.getIcon(timberHex, 32)));
         btnTimber.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 editBehaviour.setHex(
-                        createDefaultHex(new ResourceHex(new Timber())));
+                        createDefaultHex(timberHex));
                 vuur();
             }
         });
         this.add(btnTimber);
         
-        PushButton btnWheat = new PushButton(new Image("icons/32/wheat.png"));
+        PushButton btnWheat = new PushButton(new Image(ImageLibrary.getIcon(wheatHex, 32)));
         btnWheat.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 editBehaviour.setHex(
-                        createDefaultHex(new ResourceHex(new Wheat())));
+                        createDefaultHex(wheatHex));
                 vuur();
             }
         });
         this.add(btnWheat);
         
-        PushButton btnOre = new PushButton(new Image("icons/32/ore.png"));
+        PushButton btnOre = new PushButton(new Image(ImageLibrary.getIcon(oreHex, 32)));
         btnOre.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 editBehaviour.setHex(
-                        createDefaultHex(new ResourceHex(new Ore())));
+                        createDefaultHex(oreHex));
                 vuur();
             }
         });
         this.add(btnOre);
         
-        PushButton btnClay = new PushButton(new Image("icons/32/clay.png"));
+        PushButton btnClay = new PushButton(new Image(ImageLibrary.getIcon(clayHex, 32)));
         btnClay.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 editBehaviour.setHex(
-                        createDefaultHex(new ResourceHex(new Clay())));
+                        createDefaultHex(clayHex));
                 vuur();
             }
         });
         this.add(btnClay);
         
-        PushButton btnSheep = new PushButton(new Image("icons/32/sheep.png"));
+        PushButton btnSheep = new PushButton(new Image(ImageLibrary.getIcon(sheepHex, 32)));
         btnSheep.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 editBehaviour.setHex(
-                        createDefaultHex(new ResourceHex(new Sheep())));
+                        createDefaultHex(sheepHex));
                 vuur();
             }
         });
         this.add(btnSheep);
         
-        PushButton btnGold = new PushButton(new Image("icons/32/gold.png"));
+        PushButton btnGold = new PushButton(new Image(ImageLibrary.getIcon(goldHex, 32)));
         btnGold.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 editBehaviour.setHex(
-                        createDefaultHex(new ResourceHex(new Gold())));
+                        createDefaultHex(goldHex));
                 vuur();
             }
         });
         this.add(btnGold);
         
-        PushButton btnJungle = new PushButton(new Image("icons/32/jungle.png"));
+        PushButton btnJungle = new PushButton(new Image(ImageLibrary.getIcon(jungleHex, 32)));
         btnJungle.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 editBehaviour.setHex(
-                        createDefaultHex(new ResourceHex(new Diamond())));
+                        createDefaultHex(jungleHex));
                 vuur();
             }
         });
         this.add(btnJungle);
         
-        PushButton btnVolcano = new PushButton(new Image("icons/32/volcano.png"));
+        PushButton btnVolcano = new PushButton(new Image(ImageLibrary.getIcon(volcanoHex, 32)));
         btnVolcano.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 editBehaviour.setHex(
-                        createDefaultHex(new VolcanoHex()));
+                        createDefaultHex(volcanoHex));
                 vuur();
             }
         });
         this.add(btnVolcano);
         
-        PushButton btnDesert = new PushButton(new Image("icons/32/desert.png"));
+        PushButton btnDesert = new PushButton(new Image(ImageLibrary.getIcon(desertHex, 32)));
         btnDesert.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 editBehaviour.setHex(
-                        createDefaultHex(new DesertHex()));
+                        createDefaultHex(desertHex));
                 vuur();
             }
         });
         this.add(btnDesert);
         
-        PushButton btnSea = new PushButton(new Image("icons/32/sea.png"));
+        PushButton btnSea = new PushButton(new Image(ImageLibrary.getIcon(seaHex, 32)));
         btnSea.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 editBehaviour.setHex(
-                        createDefaultHex(new SeaHex()));
+                        createDefaultHex(seaHex));
                 vuur();
             }
         });        
         this.add(btnSea);   
 
-        PushButton btnNone = new PushButton(new Image("icons/32/none.png"));
+        PushButton btnNone = new PushButton(new Image(ImageLibrary.getIcon(noneHex, 32)));
         btnNone.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 editBehaviour.setHex(
-                        createDefaultHex(new NoneHex()));
+                        createDefaultHex(noneHex));
                 vuur();
             }
         });
         this.add(btnNone);
         
-        PushButton btnRandom = new PushButton(new Image("icons/32/random.png"));
+        PushButton btnRandom = new PushButton(new Image(ImageLibrary.getIcon(randomHex, 32)));
         btnRandom.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 editBehaviour.setHex(
-                        createDefaultHex(new RandomHex()));
+                        createDefaultHex(randomHex));
                 vuur();
             }
         });        
         this.add(btnRandom);
         
-        PushButton btnDiscovery = new PushButton(new Image("icons/32/unknown.png"));
+        PushButton btnDiscovery = new PushButton(new Image(ImageLibrary.getIcon(discoveryHex, 32)));
         btnDiscovery.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 editBehaviour.setHex(
-                        createDefaultHex(new DiscoveryHex()));
+                        createDefaultHex(discoveryHex));
                 vuur();
             }
         });

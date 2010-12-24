@@ -1,22 +1,16 @@
 package soc.common.board.hexes;
 
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.event.shared.SimpleEventBus;
 
 import soc.common.annotations.SeaFarers;
-import soc.common.board.territories.Territory;
 
 @SeaFarers
-public class DiscoveryHex extends Hex implements ITerritoryHex
+public class DiscoveryHex extends AbstractHex
 {
-    protected Territory territory;
-    protected SimpleEventBus eventBus = new SimpleEventBus(); 
-    
     /* (non-Javadoc)
      * @see soc.common.board.hexes.Hex#Copy()
      */
     @Override
-    public Hex copy()
+    public AbstractHex copy()
     {
         DiscoveryHex result = new DiscoveryHex();
         
@@ -34,26 +28,48 @@ public class DiscoveryHex extends Hex implements ITerritoryHex
         return "White";
     }
 
+    /* (non-Javadoc)
+     * @see soc.common.board.hexes.Hex#isBuildableLand()
+     */
     @Override
-    public HandlerRegistration addTerritoryChangedEventHandler(
-            TerritoryChangedEventHandler handler)
+    public boolean isBuildableLand()
     {
-        return eventBus.addHandler(TerritoryChangedEvent.TYPE, handler);
+        return false;
     }
 
+    /* (non-Javadoc)
+     * @see soc.common.board.hexes.Hex#isBuildableSea()
+     */
     @Override
-    public Territory getTerritory()
+    public boolean isBuildableSea()
     {
-        return territory;
+        return false;
     }
 
+    /* (non-Javadoc)
+     * @see soc.common.board.hexes.Hex#isPartOfGame()
+     */
     @Override
-    public ITerritoryHex setTerritory(Territory territory)
+    public boolean isPartOfGame()
     {
-        this.territory=territory;
-        
-        eventBus.fireEvent(new TerritoryChangedEvent(territory));
-        
-        return this;
+        return true;
+    }
+
+    /* (non-Javadoc)
+     * @see soc.common.board.hexes.Hex#isPiratePlaceable()
+     */
+    @Override
+    public boolean isPiratePlaceable()
+    {
+        return false;
+    }
+
+    /* (non-Javadoc)
+     * @see soc.common.board.hexes.Hex#isRobberPlaceable()
+     */
+    @Override
+    public boolean isRobberPlaceable()
+    {
+        return false;
     }
 }

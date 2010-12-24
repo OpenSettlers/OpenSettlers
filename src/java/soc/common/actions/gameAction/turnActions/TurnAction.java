@@ -1,9 +1,9 @@
 package soc.common.actions.gameAction.turnActions;
 
 import soc.common.actions.gameAction.GameAction;
-import soc.common.game.Player;
+import soc.common.game.gamePhase.turnPhase.TurnPhase;
 
-public class TurnAction extends GameAction
+public interface TurnAction extends GameAction
 {
-    
+    public TurnPhase getTurnPhase();
 }

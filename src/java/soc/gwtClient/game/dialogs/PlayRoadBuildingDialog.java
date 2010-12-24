@@ -1,8 +1,9 @@
 package soc.gwtClient.game.dialogs;
 
 import soc.common.actions.gameAction.turnActions.standard.PlayDevelopmentCard;
-import soc.common.game.developmentCards.RoadBuilding;
+import soc.common.game.developmentCards.standard.RoadBuilding;
 import soc.gwtClient.game.abstractWidgets.IGamePanel;
+import soc.gwtClient.game.widgets.bitmap.ImageLibrary;
 
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -48,7 +49,7 @@ public class PlayRoadBuildingDialog extends DialogBox
         horizontalPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
         verticalPanel.add(horizontalPanel);
         
-        Image image = new Image("icons/48/RoadBuilding48.png");
+        Image image = new Image(ImageLibrary.getIcon(roadBuilding, 48));
         horizontalPanel.add(image);
         
         Label lblRoadBuilding = new Label("Road building");

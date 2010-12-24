@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.google.gwt.event.shared.SimpleEventBus;
 
-import soc.common.actions.gameAction.GameAction;
+import soc.common.actions.gameAction.AbstractGameAction;
 import soc.common.actions.gameAction.turnActions.RolledSame;
 import soc.common.actions.gameAction.turnActions.standard.RollDice;
 import soc.common.game.Game;
@@ -14,7 +14,7 @@ import soc.common.game.Player;
 
 public class GameLog implements IGameLog
 {    
-    private List<GameAction> actions = new ArrayList<GameAction>();
+    private List<AbstractGameAction> actions = new ArrayList<AbstractGameAction>();
     private SimpleEventBus eventBus;
 
     private void safelyFireEvent(ActionPerformedEvent actionPerformedEvent)
@@ -35,7 +35,7 @@ public class GameLog implements IGameLog
     }
     
     @Override
-    public void addAction(GameAction inGameAction)
+    public void addAction(AbstractGameAction inGameAction)
     {
         actions.add(inGameAction);
         
@@ -49,7 +49,7 @@ public class GameLog implements IGameLog
         //We run the like a stack, first to examine is Last in the list
         for (int i = actions.size() -1; i > 0; i--)
         {
-            GameAction action = actions.get(i);
+            AbstractGameAction action = actions.get(i);
             // we break the loop when we encountered a rolledsame action
             if (action instanceof RolledSame)
                 break;
@@ -92,7 +92,7 @@ public class GameLog implements IGameLog
     }
 
     @Override
-    public Iterator<GameAction> iterator()
+    public Iterator<AbstractGameAction> iterator()
     {
         return actions.iterator();
     }

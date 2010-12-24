@@ -3,6 +3,8 @@ package soc.common.board;
 import java.util.ArrayList;
 import java.util.List;
 
+import soc.common.board.routing.IGraphSide;
+
 /*
  * Represents a side, determined by two HexLocations. 
  */
@@ -69,7 +71,7 @@ public class HexSide
      * Returns a list of (maximum) three points neighbouring
      * this 
      */
-    public List<HexPoint> getNeighbourPoints() throws Exception
+    public List<HexPoint> getNeighbourPoints()
     {
         List<HexPoint> result = new ArrayList<HexPoint>();
 
@@ -244,5 +246,16 @@ public class HexSide
         {
             return false;
         }
+    }
+    
+    public boolean fallsWithinBoardBounds(int width, int height)
+    {
+        if ((!hex1.fallsInsideBoardBounds(width, height)) ||
+            (!hex2.fallsInsideBoardBounds(width, height)))
+        {
+            return false;
+        }
+        
+        return true;
     }
 }

@@ -142,4 +142,10 @@ public class HexLocation
         //return String.format("w: %s, h: %s", 
         //        Integer.toString(w), Integer.toString(h));
     }
+    public boolean fallsInsideBoardBounds(int width, int height)
+    {
+        if (h < 0 || w < 0) return false;
+        if (h > height || w > width) return false;
+        return true;
+    }
 }

@@ -1,5 +1,6 @@
 package soc.gwtClient.game.widgets.abstractWidgets;
 
+import soc.common.board.resources.AbstractResource;
 import soc.common.board.resources.Resource;
 
 import com.google.gwt.event.shared.GwtEvent;

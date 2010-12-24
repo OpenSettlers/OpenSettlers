@@ -1,6 +1,5 @@
 package soc.common.game.variants;
 
-import soc.common.board.pieces.Wall;
 import soc.common.game.Game;
 
 /*

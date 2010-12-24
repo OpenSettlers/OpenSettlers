@@ -14,6 +14,26 @@ public class BoardSettings
     // Amount of vp to win on this board
     private int vpToWin = 10;
     
+    // Whether or not players can earn traderoute points to connect territories
+    private boolean isUseTradeRoutes = false;
+    
+    private boolean useTradeRoutes = false;
+    private boolean assignPortsBeforePlacement = false;
+    
+    // Are players forced to build a ship after their first town placement?
+    private boolean requiresInitialShipsFirstTown = false;
+    
+    // Are players forced to build a ship after their secondary town placement
+    private boolean requiresInitialShipsSecondTown = false;
+    
+    // Name of the designer of the board
+    private String designer = "Unknown player";
+    
+    // Global unique identifier for this board (UUID/GUID)
+    private String id;
+    
+    // data fields
+    private String name = "New Board";
     
     public static BoardSettings standard()
     {
@@ -22,6 +42,14 @@ public class BoardSettings
         // default settings are good (for now?) 
         
         return settings;
+    }
+
+    /**
+     * @return the id
+     */
+    public String getId()
+    {
+        return id;
     }
 
     /**
@@ -35,12 +63,14 @@ public class BoardSettings
     /**
      * @param minPlayers the minPlayers to set
      */
-    public void setMinPlayers(int minPlayers)
+    public BoardSettings setMinPlayers(int minPlayers)
     {
         this.minPlayers = minPlayers;
+    
+        // Enables fluent interface usage
+        // http://en.wikipedia.org/wiki/Fluent_interface
+        return this;
     }
-
-
 
     /**
      * @return the maxPlayers
@@ -50,16 +80,17 @@ public class BoardSettings
         return maxPlayers;
     }
 
-
-
     /**
      * @param maxPlayers the maxPlayers to set
      */
-    public void setMaxPlayers(int maxPlayers)
+    public BoardSettings setMaxPlayers(int maxPlayers)
     {
         this.maxPlayers = maxPlayers;
+    
+        // Enables fluent interface usage
+        // http://en.wikipedia.org/wiki/Fluent_interface
+        return this;
     }
-
 
 
     /**
@@ -71,16 +102,17 @@ public class BoardSettings
     }
 
 
-
     /**
      * @param maximumCardsInHandWhenSeven the maximumCardsInHandWhenSeven to set
      */
-    public void setMaximumCardsInHandWhenSeven(int maximumCardsInHandWhenSeven)
+    public BoardSettings setMaximumCardsInHandWhenSeven(int maximumCardsInHandWhenSeven)
     {
         this.maximumCardsInHandWhenSeven = maximumCardsInHandWhenSeven;
+    
+        // Enables fluent interface usage
+        // http://en.wikipedia.org/wiki/Fluent_interface
+        return this;
     }
-
-
 
     /**
      * @return the vpToWin
@@ -90,14 +122,29 @@ public class BoardSettings
         return vpToWin;
     }
 
-
-
     /**
      * @param vpToWin the vpToWin to set
      */
-    public void setVpToWin(int vpToWin)
+    public BoardSettings setVpToWin(int vpToWin)
     {
         this.vpToWin = vpToWin;
+    
+        // Enables fluent interface usage
+        // http://en.wikipedia.org/wiki/Fluent_interface
+        return this;
     }
 
+    public BoardSettings setName(String name)
+    {
+        this.name = name;
+        
+        // Enables fluent interface usage
+        // http://en.wikipedia.org/wiki/Fluent_interface
+        return this;
+    }
+
+    public String getName()
+    {
+        return name;
+    }
 }

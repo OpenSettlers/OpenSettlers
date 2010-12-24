@@ -12,7 +12,7 @@ import soc.common.board.HexLocation;
 import soc.common.board.HexPoint;
 import soc.common.board.HexPointType;
 import soc.common.board.HexSide;
-import soc.common.board.hexes.Hex;
+import soc.common.board.hexes.AbstractHex;
 import soc.common.client.visuals.IPieceVisual;
 import soc.common.client.visuals.board.BoardVisual;
 import soc.gwtClient.editor.BehaviourChanged;
@@ -43,7 +43,7 @@ public class SvgBoardVisual extends BoardVisual
     private void initializeBoard()
     {
         // Iterate over all hexes, create a HexVisual and attach event handlers
-        for (Hex hex : board.getHexes())
+        for (AbstractHex hex : board.getHexes())
         {
             Point2D point = calculatePosition(hex.getLocation());
             
@@ -61,14 +61,14 @@ public class SvgBoardVisual extends BoardVisual
     public Point2D calculatePosition(HexLocation location)
     {
         double margin = 5;
-        double marginLeft = Hex.getHalfWidth();
-        double x = location.getW() * (Hex.getWidth() + margin);
-        double y = location.getH() * (Hex.getPartialHeight() + margin);
+        double marginLeft = AbstractHex.getHalfWidth();
+        double x = location.getW() * (AbstractHex.getWidth() + margin);
+        double y = location.getH() * (AbstractHex.getPartialHeight() + margin);
         
         x += marginLeft;
 
         //Alternate half the width of an hex 
-        if (location.getH() % 2 == 0) x += Hex.getHalfWidth();
+        if (location.getH() % 2 == 0) x += AbstractHex.getHalfWidth();
 
         // center the position (not necessary in 2D view)
         //x -= Hex.getHalfWidth() * board.getWidth();
@@ -86,16 +86,16 @@ public class SvgBoardVisual extends BoardVisual
         switch (location.getDirection())
         {
             case SLOPEDOWN:
-                x += Hex.getWidth() * 0.25;
-                y += (Hex.getBottomHeight() * 0.5) + Hex.getPartialHeight();
+                x += AbstractHex.getWidth() * 0.25;
+                y += (AbstractHex.getBottomHeight() * 0.5) + AbstractHex.getPartialHeight();
                 break;
             case SLOPEUP:
-                x += Hex.getWidth() * 0.75;
-                y += (Hex.getBottomHeight() * 0.5) + Hex.getPartialHeight();
+                x += AbstractHex.getWidth() * 0.75;
+                y += (AbstractHex.getBottomHeight() * 0.5) + AbstractHex.getPartialHeight();
                 break;
             case UPDOWN:
-                x += Hex.getWidth();
-                y += Hex.getHeight() * 0.5;
+                x += AbstractHex.getWidth();
+                y += AbstractHex.getHeight() * 0.5;
                 break;
         }
         return new Point2D((int)x, (int)y);
@@ -112,13 +112,13 @@ public class SvgBoardVisual extends BoardVisual
 
         if (location.getPointType() == HexPointType.UPPERROW1)
         {
-            x += Hex.getHalfWidth();
-            y += Hex.getHeight();
+            x += AbstractHex.getHalfWidth();
+            y += AbstractHex.getHeight();
         }
         else
         {
-            x += Hex.getWidth();
-            y += Hex.getPartialHeight();
+            x += AbstractHex.getWidth();
+            y += AbstractHex.getPartialHeight();
         }
 
         return point;

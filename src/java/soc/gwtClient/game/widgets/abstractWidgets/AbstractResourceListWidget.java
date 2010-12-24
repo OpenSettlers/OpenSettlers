@@ -3,10 +3,11 @@ package soc.gwtClient.game.widgets.abstractWidgets;
 import java.util.ArrayList;
 
 import soc.common.board.ports.PortList;
+import soc.common.board.resources.AbstractResource;
 import soc.common.board.resources.Resource;
 import soc.common.board.resources.ResourceList;
 import soc.common.board.resources.ResourcesChangedEvent;
-import soc.gwtClient.game.widgets.standard.bitmap.BitmapResourceWidget;
+import soc.gwtClient.game.widgets.standard.bitmap.ResourceBitmapWidget;
 import soc.message.BankTrade;
 
 import com.google.gwt.user.client.ui.ComplexPanel;
@@ -142,7 +143,7 @@ public abstract class AbstractResourceListWidget implements IResourceListWidget
             ResourceList resourcesToRemove = new ResourceList();
             for (int i=0; i < ports.amountNeededToTrade(removedResource); i++)
             {
-                resourcesToRemove.add(removedResource.Copy());
+                resourcesToRemove.add(removedResource.copy());
             }
             resources.remove(resourcesToRemove, false);
             if (bankResources !=null)

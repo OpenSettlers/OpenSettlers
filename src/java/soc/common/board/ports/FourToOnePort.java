@@ -1,7 +1,7 @@
 package soc.common.board.ports;
 
-import soc.common.board.resources.Resource;
 import soc.common.board.resources.ResourceList;
+import soc.common.board.resources.*;
 
 public class FourToOnePort extends Port
 {

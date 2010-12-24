@@ -2,12 +2,12 @@ package soc.common.server.actions;
 
 import com.google.gwt.user.client.Random;
 
-import soc.common.actions.gameAction.GameAction;
+import soc.common.actions.gameAction.AbstractGameAction;
 import soc.common.actions.gameAction.turnActions.standard.RollDice;
 import soc.common.game.Game;
 import soc.common.game.dices.StandardDice;
 
-public class ServerRollDice implements IServerAction
+public class ServerRollDice implements ServerAction
 {
     RollDice rollDice;
     Game game;
@@ -30,13 +30,13 @@ public class ServerRollDice implements IServerAction
     }
 
     @Override
-    public GameAction getAction()
+    public AbstractGameAction getAction()
     {
         return rollDice;
     }
 
     @Override
-    public GameAction getOpponentAction()
+    public AbstractGameAction getOpponentAction()
     {
         // TODO Auto-generated method stub
         return null;

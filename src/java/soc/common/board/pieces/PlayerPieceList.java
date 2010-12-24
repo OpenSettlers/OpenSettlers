@@ -28,23 +28,50 @@ public class PlayerPieceList implements Iterable<PlayerPiece>
     {
         return playerPieces.iterator();
     }
-    
+    public PlayerPiece get(int index)
+    {
+        return playerPieces.get(index);
+    }
     /*
-     * Returns a list of pieces of given type
+     * Returns a list of pieces of given type based on class equality
      */
-    public PlayerPieceList ofType(Class clazz)
+    public PlayerPieceList ofType(PlayerPiece type)
     {
         PlayerPieceList result = new PlayerPieceList();
         
         for (PlayerPiece piece : this)
         {
-            if (piece.getClass().toString().equals(GWT.getTypeName(clazz)))
+            if (piece.getClass() == type.getClass())
                 result.add(piece);
         }
         
         return result;
     }
     
+    public PlayerPieceList getSidePieces()
+    {
+        PlayerPieceList result = new PlayerPieceList();
+        
+        for (PlayerPiece piece : this)
+        {
+            if (piece instanceof ISidePiece)
+                result.add(piece);
+        }
+        
+        return result;
+    }
+    public PlayerPieceList getPointPieces()
+    {
+        PlayerPieceList result = new PlayerPieceList();
+        
+        for (PlayerPiece piece : this)
+        {
+            if (piece instanceof IPointPiece)
+                result.add(piece);
+        }
+        
+        return result;
+    }
     public void add(PlayerPiece piece)
     {
         playerPieces.add(piece);
@@ -178,5 +205,11 @@ public class PlayerPieceList implements Iterable<PlayerPiece>
             }
         }
         throw new RuntimeException("Tried to get a piece which is not contained in the list");
+    }
+    
+    public static void move(PlayerPiece pieceToMove, PlayerPieceList from, PlayerPieceList to)
+    {
+        from.remove(pieceToMove);
+        to.add(pieceToMove);
     }
 }

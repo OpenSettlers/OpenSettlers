@@ -1,5 +1,6 @@
 package soc.common.game.logs;
 
+import soc.common.actions.gameAction.AbstractGameAction;
 import soc.common.actions.gameAction.GameAction;
 
 /*

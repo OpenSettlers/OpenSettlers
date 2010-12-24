@@ -1,6 +1,6 @@
 package soc.common.game.gamePhase;
 
-import soc.common.actions.gameAction.GameAction;
+import soc.common.actions.gameAction.AbstractGameAction;
 import soc.common.actions.gameAction.GamePhaseHasEnded;
 import soc.common.actions.gameAction.turnActions.seaFarers.BuildShip;
 import soc.common.actions.gameAction.turnActions.standard.BuildCity;
@@ -29,7 +29,7 @@ public class InitialPlacementGamePhase extends GamePhase
                 game.getActionsQueue().enqueue
                 (
                     new BuildCity()
-                    .setPlayer(game.getPlayers().get(i))
+                        .setPlayer(game.getPlayers().get(i))
                 );
 
             }
@@ -86,37 +86,19 @@ public class InitialPlacementGamePhase extends GamePhase
                 );
             }
         }
+        
+        // Set end of phase
+        game.getActionsQueue().enqueue
+        (
+            new GamePhaseHasEnded()
+                .setSender(0)
+        );
     }
      
     @Override
-    public void performAction(GameAction gameAction, Game game)
+    public void performAction(AbstractGameAction gameAction, Game game)
     {
         gameAction.perform(game);
-
-        // If the last road or ship has been built, add new gamephase action on the queue
-        if (gameAction.getClass() == new BuildRoad().getClass() ||
-            gameAction.getClass() == new BuildShip().getClass())
-        {
-            if (game.getActionsQueue().size() == 0)
-            {
-                game.getActionsQueue().enqueue
-                (
-                    new GamePhaseHasEnded()
-                        .setSender(0)
-                );
-            }
-            else
-            {
-                // Next player is the player of the first action on the queue
-                /* TODO: set turn of game instead of setPlaterOnTurn
-                game.setPlayerOnTurn
-                (
-                    game.getActionsQueue().peek().getAction().getPlayer()
-                );
-                */
-            }
-        }
-       
     }
 
     @Override

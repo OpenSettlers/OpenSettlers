@@ -15,6 +15,7 @@ import soc.common.board.ports.Port;
 import soc.common.board.ports.PortList;
 import soc.common.board.ports.ThreeToOnePort;
 import soc.common.board.ports.TwoToOneResourcePort;
+import soc.common.board.resources.AbstractResource;
 import soc.common.board.resources.Resource;
 import soc.common.board.resources.ResourceList;
 import soc.common.board.resources.ResourcesChangedEvent;
@@ -40,7 +41,7 @@ public class BitmapResourceSelectorWidget implements IResourceSelectorWidget, Cl
         this.resource = resource;
         this.ports=ports;
         
-        btnResource = new PushButton(new Image("icons/32/" + resource.getName().toLowerCase() + ".png"));
+        btnResource = new PushButton(ImageLibrary.getIcon(resource, 48));
         btnResource.addClickHandler(this);
 
         setBankResources(bankResources);
@@ -54,7 +55,7 @@ public class BitmapResourceSelectorWidget implements IResourceSelectorWidget, Cl
             Port port = ports.getPort(resource, true); 
             if (port != null)
             {
-                imgPort = new Image(createPortImageLocation(port));
+                imgPort = new Image(ImageLibrary.getIcon(port, 48));
                 rootPanel.add(imgPort);
             }
         }
@@ -71,7 +72,7 @@ public class BitmapResourceSelectorWidget implements IResourceSelectorWidget, Cl
         if (port instanceof TwoToOneResourcePort)
         {
             TwoToOneResourcePort twoToOneResourcePort = (TwoToOneResourcePort)port;
-            Resource resource = twoToOneResourcePort.getResource();
+            AbstractResource resource = twoToOneResourcePort.getResource();
             location += resource.getName() + "Port.png";
         }
         

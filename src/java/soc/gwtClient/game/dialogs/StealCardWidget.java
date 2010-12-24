@@ -4,7 +4,7 @@ import soc.common.actions.gameAction.turnActions.standard.RobPlayer;
 import soc.common.game.Game;
 import soc.common.game.Player;
 import soc.gwtClient.game.abstractWidgets.IGamePanel;
-import soc.gwtClient.game.widgets.standard.bitmap.BitmapStealPlayerCardWidget;
+import soc.gwtClient.game.widgets.standard.bitmap.StealPlayerCardBitmapWidget;
 
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -36,7 +36,7 @@ public class StealCardWidget extends DialogBox
             // Don't steal from ourselves
             if (!opponent.equals(player))
             {
-                playersCards.add(new BitmapStealPlayerCardWidget(player));
+                playersCards.add(new StealPlayerCardBitmapWidget(player));
             }
         }
     }

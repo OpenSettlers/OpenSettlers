@@ -1,10 +1,10 @@
 package soc.common.server.actions;
 
-import soc.common.actions.gameAction.GameAction;
+import soc.common.actions.gameAction.AbstractGameAction;
 import soc.common.actions.gameAction.turnActions.standard.BuyDevelopmentCard;
 import soc.common.game.Game;
 
-public class ServerBuyDevelopmentCard implements IServerAction
+public class ServerBuyDevelopmentCard implements ServerAction
 {
     private BuyDevelopmentCard buyDevCard;
     private Game game;
@@ -19,17 +19,17 @@ public class ServerBuyDevelopmentCard implements IServerAction
     @Override
     public void execute()
     {
-        buyDevCard.setDevelopmentCard(game.getDevelopmentCards().drawTop());
+        buyDevCard.setDevelopmentCard(game.getDevelopmentCardStack().drawTop());
     }
 
     @Override
-    public GameAction getAction()
+    public AbstractGameAction getAction()
     {
         return buyDevCard;
     }
 
     @Override
-    public GameAction getOpponentAction()
+    public AbstractGameAction getOpponentAction()
     {
         // TODO Auto-generated method stub
         return null;

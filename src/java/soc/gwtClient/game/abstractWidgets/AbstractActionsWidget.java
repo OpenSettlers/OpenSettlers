@@ -1,5 +1,6 @@
 package soc.gwtClient.game.abstractWidgets;
 
+import soc.common.actions.gameAction.turnActions.AbstractTurnAction;
 import soc.common.actions.gameAction.turnActions.TurnAction;
 import soc.common.game.Player;
 import soc.gwtClient.game.abstractWidgets.factories.IActionWidgetFactory;
@@ -26,7 +27,8 @@ public abstract class AbstractActionsWidget implements IActionsWidget
         
         for (TurnAction turnAction : gamePanel.getGame().getGameRules().getPossibleActions())
         {
-            rootPanel.add(widgetFactory.createActionWidget(turnAction, player, gamePanel));
+            IActionWidget w = widgetFactory.createActionWidget(turnAction, player, gamePanel);
+            if (w !=null) rootPanel.add(w);
         }
         ((HorizontalPanel)rootPanel).setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
     }

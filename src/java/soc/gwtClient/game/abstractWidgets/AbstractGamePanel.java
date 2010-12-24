@@ -1,7 +1,7 @@
 package soc.gwtClient.game.abstractWidgets;
 
-import soc.common.actions.gameAction.GameAction;
-import soc.common.actions.gameAction.turnActions.TurnAction;
+import soc.common.actions.gameAction.AbstractGameAction;
+import soc.common.actions.gameAction.turnActions.AbstractTurnAction;
 import soc.common.board.pieces.PlayerPiece;
 import soc.common.client.behaviour.StandardGameBehaviourFactory;
 import soc.common.client.behaviour.IGameBehaviourFactory;
@@ -28,13 +28,14 @@ public abstract class AbstractGamePanel
     protected IBankTradeUI bankTradeUI;
     protected IGameBehaviourFactory gameBehaviourFactory;
     protected IGameBoardVisual gameVisual;
-    protected GameAction performingAction;
+    protected AbstractGameAction performingAction;
     protected IPlayersWidget playersWidget;
     protected IGameBoardVisual gameBoard;
     protected Player player;
     protected IHandCardsWidget handCards;
     protected IStatusDicePanel statusDicePanel;
     protected TradePlayersDialog tradePlayers;
+    protected IGameHistoryWidget historyWidget;
     
     public AbstractGamePanel(Game game)
     {
@@ -50,6 +51,7 @@ public abstract class AbstractGamePanel
         handCards = createHandCardsWidget(player);
         statusDicePanel = createStatusDicePanel(this);
         tradePlayers = new TradePlayersDialog(this); 
+        historyWidget = createHistoryWidget(this);
     }
     
     /**
@@ -72,7 +74,7 @@ public abstract class AbstractGamePanel
      * @see soc.common.server.IGameServerCallback#receive(soc.common.actions.gameAction.GameAction)
      */
     @Override
-    public void receive(GameAction action)
+    public void receive(AbstractGameAction action)
     {
         // perform the action
         game.getCurrentPhase().performAction(action, game);
@@ -85,11 +87,11 @@ public abstract class AbstractGamePanel
     }
 
     @Override
-    public void startAction(GameAction action)
+    public void startAction(AbstractGameAction action)
     {
-        if (action instanceof TurnAction)
+        if (action instanceof AbstractTurnAction)
         {
-            TurnAction turnAction = (TurnAction)action;
+            AbstractTurnAction turnAction = (AbstractTurnAction)action;
             // Create a behaviour based on our action
             IGameBehaviour gameBehaviour = gameBehaviourFactory.createBehaviour(turnAction, game);
             

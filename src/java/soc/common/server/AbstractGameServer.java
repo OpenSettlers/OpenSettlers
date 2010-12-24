@@ -2,14 +2,15 @@ package soc.common.server;
 
 import com.google.gwt.user.client.Random;
 
+import soc.common.actions.gameAction.AbstractGameAction;
 import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.MessageFromServer;
 import soc.common.game.Game;
-import soc.common.server.actions.IServerAction;
+import soc.common.server.actions.ServerAction;
 
 /*
  * Abstracted implementation of a gameserver. Should be able to be used locally 
- * as hotseat implementation, as well as a remote server deployment.
+ * as hotseat implementation, as well as a thread synchronized remote server deployment.
  */
 public abstract class AbstractGameServer implements IGameServer
 {
@@ -22,7 +23,7 @@ public abstract class AbstractGameServer implements IGameServer
      * @see soc.common.server.IGameServer#sendAction(soc.common.actions.gameAction.GameAction)
      */
     @Override
-    public void sendAction(GameAction action)
+    public void sendAction(AbstractGameAction action)
     {
         if (action != null)
         {
@@ -62,7 +63,7 @@ public abstract class AbstractGameServer implements IGameServer
             }
             
             // Get associated serverside action if present
-            IServerAction serverAction =  serverActionFactory.getServerAction(action, game, random);
+            ServerAction serverAction =  serverActionFactory.getServerAction(action, game, random);
             
             // Execute it when associated server action is found
             if (serverAction != null)

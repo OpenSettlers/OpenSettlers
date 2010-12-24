@@ -25,6 +25,7 @@ public class DevelopmentCard
         cost.add(new Ore());
         cost.add(new Sheep());
     }
+    
     public boolean isLimitOnePerTurn()
     {
         return true;
@@ -132,5 +133,36 @@ public class DevelopmentCard
         return ClassUtils.getSimpleClassName(this.getClass().getName());
     }
     
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
+    
+    @Override
+    public int hashCode()
+    {
+        return id;
+    }
+    
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        DevelopmentCard other = (DevelopmentCard) obj;
+        if (id != other.id)
+            return false;
+        return true;
+    }
+    public String getName()
+    {
+        return ClassUtils.getSimpleClassName(this.getClass().getName());
+    }
     
 }

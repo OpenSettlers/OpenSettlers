@@ -1,12 +1,15 @@
 package soc.common.actions.gameAction;
 
 import soc.common.game.Game;
+import soc.common.game.gamePhase.GamePhase;
+import soc.common.game.gamePhase.turnPhase.TurnPhase;
 
 /*
  * A player is saying something in this game using a text chat interface
  */
-public class GameChat extends GameAction
+public class GameChat extends AbstractGameAction
 {
+    private static final long serialVersionUID = -3710258112524872173L;
     private String chatMessage;
 
     /**
@@ -35,8 +38,28 @@ public class GameChat extends GameAction
     {
         // Add the chat message to the chat log of this game
         game.getChatLog().say(this);
+        
+        message = ": " + chatMessage;
 
         super.perform(game);
+    }
+
+    /* (non-Javadoc)
+     * @see soc.common.actions.gameAction.GameAction#isAllowed(soc.common.game.gamePhase.GamePhase)
+     */
+    @Override
+    public boolean isAllowed(GamePhase gamePhase)
+    {
+        return true;
+    }
+
+    /* (non-Javadoc)
+     * @see soc.common.actions.gameAction.GameAction#isAllowed(soc.common.game.gamePhase.turnPhase.TurnPhase)
+     */
+    @Override
+    public boolean isAllowed(TurnPhase turnPhase)
+    {
+        return true;
     }
     
     

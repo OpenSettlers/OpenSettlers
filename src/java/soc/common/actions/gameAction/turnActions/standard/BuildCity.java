@@ -1,25 +1,25 @@
 package soc.common.actions.gameAction.turnActions.standard;
 
-import java.util.List;
-
-import soc.common.actions.gameAction.turnActions.TurnAction;
+import soc.common.actions.gameAction.turnActions.AbstractTurnAction;
 import soc.common.board.HexLocation;
 import soc.common.board.HexPoint;
-import soc.common.board.HexSide;
-import soc.common.board.hexes.Hex;
+import soc.common.board.hexes.AbstractHex;
 import soc.common.board.hexes.ResourceHex;
 import soc.common.board.pieces.City;
-import soc.common.board.pieces.ISidePiece;
 import soc.common.board.pieces.PlayerPiece;
+import soc.common.board.pieces.PlayerPieceList;
 import soc.common.board.pieces.Town;
 import soc.common.board.resources.ResourceList;
 import soc.common.game.Game;
 import soc.common.game.Player;
+import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.InitialPlacementGamePhase;
 import soc.common.game.gamePhase.PlayTurnsGamePhase;
+import soc.common.game.gamePhase.turnPhase.TurnPhase;
 
-public class BuildCity extends TurnAction
+public class BuildCity extends AbstractTurnAction
 {
+    private static final long serialVersionUID = -2767352130887235545L;
     private HexPoint pointLocation;
     
     /**
@@ -58,7 +58,7 @@ public class BuildCity extends TurnAction
         // player should have a ship or road at some neighbour
         Player player = game.getPlayerByID(sender);
 
-        if (!(player.getBuildPieces().ofType(Town.class).contains(pointLocation)))
+        if (!(player.getBuildPieces().ofType(Town.TOWN).contains(pointLocation)))
         {
             invalidMessage = "No town found to replace with a city";
             return false;
@@ -87,27 +87,34 @@ public class BuildCity extends TurnAction
     {
         Player player = game.getPlayerByID(sender);
         
+        // Get first city from stock 
+        City city = (City) player.getStock().ofType(City.CITY).get(0);
+        city.setPoint(pointLocation);
+
         if (game.getCurrentPhase() instanceof PlayTurnsGamePhase)
         {
-            PlayerPiece town = player.getBuildPieces().ofType(Town.class).remove(pointLocation);
-            City city = (City) player.getStock().get(Town.TOWN);
-            city.setPoint(pointLocation);
-            player.getBuildPieces().add(city);
-            player.getResources().subtractResources(city.getCost());
-            game.getBank().add(city.getCost());
-            player.getStock().remove(city);
-            player.getStock().add(town);
+            // Get first town from stock
+            PlayerPiece town = player.getBuildPieces().ofType(Town.TOWN).get(0);
+            
+            // Pay for the city
+            player.getResources().moveTo(city.getCost(), game.getBank());
+            
+            // Move town to stock
+            PlayerPieceList.move(town, player.getBuildPieces(), player.getStock());
+            
+            // Put City on board
+            PlayerPieceList.move(city, player.getStock(), player.getBuildPieces());
         }
         if (game.getCurrentPhase() instanceof InitialPlacementGamePhase)
         {
-            PlayerPiece city = player.getStock().get(City.CITY);
-            player.getBuildPieces().add(city);
-            player.getStock().remove(city);
+            PlayerPieceList.move(city, player.getStock(), player.getBuildPieces());
 
             ResourceList resourcesFromCity = new ResourceList();
+            
+            // Add resources to player 
             for (HexLocation hexLocation : pointLocation.getHexLocations())
             {
-                Hex hex = game.getBoard().getHexes().get(hexLocation);
+                AbstractHex hex = game.getBoard().getHexes().get(hexLocation);
                 if (hex instanceof ResourceHex)
                 {
                     resourcesFromCity.add(((ResourceHex)hex).getResource());
@@ -120,6 +127,20 @@ public class BuildCity extends TurnAction
         //message = String.Format("{0} build a city at {1}",
         //    gamePlayer.XmlPlayer.Name, Location.ToString(xmlGame.Board));
         super.perform(game);
+    }
+
+    @Override
+    public boolean isAllowed(TurnPhase turnPhase)
+    {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean isAllowed(GamePhase gamePhase)
+    {
+        // TODO Auto-generated method stub
+        return false;
     }
 
 }

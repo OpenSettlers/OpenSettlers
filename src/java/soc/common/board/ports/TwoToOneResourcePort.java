@@ -1,13 +1,14 @@
 package soc.common.board.ports;
 
+import soc.common.board.resources.AbstractResource;
 import soc.common.board.resources.Resource;
 import soc.common.board.resources.ResourceList;
 
 public class TwoToOneResourcePort extends Port
 {
-    private Resource resource;
+    private AbstractResource resource;
     
-    public TwoToOneResourcePort(Resource r)
+    public TwoToOneResourcePort(AbstractResource r)
     {
         resource=r;
     }
@@ -15,7 +16,7 @@ public class TwoToOneResourcePort extends Port
     /**
      * @param resource the resource to set
      */
-    public TwoToOneResourcePort setResource(Resource resource)
+    public TwoToOneResourcePort setResource(AbstractResource resource)
     {
         this.resource = resource;
     
@@ -23,7 +24,6 @@ public class TwoToOneResourcePort extends Port
         // http://en.wikipedia.org/wiki/Fluent_interface
         return this;
     }
-
 
     /* (non-Javadoc)
      * @see soc.common.board.ports.Port#getInAmount()
@@ -34,7 +34,6 @@ public class TwoToOneResourcePort extends Port
         return 2;
     }
 
-
     /* (non-Javadoc)
      * @see soc.common.board.ports.Port#getOutAmount()
      */
@@ -44,16 +43,14 @@ public class TwoToOneResourcePort extends Port
         return 1;
     }
 
-
     /* Resource this port trades against
      * @see soc.common.board.ports.Port#getResource()
      */
     @Override
-    public Resource getResource()
+    public AbstractResource getResource()
     {
         return resource;
     }
-
 
     /* Returns amount of gold gained by given list of resources
      * @see soc.common.board.ports.Port#divide(soc.common.board.resources.ResourceList, soc.common.board.resources.Resource)
@@ -72,6 +69,4 @@ public class TwoToOneResourcePort extends Port
     {
         return resource.getClass() == this.resource.getClass();
     }
-
-
 }

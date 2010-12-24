@@ -3,7 +3,7 @@ package soc.gwtClient.game.abstractWidgets;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 
-import soc.common.actions.gameAction.turnActions.TurnAction;
+import soc.common.actions.gameAction.turnActions.AbstractTurnAction;
 import soc.common.game.Player;
 
 /*

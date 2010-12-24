@@ -119,7 +119,7 @@ public class TradePlayersDialog extends PopupPanel
         horizontalPanel_2.setSpacing(10);
         pnlTradeOptions.add(horizontalPanel_2);
         
-        Image image = new Image("icons/48/TradePlayer48.png");
+        Image image = new Image("iconz/48/TradePlayer48.png");
         horizontalPanel_2.add(image);
         
         Label lblTradeWithOpponents = new Label("Trade with opponents");

@@ -1,8 +1,14 @@
 package soc.common.board.pieces;
 
+import java.util.List;
+
 import soc.common.board.Board;
+import soc.common.board.HexLocation;
 import soc.common.board.HexPoint;
+import soc.common.board.HexPointType;
+import soc.common.board.PointPositionOnHex;
 import soc.common.board.resources.*;
+import soc.common.board.routing.IGraphPoint;
 import soc.common.game.IVictoryPointItem;
 import soc.common.game.Player;
 
@@ -11,26 +17,6 @@ public class Town extends PlayerPiece implements IVictoryPointItem, IPointPiece
     public static Town TOWN  = new Town();
     private HexPoint pointLocation;
     
-    /**
-     * @return the pointLocation
-     */
-    @Override
-    public HexPoint getPoint()
-    {
-        return pointLocation;
-    }
-
-    /**
-     * @param pointLocation the pointLocation to set
-     */
-    @Override
-    public IPointPiece setPoint(HexPoint pointLocation)
-    {
-        this.pointLocation = pointLocation;
-    
-        return this;
-    }
-
     @Override
     public String toString()
     {
@@ -57,7 +43,7 @@ public class Town extends PlayerPiece implements IVictoryPointItem, IPointPiece
     public boolean canBuild(Board board, Player player)
     {
         // We need a town in stock...
-        if (player.getStock().ofType(Town.class).size() == 0) 
+        if (player.getStock().ofType(Town.TOWN).size() == 0) 
             return false;
         
         // And we need a place to put it onto
@@ -72,5 +58,19 @@ public class Town extends PlayerPiece implements IVictoryPointItem, IPointPiece
     public int getVictoryPoints()
     {
         return 1;
+    }
+
+    @Override
+    public HexPoint getPoint()
+    {
+        return pointLocation;
+    }
+
+    @Override
+    public IPointPiece setPoint(HexPoint point)
+    {
+        this.pointLocation=point;
+        
+        return this;
     }
 }

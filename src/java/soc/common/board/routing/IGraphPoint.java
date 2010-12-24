@@ -1,28 +1,14 @@
 package soc.common.board.routing;
 
-/*
- * Graph vertex
- */
-public interface IGraphPoint
+import soc.common.board.HexPoint;
+
+public interface IGraphPoint extends IGraphElement 
 {
-    /*
-     * Whether or not there can be built on 
-     * 
-     * Not true for any known PointPiece (maybe an oil platform)
-     */
-    public boolean isSeaBuildable();
+    public HexPoint getPoint();
     
     /*
-     * Whether or not it is possible for land pieces to build on this point
-     * 
-     * Example: false when point consists of three seahexes
+     * Returns true when a town is allowed to build on it
      */
-    public boolean isLandBuildable();
-    
-    /*
-     * Whether or not *anything* can be built on it.
-     * 
-     *  False for for example for DiscoveryHex
-     */
-    public boolean isBuildable();
+    public boolean isTownBuildable();
+    public IGraphPoint setTownBuildable(boolean townBuildable);
 }

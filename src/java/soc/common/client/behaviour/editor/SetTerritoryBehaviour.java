@@ -1,7 +1,6 @@
 package soc.common.client.behaviour.editor;
 
 import soc.common.board.*;
-import soc.common.board.hexes.ITerritoryHex;
 import soc.common.board.territories.Territory;
 import soc.common.client.behaviour.IInteractionBehaviour;
 import soc.common.client.visuals.IPieceVisual;
@@ -18,10 +17,9 @@ public class SetTerritoryBehaviour implements IInteractionBehaviour
         if (pieceVisual instanceof IHexVisual)
         {
             IHexVisual hexVisual = (IHexVisual)pieceVisual;
-            if (hexVisual.getHex() instanceof ITerritoryHex)
+            if (hexVisual.getHex().getTerritory() != null)
             {
-                ITerritoryHex terrHex = (ITerritoryHex)hexVisual.getHex();
-                terrHex.setTerritory(territory);
+                hexVisual.getTerritory().setTerritory(territory);
                 hexVisual.getPortPossibilitiesVisual().updatePossibilities();
             }
         }
@@ -52,10 +50,7 @@ public class SetTerritoryBehaviour implements IInteractionBehaviour
         if (pieceVisual instanceof IHexVisual)
         {
             IHexVisual hexVisual = (IHexVisual)pieceVisual;
-            if (hexVisual.getHex() instanceof ITerritoryHex)
-            {
-                hexVisual.setSelected(true);
-            }
+            hexVisual.setSelected(hexVisual.getTerritory() != null);
         }
     }
 

@@ -3,6 +3,8 @@ package soc.common.board.pieces;
 import soc.common.board.Board;
 import soc.common.board.HexPoint;
 import soc.common.board.resources.*;
+import soc.common.board.routing.IGraphElement;
+import soc.common.board.routing.IGraphPoint;
 import soc.common.game.IVictoryPointItem;
 import soc.common.game.Player;
 
@@ -38,11 +40,11 @@ public class City extends PlayerPiece implements IVictoryPointItem, IPointPiece
     public boolean canBuild(Board board, Player player)
     {
         // We need a city in stock...
-        if (player.getStock().ofType(City.class).size() == 0) 
+        if (player.getStock().ofType(City.CITY).size() == 0) 
             return false;
         
         // And we need a town to replace.
-        if (player.getBuildPieces().ofType(Town.class).size() == 0)
+        if (player.getBuildPieces().ofType(Town.TOWN).size() == 0)
             return false;
         
         return true;
@@ -58,7 +60,6 @@ public class City extends PlayerPiece implements IVictoryPointItem, IPointPiece
         return 2;
     }
 
-    @Override
     public HexPoint getPoint()
     {
         return pointLocation;
@@ -67,8 +68,9 @@ public class City extends PlayerPiece implements IVictoryPointItem, IPointPiece
     @Override
     public IPointPiece setPoint(HexPoint point)
     {
-        pointLocation=point;
+        pointLocation = point;
         
-        return null;
+        return this;
     }
+
 }

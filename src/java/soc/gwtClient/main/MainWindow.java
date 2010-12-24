@@ -13,11 +13,11 @@ import soc.common.board.resources.Timber;
 import soc.common.board.resources.Wheat;
 import soc.common.game.Game;
 import soc.common.game.Player;
-import soc.common.game.developmentCards.Monopoly;
-import soc.common.game.developmentCards.RoadBuilding;
-import soc.common.game.developmentCards.Soldier;
-import soc.common.game.developmentCards.VictoryPoint;
-import soc.common.game.developmentCards.YearOfPlenty;
+import soc.common.game.developmentCards.standard.Monopoly;
+import soc.common.game.developmentCards.standard.RoadBuilding;
+import soc.common.game.developmentCards.standard.Soldier;
+import soc.common.game.developmentCards.standard.VictoryPoint;
+import soc.common.game.developmentCards.standard.YearOfPlenty;
 import soc.common.game.variants.IVariant;
 import soc.common.game.variants.Standard;
 import soc.gwtClient.editor.SvgMapEditor;
@@ -29,22 +29,17 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.Command;
 
 public class MainWindow implements EntryPoint
 {
-    
     DockLayoutPanel rootPanel = new DockLayoutPanel(Unit.EM);
     HorizontalPanel menu = new HorizontalPanel();
     LayoutPanel centerWidget = new LayoutPanel();
@@ -53,6 +48,8 @@ public class MainWindow implements EntryPoint
     ICenterWidget welcomePanel;
     ICenterWidget currentWidget;
     ICenterWidget hotseatGame;
+    ICenterWidget wikiPage;
+
     private final MenuBar rootMenuBar = new MenuBar(true);
     private MenuItem editorMenutItem;
     private MenuItem hotseatMenuItem;
@@ -74,6 +71,7 @@ public class MainWindow implements EntryPoint
         mapEditor = new SvgMapEditor();
         welcomePanel = new WelcomePanel(this);
         hotseatGame = new HotSeatGamePanel(createGame());
+        wikiPage = new WikiPanel();
         
         Label lblSomeStatusLabel = new Label("Some text here to show we have an awesome statusbar");
         statusBar.add(lblSomeStatusLabel);
@@ -123,7 +121,13 @@ public class MainWindow implements EntryPoint
     {
         
     }
-
+    /**
+     * @return the wikiPage
+     */
+    public ICenterWidget getWikiPage()
+    {
+        return wikiPage;
+    }
     public void setCurrentWidget(ICenterWidget newCenterWidget)
     {
         centerWidget.remove(currentWidget.getRootWidget());

@@ -1,9 +1,6 @@
 package soc.common.client.behaviour.game;
 
 import soc.common.actions.gameAction.turnActions.standard.PlaceRobber;
-import soc.common.board.Board;
-import soc.common.board.hexes.Hex;
-import soc.common.board.hexes.LandHex;
 import soc.common.client.visuals.IPieceVisual;
 import soc.common.client.visuals.board.IBoardVisual;
 import soc.common.client.visuals.board.IHexVisual;
@@ -72,7 +69,7 @@ public class PlaceRobberBehaviour implements IGameBehaviour
             IHexVisual hexVisual = (IHexVisual) pieceVisual;
             
             // We need a landhex for a robber, and not the current position of the robber
-            if (hexVisual.getHex() instanceof LandHex &&
+            if (hexVisual.getHex().isRobberPlaceable() &&
                 !hexVisual.getHex().equals(game.getRobber()))
             {
                 return true;

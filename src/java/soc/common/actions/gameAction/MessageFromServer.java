@@ -1,12 +1,16 @@
 package soc.common.actions.gameAction;
 
+import soc.common.game.gamePhase.GamePhase;
+import soc.common.game.gamePhase.turnPhase.TurnPhase;
+
 /*
  * A generic message from the server. Currently used as error message
  * for debugging purposes. POssible future use is for example servers
  * rebooting.
  */
-public class MessageFromServer extends GameAction
+public class MessageFromServer extends AbstractGameAction
 {
+    private static final long serialVersionUID = -4467388096445126041L;
     private String serverMessage;
 
     /**
@@ -25,5 +29,19 @@ public class MessageFromServer extends GameAction
         this.serverMessage = serverMessage;
     
         return this;
+    }
+
+    @Override
+    public boolean isAllowed(TurnPhase turnPhase)
+    {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean isAllowed(GamePhase gamePhase)
+    {
+        // TODO Auto-generated method stub
+        return false;
     } 
 }

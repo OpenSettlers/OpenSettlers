@@ -1,8 +1,9 @@
 package soc.gwtClient.game.abstractWidgets;
 
+import soc.common.board.resources.AbstractResource;
 import soc.common.board.resources.Resource;
 import soc.common.game.Game;
-import soc.gwtClient.game.widgets.standard.bitmap.BitmapBankStockResourceWidget;
+import soc.gwtClient.game.widgets.standard.bitmap.BankStockResourceBitmapWidget;
 
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -18,7 +19,7 @@ public class AbstractBankStockWidget implements IBankStockPanel
         this.game=game;
         rootPanel = createRootPanel();
         
-        for (Resource playableResource : game.getGameRules().getPlayableResources())
+        for (Resource playableResource : game.getGameRules().getSupportedResources())
         {
             IBankStockResourceWidget bankResourceWidget = 
                 createBankStockResourceWidget(playableResource);
@@ -42,7 +43,7 @@ public class AbstractBankStockWidget implements IBankStockPanel
     public IBankStockResourceWidget createBankStockResourceWidget(
             Resource resource)
     {
-        return new BitmapBankStockResourceWidget(game.getBank(), resource);
+        return new BankStockResourceBitmapWidget(game.getBank(), resource);
     }
 
 }

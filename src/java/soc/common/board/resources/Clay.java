@@ -1,8 +1,7 @@
 package soc.common.board.resources;
 
-public class Clay extends Resource
+public class Clay extends AbstractResource
 {
-
     /* (non-Javadoc)
      * @see soc.common.board.resources.Resource#getColor()
      */
@@ -12,8 +11,23 @@ public class Clay extends Resource
         return "Red";
     }
 
+    /* (non-Javadoc)
+     * @see soc.common.board.resources.AbstractResource#isTradeable()
+     */
     @Override
-    public Resource Copy()
+    public boolean isTradeable()
+    {
+        return true;
+    }
+
+    @Override
+    public AbstractResource Copy()
+    {
+        return new Clay();
+    }
+
+    @Override
+    public Resource copy()
     {
         return new Clay();
     }

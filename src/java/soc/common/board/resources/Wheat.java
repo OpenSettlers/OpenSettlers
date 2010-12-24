@@ -1,6 +1,6 @@
 package soc.common.board.resources;
 
-public class Wheat extends Resource
+public class Wheat extends AbstractResource
 {
 
     /* (non-Javadoc)
@@ -13,9 +13,22 @@ public class Wheat extends Resource
     }
 
     @Override
-    public Resource Copy()
+    public AbstractResource Copy()
     {
         return new Wheat();
     }
+    /* (non-Javadoc)
+     * @see soc.common.board.resources.AbstractResource#isTradeable()
+     */
+    @Override
+    public boolean isTradeable()
+    {
+        return true;
+    }
 
+    @Override
+    public Resource copy()
+    {
+        return new Wheat();
+    }
 }

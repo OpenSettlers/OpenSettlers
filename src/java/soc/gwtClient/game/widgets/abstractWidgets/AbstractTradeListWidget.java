@@ -26,8 +26,8 @@ public abstract class AbstractTradeListWidget implements ITradeListWidget
         {
             rootPanel.add(new Image(ImageLibrary.getIcon(resource, 32)));
         }
-        rootPanel.add(new Label(" for "));
-        for (Resource resource : wantResources)
+        rootPanel.add(new Label(" in exchange for "));
+        for (Resource resource : giveResources)
         {
             rootPanel.add(new Image(ImageLibrary.getIcon(resource, 32)));
         }

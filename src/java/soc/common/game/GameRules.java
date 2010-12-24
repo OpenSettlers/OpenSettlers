@@ -5,7 +5,9 @@ import java.util.List;
 
 import com.google.gwt.event.shared.SimpleEventBus;
 
+import soc.common.actions.gameAction.turnActions.AbstractTurnAction;
 import soc.common.actions.gameAction.turnActions.TurnAction;
+import soc.common.board.resources.AbstractResource;
 import soc.common.board.resources.Resource;
 import soc.common.game.dices.IDice;
 import soc.common.game.logs.ActionQueueChangedEvent;
@@ -137,7 +139,7 @@ public class GameRules implements IGameRules
 
         
     @Override
-    public TurnAction createPlaceRobberPirateAction()
+    public AbstractTurnAction createPlaceRobberPirateAction()
     {
         return null;
     }
@@ -153,9 +155,22 @@ public class GameRules implements IGameRules
     /**
      * @return the playableResources
      */
-    public List<Resource> getPlayableResources()
+    public List<Resource> getSupportedResources()
     {
         return playableResources;
+    }
+    
+    public List<Resource> getTradeableResources()
+    {
+        List<Resource> tradeableResources = new ArrayList<Resource>();
+        
+        for (Resource resource: getSupportedResources())
+        {
+            if (resource.isTradeable())
+                tradeableResources.add(resource);
+        }
+        
+        return tradeableResources;
     }
 
     /**

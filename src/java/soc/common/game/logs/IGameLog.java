@@ -2,7 +2,7 @@ package soc.common.game.logs;
 
 import java.util.List;
 
-import soc.common.actions.gameAction.GameAction;
+import soc.common.actions.gameAction.AbstractGameAction;
 import soc.common.actions.gameAction.turnActions.standard.RollDice;
 import soc.common.game.Game;
 import soc.common.game.Player;
@@ -10,12 +10,12 @@ import soc.common.game.Player;
 /*
  * List of GameActions which occurred during a game
  */
-public interface IGameLog extends Iterable<GameAction>
+public interface IGameLog extends Iterable<AbstractGameAction>
 {
     /*
      * Adds an action to this gamelog
      */
-    public void addAction(GameAction inGameAction);
+    public void addAction(AbstractGameAction inGameAction);
     
     /*
      * Returns a list of RollDice actions performed during current 

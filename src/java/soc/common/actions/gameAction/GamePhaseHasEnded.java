@@ -2,12 +2,14 @@ package soc.common.actions.gameAction;
 
 import soc.common.game.Game;
 import soc.common.game.gamePhase.GamePhase;
+import soc.common.game.gamePhase.turnPhase.TurnPhase;
 
 /*
  * Announces a gamephase which has been ended
  */
-public class GamePhaseHasEnded extends GameAction
+public class GamePhaseHasEnded extends AbstractGameAction
 {
+    private static final long serialVersionUID = 3377193429519428414L;
     private GamePhase endedGamePhase;
     private GamePhase newPhase;
 
@@ -25,7 +27,6 @@ public class GamePhaseHasEnded extends GameAction
     @Override
     public void perform(Game game)
     {
-        
         endedGamePhase = game.getCurrentPhase();
         
         // Advance the phase to next phase
@@ -55,5 +56,19 @@ public class GamePhaseHasEnded extends GameAction
         this.endedGamePhase = endedGamePhase;
     
         return this;
+    }
+
+    @Override
+    public boolean isAllowed(TurnPhase turnPhase)
+    {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean isAllowed(GamePhase gamePhase)
+    {
+        // TODO Auto-generated method stub
+        return false;
     }
 }

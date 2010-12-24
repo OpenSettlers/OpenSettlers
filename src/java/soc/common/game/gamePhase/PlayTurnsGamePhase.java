@@ -1,5 +1,6 @@
 package soc.common.game.gamePhase;
 
+import soc.common.actions.gameAction.AbstractGameAction;
 import soc.common.actions.gameAction.GameAction;
 import soc.common.game.Game;
 import soc.common.game.gamePhase.turnPhase.BeforeDiceRollTurnPhase;
@@ -31,7 +32,7 @@ public class PlayTurnsGamePhase extends GamePhase
      * @see soc.common.game.gamePhase.GamePhase#performAction(soc.common.actions.gameAction.GameAction, soc.common.game.Game)
      */
     @Override
-    public void performAction(GameAction action, Game game)
+    public void performAction(AbstractGameAction action, Game game)
     {
         /* TODO: port to java, first implement GameAction classes
          * 

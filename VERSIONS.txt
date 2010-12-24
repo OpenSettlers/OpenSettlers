@@ -1,6 +1,9 @@
-[ The list of the different public versions of OpenSettlers/JSettlers ]
 
-Unless otherwise indicated, versions are hosted at http://github.com/nsp/OpenSettlers/ 
+
+[ The list of the different public versions of OpenSettlers/JSettlers ]
+    > 2.0 alpha1 (build 20101223) http://OpenSettlers.sourceforge.net/
+
+Unless otherwise indicated, versions are hosted at http://github.com/generateui/OpenSettlers/ 
 
 After version 1.1.09, the project has been renamed OpenSettlers
 

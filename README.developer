@@ -1,9 +1,10 @@
 README.developer - Notes and current status of 2010 OpenSettlers development
     http://github.com/nsp/OpenSettlers
 
-The main server class is soc.server.SOCServer.
-The client communication is soc.client.PlayerClient, and in-game interface is in soc.client.PlayerInterface.
-Game state is held at the server in soc.game.Game and its fields.  Partial game state is known at clients.
+The main server class is soc.common.game.
+The client communication is done using gwt-comet.
+Game state is held at the server in soc.common.server.ServerGame.  
+Partial game state is known at clients.
 Communication is described in soc.message.Message.
 Robots talk with the server like normal human clients.
 Most robot messages are per-game; instead of being handled in RobotClient,

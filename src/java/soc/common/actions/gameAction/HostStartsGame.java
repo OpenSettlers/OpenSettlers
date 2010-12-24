@@ -5,8 +5,9 @@ import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.LobbyGamePhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
 
-public class HostStartsGame extends GameAction
+public class HostStartsGame extends AbstractGameAction
 {
+    private static final long serialVersionUID = 4729872692877969851L;
     private Game game;
 
     /**

@@ -3,6 +3,7 @@ package soc.common.game.gamePhase;
 import java.util.ArrayList;
 import java.util.List;
 
+import soc.common.actions.gameAction.AbstractGameAction;
 import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.StartingPlayerDetermined;
 import soc.common.actions.gameAction.turnActions.RolledSame;
@@ -42,7 +43,7 @@ public class DetermineFirstPlayerGamePhase extends GamePhase
     }
     
     @Override
-    public void performAction(GameAction action, Game game)
+    public void performAction(AbstractGameAction action, Game game)
     {
         action.perform(game);
         
@@ -66,7 +67,7 @@ public class DetermineFirstPlayerGamePhase extends GamePhase
                     // We have a starting player
                     game.getActionsQueue().enqueue
                     (
-                        new StartingPlayerDetermined()
+                        (GameAction) new StartingPlayerDetermined()
                             // winning dice
                             .setDiceRoll(highRoll)
                             // The starter of the placement/portplacement/turnactionsgamephase

@@ -2,7 +2,9 @@ package soc.common.game;
 
 import java.util.List;
 
+import soc.common.actions.gameAction.turnActions.AbstractTurnAction;
 import soc.common.actions.gameAction.turnActions.TurnAction;
+import soc.common.board.resources.AbstractResource;
 import soc.common.board.resources.Resource;
 import soc.common.game.dices.IDice;
 
@@ -30,19 +32,30 @@ public interface IGameRules
      */
     public List<TurnAction> getPossibleActions();
     
-    public List<Resource> getPlayableResources();
+    /*
+     * Returns list of basic resource types
+     */
+    public List<Resource> getSupportedResources();
+    
+    /*
+     * Returns a list of resources allowed to trade to players and bank
+     */
+    public List<Resource> getTradeableResources();
     
     /*
      * Returns amount of resources in the bank at beginning of the game
      */
     public int getBankAmountPerResource();
 
+    /*
+     * Should players compete for a largest army?
+     */
     public boolean getEnableLargestArmy();
-    public GameRules setEnableLargestArmy(boolean enableLargestArmy);
+    public IGameRules setEnableLargestArmy(boolean enableLargestArmy);
 
     // Returns the type of the dice rolled by the player on turn in the RollDiceTurnPhase
     public IDice getDiceType();
     
     // Sets the type of the dice 
-    public GameRules setDiceType(IDice diceType);
+    public IGameRules setDiceType(IDice diceType);
 }

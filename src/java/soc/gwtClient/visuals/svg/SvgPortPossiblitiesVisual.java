@@ -3,7 +3,7 @@ package soc.gwtClient.visuals.svg;
 import org.vaadin.gwtgraphics.client.Group;
 
 import soc.common.board.HexLocation;
-import soc.common.board.hexes.Hex;
+import soc.common.board.hexes.AbstractHex;
 import soc.common.board.ports.Port;
 import soc.common.client.visuals.board.PortPossibilitiesVisual;
 import soc.gwtClient.game.Point2D;
@@ -27,7 +27,7 @@ public class SvgPortPossiblitiesVisual extends PortPossibilitiesVisual
         group = new Group();
         
         Point2D coordinates = parent.calculatePosition(seaLocation);
-        Point2D centeredCoordinates = new Point2D((int)coordinates.getX() , (int)(coordinates.getY()+ Hex.getHalfHeight()));
+        Point2D centeredCoordinates = new Point2D((int)coordinates.getX() , (int)(coordinates.getY()+ AbstractHex.getHalfHeight()));
         
         for (Port port : ports)
         {

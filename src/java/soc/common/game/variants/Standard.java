@@ -6,6 +6,7 @@ import soc.common.actions.gameAction.turnActions.standard.BuildRoad;
 import soc.common.actions.gameAction.turnActions.standard.BuildTown;
 import soc.common.actions.gameAction.turnActions.standard.ClaimVictory;
 import soc.common.actions.gameAction.turnActions.standard.PlayDevelopmentCard;
+import soc.common.actions.gameAction.turnActions.standard.RollDice;
 import soc.common.actions.gameAction.turnActions.standard.TradeBank;
 import soc.common.actions.gameAction.turnActions.standard.TradePlayer;
 import soc.common.board.pieces.City;
@@ -19,6 +20,8 @@ import soc.common.board.resources.Sheep;
 import soc.common.board.resources.Timber;
 import soc.common.board.resources.Wheat;
 import soc.common.game.Game;
+import soc.common.game.GameRules;
+import soc.common.game.IGameRules;
 import soc.common.game.StockItem;
 import soc.common.game.developmentCards.DevelopmentCardList;
 import soc.common.game.dices.StandardDice;
@@ -31,59 +34,53 @@ public class Standard extends RuleSet
     }
 
     @Override
-    public void addBuildablePieces()
-    {
-        game.getGameRules().getPossibleActions().add(new BuildRoad());
-        game.getGameRules().getPossibleActions().add(new BuildCity());
-        game.getGameRules().getPossibleActions().add(new BuildTown());
-        game.getGameRules().getPossibleActions().add(new EndTurn());
-    }
-
-    @Override
     public void setRules()
     {
+        IGameRules rules = game.getGameRules();
+        // Standard has a largest army playing rule
         game.getGameRules().setEnableLargestArmy(true);
-        game.getGameRules().getStockPieces().add
+        
+        // Create a stock template
+        rules.getStockPieces().add
         (
-                new StockItem()
+            new StockItem()
                 .setPiece(new Road())
                 .setAmount(15)
         );
-        game.getGameRules().getStockPieces().add
+        rules.getStockPieces().add
         (
-                new StockItem()
+            new StockItem()
                 .setPiece(new Town())
                 .setAmount(5)
         );
-        game.getGameRules().getStockPieces().add
+        rules.getStockPieces().add
         (
-                new StockItem()
+            new StockItem()
                 .setPiece(new City())
                 .setAmount(4)
         );
         
-        game.getGameRules().getPlayableResources().add(new Timber());
-        game.getGameRules().getPlayableResources().add(new Wheat());
-        game.getGameRules().getPlayableResources().add(new Ore());
-        game.getGameRules().getPlayableResources().add(new Clay());
-        game.getGameRules().getPlayableResources().add(new Sheep());
+        rules.getSupportedResources().add(new Timber());
+        rules.getSupportedResources().add(new Wheat());
+        rules.getSupportedResources().add(new Ore());
+        rules.getSupportedResources().add(new Clay());
+        rules.getSupportedResources().add(new Sheep());
         
-        addActions();
+        // Add the available actions for standard
+        rules.getPossibleActions().add(new PlayDevelopmentCard());
+        rules.getPossibleActions().add(new TradeBank());
+        rules.getPossibleActions().add(new TradePlayer());
+        rules.getPossibleActions().add(new BuildRoad());
+        rules.getPossibleActions().add(new BuildTown());
+        rules.getPossibleActions().add(new BuildCity());
+        rules.getPossibleActions().add(new EndTurn());
+        rules.getPossibleActions().add(new ClaimVictory());
+        rules.getPossibleActions().add(new RollDice());
         
+        // create standard development cards stack
         game.setDevelopmentCards(DevelopmentCardList.standard());
         
         // Use a standard dice
         game.getGameRules().setDiceType(new StandardDice());
-    }
-    private void addActions()
-    {
-        game.getGameRules().getPossibleActions().add(new PlayDevelopmentCard());
-        game.getGameRules().getPossibleActions().add(new BuildRoad());
-        game.getGameRules().getPossibleActions().add(new BuildTown());
-        game.getGameRules().getPossibleActions().add(new BuildCity());
-        game.getGameRules().getPossibleActions().add(new TradeBank());
-        game.getGameRules().getPossibleActions().add(new TradePlayer());
-        game.getGameRules().getPossibleActions().add(new EndTurn());
-        game.getGameRules().getPossibleActions().add(new ClaimVictory());
     }
 }

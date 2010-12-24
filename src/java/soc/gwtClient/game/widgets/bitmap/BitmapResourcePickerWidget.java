@@ -1,6 +1,7 @@
 package soc.gwtClient.game.widgets.bitmap;
 
 import soc.common.board.ports.PortList;
+import soc.common.board.resources.AbstractResource;
 import soc.common.board.resources.Resource;
 import soc.common.board.resources.ResourceList;
 import soc.common.game.Player;

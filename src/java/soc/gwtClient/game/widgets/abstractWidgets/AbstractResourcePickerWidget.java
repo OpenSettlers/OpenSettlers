@@ -1,6 +1,7 @@
 package soc.gwtClient.game.widgets.abstractWidgets;
 
 import soc.common.board.ports.PortList;
+import soc.common.board.resources.AbstractResource;
 import soc.common.board.resources.Resource;
 import soc.common.board.resources.ResourceList;
 import soc.gwtClient.game.abstractWidgets.IGamePanel;
@@ -23,7 +24,7 @@ public abstract class AbstractResourcePickerWidget implements IResourcePickerWid
         this.bankResources = bankResources;
         this.ports=ports;
         
-        for (Resource resource : gamePanel.getGame().getGameRules().getPlayableResources())
+        for (Resource resource : gamePanel.getGame().getGameRules().getSupportedResources())
         {
             IResourceSelectorWidget resourceSelector = createResourceSelectorWidget(resource, bankResources, ports);
             resourceSelector.addClickHandler(this);
@@ -59,7 +60,7 @@ public abstract class AbstractResourcePickerWidget implements IResourcePickerWid
             ResourceList resourcesToAdd = new ResourceList();
             for (int amount=0; amount < ports.amountNeededToTrade(resourceToAdd); amount++)
             {
-                resourcesToAdd.add(resourceToAdd.Copy());
+                resourcesToAdd.add(resourceToAdd.copy());
             }
             resources.add(resourcesToAdd);
             
@@ -71,7 +72,7 @@ public abstract class AbstractResourcePickerWidget implements IResourcePickerWid
         }
         else
         {
-            resources.add(resourceToAdd.Copy());
+            resources.add(resourceToAdd.copy());
             
             // Remove the resource from the bank
             if (bankResources !=null)

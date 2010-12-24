@@ -3,19 +3,19 @@ package soc.common.board.hexes;
 import soc.common.annotations.Sea3D;
 import soc.common.board.Chit;
 import soc.common.board.resources.Gold;
-import soc.common.board.resources.Resource;
+import soc.common.board.resources.AbstractResource;
 import soc.common.utils.ClassUtils;
 
 @Sea3D
 public class VolcanoHex extends ResourceHex
 {
-    private Resource resource = new Gold();
+    private AbstractResource resource = new Gold();
 
     /* (non-Javadoc)
      * @see soc.common.board.hexes.ResourceHex#getResource()
      */
     @Override
-    public Resource getResource()
+    public AbstractResource getResource()
     {
         return resource;
     }
@@ -42,7 +42,7 @@ public class VolcanoHex extends ResourceHex
      * @see soc.common.board.hexes.ResourceHex#Copy()
      */
     @Override
-    public Hex copy()
+    public AbstractHex copy()
     {
         VolcanoHex result = new VolcanoHex();
         

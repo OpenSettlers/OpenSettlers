@@ -1,13 +1,16 @@
 package soc.common.actions.gameAction.turnActions.standard;
 
-import soc.common.actions.gameAction.turnActions.TurnAction;
+import soc.common.actions.gameAction.turnActions.AbstractTurnAction;
 import soc.common.game.Game;
 import soc.common.game.Player;
 import soc.common.game.developmentCards.DevelopmentCard;
+import soc.common.game.gamePhase.GamePhase;
+import soc.common.game.gamePhase.turnPhase.TurnPhase;
 
 
-public class PlayDevelopmentCard extends TurnAction
+public class PlayDevelopmentCard extends AbstractTurnAction
 {
+    private static final long serialVersionUID = 9184498363690392316L;
     private DevelopmentCard developmentCard;
 
     /**
@@ -79,8 +82,6 @@ public class PlayDevelopmentCard extends TurnAction
     @Override
     public void perform(Game game)
     {
-        Player gamePlayer = game.getPlayerByID(sender);
-        
         //remove devcard from players hand
         player.getDevelopmentCards().remove(developmentCard);
 
@@ -103,6 +104,20 @@ public class PlayDevelopmentCard extends TurnAction
 
         message = developmentCard.getMessage();
         super.perform(game);
+    }
+
+    @Override
+    public boolean isAllowed(TurnPhase turnPhase)
+    {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean isAllowed(GamePhase gamePhase)
+    {
+        // TODO Auto-generated method stub
+        return false;
     }
     
 }

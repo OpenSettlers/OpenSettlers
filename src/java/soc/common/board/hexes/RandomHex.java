@@ -1,20 +1,12 @@
 package soc.common.board.hexes;
 
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.event.shared.SimpleEventBus;
-
-import soc.common.board.territories.Territory;
-
-public class RandomHex extends Hex implements ITerritoryHex
+public class RandomHex extends AbstractHex
 {
-    private Territory territory;
-    protected SimpleEventBus eventBus = new SimpleEventBus(); 
-
     /* (non-Javadoc)
      * @see soc.common.board.hexes.Hex#Copy()
      */
     @Override
-    public Hex copy()
+    public AbstractHex copy()
     {
         return new RandomHex();
     }
@@ -28,26 +20,49 @@ public class RandomHex extends Hex implements ITerritoryHex
         return "White";
     }
 
-    public HandlerRegistration addTerritoryChangedEventHandler(TerritoryChangedEventHandler handler)
-    {
-        return eventBus.addHandler(TerritoryChangedEvent.TYPE, handler);
-    }
-    
+    /* (non-Javadoc)
+     * @see soc.common.board.hexes.Hex#isBuildableLand()
+     */
     @Override
-    public Territory getTerritory()
+    public boolean isBuildableLand()
     {
-        return territory;
+        return false;
     }
 
+    /* (non-Javadoc)
+     * @see soc.common.board.hexes.Hex#isBuildableSea()
+     */
     @Override
-    public ITerritoryHex setTerritory(Territory t)
+    public boolean isBuildableSea()
     {
-        if (t != territory)
-        {
-            this.territory=t;
-            eventBus.fireEvent(new TerritoryChangedEvent(t));
-        }
-        
-        return (ITerritoryHex)this;
+        return false;
     }
+
+    /* (non-Javadoc)
+     * @see soc.common.board.hexes.Hex#isPartOfGame()
+     */
+    @Override
+    public boolean isPartOfGame()
+    {
+        return true;
+    }
+
+    /* (non-Javadoc)
+     * @see soc.common.board.hexes.Hex#isPiratePlaceable()
+     */
+    @Override
+    public boolean isPiratePlaceable()
+    {
+        return false;
+    }
+
+    /* (non-Javadoc)
+     * @see soc.common.board.hexes.Hex#isRobberPlaceable()
+     */
+    @Override
+    public boolean isRobberPlaceable()
+    {
+        return false;
+    }
+    
 }

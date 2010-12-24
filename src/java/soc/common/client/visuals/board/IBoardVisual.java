@@ -1,5 +1,6 @@
 package soc.common.client.visuals.board;
 
+import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import soc.common.board.Board;

@@ -3,23 +3,25 @@ package soc.common.actions.gameAction.turnActions.standard;
 import java.util.ArrayList;
 import java.util.List;
 
-import soc.common.actions.gameAction.turnActions.TurnAction;
+import soc.common.actions.gameAction.turnActions.AbstractTurnAction;
 import soc.common.board.HexLocation;
 import soc.common.board.HexPoint;
 import soc.common.board.HexSide;
-import soc.common.board.hexes.Hex;
+import soc.common.board.hexes.AbstractHex;
 import soc.common.board.hexes.ResourceHex;
 import soc.common.board.hexes.SeaHex;
-import soc.common.board.pieces.ISidePiece;
 import soc.common.board.pieces.PlayerPiece;
 import soc.common.board.ports.Port;
 import soc.common.game.Game;
 import soc.common.game.Player;
+import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.InitialPlacementGamePhase;
 import soc.common.game.gamePhase.PlayTurnsGamePhase;
+import soc.common.game.gamePhase.turnPhase.TurnPhase;
 
-public class BuildTown extends TurnAction
+public class BuildTown extends AbstractTurnAction
 {
+    private static final long serialVersionUID = -2087932156154353767L;
     private HexPoint pointLocation;
     
     /**
@@ -68,7 +70,7 @@ public class BuildTown extends TurnAction
             boolean contains = true;
             for (HexSide neighbour : pointLocation.getNeighbourSides())
             {
-                if (player.getBuildPieces().ofType(ISidePiece.class).contains(neighbour))
+                if (player.getBuildPieces().getSidePieces().contains(neighbour))
                 {
                     contains = false;
                     break;
@@ -123,7 +125,7 @@ public class BuildTown extends TurnAction
 
             for (HexLocation loc : pointLocation.getHexLocations())
             {
-                Hex hex = game.getBoard().getHexes().get(loc);
+                AbstractHex hex = game.getBoard().getHexes().get(loc);
                 if (hex instanceof ResourceHex)
                 {
                     player.getResources().add(((ResourceHex)hex).getResource());
@@ -138,7 +140,7 @@ public class BuildTown extends TurnAction
         List<Port> ports = new ArrayList<Port>();
         for (HexLocation loc : pointLocation.getHexLocations())
         {
-            Hex hex = game.getBoard().getHexes().get(loc);
+            AbstractHex hex = game.getBoard().getHexes().get(loc);
             if (hex instanceof SeaHex)
             {
                 SeaHex seaHex = (SeaHex)hex;
@@ -162,6 +164,20 @@ public class BuildTown extends TurnAction
         //    gamePlayer.XmlPlayer.Name);
 
         super.perform(game);
+    }
+
+    @Override
+    public boolean isAllowed(TurnPhase turnPhase)
+    {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean isAllowed(GamePhase gamePhase)
+    {
+        // TODO Auto-generated method stub
+        return false;
     }
 
 }

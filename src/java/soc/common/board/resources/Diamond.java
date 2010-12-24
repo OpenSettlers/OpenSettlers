@@ -3,7 +3,7 @@ package soc.common.board.resources;
 import soc.common.annotations.Sea3D;
 
 @Sea3D
-public class Diamond extends Resource
+public class Diamond extends AbstractResource
 {
 
     /* (non-Javadoc)
@@ -16,7 +16,7 @@ public class Diamond extends Resource
     }
 
     @Override
-    public Resource Copy()
+    public AbstractResource Copy()
     {
         return new Diamond();
     }
@@ -28,6 +28,12 @@ public class Diamond extends Resource
     public boolean isTradeable()
     {
         return false; 
+    }
+
+    @Override
+    public Resource copy()
+    {
+        return new Diamond();
     }
 
 }

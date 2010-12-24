@@ -1,5 +1,6 @@
 package soc.common.game.gamePhase.turnPhase;
 
+import soc.common.actions.gameAction.AbstractGameAction;
 import soc.common.actions.gameAction.GameAction;
 import soc.common.game.Game;
 

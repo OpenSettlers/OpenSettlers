@@ -1,23 +1,17 @@
 package soc.common.client.visuals.board;
 
 import soc.common.board.hexes.ChitChangedEvent;
-import soc.common.board.hexes.ChitChangedEventHandler;
-import soc.common.board.hexes.Hex;
-import soc.common.board.hexes.ITerritoryHex;
+import soc.common.board.hexes.AbstractHex;
 import soc.common.board.hexes.ResourceHex;
 import soc.common.board.hexes.SeaHex;
 import soc.common.board.hexes.TerritoryChangedEvent;
-import soc.common.board.hexes.TerritoryChangedEventHandler;
-import soc.common.board.ports.Port;
 import soc.common.board.ports.PortChangedEvent;
-import soc.common.board.ports.PortChangedEventHandler;
-import soc.common.client.visuals.IPieceVisual;
 import soc.common.client.visuals.PieceVisual;
 
 public abstract class HexVisual extends PieceVisual implements 
-    IHexVisual, ChitChangedEventHandler, TerritoryChangedEventHandler, PortChangedEventHandler
+    IHexVisual
 {
-    protected Hex hex;
+    protected AbstractHex hex;
 
 	protected IChitVisual chit;
 	protected ITerritoryVisual territory;
@@ -42,11 +36,10 @@ public abstract class HexVisual extends PieceVisual implements
     }
     protected void updateTerritoryVisual() 
     {
-        territory.setTerritory(
-                ((ITerritoryHex)hex).getTerritory());
+        territory.setTerritory(hex.getTerritory());
     }
 
-    public HexVisual(Hex h, IBoardVisual parent)
+    public HexVisual(AbstractHex h, IBoardVisual parent)
 	{
 		this.hex = h;
 		this.parent=parent;
@@ -55,7 +48,7 @@ public abstract class HexVisual extends PieceVisual implements
 	/**
 	 * @return the hex
 	 */
-	public Hex getHex() 
+	public AbstractHex getHex() 
 	{
 		return hex; 
 	}
@@ -63,7 +56,7 @@ public abstract class HexVisual extends PieceVisual implements
 	/**
 	 * @param hex the hex to set
 	 */
-	public IHexVisual setHex(Hex hex) 
+	public IHexVisual setHex(AbstractHex hex) 
 	{
 		this.hex = hex;
 
@@ -95,17 +88,9 @@ public abstract class HexVisual extends PieceVisual implements
             port.setVisible(false);
         }
         
-        if (hex instanceof ITerritoryHex)
-        {
-            ITerritoryHex territoryHex = (ITerritoryHex)hex;
-            territoryHex.addTerritoryChangedEventHandler(this);
-            territory.setVisible(true);
-            updateTerritoryVisual();
-        }
-        else
-        {
-            territory.setVisible(false);
-        }
+        hex.addTerritoryChangedEventHandler(this);
+        territory.setVisible(hex.getTerritory() != null);
+        updateTerritoryVisual();
         
         // Enables fluent interface usage
         // http://en.wikipedia.org/wiki/Fluent_interface

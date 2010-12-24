@@ -2,19 +2,22 @@ package soc.common.actions.gameAction.turnActions.standard;
 
 import java.util.List;
 
-import soc.common.actions.gameAction.turnActions.TurnAction;
-import soc.common.board.HexLocation;
+import soc.common.actions.gameAction.turnActions.AbstractTurnAction;
 import soc.common.board.HexPoint;
 import soc.common.board.resources.Resource;
 import soc.common.game.Game;
 import soc.common.game.Player;
+import soc.common.game.gamePhase.GamePhase;
+import soc.common.game.gamePhase.turnPhase.TurnPhase;
 
 /*
  * An opponent is robbed of one resource caused by a 7 roll or a
  * Soldier development card play
  */
-public class RobPlayer extends TurnAction
+public class RobPlayer extends AbstractTurnAction
 {
+    private static final long serialVersionUID = 608382763517355301L;
+
     // By default, the robbing player robs no one (0)
     private int victimID = 0;
     
@@ -82,18 +85,16 @@ public class RobPlayer extends TurnAction
     {
         if (!super.isValid(game)) return false;
 
-        Player robbedPlayer = null;
-
         if (victimID != 0)
         {
             robbedPlayer = game.getPlayerByID(victimID);
         }
 
-        // Check if the robbed player has a town or city on one of the 6 points
+        // Checks to do if a player is robbed
         if (robbedPlayer != null)
         {
-            HexLocation robber = game.getRobber();
-            List<HexPoint> possiblePoints = robber.getNeighbourHexPoints();
+            // Check if the robbed player has a town or city on one of the 6 points
+            List<HexPoint> possiblePoints = game.getRobber().getNeighbourHexPoints();
             
             boolean containsTownOrCity=false;
             for (HexPoint point : possiblePoints)
@@ -107,14 +108,10 @@ public class RobPlayer extends TurnAction
             
             if (!containsTownOrCity)
             {
-                invalidMessage="Robbed opponent does not have a town or city at Hexlocation" + robber.toString();
+                invalidMessage="Robbed opponent does not have a town or city at Hexlocation" + game.getRobber().toString();
                 return false;
             }
-        }
-        
-        // 
-        if (robbedPlayer !=null)
-        {
+            
             if (!robbedPlayer.getResources().hasTradeableResources())
             {
                 invalidMessage = "The player should have a resource to rob";
@@ -151,5 +148,19 @@ public class RobPlayer extends TurnAction
         }
         
         super.perform(game);
+    }
+
+    @Override
+    public boolean isAllowed(TurnPhase turnPhase)
+    {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean isAllowed(GamePhase gamePhase)
+    {
+        // TODO Auto-generated method stub
+        return false;
     }
 }

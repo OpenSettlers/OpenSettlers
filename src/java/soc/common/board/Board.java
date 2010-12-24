@@ -1,8 +1,5 @@
 package soc.common.board;
 
-import java.util.List;
-import java.util.Random;
-
 import soc.common.board.hexes.*;
 import soc.common.board.ports.Port;
 import soc.common.board.ports.PortList;
@@ -45,28 +42,16 @@ import soc.common.game.GameSettings;
 public class Board
 {
     // list of hexes this board is made of
-    public HexList hexes;
+    private HexGrid hexes;
     
-    // Name of the designer of the board
-    private String _Creator = "Unknown player";
+    /*
+     * Specific settings for this board
+     */
+    private BoardSettings boardSettings;
     
-    // data fields
-    private String name = "New Board";
-    private boolean useTradeRoutes = false;
-    private boolean assignPortsBeforePlacement = false;
-    private boolean requiresInitialShips = false;
-    private int allowedCards = 7;
-    private int bankResources = 19;
-    private int stockRoads = 15;
-    private int stockShips = 15;
-    private int stockTowns = 5;
-    private int stockCities = 4;
-    private int bonusNewIsland;
-    private int maxPlayers = 4;
-    private int minPlayers = 3;
-    private int vpToWin = 10;
-    private int width = 0;
-    private int height = 0;
+    /*
+     * List of territories associated with this board
+     */
     private TerritoryList territories = 
         new TerritoryList()
             .addNew
@@ -75,18 +60,14 @@ public class Board
                     .setMainland(true)
             );
 
-    private int maximumCardsInHandWhenSeven = 7;
     
     public Board(int width, int height)
     {
-        this.width = width;
-        this.height = height;
-        
-        this.hexes = new HexList(width,height);
+        this.hexes = new HexGrid(width,height);
         
         // Default empty board is filled with seahexes
-        for (int h = 0; h < this.height; h++)
-            for (int w = 0; w < this.width; w++)
+        for (int h = 0; h < height; h++)
+            for (int w = 0; w < width; w++)
                 hexes.add
                 (
                     new SeaHex() 
@@ -99,19 +80,21 @@ public class Board
     /// </summary>
     /// <param name="newWidth">New width of the board</param>
     /// <param name="newHeight">New height of the board</param>
-    public void Resize(int newWidth, int newHeight, Hex defaultHex)
+    public void Resize(int newWidth, int newHeight, AbstractHex defaultHex)
     {
         // default on seahexes if we have no default
         if (defaultHex == null) defaultHex = new SeaHex();
         
         //return if there is nothing to resize
-        if (width == newWidth && height == newHeight)
+        if (hexes.getWidth() == newWidth && hexes.getHeight() == newHeight)
         {
             return;
         }
 
         //Instantiate a new board
-        HexList newboard = new HexList(newWidth, newHeight);
+        HexGrid newboard = new HexGrid(newWidth, newHeight);
+        
+        //HexList removedHexes = new HexList
 
         //loop through new sized matrix.
         for (int h = 0; h < newHeight; h++)
@@ -119,9 +102,9 @@ public class Board
             for (int w = 0; w < newWidth; w++)
             {
                 //when width or height is bigger then original, add hexes
-                if (w >= width || h >= height)
+                if (w >= hexes.getWidth() || h >= hexes.getHeight())
                 {
-                    Hex newHex = null;
+                    AbstractHex newHex = null;
 
                     //if outer bounds, put a SeaHex in place, otherwise a defaulthex
                     if (w == newWidth - 1 || w == 0 || h == newHeight - 1 || h == 0)
@@ -153,12 +136,36 @@ public class Board
         hexes = newboard;
     }
     
+    public boolean isPortBuildable(HexSide side)
+    {
+        AbstractHex hex1 =hexes.get(side.getHex1()); 
+        AbstractHex hex2 =hexes.get(side.getHex2()); 
+        AbstractHex landHexLocation = null;
+        AbstractHex seaHexLocation = null;
+        if (hex1.isBuildableSea() && hex2.isBuildableLand())
+        {
+            landHexLocation = hex1;
+            seaHexLocation = hex2;
+        }
+        if (hex2.isBuildableSea() && hex1.isBuildableLand())
+        {
+            landHexLocation = hex2;
+            seaHexLocation = hex1;
+        }
+        if (seaHexLocation != null && seaHexLocation instanceof SeaHex)
+        {
+            // A port found, invalid spot
+            if (((SeaHex)seaHexLocation).getPort() != null) return false;
+        }
+        return true;
+    }
+    
 
     public PortList getAllowedPorts(SeaHex seaHex)
     {
-        // a list with all allowed ports allowed to be set at designtime
         PortList result = new PortList();
         
+        // a list with all allowed ports allowed to be set at designtime
         HexLocation seaLocation = seaHex.getLocation();
 
         // Each SeaHex has 6 possibilities. 
@@ -179,10 +186,8 @@ public class Board
             // The location must be exist on the board
             if (!hexes.isValid(land))
             {
-                Hex hex = this.hexes.get(land);
-            
                 // A port is placeable when the land location is actual land
-                if (hex instanceof LandHex)
+                if (this.hexes.get(land).isBuildableLand())
                 {
                     result.add(possibility);
                 }
@@ -204,203 +209,53 @@ public class Board
 
     }
 
-    public HexList getHexes()
+    /**
+     * @return the boardSettings
+     */
+    public BoardSettings getBoardSettings()
+    {
+        return boardSettings;
+    }
+
+    /**
+     * @return the hexes
+     */
+    public HexGrid getHexes()
     {
         return hexes;
     }
 
-    public void setHexes(HexList hexes)
-    {
-        this.hexes = hexes;
-    }
-
-    public String get_Creator()
-    {
-        return _Creator;
-    }
-
-    public void set_Creator(String creator)
-    {
-        _Creator = creator;
-    }
-
-    public String getName()
-    {
-        return name;
-    }
-
-    public void setName(String name)
-    {
-        this.name = name;
-    }
-
-    public boolean isUseTradeRoutes()
-    {
-        return useTradeRoutes;
-    }
-
-    public void setUseTradeRoutes(boolean useTradeRoutes)
-    {
-        this.useTradeRoutes = useTradeRoutes;
-    }
-
-    public boolean isAssignPortsBeforePlacement()
-    {
-        return assignPortsBeforePlacement;
-    }
-
-    public void setAssignPortsBeforePlacement(boolean assignPortsBeforePlacement)
-    {
-        this.assignPortsBeforePlacement = assignPortsBeforePlacement;
-    }
-
-    public boolean isRequiresInitialShips()
-    {
-        return requiresInitialShips;
-    }
-
-    public void setRequiresInitialShips(boolean requiresInitialShips)
-    {
-        this.requiresInitialShips = requiresInitialShips;
-    }
-
-    public int getAllowedCards()
-    {
-        return allowedCards;
-    }
-
-    public void setAllowedCards(int allowedCards)
-    {
-        this.allowedCards = allowedCards;
-    }
-
-    public int getBankResources()
-    {
-        return bankResources;
-    }
-
-    public void setBankResources(int bankResources)
-    {
-        this.bankResources = bankResources;
-    }
-
-    public int getStockRoads()
-    {
-        return stockRoads;
-    }
-
-    public void setStockRoads(int stockRoads)
-    {
-        this.stockRoads = stockRoads;
-    }
-
-    public int getStockShips()
-    {
-        return stockShips;
-    }
-
-    public void setStockShips(int stockShips)
-    {
-        this.stockShips = stockShips;
-    }
-
-    public int getStockTowns()
-    {
-        return stockTowns;
-    }
-
-    public void setStockTowns(int stockTowns)
-    {
-        this.stockTowns = stockTowns;
-    }
-
-    public int getStockCities()
-    {
-        return stockCities;
-    }
-
-    public void setStockCities(int stockCities)
-    {
-        this.stockCities = stockCities;
-    }
-
-    public int getBonusNewIsland()
-    {
-        return bonusNewIsland;
-    }
-
-    public void setBonusNewIsland(int bonusNewIsland)
-    {
-        this.bonusNewIsland = bonusNewIsland;
-    }
-
-    public int getMaxPlayers()
-    {
-        return maxPlayers;
-    }
-
-    public void setMaxPlayers(int maxPlayers)
-    {
-        this.maxPlayers = maxPlayers;
-    }
-
-    public int getMinPlayers()
-    {
-        return minPlayers;
-    }
-
-    public void setMinPlayers(int minPlayers)
-    {
-        this.minPlayers = minPlayers;
-    }
-
-    public int getVpToWin()
-    {
-        return vpToWin;
-    }
-
-    public void setVpToWin(int vpToWin)
-    {
-        this.vpToWin = vpToWin;
-    }
-
+    /**
+     * @return the width
+     */
     public int getWidth()
     {
-        return width;
+        return hexes.getWidth();
     }
 
-    public void setWidth(int width)
-    {
-        this.width = width;
-    }
-
+    /**
+     * @return the height
+     */
     public int getHeight()
     {
-        return height;
+        return hexes.getHeight();
     }
 
-    public void setHeight(int height)
-    {
-        this.height = height;
-    }
-
+    /**
+     * @return the territories
+     */
     public TerritoryList getTerritories()
     {
         return territories;
     }
-
-    public void setTerritories(TerritoryList territories)
+    
+    /*
+     * Returns true when target side can be built on for land pieces
+     */
+    public boolean isBuildableLand(HexSide side)
     {
-        this.territories = territories;
-    }
-
-    public int getMaximumCardsInHandWhenSeven()
-    {
-        return maximumCardsInHandWhenSeven;
-    }
-
-    public void setMaximumCardsInHandWhenSeven(int maximumCardsInHandWhenSeven)
-    {
-        this.maximumCardsInHandWhenSeven = maximumCardsInHandWhenSeven;
+        return 
+            hexes.get(side.getHex1()).isBuildableLand() || 
+            hexes.get(side.getHex2()).isBuildableLand();
     }
 }

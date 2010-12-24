@@ -1,20 +1,23 @@
 package soc.common.actions.gameAction.turnActions.standard;
 
-import soc.common.actions.gameAction.turnActions.TurnAction;
+import soc.common.actions.gameAction.turnActions.AbstractTurnAction;
 import soc.common.board.HexLocation;
+import soc.common.board.hexes.AbstractHex;
 import soc.common.board.hexes.DiscoveryHex;
-import soc.common.board.hexes.Hex;
 import soc.common.board.hexes.NoneHex;
 import soc.common.board.hexes.RandomHex;
 import soc.common.board.hexes.SeaHex;
 import soc.common.game.Game;
+import soc.common.game.gamePhase.GamePhase;
+import soc.common.game.gamePhase.turnPhase.TurnPhase;
 
 /*
  * Robber is placed by current player due to 7 roll or Soldier
  * development card play
  */
-public class PlaceRobber extends TurnAction
+public class PlaceRobber extends AbstractTurnAction
 {
+    private static final long serialVersionUID = 3908846616233400447L;
     private HexLocation newLocation;
 
     /**
@@ -80,7 +83,7 @@ public class PlaceRobber extends TurnAction
         // -DiscoveryHex
         // -
 
-        Hex hex = game.getBoard().getHexes().get(newLocation);
+        AbstractHex hex = game.getBoard().getHexes().get(newLocation);
 
         if (hex instanceof NoneHex ||
             hex instanceof DiscoveryHex ||
@@ -106,6 +109,20 @@ public class PlaceRobber extends TurnAction
         //_Message = String.Format("{0} put the robber on the {1}",
         //    xmlGame.GetPlayer(Sender).XmlPlayer.Name, Location.ToString(xmlGame.Board));
         super.perform(game);
+    }
+
+    @Override
+    public boolean isAllowed(TurnPhase turnPhase)
+    {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean isAllowed(GamePhase gamePhase)
+    {
+        // TODO Auto-generated method stub
+        return false;
     }
     
 }

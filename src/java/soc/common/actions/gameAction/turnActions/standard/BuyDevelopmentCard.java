@@ -1,14 +1,16 @@
 package soc.common.actions.gameAction.turnActions.standard;
 
-import soc.common.actions.gameAction.turnActions.TurnAction;
-import soc.common.board.resources.ResourceList;
+import soc.common.actions.gameAction.turnActions.AbstractTurnAction;
 import soc.common.board.resources.ResourceList;
 import soc.common.game.Game;
 import soc.common.game.Player;
 import soc.common.game.developmentCards.DevelopmentCard;
+import soc.common.game.gamePhase.GamePhase;
+import soc.common.game.gamePhase.turnPhase.TurnPhase;
 
-public class BuyDevelopmentCard extends TurnAction
+public class BuyDevelopmentCard extends AbstractTurnAction
 {
+    private static final long serialVersionUID = -7625851375785728121L;
     private ResourceList resources;
     private DevelopmentCard devCard;
     
@@ -64,7 +66,7 @@ public class BuyDevelopmentCard extends TurnAction
         if (resources == null) return false;
 
         // ...and to devcard too.
-        if (game.getDevelopmentCards().size() == 0)
+        if (game.getDevelopmentCardStack().size() == 0)
         {
             invalidMessage = "Development cards are all gone!";
             return false;
@@ -106,13 +108,27 @@ public class BuyDevelopmentCard extends TurnAction
         
         // Administer devcards 
         player.getDevelopmentCards().add(devCard);
-        game.getDevelopmentCards().remove(devCard);
+        game.getDevelopmentCardStack().remove(devCard);
 
         // TODO: fix message
         //message = String.Format("{0} bought a development card",
         //    gamePlayer.XmlPlayer.Name);
         
         super.perform(game);
+    }
+
+    @Override
+    public boolean isAllowed(TurnPhase turnPhase)
+    {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean isAllowed(GamePhase gamePhase)
+    {
+        // TODO Auto-generated method stub
+        return false;
     }
 
 }

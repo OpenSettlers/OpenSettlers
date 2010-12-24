@@ -1,8 +1,7 @@
 package soc.common.board.resources;
 
-public class Sheep extends Resource
+public class Sheep extends AbstractResource
 {
-
     /* (non-Javadoc)
      * @see soc.common.board.resources.Resource#getColor()
      */
@@ -13,9 +12,22 @@ public class Sheep extends Resource
     }
 
     @Override
-    public Resource Copy()
+    public AbstractResource Copy()
     {
         return new Sheep();
     }
+    /* (non-Javadoc)
+     * @see soc.common.board.resources.AbstractResource#isTradeable()
+     */
+    @Override
+    public boolean isTradeable()
+    {
+        return true;
+    }
 
+    @Override
+    public Resource copy()
+    {
+        return new Sheep();
+    }
 }

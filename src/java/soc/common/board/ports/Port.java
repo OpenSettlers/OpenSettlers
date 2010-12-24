@@ -3,6 +3,7 @@ package soc.common.board.ports;
 import soc.common.board.HexLocation;
 import soc.common.board.HexSide;
 import soc.common.board.RotationPosition;
+import soc.common.board.resources.AbstractResource;
 import soc.common.board.resources.Resource;
 import soc.common.board.resources.ResourceList;
 
@@ -24,7 +25,7 @@ public class Port
     /**
      * @return the resource
      */
-    public Resource getResource()
+    public AbstractResource getResource()
     {
         return null;
     }

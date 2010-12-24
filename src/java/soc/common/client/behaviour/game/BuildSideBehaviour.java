@@ -5,6 +5,9 @@ import soc.common.client.visuals.board.IBoardVisual;
 import soc.common.client.visuals.game.IGameBoardVisual;
 import soc.common.client.visuals.game.ISideVisual;
 
+/*
+ * Shows all possible sides for the user to select a side. 
+ */
 public class BuildSideBehaviour implements IGameBehaviour
 {
     

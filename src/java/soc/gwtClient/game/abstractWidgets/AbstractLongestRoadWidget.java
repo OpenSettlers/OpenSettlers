@@ -14,7 +14,6 @@ public abstract class AbstractLongestRoadWidget implements ILongestRoadWidget
     public AbstractLongestRoadWidget(Player player)
     {
         this.player=player;
-        
         rootPanel = createRootPanel();
     }
 

@@ -1,7 +1,10 @@
 package soc.gwtClient.game.widgets;
 
+import org.vaadin.gwtgraphics.client.DrawingArea;
+
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
@@ -17,14 +20,17 @@ import soc.gwtClient.game.abstractWidgets.AbstractBankStockWidget;
 import soc.gwtClient.game.abstractWidgets.AbstractGamePanel;
 import soc.gwtClient.game.abstractWidgets.IActionsWidget;
 import soc.gwtClient.game.abstractWidgets.IBankStockPanel;
+import soc.gwtClient.game.abstractWidgets.IGameHistoryWidget;
 import soc.gwtClient.game.abstractWidgets.IGamePanel;
 import soc.gwtClient.game.abstractWidgets.IHandCardsWidget;
 import soc.gwtClient.game.abstractWidgets.IPlayersWidget;
 import soc.gwtClient.game.abstractWidgets.IStatusDicePanel;
-import soc.gwtClient.game.widgets.standard.bitmap.BitmapActionsWidget;
-import soc.gwtClient.game.widgets.standard.bitmap.BitmapHandCardsWidget;
-import soc.gwtClient.game.widgets.standard.bitmap.BitmapPlayersWidget;
-import soc.gwtClient.game.widgets.standard.bitmap.BitmapStatusDicePanel;
+import soc.gwtClient.game.widgets.bitmap.BitmapHistoryWidget;
+import soc.gwtClient.game.widgets.bitmap.BoardLayoutPanel;
+import soc.gwtClient.game.widgets.standard.bitmap.HandCardsBitmapWidget;
+import soc.gwtClient.game.widgets.standard.bitmap.PlayersBitmapWidget;
+import soc.gwtClient.game.widgets.standard.bitmap.StatusDiceBitmapPanel;
+import soc.gwtClient.game.widgets.standard.bitmap.actions.ActionsBitmapWidget;
 
 public class HotSeatGamePanel extends AbstractGamePanel implements ICenterWidget
 {
@@ -32,7 +38,7 @@ public class HotSeatGamePanel extends AbstractGamePanel implements ICenterWidget
     DockLayoutPanel playersBankChatPanel=new DockLayoutPanel(Unit.EM);
     DockLayoutPanel boardActionResourcesPanel= new DockLayoutPanel(Unit.EM);
     TabLayoutPanel chatHistoryDebugPanel = new TabLayoutPanel(20.0, Unit.PX);
-    SimplePanel boardVisualPanel = new SimplePanel();
+    BoardLayoutPanel boardVisualPanel = new BoardLayoutPanel();
     ChatPanel chatPanel;
     
     public HotSeatGamePanel(Game game)
@@ -44,11 +50,12 @@ public class HotSeatGamePanel extends AbstractGamePanel implements ICenterWidget
         chatPanel = new ChatPanel(this);
         
         createChatHistoryDebugPanel();
+        boardVisualPanel.setCanvas((DrawingArea)gameBoard.getWidget());
         
         boardActionResourcesPanel.addSouth(handCards.asWidget(),5);
         boardActionResourcesPanel.addSouth(buildPallette.asWidget(), 5);
         boardActionResourcesPanel.addSouth(statusDicePanel.asWidget(), 5);
-        boardActionResourcesPanel.add(gameBoard.getWidget());
+        boardActionResourcesPanel.add(boardVisualPanel);
 
         playersBankChatPanel.addNorth(playersWidget.asWidget(), 20);
         playersBankChatPanel.addNorth(bankStockPanel.asWidget(), 5);
@@ -56,6 +63,8 @@ public class HotSeatGamePanel extends AbstractGamePanel implements ICenterWidget
         
         rootPanel.addWest(playersBankChatPanel, 20);
         rootPanel.add(boardActionResourcesPanel);
+        
+        //gameBoard.getWidget().
         
         HostStartsGame start = new HostStartsGame();
         start.setPlayer(player);
@@ -66,7 +75,7 @@ public class HotSeatGamePanel extends AbstractGamePanel implements ICenterWidget
     private void createChatHistoryDebugPanel()
     {
         chatHistoryDebugPanel.add(chatPanel, "chat");
-        chatHistoryDebugPanel.add(new SimplePanel(), "history");
+        chatHistoryDebugPanel.add(historyWidget, "history");
         chatHistoryDebugPanel.add(new SimplePanel(), "debug");
     }
 
@@ -79,13 +88,13 @@ public class HotSeatGamePanel extends AbstractGamePanel implements ICenterWidget
     @Override
     public IActionsWidget createActionsWidget()
     {
-        return new BitmapActionsWidget(this, game.getPlayers().get(0));
+        return new ActionsBitmapWidget(this, game.getPlayers().get(0));
     }
 
     @Override
     public IPlayersWidget createPlayersWidget()
     {
-        return new BitmapPlayersWidget(game);
+        return new PlayersBitmapWidget(game);
     }
 
     @Override
@@ -103,12 +112,18 @@ public class HotSeatGamePanel extends AbstractGamePanel implements ICenterWidget
     @Override
     public IHandCardsWidget createHandCardsWidget(Player player)
     {
-        return new BitmapHandCardsWidget(player);
+        return new HandCardsBitmapWidget(player);
     }
 
     @Override
     public IStatusDicePanel createStatusDicePanel(IGamePanel gamePanel)
     {
-        return new BitmapStatusDicePanel(gamePanel);
+        return new StatusDiceBitmapPanel(gamePanel);
+    }
+
+    @Override
+    public IGameHistoryWidget createHistoryWidget(IGamePanel gamePanel)
+    {
+        return new BitmapHistoryWidget(gamePanel);
     }
 }

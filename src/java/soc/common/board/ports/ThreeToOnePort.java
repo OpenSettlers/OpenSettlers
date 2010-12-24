@@ -1,11 +1,5 @@
 package soc.common.board.ports;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import soc.common.board.resources.*;
 
 public class ThreeToOnePort extends Port
@@ -38,7 +32,7 @@ public class ThreeToOnePort extends Port
         return 1;
     }
 
-    /* (non-Javadoc)
+    /* TODO: BUG: diamonds can be traded too
      * @see soc.common.board.ports.Port#canTrade(soc.common.board.resources.Resource)
      */
     @Override

@@ -11,7 +11,7 @@ import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 
-import soc.common.board.hexes.Hex;
+import soc.common.board.hexes.AbstractHex;
 import soc.common.client.visuals.IPieceVisual;
 import soc.common.client.visuals.board.HexVisual;
 import soc.common.client.visuals.board.IBoardVisual;
@@ -57,7 +57,7 @@ public class SvgHexVisual extends HexVisual
 		return this;
 	}
 
-    public SvgHexVisual(Hex hex, IBoardVisual parent, Point2D point)
+    public SvgHexVisual(AbstractHex hex, IBoardVisual parent, Point2D point)
 	{
 		super(hex, parent);
 		
@@ -118,19 +118,19 @@ public class SvgHexVisual extends HexVisual
     
     private Point2D getMiddlePoint(Point2D point)
     {
-        return new Point2D((int)point.getX(), (int)(point.getY() + Hex.getHalfHeight()));
+        return new Point2D((int)point.getX(), (int)(point.getY() + AbstractHex.getHalfHeight()));
     }
 
     private Path createPath()
     {
         Path result = new Path(point.getX(),point.getY());
         
-        result.lineRelativelyTo((int)Hex.getHalfWidth(), (int)Hex.getBottomHeight());
-        result.lineRelativelyTo(0, (int)Hex.getSize());
-        result.lineRelativelyTo((int)-Hex.getHalfWidth(), (int)Hex.getBottomHeight());
-        result.lineRelativelyTo((int)-Hex.getHalfWidth(), (int)-Hex.getBottomHeight());
-        result.lineRelativelyTo(0, (int)-Hex.getSize());
-        result.lineRelativelyTo((int)Hex.getHalfWidth(), (int)-Hex.getBottomHeight());  
+        result.lineRelativelyTo((int)AbstractHex.getHalfWidth(), (int)AbstractHex.getBottomHeight());
+        result.lineRelativelyTo(0, (int)AbstractHex.getSize());
+        result.lineRelativelyTo((int)-AbstractHex.getHalfWidth(), (int)AbstractHex.getBottomHeight());
+        result.lineRelativelyTo((int)-AbstractHex.getHalfWidth(), (int)-AbstractHex.getBottomHeight());
+        result.lineRelativelyTo(0, (int)-AbstractHex.getSize());
+        result.lineRelativelyTo((int)AbstractHex.getHalfWidth(), (int)-AbstractHex.getBottomHeight());  
         
         return result;
     }

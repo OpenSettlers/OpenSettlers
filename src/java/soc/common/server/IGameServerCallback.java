@@ -1,8 +1,8 @@
 package soc.common.server;
 
-import soc.common.actions.gameAction.GameAction;
+import soc.common.actions.gameAction.AbstractGameAction;
 
 public interface IGameServerCallback
 {
-    public void receive(GameAction action);
+    public void receive(AbstractGameAction action);
 }

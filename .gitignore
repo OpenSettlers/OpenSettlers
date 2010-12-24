@@ -10,3 +10,5 @@ war/mapcreator/*
 war/WEB-INF/*
 .gwt/*
 lib/*
+.svn
+.svn/*

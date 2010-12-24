@@ -5,7 +5,7 @@ import org.vaadin.gwtgraphics.client.animation.Animate;
 import org.vaadin.gwtgraphics.client.shape.Circle;
 
 import soc.common.board.HexPoint;
-import soc.common.board.hexes.Hex;
+import soc.common.board.hexes.AbstractHex;
 import soc.common.client.visuals.game.PointVisual;
 import soc.gwtClient.game.Point2D;
 
@@ -22,7 +22,7 @@ public class SvgPointVisual extends PointVisual
         this.location=location;
         
         this.group = new Group();
-        circle = new Circle((int)location.getX(), (int)location.getY(), Hex.getSize()/2);
+        circle = new Circle((int)location.getX(), (int)location.getY(), AbstractHex.getSize()/2);
         group.add(circle);
     }
 
@@ -35,12 +35,12 @@ public class SvgPointVisual extends PointVisual
         if (selected)
         {
             // Animate to grow 2x its size
-            new Animate(circle, "radius", Hex.getSize()/2, Hex.getSize(), 500).start();
+            new Animate(circle, "radius", AbstractHex.getSize()/2, AbstractHex.getSize(), 500).start();
         }
         else
         {
             // Animate back to 1x its size
-            new Animate(circle, "radius", Hex.getSize(), Hex.getSize()/2, 500).start();            
+            new Animate(circle, "radius", AbstractHex.getSize(), AbstractHex.getSize()/2, 500).start();            
         }
     }
     

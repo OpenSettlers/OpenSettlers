@@ -1,10 +1,27 @@
 package soc.common.actions.gameAction.turnActions.seaFarers;
 
-import soc.common.actions.gameAction.turnActions.TurnAction;
+import soc.common.actions.gameAction.turnActions.AbstractTurnAction;
 import soc.common.annotations.SeaFarers;
+import soc.common.game.gamePhase.GamePhase;
+import soc.common.game.gamePhase.turnPhase.TurnPhase;
 
 @SeaFarers
-public class BuildShip extends TurnAction
+public class BuildShip extends AbstractTurnAction
 {
+    private static final long serialVersionUID = 2879449324222432769L;
+
+    @Override
+    public boolean isAllowed(TurnPhase turnPhase)
+    {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean isAllowed(GamePhase gamePhase)
+    {
+        // TODO Auto-generated method stub
+        return false;
+    }
 
 }

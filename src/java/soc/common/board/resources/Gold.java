@@ -3,9 +3,8 @@ package soc.common.board.resources;
 import soc.common.annotations.SeaFarers;
 
 @SeaFarers
-public class Gold extends Resource
+public class Gold extends AbstractResource
 {
-
     /* (non-Javadoc)
      * @see soc.common.board.resources.Resource#getColor()
      */
@@ -16,7 +15,7 @@ public class Gold extends Resource
     }
 
     @Override
-    public Resource Copy()
+    public AbstractResource Copy()
     {
         return new Gold();
     }
@@ -30,4 +29,9 @@ public class Gold extends Resource
         return false;
     }
 
+    @Override
+    public Resource copy()
+    {
+        return new Gold();
+    }
 }

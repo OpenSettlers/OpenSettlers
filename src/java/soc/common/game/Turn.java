@@ -1,5 +1,6 @@
 package soc.common.game;
 
+import soc.common.game.gamePhase.turnPhase.TurnPhase;
 import soc.common.game.trading.TradeOfferList;
 
 public class Turn implements ITurn
@@ -28,11 +29,17 @@ public class Turn implements ITurn
         return id;
     }
 
-    @Override
     public ITurn setID(int id)
     {
         this.id=id;
         return this;
+    }
+
+    @Override
+    public TurnPhase getTurnPhase()
+    {
+        // TODO Auto-generated method stub
+        return null;
     }
     
 }

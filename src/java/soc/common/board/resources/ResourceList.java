@@ -9,7 +9,7 @@ import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.gwt.user.client.Random;
 
-import soc.common.board.hexes.Hex;
+import soc.common.board.hexes.AbstractHex;
 import soc.common.board.pieces.*;
 
 public class ResourceList implements Iterable<Resource>
@@ -37,6 +37,11 @@ public class ResourceList implements Iterable<Resource>
         }
     }
     
+    public void moveTo(ResourceList toMove, ResourceList destination)
+    {
+        resources.remove(toMove);
+        destination.add(toMove);
+    }
     /*
      * Adds given ResourceList to this list of resources
      */
