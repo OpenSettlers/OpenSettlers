@@ -8,6 +8,8 @@ import com.google.gwt.user.client.ui.IsWidget;
 
 public interface IBoardVisual extends IPieceVisual, IsWidget
 {
+    public boolean isEnabled();
+
     public Board getBoard();
 
     public IInteractionBehaviour getCurrentBehaviour();

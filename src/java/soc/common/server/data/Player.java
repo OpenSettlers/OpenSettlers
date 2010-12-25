@@ -1,4 +1,4 @@
-package soc.server.data;
+package soc.common.server.data;
 
 public class Player
 {

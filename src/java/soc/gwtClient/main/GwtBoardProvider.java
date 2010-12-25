@@ -4,8 +4,8 @@ import java.util.List;
 
 import soc.common.board.Board;
 import soc.common.game.User;
-import soc.server.data.BoardList;
-import soc.server.data.IBoardProvider;
+import soc.common.server.data.BoardList;
+import soc.common.server.data.IBoardProvider;
 
 /*
  * Provider of Boards for gwt client. Checks memory instances, then local browser cache, then asks a server

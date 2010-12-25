@@ -1,6 +1,5 @@
 package soc.gwtClient.main;
 
-
 import java.util.ArrayList;
 
 import soc.common.board.Board;
@@ -20,6 +19,8 @@ import soc.common.game.developmentCards.standard.VictoryPoint;
 import soc.common.game.developmentCards.standard.YearOfPlenty;
 import soc.common.game.variants.IVariant;
 import soc.common.game.variants.Standard;
+import soc.common.internationalization.ClientInternationalization;
+import soc.common.internationalization.I18n;
 import soc.gwtClient.editor.SvgMapEditor;
 import soc.gwtClient.game.ICenterWidget;
 import soc.gwtClient.game.widgets.HotSeatGamePanel;
@@ -28,15 +29,15 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.LayoutPanel;
-import com.google.gwt.user.client.ui.PushButton;
-import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
-import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.ui.PushButton;
+import com.google.gwt.user.client.ui.RootLayoutPanel;
 
 public class MainWindow implements EntryPoint
 {
@@ -54,7 +55,7 @@ public class MainWindow implements EntryPoint
     private MenuItem editorMenutItem;
     private MenuItem hotseatMenuItem;
     private MenuItem rootMenuItem;
-    
+
     /**
      * @return the hotseatGame
      */
@@ -63,38 +64,39 @@ public class MainWindow implements EntryPoint
         return hotseatGame;
     }
 
-
     @Override
     public void onModuleLoad()
     {
+        I18n.initialize(new ClientInternationalization());
         createMenu();
         mapEditor = new SvgMapEditor();
         welcomePanel = new WelcomePanel(this);
         hotseatGame = new HotSeatGamePanel(createGame());
         wikiPage = new WikiPanel();
-        
-        Label lblSomeStatusLabel = new Label("Some text here to show we have an awesome statusbar");
+
+        Label lblSomeStatusLabel = new Label(
+                "Some text here to show we have an awesome statusbar");
         statusBar.add(lblSomeStatusLabel);
-        
+
         currentWidget = welcomePanel;
         centerWidget.add(currentWidget.getRootWidget());
         rootPanel.addNorth(menu, 3);
         rootMenuBar.setAutoOpen(false);
         menu.add(rootMenuBar);
         MenuBar firstMenu = new MenuBar(true);
-        
+
         rootMenuItem = new MenuItem("New menu", false, firstMenu);
         rootMenuItem.setHTML("OpenSettlers");
-        
+
         editorMenutItem = new MenuItem("New item", false, (Command) null);
         firstMenu.addItem(editorMenutItem);
         editorMenutItem.setHTML("MapCreator");
-        
+
         hotseatMenuItem = new MenuItem("New item", false, (Command) null);
         firstMenu.addItem(hotseatMenuItem);
         hotseatMenuItem.setHTML("Hotseat game");
         rootMenuBar.addItem(rootMenuItem);
-        
+
         PushButton btnWelcomePanel = new PushButton("welcomePanel");
         btnWelcomePanel.addClickHandler(new ClickHandler()
         {
@@ -107,9 +109,10 @@ public class MainWindow implements EntryPoint
         menu.add(btnWelcomePanel);
         rootPanel.addSouth(statusBar, 2);
         rootPanel.add(centerWidget);
-        
+
         RootLayoutPanel.get().add(rootPanel);
     }
+
     /**
      * @return the mapEditor
      */
@@ -117,10 +120,12 @@ public class MainWindow implements EntryPoint
     {
         return mapEditor;
     }
+
     private void createMenu()
     {
-        
+
     }
+
     /**
      * @return the wikiPage
      */
@@ -128,14 +133,16 @@ public class MainWindow implements EntryPoint
     {
         return wikiPage;
     }
+
     public void setCurrentWidget(ICenterWidget newCenterWidget)
     {
         centerWidget.remove(currentWidget.getRootWidget());
-        
+
         currentWidget = newCenterWidget;
-        
+
         centerWidget.add(currentWidget.getRootWidget());
     }
+
     private Game createGame()
     {
         Game result = new Game();
@@ -143,62 +150,41 @@ public class MainWindow implements EntryPoint
         rules.add(new Standard(result));
         result.setRuleSets(rules);
         ArrayList<Player> players = new ArrayList<Player>();
-        players.add
-        ((Player)
-            new Player()
-                .setColor("yellow")
-                .setId(1)
-                .setName("Piet")
-        );
-        players.add
-        ((Player)
-            new Player()
-                .setColor("white")
-                .setId(1)
-                .setName("Kees")
-        );
-        players.add
-        ((Player)
-            new Player()
-                .setColor("green")
-                .setId(1)
-                .setName("Truus")
-        );
-        players.add((Player)
-            new Player()
-                .setColor("red")
-                .setId(1)
-                .setName("Klaas")
-        );
-        players.add
-        ((Player)
-            new Player()
-                .setColor("blue")
-                .setId(1)
-                .setName("Henk")
-        );
-        
-        result.setBoard(new Board(8,8));
+        players.add((Player) new Player().setColor("yellow").setId(1).setName(
+                "Piet"));
+        players.add((Player) new Player().setColor("white").setId(1).setName(
+                "Kees"));
+        players.add((Player) new Player().setColor("green").setId(1).setName(
+                "Truus"));
+        players.add((Player) new Player().setColor("red").setId(1).setName(
+                "Klaas"));
+        players.add((Player) new Player().setColor("blue").setId(1).setName(
+                "Henk"));
+
+        result.setBoard(new Board(8, 8));
 
         result.setPlayers(players);
-        
+
         result.makeRulesPermanent();
-        
+
         result.getPlayers().get(0).getDevelopmentCards().add(new Soldier());
         result.getPlayers().get(0).getDevelopmentCards().add(new Monopoly());
-        result.getPlayers().get(0).getDevelopmentCards().add(new YearOfPlenty());
-        result.getPlayers().get(0).getDevelopmentCards().add(new RoadBuilding());
-        result.getPlayers().get(0).getDevelopmentCards().add(new VictoryPoint());
-        
+        result.getPlayers().get(0).getDevelopmentCards()
+                .add(new YearOfPlenty());
+        result.getPlayers().get(0).getDevelopmentCards()
+                .add(new RoadBuilding());
+        result.getPlayers().get(0).getDevelopmentCards()
+                .add(new VictoryPoint());
+
         result.getPlayers().get(0).getResources().add(new Wheat());
         result.getPlayers().get(0).getResources().add(new Wheat());
         result.getPlayers().get(0).getResources().add(new Wheat());
         result.getPlayers().get(0).getResources().add(new Wheat());
-        
+
         result.getPlayers().get(0).getResources().add(new Ore());
         result.getPlayers().get(0).getResources().add(new Ore());
         result.getPlayers().get(0).getResources().add(new Ore());
-        
+
         result.getPlayers().get(0).getResources().add(new Clay());
         result.getPlayers().get(0).getResources().add(new Clay());
         result.getPlayers().get(0).getResources().add(new Clay());
@@ -209,8 +195,10 @@ public class MainWindow implements EntryPoint
         result.getPlayers().get(0).getResources().add(new Sheep());
         result.getPlayers().get(0).getResources().add(new Sheep());
 
-        result.getPlayers().get(0).getPorts().add(new TwoToOneResourcePort(new Clay()));
-        result.getPlayers().get(0).getPorts().add(new TwoToOneResourcePort(new Timber()));
+        result.getPlayers().get(0).getPorts().add(
+                new TwoToOneResourcePort(new Clay()));
+        result.getPlayers().get(0).getPorts().add(
+                new TwoToOneResourcePort(new Timber()));
         result.getPlayers().get(0).getPorts().add(new ThreeToOnePort());
         return result;
     }

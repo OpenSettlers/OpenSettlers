@@ -1,12 +1,5 @@
 package soc.gwtClient.game.widgets.standard.bitmap.actions;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.PushButton;
-import com.google.gwt.user.client.ui.Widget;
-
-import soc.common.actions.gameAction.turnActions.AbstractTurnAction;
 import soc.common.board.ports.PortListChangedEvent;
 import soc.common.board.ports.PortListChangedEventHandler;
 import soc.common.board.resources.ResourcesChangedEvent;
@@ -17,21 +10,30 @@ import soc.common.game.Player;
 import soc.gwtClient.game.abstractWidgets.AbstractActionWidget;
 import soc.gwtClient.game.abstractWidgets.IGamePanel;
 import soc.gwtClient.game.dialogs.TradeBankDialog;
+import soc.gwtClient.images.Images;
 
-public class TradeBankBitmapWidget extends AbstractActionWidget implements 
-        ResourcesChangedEventHandler, PortListChangedEventHandler, GamePhaseChangedEventHandler, ClickHandler
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.PushButton;
+import com.google.gwt.user.client.ui.Widget;
+
+public class TradeBankBitmapWidget extends AbstractActionWidget implements
+        ResourcesChangedEventHandler, PortListChangedEventHandler,
+        GamePhaseChangedEventHandler, ClickHandler
 {
-    PushButton btnTradeBank = new PushButton(new Image("iconz/48/BankTrade48.png"));
+    PushButton btnTradeBank;
     TradeBankDialog tradeBank = new TradeBankDialog(gamePanel);
-    
+
     public TradeBankBitmapWidget(IGamePanel gamePanel, Player player)
     {
         super(gamePanel, player);
-        
+
+        btnTradeBank = new PushButton(new Image(Images.get().bankTrade()));
         player.getResources().addResourcesChangedEventHandler(this);
         player.getPorts().addPortListChangedEventHandler(this);
         gamePanel.getGame().addGamePhaseChangedEventHandler(this);
-        
+
         btnTradeBank.addClickHandler(this);
     }
 
@@ -52,13 +54,13 @@ public class TradeBankBitmapWidget extends AbstractActionWidget implements
     {
         checkEnabled();
     }
-    
+
     @Override
     public void onPortsChanged(PortListChangedEvent event)
     {
         checkEnabled();
     }
-    
+
     @Override
     public void onGamePhaseChanged(GamePhaseChangedEvent event)
     {
@@ -69,13 +71,13 @@ public class TradeBankBitmapWidget extends AbstractActionWidget implements
     {
         if (onTurn)
         {
-            if (player.getPorts().amountGold(player.getResources())==0)
+            if (player.getPorts().amountGold(player.getResources()) == 0)
             {
                 setEnabled(true);
                 return;
             }
         }
-        
+
         setEnabled(false);
     }
 

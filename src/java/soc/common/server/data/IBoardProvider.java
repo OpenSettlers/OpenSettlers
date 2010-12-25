@@ -1,4 +1,4 @@
-package soc.server.data;
+package soc.common.server.data;
 
 import java.util.List;
 
@@ -10,8 +10,11 @@ import soc.common.game.User;
  */
 public interface IBoardProvider
 {
-    public Board getBoardByName (String name);
+    public Board getBoardByName(String name);
+
     public Board getBoardByID(String id);
+
     public List<Board> getBoardsFromUser(User user);
+
     public List<Board> getAllBoards();
 }
