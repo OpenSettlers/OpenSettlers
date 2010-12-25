@@ -10,7 +10,7 @@ import soc.common.game.Player;
 import soc.gwtClient.game.abstractWidgets.AbstractActionWidget;
 import soc.gwtClient.game.abstractWidgets.IGamePanel;
 import soc.gwtClient.game.dialogs.TradeBankDialog;
-import soc.gwtClient.images.Images;
+import soc.gwtClient.images.Resources;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -29,7 +29,7 @@ public class TradeBankBitmapWidget extends AbstractActionWidget implements
     {
         super(gamePanel, player);
 
-        btnTradeBank = new PushButton(new Image(Images.get().bankTrade()));
+        btnTradeBank = new PushButton(new Image(Resources.icons().bankTrade()));
         player.getResources().addResourcesChangedEventHandler(this);
         player.getPorts().addPortListChangedEventHandler(this);
         gamePanel.getGame().addGamePhaseChangedEventHandler(this);

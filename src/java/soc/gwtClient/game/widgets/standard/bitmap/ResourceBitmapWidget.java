@@ -1,8 +1,6 @@
 package soc.gwtClient.game.widgets.standard.bitmap;
 
-import soc.common.board.resources.AbstractResource;
 import soc.common.board.resources.Resource;
-import soc.common.board.resources.Wheat;
 import soc.gwtClient.game.widgets.abstractWidgets.IResourceWidget;
 import soc.gwtClient.game.widgets.abstractWidgets.ResourceClickedEvent;
 import soc.gwtClient.game.widgets.abstractWidgets.ResourceClickedEventHandler;
@@ -13,21 +11,22 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 
-public class ResourceBitmapWidget extends AbsolutePanel implements IResourceWidget
+public class ResourceBitmapWidget extends AbsolutePanel implements
+        IResourceWidget
 {
     private Image image;
     private Resource resource;
-    private boolean enabled= true;
+    private boolean enabled = true;
     private SimpleEventBus eventBus = new SimpleEventBus();
-    
+
     public ResourceBitmapWidget(final Resource resource)
     {
         super();
         this.resource = resource;
-        String location="iconz/32/" + resource.getName().toLowerCase() + ".png";
+        String location = "iconz/32/" + resource.getName().toLowerCase()
+                + ".png";
         image = new Image(location);
         image.addClickHandler(new ClickHandler()
         {
@@ -50,16 +49,20 @@ public class ResourceBitmapWidget extends AbsolutePanel implements IResourceWidg
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see soc.gwtClient.game.widgets.abstractWidgets.IResourceWidget#setEnabled(boolean)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.gwtClient.game.widgets.abstractWidgets.IResourceWidget#setEnabled
+     * (boolean)
      */
     @Override
     public IResourceWidget setEnabled(boolean enabled)
     {
-        this.enabled=enabled;
-        
+        this.enabled = enabled;
+
         // TODO: Set image opacity to like 50%
-        
+
         return this;
     }
 
@@ -70,7 +73,8 @@ public class ResourceBitmapWidget extends AbsolutePanel implements IResourceWidg
     }
 
     @Override
-    public HandlerRegistration addClickHandler(ResourceClickedEventHandler handler)
+    public HandlerRegistration addClickHandler(
+            ResourceClickedEventHandler handler)
     {
         return eventBus.addHandler(ResourceClickedEvent.TYPE, handler);
     }

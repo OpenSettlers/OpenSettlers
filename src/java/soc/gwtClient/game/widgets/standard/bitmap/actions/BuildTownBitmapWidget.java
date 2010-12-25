@@ -1,12 +1,5 @@
 package soc.gwtClient.game.widgets.standard.bitmap.actions;
 
-import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.PushButton;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
-
-import soc.common.actions.gameAction.turnActions.AbstractTurnAction;
 import soc.common.actions.gameAction.turnActions.standard.BuildTown;
 import soc.common.board.pieces.PiecesChangedEvent;
 import soc.common.board.pieces.PiecesChangedEventHandler;
@@ -18,43 +11,51 @@ import soc.common.game.GamePhaseChangedEvent;
 import soc.common.game.GamePhaseChangedEventHandler;
 import soc.common.game.Player;
 import soc.gwtClient.game.abstractWidgets.AbstractActionWidget;
-import soc.gwtClient.game.abstractWidgets.IActionWidget;
 import soc.gwtClient.game.abstractWidgets.IGamePanel;
 import soc.gwtClient.game.widgets.bitmap.ImageLibrary;
+import soc.gwtClient.images.Resources;
 
-public class BuildTownBitmapWidget extends AbstractActionWidget
-    implements ResourcesChangedEventHandler, PiecesChangedEventHandler, GamePhaseChangedEventHandler
+import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.PushButton;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
+
+public class BuildTownBitmapWidget extends AbstractActionWidget implements
+        ResourcesChangedEventHandler, PiecesChangedEventHandler,
+        GamePhaseChangedEventHandler
 {
     private AbsolutePanel absolutePanel = new AbsolutePanel();
     private VerticalPanel tradesPanel1 = new VerticalPanel();
     private VerticalPanel tradesPanel2 = new VerticalPanel();
-    private PushButton btnBuildTown = new PushButton(new Image("iconz/48/Town48.png"));
+    private PushButton btnBuildTown = new PushButton(new Image(Resources
+            .icons().town()));
     private Town town = new Town();
     private Image trade1 = new Image(ImageLibrary.getTradeIcon(16));
     private Image trade2 = new Image(ImageLibrary.getTradeIcon(16));
     private Image trade3 = new Image(ImageLibrary.getTradeIcon(16));
     private Image trade4 = new Image(ImageLibrary.getTradeIcon(16));
     private BuildTown buildTown = new BuildTown();
-    
+
     public BuildTownBitmapWidget(IGamePanel gamePanel, Player player)
     {
         super(gamePanel, player);
         absolutePanel.setSize("60px", "60px");
 
         buildTown.setPlayer(player);
-        
+
         player.getResources().addResourcesChangedEventHandler(this);
         player.getStock().addPiecesChangedEventHandler(this);
         gamePanel.getGame().addGamePhaseChangedEventHandler(this);
-        
+
         tradesPanel1.add(trade1);
         tradesPanel1.add(trade2);
         tradesPanel1.add(trade3);
         tradesPanel2.add(trade4);
-        
-        absolutePanel.add(btnBuildTown, 0,0);
-        absolutePanel.add(tradesPanel1, 3,3);
-        absolutePanel.add(tradesPanel2, 19,3);
+
+        absolutePanel.add(btnBuildTown, 0, 0);
+        absolutePanel.add(tradesPanel1, 3, 3);
+        absolutePanel.add(tradesPanel2, 19, 3);
     }
 
     @Override
@@ -68,28 +69,29 @@ public class BuildTownBitmapWidget extends AbstractActionWidget
     {
         checkEnabled();
     }
-    
+
     @Override
     public void onPiecesChanged(PiecesChangedEvent list)
     {
         checkEnabled();
     }
-    
+
     @Override
     public void onGamePhaseChanged(GamePhaseChangedEvent event)
     {
         checkEnabled();
     }
-    
+
     private void checkEnabled()
     {
         if (onTurn)
         {
             Game game = gamePanel.getGame();
-            
-            if (game.getCurrentPhase().isAllowed(buildTown) &&   // current phase must be OK
-                town.canBuild(game.getBoard(), player)      &&    // we need space
-                town.canPay(player))                               // we need resources
+
+            if (game.getCurrentPhase().isAllowed(buildTown) && // current phase
+                    // must be OK
+                    town.canBuild(game.getBoard(), player) && // we need space
+                    town.canPay(player)) // we need resources
             {
                 setEnabled(true);
                 setTradesPanelsVisible(true);
@@ -106,14 +108,17 @@ public class BuildTownBitmapWidget extends AbstractActionWidget
         tradesPanel1.setVisible(visible);
         tradesPanel2.setVisible(visible);
     }
+
     @Override
     protected void updateEnabled()
     {
         btnBuildTown.setEnabled(enabled);
     }
+
     private void setTradesNeededToBuild()
     {
-        int amountTradesNeeded = player.getResources().getNeededResources(town.getCost()).size();
+        int amountTradesNeeded = player.getResources().getNeededResources(
+                town.getCost()).size();
         trade1.setVisible(amountTradesNeeded >= 1);
         trade2.setVisible(amountTradesNeeded >= 2);
         trade3.setVisible(amountTradesNeeded >= 3);

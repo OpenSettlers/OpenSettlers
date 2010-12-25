@@ -1,7 +1,5 @@
 package soc.gwtClient.game.widgets.standard.bitmap;
 
-
-import soc.common.board.resources.AbstractResource;
 import soc.common.board.resources.Resource;
 import soc.common.board.resources.ResourcesChangedEvent;
 import soc.common.game.Player;
@@ -17,7 +15,7 @@ public class HandCardsBitmapWidget extends AbstractHandCardsWidget
     public HandCardsBitmapWidget(Player player)
     {
         super(player);
-        
+
         for (Resource resource : player.getResources())
         {
             rootPanel.add(new ResourceBitmapWidget(resource));
@@ -34,23 +32,23 @@ public class HandCardsBitmapWidget extends AbstractHandCardsWidget
     protected ComplexPanel createRootPanel()
     {
         HorizontalPanel result = new HorizontalPanel();
-        //TODO: set alignment
+        // TODO: set alignment
         return new FlowPanel();
     }
 
     @Override
     public void onResourcesChanged(ResourcesChangedEvent resourcesChanged)
     {
-        if (resourcesChanged.getAddedResources() !=null)
+        if (resourcesChanged.getAddedResources() != null)
         {
             for (Resource resource : resourcesChanged.getAddedResources())
             {
                 rootPanel.add(new ResourceBitmapWidget(resource));
             }
         }
-        if (resourcesChanged.getRemovedResources() !=null)
+        if (resourcesChanged.getRemovedResources() != null)
         {
-            //TODO: Remove widgets
+            // TODO: Remove widgets
         }
     }
 
