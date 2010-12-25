@@ -2,28 +2,28 @@ package soc.common.board.pieces;
 
 import soc.common.board.Board;
 import soc.common.board.HexPoint;
-import soc.common.board.resources.*;
-import soc.common.board.routing.GraphElement;
-import soc.common.board.routing.GraphPoint;
-import soc.common.game.VictoryPointItem;
+import soc.common.board.resources.Ore;
+import soc.common.board.resources.ResourceList;
+import soc.common.board.resources.Wheat;
 import soc.common.game.Player;
+import soc.common.game.VictoryPointItem;
 
 public class City extends PlayerPiece implements VictoryPointItem, PointPiece
 {
     public static City CITY = new City();
     private HexPoint pointLocation;
-    
+
     @Override
     public ResourceList getCost()
     {
         ResourceList result = new ResourceList();
-        
+
         result.add(new Wheat());
         result.add(new Wheat());
         result.add(new Ore());
         result.add(new Ore());
         result.add(new Ore());
-        
+
         return result;
     }
 
@@ -33,25 +33,29 @@ public class City extends PlayerPiece implements VictoryPointItem, PointPiece
         return "City";
     }
 
-    /* (non-Javadoc)
-     * @see soc.common.board.pieces.PlayerPiece#canBuild(soc.common.board.Board, soc.common.game.Player)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see soc.common.board.pieces.PlayerPiece#canBuild(soc.common.board.Board,
+     * soc.common.game.Player)
      */
     @Override
     public boolean canBuild(Board board, Player player)
     {
         // We need a city in stock...
-        if (player.getStock().ofType(City.CITY).size() == 0) 
+        if (player.getStock().ofType(City.CITY).size() == 0)
             return false;
-        
+
         // And we need a town to replace.
         if (player.getBuildPieces().ofType(Town.TOWN).size() == 0)
             return false;
-        
+
         return true;
     }
 
     /*
      * City is worth 2 victory points
+     * 
      * @see soc.common.game.IVictoryPointItem#amount()
      */
     @Override
@@ -69,7 +73,7 @@ public class City extends PlayerPiece implements VictoryPointItem, PointPiece
     public PointPiece setPoint(HexPoint point)
     {
         pointLocation = point;
-        
+
         return this;
     }
 

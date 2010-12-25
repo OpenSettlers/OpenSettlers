@@ -168,7 +168,7 @@ public class BuildTown extends AbstractTurnAction
             }
         }
 
-        message = I18n.actions.builtTown(player.getName());
+        message = I18n.get().actions().builtTown(player.getName());
 
         super.perform(game);
     }

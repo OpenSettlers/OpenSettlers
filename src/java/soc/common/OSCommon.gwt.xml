@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module>
+  <inherits name='org.JGraphT' />
+
   <source path='actions'/>
   <source path='board'/>
   <source path='game'/>
@@ -7,4 +9,5 @@
   <source path='utils'/>
   <source path='annotations'/>
   <source path='server'/>  
+  <source path='internationalization'/>  
 </module>

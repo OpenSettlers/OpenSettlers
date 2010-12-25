@@ -1,33 +1,20 @@
 package soc.common.internationalization;
 
-import java.io.IOException;
-
-import org.scb.gwt.web.server.i18n.GWTI18N;
-
 /*
  * Helper class to reduce lines of code 
  */
 public class I18n
 {
-    public static OpenSettlersConstants constants;
-    public static OpenSettlersActions actions;
-    public static OpenSettlersMisc misc;
-    public static OpenSettlersStatuses statuses;
+    private static OpenSettlersInternationalization i18n = null;
 
-    static
+    public static OpenSettlersInternationalization get()
     {
-        try
-        {
-            constants = GWTI18N.create(OpenSettlersConstants.class);
-            actions = GWTI18N.create(OpenSettlersActions.class);
-            statuses = GWTI18N.create(OpenSettlersStatuses.class);
-            misc = GWTI18N.create(OpenSettlersMisc.class);
-        }
-        catch (IOException io)
-        {
-        }
-        finally
-        {
-        }
+        return i18n;
+    }
+
+    // Call initialize before any other call to get()
+    public static void initialize(OpenSettlersInternationalization i18n)
+    {
+        I18n.i18n = i18n;
     }
 }
