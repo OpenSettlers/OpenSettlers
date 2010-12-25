@@ -6,7 +6,7 @@ import soc.common.board.HexSide;
 import soc.common.board.resources.*;
 import soc.common.game.Player;
 
-public class Road extends PlayerPiece implements ISidePiece
+public class Road extends PlayerPiece implements SidePiece
 {
     public static Road ROAD = new Road();
     private HexSide sideLocation;

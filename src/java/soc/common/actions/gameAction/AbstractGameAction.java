@@ -4,7 +4,7 @@ import java.util.Date;
 
 import soc.common.actions.AbstractAction;
 import soc.common.game.Game;
-import soc.common.game.ITurn;
+import soc.common.game.Turn;
 import soc.common.game.Player;
 import soc.common.game.User;
 import soc.common.game.statuses.IGameStatus;
@@ -22,7 +22,7 @@ public abstract class AbstractGameAction extends AbstractAction implements GameA
     protected transient String invalidMessage;
     protected transient String toDoMessage;
     protected transient String message = "No message implemented yet";
-    protected transient ITurn turnExecuted;
+    protected transient Turn turnExecuted;
     
     /*
      * Should be omitted at hashCode calculation, since values differ at server

@@ -1,18 +1,26 @@
 package soc.common.client.visuals.board;
 
-import com.google.gwt.user.client.ui.LayoutPanel;
-import com.google.gwt.user.client.ui.Widget;
-
 import soc.common.board.Board;
 import soc.common.client.behaviour.IInteractionBehaviour;
 import soc.common.client.visuals.IPieceVisual;
 
-public interface IBoardVisual extends IPieceVisual
+import com.google.gwt.user.client.ui.IsWidget;
+
+public interface IBoardVisual extends IPieceVisual, IsWidget
 {
     public Board getBoard();
-    public IInteractionBehaviour getInteractionBehaviour();
+
+    public IInteractionBehaviour getCurrentBehaviour();
+
     public IBoardVisual setInteractionBehaviour(IInteractionBehaviour behaviour);
+
+    /*
+     * Toggle visbility of territory to show
+     */
     public void showTerritories();
+
+    /*
+     * Toggle visbility of territory to hide
+     */
     public void hideTerritories();
-    public Widget getWidget();
 }

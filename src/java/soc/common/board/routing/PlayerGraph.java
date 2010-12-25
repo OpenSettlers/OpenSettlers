@@ -6,20 +6,21 @@ import java.util.Set;
 import org.jgrapht.UndirectedGraph;
 import org.jgrapht.graph.UndirectedSubgraph;
 
-public class PlayerGraph extends UndirectedSubgraph<IGraphPoint, IGraphSide>
+public class PlayerGraph extends UndirectedSubgraph<GraphPoint, GraphSide>
 {
-    private Set<IGraphPoint> ends = new HashSet<IGraphPoint>();
-    private Set<IGraphPoint> splits = new HashSet<IGraphPoint>();
-    
-    public PlayerGraph(UndirectedGraph<IGraphPoint, IGraphSide> base,
-            Set<IGraphPoint> vertexSubset, Set<IGraphSide> edgeSubset)
+    private static final long serialVersionUID = -7701781640158460743L;
+    private Set<GraphPoint> ends = new HashSet<GraphPoint>();
+    private Set<GraphPoint> splits = new HashSet<GraphPoint>();
+
+    public PlayerGraph(UndirectedGraph<GraphPoint, GraphSide> base,
+            Set<GraphPoint> vertexSubset, Set<GraphSide> edgeSubset)
     {
         super(base, vertexSubset, edgeSubset);
-        
+
         // Initiate the sets of splits and ends
-        for (IGraphPoint point : vertexSet())
+        for (GraphPoint point : vertexSet())
         {
-            int degree = degreeOf(point); 
+            int degree = degreeOf(point);
             if (degree == 1)
             {
                 ends.add(point);

@@ -11,6 +11,7 @@ public class SetPortBehaviour implements IInteractionBehaviour
 {
     private Port port;
     private IHexVisual currentHexVisual;
+
     /**
      * @return the port
      */
@@ -20,12 +21,13 @@ public class SetPortBehaviour implements IInteractionBehaviour
     }
 
     /**
-     * @param port the port to set
+     * @param port
+     *            the port to set
      */
     public SetPortBehaviour setPort(Port p)
     {
         this.port = p;
-    
+
         // Enables fluent interface usage
         // http://en.wikipedia.org/wiki/Fluent_interface
         return this;
@@ -36,10 +38,15 @@ public class SetPortBehaviour implements IInteractionBehaviour
     {
         if (pieceVisual instanceof IPortVisual)
         {
-            IPortVisual portVisual = (IPortVisual)pieceVisual;
-            SeaHex seaHex = (SeaHex)currentHexVisual.getHex();
-            Port p = new Port(seaHex.getLocation(), portVisual.getPort().getRotationPosition());
-            seaHex.setPort(p);
+            IPortVisual portVisual = (IPortVisual) pieceVisual;
+            SeaHex seaHex = (SeaHex) currentHexVisual.getHex();
+            /*
+             * TODO: fix Port p = port.copy()
+             * .setHexLocation(seaHex.getLocation()) .set
+             * .(seaHex.getLocation(), portVisual
+             * .getPort().getRotationPosition());
+             */
+            // seaHex.setPort(p);
         }
     }
 
@@ -48,7 +55,7 @@ public class SetPortBehaviour implements IInteractionBehaviour
     {
         if (pieceVisual instanceof IHexVisual)
         {
-            IHexVisual hexVisual = (IHexVisual)pieceVisual; 
+            IHexVisual hexVisual = (IHexVisual) pieceVisual;
             if (hexVisual.getHex() instanceof SeaHex)
             {
                 hexVisual.setSelected(true);
@@ -56,10 +63,10 @@ public class SetPortBehaviour implements IInteractionBehaviour
                 hexVisual.getPortPossibilitiesVisual().updatePossibilities();
                 currentHexVisual = hexVisual;
             }
-        }        
+        }
         if (pieceVisual instanceof IPortVisual)
         {
-            IPortVisual portVisual = (IPortVisual)pieceVisual; 
+            IPortVisual portVisual = (IPortVisual) pieceVisual;
             portVisual.setSelected(true);
         }
     }
@@ -69,17 +76,17 @@ public class SetPortBehaviour implements IInteractionBehaviour
     {
         if (pieceVisual instanceof IHexVisual)
         {
-            IHexVisual hexVisual = (IHexVisual)pieceVisual; 
+            IHexVisual hexVisual = (IHexVisual) pieceVisual;
             if (hexVisual.getHex() instanceof SeaHex)
             {
                 hexVisual.setSelected(false);
                 hexVisual.getPortPossibilitiesVisual().setVisible(false);
-                currentHexVisual=null;
+                currentHexVisual = null;
             }
         }
         if (pieceVisual instanceof IPortVisual)
         {
-            IPortVisual portVisual = (IPortVisual)pieceVisual; 
+            IPortVisual portVisual = (IPortVisual) pieceVisual;
             portVisual.setSelected(false);
         }
     }

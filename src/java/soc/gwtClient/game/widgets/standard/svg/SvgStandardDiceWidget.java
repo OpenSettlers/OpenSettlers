@@ -4,7 +4,7 @@ import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 
 import soc.common.game.DiceChangedEvent;
-import soc.common.game.dices.IDice;
+import soc.common.game.dices.Dice;
 import soc.common.game.dices.StandardDice;
 import soc.gwtClient.game.abstractWidgets.AbstractStandardDiceWidget;
 import soc.gwtClient.game.abstractWidgets.IGamePanel;
@@ -39,7 +39,7 @@ public class SvgStandardDiceWidget extends AbstractStandardDiceWidget
     @Override
     public void onDiceChanged(DiceChangedEvent event)
     {
-        IDice dice = event.getNewDice();
+        Dice dice = event.getNewDice();
         if (dice instanceof StandardDice)
         {
             StandardDice standardDice = (StandardDice)dice;

@@ -2,8 +2,8 @@ package soc.common.actions.gameAction.turnActions.standard;
 
 import soc.common.actions.gameAction.turnActions.AbstractTurnAction;
 import soc.common.board.HexLocation;
-import soc.common.board.hexes.AbstractHex;
 import soc.common.board.hexes.DiscoveryHex;
+import soc.common.board.hexes.Hex;
 import soc.common.board.hexes.NoneHex;
 import soc.common.board.hexes.RandomHex;
 import soc.common.board.hexes.SeaHex;
@@ -29,22 +29,27 @@ public class PlaceRobber extends AbstractTurnAction
     }
 
     /**
-     * @param newLocation the newLocation to set
+     * @param newLocation
+     *            the newLocation to set
      */
     public PlaceRobber setNewLocation(HexLocation newLocation)
     {
         this.newLocation = newLocation;
-    
+
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see soc.common.actions.gameAction.GameAction#isValid(soc.common.game.Game)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.common.actions.gameAction.GameAction#isValid(soc.common.game.Game)
      */
     @Override
     public boolean isValid(Game game)
     {
-        if (!super.isValid(game)) return false;
+        if (!super.isValid(game))
+            return false;
 
         // we need a good location
         if (newLocation == null)
@@ -53,7 +58,8 @@ public class PlaceRobber extends AbstractTurnAction
             return false;
         }
 
-        // Make sure the player does not put robber or pirate on the edge of the map,
+        // Make sure the player does not put robber or pirate on the edge of the
+        // map,
         // which is forbidden
         if (game.getBoard().getHexes().isAtEdge(newLocation))
         {
@@ -83,31 +89,34 @@ public class PlaceRobber extends AbstractTurnAction
         // -DiscoveryHex
         // -
 
-        AbstractHex hex = game.getBoard().getHexes().get(newLocation);
+        Hex hex = game.getBoard().getHexes().get(newLocation);
 
-        if (hex instanceof NoneHex ||
-            hex instanceof DiscoveryHex ||
-            hex instanceof RandomHex ||
-            hex instanceof SeaHex)
+        if (hex instanceof NoneHex || hex instanceof DiscoveryHex
+                || hex instanceof RandomHex || hex instanceof SeaHex)
         {
-            invalidMessage = "Can't place robber or pirate on a " + hex.getName();
+            invalidMessage = "Can't place robber or pirate on a "
+                    + hex.getName();
             return false;
         }
-        
+
         return super.isValid(game);
     }
 
-    /* (non-Javadoc)
-     * @see soc.common.actions.gameAction.GameAction#perform(soc.common.game.Game)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.common.actions.gameAction.GameAction#perform(soc.common.game.Game)
      */
     @Override
     public void perform(Game game)
     {
         game.setRobber(newLocation);
 
-        //TODO: fix message
-        //_Message = String.Format("{0} put the robber on the {1}",
-        //    xmlGame.GetPlayer(Sender).XmlPlayer.Name, Location.ToString(xmlGame.Board));
+        // TODO: fix message
+        // _Message = String.Format("{0} put the robber on the {1}",
+        // xmlGame.GetPlayer(Sender).XmlPlayer.Name,
+        // Location.ToString(xmlGame.Board));
         super.perform(game);
     }
 
@@ -124,5 +133,5 @@ public class PlaceRobber extends AbstractTurnAction
         // TODO Auto-generated method stub
         return false;
     }
-    
+
 }

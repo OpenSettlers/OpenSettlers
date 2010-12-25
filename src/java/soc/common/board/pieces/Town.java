@@ -8,11 +8,11 @@ import soc.common.board.HexPoint;
 import soc.common.board.HexPointType;
 import soc.common.board.PointPositionOnHex;
 import soc.common.board.resources.*;
-import soc.common.board.routing.IGraphPoint;
-import soc.common.game.IVictoryPointItem;
+import soc.common.board.routing.GraphPoint;
+import soc.common.game.VictoryPointItem;
 import soc.common.game.Player;
 
-public class Town extends PlayerPiece implements IVictoryPointItem, IPointPiece
+public class Town extends PlayerPiece implements VictoryPointItem, PointPiece
 {
     public static Town TOWN  = new Town();
     private HexPoint pointLocation;
@@ -67,7 +67,7 @@ public class Town extends PlayerPiece implements IVictoryPointItem, IPointPiece
     }
 
     @Override
-    public IPointPiece setPoint(HexPoint point)
+    public PointPiece setPoint(HexPoint point)
     {
         this.pointLocation=point;
         

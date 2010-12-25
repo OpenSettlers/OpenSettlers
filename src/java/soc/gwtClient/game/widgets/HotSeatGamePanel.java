@@ -2,13 +2,6 @@ package soc.gwtClient.game.widgets;
 
 import org.vaadin.gwtgraphics.client.DrawingArea;
 
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.ui.DockLayoutPanel;
-import com.google.gwt.user.client.ui.LayoutPanel;
-import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.TabLayoutPanel;
-
 import soc.common.actions.gameAction.HostStartsGame;
 import soc.common.board.Board;
 import soc.common.client.visuals.game.IGameBoardVisual;
@@ -32,27 +25,34 @@ import soc.gwtClient.game.widgets.standard.bitmap.PlayersBitmapWidget;
 import soc.gwtClient.game.widgets.standard.bitmap.StatusDiceBitmapPanel;
 import soc.gwtClient.game.widgets.standard.bitmap.actions.ActionsBitmapWidget;
 
-public class HotSeatGamePanel extends AbstractGamePanel implements ICenterWidget
+import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.TabLayoutPanel;
+
+public class HotSeatGamePanel extends AbstractGamePanel implements
+        ICenterWidget
 {
     DockLayoutPanel rootPanel = new DockLayoutPanel(Unit.EM);
-    DockLayoutPanel playersBankChatPanel=new DockLayoutPanel(Unit.EM);
-    DockLayoutPanel boardActionResourcesPanel= new DockLayoutPanel(Unit.EM);
+    DockLayoutPanel playersBankChatPanel = new DockLayoutPanel(Unit.EM);
+    DockLayoutPanel boardActionResourcesPanel = new DockLayoutPanel(Unit.EM);
     TabLayoutPanel chatHistoryDebugPanel = new TabLayoutPanel(20.0, Unit.PX);
     BoardLayoutPanel boardVisualPanel = new BoardLayoutPanel();
     ChatPanel chatPanel;
-    
+
     public HotSeatGamePanel(Game game)
     {
         super(game);
 
         server = new HotSeatServer(this);
-        
+
         chatPanel = new ChatPanel(this);
-        
+
         createChatHistoryDebugPanel();
-        boardVisualPanel.setCanvas((DrawingArea)gameBoard.getWidget());
-        
-        boardActionResourcesPanel.addSouth(handCards.asWidget(),5);
+        boardVisualPanel.setCanvas((DrawingArea) gameBoard.asWidget());
+
+        boardActionResourcesPanel.addSouth(handCards.asWidget(), 5);
         boardActionResourcesPanel.addSouth(buildPallette.asWidget(), 5);
         boardActionResourcesPanel.addSouth(statusDicePanel.asWidget(), 5);
         boardActionResourcesPanel.add(boardVisualPanel);
@@ -60,15 +60,15 @@ public class HotSeatGamePanel extends AbstractGamePanel implements ICenterWidget
         playersBankChatPanel.addNorth(playersWidget.asWidget(), 20);
         playersBankChatPanel.addNorth(bankStockPanel.asWidget(), 5);
         playersBankChatPanel.add(chatHistoryDebugPanel);
-        
+
         rootPanel.addWest(playersBankChatPanel, 20);
         rootPanel.add(boardActionResourcesPanel);
-        
-        //gameBoard.getWidget().
-        
+
+        // gameBoard.getWidget().
+
         HostStartsGame start = new HostStartsGame();
         start.setPlayer(player);
-        
+
         server.sendAction(start);
     }
 

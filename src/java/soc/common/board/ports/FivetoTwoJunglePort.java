@@ -8,7 +8,13 @@ import soc.common.annotations.OpenSettlers;
  * 
  */
 @OpenSettlers
-public class FivetoTwoJunglePort extends Port
+public class FivetoTwoJunglePort extends AbstractPort
 {
+
+    @Override
+    public Port copy()
+    {
+        return new FivetoTwoJunglePort();
+    }
 
 }

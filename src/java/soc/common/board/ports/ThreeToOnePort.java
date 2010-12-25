@@ -1,12 +1,17 @@
 package soc.common.board.ports;
 
-import soc.common.board.resources.*;
+import soc.common.board.resources.Resource;
+import soc.common.board.resources.ResourceList;
 
-public class ThreeToOnePort extends Port
+public class ThreeToOnePort extends AbstractPort
 {
 
-    /* Performs a 3:1 trade on a list of resources
-     * @see soc.common.board.ports.Port#divide(soc.common.board.resources.ResourceList, soc.common.board.resources.Resource)
+    /*
+     * Performs a 3:1 trade on a list of resources
+     * 
+     * @see
+     * soc.common.board.ports.Port#divide(soc.common.board.resources.ResourceList
+     * , soc.common.board.resources.Resource)
      */
     @Override
     public int divide(ResourceList resources, Resource type)
@@ -14,7 +19,9 @@ public class ThreeToOnePort extends Port
         return resources.size() / getInAmount();
     }
 
-    /* Three resources are needed for one trade
+    /*
+     * Three resources are needed for one trade
+     * 
      * @see soc.common.board.ports.Port#getInAmount()
      */
     @Override
@@ -23,7 +30,9 @@ public class ThreeToOnePort extends Port
         return 3;
     }
 
-    /* One gold is gained from one trade
+    /*
+     * One gold is gained from one trade
+     * 
      * @see soc.common.board.ports.Port#getOutAmount()
      */
     @Override
@@ -32,12 +41,21 @@ public class ThreeToOnePort extends Port
         return 1;
     }
 
-    /* TODO: BUG: diamonds can be traded too
-     * @see soc.common.board.ports.Port#canTrade(soc.common.board.resources.Resource)
+    /*
+     * TODO: BUG: diamonds can be traded too
+     * 
+     * @see
+     * soc.common.board.ports.Port#canTrade(soc.common.board.resources.Resource)
      */
     @Override
     public boolean canTrade(Resource resource)
     {
         return true;
+    }
+
+    @Override
+    public Port copy()
+    {
+        return new ThreeToOnePort();
     }
 }

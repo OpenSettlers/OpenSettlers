@@ -1,26 +1,25 @@
 package soc.common.board.routing;
 
 import soc.common.board.HexPoint;
-import soc.common.board.HexSide;
 import soc.common.board.pieces.PlayerPiece;
 import soc.common.game.Player;
 
-public class GraphPoint implements IGraphPoint
+public class GraphPointImpl implements GraphPoint
 {
     private HexPoint pointLocation;
     private PlayerPiece playerPiece;
     private boolean townBuildable;
-    
+
     @Override
     public HexPoint getPoint()
     {
         return pointLocation;
     }
-    
-    public IGraphPoint setPoint(HexPoint point)
+
+    public GraphPoint setPoint(HexPoint point)
     {
-        this.pointLocation=point;
-        
+        this.pointLocation = point;
+
         return this;
     }
 
@@ -33,15 +32,14 @@ public class GraphPoint implements IGraphPoint
     @Override
     public Player getPlayer()
     {
-        return playerPiece==null ? 
-                null : playerPiece.getPlayer();
+        return playerPiece == null ? null : playerPiece.getPlayer();
     }
 
     @Override
-    public IGraphElement setPlayerPiece(PlayerPiece piece)
+    public GraphElement setPlayerPiece(PlayerPiece piece)
     {
-        this.playerPiece=piece;
-        
+        this.playerPiece = piece;
+
         return this;
     }
 
@@ -52,9 +50,9 @@ public class GraphPoint implements IGraphPoint
     }
 
     @Override
-    public IGraphPoint setTownBuildable(boolean townBuildable)
+    public GraphPoint setTownBuildable(boolean townBuildable)
     {
-        this.townBuildable=townBuildable;
+        this.townBuildable = townBuildable;
 
         return this;
     }

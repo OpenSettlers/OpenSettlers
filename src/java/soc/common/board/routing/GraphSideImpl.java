@@ -4,7 +4,7 @@ import soc.common.board.HexSide;
 import soc.common.board.pieces.PlayerPiece;
 import soc.common.game.Player;
 
-public class GraphSide implements IGraphSide
+public class GraphSideImpl implements GraphSide
 {
     private HexSide sideLocation;
     private PlayerPiece playerPiece;
@@ -14,7 +14,7 @@ public class GraphSide implements IGraphSide
     {
         return sideLocation;
     }
-    public GraphSide setSide(HexSide side)
+    public GraphSideImpl setSide(HexSide side)
     {
         this.sideLocation=side;
         
@@ -34,7 +34,7 @@ public class GraphSide implements IGraphSide
     }
 
     @Override
-    public IGraphElement setPlayerPiece(PlayerPiece piece)
+    public GraphElement setPlayerPiece(PlayerPiece piece)
     {
         this.playerPiece=piece;
         
@@ -47,7 +47,7 @@ public class GraphSide implements IGraphSide
         return false;
     }
     @Override
-    public IGraphPoint setBuildable(boolean townBuildable)
+    public GraphPoint setBuildable(boolean townBuildable)
     {
         // TODO Auto-generated method stub
         return null;

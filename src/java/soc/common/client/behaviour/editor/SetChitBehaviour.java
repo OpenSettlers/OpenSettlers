@@ -1,7 +1,7 @@
 package soc.common.client.behaviour.editor;
 
 import soc.common.board.Chit;
-import soc.common.board.hexes.AbstractHex;
+import soc.common.board.hexes.Hex;
 import soc.common.board.hexes.ResourceHex;
 import soc.common.client.behaviour.IInteractionBehaviour;
 import soc.common.client.visuals.IPieceVisual;
@@ -17,11 +17,11 @@ public class SetChitBehaviour implements IInteractionBehaviour
     {
         if (pieceVisual instanceof IHexVisual)
         {
-            IHexVisual hexVisual = (IHexVisual)pieceVisual;
-            AbstractHex hex = hexVisual.getHex();
+            IHexVisual hexVisual = (IHexVisual) pieceVisual;
+            Hex hex = hexVisual.getHex();
             if (hex instanceof ResourceHex)
             {
-                ResourceHex resourceHex = (ResourceHex)hex;
+                ResourceHex resourceHex = (ResourceHex) hex;
                 resourceHex.setChit(currentChit);
             }
         }
@@ -36,12 +36,13 @@ public class SetChitBehaviour implements IInteractionBehaviour
     }
 
     /**
-     * @param currentChit the currentChit to set
+     * @param currentChit
+     *            the currentChit to set
      */
     public SetChitBehaviour setCurrentChit(Chit currentChit)
     {
         this.currentChit = currentChit;
-    
+
         // Enables fluent interface usage
         // http://en.wikipedia.org/wiki/Fluent_interface
         return this;
@@ -52,7 +53,7 @@ public class SetChitBehaviour implements IInteractionBehaviour
     {
         if (pieceVisual instanceof IHexVisual)
         {
-            IHexVisual hexVisual = (IHexVisual)pieceVisual;
+            IHexVisual hexVisual = (IHexVisual) pieceVisual;
             if (hexVisual.getHex() instanceof ResourceHex)
             {
                 pieceVisual.setSelected(true);

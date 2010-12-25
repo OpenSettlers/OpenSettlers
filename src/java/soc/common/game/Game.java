@@ -54,7 +54,7 @@ public class Game
     private Board board;
     private Player gameStarter;
     private DevelopmentCardList developmentCardStack = new DevelopmentCardList();
-    private ITurn currentTurn;
+    private Turn currentTurn;
     private IGameStatus currentStatus = new WaitingForPlayers();
 
     /*
@@ -133,7 +133,7 @@ public class Game
     /**
      * @return the currentTurn
      */
-    public ITurn getCurrentTurn()
+    public Turn getCurrentTurn()
     {
         return currentTurn;
     }

@@ -6,11 +6,11 @@ public class VictoryPointsChangedEvent extends
         GwtEvent<VictoryPointsChangedEventHandler>
 {
     public static Type<VictoryPointsChangedEventHandler> TYPE = new Type<VictoryPointsChangedEventHandler>();
-    private IVictoryPointItem addedPoint;
-    private IVictoryPointItem removedPoint;
+    private VictoryPointItem addedPoint;
+    private VictoryPointItem removedPoint;
     
-    public VictoryPointsChangedEvent(IVictoryPointItem addedPoint,
-            IVictoryPointItem removedPoint)
+    public VictoryPointsChangedEvent(VictoryPointItem addedPoint,
+            VictoryPointItem removedPoint)
     {
         super();
         this.addedPoint = addedPoint;
@@ -20,7 +20,7 @@ public class VictoryPointsChangedEvent extends
     /**
      * @return the addedPoint
      */
-    public IVictoryPointItem getAddedPoint()
+    public VictoryPointItem getAddedPoint()
     {
         return addedPoint;
     }
@@ -28,7 +28,7 @@ public class VictoryPointsChangedEvent extends
     /**
      * @return the removedPoint
      */
-    public IVictoryPointItem getRemovedPoint()
+    public VictoryPointItem getRemovedPoint()
     {
         return removedPoint;
     }

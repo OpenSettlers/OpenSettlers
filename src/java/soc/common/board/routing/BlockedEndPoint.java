@@ -13,7 +13,7 @@ import soc.common.game.Player;
  * and never be added twice. A SplittedEndPoint becomes the endpoint of the two roads
  * connecting to the point now owned by the player building a town on the existing road.  
  */
-public class BlockedEndPoint implements IGraphPoint
+public class BlockedEndPoint implements GraphPoint
 {
     private HexPoint pointLocation;
     private int hashCode = Random.nextInt();
@@ -45,7 +45,7 @@ public class BlockedEndPoint implements IGraphPoint
      * @see soc.common.board.routing.IGraphPoint#setTownBuildable(boolean)
      */
     @Override
-    public IGraphPoint setTownBuildable(boolean townBuildable)
+    public GraphPoint setTownBuildable(boolean townBuildable)
     {
         return this;
     }
@@ -75,7 +75,7 @@ public class BlockedEndPoint implements IGraphPoint
      * @see soc.common.board.routing.IGraphElement#setPlayerPiece(soc.common.board.pieces.PlayerPiece)
      */
     @Override
-    public IGraphElement setPlayerPiece(PlayerPiece piece)
+    public GraphElement setPlayerPiece(PlayerPiece piece)
     {
         return null;
     }

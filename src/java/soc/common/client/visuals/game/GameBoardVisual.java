@@ -1,26 +1,23 @@
 package soc.common.client.visuals.game;
 
-import com.google.gwt.user.client.ui.Widget;
-
 import soc.common.board.Board;
 import soc.common.client.behaviour.IInteractionBehaviour;
 import soc.common.client.behaviour.game.IGameBehaviour;
 import soc.common.client.visuals.IPieceVisual;
 import soc.common.client.visuals.board.IBoardVisual;
 import soc.common.game.Game;
-import soc.common.game.IGame;
 
-public class GameBoardVisual implements IGameBoardVisual 
+public abstract class GameBoardVisual implements IGameBoardVisual
 {
     protected Game game;
     protected IBoardVisual boardVisual;
     protected IHexPointsVisual possiblePointsVisual;
     protected IHexSidesVisual possibleSidesVisual;
-    
+
     @Override
     public IBoardVisual getBoardVisual()
     {
-        return boardVisual; 
+        return boardVisual;
     }
 
     @Override
@@ -39,7 +36,7 @@ public class GameBoardVisual implements IGameBoardVisual
     public void setBehaviour(IGameBehaviour gameBehaviour)
     {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
@@ -50,14 +47,7 @@ public class GameBoardVisual implements IGameBoardVisual
     }
 
     @Override
-    public IInteractionBehaviour getInteractionBehaviour()
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public Widget getWidget()
+    public IInteractionBehaviour getCurrentBehaviour()
     {
         // TODO Auto-generated method stub
         return null;
@@ -67,7 +57,7 @@ public class GameBoardVisual implements IGameBoardVisual
     public void hideTerritories()
     {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
@@ -81,7 +71,7 @@ public class GameBoardVisual implements IGameBoardVisual
     public void showTerritories()
     {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override

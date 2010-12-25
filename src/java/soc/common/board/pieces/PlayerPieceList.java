@@ -54,7 +54,7 @@ public class PlayerPieceList implements Iterable<PlayerPiece>
         
         for (PlayerPiece piece : this)
         {
-            if (piece instanceof ISidePiece)
+            if (piece instanceof SidePiece)
                 result.add(piece);
         }
         
@@ -66,7 +66,7 @@ public class PlayerPieceList implements Iterable<PlayerPiece>
         
         for (PlayerPiece piece : this)
         {
-            if (piece instanceof IPointPiece)
+            if (piece instanceof PointPiece)
                 result.add(piece);
         }
         
@@ -119,9 +119,9 @@ public class PlayerPieceList implements Iterable<PlayerPiece>
     {
         for (PlayerPiece piece : playerPieces)
         {
-            if (piece instanceof IPointPiece)
+            if (piece instanceof PointPiece)
             {
-                IPointPiece pointPiece = (IPointPiece)piece;
+                PointPiece pointPiece = (PointPiece)piece;
                 if (pointPiece.getPoint().equals(point))
                     return true;
             }
@@ -133,9 +133,9 @@ public class PlayerPieceList implements Iterable<PlayerPiece>
     {
         for (PlayerPiece piece : playerPieces)
         {
-            if (piece instanceof ISidePiece)
+            if (piece instanceof SidePiece)
             {
-                ISidePiece pointPiece = (ISidePiece)piece;
+                SidePiece pointPiece = (SidePiece)piece;
                 if (pointPiece.getSide().equals(hexSide))
                     return true;
             }
@@ -148,9 +148,9 @@ public class PlayerPieceList implements Iterable<PlayerPiece>
         PlayerPiece playerPieceToRemove = null;
         for (PlayerPiece playerPiece : playerPieces)
         {
-            if (playerPiece instanceof IPointPiece)
+            if (playerPiece instanceof PointPiece)
             {
-                IPointPiece pointPieze = (IPointPiece)playerPiece;
+                PointPiece pointPieze = (PointPiece)playerPiece;
                 if (pointPieze.getPoint().equals(pointLocation))
                 {
                     playerPieceToRemove = playerPiece;
@@ -174,9 +174,9 @@ public class PlayerPieceList implements Iterable<PlayerPiece>
         PlayerPiece playerPieceToRemove = null;
         for (PlayerPiece playerPiece : playerPieces)
         {
-            if (playerPiece instanceof IPointPiece)
+            if (playerPiece instanceof PointPiece)
             {
-                ISidePiece sidePieze = (ISidePiece)playerPiece;
+                SidePiece sidePieze = (SidePiece)playerPiece;
                 if (sidePieze.getSide().equals(side))
                 {
                     playerPieceToRemove = playerPiece;

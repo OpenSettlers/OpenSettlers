@@ -11,7 +11,7 @@ import soc.common.board.ports.PortList;
  * 
  */
 @SeaFarers
-public class Territory
+public class TerritoryImpl implements Territory
 {
     private String name;
     private int ID;
@@ -26,15 +26,15 @@ public class Territory
     // or before start by the server, to replace randomports with. 
     private PortList ports;
     
-    /**
-     * @return the isBonus
+    /* (non-Javadoc)
+     * @see soc.common.board.territories.Territory#isBonus()
      */
     public boolean isBonus()
     {
         return isBonus;
     }
-    /**
-     * @param isBonus the isBonus to set
+    /* (non-Javadoc)
+     * @see soc.common.board.territories.Territory#setBonus(boolean)
      */
     public Territory setBonus(boolean isBonus)
     {
@@ -45,19 +45,22 @@ public class Territory
         return this;
     }
     
+    /* (non-Javadoc)
+     * @see soc.common.board.territories.Territory#getName()
+     */
     public String getName()
     {
         return name;
     }
-    /**
-     * @return the ports
+    /* (non-Javadoc)
+     * @see soc.common.board.territories.Territory#getPorts()
      */
     public PortList getPorts()
     {
         return ports;
     }
-    /**
-     * @param ports the ports to set
+    /* (non-Javadoc)
+     * @see soc.common.board.territories.Territory#setPorts(soc.common.board.ports.PortList)
      */
     public Territory setPorts(PortList ports)
     {
@@ -65,25 +68,40 @@ public class Territory
     
         return this;
     }
+    /* (non-Javadoc)
+     * @see soc.common.board.territories.Territory#setName(java.lang.String)
+     */
     public void setName(String name)
     {
         this.name = name;
     }
+    /* (non-Javadoc)
+     * @see soc.common.board.territories.Territory#getID()
+     */
     public int getID()
     {
         return ID;
     }
+    /* (non-Javadoc)
+     * @see soc.common.board.territories.Territory#setID(int)
+     */
     public Territory setID(int iD)
     {
         ID = iD;
         
         return this;
     }
+    /* (non-Javadoc)
+     * @see soc.common.board.territories.Territory#isMainland()
+     */
     public boolean isMainland()
     {
         return isMainland;
     }
-    public Territory setMainland(boolean isMainland)
+    /* (non-Javadoc)
+     * @see soc.common.board.territories.Territory#setMainland(boolean)
+     */
+    public TerritoryImpl setMainland(boolean isMainland)
     {
         this.isMainland = isMainland;
 
@@ -91,10 +109,16 @@ public class Territory
         
         return this;
     }
+    /* (non-Javadoc)
+     * @see soc.common.board.territories.Territory#isIsland()
+     */
     public boolean isIsland()
     {
         return isIsland;
     }
+    /* (non-Javadoc)
+     * @see soc.common.board.territories.Territory#setIsland(boolean)
+     */
     public Territory setIsland(boolean isIsland)
     {
         this.isIsland = isIsland;

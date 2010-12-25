@@ -1,11 +1,7 @@
 package soc.gwtClient.visuals.svg;
 
 import org.vaadin.gwtgraphics.client.DrawingArea;
-import org.vaadin.gwtgraphics.client.animation.Animatable;
-import org.vaadin.gwtgraphics.client.animation.Animate;
 import org.vaadin.gwtgraphics.client.shape.Rectangle;
-
-import com.google.gwt.user.client.ui.Widget;
 
 import soc.common.board.Board;
 import soc.common.board.HexLocation;
@@ -13,12 +9,14 @@ import soc.common.board.HexPoint;
 import soc.common.board.HexPointType;
 import soc.common.board.HexSide;
 import soc.common.board.hexes.AbstractHex;
-import soc.common.client.visuals.IPieceVisual;
+import soc.common.board.hexes.Hex;
 import soc.common.client.visuals.board.BoardVisual;
 import soc.gwtClient.editor.BehaviourChanged;
 import soc.gwtClient.game.Point2D;
 
-public class SvgBoardVisual extends BoardVisual 
+import com.google.gwt.user.client.ui.Widget;
+
+public class SvgBoardVisual extends BoardVisual
 {
     private DrawingArea drawingArea;
     private Rectangle enabledOverlay;
@@ -34,26 +32,27 @@ public class SvgBoardVisual extends BoardVisual
     public SvgBoardVisual(int widthInPixels, int heightInPixels, Board b)
     {
         drawingArea = new DrawingArea(widthInPixels, heightInPixels);
-        
-        board=b;
-        
+
+        board = b;
+
         initializeBoard();
     }
-    
+
     private void initializeBoard()
     {
         // Iterate over all hexes, create a HexVisual and attach event handlers
-        for (AbstractHex hex : board.getHexes())
+        for (Hex hex : board.getHexes())
         {
             Point2D point = calculatePosition(hex.getLocation());
-            
+
             final SvgHexVisual hv = new SvgHexVisual(hex, this, point);
-            
+
             drawingArea.add(hv.getGroup());
             hexVisuals.add(hv);
-        }        
-        
-        enabledOverlay = new Rectangle(0,0,drawingArea.getWidth(), drawingArea.getHeight());
+        }
+
+        enabledOverlay = new Rectangle(0, 0, drawingArea.getWidth(),
+                drawingArea.getHeight());
         enabledOverlay.setFillColor("Black");
         enabledOverlay.setFillOpacity(0.5);
     }
@@ -64,19 +63,21 @@ public class SvgBoardVisual extends BoardVisual
         double marginLeft = AbstractHex.getHalfWidth();
         double x = location.getW() * (AbstractHex.getWidth() + margin);
         double y = location.getH() * (AbstractHex.getPartialHeight() + margin);
-        
+
         x += marginLeft;
 
-        //Alternate half the width of an hex 
-        if (location.getH() % 2 == 0) x += AbstractHex.getHalfWidth();
+        // Alternate half the width of an hex
+        if (location.getH() % 2 == 0)
+            x += AbstractHex.getHalfWidth();
 
         // center the position (not necessary in 2D view)
-        //x -= Hex.getHalfWidth() * board.getWidth();
-        //y -= ((Hex.getPartialHeight() * board.getHeight()) + Hex.getBottomHeight()) / 2;
+        // x -= Hex.getHalfWidth() * board.getWidth();
+        // y -= ((Hex.getPartialHeight() * board.getHeight()) +
+        // Hex.getBottomHeight()) / 2;
 
-        return new Point2D((int)x, (int)y);
+        return new Point2D((int) x, (int) y);
     }
-    
+
     public Point2D CalculatePosition(HexSide location)
     {
         Point2D result = calculatePosition(location.getHighestOrLeftestHex());
@@ -85,27 +86,29 @@ public class SvgBoardVisual extends BoardVisual
 
         switch (location.getDirection())
         {
-            case SLOPEDOWN:
-                x += AbstractHex.getWidth() * 0.25;
-                y += (AbstractHex.getBottomHeight() * 0.5) + AbstractHex.getPartialHeight();
-                break;
-            case SLOPEUP:
-                x += AbstractHex.getWidth() * 0.75;
-                y += (AbstractHex.getBottomHeight() * 0.5) + AbstractHex.getPartialHeight();
-                break;
-            case UPDOWN:
-                x += AbstractHex.getWidth();
-                y += AbstractHex.getHeight() * 0.5;
-                break;
+        case SLOPEDOWN:
+            x += AbstractHex.getWidth() * 0.25;
+            y += (AbstractHex.getBottomHeight() * 0.5)
+                    + AbstractHex.getPartialHeight();
+            break;
+        case SLOPEUP:
+            x += AbstractHex.getWidth() * 0.75;
+            y += (AbstractHex.getBottomHeight() * 0.5)
+                    + AbstractHex.getPartialHeight();
+            break;
+        case UPDOWN:
+            x += AbstractHex.getWidth();
+            y += AbstractHex.getHeight() * 0.5;
+            break;
         }
-        return new Point2D((int)x, (int)y);
+        return new Point2D((int) x, (int) y);
     }
 
     public Point2D CalculatePosition(HexPoint location)
     {
         // get the x,y coordinate of the HexLocation
         Point2D point = calculatePosition(location.getTopMost());
-        
+
         // Point is immutable, so cache the values
         double x = point.getX();
         double y = point.getY();
@@ -123,14 +126,16 @@ public class SvgBoardVisual extends BoardVisual
 
         return point;
     }
-    
+
     @Override
     public void onBehaviourChanged(BehaviourChanged behaviourChanged)
     {
         editBehaviour = behaviourChanged.getBehaviour();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.client.visuals.PieceVisual#updateEnabled()
      */
     @Override
@@ -140,7 +145,7 @@ public class SvgBoardVisual extends BoardVisual
     }
 
     @Override
-    public Widget getWidget()
+    public Widget asWidget()
     {
         return drawingArea;
     }

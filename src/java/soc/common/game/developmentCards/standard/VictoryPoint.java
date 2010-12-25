@@ -1,7 +1,7 @@
 package soc.common.game.developmentCards.standard;
 
 import soc.common.game.Game;
-import soc.common.game.IVictoryPointItem;
+import soc.common.game.VictoryPointItem;
 import soc.common.game.Player;
 import soc.common.game.developmentCards.DevelopmentCard;
 
@@ -10,7 +10,7 @@ import soc.common.game.developmentCards.DevelopmentCard;
  * Playable any time during a players' turn and not immediately played when
  * receiving the card
  */
-public class VictoryPoint extends DevelopmentCard implements IVictoryPointItem
+public class VictoryPoint extends DevelopmentCard implements VictoryPointItem
 {
     /* A victoryPoint development card returns into stock after playing
      * @see soc.common.game.developmentCards.DevelopmentCard#keepInStock()

@@ -6,7 +6,7 @@ import soc.common.board.HexPoint;
 
 @CitiesKnights
 @Pioneers
-public class Wall extends PlayerPiece implements IPointPiece
+public class Wall extends PlayerPiece implements PointPiece
 {
 
     @Override
@@ -17,7 +17,7 @@ public class Wall extends PlayerPiece implements IPointPiece
     }
 
     @Override
-    public IPointPiece setPoint(HexPoint point)
+    public PointPiece setPoint(HexPoint point)
     {
         // TODO Auto-generated method stub
         return null;

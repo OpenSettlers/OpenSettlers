@@ -24,7 +24,7 @@ public abstract class BoardVisual extends PieceVisual
     }
 
     @Override
-    public IInteractionBehaviour getInteractionBehaviour()
+    public IInteractionBehaviour getCurrentBehaviour()
     {
         return editBehaviour;
     }

@@ -9,7 +9,7 @@ import soc.common.actions.gameAction.turnActions.AbstractTurnAction;
 import soc.common.actions.gameAction.turnActions.TurnAction;
 import soc.common.board.resources.AbstractResource;
 import soc.common.board.resources.Resource;
-import soc.common.game.dices.IDice;
+import soc.common.game.dices.Dice;
 import soc.common.game.logs.ActionQueueChangedEvent;
 
 public class GameRules implements IGameRules
@@ -27,7 +27,7 @@ public class GameRules implements IGameRules
     private boolean isTeamGame = false;
     
     // State of last rolled dice
-    private IDice diceType;
+    private Dice diceType;
     
     /**
      * @return the isSeaFarers
@@ -208,12 +208,12 @@ public class GameRules implements IGameRules
         return this;
     }
     @Override
-    public IDice getDiceType()
+    public Dice getDiceType()
     {
         return diceType;
     }
     @Override
-    public GameRules setDiceType(IDice diceType)
+    public GameRules setDiceType(Dice diceType)
     {
         this.diceType=diceType;
         

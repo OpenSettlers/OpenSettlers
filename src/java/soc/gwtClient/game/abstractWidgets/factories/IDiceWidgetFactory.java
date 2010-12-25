@@ -1,6 +1,6 @@
 package soc.gwtClient.game.abstractWidgets.factories;
 
-import soc.common.game.dices.IDice;
+import soc.common.game.dices.Dice;
 import soc.gwtClient.game.abstractWidgets.IDiceWidget;
 import soc.gwtClient.game.abstractWidgets.IGamePanel;
 
@@ -9,5 +9,5 @@ import soc.gwtClient.game.abstractWidgets.IGamePanel;
  */
 public interface IDiceWidgetFactory
 {
-    public IDiceWidget createDiceWidget(IDice diceType, IGamePanel gamePanel);
+    public IDiceWidget createDiceWidget(Dice diceType, IGamePanel gamePanel);
 }

@@ -5,7 +5,7 @@ import com.google.gwt.user.client.Random;
 import soc.common.annotations.CitiesKnights;
 
 @CitiesKnights
-public class CitiesKnightsDice implements IDice
+public class CitiesKnightsDice implements Dice
 {
 
     @Override

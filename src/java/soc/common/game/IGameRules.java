@@ -6,7 +6,7 @@ import soc.common.actions.gameAction.turnActions.AbstractTurnAction;
 import soc.common.actions.gameAction.turnActions.TurnAction;
 import soc.common.board.resources.AbstractResource;
 import soc.common.board.resources.Resource;
-import soc.common.game.dices.IDice;
+import soc.common.game.dices.Dice;
 
 /*
  * Abstracted properties for game {@see IRuleSet} to modify
@@ -54,8 +54,8 @@ public interface IGameRules
     public IGameRules setEnableLargestArmy(boolean enableLargestArmy);
 
     // Returns the type of the dice rolled by the player on turn in the RollDiceTurnPhase
-    public IDice getDiceType();
+    public Dice getDiceType();
     
     // Sets the type of the dice 
-    public IGameRules setDiceType(IDice diceType);
+    public IGameRules setDiceType(Dice diceType);
 }

@@ -6,9 +6,9 @@ import java.util.List;
 
 import com.google.gwt.event.shared.SimpleEventBus;
 
-public class VictoryPointsList implements Iterable<IVictoryPointItem>
+public class VictoryPointsList implements Iterable<VictoryPointItem>
 {
-    private List<IVictoryPointItem> points = new ArrayList<IVictoryPointItem>();
+    private List<VictoryPointItem> points = new ArrayList<VictoryPointItem>();
     private SimpleEventBus eventBus;
     
     private SimpleEventBus getEventBus()
@@ -29,14 +29,14 @@ public class VictoryPointsList implements Iterable<IVictoryPointItem>
         }
     }
     
-    public void add(IVictoryPointItem item)
+    public void add(VictoryPointItem item)
     {
         points.add(item);
         
         safelyFireEvent(new VictoryPointsChangedEvent(item, null));
     }
     
-    public void remove(IVictoryPointItem item)
+    public void remove(VictoryPointItem item)
     {
         points.remove(item);
         
@@ -50,7 +50,7 @@ public class VictoryPointsList implements Iterable<IVictoryPointItem>
     {
         int result=0;
         
-        for (IVictoryPointItem vp : points)
+        for (VictoryPointItem vp : points)
         {
             result += vp.getVictoryPoints();
         }
@@ -59,7 +59,7 @@ public class VictoryPointsList implements Iterable<IVictoryPointItem>
     }
 
     @Override
-    public Iterator<IVictoryPointItem> iterator()
+    public Iterator<VictoryPointItem> iterator()
     {
         return points.iterator();
     }

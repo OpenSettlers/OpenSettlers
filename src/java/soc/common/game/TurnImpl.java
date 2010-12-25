@@ -3,7 +3,7 @@ package soc.common.game;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
 import soc.common.game.trading.TradeOfferList;
 
-public class Turn implements ITurn
+public class TurnImpl implements Turn
 {
     private Player player;
     private int id;
@@ -29,7 +29,7 @@ public class Turn implements ITurn
         return id;
     }
 
-    public ITurn setID(int id)
+    public Turn setID(int id)
     {
         this.id=id;
         return this;

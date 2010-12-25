@@ -2,7 +2,7 @@ package soc.common.board.routing;
 
 import soc.common.board.HexPoint;
 
-public interface IGraphPoint extends IGraphElement 
+public interface GraphPoint extends GraphElement 
 {
     public HexPoint getPoint();
     
@@ -10,5 +10,5 @@ public interface IGraphPoint extends IGraphElement
      * Returns true when a town is allowed to build on it
      */
     public boolean isTownBuildable();
-    public IGraphPoint setTownBuildable(boolean townBuildable);
+    public GraphPoint setTownBuildable(boolean townBuildable);
 }

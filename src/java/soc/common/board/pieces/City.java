@@ -3,12 +3,12 @@ package soc.common.board.pieces;
 import soc.common.board.Board;
 import soc.common.board.HexPoint;
 import soc.common.board.resources.*;
-import soc.common.board.routing.IGraphElement;
-import soc.common.board.routing.IGraphPoint;
-import soc.common.game.IVictoryPointItem;
+import soc.common.board.routing.GraphElement;
+import soc.common.board.routing.GraphPoint;
+import soc.common.game.VictoryPointItem;
 import soc.common.game.Player;
 
-public class City extends PlayerPiece implements IVictoryPointItem, IPointPiece
+public class City extends PlayerPiece implements VictoryPointItem, PointPiece
 {
     public static City CITY = new City();
     private HexPoint pointLocation;
@@ -66,7 +66,7 @@ public class City extends PlayerPiece implements IVictoryPointItem, IPointPiece
     }
 
     @Override
-    public IPointPiece setPoint(HexPoint point)
+    public PointPiece setPoint(HexPoint point)
     {
         pointLocation = point;
         

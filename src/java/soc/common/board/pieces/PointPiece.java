@@ -2,8 +2,8 @@ package soc.common.board.pieces;
 
 import soc.common.board.HexPoint;
 
-public interface IPointPiece
+public interface PointPiece
 {
     public HexPoint getPoint();
-    public IPointPiece setPoint(HexPoint point);
+    public PointPiece setPoint(HexPoint point);
 }

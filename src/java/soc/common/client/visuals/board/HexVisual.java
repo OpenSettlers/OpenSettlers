@@ -1,84 +1,88 @@
 package soc.common.client.visuals.board;
 
 import soc.common.board.hexes.ChitChangedEvent;
-import soc.common.board.hexes.AbstractHex;
+import soc.common.board.hexes.Hex;
 import soc.common.board.hexes.ResourceHex;
 import soc.common.board.hexes.SeaHex;
 import soc.common.board.hexes.TerritoryChangedEvent;
 import soc.common.board.ports.PortChangedEvent;
 import soc.common.client.visuals.PieceVisual;
 
-public abstract class HexVisual extends PieceVisual implements 
-    IHexVisual
+public abstract class HexVisual extends PieceVisual implements IHexVisual
 {
-    protected AbstractHex hex;
+    protected Hex hex;
 
-	protected IChitVisual chit;
-	protected ITerritoryVisual territory;
-	protected IPortVisual port;
-	protected IPortPossibilitiesVisual portPossibilities;
+    protected IChitVisual chit;
+    protected ITerritoryVisual territory;
+    protected IPortVisual port;
+    protected IPortPossibilitiesVisual portPossibilities;
 
     protected IBoardVisual parent;
-    
-    protected void updateHexVisual() {}
-    protected void updatePortPossibilitiesVisual() {}
 
-    protected void updatePortVisual() 
+    protected void updateHexVisual()
     {
-        port.setPort(
-                ((SeaHex)hex).getPort());
     }
-    
-    protected void updateChitVisual() 
+
+    protected void updatePortPossibilitiesVisual()
     {
-        chit.setChit(
-                ((ResourceHex)hex).getChit());
     }
-    protected void updateTerritoryVisual() 
+
+    protected void updatePortVisual()
+    {
+        port.setPort(((SeaHex) hex).getPort());
+    }
+
+    protected void updateChitVisual()
+    {
+        chit.setChit(((ResourceHex) hex).getChit());
+    }
+
+    protected void updateTerritoryVisual()
     {
         territory.setTerritory(hex.getTerritory());
     }
 
-    public HexVisual(AbstractHex h, IBoardVisual parent)
-	{
-		this.hex = h;
-		this.parent=parent;
-	}
-	
-	/**
-	 * @return the hex
-	 */
-	public AbstractHex getHex() 
-	{
-		return hex; 
-	}
+    public HexVisual(Hex h, IBoardVisual parent)
+    {
+        this.hex = h;
+        this.parent = parent;
+    }
 
-	/**
-	 * @param hex the hex to set
-	 */
-	public IHexVisual setHex(AbstractHex hex) 
-	{
-		this.hex = hex;
+    /**
+     * @return the hex
+     */
+    public Hex getHex()
+    {
+        return hex;
+    }
 
-		// First, update self
-		updateHexVisual();
-		
-		// Update hex specific visuals
-		if (hex instanceof ResourceHex)
+    /**
+     * @param hex
+     *            the hex to set
+     */
+    public IHexVisual setHex(Hex hex)
+    {
+        this.hex = hex;
+
+        // First, update self
+        updateHexVisual();
+
+        // Update hex specific visuals
+        if (hex instanceof ResourceHex)
         {
-            ResourceHex resourceHex =(ResourceHex)hex;
+            ResourceHex resourceHex = (ResourceHex) hex;
             resourceHex.addChitChangedEventHandler(this);
             chit.setVisible(true);
             updateChitVisual();
         }
-		else
-		{
+        else
+        {
             chit.setVisible(false);
-		}
+        }
 
         if (hex instanceof SeaHex)
         {
-            SeaHex seaHex = (SeaHex)hex;
+            SeaHex seaHex = (SeaHex) hex;
             seaHex.addPortChangedEventHandler(this);
             port.setVisible(true);
             updatePortVisual();
@@ -87,50 +91,52 @@ public abstract class HexVisual extends PieceVisual implements
         {
             port.setVisible(false);
         }
-        
+
         hex.addTerritoryChangedEventHandler(this);
         territory.setVisible(hex.getTerritory() != null);
         updateTerritoryVisual();
-        
+
         // Enables fluent interface usage
         // http://en.wikipedia.org/wiki/Fluent_interface
-        return this;		
-	}
-    
+        return this;
+    }
+
     @Override
     public IChitVisual getChitVisual()
     {
         return chit;
     }
-    
+
     @Override
     public IPortPossibilitiesVisual getPortPossibilitiesVisual()
     {
         return portPossibilities;
     }
-    
+
     @Override
     public ITerritoryVisual getTerritory()
     {
         return territory;
     }
-    
+
     @Override
     public IBoardVisual getParent()
     {
         return parent;
     }
-    
+
     @Override
     public void onChitChanged(ChitChangedEvent event)
     {
         updateChitVisual();
     }
+
     @Override
     public void onTerritoryChanged(TerritoryChangedEvent event)
     {
         updateTerritoryVisual();
-    }    
+    }
+
     @Override
     public void onPortChanged(PortChangedEvent event)
     {

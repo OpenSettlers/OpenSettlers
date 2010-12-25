@@ -5,7 +5,7 @@ import soc.common.board.Board;
 /*
  * Reports an error if the board does not have a name
  */
-public class NoNameDesignRule implements IDesignRule
+public class NoNameDesignRule implements DesignRule
 {
 
     @Override

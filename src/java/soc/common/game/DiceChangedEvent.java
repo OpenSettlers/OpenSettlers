@@ -1,15 +1,15 @@
 package soc.common.game;
 
-import soc.common.game.dices.IDice;
+import soc.common.game.dices.Dice;
 
 import com.google.gwt.event.shared.GwtEvent;
 
 public class DiceChangedEvent extends GwtEvent<DiceChangedEventHandler>
 {
     public static Type<DiceChangedEventHandler> TYPE = new Type<DiceChangedEventHandler>();
-    private IDice newDice;
+    private Dice newDice;
     
-    public DiceChangedEvent(IDice newDice)
+    public DiceChangedEvent(Dice newDice)
     {
         super();
         this.newDice = newDice;
@@ -18,7 +18,7 @@ public class DiceChangedEvent extends GwtEvent<DiceChangedEventHandler>
     /**
      * @return the newDice
      */
-    public IDice getNewDice()
+    public Dice getNewDice()
     {
         return newDice;
     }

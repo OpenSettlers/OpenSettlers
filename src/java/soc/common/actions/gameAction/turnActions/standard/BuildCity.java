@@ -3,7 +3,7 @@ package soc.common.actions.gameAction.turnActions.standard;
 import soc.common.actions.gameAction.turnActions.AbstractTurnAction;
 import soc.common.board.HexLocation;
 import soc.common.board.HexPoint;
-import soc.common.board.hexes.AbstractHex;
+import soc.common.board.hexes.Hex;
 import soc.common.board.hexes.ResourceHex;
 import soc.common.board.pieces.City;
 import soc.common.board.pieces.PlayerPiece;
@@ -21,7 +21,7 @@ public class BuildCity extends AbstractTurnAction
 {
     private static final long serialVersionUID = -2767352130887235545L;
     private HexPoint pointLocation;
-    
+
     /**
      * @return the location
      */
@@ -31,22 +31,26 @@ public class BuildCity extends AbstractTurnAction
     }
 
     /**
-     * @param location the location to set
+     * @param location
+     *            the location to set
      */
     public BuildCity setLocation(HexPoint pointLocation)
     {
         this.pointLocation = pointLocation;
-    
+
         return this;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.actions.gameAction.GameAction#isValid()
      */
     @Override
     public boolean isValid(Game game)
     {
-        if (!super.isValid(game)) return false;
+        if (!super.isValid(game))
+            return false;
 
         // we need at least an instance of the new place
         if (pointLocation == null)
@@ -63,7 +67,7 @@ public class BuildCity extends AbstractTurnAction
             invalidMessage = "No town found to replace with a city";
             return false;
         }
-        
+
         if (!City.CITY.canBuild(game.getBoard(), player))
         {
             invalidMessage = "Player cannot build the city";
@@ -79,15 +83,18 @@ public class BuildCity extends AbstractTurnAction
         return true;
     }
 
-    /* (non-Javadoc)
-     * @see soc.common.actions.gameAction.GameAction#perform(soc.common.game.Game)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.common.actions.gameAction.GameAction#perform(soc.common.game.Game)
      */
     @Override
     public void perform(Game game)
     {
         Player player = game.getPlayerByID(sender);
-        
-        // Get first city from stock 
+
+        // Get first city from stock
         City city = (City) player.getStock().ofType(City.CITY).get(0);
         city.setPoint(pointLocation);
 
@@ -95,37 +102,40 @@ public class BuildCity extends AbstractTurnAction
         {
             // Get first town from stock
             PlayerPiece town = player.getBuildPieces().ofType(Town.TOWN).get(0);
-            
+
             // Pay for the city
             player.getResources().moveTo(city.getCost(), game.getBank());
-            
+
             // Move town to stock
-            PlayerPieceList.move(town, player.getBuildPieces(), player.getStock());
-            
+            PlayerPieceList.move(town, player.getBuildPieces(), player
+                    .getStock());
+
             // Put City on board
-            PlayerPieceList.move(city, player.getStock(), player.getBuildPieces());
+            PlayerPieceList.move(city, player.getStock(), player
+                    .getBuildPieces());
         }
         if (game.getCurrentPhase() instanceof InitialPlacementGamePhase)
         {
-            PlayerPieceList.move(city, player.getStock(), player.getBuildPieces());
+            PlayerPieceList.move(city, player.getStock(), player
+                    .getBuildPieces());
 
             ResourceList resourcesFromCity = new ResourceList();
-            
-            // Add resources to player 
+
+            // Add resources to player
             for (HexLocation hexLocation : pointLocation.getHexLocations())
             {
-                AbstractHex hex = game.getBoard().getHexes().get(hexLocation);
+                Hex hex = game.getBoard().getHexes().get(hexLocation);
                 if (hex instanceof ResourceHex)
                 {
-                    resourcesFromCity.add(((ResourceHex)hex).getResource());
+                    resourcesFromCity.add(((ResourceHex) hex).getResource());
                 }
             }
             player.getResources().add(resourcesFromCity);
         }
 
         // TODO: fix message
-        //message = String.Format("{0} build a city at {1}",
-        //    gamePlayer.XmlPlayer.Name, Location.ToString(xmlGame.Board));
+        // message = String.Format("{0} build a city at {1}",
+        // gamePlayer.XmlPlayer.Name, Location.ToString(xmlGame.Board));
         super.perform(game);
     }
 

@@ -77,19 +77,19 @@ public class SvgChitVisual extends ChitVisual implements MouseMoveHandler, Mouse
     @Override
     public void onMouseMove(MouseMoveEvent event)
     {
-        parent.getInteractionBehaviour().mouseEnter(this, parent);
+        parent.getCurrentBehaviour().mouseEnter(this, parent);
     }
 
     @Override
     public void onMouseOut(MouseOutEvent event)
     {
-        parent.getInteractionBehaviour().mouseOut(this, parent);
+        parent.getCurrentBehaviour().mouseOut(this, parent);
     }
 
     @Override
     public void onClick(ClickEvent event)
     {
-        parent.getInteractionBehaviour().clicked(this, parent);
+        parent.getCurrentBehaviour().clicked(this, parent);
     }
     
 }
