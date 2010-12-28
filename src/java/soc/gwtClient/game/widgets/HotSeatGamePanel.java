@@ -17,7 +17,7 @@ import soc.gwtClient.game.abstractWidgets.IGameHistoryWidget;
 import soc.gwtClient.game.abstractWidgets.IGamePanel;
 import soc.gwtClient.game.abstractWidgets.IHandCardsWidget;
 import soc.gwtClient.game.abstractWidgets.IPlayersWidget;
-import soc.gwtClient.game.abstractWidgets.IStatusDicePanel;
+import soc.gwtClient.game.abstractWidgets.IStatusPanel;
 import soc.gwtClient.game.widgets.bitmap.BitmapHistoryWidget;
 import soc.gwtClient.game.widgets.bitmap.BoardLayoutPanel;
 import soc.gwtClient.game.widgets.standard.bitmap.HandCardsBitmapWidget;
@@ -116,7 +116,7 @@ public class HotSeatGamePanel extends AbstractGamePanel implements
     }
 
     @Override
-    public IStatusDicePanel createStatusDicePanel(IGamePanel gamePanel)
+    public IStatusPanel createStatusDicePanel(IGamePanel gamePanel)
     {
         return new StatusDiceBitmapPanel(gamePanel);
     }

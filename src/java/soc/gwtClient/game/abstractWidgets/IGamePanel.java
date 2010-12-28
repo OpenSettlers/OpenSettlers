@@ -25,7 +25,7 @@ public interface IGamePanel
     public IBankStockPanel createBankStockPanel();
     public IGameBoardVisual createGameBoard(int width, int height, Board board);
     public IHandCardsWidget createHandCardsWidget(Player player);
-    public IStatusDicePanel createStatusDicePanel(IGamePanel gamePanel);
+    public IStatusPanel createStatusDicePanel(IGamePanel gamePanel);
     public IGameHistoryWidget createHistoryWidget(IGamePanel gamePanel);
     
     // Returns the player currrently playing.

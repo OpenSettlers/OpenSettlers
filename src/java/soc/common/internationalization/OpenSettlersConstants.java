@@ -45,4 +45,22 @@ public interface OpenSettlersConstants extends Constants
 
     @DefaultStringValue("Sheep")
     String sheep();
+
+    @DefaultStringValue("Soldier")
+    String soldier();
+
+    @DefaultStringValue("Year of plenty")
+    String yearOfPlenty();
+
+    @DefaultStringValue("Monopoly")
+    String monopoly();
+
+    @DefaultStringValue("Road building")
+    String roadBuilding();
+
+    @DefaultStringValue("Victory point")
+    String victoryPoint();
+
+    @DefaultStringValue("Play")
+    String play();
 }

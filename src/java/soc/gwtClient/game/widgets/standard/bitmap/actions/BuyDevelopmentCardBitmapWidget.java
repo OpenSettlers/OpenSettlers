@@ -11,13 +11,20 @@ import soc.gwtClient.game.abstractWidgets.AbstractActionWidget;
 import soc.gwtClient.game.abstractWidgets.IGamePanel;
 import soc.gwtClient.images.Resources;
 
+import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PushButton;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class BuyDevelopmentCardBitmapWidget extends AbstractActionWidget
         implements ResourcesChangedEventHandler, TurnChangedEventHandler
 {
+    AbsolutePanel rootPanel = new AbsolutePanel();
+    VerticalPanel tradePanel = new VerticalPanel();
+    Image trade1 = new Image(Resources.icons().trade());
+    Image trade2 = new Image(Resources.icons().trade());
+    Image trade3 = new Image(Resources.icons().trade());
     PushButton btnbuyDvelopmentcard = new PushButton(new Image(Resources
             .icons().buyDvelopmentCard()));
     BuyDevelopmentCard buyDevelopmentCard = new BuyDevelopmentCard();
@@ -28,6 +35,10 @@ public class BuyDevelopmentCardBitmapWidget extends AbstractActionWidget
 
         player.getResources().addResourcesChangedEventHandler(this);
         player.addOnTurnChangedEventHandler(this);
+
+        tradePanel.add(trade1);
+        tradePanel.add(trade2);
+        tradePanel.add(trade3);
     }
 
     @Override
@@ -39,7 +50,7 @@ public class BuyDevelopmentCardBitmapWidget extends AbstractActionWidget
     @Override
     public Widget asWidget()
     {
-        return btnbuyDvelopmentcard;
+        return rootPanel;
     }
 
     @Override
@@ -54,8 +65,12 @@ public class BuyDevelopmentCardBitmapWidget extends AbstractActionWidget
         checkEnabled();
     }
 
+    /*
+     * Update state of the panel
+     */
     private void checkEnabled()
     {
+        // TODO: make logic accurate for diamonds & trades
         if (player.isOnTurn())
         {
             if (DevelopmentCard.canPay(player))

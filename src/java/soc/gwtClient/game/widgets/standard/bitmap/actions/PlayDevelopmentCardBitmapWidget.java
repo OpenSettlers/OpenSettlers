@@ -7,50 +7,93 @@ import soc.common.game.developmentCards.DevelopmentCardsChangedEventHandler;
 import soc.gwtClient.game.abstractWidgets.IActionWidget;
 import soc.gwtClient.game.abstractWidgets.IGamePanel;
 import soc.gwtClient.game.abstractWidgets.IPlayDevelopmentCardWidget;
+import soc.gwtClient.game.abstractWidgets.factories.DevelopmentCardWidgetFactory;
+import soc.gwtClient.game.widgets.standard.bitmap.developmentCards.DevelopmentCardBitmapWidgetFactory;
+import soc.gwtClient.images.Resources;
 
-import com.google.gwt.user.client.ui.MenuBar;
-import com.google.gwt.user.client.ui.MenuItem;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.PushButton;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class PlayDevelopmentCardBitmapWidget implements
-        IPlayDevelopmentCardWidget, DevelopmentCardsChangedEventHandler, IActionWidget
+        IPlayDevelopmentCardWidget, DevelopmentCardsChangedEventHandler,
+        IActionWidget
 {
-    protected MenuBar menuBar = new MenuBar();
-    protected MenuItem rootMenuItem;
-    protected MenuBar secondMenu = new MenuBar(true);
+    protected AbsolutePanel rootPanel = new AbsolutePanel();
+    protected PopupPanel menuBar = new PopupPanel();
+    protected VerticalPanel verticalPanel = new VerticalPanel();
     protected Player player;
     protected IGamePanel gamePanel;
-    
+    protected PushButton btnPlayDevelopmentCard = new PushButton(new Image(
+            Resources.icons().developmentCardBack()));
+    protected Label lblAmountDvelopmentCards = new Label();
+    protected boolean isMenubarShown = false;
+    protected DevelopmentCardWidgetFactory devCardWidgetFactory = new DevelopmentCardBitmapWidgetFactory();
+
     public PlayDevelopmentCardBitmapWidget(Player player, IGamePanel gamePanel)
     {
-        this.player=player;
-        this.gamePanel=gamePanel;
-        rootMenuItem = new MenuItem("menu", false, secondMenu);
-        rootMenuItem.setHTML("<img src=\"iconz/48/BlankCard48.png\" />");
-        menuBar.addItem(rootMenuItem);
-        
+        this.player = player;
+        this.gamePanel = gamePanel;
+
+        rootPanel.add(btnPlayDevelopmentCard);
+        rootPanel.add(lblAmountDvelopmentCards);
+
+        menuBar.add(verticalPanel);
+
         for (DevelopmentCard devCard : player.getDevelopmentCards())
         {
-            secondMenu.addItem(new DevelopmentCardBitmapMenuItem(devCard, gamePanel));
+            verticalPanel.add(devCardWidgetFactory.createWidget(devCard,
+                    gamePanel));
         }
-        player.getDevelopmentCards().addDevelopmentCardsChangedEventHandler(this);
-        menuBar.addItem(rootMenuItem);
+        player.getDevelopmentCards().addDevelopmentCardsChangedEventHandler(
+                this);
+
+        btnPlayDevelopmentCard.addClickHandler(new ClickHandler()
+        {
+            @Override
+            public void onClick(ClickEvent event)
+            {
+                if (isMenubarShown)
+                {
+                    menuBar.hide();
+                }
+                else
+                {
+                    menuBar.setPopupPosition(btnPlayDevelopmentCard
+                            .getOffsetWidth(), btnPlayDevelopmentCard
+                            .getOffsetHeight()
+                            - menuBar.getAbsoluteTop());
+                    menuBar.show();
+                }
+                isMenubarShown = !isMenubarShown;
+            }
+        });
     }
 
     @Override
     public Widget asWidget()
     {
-        return menuBar;
+        return rootPanel;
     }
 
     @Override
     public void onDevelopmentCardsChanged(DevelopmentCardsChangedEvent event)
     {
-        if (event.getAddedCard() !=null)
+        // Update label showing amount of cards player currently has
+        lblAmountDvelopmentCards.setText(Integer.toString(player
+                .getDevelopmentCardsCount()));
+        if (event.getAddedCard() != null)
         {
-            secondMenu.addItem(new DevelopmentCardBitmapMenuItem(event.getAddedCard(), gamePanel));
+            verticalPanel.add(devCardWidgetFactory.createWidget(event
+                    .getAddedCard(), gamePanel));
         }
-        //TODO:implement remove
+        // TODO:implement remove
     }
 
     @Override
@@ -62,7 +105,6 @@ public class PlayDevelopmentCardBitmapWidget implements
     @Override
     public IActionWidget setEnabled(boolean enabled)
     {
-        // TODO Auto-generated method stub
         return null;
     }
 

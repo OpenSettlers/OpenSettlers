@@ -33,7 +33,7 @@ public abstract class AbstractGamePanel
     protected IGameBoardVisual gameBoard;
     protected Player player;
     protected IHandCardsWidget handCards;
-    protected IStatusDicePanel statusDicePanel;
+    protected IStatusPanel statusDicePanel;
     protected TradePlayersDialog tradePlayers;
     protected IGameHistoryWidget historyWidget;
     

@@ -1,6 +1,5 @@
 package soc.gwtClient.game.abstractWidgets;
 
-import soc.common.actions.gameAction.turnActions.AbstractTurnAction;
 import soc.common.actions.gameAction.turnActions.TurnAction;
 import soc.common.game.Player;
 import soc.gwtClient.game.abstractWidgets.factories.IActionWidgetFactory;
@@ -15,33 +14,42 @@ public abstract class AbstractActionsWidget implements IActionsWidget
     protected ComplexPanel rootPanel;
     protected Player player;
     protected IGamePanel gamePanel;
-    
+
     public AbstractActionsWidget(IGamePanel gamePanel, Player player)
     {
-        this.player=player;
-        this.gamePanel=gamePanel;
-        
+        this.player = player;
+        this.gamePanel = gamePanel;
+
         rootPanel = createRootPanel();
-        
+
         IActionWidgetFactory widgetFactory = getActionWidgetFactory();
-        
-        for (TurnAction turnAction : gamePanel.getGame().getGameRules().getPossibleActions())
+
+        for (TurnAction turnAction : gamePanel.getGame().getGameRules()
+                .getPossibleActions())
         {
-            IActionWidget w = widgetFactory.createActionWidget(turnAction, player, gamePanel);
-            if (w !=null) rootPanel.add(w);
+            IActionWidget w = widgetFactory.createActionWidget(turnAction,
+                    player, gamePanel);
+            if (w != null)
+                rootPanel.add(w);
         }
-        ((HorizontalPanel)rootPanel).setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+        // TODO: remove nasty cast
+        ((HorizontalPanel) rootPanel)
+                .setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.gwtClient.client.game.IActionsWidget#createRootPanel()
      */
     @Override
     public ComplexPanel createRootPanel()
     {
-        return new HorizontalPanel();
+        HorizontalPanel rootPanel = new HorizontalPanel();
+        rootPanel.setSpacing(5);
+        return rootPanel;
     }
-    
+
     @Override
     public Widget asWidget()
     {
