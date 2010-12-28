@@ -1,32 +1,34 @@
 package soc.gwtClient.game.widgets.standard.bitmap.player;
 
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
-
 import soc.common.board.pieces.PiecesChangedEvent;
 import soc.common.board.pieces.PiecesChangedEventHandler;
 import soc.common.board.pieces.PlayerPiece;
 import soc.common.board.pieces.Road;
 import soc.common.game.Player;
 import soc.gwtClient.game.abstractWidgets.AbstractStockItemWidget;
-import soc.gwtClient.game.widgets.bitmap.ImageLibrary;
+import soc.gwtClient.images.Resources;
 
-public class StockRoadBitmapWidget extends AbstractStockItemWidget implements PiecesChangedEventHandler
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
+
+public class StockRoadBitmapWidget extends AbstractStockItemWidget implements
+        PiecesChangedEventHandler
 {
     private Road road = new Road();
-    private Image roadImage = new Image(ImageLibrary.getIcon(road, 48));
+    private Image roadImage = new Image(Resources.icons().roadSmall());
     private Label roadAmount = new Label();
-    
+
     public StockRoadBitmapWidget(Player player)
     {
         super(player);
-        
-        roadImage.setSize("24px", "24px");
-        roadAmount.setText(Integer.toString(player.getStock().ofType(Road.ROAD).size()));
-        
+
+        roadImage.setSize("16px", "16px");
+        roadAmount.setText(Integer.toString(player.getStock().ofType(Road.ROAD)
+                .size()));
+
         rootPanel.add(roadImage);
         rootPanel.add(roadAmount);
-        
+
         player.getStock().addPiecesChangedEventHandler(this);
     }
 
@@ -41,7 +43,8 @@ public class StockRoadBitmapWidget extends AbstractStockItemWidget implements Pi
     {
         if (event.getChangedPiece() instanceof Road)
         {
-            roadAmount.setText(Integer.toString(player.getStock().ofType(Road.ROAD).size()));
+            roadAmount.setText(Integer.toString(player.getStock().ofType(
+                    Road.ROAD).size()));
         }
     }
 }

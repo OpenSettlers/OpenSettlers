@@ -5,13 +5,14 @@ import soc.common.board.territories.TerritoriesChangedEventHandler;
 import soc.common.board.territories.Territory;
 import soc.common.client.behaviour.editor.SetTerritoryBehaviour;
 import soc.common.client.visuals.board.IBoardVisual;
+import soc.gwtClient.images.Resources;
 
-import com.google.gwt.dev.util.collect.HashMap;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HTML;
@@ -22,98 +23,136 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 @SuppressWarnings("deprecation")
-public class TerritoryPanel extends VerticalPanel implements TerritoriesChangedEventHandler
+public class TerritoryPanel extends VerticalPanel implements
+        TerritoriesChangedEventHandler
 {
     SetTerritoryBehaviour behaviour;
     IBoardVisual board;
     final DialogBox dialogBox = new DialogBox();
-    
+
     private HandlerManager handlerManager = new HandlerManager(this);
 
     @Override
-    public void fireEvent(GwtEvent<?> event) {
+    public void fireEvent(GwtEvent<?> event)
+    {
         handlerManager.fireEvent(event);
     }
 
     public HandlerRegistration addBehaviourChangedEventHandler(
-            IBehaviourChangedHandler handler) {
+            IBehaviourChangedHandler handler)
+    {
         return handlerManager.addHandler(BehaviourChanged.TYPE, handler);
     }
-    
+
     public TerritoryPanel(SetTerritoryBehaviour b, final IBoardVisual board)
     {
         super();
-        
-        behaviour=b;
-        this.board=board;
-        
+
+        behaviour = b;
+        this.board = board;
+
         createAddTerritoryWindow();
         createPanel();
     }
-    
+
     private void createPanel()
     {
-        PushButton btnShowTerritories = new PushButton(new Image("icons/32/ShowTerritories32.png"));
-        btnShowTerritories.addClickHandler(new ClickHandler() {
+        PushButton btnShowTerritories = new PushButton(new Image(Resources
+                .icons().showTerritories()));
+        btnShowTerritories.addClickHandler(new ClickHandler()
+        {
             @Override
-            public void onClick(ClickEvent event) {
+            public void onClick(ClickEvent event)
+            {
                 // Show all territory visuals on TerritoryHexes
                 board.showTerritories();
             }
         });
         this.add(btnShowTerritories);
-        
-        PushButton btnHideTerritories = new PushButton(new Image("icons/32/HideTerritories32.png"));
-        btnHideTerritories.addClickHandler(new ClickHandler() {
+
+        PushButton btnHideTerritories = new PushButton(new Image(Resources
+                .icons().hideTerritories()));
+        btnHideTerritories.addClickHandler(new ClickHandler()
+        {
             @Override
-            public void onClick(ClickEvent event) {
+            public void onClick(ClickEvent event)
+            {
                 // Show all territory visuals on TerritoryHexes
                 board.hideTerritories();
             }
         });
-        this.add(btnHideTerritories);   
-        
-        PushButton btnAddTerritory = new PushButton(new Image("icons/32/AddTerritory32.png"));
-        btnAddTerritory.addClickHandler(new ClickHandler() {
+        this.add(btnHideTerritories);
+
+        PushButton btnAddTerritory = new PushButton(new Image(Resources.icons()
+                .addTerritory()));
+        btnAddTerritory.addClickHandler(new ClickHandler()
+        {
             @Override
-            public void onClick(ClickEvent event) {
+            public void onClick(ClickEvent event)
+            {
                 dialogBox.show();
             }
         });
-        this.add(btnAddTerritory);   
-        
-        PushButton btnRemoveTerritory = new PushButton(new Image("icons/32/RemoveTerritory32.png"));
-        btnRemoveTerritory.addClickHandler(new ClickHandler() {
+        this.add(btnAddTerritory);
+
+        PushButton btnRemoveTerritory = new PushButton(new Image(Resources
+                .icons().removeTerritory()));
+        btnRemoveTerritory.addClickHandler(new ClickHandler()
+        {
             @Override
-            public void onClick(ClickEvent event) {
+            public void onClick(ClickEvent event)
+            {
                 // Show all territory visuals on TerritoryHexes
                 board.hideTerritories();
             }
         });
         this.add(btnRemoveTerritory);
-        
+
         for (final Territory t : board.getBoard().getTerritories())
         {
             addTerritoryButton(t);
         }
     }
+
     private void addTerritoryButton(final Territory territory)
     {
-        String icon = ""; 
-        
+        ImageResource img = null;
+
         if (territory.isMainland())
         {
-            icon="icons/32/mainland.png";
+            img = Resources.icons().mainland();
         }
         else
         {
-            icon="icons/32/island" + territory.getID() + ".png";
+            switch (territory.getID())
+            {
+            case 1:
+                img = Resources.icons().island1();
+                break;
+            case 2:
+                img = Resources.icons().island2();
+                break;
+            case 3:
+                img = Resources.icons().island3();
+                break;
+            case 4:
+                img = Resources.icons().island4();
+                break;
+            case 5:
+                img = Resources.icons().island5();
+                break;
+            case 6:
+                img = Resources.icons().island6();
+                break;
+            }
         }
-        
-        PushButton btnTerritory = new PushButton(new Image(icon));
-        btnTerritory.addClickHandler(new ClickHandler() {
+
+        PushButton btnTerritory = new PushButton(new Image(img));
+        btnTerritory.addClickHandler(new ClickHandler()
+        {
             @Override
-            public void onClick(ClickEvent event) {
+            public void onClick(ClickEvent event)
+            {
                 behaviour.setTerritory(territory);
                 fireEvent(new BehaviourChanged(behaviour));
             }
@@ -145,21 +184,22 @@ public class TerritoryPanel extends VerticalPanel implements TerritoriesChangedE
         dialogBox.setWidget(dialogVPanel);
 
         // Add a handler to close the DialogBox
-        closeButton.addClickHandler(new ClickHandler() {
-            public void onClick(ClickEvent event) {
+        closeButton.addClickHandler(new ClickHandler()
+        {
+            public void onClick(ClickEvent event)
+            {
                 dialogBox.hide();
             }
-        });        
-        
-        closeButton.addClickHandler(new ClickHandler() {
-            public void onClick(ClickEvent event) {
+        });
+
+        closeButton.addClickHandler(new ClickHandler()
+        {
+            public void onClick(ClickEvent event)
+            {
                 /*
-                board.getBoard().getTerritories().add(
-                        new Territory()
-                            .setName(txtName.getText())
-                            .setID
-                dialogBox.hide();
-                */
+                 * board.getBoard().getTerritories().add( new Territory()
+                 * .setName(txtName.getText()) .setID dialogBox.hide();
+                 */
             }
         });
     }
@@ -171,7 +211,7 @@ public class TerritoryPanel extends VerticalPanel implements TerritoriesChangedE
         {
             this.addTerritoryButton(event.getAddedTerritory());
         }
-        if (event.getRemovedTerritory() !=null)
+        if (event.getRemovedTerritory() != null)
         {
             this.removeTerritoryButton(event.getRemovedTerritory());
         }
@@ -180,6 +220,6 @@ public class TerritoryPanel extends VerticalPanel implements TerritoriesChangedE
     private void removeTerritoryButton(Territory removedTerritory)
     {
         // TODO Auto-generated method stub
-        
+
     }
 }

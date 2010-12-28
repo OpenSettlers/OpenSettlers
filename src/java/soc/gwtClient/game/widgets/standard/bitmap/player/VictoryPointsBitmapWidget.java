@@ -1,25 +1,26 @@
 package soc.gwtClient.game.widgets.standard.bitmap.player;
 
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
-
 import soc.common.game.Player;
 import soc.common.game.VictoryPointsChangedEvent;
 import soc.gwtClient.game.abstractWidgets.AbstractVictoryPointsWidget;
+import soc.gwtClient.images.Resources;
+
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
 
 public class VictoryPointsBitmapWidget extends AbstractVictoryPointsWidget
 {
-    Image victoryPointsImage = new Image("iconz/48/Cup48.png");
+    Image victoryPointsImage = new Image(Resources.icons().victoryPointsSmall());
     Label lblVictoryPointsAmount = new Label();
-    
+
     public VictoryPointsBitmapWidget(Player player)
     {
         super(player);
-        
-        victoryPointsImage.setSize("24px", "24px");
-        lblVictoryPointsAmount.setText(
-                Integer.toString(player.getVictoryPoints().getTotalPoints()));
-        
+
+        victoryPointsImage.setSize("16px", "16px");
+        lblVictoryPointsAmount.setText(Integer.toString(player
+                .getVictoryPoints().getTotalPoints()));
+
         rootPanel.add(victoryPointsImage);
         rootPanel.add(lblVictoryPointsAmount);
     }
@@ -27,8 +28,8 @@ public class VictoryPointsBitmapWidget extends AbstractVictoryPointsWidget
     @Override
     public void onVictoryPointsChanged(VictoryPointsChangedEvent event)
     {
-        lblVictoryPointsAmount.setText(
-                Integer.toString(player.getVictoryPoints().getTotalPoints()));        
+        lblVictoryPointsAmount.setText(Integer.toString(player
+                .getVictoryPoints().getTotalPoints()));
     }
 
 }

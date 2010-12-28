@@ -12,7 +12,6 @@ import soc.common.game.GamePhaseChangedEventHandler;
 import soc.common.game.Player;
 import soc.gwtClient.game.abstractWidgets.AbstractActionWidget;
 import soc.gwtClient.game.abstractWidgets.IGamePanel;
-import soc.gwtClient.game.widgets.bitmap.ImageLibrary;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.user.client.ui.AbsolutePanel;
@@ -31,10 +30,10 @@ public class BuildTownBitmapWidget extends AbstractActionWidget implements
     private PushButton btnBuildTown = new PushButton(new Image(Resources
             .icons().town()));
     private Town town = new Town();
-    private Image trade1 = new Image(ImageLibrary.getTradeIcon(16));
-    private Image trade2 = new Image(ImageLibrary.getTradeIcon(16));
-    private Image trade3 = new Image(ImageLibrary.getTradeIcon(16));
-    private Image trade4 = new Image(ImageLibrary.getTradeIcon(16));
+    private Image trade1 = new Image(Resources.icons().trade());
+    private Image trade2 = new Image(Resources.icons().trade());
+    private Image trade3 = new Image(Resources.icons().trade());
+    private Image trade4 = new Image(Resources.icons().trade());
     private BuildTown buildTown = new BuildTown();
 
     public BuildTownBitmapWidget(IGamePanel gamePanel, Player player)

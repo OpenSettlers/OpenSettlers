@@ -3,31 +3,32 @@ package soc.gwtClient.game.dialogs;
 import soc.common.actions.gameAction.turnActions.standard.PlayDevelopmentCard;
 import soc.common.game.developmentCards.standard.RoadBuilding;
 import soc.gwtClient.game.abstractWidgets.IGamePanel;
-import soc.gwtClient.game.widgets.bitmap.ImageLibrary;
+import soc.gwtClient.images.Resources;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class PlayRoadBuildingDialog extends DialogBox
 {
     private RoadBuilding roadBuilding;
     private IGamePanel gamePanel;
     private PlayDevelopmentCard playDevelopmentCard = new PlayDevelopmentCard();
-    
-    public PlayRoadBuildingDialog(RoadBuilding roadBuilding, IGamePanel gamePanel)
+
+    public PlayRoadBuildingDialog(RoadBuilding roadBuilding,
+            IGamePanel gamePanel)
     {
         this();
         this.roadBuilding = roadBuilding;
-        this.gamePanel=gamePanel;
-        
+        this.gamePanel = gamePanel;
+
         playDevelopmentCard.setPlayer(gamePanel.getPlayingPlayer());
         playDevelopmentCard.setDevelopmentcard(roadBuilding);
     }
@@ -39,46 +40,52 @@ public class PlayRoadBuildingDialog extends DialogBox
     {
         setText("Play Road building development card");
         setHTML("New dialog");
-        
+
         VerticalPanel verticalPanel = new VerticalPanel();
         setWidget(verticalPanel);
         verticalPanel.setSize("100%", "100%");
-        
+
         HorizontalPanel horizontalPanel = new HorizontalPanel();
         horizontalPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-        horizontalPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+        horizontalPanel
+                .setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
         verticalPanel.add(horizontalPanel);
-        
-        Image image = new Image(ImageLibrary.getIcon(roadBuilding, 48));
+
+        Image image = new Image(Resources.icons().roadBuilding());
         horizontalPanel.add(image);
-        
+
         Label lblRoadBuilding = new Label("Road building");
         horizontalPanel.add(lblRoadBuilding);
-        
+
         HorizontalPanel horizontalPanel_2 = new HorizontalPanel();
         horizontalPanel_2.setSpacing(10);
         verticalPanel.add(horizontalPanel_2);
-        
-        Label lblBuildTwoRoads = new Label("Build two roads for free when playing this development card");
+
+        Label lblBuildTwoRoads = new Label(
+                "Build two roads for free when playing this development card");
         horizontalPanel_2.add(lblBuildTwoRoads);
         lblBuildTwoRoads.setWidth("206px");
-        
+
         HorizontalPanel horizontalPanel_1 = new HorizontalPanel();
         horizontalPanel_1.setSpacing(10);
         verticalPanel.add(horizontalPanel_1);
-        
+
         Button btnCancel = new Button("New button");
-        btnCancel.addClickHandler(new ClickHandler() {
-            public void onClick(ClickEvent arg0) {
+        btnCancel.addClickHandler(new ClickHandler()
+        {
+            public void onClick(ClickEvent arg0)
+            {
                 hide();
             }
         });
         btnCancel.setText("Cancel");
         horizontalPanel_1.add(btnCancel);
-        
+
         Button btnPlayRoadBuilding = new Button("New button");
-        btnPlayRoadBuilding.addClickHandler(new ClickHandler() {
-            public void onClick(ClickEvent arg0) {
+        btnPlayRoadBuilding.addClickHandler(new ClickHandler()
+        {
+            public void onClick(ClickEvent arg0)
+            {
                 gamePanel.startAction(playDevelopmentCard);
                 hide();
             }

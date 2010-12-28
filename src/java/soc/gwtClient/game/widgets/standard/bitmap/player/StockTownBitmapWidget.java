@@ -1,31 +1,34 @@
 package soc.gwtClient.game.widgets.standard.bitmap.player;
 
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
-
 import soc.common.board.pieces.PiecesChangedEvent;
 import soc.common.board.pieces.PiecesChangedEventHandler;
 import soc.common.board.pieces.PlayerPiece;
 import soc.common.board.pieces.Town;
 import soc.common.game.Player;
 import soc.gwtClient.game.abstractWidgets.AbstractStockItemWidget;
+import soc.gwtClient.images.Resources;
 
-public class StockTownBitmapWidget extends AbstractStockItemWidget implements PiecesChangedEventHandler
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
+
+public class StockTownBitmapWidget extends AbstractStockItemWidget implements
+        PiecesChangedEventHandler
 {
-    private Image townImage = new Image("iconz/48/Town48.png");
+    private Image townImage = new Image(Resources.icons().townSmall());
     private Label townAmount = new Label();
     private Town town = new Town();
-    
+
     public StockTownBitmapWidget(Player player)
     {
         super(player);
-        
-        townImage.setSize("24px", "24px");
-        townAmount.setText(Integer.toString(player.getStock().ofType(Town.TOWN).size()));
-        
+
+        townImage.setSize("16px", "16px");
+        townAmount.setText(Integer.toString(player.getStock().ofType(Town.TOWN)
+                .size()));
+
         rootPanel.add(townImage);
         rootPanel.add(townAmount);
-        
+
         player.getStock().addPiecesChangedEventHandler(this);
     }
 
@@ -40,7 +43,8 @@ public class StockTownBitmapWidget extends AbstractStockItemWidget implements Pi
     {
         if (event.getChangedPiece() instanceof Town)
         {
-            townAmount.setText(Integer.toString(player.getStock().ofType(Town.TOWN).size()));
+            townAmount.setText(Integer.toString(player.getStock().ofType(
+                    Town.TOWN).size()));
         }
     }
 

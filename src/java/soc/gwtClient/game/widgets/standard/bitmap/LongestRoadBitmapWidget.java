@@ -17,7 +17,7 @@ public class LongestRoadBitmapWidget extends AbstractLongestRoadWidget
     {
         super(player);
 
-        longestRoadImage.setSize("24px", "24px");
+        longestRoadImage.setSize("16px", "16px");
 
         // TODO: add player.getLongestRoad()
         lblLongestRoadLength.setText("0");

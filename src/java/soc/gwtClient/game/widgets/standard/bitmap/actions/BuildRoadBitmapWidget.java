@@ -15,7 +15,6 @@ import soc.common.game.RoadTokensChangedEvent;
 import soc.common.game.RoadTokensChangedEventHandler;
 import soc.gwtClient.game.abstractWidgets.AbstractActionWidget;
 import soc.gwtClient.game.abstractWidgets.IGamePanel;
-import soc.gwtClient.game.widgets.bitmap.ImageLibrary;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -36,10 +35,10 @@ public class BuildRoadBitmapWidget extends AbstractActionWidget implements
     Road road = new Road();
     PushButton btnBuildRoad = new PushButton(
             new Image(Resources.icons().road()));
-    Image trade1 = new Image(ImageLibrary.getTradeIcon(16));
-    Image trade2 = new Image(ImageLibrary.getTradeIcon(16));
-    Image roadToken1 = new Image(ImageLibrary.getRoadTokenIcon(16));
-    Image roadToken2 = new Image(ImageLibrary.getRoadTokenIcon(16));
+    Image trade1 = new Image(Resources.icons().trade());
+    Image trade2 = new Image(Resources.icons().trade());
+    Image roadToken1 = new Image(Resources.icons().roadToken());
+    Image roadToken2 = new Image(Resources.icons().roadToken());
     BuildRoad buildRoad;
 
     public BuildRoadBitmapWidget(final IGamePanel gamePanel, final Player player)
@@ -115,7 +114,7 @@ public class BuildRoadBitmapWidget extends AbstractActionWidget implements
             Game game = gamePanel.getGame();
 
             if (game.getCurrentPhase().isAllowed(buildRoad) && // current phase
-                                                               // must be OK
+                    // must be OK
                     road.canBuild(game.getBoard(), player) && // we need space
                     road.canPay(player)) // we need resources
             {

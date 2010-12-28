@@ -9,10 +9,16 @@ public interface Icons extends ClientBundle
     @Source("size48/VictoryPoints.png")
     public ImageResource claimVictory();
 
+    @Source("size48/User.png")
+    public ImageResource user();
+
+    @Source("size32/AddTerritory.png")
+    public ImageResource addTerritory();
+
     @Source("size48/BankTrade.png")
     public ImageResource bankTrade();
 
-    @Source("size48/31Port.png")
+    @Source("size32/31Port.png")
     public ImageResource threeToOnePort();
 
     @Source("size48/BlankCard.png")
@@ -24,14 +30,23 @@ public interface Icons extends ClientBundle
     @Source("size48/BlankDevelopmentCard.png")
     public ImageResource developmentCardBack();
 
+    @Source("size16/BlankDevelopmentCard.png")
+    public ImageResource developmentCardBackSmall();
+
     @Source("size48/BuyDevelopmentCard.png")
     public ImageResource buyDvelopmentCard();
 
     @Source("size48/City.png")
     public ImageResource city();
 
+    @Source("size16/City.png")
+    public ImageResource citySmall();
+
     @Source("size48/VictoryPoints.png")
     public ImageResource victoryPoints();
+
+    @Source("size16/VictoryPoints.png")
+    public ImageResource victoryPointsSmall();
 
     @Source("size48/LongestRoad.png")
     public ImageResource longestRoad();
@@ -42,11 +57,11 @@ public interface Icons extends ClientBundle
     @Source("size48/Monopoly.png")
     public ImageResource monopoly();
 
-    @Source("size48/NoTrade.png")
-    public ImageResource noTrade();
-
     @Source("size48/Road.png")
     public ImageResource road();
+
+    @Source("size16/Road.png")
+    public ImageResource roadSmall();
 
     @Source("size48/RoadBuilding.png")
     public ImageResource roadBuilding();
@@ -60,11 +75,17 @@ public interface Icons extends ClientBundle
     @Source("size48/SheepPort.png")
     public ImageResource sheepPort();
 
+    @Source("size32/SheepHex.png")
+    public ImageResource sheepHex();
+
     @Source("size48/Soldier.png")
     public ImageResource soldier();
 
     @Source("size48/Town.png")
     public ImageResource town();
+
+    @Source("size16/Town.png")
+    public ImageResource townSmall();
 
     @Source("size48/TradePlayer.png")
     public ImageResource tradePlayer();
@@ -81,8 +102,8 @@ public interface Icons extends ClientBundle
     @Source("size16/Trade.png")
     public ImageResource trade();
 
-    @Source("size32/AddTerritory.png")
-    public ImageResource addTerritory();
+    @Source("size48/TradeDisabled.png")
+    public ImageResource tradeDisabled();
 
     @Source("size32/BlankChit.png")
     public ImageResource blankChit();
@@ -191,6 +212,9 @@ public interface Icons extends ClientBundle
 
     @Source("size32/RandomPort.png")
     public ImageResource randomPort();
+
+    @Source("size32/RandomHex.png")
+    public ImageResource randomHex();
 
     @Source("size32/RemoveTerritory.png")
     public ImageResource removeTerritory();

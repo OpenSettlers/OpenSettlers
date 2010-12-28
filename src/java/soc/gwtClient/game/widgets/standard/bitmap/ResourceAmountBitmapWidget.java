@@ -17,7 +17,7 @@ public class ResourceAmountBitmapWidget extends AbstractResourceAmountWidget
     {
         super(player);
 
-        cardImage.setSize("24px", "24px");
+        cardImage.setSize("16px", "16px");
         lblAmountResources.setText(Integer.toString(player.getResources()
                 .size()));
 
