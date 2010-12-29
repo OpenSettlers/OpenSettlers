@@ -11,11 +11,13 @@ import soc.gwtClient.game.abstractWidgets.AbstractBankStockWidget;
 import soc.gwtClient.game.abstractWidgets.AbstractGamePanel;
 import soc.gwtClient.game.abstractWidgets.IActionsWidget;
 import soc.gwtClient.game.abstractWidgets.IBankStockPanel;
+import soc.gwtClient.game.abstractWidgets.IBankTradeUI;
 import soc.gwtClient.game.abstractWidgets.IGameHistoryWidget;
 import soc.gwtClient.game.abstractWidgets.IGamePanel;
 import soc.gwtClient.game.abstractWidgets.IHandCardsWidget;
 import soc.gwtClient.game.abstractWidgets.IPlayersWidget;
 import soc.gwtClient.game.abstractWidgets.IStatusPanel;
+import soc.gwtClient.game.dialogs.TradeBankDialog;
 import soc.gwtClient.game.widgets.bitmap.BitmapHistoryWidget;
 import soc.gwtClient.game.widgets.bitmap.BoardLayoutPanel;
 import soc.gwtClient.game.widgets.standard.bitmap.HandCardsBitmapWidget;
@@ -47,6 +49,7 @@ public class HotSeatGamePanel extends AbstractGamePanel implements
         server = new HotSeatServer(this);
 
         chatPanel = new ChatPanel(this);
+        gameQueuePanel = new GameQueuePanel(this);
 
         createChatHistoryDebugPanel();
 
@@ -62,8 +65,6 @@ public class HotSeatGamePanel extends AbstractGamePanel implements
         rootPanel.addWest(playersBankChatPanel, 20);
         rootPanel.add(boardActionResourcesPanel);
 
-        // gameBoard.getWidget().
-
         HostStartsGame start = new HostStartsGame();
         start.setPlayer(player);
 
@@ -75,6 +76,7 @@ public class HotSeatGamePanel extends AbstractGamePanel implements
         chatHistoryDebugPanel.add(chatPanel, "chat");
         chatHistoryDebugPanel.add(historyWidget, "history");
         chatHistoryDebugPanel.add(new SimplePanel(), "debug");
+        chatHistoryDebugPanel.add(gameQueuePanel, "queue");
     }
 
     @Override
@@ -123,5 +125,11 @@ public class HotSeatGamePanel extends AbstractGamePanel implements
     public IGameHistoryWidget createHistoryWidget(IGamePanel gamePanel)
     {
         return new BitmapHistoryWidget(gamePanel);
+    }
+
+    @Override
+    public IBankTradeUI createBankTradeUI(IGamePanel gamePanel)
+    {
+        return new TradeBankDialog(gamePanel);
     }
 }

@@ -12,10 +12,11 @@ public class WikiPanel extends LayoutPanel implements ICenterWidget
 
     public WikiPanel()
     {
-        frame = new Frame("http://OpenSettlers.Wikia.com");
+        frame = new Frame(
+                "https://sourceforge.net/apps/mediawiki/opensettlers/index.php?title=Main_Page");
         frame.setWidth("100%");
         frame.setHeight("100%");
-        //initWidget(frame);
+        // initWidget(frame);
         this.add(frame);
     }
 

@@ -1,5 +1,6 @@
 package soc.gwtClient.images;
 
+import soc.common.board.Chit;
 import soc.common.board.hexes.DesertHex;
 import soc.common.board.hexes.DiscoveryHex;
 import soc.common.board.hexes.Hex;
@@ -39,6 +40,37 @@ public class Resources
     public static Icons icons()
     {
         return icons;
+    }
+
+    public static ImageResource chit(Chit chit)
+    {
+        switch (chit.getNumber())
+        {
+        case 0:
+            return icons.randomChit();
+        case 2:
+            return icons.chit2();
+        case 3:
+            return icons.chit3();
+        case 4:
+            return icons.chit4();
+        case 5:
+            return icons.chit5();
+        case 6:
+            return icons.chit6();
+        case 8:
+            return icons.chit8();
+        case 9:
+            return icons.chit9();
+        case 10:
+            return icons.chit10();
+        case 11:
+            return icons.chit11();
+        case 12:
+            return icons.chit12();
+        }
+
+        return null;
     }
 
     public static ImageResource card(Resource resource)
@@ -121,7 +153,7 @@ public class Resources
         return null;
     }
 
-    public ImageResource hexImage(Hex hex)
+    public static ImageResource hexImage(Hex hex)
     {
         if (hex instanceof ResourceHex)
         {

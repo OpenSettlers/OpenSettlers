@@ -4,7 +4,7 @@ import soc.common.board.territories.Territory;
 import soc.common.client.behaviour.IInteractionBehaviour;
 import soc.common.client.visuals.IPieceVisual;
 import soc.common.client.visuals.board.IBoardVisual;
-import soc.common.client.visuals.board.IHexVisual;
+import soc.common.client.visuals.board.HexVisual;
 
 public class SetTerritoryBehaviour implements IInteractionBehaviour
 {
@@ -13,9 +13,9 @@ public class SetTerritoryBehaviour implements IInteractionBehaviour
     @Override
     public void clicked(IPieceVisual pieceVisual, IBoardVisual board)
     {
-        if (pieceVisual instanceof IHexVisual)
+        if (pieceVisual instanceof HexVisual)
         {
-            IHexVisual hexVisual = (IHexVisual) pieceVisual;
+            HexVisual hexVisual = (HexVisual) pieceVisual;
             if (hexVisual.getHex().getTerritory() != null)
             {
                 hexVisual.getTerritory().setTerritory(territory);
@@ -47,9 +47,9 @@ public class SetTerritoryBehaviour implements IInteractionBehaviour
 
     public void mouseEnter(IPieceVisual pieceVisual, IBoardVisual board)
     {
-        if (pieceVisual instanceof IHexVisual)
+        if (pieceVisual instanceof HexVisual)
         {
-            IHexVisual hexVisual = (IHexVisual) pieceVisual;
+            HexVisual hexVisual = (HexVisual) pieceVisual;
             hexVisual.setSelected(hexVisual.getTerritory() != null);
         }
     }

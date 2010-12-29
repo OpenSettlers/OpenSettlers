@@ -6,6 +6,7 @@ import soc.common.board.Chit;
 import soc.common.client.visuals.board.ChitVisual;
 import soc.common.client.visuals.board.IBoardVisual;
 import soc.gwtClient.game.Point2D;
+import soc.gwtClient.images.Resources;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -51,22 +52,12 @@ public class SvgChitVisual extends ChitVisual implements MouseMoveHandler,
 
         if (chit != null)
         {
-            // New chit is not null, so the user wants to set a new typ of chit
-            // on the hex
-            if (chit.getNumber() != 0)
-            {
-                // User changed chit to 2,3,4,5,6,8,9,10,11,12
-                img = "images/chit" + chit.getNumber() + ".png";
-            }
-            else
-            {
-                // When the number is 0, a randomchit will be assigned
-                img = "images/chitrandom.png";
-            }
+            img = Resources.chit(chit).getURL();
         }
 
         // Add the new chit to the group of chits
         chitImage.setHref(img);
+        chitImage.setVisible(chit != null);
     }
 
     /*

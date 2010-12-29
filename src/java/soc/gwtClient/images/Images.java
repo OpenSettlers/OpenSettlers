@@ -43,5 +43,4 @@ public interface Images extends ClientBundle
 
     @Source("size100/RandomHex.png")
     public ImageResource randomHex();
-
 }

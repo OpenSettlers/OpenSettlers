@@ -5,6 +5,7 @@ import soc.common.board.ports.PortList;
 import soc.common.board.resources.ResourceList;
 import soc.common.board.resources.ResourcesChangedEvent;
 import soc.common.board.resources.ResourcesChangedEventHandler;
+import soc.gwtClient.game.abstractWidgets.IBankTradeUI;
 import soc.gwtClient.game.abstractWidgets.IGamePanel;
 import soc.gwtClient.game.widgets.abstractWidgets.IResourceListWidget;
 import soc.gwtClient.game.widgets.abstractWidgets.IResourcePickerWidget;
@@ -16,15 +17,15 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class TradeBankDialog extends DialogBox
+public class TradeBankDialog extends PopupPanel implements IBankTradeUI
 {
     private ResourceList giveResources = new ResourceList();
     private ResourceList wantResources = new ResourceList();
@@ -159,8 +160,6 @@ public class TradeBankDialog extends DialogBox
      */
     public TradeBankDialog()
     {
-        setHTML("Trade with the bank");
-
         VerticalPanel verticalPanel = new VerticalPanel();
         verticalPanel
                 .setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
@@ -239,5 +238,17 @@ public class TradeBankDialog extends DialogBox
 
         Label lblTradeForA = new Label("Trade for a city");
         horizontalPanel_3.add(lblTradeForA);
+    }
+
+    /*
+     * @see
+     * soc.gwtClient.game.abstractWidgets.IBankTradeUI#setPiece(soc.common.board
+     * .pieces.PlayerPiece)
+     */
+    @Override
+    public void setPiece(PlayerPiece piece)
+    {
+        // TODO Auto-generated method stub
+
     }
 }

@@ -4,13 +4,13 @@ import soc.common.board.hexes.SeaHex;
 import soc.common.board.ports.Port;
 import soc.common.client.visuals.IPieceVisual;
 import soc.common.client.visuals.board.IBoardVisual;
-import soc.common.client.visuals.board.IHexVisual;
+import soc.common.client.visuals.board.HexVisual;
 import soc.common.client.visuals.board.IPortVisual;
 
 public class SetPortBehaviour implements IInteractionBehaviour
 {
     private Port port;
-    private IHexVisual currentHexVisual;
+    private HexVisual currentHexVisual;
 
     /**
      * @return the port
@@ -53,9 +53,9 @@ public class SetPortBehaviour implements IInteractionBehaviour
     @Override
     public void mouseEnter(IPieceVisual pieceVisual, IBoardVisual board)
     {
-        if (pieceVisual instanceof IHexVisual)
+        if (pieceVisual instanceof HexVisual)
         {
-            IHexVisual hexVisual = (IHexVisual) pieceVisual;
+            HexVisual hexVisual = (HexVisual) pieceVisual;
             if (hexVisual.getHex() instanceof SeaHex)
             {
                 hexVisual.setSelected(true);
@@ -74,9 +74,9 @@ public class SetPortBehaviour implements IInteractionBehaviour
     @Override
     public void mouseOut(IPieceVisual pieceVisual, IBoardVisual board)
     {
-        if (pieceVisual instanceof IHexVisual)
+        if (pieceVisual instanceof HexVisual)
         {
-            IHexVisual hexVisual = (IHexVisual) pieceVisual;
+            HexVisual hexVisual = (HexVisual) pieceVisual;
             if (hexVisual.getHex() instanceof SeaHex)
             {
                 hexVisual.setSelected(false);

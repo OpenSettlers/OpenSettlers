@@ -15,7 +15,7 @@ public abstract class AbstractBoardVisual extends AbstractPieceVisual implements
 {
     protected IInteractionBehaviour editBehaviour = new DefaultBehaviour();
     protected Board board;
-    protected HashMap<Hex, IHexVisual> hexVisuals = new HashMap<Hex, IHexVisual>();
+    protected HashMap<Hex, HexVisual> hexVisuals = new HashMap<Hex, HexVisual>();
 
     protected double sideLength = 35;
     private double h;
@@ -64,7 +64,7 @@ public abstract class AbstractBoardVisual extends AbstractPieceVisual implements
     @Override
     public void hideTerritories()
     {
-        for (IHexVisual hexVisual : hexVisuals.values())
+        for (HexVisual hexVisual : hexVisuals.values())
         {
             hexVisual.getTerritory().setVisible(false);
         }
@@ -73,7 +73,7 @@ public abstract class AbstractBoardVisual extends AbstractPieceVisual implements
     @Override
     public void showTerritories()
     {
-        for (IHexVisual hexVisual : hexVisuals.values())
+        for (HexVisual hexVisual : hexVisuals.values())
         {
             hexVisual.getTerritory().setVisible(true);
         }

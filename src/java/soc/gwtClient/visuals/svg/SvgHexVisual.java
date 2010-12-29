@@ -6,9 +6,10 @@ import org.vaadin.gwtgraphics.client.shape.Path;
 
 import soc.common.board.hexes.Hex;
 import soc.common.client.visuals.IPieceVisual;
-import soc.common.client.visuals.board.HexVisual;
+import soc.common.client.visuals.board.AbstractHexVisual;
 import soc.common.client.visuals.board.IBoardVisual;
 import soc.gwtClient.game.Point2D;
+import soc.gwtClient.images.Resources;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -17,8 +18,8 @@ import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 
-public class SvgHexVisual extends HexVisual implements MouseMoveHandler,
-        ClickHandler, MouseOutHandler
+public class SvgHexVisual extends AbstractHexVisual implements
+        MouseMoveHandler, ClickHandler, MouseOutHandler
 {
     /**
      * @return the group
@@ -187,7 +188,7 @@ public class SvgHexVisual extends HexVisual implements MouseMoveHandler,
     @Override
     protected void updateHexVisual()
     {
-        String img = "images/" + hex.getName() + ".png";
+        String img = Resources.hexImage(hex).getURL();
         String color = hex.getColor();
 
         if (hexImage == null)

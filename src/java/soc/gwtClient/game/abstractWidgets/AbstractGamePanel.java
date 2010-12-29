@@ -51,6 +51,7 @@ public abstract class AbstractGamePanel implements IGamePanel, ICenterWidget,
         statusPanel = createStatusDicePanel(this);
         tradePlayers = new TradePlayersDialog(this);
         historyWidget = createHistoryWidget(this);
+        bankTradeUI = createBankTradeUI(this);
     }
 
     /**
@@ -143,5 +144,22 @@ public abstract class AbstractGamePanel implements IGamePanel, ICenterWidget,
         Point2D location = playersWidget.getTopRightLocation();
         tradePlayers.setPopupPosition(location.getX(), location.getY());
         tradePlayers.show();
+    }
+
+    public void hideTradePlayersPanel()
+    {
+        tradePlayers.hide();
+    }
+
+    public void showTradeBankPanel()
+    {
+        Point2D location = playersWidget.getTopRightLocation();
+        bankTradeUI.setPopupPosition(location.getX(), location.getY());
+        tradePlayers.show();
+    }
+
+    public void hideTradeBankPanel()
+    {
+        bankTradeUI.hide();
     }
 }

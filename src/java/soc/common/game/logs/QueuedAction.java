@@ -1,6 +1,5 @@
 package soc.common.game.logs;
 
-import soc.common.actions.gameAction.AbstractGameAction;
 import soc.common.actions.gameAction.GameAction;
 
 /*
@@ -23,7 +22,7 @@ public class QueuedAction
     private GameAction action;
     private boolean isBlocking = false;
     private boolean isOptional = false;
-    
+
     public QueuedAction()
     {
     }
@@ -41,17 +40,19 @@ public class QueuedAction
         this(action);
         this.isBlocking = isBlocking;
     }
-    
-    public QueuedAction(GameAction action, boolean isBlocking, boolean isOptional)
+
+    public QueuedAction(GameAction action, boolean isBlocking,
+            boolean isOptional)
     {
         this(action, isBlocking);
         this.isOptional = isOptional;
     }
 
     /**
-     * Whether or not the queued action is optional for a player to perform.
-     * An optional action is for example PlayDevelopmentCard during BeforeDiceRoll 
+     * Whether or not the queued action is optional for a player to perform. An
+     * optional action is for example PlayDevelopmentCard during BeforeDiceRoll
      * GamePhase.
+     * 
      * @return the isOptional
      */
     public boolean isOptional()
@@ -60,15 +61,17 @@ public class QueuedAction
     }
 
     /**
-     * Whether or not the queued action is optional for a player to perform.
-     * An optional action is for example PlayDevelopmentCard during BeforeDiceRoll 
+     * Whether or not the queued action is optional for a player to perform. An
+     * optional action is for example PlayDevelopmentCard during BeforeDiceRoll
      * GamePhase.
-     * @param isOptional the isOptional to set
+     * 
+     * @param isOptional
+     *            the isOptional to set
      */
     public QueuedAction setOptional(boolean isOptional)
     {
         this.isOptional = isOptional;
-    
+
         return this;
     }
 
@@ -79,31 +82,36 @@ public class QueuedAction
     {
         return action;
     }
+
     /**
-     * @param action the action to set
+     * @param action
+     *            the action to set
      */
     public QueuedAction setAction(GameAction action)
     {
         this.action = action;
-    
+
         return this;
     }
+
     /**
      * @return when set, this queued action must be performed before the game
-     * can continue
+     *         can continue
      */
     public boolean isBlocking()
     {
         return isBlocking;
     }
+
     /**
-     * @param isBlocking the isBlocking to set
+     * @param isBlocking
+     *            the isBlocking to set
      */
     public QueuedAction setBlocking(boolean isBlocking)
     {
         this.isBlocking = isBlocking;
-    
+
         return this;
     }
-    
+
 }

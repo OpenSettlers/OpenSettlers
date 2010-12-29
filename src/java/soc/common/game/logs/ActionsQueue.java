@@ -16,25 +16,7 @@ import com.google.gwt.event.shared.SimpleEventBus;
 public class ActionsQueue implements IActionsQueue
 {
     private List<QueuedAction> actions = new ArrayList<QueuedAction>();
-    private SimpleEventBus eventBus;
-
-    private void safelyFireEvent(ActionQueueChangedEvent event)
-    {
-        if (eventBus != null)
-        {
-            eventBus.fireEvent(event);
-        }
-    }
-
-    private SimpleEventBus getEventBus()
-    {
-        if (eventBus == null)
-        {
-            eventBus = new SimpleEventBus();
-        }
-
-        return eventBus;
-    }
+    private SimpleEventBus eventBus = new SimpleEventBus();
 
     @Override
     public void enqueue(GameAction inGameAction)
@@ -47,7 +29,7 @@ public class ActionsQueue implements IActionsQueue
     public void enqueue(QueuedAction queuedAction)
     {
         actions.add(queuedAction);
-        safelyFireEvent(new ActionQueueChangedEvent(queuedAction, null));
+        eventBus.fireEvent(new ActionQueueChangedEvent(queuedAction, null));
     }
 
     @Override

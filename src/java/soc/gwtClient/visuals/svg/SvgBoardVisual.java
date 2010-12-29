@@ -10,7 +10,7 @@ import soc.common.board.HexPointType;
 import soc.common.board.HexSide;
 import soc.common.board.hexes.Hex;
 import soc.common.client.visuals.board.AbstractBoardVisual;
-import soc.common.client.visuals.board.IHexVisual;
+import soc.common.client.visuals.board.HexVisual;
 import soc.gwtClient.editor.BehaviourChanged;
 import soc.gwtClient.game.Point2D;
 
@@ -170,7 +170,7 @@ public class SvgBoardVisual extends AbstractBoardVisual
         calculateHexSizes();
 
         // Let all children resize and reposition themselves
-        for (IHexVisual hexVisual : hexVisuals.values())
+        for (HexVisual hexVisual : hexVisuals.values())
         {
             SvgHexVisual svgHexVisual = (SvgHexVisual) hexVisual;
             svgHexVisual.resizeAndPosition();

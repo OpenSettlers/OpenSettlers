@@ -6,7 +6,7 @@ import soc.common.board.resources.Timber;
 import soc.common.client.behaviour.IInteractionBehaviour;
 import soc.common.client.visuals.IPieceVisual;
 import soc.common.client.visuals.board.IBoardVisual;
-import soc.common.client.visuals.board.IHexVisual;
+import soc.common.client.visuals.board.HexVisual;
 
 public class SetHexBehaviour implements IInteractionBehaviour
 {
@@ -35,9 +35,9 @@ public class SetHexBehaviour implements IInteractionBehaviour
     @Override
     public void clicked(IPieceVisual pieceVisual, IBoardVisual board)
     {
-        if (pieceVisual instanceof IHexVisual)
+        if (pieceVisual instanceof HexVisual)
         {
-            IHexVisual hexVisual = (IHexVisual)pieceVisual;
+            HexVisual hexVisual = (HexVisual)pieceVisual;
             AbstractHex newHex = hex.copy();
             newHex.setLocation(hexVisual.getHex().getLocation());
             hexVisual.setHex(newHex);

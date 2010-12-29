@@ -6,42 +6,39 @@ import java.util.List;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
-import com.google.gwt.event.shared.GwtEvent.Type;
 import com.google.gwt.user.client.Random;
-
-import soc.common.board.hexes.AbstractHex;
-import soc.common.board.pieces.*;
 
 public class ResourceList implements Iterable<Resource>
 {
     // Notification mechanism
     SimpleEventBus eventBus;
-    
+
     // Encapsulated list of resources
     List<Resource> resources = new ArrayList<Resource>();
-    
+
     private SimpleEventBus getEventBus()
     {
         if (eventBus == null)
         {
             eventBus = new SimpleEventBus();
-        }   
+        }
         return eventBus;
     }
-    
+
     private void fireSafeEvent(ResourcesChangedEvent event)
     {
-        if (eventBus !=null)
+        if (eventBus != null)
         {
             eventBus.fireEvent(event);
         }
     }
-    
+
     public void moveTo(ResourceList toMove, ResourceList destination)
     {
         resources.remove(toMove);
         destination.add(toMove);
     }
+
     /*
      * Adds given ResourceList to this list of resources
      */
@@ -53,15 +50,15 @@ public class ResourceList implements Iterable<Resource>
         }
         fireSafeEvent(new ResourcesChangedEvent(resourcesToAdd, null));
     }
-    
+
     /*
      * Adds given resource to this list of resources
      */
     public void add(Resource resource)
     {
         resources.add(resource);
-        
-        if (eventBus !=null)
+
+        if (eventBus != null)
         {
             // Notify the list has been changed with only one resource
             ResourceList addedResource = new ResourceList();
@@ -69,14 +66,14 @@ public class ResourceList implements Iterable<Resource>
             fireSafeEvent(new ResourcesChangedEvent(addedResource, null));
         }
     }
-    
+
     /*
      * Removes given resource from this list of resources
      */
     public void remove(Resource resource)
     {
         resources.remove(resource);
-        
+
         if (eventBus != null)
         {
             // Notify the list has been changed with only one resource
@@ -85,11 +82,10 @@ public class ResourceList implements Iterable<Resource>
             fireSafeEvent(new ResourcesChangedEvent(null, removedResource));
         }
     }
-    
+
     /*
-     * Removes given resources from this list. If checkIfPossible is set,
-     * this list should contain all of the resources contained in the given 
-     * list
+     * Removes given resources from this list. If checkIfPossible is set, this
+     * list should contain all of the resources contained in the given list
      */
     public void remove(ResourceList resourcesToRemove, boolean checkIfPossible)
     {
@@ -102,7 +98,8 @@ public class ResourceList implements Iterable<Resource>
             }
             else
             {
-                throw new RuntimeException("Wants to remove non-existing resources");
+                throw new RuntimeException(
+                        "Wants to remove non-existing resources");
             }
         }
         else
@@ -110,9 +107,10 @@ public class ResourceList implements Iterable<Resource>
             removeAll(resourcesToRemove);
         }
     }
-    
+
     /*
-     * Removes given resources from the list. Given resource does not need to be contained
+     * Removes given resources from the list. Given resource does not need to be
+     * contained
      */
     private void removeAll(ResourceList resourcesToRemove)
     {
@@ -120,75 +118,82 @@ public class ResourceList implements Iterable<Resource>
         {
             resources.remove(resource);
         }
-        
+
         fireSafeEvent(new ResourcesChangedEvent(null, resourcesToRemove));
     }
-    
+
     /*
      * Returns a copy of this ResourceList
      */
     public ResourceList copy()
     {
         ResourceList result = new ResourceList();
-        
+
         result.add(this);
-        
+
         return result;
     }
-    
+
     /*
      * Returns a new ResourceList with only resources equivalent to given type
      */
     public ResourceList ofType(Resource type)
     {
         ResourceList result = new ResourceList();
-        
+
         // Iterate over all resources and add the ones equalling given type
         for (Resource res : resources)
         {
             if (res.getClass() == type.getClass())
             {
-                result.add(res);                                                
+                result.add(res);
             }
         }
-        
+
         return result;
     }
-    
+
     /*
      * Returns true if given resources are available in this ResourceList
      */
     public boolean hasAtLeast(ResourceList toHave)
     {
-        return
-            ofType(new Timber()).size() >= toHave.ofType(new Timber()).size()   &&
-            ofType(new Wheat()).size() >= toHave.ofType(new Wheat()).size()     &&
-            ofType(new Ore()).size() >= toHave.ofType(new Ore()).size()         &&
-            ofType(new Clay()).size() >= toHave.ofType(new Clay()).size()       &&
-            ofType(new Sheep()).size() >= toHave.ofType(new Sheep()).size(  )   &&
-            ofType(new Diamond()).size() >= toHave.ofType(new Diamond()).size() &&
-            ofType(new Gold()).size() >= toHave.ofType(new Gold()).size();
+        return ofType(new Timber()).size() >= toHave.ofType(new Timber())
+                .size()
+                && ofType(new Wheat()).size() >= toHave.ofType(new Wheat())
+                        .size()
+                && ofType(new Ore()).size() >= toHave.ofType(new Ore()).size()
+                && ofType(new Clay()).size() >= toHave.ofType(new Clay())
+                        .size()
+                && ofType(new Sheep()).size() >= toHave.ofType(new Sheep())
+                        .size()
+                && ofType(new Diamond()).size() >= toHave.ofType(new Diamond())
+                        .size()
+                && ofType(new Gold()).size() >= toHave.ofType(new Gold())
+                        .size();
     }
-    
+
     /*
      * Swaps a given list of resources from a source to this list
      */
-    public void swapResourcesFrom(ResourceList resourcesToSwap, ResourceList from)
+    public void swapResourcesFrom(ResourceList resourcesToSwap,
+            ResourceList from)
     {
-        // ResourceList where we take resources from, should be able to 
+        // ResourceList where we take resources from, should be able to
         // provide the resources
         if (!from.hasAtLeast(resourcesToSwap))
         {
-            throw new RuntimeException("Trying to swap resources which ar not contained by the list");
+            throw new RuntimeException(
+                    "Trying to swap resources which ar not contained by the list");
         }
-        
+
         // add the resources to this list...
         this.add(resourcesToSwap);
-        
+
         // ...and remove them at the "from source"
         from.remove(resourcesToSwap, true);
     }
-    
+
     /*
      * Returns amount of items halfed and rounded down
      */
@@ -196,27 +201,28 @@ public class ResourceList implements Iterable<Resource>
     {
         int count = size();
         // Make number even
-        if (count % 2 == 1) count--;
+        if (count % 2 == 1)
+            count--;
         return count / 2;
     }
-    
+
     /*
      * Returns a list of resources needed
      */
     public ResourceList getNeededResources(ResourceList neededResources)
     {
         ResourceList result = new ResourceList();
-        
+
         result.add(neededResources);
         for (Resource resource : neededResources)
         {
             if (this.contains(resource))
                 result.remove(resource);
         }
-        
+
         return result;
     }
-    
+
     /*
      * Checks each resource if contained in the list, if so removes it
      */
@@ -228,17 +234,17 @@ public class ResourceList implements Iterable<Resource>
                 this.remove(resource);
         }
     }
-    
+
     public static ResourceList tradeableResources()
     {
         ResourceList result = new ResourceList();
-        
+
         result.add(new Timber());
         result.add(new Wheat());
         result.add(new Ore());
         result.add(new Clay());
         result.add(new Sheep());
-        
+
         return result;
     }
 
@@ -255,17 +261,19 @@ public class ResourceList implements Iterable<Resource>
     {
         return resources.iterator();
     }
-    
+
     public int size()
     {
         return resources.size();
     }
+
     public boolean contains(Resource resource)
     {
         return resources.contains(resource);
     }
-    
-    public HandlerRegistration addResourcesChangedEventHandler(ResourcesChangedEventHandler handler)
+
+    public HandlerRegistration addResourcesChangedEventHandler(
+            ResourcesChangedEventHandler handler)
     {
         return getEventBus().addHandler(ResourcesChangedEvent.TYPE, handler);
     }
@@ -275,7 +283,7 @@ public class ResourceList implements Iterable<Resource>
         int randomResource = random.nextInt(resources.size());
         return resources.get(randomResource);
     }
-    
+
     /*
      * Returns true if this list contains resources which are tradeable
      */
@@ -290,11 +298,11 @@ public class ResourceList implements Iterable<Resource>
         }
         return false;
     }
-    
+
     public ResourceList getTradeableResources()
     {
         ResourceList result = new ResourceList();
-        
+
         for (Resource resource : resources)
         {
             if (resource.isTradeable())
@@ -302,14 +310,14 @@ public class ResourceList implements Iterable<Resource>
                 result.add(resource);
             }
         }
-        
+
         return result;
     }
-    
+
     public ResourceList getNonTradeableResources()
     {
         ResourceList result = new ResourceList();
-        
+
         for (Resource resource : resources)
         {
             if (!resource.isTradeable())
@@ -317,7 +325,7 @@ public class ResourceList implements Iterable<Resource>
                 result.add(resource);
             }
         }
-        
+
         return result;
     }
 }

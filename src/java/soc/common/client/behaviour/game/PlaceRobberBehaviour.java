@@ -3,7 +3,7 @@ package soc.common.client.behaviour.game;
 import soc.common.actions.gameAction.turnActions.standard.PlaceRobber;
 import soc.common.client.visuals.IPieceVisual;
 import soc.common.client.visuals.board.IBoardVisual;
-import soc.common.client.visuals.board.IHexVisual;
+import soc.common.client.visuals.board.HexVisual;
 import soc.common.client.visuals.game.IGameBoardVisual;
 import soc.common.game.Game;
 
@@ -36,7 +36,7 @@ public class PlaceRobberBehaviour implements IGameBehaviour
     {
         if (possiblePosition(pieceVisual))
         {
-            placeRobber.setNewLocation(((IHexVisual)pieceVisual).getHex().getLocation());
+            placeRobber.setNewLocation(((HexVisual)pieceVisual).getHex().getLocation());
         }
     }
 
@@ -64,9 +64,9 @@ public class PlaceRobberBehaviour implements IGameBehaviour
      */
     private boolean possiblePosition(IPieceVisual pieceVisual)
     {
-        if (pieceVisual instanceof IHexVisual)
+        if (pieceVisual instanceof HexVisual)
         {
-            IHexVisual hexVisual = (IHexVisual) pieceVisual;
+            HexVisual hexVisual = (HexVisual) pieceVisual;
             
             // We need a landhex for a robber, and not the current position of the robber
             if (hexVisual.getHex().isRobberPlaceable() &&

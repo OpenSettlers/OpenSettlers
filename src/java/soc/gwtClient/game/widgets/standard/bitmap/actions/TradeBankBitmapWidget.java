@@ -9,7 +9,6 @@ import soc.common.game.GamePhaseChangedEventHandler;
 import soc.common.game.Player;
 import soc.gwtClient.game.abstractWidgets.AbstractActionWidget;
 import soc.gwtClient.game.abstractWidgets.IGamePanel;
-import soc.gwtClient.game.dialogs.TradeBankDialog;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -23,7 +22,7 @@ public class TradeBankBitmapWidget extends AbstractActionWidget implements
         GamePhaseChangedEventHandler, ClickHandler
 {
     PushButton btnTradeBank;
-    TradeBankDialog tradeBank = new TradeBankDialog(gamePanel);
+    boolean isTradeBankShown = false;
 
     public TradeBankBitmapWidget(IGamePanel gamePanel, Player player)
     {
@@ -84,7 +83,15 @@ public class TradeBankBitmapWidget extends AbstractActionWidget implements
     @Override
     public void onClick(ClickEvent arg0)
     {
-        tradeBank.show();
+        if (isTradeBankShown)
+        {
+            gamePanel.hideTradeBankPanel();
+        }
+        else
+        {
+            gamePanel.showTradeBankPanel();
+        }
+        isTradeBankShown = !isTradeBankShown;
     }
 
 }
