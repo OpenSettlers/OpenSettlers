@@ -8,7 +8,7 @@ public class ActionQueueChangedEvent extends
     public static Type<ActionQueueChangedEventHandler> TYPE = new Type<ActionQueueChangedEventHandler>();
     private QueuedAction dequeuedAction;
     private QueuedAction enqueuedAction;
-    
+
     public ActionQueueChangedEvent(QueuedAction dequeuedAction,
             QueuedAction enqueuedAction)
     {
@@ -31,6 +31,11 @@ public class ActionQueueChangedEvent extends
     public QueuedAction getEnqueuedAction()
     {
         return enqueuedAction;
+    }
+
+    public QueuedAction getChangedAction()
+    {
+        return enqueuedAction == null ? dequeuedAction : enqueuedAction;
     }
 
     @Override

@@ -17,7 +17,7 @@ public abstract class AbstractBoardVisual extends AbstractPieceVisual implements
     protected Board board;
     protected HashMap<Hex, IHexVisual> hexVisuals = new HashMap<Hex, IHexVisual>();
 
-    protected double sideLength = 25;
+    protected double sideLength = 35;
     private double h;
     private double halfWidth;
     private double b;

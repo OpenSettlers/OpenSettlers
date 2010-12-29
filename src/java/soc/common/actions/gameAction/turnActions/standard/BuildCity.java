@@ -16,6 +16,7 @@ import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.InitialPlacementGamePhase;
 import soc.common.game.gamePhase.PlayTurnsGamePhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
+import soc.common.internationalization.I18n;
 
 public class BuildCity extends AbstractTurnAction
 {
@@ -151,6 +152,12 @@ public class BuildCity extends AbstractTurnAction
     {
         // TODO Auto-generated method stub
         return false;
+    }
+
+    @Override
+    public String getToDoMessage()
+    {
+        return I18n.get().actions().builtTownToDo(player.getName());
     }
 
 }

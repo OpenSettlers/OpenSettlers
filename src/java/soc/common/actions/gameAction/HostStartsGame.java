@@ -4,6 +4,7 @@ import soc.common.game.Game;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.LobbyGamePhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
+import soc.common.internationalization.I18n;
 
 public class HostStartsGame extends AbstractGameAction
 {
@@ -19,17 +20,22 @@ public class HostStartsGame extends AbstractGameAction
     }
 
     /**
-     * @param game the game to set
+     * @param game
+     *            the game to set
      */
     public HostStartsGame setGame(Game game)
     {
         this.game = game.copy();
-    
+
         return this;
     }
 
-    /* (non-Javadoc)
-     * @see soc.common.actions.gameAction.GameAction#isAllowed(soc.common.game.gamePhase.GamePhase)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.common.actions.gameAction.GameAction#isAllowed(soc.common.game.gamePhase
+     * .GamePhase)
      */
     @Override
     public boolean isAllowed(GamePhase gamePhase)
@@ -37,13 +43,23 @@ public class HostStartsGame extends AbstractGameAction
         return gamePhase instanceof LobbyGamePhase;
     }
 
-    /* (non-Javadoc)
-     * @see soc.common.actions.gameAction.GameAction#isAllowed(soc.common.game.gamePhase.turnPhase.TurnPhase)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.common.actions.gameAction.GameAction#isAllowed(soc.common.game.gamePhase
+     * .turnPhase.TurnPhase)
      */
     @Override
     public boolean isAllowed(TurnPhase turnPhase)
     {
         return false;
+    }
+
+    @Override
+    public String getToDoMessage()
+    {
+        return I18n.get().actions().noToDo();
     }
 
 }

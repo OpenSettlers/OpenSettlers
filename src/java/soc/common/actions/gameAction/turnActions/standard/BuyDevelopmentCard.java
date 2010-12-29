@@ -7,13 +7,14 @@ import soc.common.game.Player;
 import soc.common.game.developmentCards.DevelopmentCard;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
+import soc.common.internationalization.I18n;
 
 public class BuyDevelopmentCard extends AbstractTurnAction
 {
     private static final long serialVersionUID = -7625851375785728121L;
     private ResourceList resources;
     private DevelopmentCard devCard;
-    
+
     /**
      * @return the devCard
      */
@@ -23,12 +24,13 @@ public class BuyDevelopmentCard extends AbstractTurnAction
     }
 
     /**
-     * @param devCard the devCard to set
+     * @param devCard
+     *            the devCard to set
      */
     public BuyDevelopmentCard setDevCard(DevelopmentCard devCard)
     {
         this.devCard = devCard;
-    
+
         return this;
     }
 
@@ -41,12 +43,13 @@ public class BuyDevelopmentCard extends AbstractTurnAction
     }
 
     /**
-     * @param resources the resources to set
+     * @param resources
+     *            the resources to set
      */
     public BuyDevelopmentCard setResources(ResourceList resources)
     {
         this.resources = resources;
-    
+
         return this;
     }
 
@@ -54,16 +57,21 @@ public class BuyDevelopmentCard extends AbstractTurnAction
     {
     }
 
-    /* (non-Javadoc)
-     * @see soc.common.actions.gameAction.GameAction#isValid(soc.common.game.Game)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.common.actions.gameAction.GameAction#isValid(soc.common.game.Game)
      */
     @Override
     public boolean isValid(Game game)
     {
-        if (!super.isValid(game)) return false;
+        if (!super.isValid(game))
+            return false;
 
         // we need resources
-        if (resources == null) return false;
+        if (resources == null)
+            return false;
 
         // ...and to devcard too.
         if (game.getDevelopmentCardStack().size() == 0)
@@ -73,12 +81,13 @@ public class BuyDevelopmentCard extends AbstractTurnAction
         }
 
         // we need just three resources
-        if (resources.size() != 3) return false;
+        if (resources.size() != 3)
+            return false;
 
-        // three  discoveries is OK
+        // three discoveries is OK
         // TODO: fix ResourceList.ofType
-        //if (resources.ofType(Diamond.class) > 2) return true;
-        
+        // if (resources.ofType(Diamond.class) > 2) return true;
+
         Player player = game.getPlayerByID(sender);
 
         if (!player.getResources().hasAtLeast(resources))
@@ -90,30 +99,33 @@ public class BuyDevelopmentCard extends AbstractTurnAction
         return true;
     }
 
-    /* (non-Javadoc)
-     * @see soc.common.actions.gameAction.GameAction#perform(soc.common.game.Game)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.common.actions.gameAction.GameAction#perform(soc.common.game.Game)
      */
     @Override
     public void perform(Game game)
     {
         Player gamePlayer = game.getPlayerByID(sender);
-        
-        // Perform  resources administration
+
+        // Perform resources administration
         player.getResources().subtractResources(resources);
         game.getBank().add(resources);
 
         // Player should wait a turn before able to play new devcard
         devCard.setPlayable(!devCard.isHasSummoningSickness());
         devCard.setTurnBought(game.getCurrentTurn().getID());
-        
-        // Administer devcards 
+
+        // Administer devcards
         player.getDevelopmentCards().add(devCard);
         game.getDevelopmentCardStack().remove(devCard);
 
         // TODO: fix message
-        //message = String.Format("{0} bought a development card",
-        //    gamePlayer.XmlPlayer.Name);
-        
+        // message = String.Format("{0} bought a development card",
+        // gamePlayer.XmlPlayer.Name);
+
         super.perform(game);
     }
 
@@ -129,6 +141,12 @@ public class BuyDevelopmentCard extends AbstractTurnAction
     {
         // TODO Auto-generated method stub
         return false;
+    }
+
+    @Override
+    public String getToDoMessage()
+    {
+        return I18n.get().actions().noToDo();
     }
 
 }

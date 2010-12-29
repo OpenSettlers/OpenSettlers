@@ -6,6 +6,7 @@ import java.util.List;
 import soc.common.actions.gameAction.GameAction;
 import soc.common.game.Game;
 
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
 
 /*
@@ -119,5 +120,12 @@ public class ActionsQueue implements IActionsQueue
         }
 
         return result;
+    }
+
+    @Override
+    public HandlerRegistration addQueueChangedEventHandler(
+            ActionQueueChangedEventHandler handler)
+    {
+        return eventBus.addHandler(ActionQueueChangedEvent.TYPE, handler);
     }
 }

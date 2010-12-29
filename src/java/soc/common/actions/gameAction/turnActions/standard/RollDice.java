@@ -17,6 +17,7 @@ import soc.common.game.Player;
 import soc.common.game.dices.StandardDice;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
+import soc.common.internationalization.I18n;
 
 public class RollDice extends AbstractTurnAction
 {
@@ -213,5 +214,11 @@ public class RollDice extends AbstractTurnAction
     {
         // TODO Auto-generated method stub
         return false;
+    }
+
+    @Override
+    public String getToDoMessage()
+    {
+        return I18n.get().actions().rollDiceToDo(player.getName());
     }
 }

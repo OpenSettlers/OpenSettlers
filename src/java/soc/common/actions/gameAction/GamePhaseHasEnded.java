@@ -3,6 +3,7 @@ package soc.common.actions.gameAction;
 import soc.common.game.Game;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
+import soc.common.internationalization.I18n;
 
 /*
  * Announces a gamephase which has been ended
@@ -21,20 +22,23 @@ public class GamePhaseHasEnded extends AbstractGameAction
         return newPhase;
     }
 
-    /* (non-Javadoc)
-     * @see soc.common.actions.gameAction.GameAction#perform(soc.common.game.Game)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.common.actions.gameAction.GameAction#perform(soc.common.game.Game)
      */
     @Override
     public void perform(Game game)
     {
         endedGamePhase = game.getCurrentPhase();
-        
+
         // Advance the phase to next phase
         game.setCurrentPhase(game.getCurrentPhase().next(game));
-        
+
         // Start the next phase
         game.getCurrentPhase().start(game);
-        
+
         newPhase = game.getCurrentPhase();
 
         super.perform(game);
@@ -49,12 +53,13 @@ public class GamePhaseHasEnded extends AbstractGameAction
     }
 
     /**
-     * @param endedGamePhase the endedGamePhase to set
+     * @param endedGamePhase
+     *            the endedGamePhase to set
      */
     public GamePhaseHasEnded setEndedGamePhase(GamePhase endedGamePhase)
     {
         this.endedGamePhase = endedGamePhase;
-    
+
         return this;
     }
 
@@ -70,5 +75,11 @@ public class GamePhaseHasEnded extends AbstractGameAction
     {
         // TODO Auto-generated method stub
         return false;
+    }
+
+    @Override
+    public String getToDoMessage()
+    {
+        return I18n.get().actions().noToDo();
     }
 }

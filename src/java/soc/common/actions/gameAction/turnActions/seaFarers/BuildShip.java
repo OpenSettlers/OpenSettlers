@@ -4,6 +4,7 @@ import soc.common.actions.gameAction.turnActions.AbstractTurnAction;
 import soc.common.annotations.SeaFarers;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
+import soc.common.internationalization.I18n;
 
 @SeaFarers
 public class BuildShip extends AbstractTurnAction
@@ -22,6 +23,12 @@ public class BuildShip extends AbstractTurnAction
     {
         // TODO Auto-generated method stub
         return false;
+    }
+
+    @Override
+    public String getToDoMessage()
+    {
+        return I18n.get().actions().buildShipToDo(player.getName());
     }
 
 }

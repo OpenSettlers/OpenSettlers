@@ -38,6 +38,7 @@ public class HotSeatGamePanel extends AbstractGamePanel implements
     TabLayoutPanel chatHistoryDebugPanel = new TabLayoutPanel(20.0, Unit.PX);
     BoardLayoutPanel boardVisualPanel = new BoardLayoutPanel(gameBoard);
     ChatPanel chatPanel;
+    GameQueuePanel gameQueuePanel;
 
     public HotSeatGamePanel(Game game)
     {

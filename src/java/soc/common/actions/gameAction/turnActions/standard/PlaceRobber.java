@@ -10,6 +10,7 @@ import soc.common.board.hexes.SeaHex;
 import soc.common.game.Game;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
+import soc.common.internationalization.I18n;
 
 /*
  * Robber is placed by current player due to 7 roll or Soldier
@@ -132,6 +133,12 @@ public class PlaceRobber extends AbstractTurnAction
     {
         // TODO Auto-generated method stub
         return false;
+    }
+
+    @Override
+    public String getToDoMessage()
+    {
+        return I18n.get().actions().placeRobberToDo(player.getName());
     }
 
 }

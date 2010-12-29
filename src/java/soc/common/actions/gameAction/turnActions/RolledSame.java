@@ -3,7 +3,7 @@ package soc.common.actions.gameAction.turnActions;
 import soc.common.actions.gameAction.AbstractGameAction;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
-
+import soc.common.internationalization.I18n;
 
 public class RolledSame extends AbstractGameAction
 {
@@ -19,12 +19,13 @@ public class RolledSame extends AbstractGameAction
     }
 
     /**
-     * @param highRoll the highRoll to set
+     * @param highRoll
+     *            the highRoll to set
      */
     public RolledSame setHighRoll(int highRoll)
     {
         this.highRoll = highRoll;
-    
+
         // Enables fluent interface usage
         // http://en.wikipedia.org/wiki/Fluent_interface
         return this;
@@ -42,5 +43,11 @@ public class RolledSame extends AbstractGameAction
     {
         // TODO Auto-generated method stub
         return false;
+    }
+
+    @Override
+    public String getToDoMessage()
+    {
+        return I18n.get().actions().noToDo();
     }
 }

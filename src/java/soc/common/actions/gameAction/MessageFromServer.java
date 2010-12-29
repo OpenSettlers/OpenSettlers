@@ -2,6 +2,7 @@ package soc.common.actions.gameAction;
 
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
+import soc.common.internationalization.I18n;
 
 /*
  * A generic message from the server. Currently used as error message
@@ -22,12 +23,13 @@ public class MessageFromServer extends AbstractGameAction
     }
 
     /**
-     * @param serverMessage the serverMessage to set
+     * @param serverMessage
+     *            the serverMessage to set
      */
     public MessageFromServer setServerMessage(String serverMessage)
     {
         this.serverMessage = serverMessage;
-    
+
         return this;
     }
 
@@ -43,5 +45,11 @@ public class MessageFromServer extends AbstractGameAction
     {
         // TODO Auto-generated method stub
         return false;
-    } 
+    }
+
+    @Override
+    public String getToDoMessage()
+    {
+        return I18n.get().actions().noToDo();
+    }
 }

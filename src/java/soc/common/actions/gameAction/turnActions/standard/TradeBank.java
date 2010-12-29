@@ -6,12 +6,14 @@ import soc.common.board.resources.ResourceList;
 import soc.common.game.Game;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
+import soc.common.internationalization.I18n;
 
 public class TradeBank extends AbstractTurnAction
 {
     private static final long serialVersionUID = 7756281155996246492L;
     private ResourceList wantedResources;
     private ResourceList offeredResources;
+
     /**
      * @return the wantedResources
      */
@@ -19,15 +21,18 @@ public class TradeBank extends AbstractTurnAction
     {
         return wantedResources;
     }
+
     /**
-     * @param wantedResources the wantedResources to set
+     * @param wantedResources
+     *            the wantedResources to set
      */
     public TradeBank setWantedResources(ResourceList wantedResources)
     {
         this.wantedResources = wantedResources;
-    
+
         return this;
     }
+
     /**
      * @return the offeredResources
      */
@@ -35,86 +40,100 @@ public class TradeBank extends AbstractTurnAction
     {
         return offeredResources;
     }
+
     /**
-     * @param offeredResources the offeredResources to set
+     * @param offeredResources
+     *            the offeredResources to set
      */
     public TradeBank setOfferedResources(ResourceList offeredResources)
     {
         this.offeredResources = offeredResources;
-    
+
         return this;
     }
-    /* (non-Javadoc)
-     * @see soc.common.actions.gameAction.GameAction#isValid(soc.common.game.Game)
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.common.actions.gameAction.GameAction#isValid(soc.common.game.Game)
      */
     @Override
     public boolean isValid(Game game)
     {
-        if (!super.isValid(game)) return false;
-        
+        if (!super.isValid(game))
+            return false;
+
         if (offeredResources == null || wantedResources == null)
         {
             invalidMessage = "OfferedCards or WantedCards cannot be null";
             return false;
         }
-        
+
         if (offeredResources.getNonTradeableResources().size() > 0)
         {
-            invalidMessage="You offer resources which are not tradeable";
+            invalidMessage = "You offer resources which are not tradeable";
             return false;
         }
         if (wantedResources.getNonTradeableResources().size() > 0)
         {
-            invalidMessage="You want resources which are not tradeable";
+            invalidMessage = "You want resources which are not tradeable";
             return false;
         }
-        
+
         if (offeredResources.size() == 0)
         {
-            invalidMessage="You need to offer at last one resource";
+            invalidMessage = "You need to offer at last one resource";
             return false;
         }
-        
+
         if (wantedResources.size() == 0)
         {
-            invalidMessage="You need to desire at last one resource";
+            invalidMessage = "You need to desire at last one resource";
             return false;
         }
 
         player = game.getPlayerByID(sender);
 
         // check if the player has the offered cards in hand
-        if (!player.getResources().hasAtLeast(offeredResources)) 
+        if (!player.getResources().hasAtLeast(offeredResources))
         {
             invalidMessage = "You don't have the resource available you are offering";
             return false;
         }
-        
+
         for (Resource resource : game.getGameRules().getSupportedResources())
         {
-            int amountOfType = offeredResources.ofType(resource).size(); 
+            int amountOfType = offeredResources.ofType(resource).size();
             if (amountOfType > 0)
             {
-                int amountNeeded  = player.getPorts().amountNeededToTrade(resource);
+                int amountNeeded = player.getPorts().amountNeededToTrade(
+                        resource);
                 if ((amountOfType % amountNeeded) != 0)
                 {
-                    invalidMessage = "For " + resource.getName() + " you need to offer a multiple of " + amountNeeded;
+                    invalidMessage = "For " + resource.getName()
+                            + " you need to offer a multiple of "
+                            + amountNeeded;
                     return false;
                 }
             }
         }
-        
-        if (player.getPorts().amountGold(offeredResources) != wantedResources.size())
+
+        if (player.getPorts().amountGold(offeredResources) != wantedResources
+                .size())
         {
-            invalidMessage="Amount of desired resources should match offered resources divided by portdiveder";
+            invalidMessage = "Amount of desired resources should match offered resources divided by portdiveder";
             return false;
         }
 
         return true;
     }
-    
-    /* (non-Javadoc)
-     * @see soc.common.actions.gameAction.GameAction#perform(soc.common.game.Game)
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.common.actions.gameAction.GameAction#perform(soc.common.game.Game)
      */
     @Override
     public void perform(Game game)
@@ -123,26 +142,35 @@ public class TradeBank extends AbstractTurnAction
 
         player.getResources().subtractResources(offeredResources);
         player.getResources().add(wantedResources);
-        
+
         game.getBank().add(offeredResources);
         game.getBank().subtractResources(wantedResources);
 
-        message = player.getName() + " exchanges " + offeredResources.toString() +
-            " for " + wantedResources.toString() + ".";
-        
+        message = player.getName() + " exchanges "
+                + offeredResources.toString() + " for "
+                + wantedResources.toString() + ".";
+
         super.perform(game);
     }
+
     @Override
     public boolean isAllowed(TurnPhase turnPhase)
     {
         // TODO Auto-generated method stub
         return false;
     }
+
     @Override
     public boolean isAllowed(GamePhase gamePhase)
     {
         // TODO Auto-generated method stub
         return false;
     }
-    
+
+    @Override
+    public String getToDoMessage()
+    {
+        return I18n.get().actions().noToDo();
+    }
+
 }

@@ -3,6 +3,7 @@ package soc.common.actions.gameAction;
 import soc.common.game.Player;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
+import soc.common.internationalization.I18n;
 
 public class StartingPlayerDetermined extends AbstractGameAction
 {
@@ -19,12 +20,13 @@ public class StartingPlayerDetermined extends AbstractGameAction
     }
 
     /**
-     * @param gameStarter the gameStarter to set
+     * @param gameStarter
+     *            the gameStarter to set
      */
     public StartingPlayerDetermined setGameStarter(Player gameStarter)
     {
         this.gameStarter = gameStarter;
-    
+
         return this;
     }
 
@@ -37,12 +39,13 @@ public class StartingPlayerDetermined extends AbstractGameAction
     }
 
     /**
-     * @param diceRoll the diceRoll to set
+     * @param diceRoll
+     *            the diceRoll to set
      */
     public StartingPlayerDetermined setDiceRoll(int diceRoll)
     {
         this.diceRoll = diceRoll;
-    
+
         // Enables fluent interface usage
         // http://en.wikipedia.org/wiki/Fluent_interface
         return this;
@@ -62,5 +65,10 @@ public class StartingPlayerDetermined extends AbstractGameAction
         return false;
     }
 
+    @Override
+    public String getToDoMessage()
+    {
+        return I18n.get().actions().noToDo();
+    }
 
 }

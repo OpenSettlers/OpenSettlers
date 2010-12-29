@@ -71,18 +71,6 @@ public abstract class AbstractAction implements Action
     /*
      * (non-Javadoc)
      * 
-     * @see soc.common.actions.Action#getToDoMessage()
-     */
-    @Override
-    public String getToDoMessage()
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
      * @see soc.common.actions.Action#setPlayer(soc.common.game.Player)
      */
     @Override

@@ -187,4 +187,10 @@ public class BuildTown extends AbstractTurnAction
         return false;
     }
 
+    @Override
+    public String getToDoMessage()
+    {
+        return I18n.get().actions().builtTownToDo(player.getName());
+    }
+
 }

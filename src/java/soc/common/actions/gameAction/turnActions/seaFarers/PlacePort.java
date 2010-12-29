@@ -4,6 +4,7 @@ import soc.common.actions.gameAction.AbstractGameAction;
 import soc.common.board.ports.Port;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
+import soc.common.internationalization.I18n;
 
 public class PlacePort extends AbstractGameAction
 {
@@ -20,12 +21,13 @@ public class PlacePort extends AbstractGameAction
     }
 
     /**
-     * @param port the port to set
+     * @param port
+     *            the port to set
      */
     public PlacePort setPort(Port port)
     {
         this.port = port;
-    
+
         // Enables fluent interface usage
         // http://en.wikipedia.org/wiki/Fluent_interface
         return this;
@@ -40,12 +42,13 @@ public class PlacePort extends AbstractGameAction
     }
 
     /**
-     * @param territoryID the territoryID to set
+     * @param territoryID
+     *            the territoryID to set
      */
     public PlacePort setTerritoryID(int territoryID)
     {
         this.territoryID = territoryID;
-    
+
         // Enables fluent interface usage
         // http://en.wikipedia.org/wiki/Fluent_interface
         return this;
@@ -63,5 +66,11 @@ public class PlacePort extends AbstractGameAction
     {
         // TODO Auto-generated method stub
         return false;
+    }
+
+    @Override
+    public String getToDoMessage()
+    {
+        return I18n.get().actions().placePortToDo(player.getName());
     }
 }
