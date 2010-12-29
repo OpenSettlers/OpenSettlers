@@ -60,4 +60,6 @@ public interface Port
     public Port setHexLocation(HexLocation hexLocation);
 
     public Port copy();
+
+    public String getColor();
 }

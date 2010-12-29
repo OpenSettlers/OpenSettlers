@@ -4,9 +4,7 @@ import org.vaadin.gwtgraphics.client.Group;
 import org.vaadin.gwtgraphics.client.shape.Circle;
 import org.vaadin.gwtgraphics.client.shape.Path;
 
-import soc.common.board.hexes.AbstractHex;
 import soc.common.board.ports.Port;
-import soc.common.board.ports.TwoToOneResourcePort;
 import soc.common.client.visuals.board.IBoardVisual;
 import soc.common.client.visuals.board.PortVisual;
 import soc.gwtClient.game.Point2D;
@@ -61,21 +59,17 @@ public class SvgPortVisual extends PortVisual implements MouseMoveHandler,
 
         this.group = new Group();
         this.territoryPath = new Path(point.getX(), point.getY());
+        String color = "white";
         if (port != null)
         {
             createPath();
+            color = port.getColor();
         }
         territoryPath.setStrokeOpacity(0.2);
         territoryPath.setFillOpacity(fillOpacity);
 
-        circle = new Circle(point.getX(), point.getY(),
-                AbstractHex.getSize() / 3);
-        String color = "White";
-        if (port instanceof TwoToOneResourcePort)
-        {
-            TwoToOneResourcePort twoToOneResourcePort = (TwoToOneResourcePort) port;
-            color = twoToOneResourcePort.getResource().getColor();
-        }
+        circle = new Circle(point.getX(), point.getY(), parent.getSize() / 3);
+
         circle.setFillColor(color);
         circle.setFillOpacity(fillOpacity);
         circle.setStrokeWidth(0);
@@ -103,13 +97,7 @@ public class SvgPortVisual extends PortVisual implements MouseMoveHandler,
             territoryPath.setStrokeOpacity(0.2);
             territoryPath.setFillOpacity(fillOpacity);
 
-            // Remove old stuff when it's there still
-            // for (int i=0; i< territoryPath.getStepCount(); i++)
-            {
-                // territoryPath.removeStep(0);
-            }
-
-            // Update the path to reflect current port
+            // Update the path to reflect current port position
             createPath();
 
             group.add(territoryPath);
@@ -132,50 +120,46 @@ public class SvgPortVisual extends PortVisual implements MouseMoveHandler,
         switch (port.getRotationPosition())
         {
         case DEG0:
-            territoryPath.lineRelativelyTo(0, -(int) AbstractHex
-                    .getHalfHeight());
-            territoryPath.lineRelativelyTo((int) AbstractHex.getHalfWidth(),
-                    (int) AbstractHex.getBottomHeight());
-            territoryPath.lineRelativelyTo(-(int) AbstractHex.getHalfWidth(),
-                    (int) AbstractHex.getSize() / 2);
+            territoryPath.lineRelativelyTo(0, -(int) parent.getHalfHeight());
+            territoryPath.lineRelativelyTo((int) parent.getHalfWidth(),
+                    (int) parent.getBottomHeight());
+            territoryPath.lineRelativelyTo(-(int) parent.getHalfWidth(),
+                    (int) parent.getSize() / 2);
             break;
         case DEG60:
-            territoryPath.lineRelativelyTo((int) AbstractHex.getHalfWidth(),
-                    -(int) AbstractHex.getSize() / 2);
-            territoryPath.lineRelativelyTo(0, (int) AbstractHex.getSize());
-            territoryPath.lineRelativelyTo(-(int) AbstractHex.getHalfWidth(),
-                    -(int) AbstractHex.getSize() / 2);
+            territoryPath.lineRelativelyTo((int) parent.getHalfWidth(),
+                    -(int) parent.getSize() / 2);
+            territoryPath.lineRelativelyTo(0, (int) parent.getSize());
+            territoryPath.lineRelativelyTo(-(int) parent.getHalfWidth(),
+                    -(int) parent.getSize() / 2);
             break;
         case DEG120:
-            territoryPath.lineRelativelyTo((int) AbstractHex.getHalfWidth(),
-                    (int) AbstractHex.getSize() / 2);
-            territoryPath.lineRelativelyTo(-(int) AbstractHex.getHalfWidth(),
-                    (int) AbstractHex.getBottomHeight());
-            territoryPath.lineRelativelyTo(0, -(int) AbstractHex
-                    .getHalfHeight());
+            territoryPath.lineRelativelyTo((int) parent.getHalfWidth(),
+                    (int) parent.getSize() / 2);
+            territoryPath.lineRelativelyTo(-(int) parent.getHalfWidth(),
+                    (int) parent.getBottomHeight());
+            territoryPath.lineRelativelyTo(0, -(int) parent.getHalfHeight());
             break;
         case DEG180:
-            territoryPath
-                    .lineRelativelyTo(0, (int) AbstractHex.getHalfHeight());
-            territoryPath.lineRelativelyTo(-(int) AbstractHex.getHalfWidth(),
-                    -(int) AbstractHex.getBottomHeight());
-            territoryPath.lineRelativelyTo((int) AbstractHex.getHalfWidth(),
-                    -(int) AbstractHex.getSize() / 2);
+            territoryPath.lineRelativelyTo(0, (int) parent.getHalfHeight());
+            territoryPath.lineRelativelyTo(-(int) parent.getHalfWidth(),
+                    -(int) parent.getBottomHeight());
+            territoryPath.lineRelativelyTo((int) parent.getHalfWidth(),
+                    -(int) parent.getSize() / 2);
             break;
         case DEG240:
-            territoryPath.lineRelativelyTo(-(int) AbstractHex.getHalfWidth(),
-                    (int) AbstractHex.getSize() / 2);
-            territoryPath.lineRelativelyTo(0, -(int) AbstractHex.getSize());
-            territoryPath.lineRelativelyTo((int) AbstractHex.getHalfWidth(),
-                    (int) AbstractHex.getSize() / 2);
+            territoryPath.lineRelativelyTo(-(int) parent.getHalfWidth(),
+                    (int) parent.getSize() / 2);
+            territoryPath.lineRelativelyTo(0, -(int) parent.getSize());
+            territoryPath.lineRelativelyTo((int) parent.getHalfWidth(),
+                    (int) parent.getSize() / 2);
             break;
         case DEG300:
-            territoryPath.lineRelativelyTo(-(int) AbstractHex.getHalfWidth(),
-                    -(int) AbstractHex.getSize() / 2);
-            territoryPath.lineRelativelyTo((int) AbstractHex.getHalfWidth(),
-                    -(int) AbstractHex.getBottomHeight());
-            territoryPath
-                    .lineRelativelyTo(0, (int) AbstractHex.getHalfHeight());
+            territoryPath.lineRelativelyTo(-(int) parent.getHalfWidth(),
+                    -(int) parent.getSize() / 2);
+            territoryPath.lineRelativelyTo((int) parent.getHalfWidth(),
+                    -(int) parent.getBottomHeight());
+            territoryPath.lineRelativelyTo(0, (int) parent.getHalfHeight());
             break;
         }
         territoryPath.close();
@@ -228,4 +212,12 @@ public class SvgPortVisual extends PortVisual implements MouseMoveHandler,
         group.setVisible(visible);
     }
 
+    public void resizeAndReposition(Point2D newPoint)
+    {
+        this.point = newPoint;
+        circle.setX(point.getX());
+        circle.setY(point.getY());
+        circle.setRadius(parent.getSize() / 3);
+        updatePort();
+    }
 }

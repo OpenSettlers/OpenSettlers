@@ -1,7 +1,7 @@
 package soc.common.game.gamePhase;
 
 
-public class EndedGamePhase extends GamePhase
+public class EndedGamePhase extends AbstractGamePhase
 {
 
 }

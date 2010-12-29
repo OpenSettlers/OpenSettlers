@@ -58,4 +58,10 @@ public class FourToOnePort extends AbstractPort
         return new FourToOnePort();
     }
 
+    @Override
+    public String getColor()
+    {
+        return "White";
+    }
+
 }

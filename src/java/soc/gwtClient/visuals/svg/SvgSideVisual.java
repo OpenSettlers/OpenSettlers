@@ -5,7 +5,7 @@ import org.vaadin.gwtgraphics.client.animation.Animate;
 import org.vaadin.gwtgraphics.client.shape.Rectangle;
 
 import soc.common.board.HexSide;
-import soc.common.board.hexes.AbstractHex;
+import soc.common.client.visuals.board.IBoardVisual;
 import soc.common.client.visuals.game.SideVisual;
 import soc.gwtClient.game.Point2D;
 
@@ -20,13 +20,13 @@ public class SvgSideVisual extends SideVisual
     private double width = 0.0;
     private double height = 0.0;
 
-    public SvgSideVisual(HexSide hexSide, Point2D location)
+    public SvgSideVisual(IBoardVisual parent, HexSide hexSide, Point2D location)
     {
-        super(hexSide);
+        super(parent, hexSide);
         this.location = location;
 
-        width = AbstractHex.getSize() * 0.8;
-        height = AbstractHex.getSize() * 0.3;
+        width = parent.getSize() * 0.8;
+        height = parent.getSize() * 0.3;
 
         group = new Group();
         rectangle = new Rectangle((int) location.getX(), (int) location.getY(),

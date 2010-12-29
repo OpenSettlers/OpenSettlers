@@ -1,7 +1,5 @@
 package soc.gwtClient.game.widgets;
 
-import org.vaadin.gwtgraphics.client.DrawingArea;
-
 import soc.common.actions.gameAction.HostStartsGame;
 import soc.common.board.Board;
 import soc.common.client.visuals.game.IGameBoardVisual;
@@ -38,7 +36,7 @@ public class HotSeatGamePanel extends AbstractGamePanel implements
     DockLayoutPanel playersBankChatPanel = new DockLayoutPanel(Unit.EM);
     DockLayoutPanel boardActionResourcesPanel = new DockLayoutPanel(Unit.EM);
     TabLayoutPanel chatHistoryDebugPanel = new TabLayoutPanel(20.0, Unit.PX);
-    BoardLayoutPanel boardVisualPanel = new BoardLayoutPanel();
+    BoardLayoutPanel boardVisualPanel = new BoardLayoutPanel(gameBoard);
     ChatPanel chatPanel;
 
     public HotSeatGamePanel(Game game)
@@ -50,7 +48,6 @@ public class HotSeatGamePanel extends AbstractGamePanel implements
         chatPanel = new ChatPanel(this);
 
         createChatHistoryDebugPanel();
-        boardVisualPanel.setCanvas((DrawingArea) gameBoard.asWidget());
 
         boardActionResourcesPanel.addSouth(handCards.asWidget(), 5);
         boardActionResourcesPanel.addSouth(buildPallette.asWidget(), 5);

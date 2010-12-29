@@ -58,4 +58,10 @@ public class ThreeToOnePort extends AbstractPort
     {
         return new ThreeToOnePort();
     }
+
+    @Override
+    public String getColor()
+    {
+        return "White";
+    }
 }

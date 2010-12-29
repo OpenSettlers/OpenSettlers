@@ -12,4 +12,10 @@ public class RandomPort extends AbstractPort
         return new RandomPort();
     }
 
+    @Override
+    public String getColor()
+    {
+        return "Gray";
+    }
+
 }

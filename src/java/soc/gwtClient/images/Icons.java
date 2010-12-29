@@ -72,7 +72,7 @@ public interface Icons extends ClientBundle
     @Source("size16/Robber.png")
     public ImageResource robberSmall();
 
-    @Source("size48/SheepPort.png")
+    @Source("size32/SheepPort.png")
     public ImageResource sheepPort();
 
     @Source("size32/SheepHex.png")

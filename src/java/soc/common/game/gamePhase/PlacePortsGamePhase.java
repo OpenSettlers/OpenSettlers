@@ -9,7 +9,7 @@ import soc.common.board.territories.Territory;
 import soc.common.game.Game;
 
 @SeaFarers
-public class PlacePortsGamePhase extends GamePhase
+public class PlacePortsGamePhase extends AbstractGamePhase
 {
     /*
      * @see

@@ -1,16 +1,19 @@
 package soc.common.client.visuals.game;
 
 import soc.common.board.HexPoint;
-import soc.common.client.visuals.IPieceVisual;
-import soc.common.client.visuals.PieceVisual;
+import soc.common.client.visuals.AbstractPieceVisual;
+import soc.common.client.visuals.board.IBoardVisual;
 
-public abstract class PointVisual extends PieceVisual implements IPointVisual
+public abstract class PointVisual extends AbstractPieceVisual implements
+        IPointVisual
 {
-    private HexPoint hexPoint;
+    protected HexPoint hexPoint;
+    protected IBoardVisual parent;
 
-    public PointVisual(HexPoint hexPoint)
+    public PointVisual(IBoardVisual parent, HexPoint hexPoint)
     {
         super();
+        this.parent = parent;
         this.hexPoint = hexPoint;
     }
 

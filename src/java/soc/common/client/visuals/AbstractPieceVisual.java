@@ -4,7 +4,7 @@ package soc.common.client.visuals;
  * Base implementation of visual representation of a board object.
  * Implements selected, visible and enabled properties. 
  */
-public abstract class PieceVisual implements IPieceVisual
+public abstract class AbstractPieceVisual implements IPieceVisual
 {
     protected boolean visible = true;
     protected boolean selected = false;

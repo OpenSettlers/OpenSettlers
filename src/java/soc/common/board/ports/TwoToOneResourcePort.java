@@ -89,4 +89,10 @@ public class TwoToOneResourcePort extends AbstractPort
     {
         return new TwoToOneResourcePort(resource);
     }
+
+    @Override
+    public String getColor()
+    {
+        return resource.getColor();
+    }
 }

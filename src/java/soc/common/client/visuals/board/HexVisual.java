@@ -6,9 +6,9 @@ import soc.common.board.hexes.ResourceHex;
 import soc.common.board.hexes.SeaHex;
 import soc.common.board.hexes.TerritoryChangedEvent;
 import soc.common.board.ports.PortChangedEvent;
-import soc.common.client.visuals.PieceVisual;
+import soc.common.client.visuals.AbstractPieceVisual;
 
-public abstract class HexVisual extends PieceVisual implements IHexVisual
+public abstract class HexVisual extends AbstractPieceVisual implements IHexVisual
 {
     protected Hex hex;
 

@@ -20,4 +20,10 @@ public class PossiblePort extends AbstractPort
     {
         return new PossiblePort();
     }
+
+    @Override
+    public String getColor()
+    {
+        return "White";
+    }
 }

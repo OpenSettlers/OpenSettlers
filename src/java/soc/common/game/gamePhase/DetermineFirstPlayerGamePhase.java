@@ -13,7 +13,7 @@ import soc.common.board.territories.Territory;
 import soc.common.game.Game;
 import soc.common.game.Player;
 
-public class DetermineFirstPlayerGamePhase extends GamePhase
+public class DetermineFirstPlayerGamePhase extends AbstractGamePhase
 {
     @Override
     public void start(Game game)

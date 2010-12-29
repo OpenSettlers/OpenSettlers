@@ -12,6 +12,7 @@ import soc.common.board.pieces.PlayerPieceList;
 import soc.common.board.resources.Resource;
 import soc.common.board.resources.ResourceList;
 import soc.common.game.developmentCards.DevelopmentCardList;
+import soc.common.game.gamePhase.AbstractGamePhase;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.LobbyGamePhase;
 import soc.common.game.logs.ActionsQueue;
@@ -32,7 +33,7 @@ public class Game
     // Event subscribers/broadcasting mechanism
     private SimpleEventBus eventBus = new SimpleEventBus();
 
-    private LinkedList<GamePhase> gamePhases = new LinkedList<GamePhase>();
+    private LinkedList<AbstractGamePhase> gamePhases = new LinkedList<AbstractGamePhase>();
 
     // Lists of actions, logs & future actions
     private IActionsQueue actionsQueue = new ActionsQueue();
@@ -342,12 +343,12 @@ public class Game
         this.bank = bank;
     }
 
-    public LinkedList<GamePhase> getGamePhases()
+    public LinkedList<AbstractGamePhase> getGamePhases()
     {
         return gamePhases;
     }
 
-    public void setGamePhases(LinkedList<GamePhase> gamePhases)
+    public void setGamePhases(LinkedList<AbstractGamePhase> gamePhases)
     {
         this.gamePhases = gamePhases;
     }

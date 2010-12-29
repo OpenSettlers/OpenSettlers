@@ -27,12 +27,15 @@ import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.HasHandlers;
 import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class HexPanel extends VerticalPanel implements HasHandlers
+public class HexPanel extends HorizontalPanel implements HasHandlers
 {
+    private VerticalPanel panel1 = new VerticalPanel();
+    private VerticalPanel panel2 = new VerticalPanel();
     private SetHexBehaviour editBehaviour;
     private SetTerritoryBehaviour setTerritoryBehaviour;
     private SetChitBehaviour setChitBehaviour;
@@ -98,6 +101,9 @@ public class HexPanel extends VerticalPanel implements HasHandlers
         this.setTerritoryBehaviour = setTerritoryBehaviour;
         this.setChitBehaviour = setChitBehaviour;
 
+        this.add(panel1);
+        this.add(panel2);
+
         PushButton btnTimber = new PushButton(new Image(Resources.icons()
                 .timberHex()));
         btnTimber.addClickHandler(new ClickHandler()
@@ -109,7 +115,7 @@ public class HexPanel extends VerticalPanel implements HasHandlers
                 vuur();
             }
         });
-        this.add(btnTimber);
+        panel1.add(btnTimber);
 
         PushButton btnWheat = new PushButton(new Image(Resources.icons()
                 .wheatHex()));
@@ -122,7 +128,7 @@ public class HexPanel extends VerticalPanel implements HasHandlers
                 vuur();
             }
         });
-        this.add(btnWheat);
+        panel1.add(btnWheat);
 
         PushButton btnOre = new PushButton(
                 new Image(Resources.icons().oreHex()));
@@ -135,7 +141,7 @@ public class HexPanel extends VerticalPanel implements HasHandlers
                 vuur();
             }
         });
-        this.add(btnOre);
+        panel1.add(btnOre);
 
         PushButton btnClay = new PushButton(new Image(Resources.icons()
                 .clayHex()));
@@ -148,7 +154,7 @@ public class HexPanel extends VerticalPanel implements HasHandlers
                 vuur();
             }
         });
-        this.add(btnClay);
+        panel1.add(btnClay);
 
         PushButton btnSheep = new PushButton(new Image(Resources.icons()
                 .sheepHex()));
@@ -161,7 +167,7 @@ public class HexPanel extends VerticalPanel implements HasHandlers
                 vuur();
             }
         });
-        this.add(btnSheep);
+        panel1.add(btnSheep);
 
         PushButton btnGold = new PushButton(new Image(Resources.icons()
                 .goldHex()));
@@ -174,7 +180,7 @@ public class HexPanel extends VerticalPanel implements HasHandlers
                 vuur();
             }
         });
-        this.add(btnGold);
+        panel1.add(btnGold);
 
         PushButton btnJungle = new PushButton(new Image(Resources.icons()
                 .jungleHex()));
@@ -187,7 +193,7 @@ public class HexPanel extends VerticalPanel implements HasHandlers
                 vuur();
             }
         });
-        this.add(btnJungle);
+        panel2.add(btnJungle);
 
         PushButton btnVolcano = new PushButton(new Image(Resources.icons()
                 .volcanoHex()));
@@ -200,7 +206,7 @@ public class HexPanel extends VerticalPanel implements HasHandlers
                 vuur();
             }
         });
-        this.add(btnVolcano);
+        panel2.add(btnVolcano);
 
         PushButton btnDesert = new PushButton(new Image(Resources.icons()
                 .desertHex()));
@@ -213,7 +219,7 @@ public class HexPanel extends VerticalPanel implements HasHandlers
                 vuur();
             }
         });
-        this.add(btnDesert);
+        panel2.add(btnDesert);
 
         PushButton btnSea = new PushButton(
                 new Image(Resources.icons().seaHex()));
@@ -226,7 +232,7 @@ public class HexPanel extends VerticalPanel implements HasHandlers
                 vuur();
             }
         });
-        this.add(btnSea);
+        panel2.add(btnSea);
 
         PushButton btnNone = new PushButton(new Image(Resources.icons()
                 .noneHex()));
@@ -239,7 +245,7 @@ public class HexPanel extends VerticalPanel implements HasHandlers
                 vuur();
             }
         });
-        this.add(btnNone);
+        panel2.add(btnNone);
 
         PushButton btnRandom = new PushButton(new Image(Resources.icons()
                 .randomHex()));
@@ -252,7 +258,7 @@ public class HexPanel extends VerticalPanel implements HasHandlers
                 vuur();
             }
         });
-        this.add(btnRandom);
+        panel2.add(btnRandom);
 
         PushButton btnDiscovery = new PushButton(new Image(Resources.icons()
                 .discoveryHex()));
@@ -265,6 +271,6 @@ public class HexPanel extends VerticalPanel implements HasHandlers
                 vuur();
             }
         });
-        this.add(btnDiscovery);
+        panel2.add(btnDiscovery);
     }
 }

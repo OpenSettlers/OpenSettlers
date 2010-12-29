@@ -8,15 +8,15 @@ import soc.common.board.HexLocation;
 import soc.common.board.HexPoint;
 import soc.common.board.HexPointType;
 import soc.common.board.HexSide;
-import soc.common.board.hexes.AbstractHex;
 import soc.common.board.hexes.Hex;
-import soc.common.client.visuals.board.BoardVisual;
+import soc.common.client.visuals.board.AbstractBoardVisual;
+import soc.common.client.visuals.board.IHexVisual;
 import soc.gwtClient.editor.BehaviourChanged;
 import soc.gwtClient.game.Point2D;
 
 import com.google.gwt.user.client.ui.Widget;
 
-public class SvgBoardVisual extends BoardVisual
+public class SvgBoardVisual extends AbstractBoardVisual
 {
     private DrawingArea drawingArea;
     private Rectangle enabledOverlay;
@@ -43,12 +43,10 @@ public class SvgBoardVisual extends BoardVisual
         // Iterate over all hexes, create a HexVisual and attach event handlers
         for (Hex hex : board.getHexes())
         {
-            Point2D point = calculatePosition(hex.getLocation());
-
-            final SvgHexVisual hv = new SvgHexVisual(hex, this, point);
+            final SvgHexVisual hv = new SvgHexVisual(hex, this);
 
             drawingArea.add(hv.getGroup());
-            hexVisuals.add(hv);
+            hexVisuals.put(hex, hv);
         }
 
         enabledOverlay = new Rectangle(0, 0, drawingArea.getWidth(),
@@ -60,15 +58,15 @@ public class SvgBoardVisual extends BoardVisual
     public Point2D calculatePosition(HexLocation location)
     {
         double margin = 5;
-        double marginLeft = AbstractHex.getHalfWidth();
-        double x = location.getW() * (AbstractHex.getWidth() + margin);
-        double y = location.getH() * (AbstractHex.getPartialHeight() + margin);
+        double marginLeft = getHalfWidth();
+        double x = location.getW() * (getWidth() + margin);
+        double y = location.getH() * (getPartialHeight() + margin);
 
         x += marginLeft;
 
         // Alternate half the width of an hex
         if (location.getH() % 2 == 0)
-            x += AbstractHex.getHalfWidth();
+            x += getHalfWidth();
 
         // center the position (not necessary in 2D view)
         // x -= Hex.getHalfWidth() * board.getWidth();
@@ -87,18 +85,16 @@ public class SvgBoardVisual extends BoardVisual
         switch (location.getDirection())
         {
         case SLOPEDOWN:
-            x += AbstractHex.getWidth() * 0.25;
-            y += (AbstractHex.getBottomHeight() * 0.5)
-                    + AbstractHex.getPartialHeight();
+            x += getWidth() * 0.25;
+            y += (getBottomHeight() * 0.5) + getPartialHeight();
             break;
         case SLOPEUP:
-            x += AbstractHex.getWidth() * 0.75;
-            y += (AbstractHex.getBottomHeight() * 0.5)
-                    + AbstractHex.getPartialHeight();
+            x += getWidth() * 0.75;
+            y += (getBottomHeight() * 0.5) + getPartialHeight();
             break;
         case UPDOWN:
-            x += AbstractHex.getWidth();
-            y += AbstractHex.getHeight() * 0.5;
+            x += getWidth();
+            y += getHeight() * 0.5;
             break;
         }
         return new Point2D((int) x, (int) y);
@@ -115,13 +111,13 @@ public class SvgBoardVisual extends BoardVisual
 
         if (location.getPointType() == HexPointType.UPPERROW1)
         {
-            x += AbstractHex.getHalfWidth();
-            y += AbstractHex.getHeight();
+            x += getHalfWidth();
+            y += getHeight();
         }
         else
         {
-            x += AbstractHex.getWidth();
-            y += AbstractHex.getPartialHeight();
+            x += getWidth();
+            y += getPartialHeight();
         }
 
         return point;
@@ -148,5 +144,36 @@ public class SvgBoardVisual extends BoardVisual
     public Widget asWidget()
     {
         return drawingArea;
+    }
+
+    @Override
+    public void resize(int width, int height)
+    {
+        // Ensure underlying drawing area uses up all available space
+        drawingArea.setSize(width + "px", height + "px");
+
+        // First, calculate the projected width & height from the old values
+        double projectedWidth = (board.getWidth() + 1) * getWidth();
+        double projectedHeight = (board.getHeight() + 1) * getBottomHeight();
+
+        // Then, calculate for width and height a scale factor
+        double widthFactor = projectedWidth / width;
+        double heightFactor = projectedHeight / height;
+
+        // Determine the factor to use, which is th lowest of the scale factors
+        double factor = widthFactor > heightFactor ? heightFactor : widthFactor;
+
+        // Scale the sidelength to the new factor
+        sideLength = sideLength * factor;
+
+        // Update the rest of the hex sizes
+        calculateHexSizes();
+
+        // Let all children resize and reposition themselves
+        for (IHexVisual hexVisual : hexVisuals.values())
+        {
+            SvgHexVisual svgHexVisual = (SvgHexVisual) hexVisual;
+            svgHexVisual.resizeAndPosition();
+        }
     }
 }

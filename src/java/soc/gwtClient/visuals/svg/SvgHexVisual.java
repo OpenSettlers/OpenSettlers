@@ -4,7 +4,6 @@ import org.vaadin.gwtgraphics.client.Group;
 import org.vaadin.gwtgraphics.client.Image;
 import org.vaadin.gwtgraphics.client.shape.Path;
 
-import soc.common.board.hexes.AbstractHex;
 import soc.common.board.hexes.Hex;
 import soc.common.client.visuals.IPieceVisual;
 import soc.common.client.visuals.board.HexVisual;
@@ -31,7 +30,7 @@ public class SvgHexVisual extends HexVisual implements MouseMoveHandler,
 
     private Group group = new Group();
     private Point2D point;
-    private final Path p;
+    private Path path;
     private Image hexImage;
     private Path disabledOverlay;
 
@@ -45,13 +44,13 @@ public class SvgHexVisual extends HexVisual implements MouseMoveHandler,
         this.selected = selected;
         if (selected)
         {
-            p.setFillOpacity(0.5);
-            p.setStrokeWidth(15);
+            path.setFillOpacity(0.5);
+            path.setStrokeWidth(15);
         }
         else
         {
-            p.setFillOpacity(0);
-            p.setStrokeWidth(5);
+            path.setFillOpacity(0);
+            path.setStrokeWidth(5);
         }
 
         // Enables fluent interface usage
@@ -59,25 +58,65 @@ public class SvgHexVisual extends HexVisual implements MouseMoveHandler,
         return this;
     }
 
-    public SvgHexVisual(Hex hex, IBoardVisual parent, Point2D point)
+    private SvgBoardVisual getSvgParent()
+    {
+        return (SvgBoardVisual) parent;
+    }
+
+    private SvgChitVisual getSvgChit()
+    {
+        return (SvgChitVisual) chit;
+    }
+
+    private SvgTerritoryVisual getSvgTerritory()
+    {
+        return (SvgTerritoryVisual) territory;
+    }
+
+    private SvgPortPossiblitiesVisual getSvgPortPossibilitiesVisual()
+    {
+        return (SvgPortPossiblitiesVisual) portPossibilities;
+    }
+
+    private SvgPortVisual getSvgPortVisual()
+    {
+        return (SvgPortVisual) port;
+    }
+
+    private Path createMainPath()
+    {
+        Path result = createPath();
+
+        result.setStrokeWidth(5);
+        result.setFillOpacity(0);
+
+        return result;
+    }
+
+    private Path createDisabledOverlay()
+    {
+        Path result = createPath();
+
+        result.setStrokeWidth(5);
+        result.setFillColor("Black");
+        result.setFillOpacity(0.5);
+        result.setVisible(false);
+
+        return result;
+    }
+
+    public SvgHexVisual(Hex hex, IBoardVisual parent)
     {
         super(hex, parent);
 
-        this.point = point;
+        this.point = getSvgParent().calculatePosition(hex.getLocation());
 
-        p = createPath();
-        p.setStrokeWidth(5);
-        p.setFillOpacity(0);
-
-        disabledOverlay = createPath();
-        disabledOverlay.setStrokeWidth(5);
-        disabledOverlay.setFillColor("Black");
-        disabledOverlay.setFillOpacity(0.5);
-        disabledOverlay.setVisible(false);
+        path = createMainPath();
+        disabledOverlay = createDisabledOverlay();
 
         // create the visuals
-        this.chit = new SvgChitVisual(null, parent, point);
-        this.territory = new SvgTerritoryVisual(null, point);
+        this.chit = new SvgChitVisual(null, parent, getMiddlePoint(point));
+        this.territory = new SvgTerritoryVisual(parent, null, point);
         this.portPossibilities = new SvgPortPossiblitiesVisual(hex
                 .getLocation(), (SvgBoardVisual) parent);
         this.port = new SvgPortVisual(null, parent, getMiddlePoint(point));
@@ -92,7 +131,7 @@ public class SvgHexVisual extends HexVisual implements MouseMoveHandler,
         group.add(hexImage);
 
         // Hexagon path drawing is overlayed on texture
-        group.add(p);
+        group.add(path);
 
         // Add the visuals layer
         group.add(((SvgChitVisual) chit).getTerritoryImage());
@@ -123,24 +162,24 @@ public class SvgHexVisual extends HexVisual implements MouseMoveHandler,
 
     private Point2D getMiddlePoint(Point2D point)
     {
-        return new Point2D((int) point.getX(),
-                (int) (point.getY() + AbstractHex.getHalfHeight()));
+        return new Point2D((int) point.getX(), (int) (point.getY() + parent
+                .getHalfHeight()));
     }
 
     private Path createPath()
     {
         Path result = new Path(point.getX(), point.getY());
 
-        result.lineRelativelyTo((int) AbstractHex.getHalfWidth(),
-                (int) AbstractHex.getBottomHeight());
-        result.lineRelativelyTo(0, (int) AbstractHex.getSize());
-        result.lineRelativelyTo((int) -AbstractHex.getHalfWidth(),
-                (int) AbstractHex.getBottomHeight());
-        result.lineRelativelyTo((int) -AbstractHex.getHalfWidth(),
-                (int) -AbstractHex.getBottomHeight());
-        result.lineRelativelyTo(0, (int) -AbstractHex.getSize());
-        result.lineRelativelyTo((int) AbstractHex.getHalfWidth(),
-                (int) -AbstractHex.getBottomHeight());
+        result.lineRelativelyTo((int) parent.getHalfWidth(), (int) parent
+                .getBottomHeight());
+        result.lineRelativelyTo(0, (int) parent.getSize());
+        result.lineRelativelyTo((int) -parent.getHalfWidth(), (int) parent
+                .getBottomHeight());
+        result.lineRelativelyTo((int) -parent.getHalfWidth(), (int) -parent
+                .getBottomHeight());
+        result.lineRelativelyTo(0, (int) -parent.getSize());
+        result.lineRelativelyTo((int) parent.getHalfWidth(), (int) -parent
+                .getBottomHeight());
 
         return result;
     }
@@ -153,13 +192,14 @@ public class SvgHexVisual extends HexVisual implements MouseMoveHandler,
 
         if (hexImage == null)
         {
-            hexImage = new Image(point.getX() - 48, point.getY(), 95, 98, img);
+            hexImage = new Image(point.getX() - parent.getSize(), point.getY(),
+                    parent.getSize() * 2, parent.getSize() * 2, img);
         }
         else
         {
             hexImage.setHref(img);
         }
-        p.setStrokeColor(color);
+        path.setStrokeColor(color);
     }
 
     /*
@@ -191,4 +231,24 @@ public class SvgHexVisual extends HexVisual implements MouseMoveHandler,
         parent.getCurrentBehaviour().mouseOut(this, parent);
     }
 
+    public void resizeAndPosition()
+    {
+        this.point = getSvgParent().calculatePosition(hex.getLocation());
+
+        // Resize hex texture
+        hexImage.setX(point.getX() - parent.getSize());
+        hexImage.setY(point.getY());
+        hexImage.setHeight(parent.getSize() * 2);
+        hexImage.setWidth(parent.getSize() * 2);
+
+        // update main path and disabled overlay path
+        path = createMainPath();
+        disabledOverlay = createDisabledOverlay();
+
+        // update children visuals size and position
+        this.getSvgChit().resizeAndReposition(point);
+        this.getSvgPortVisual().resizeAndReposition(point);
+        this.getSvgTerritory().resizeAndReposition(point);
+        // this.getSvgPortPossibilitiesVisual().resizeAndReposition(point);
+    }
 }

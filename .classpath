@@ -9,5 +9,6 @@
 	<classpathentry kind="lib" path="/home/ruud/Desktop/db4o-7.12.156.14667-core-java5.jar"/>
 	<classpathentry kind="lib" path="/home/ruud/Downloads/gwt-comet-1.2.1.jar"/>
 	<classpathentry kind="lib" path="/home/ruud/Downloads/gwt_i18n_server_1.0.jar"/>
+	<classpathentry kind="lib" path="/home/ruud/Downloads/lib-gwt-svg-0.5.0.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

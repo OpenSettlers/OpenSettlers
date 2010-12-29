@@ -17,4 +17,10 @@ public class FivetoTwoJunglePort extends AbstractPort
         return new FivetoTwoJunglePort();
     }
 
+    @Override
+    public String getColor()
+    {
+        return "DarkGray";
+    }
+
 }

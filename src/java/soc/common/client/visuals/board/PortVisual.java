@@ -1,9 +1,9 @@
 package soc.common.client.visuals.board;
 
 import soc.common.board.ports.Port;
-import soc.common.client.visuals.PieceVisual;
+import soc.common.client.visuals.AbstractPieceVisual;
 
-public abstract class PortVisual extends PieceVisual implements IPortVisual
+public abstract class PortVisual extends AbstractPieceVisual implements IPortVisual
 {
     protected Port port;
     protected IBoardVisual parent;

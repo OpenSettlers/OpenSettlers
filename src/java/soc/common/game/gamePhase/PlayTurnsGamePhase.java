@@ -6,7 +6,7 @@ import soc.common.game.Game;
 import soc.common.game.gamePhase.turnPhase.BeforeDiceRollTurnPhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
 
-public class PlayTurnsGamePhase extends GamePhase
+public class PlayTurnsGamePhase extends AbstractGamePhase
 {
     // Current phase of the player on turn
     private TurnPhase turnPhase = new BeforeDiceRollTurnPhase();

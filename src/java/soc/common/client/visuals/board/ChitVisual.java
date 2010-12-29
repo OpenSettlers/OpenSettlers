@@ -1,9 +1,9 @@
 package soc.common.client.visuals.board;
 
 import soc.common.board.Chit;
-import soc.common.client.visuals.PieceVisual;
+import soc.common.client.visuals.AbstractPieceVisual;
 
-public class ChitVisual extends PieceVisual implements IChitVisual
+public class ChitVisual extends AbstractPieceVisual implements IChitVisual
 {
     protected Chit chit;
     final protected IBoardVisual parent;

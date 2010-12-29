@@ -1,30 +1,29 @@
 package soc.gwtClient.game.widgets.bitmap;
 
-import org.vaadin.gwtgraphics.client.DrawingArea;
+import soc.common.client.visuals.board.IBoardVisual;
 
 import com.google.gwt.user.client.ui.LayoutPanel;
 
 public class BoardLayoutPanel extends LayoutPanel
 {
-    DrawingArea canvas;
-    
-    /**
-     * @param canvas the canvas to set
-     */
-    public void setCanvas(DrawingArea canvas)
+    IBoardVisual boardVisual;
+
+    public BoardLayoutPanel(IBoardVisual boardVisual)
     {
-        this.canvas = canvas;
-        this.add(canvas);
+        super();
+        this.boardVisual = boardVisual;
+        this.add(boardVisual);
     }
 
-    /* (non-Javadoc)
+    /**
+     * 
      * @see com.google.gwt.user.client.ui.LayoutPanel#onResize()
      */
     @Override
     public void onResize()
     {
         super.onResize();
-        canvas.setSize(this.getOffsetWidth() + "px", this.getOffsetHeight()+ "px");
+        // boardVisual.resize(this.getOffsetWidth(), this.getOffsetHeight());
     }
-    
+
 }

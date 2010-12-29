@@ -7,9 +7,9 @@ import soc.common.board.HexLocation;
 import soc.common.board.RotationPosition;
 import soc.common.board.ports.AbstractPort;
 import soc.common.board.ports.PossiblePort;
-import soc.common.client.visuals.PieceVisual;
+import soc.common.client.visuals.AbstractPieceVisual;
 
-public abstract class PortPossibilitiesVisual extends PieceVisual implements
+public abstract class PortPossibilitiesVisual extends AbstractPieceVisual implements
         IPortPossibilitiesVisual
 {
     protected List<AbstractPort> ports = new ArrayList<AbstractPort>();

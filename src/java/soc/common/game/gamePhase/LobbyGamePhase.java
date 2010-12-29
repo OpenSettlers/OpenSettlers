@@ -9,7 +9,7 @@ import soc.common.game.Player;
 import soc.common.game.PlayerList;
 import soc.common.game.PlayerListImpl;
 
-public class LobbyGamePhase extends GamePhase
+public class LobbyGamePhase extends AbstractGamePhase
 {
     public List<Player> playersWhoAcceptedSettings = new ArrayList<Player>();
     

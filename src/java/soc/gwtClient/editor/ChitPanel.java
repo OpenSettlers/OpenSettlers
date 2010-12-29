@@ -10,12 +10,15 @@ import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.HasHandlers;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class ChitPanel extends VerticalPanel implements HasHandlers
+public class ChitPanel extends HorizontalPanel implements HasHandlers
 {
+    private VerticalPanel panel1 = new VerticalPanel();
+    private VerticalPanel panel2 = new VerticalPanel();
     private SetChitBehaviour editBehaviour;
     private final Chit chit2 = new Chit(2);
     private final Chit chit3 = new Chit(3);
@@ -56,6 +59,8 @@ public class ChitPanel extends VerticalPanel implements HasHandlers
         super();
 
         editBehaviour = behaviour;
+        this.add(panel1);
+        this.add(panel2);
 
         PushButton btnChit2 = new PushButton(new Image(Resources.icons()
                 .chit2()));
@@ -68,7 +73,7 @@ public class ChitPanel extends VerticalPanel implements HasHandlers
                 vuur();
             }
         });
-        this.add(btnChit2);
+        panel1.add(btnChit2);
         PushButton btnChit3 = new PushButton(new Image(Resources.icons()
                 .chit3()));
         btnChit3.addClickHandler(new ClickHandler()
@@ -80,7 +85,7 @@ public class ChitPanel extends VerticalPanel implements HasHandlers
                 vuur();
             }
         });
-        this.add(btnChit3);
+        panel1.add(btnChit3);
         PushButton btnChit4 = new PushButton(new Image(Resources.icons()
                 .chit4()));
         btnChit4.addClickHandler(new ClickHandler()
@@ -92,7 +97,7 @@ public class ChitPanel extends VerticalPanel implements HasHandlers
                 vuur();
             }
         });
-        this.add(btnChit4);
+        panel1.add(btnChit4);
         PushButton btnChit5 = new PushButton(new Image(Resources.icons()
                 .chit5()));
         btnChit5.addClickHandler(new ClickHandler()
@@ -104,7 +109,7 @@ public class ChitPanel extends VerticalPanel implements HasHandlers
                 vuur();
             }
         });
-        this.add(btnChit5);
+        panel1.add(btnChit5);
         PushButton btnChit6 = new PushButton(new Image(Resources.icons()
                 .chit6()));
         btnChit6.addClickHandler(new ClickHandler()
@@ -116,56 +121,7 @@ public class ChitPanel extends VerticalPanel implements HasHandlers
                 vuur();
             }
         });
-        this.add(btnChit6);
-        PushButton btnChit8 = new PushButton(new Image(Resources.icons()
-                .chit8()));
-        btnChit8.addClickHandler(new ClickHandler()
-        {
-            @Override
-            public void onClick(ClickEvent event)
-            {
-                editBehaviour.setCurrentChit(chit8);
-                vuur();
-            }
-        });
-        this.add(btnChit8);
-        PushButton btnChit9 = new PushButton(new Image(Resources.icons()
-                .chit9()));
-        btnChit9.addClickHandler(new ClickHandler()
-        {
-            @Override
-            public void onClick(ClickEvent event)
-            {
-                editBehaviour.setCurrentChit(chit9);
-                vuur();
-            }
-        });
-        this.add(btnChit9);
-        PushButton btnChit10 = new PushButton(new Image(Resources.icons()
-                .chit10()));
-        btnChit10.addClickHandler(new ClickHandler()
-        {
-            @Override
-            public void onClick(ClickEvent event)
-            {
-                editBehaviour.setCurrentChit(chit10);
-                vuur();
-            }
-        });
-        this.add(btnChit10);
-
-        PushButton btnChit11 = new PushButton(new Image(Resources.icons()
-                .chit11()));
-        btnChit11.addClickHandler(new ClickHandler()
-        {
-            @Override
-            public void onClick(ClickEvent event)
-            {
-                editBehaviour.setCurrentChit(chit11);
-                vuur();
-            }
-        });
-        this.add(btnChit11);
+        panel1.add(btnChit6);
 
         PushButton btnChit12 = new PushButton(new Image(Resources.icons()
                 .chit12()));
@@ -178,7 +134,59 @@ public class ChitPanel extends VerticalPanel implements HasHandlers
                 vuur();
             }
         });
-        this.add(btnChit12);
+        panel2.add(btnChit12);
+
+        PushButton btnChit11 = new PushButton(new Image(Resources.icons()
+                .chit11()));
+        btnChit11.addClickHandler(new ClickHandler()
+        {
+            @Override
+            public void onClick(ClickEvent event)
+            {
+                editBehaviour.setCurrentChit(chit11);
+                vuur();
+            }
+        });
+        panel2.add(btnChit11);
+
+        PushButton btnChit10 = new PushButton(new Image(Resources.icons()
+                .chit10()));
+        btnChit10.addClickHandler(new ClickHandler()
+        {
+            @Override
+            public void onClick(ClickEvent event)
+            {
+                editBehaviour.setCurrentChit(chit10);
+                vuur();
+            }
+        });
+        panel2.add(btnChit10);
+
+        PushButton btnChit9 = new PushButton(new Image(Resources.icons()
+                .chit9()));
+        btnChit9.addClickHandler(new ClickHandler()
+        {
+            @Override
+            public void onClick(ClickEvent event)
+            {
+                editBehaviour.setCurrentChit(chit9);
+                vuur();
+            }
+        });
+        panel2.add(btnChit9);
+
+        PushButton btnChit8 = new PushButton(new Image(Resources.icons()
+                .chit8()));
+        btnChit8.addClickHandler(new ClickHandler()
+        {
+            @Override
+            public void onClick(ClickEvent event)
+            {
+                editBehaviour.setCurrentChit(chit8);
+                vuur();
+            }
+        });
+        panel2.add(btnChit8);
 
         PushButton btnChitRandom = new PushButton(new Image(Resources.icons()
                 .randomChit()));
@@ -191,7 +199,7 @@ public class ChitPanel extends VerticalPanel implements HasHandlers
                 vuur();
             }
         });
-        this.add(btnChitRandom);
+        panel1.add(btnChitRandom);
 
         PushButton btnChitNull = new PushButton(new Image(Resources.icons()
                 .blankChit()));
@@ -204,6 +212,6 @@ public class ChitPanel extends VerticalPanel implements HasHandlers
                 vuur();
             }
         });
-        this.add(btnChitNull);
+        panel2.add(btnChitNull);
     }
 }
