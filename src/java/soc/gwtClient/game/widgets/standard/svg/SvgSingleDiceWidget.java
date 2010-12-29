@@ -5,11 +5,9 @@ import org.vaadin.gwtgraphics.client.Group;
 import org.vaadin.gwtgraphics.client.shape.Circle;
 import org.vaadin.gwtgraphics.client.shape.Rectangle;
 
-import com.google.gwt.event.dom.client.MouseMoveEvent;
-import com.google.gwt.event.dom.client.MouseMoveHandler;
-import com.google.gwt.user.client.ui.Widget;
-
 import soc.gwtClient.game.abstractWidgets.ISingleDiceWidget;
+
+import com.google.gwt.user.client.ui.Widget;
 
 public class SvgSingleDiceWidget implements ISingleDiceWidget
 {
@@ -25,21 +23,21 @@ public class SvgSingleDiceWidget implements ISingleDiceWidget
     private Circle dot7;
     private Group group;
     private Rectangle rectangle;
-    
+
     public SvgSingleDiceWidget()
     {
-        canvas = new DrawingArea(56, 56);
+        canvas = new DrawingArea(38, 38);
         group = new Group();
-        rectangle = new Rectangle(offset, offset, 50, 50);
-        rectangle.setRoundedCorners(10);
-        rectangle.setStrokeWidth(3);
-        dot1 = createCircle(diceOffset + 8,diceOffset + 9);
-        dot2 = createCircle(diceOffset + 8,diceOffset + 21);
-        dot3 = createCircle(diceOffset + 8,diceOffset + 33);
-        dot4 = createCircle(diceOffset + 34,diceOffset + 9);
-        dot5 = createCircle(diceOffset + 34,diceOffset + 21);
-        dot6 = createCircle(diceOffset + 34,diceOffset + 33);
-        dot7 = createCircle(diceOffset + 22,diceOffset + 21);
+        rectangle = new Rectangle(offset, offset, 32, 32);
+        rectangle.setRoundedCorners(8);
+        rectangle.setStrokeWidth(2);
+        dot1 = createCircle(diceOffset + 5, diceOffset + 5);
+        dot2 = createCircle(diceOffset + 5, diceOffset + 12);
+        dot3 = createCircle(diceOffset + 5, diceOffset + 19);
+        dot4 = createCircle(diceOffset + 21, diceOffset + 5);
+        dot5 = createCircle(diceOffset + 21, diceOffset + 12);
+        dot6 = createCircle(diceOffset + 21, diceOffset + 19);
+        dot7 = createCircle(diceOffset + 13, diceOffset + 12);
         group.add(rectangle);
         group.add(dot1);
         group.add(dot2);
@@ -50,13 +48,15 @@ public class SvgSingleDiceWidget implements ISingleDiceWidget
         group.add(dot7);
         canvas.add(group);
     }
+
     private Circle createCircle(int x, int y)
     {
-        int radius = 4;
+        int radius = 2;
         Circle result = new Circle(x, y, radius);
         result.setFillColor("Black");
         return result;
     }
+
     public void setNumber(int number)
     {
         switch (number)
@@ -117,6 +117,7 @@ public class SvgSingleDiceWidget implements ISingleDiceWidget
             break;
         }
     }
+
     @Override
     public Widget asWidget()
     {

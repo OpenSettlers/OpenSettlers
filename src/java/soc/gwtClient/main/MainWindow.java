@@ -32,7 +32,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
@@ -44,7 +43,6 @@ public class MainWindow implements EntryPoint
     DockLayoutPanel rootPanel = new DockLayoutPanel(Unit.EM);
     HorizontalPanel menu = new HorizontalPanel();
     LayoutPanel centerWidget = new LayoutPanel();
-    HorizontalPanel statusBar = new HorizontalPanel();
     ICenterWidget mapEditor;
     ICenterWidget welcomePanel;
     ICenterWidget currentWidget;
@@ -73,10 +71,6 @@ public class MainWindow implements EntryPoint
         welcomePanel = new WelcomePanel(this);
         hotseatGame = new HotSeatGamePanel(createGame());
         wikiPage = new WikiPanel();
-
-        Label lblSomeStatusLabel = new Label(
-                "Some text here to show we have an awesome statusbar");
-        statusBar.add(lblSomeStatusLabel);
 
         currentWidget = welcomePanel;
         centerWidget.add(currentWidget.getRootWidget());
@@ -107,7 +101,6 @@ public class MainWindow implements EntryPoint
             }
         });
         menu.add(btnWelcomePanel);
-        rootPanel.addSouth(statusBar, 2);
         rootPanel.add(centerWidget);
 
         RootLayoutPanel.get().add(rootPanel);

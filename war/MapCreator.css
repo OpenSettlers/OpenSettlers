@@ -79,3 +79,9 @@ h1 {
 .chathistorydebug{
   background-color: red;
 }
+.statusPanel{
+	background-color: black;
+	color: White;
+	font-weight: bolder;
+	font-size: 1.5em;
+}

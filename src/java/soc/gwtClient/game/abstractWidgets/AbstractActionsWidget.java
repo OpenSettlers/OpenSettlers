@@ -5,8 +5,7 @@ import soc.common.game.Player;
 import soc.gwtClient.game.abstractWidgets.factories.IActionWidgetFactory;
 
 import com.google.gwt.user.client.ui.ComplexPanel;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public abstract class AbstractActionsWidget implements IActionsWidget
@@ -32,9 +31,6 @@ public abstract class AbstractActionsWidget implements IActionsWidget
             if (w != null)
                 rootPanel.add(w);
         }
-        // TODO: remove nasty cast
-        ((HorizontalPanel) rootPanel)
-                .setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
     }
 
     /*
@@ -45,7 +41,7 @@ public abstract class AbstractActionsWidget implements IActionsWidget
     @Override
     public ComplexPanel createRootPanel()
     {
-        HorizontalPanel rootPanel = new HorizontalPanel();
+        VerticalPanel rootPanel = new VerticalPanel();
         rootPanel.setSpacing(5);
         return rootPanel;
     }

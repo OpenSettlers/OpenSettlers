@@ -32,7 +32,7 @@ public abstract class AbstractGamePanel implements IGamePanel, ICenterWidget,
     protected IGameBoardVisual gameBoard;
     protected Player player;
     protected IHandCardsWidget handCards;
-    protected IStatusPanel statusDicePanel;
+    protected IStatusPanel statusPanel;
     protected TradePlayersDialog tradePlayers;
     protected IGameHistoryWidget historyWidget;
 
@@ -48,7 +48,7 @@ public abstract class AbstractGamePanel implements IGamePanel, ICenterWidget,
         playersWidget = createPlayersWidget();
         gameBoard = createGameBoard(500, 500, game.getBoard());
         handCards = createHandCardsWidget(player);
-        statusDicePanel = createStatusDicePanel(this);
+        statusPanel = createStatusDicePanel(this);
         tradePlayers = new TradePlayersDialog(this);
         historyWidget = createHistoryWidget(this);
     }

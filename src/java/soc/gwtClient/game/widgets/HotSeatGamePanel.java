@@ -20,7 +20,7 @@ import soc.gwtClient.game.widgets.bitmap.BitmapHistoryWidget;
 import soc.gwtClient.game.widgets.bitmap.BoardLayoutPanel;
 import soc.gwtClient.game.widgets.standard.bitmap.HandCardsBitmapWidget;
 import soc.gwtClient.game.widgets.standard.bitmap.PlayersBitmapWidget;
-import soc.gwtClient.game.widgets.standard.bitmap.StatusDiceBitmapPanel;
+import soc.gwtClient.game.widgets.standard.bitmap.StatusBitmapPanel;
 import soc.gwtClient.game.widgets.standard.bitmap.actions.ActionsBitmapWidget;
 
 import com.google.gwt.dom.client.Style.Unit;
@@ -49,9 +49,9 @@ public class HotSeatGamePanel extends AbstractGamePanel implements
 
         createChatHistoryDebugPanel();
 
-        boardActionResourcesPanel.addSouth(handCards.asWidget(), 5);
-        boardActionResourcesPanel.addSouth(buildPallette.asWidget(), 5);
-        boardActionResourcesPanel.addSouth(statusDicePanel.asWidget(), 5);
+        boardActionResourcesPanel.addEast(handCards.asWidget(), 15);
+        boardActionResourcesPanel.addEast(buildPallette.asWidget(), 10);
+        boardActionResourcesPanel.addSouth(statusPanel.asWidget(), 3);
         boardActionResourcesPanel.add(boardVisualPanel);
 
         playersBankChatPanel.addNorth(playersWidget.asWidget(), 20);
@@ -115,7 +115,7 @@ public class HotSeatGamePanel extends AbstractGamePanel implements
     @Override
     public IStatusPanel createStatusDicePanel(IGamePanel gamePanel)
     {
-        return new StatusDiceBitmapPanel(gamePanel);
+        return new StatusBitmapPanel(gamePanel);
     }
 
     @Override

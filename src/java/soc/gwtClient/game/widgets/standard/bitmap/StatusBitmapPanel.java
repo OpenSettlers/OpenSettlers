@@ -8,12 +8,13 @@ import soc.gwtClient.game.abstractWidgets.IGamePanel;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 
-public class StatusDiceBitmapPanel extends AbstractStatusPanel
+public class StatusBitmapPanel extends AbstractStatusPanel
 {
-    public StatusDiceBitmapPanel(IGamePanel gamePanel)
+    public StatusBitmapPanel(IGamePanel gamePanel)
     {
         super(gamePanel);
 
+        rootPanel.setStyleName("statusPanel");
     }
 
     @Override
