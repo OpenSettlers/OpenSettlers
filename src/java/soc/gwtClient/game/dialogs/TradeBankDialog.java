@@ -223,7 +223,7 @@ public class TradeBankDialog extends DialogBox
         AbsolutePanel absolutePanel = new AbsolutePanel();
         horizontalPanel_1.add(absolutePanel);
 
-        Image imgBank = new Image("icons/24/Bank.png");
+        Image imgBank = new Image(Resources.icons().bankTrade());
         absolutePanel.add(imgBank);
         imgBank.setSize("96", "96");
 
