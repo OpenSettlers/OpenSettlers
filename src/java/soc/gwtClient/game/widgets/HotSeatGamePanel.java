@@ -1,6 +1,8 @@
 package soc.gwtClient.game.widgets;
 
 import soc.common.actions.gameAction.HostStartsGame;
+import soc.common.actions.gameAction.turnActions.standard.BuildTown;
+import soc.common.client.behaviour.game.BuildTownBehaviour;
 import soc.common.client.visuals.game.GameBoardVisual;
 import soc.common.game.Game;
 import soc.common.game.GamePlayer;
@@ -24,6 +26,7 @@ import soc.gwtClient.game.widgets.standard.bitmap.HandCardsBitmapWidget;
 import soc.gwtClient.game.widgets.standard.bitmap.PlayersBitmapWidget;
 import soc.gwtClient.game.widgets.standard.bitmap.StatusBitmapPanel;
 import soc.gwtClient.game.widgets.standard.bitmap.actions.ActionsBitmapWidget;
+import soc.gwtClient.visuals.svg.GameBoardSvg;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
@@ -69,6 +72,8 @@ public class HotSeatGamePanel extends AbstractGamePanel implements
         start.setPlayer(player);
 
         server.sendAction(start);
+
+        gameBoardVisual.setBehaviour(new BuildTownBehaviour(new BuildTown()));
     }
 
     private void createChatHistoryDebugPanel()
@@ -106,7 +111,7 @@ public class HotSeatGamePanel extends AbstractGamePanel implements
     @Override
     public GameBoardVisual createGameBoard(int width, int height, Game game)
     {
-        return new SvgGameBoardVisual(width, height, game);
+        return new GameBoardSvg(game, width, height);
     }
 
     @Override

@@ -20,6 +20,13 @@ import soc.common.client.visuals.game.TownVisual;
 
 public class SvgVisualFactory extends AbstractVisualFactory
 {
+    private GameBoardSvg parent;
+
+    public SvgVisualFactory(GameBoardSvg parent)
+    {
+        super();
+        this.parent = parent;
+    }
 
     @Override
     public BoardVisual createBoardVisual(Board board)
@@ -59,15 +66,15 @@ public class SvgVisualFactory extends AbstractVisualFactory
     @Override
     public PointVisual createPointVisual(GraphPoint point)
     {
-        // TODO Auto-generated method stub
-        return null;
+        return new SvgPointVisual(parent, point.getPoint(), parent
+                .getBoardSvg().CalculatePosition(point.getPoint()));
     }
 
     @Override
     public SideVisual createSideVisual(GraphSide side)
     {
-        // TODO Auto-generated method stub
-        return null;
+        return new SvgSideVisual(parent, side.getSide(), parent.getBoardSvg()
+                .CalculatePosition(side.getSide()));
     }
 
 }

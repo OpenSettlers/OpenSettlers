@@ -1,6 +1,7 @@
 package soc.gwtClient.visuals.svg;
 
 import org.vaadin.gwtgraphics.client.Group;
+import org.vaadin.gwtgraphics.client.VectorObject;
 import org.vaadin.gwtgraphics.client.animation.Animate;
 import org.vaadin.gwtgraphics.client.shape.Circle;
 
@@ -10,7 +11,7 @@ import soc.common.client.visuals.board.BoardVisual;
 import soc.common.client.visuals.game.PointVisual;
 import soc.gwtClient.game.Point2D;
 
-public class SvgPointVisual extends PointVisual
+public class SvgPointVisual extends PointVisual implements SvgVisual
 {
     private Point2D location;
     private Group group;
@@ -27,6 +28,9 @@ public class SvgPointVisual extends PointVisual
         circle = new Circle((int) location.getX(), (int) location.getY(),
                 parent.getSize() / 2);
         group.add(circle);
+
+        // default on not showing
+        setVisible(false);
     }
 
     /*
@@ -54,6 +58,17 @@ public class SvgPointVisual extends PointVisual
     /*
      * (non-Javadoc)
      * 
+     * @see soc.common.client.visuals.AbstractPieceVisual#updateVisible()
+     */
+    @Override
+    protected void updateVisible()
+    {
+        group.setVisible(visible);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see
      * soc.common.client.visuals.game.IPointVisual#addPieceVisual(soc.common
      * .client.visuals.PieceVisual)
@@ -63,6 +78,12 @@ public class SvgPointVisual extends PointVisual
     {
         pieceVisuals.add(pieceVisual);
         group.add(((SvgVisual) pieceVisual).getVectorObject());
+    }
+
+    @Override
+    public VectorObject getVectorObject()
+    {
+        return group;
     }
 
 }

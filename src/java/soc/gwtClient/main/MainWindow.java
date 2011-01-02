@@ -47,6 +47,7 @@ public class MainWindow implements EntryPoint
     ICenterWidget hotseatGame;
     ICenterWidget wikiPage;
     ICenterWidget lobby;
+    ICenterWidget javadoc;
 
     private final MenuBar rootMenuBar = new MenuBar(true);
     private MenuItem editorMenutItem;
@@ -71,6 +72,7 @@ public class MainWindow implements EntryPoint
         hotseatGame = new HotSeatGamePanel(createGame());
         wikiPage = new WikiPanel();
         lobby = new GameLobby();
+        javadoc = new JavadocPanel();
 
         currentWidget = welcomePanel;
         centerWidget.add(currentWidget.getRootWidget());
@@ -104,6 +106,14 @@ public class MainWindow implements EntryPoint
         rootPanel.add(centerWidget);
 
         RootLayoutPanel.get().add(rootPanel);
+    }
+
+    /**
+     * @return the javadoc
+     */
+    public ICenterWidget getJavadoc()
+    {
+        return javadoc;
     }
 
     /**

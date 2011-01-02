@@ -3,23 +3,43 @@ package soc.common.client.behaviour.game;
 import soc.common.actions.gameAction.turnActions.standard.BuildCity;
 import soc.common.client.visuals.PieceVisual;
 import soc.common.client.visuals.board.BoardVisual;
+import soc.common.client.visuals.game.GameBoardVisual;
 
 public class BuildCityBehaviour extends BuildPointBehaviour
 {
     BuildCity buildCity;
-    
+
     public BuildCityBehaviour(BuildCity buildCity)
     {
         super();
         this.buildCity = buildCity;
     }
 
-    /* (non-Javadoc)
-     * @see soc.common.client.behaviour.game.BuildPointBehaviour#clicked(soc.common.client.visuals.IPieceVisual, soc.common.client.visuals.board.IBoardVisual)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.common.client.behaviour.game.BuildPointBehaviour#clicked(soc.common
+     * .client.visuals.IPieceVisual,
+     * soc.common.client.visuals.board.IBoardVisual)
      */
     @Override
     public void clicked(PieceVisual pieceVisual, BoardVisual board)
     {
         super.clicked(pieceVisual, board);
+    }
+
+    @Override
+    public void setNeutral(GameBoardVisual visual)
+    {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void start(GameBoardVisual gameVisual)
+    {
+        // TODO Auto-generated method stub
+
     }
 }

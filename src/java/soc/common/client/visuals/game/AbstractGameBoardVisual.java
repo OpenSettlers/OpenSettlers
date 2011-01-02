@@ -7,12 +7,13 @@ import java.util.Map;
 import soc.common.board.HexPoint;
 import soc.common.board.HexSide;
 import soc.common.board.hexes.Hex;
-import soc.common.board.pieces.PiecesChangedEvent;
 import soc.common.board.pieces.PiecesChangedEventHandler;
+import soc.common.board.pieces.PlayerPiece;
 import soc.common.board.routing.GraphPoint;
 import soc.common.board.routing.GraphSide;
 import soc.common.client.behaviour.InteractionBehaviour;
 import soc.common.client.behaviour.game.GameBehaviour;
+import soc.common.client.visuals.PieceVisual;
 import soc.common.client.visuals.board.AbstractBoardVisual;
 import soc.common.client.visuals.board.BoardVisual;
 import soc.common.game.Game;
@@ -28,6 +29,7 @@ public abstract class AbstractGameBoardVisual extends AbstractBoardVisual
     protected BoardVisual boardVisual;
     protected RobberVisual robber;
     protected PirateVisual pirate;
+    protected Map<PlayerPiece, PieceVisual> playerPieceVisuals = new HashMap<PlayerPiece, PieceVisual>();
     protected Map<GraphPoint, PointVisual> pointVisuals = new HashMap<GraphPoint, PointVisual>();
     protected Map<GraphSide, SideVisual> sideVisuals = new HashMap<GraphSide, SideVisual>();
     protected GameBehaviour interactionBehaviour;
@@ -53,23 +55,20 @@ public abstract class AbstractGameBoardVisual extends AbstractBoardVisual
         {
             player.getBuildPieces().addPiecesChangedEventHandler(this);
         }
-        for (GraphSide side : board.getGraph().getSides())
-        {
-            SideVisual sideVisual = visualFactory.createSideVisual(side);
-            sideVisuals.put(side, sideVisual);
-        }
+    }
 
-        for (GraphPoint point : board.getGraph().getPoints())
-        {
-            PointVisual pointVisual = visualFactory.createPointVisual(point);
-            pointVisuals.put(point, pointVisual);
-        }
+    /**
+     * @return the playerPieceVisuals
+     */
+    public Map<PlayerPiece, PieceVisual> getPlayerPieceVisuals()
+    {
+        return playerPieceVisuals;
     }
 
     /**
      * @return the sideVisuals
      */
-    public Map<GraphPoint, PointVisual> getSideVisuals()
+    public Map<GraphPoint, PointVisual> getPointVisuals()
     {
         return pointVisuals;
     }
@@ -77,7 +76,7 @@ public abstract class AbstractGameBoardVisual extends AbstractBoardVisual
     /**
      * @return the pointVisuals
      */
-    public Map<GraphSide, SideVisual> getPointVisuals()
+    public Map<GraphSide, SideVisual> getSideVisuals()
     {
         return sideVisuals;
     }
@@ -91,23 +90,6 @@ public abstract class AbstractGameBoardVisual extends AbstractBoardVisual
     public Game getGame()
     {
         return game;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * soc.common.board.pieces.PiecesChangedEventHandler#onPiecesChanged(soc
-     * .common.board.pieces.PiecesChangedEvent)
-     */
-    @Override
-    public void onPiecesChanged(PiecesChangedEvent list)
-    {
-        if (list.getAddedPiece() != null)
-        {
-            // TODO: fix
-            // playerPieces.put(list.getAddedPiece(), )
-        }
     }
 
     /*
@@ -213,8 +195,8 @@ public abstract class AbstractGameBoardVisual extends AbstractBoardVisual
     @Override
     public void setBehaviour(GameBehaviour gameBehaviour)
     {
-        // TODO Auto-generated method stub
-
+        interactionBehaviour = gameBehaviour;
+        interactionBehaviour.start(this);
     }
 
     @Override

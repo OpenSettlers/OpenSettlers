@@ -25,7 +25,7 @@ public class WelcomePanel extends HorizontalPanel implements ICenterWidget
     private void initialize()
     {
         Button btnHotseatGame = new Button();
-        btnHotseatGame.setHTML("<H1>HotSeat game</H1>Play a mock hotseat game");
+        btnHotseatGame.setHTML("<H3>HotSeat game</H3>Play a mock hotseat game");
         btnHotseatGame.addClickHandler(new ClickHandler()
         {
 
@@ -39,7 +39,7 @@ public class WelcomePanel extends HorizontalPanel implements ICenterWidget
         rootPanel.add(btnHotseatGame);
 
         Button btnvisitWikihelpWrite = new Button(
-                "<h1>Visit Wiki</h1>Help write our UI using wiki");
+                "<H3>Visit Wiki</H3>Help write our UI using wiki");
         btnvisitWikihelpWrite.addClickHandler(new ClickHandler()
         {
             public void onClick(ClickEvent arg0)
@@ -50,7 +50,7 @@ public class WelcomePanel extends HorizontalPanel implements ICenterWidget
         rootPanel.add(btnvisitWikihelpWrite);
 
         btnMapCreator = new Button();
-        btnMapCreator.setHTML("<H1>MapCreator</H1>create a new map");
+        btnMapCreator.setHTML("<H3>MapCreator</H3>create a new map");
         btnMapCreator.addClickHandler(new ClickHandler()
         {
             @Override
@@ -61,8 +61,20 @@ public class WelcomePanel extends HorizontalPanel implements ICenterWidget
         });
         rootPanel.add(btnMapCreator);
 
+        Button btnJavadoc = new Button();
+        btnJavadoc.setHTML("<H3>View Javadoc</H3>create a new map");
+        btnJavadoc.addClickHandler(new ClickHandler()
+        {
+            @Override
+            public void onClick(ClickEvent event)
+            {
+                mainWindow.setCurrentWidget(mainWindow.getJavadoc());
+            }
+        });
+        rootPanel.add(btnJavadoc);
+
         Button btnLobby = new Button();
-        btnLobby.setHTML("<H1>Lobby</H1>Find games and players");
+        btnLobby.setHTML("<H3>Lobby</H3>Find games and players");
         btnLobby.addClickHandler(new ClickHandler()
         {
             @Override

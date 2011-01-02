@@ -6,10 +6,9 @@ import java.util.List;
 import soc.common.board.HexPoint;
 import soc.common.client.visuals.PieceVisual;
 import soc.common.client.visuals.board.BoardVisual;
-import soc.common.client.visuals.game.GameBoardVisual;
 import soc.common.client.visuals.game.IPointVisual;
 
-public class BuildPointBehaviour implements GameBehaviour
+public abstract class BuildPointBehaviour implements GameBehaviour
 {
     List<HexPoint> possibleLocations = new ArrayList<HexPoint>();
 
@@ -31,18 +30,6 @@ public class BuildPointBehaviour implements GameBehaviour
             IPointVisual hexPointVisual = (IPointVisual) pieceVisual;
             hexPointVisual.setSelected(false);
         }
-    }
-
-    @Override
-    public void setNeutral(GameBoardVisual visual)
-    {
-        // visual.getHexPointsVisual().setVisible(false);
-    }
-
-    @Override
-    public void start(GameBoardVisual gameVisual)
-    {
-        // gameVisual.getHexPointsVisual().updatePoints(possibleLocations);
     }
 
     @Override

@@ -50,6 +50,9 @@ public class SvgSideVisual extends SideVisual
         rectangle.setRotation(degrees);
 
         group.add(rectangle);
+
+        // default on not showing the thing
+        setVisible(false);
     }
 
     /*
@@ -72,6 +75,17 @@ public class SvgSideVisual extends SideVisual
             new Animate(rectangle, "height", height * 1.25, height, 500)
                     .start();
         }
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see soc.common.client.visuals.AbstractPieceVisual#updateVisible()
+     */
+    @Override
+    protected void updateVisible()
+    {
+        group.setVisible(visible);
     }
 
     /*
