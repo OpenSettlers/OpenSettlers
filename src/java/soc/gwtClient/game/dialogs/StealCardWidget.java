@@ -2,7 +2,7 @@ package soc.gwtClient.game.dialogs;
 
 import soc.common.actions.gameAction.turnActions.standard.RobPlayer;
 import soc.common.game.Game;
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.IGamePanel;
 import soc.gwtClient.game.widgets.standard.bitmap.StealPlayerCardBitmapWidget;
 
@@ -20,18 +20,18 @@ import com.google.gwt.user.client.ui.Button;
 public class StealCardWidget extends DialogBox
 {
     private IGamePanel gamePanel;
-    private Player player;
+    private GamePlayer player;
     HorizontalPanel playersCards = new HorizontalPanel();
     private RobPlayer robPlayer;
 
-    public StealCardWidget(IGamePanel gamePanel, Player player)
+    public StealCardWidget(IGamePanel gamePanel, GamePlayer player)
     {
         this();
         this.gamePanel = gamePanel;
         this.player = player;
         robPlayer.setPlayer(player);
         
-        for (Player opponent : gamePanel.getGame().getPlayers())
+        for (GamePlayer opponent : gamePanel.getGame().getPlayers())
         {
             // Don't steal from ourselves
             if (!opponent.equals(player))
@@ -72,7 +72,7 @@ public class StealCardWidget extends DialogBox
         horizontalPanel_1.add(button);
     }
     
-    public void cardPicked(Player opponent)
+    public void cardPicked(GamePlayer opponent)
     {
         robPlayer.setRobbedPlayer(opponent);
         gamePanel.startAction(robPlayer);

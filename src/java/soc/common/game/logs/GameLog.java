@@ -1,105 +1,37 @@
 package soc.common.game.logs;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-import com.google.gwt.event.shared.SimpleEventBus;
-
 import soc.common.actions.gameAction.AbstractGameAction;
-import soc.common.actions.gameAction.turnActions.RolledSame;
 import soc.common.actions.gameAction.turnActions.standard.RollDice;
 import soc.common.game.Game;
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 
-public class GameLog implements IGameLog
-{    
-    private List<AbstractGameAction> actions = new ArrayList<AbstractGameAction>();
-    private SimpleEventBus eventBus;
-
-    private void safelyFireEvent(ActionPerformedEvent actionPerformedEvent)
-    {
-        if (eventBus != null)
-        {
-            eventBus.fireEvent(actionPerformedEvent);
-        }
-    }
-    private SimpleEventBus getEventBus()
-    {
-        if (eventBus == null)
-        {
-            eventBus = new SimpleEventBus();
-        }
-        
-        return eventBus;
-    }
+/*
+ * List of GameActions which occurred during a game
+ */
+public interface GameLog extends Iterable<AbstractGameAction>
+{
+    /*
+     * Adds an action to this gamelog
+     */
+    public void addAction(AbstractGameAction inGameAction);
     
-    @Override
-    public void addAction(AbstractGameAction inGameAction)
-    {
-        actions.add(inGameAction);
-        
-        safelyFireEvent(new ActionPerformedEvent(inGameAction));
-    }
+    /*
+     * Returns a list of RollDice actions performed during current 
+     * dicerolling round
+     */
+    public List<RollDice> getCurrentRoundRolls(Game game);
     
-    public List<RollDice> getCurrentRoundRolls(Game game)
-    {
-        List<RollDice> result = new ArrayList<RollDice>();
-
-        //We run the like a stack, first to examine is Last in the list
-        for (int i = actions.size() -1; i > 0; i--)
-        {
-            AbstractGameAction action = actions.get(i);
-            // we break the loop when we encountered a rolledsame action
-            if (action instanceof RolledSame)
-                break;
-
-            // When we encounter a RollDiceAction, add it to the list
-            if (action instanceof RollDice)
-                result.add((RollDice)action);
-
-            //We always have maximum of PlayerCount RollDiceAction
-            if (result.size() == game.getPlayers().size())
-                break;
-        }
-
-        return result;
-    }
-
-    public Player firstPlayerIsDetermined(Game game, int highRoll)
-    {
-        List<RollDice> rolledDices = getCurrentRoundRolls(game);
-
-        // Get a list of all highrolls
-        List<RollDice> highRolls = new ArrayList<RollDice>();
-        for (RollDice rollDice : rolledDices)
-        {
-            if (rollDice.getDice().getDice() == highRoll)
-                highRolls.add(rollDice);
-        }
-
-        // the player with highest dice is determined when we
-        // have only one result
-        if (highRolls.size()== 1)
-        {
-            return highRolls.get(0).getPlayer();
-        }
-        else
-        {
-            // return false
-            return null;
-        }
-    }
-
-    @Override
-    public Iterator<AbstractGameAction> iterator()
-    {
-        return actions.iterator();
-    }
+    /*
+     * Returns the beginning player which won the dice rolling round if 
+     * this player exists, otherwise returns null 
+     */
+    public GamePlayer firstPlayerIsDetermined(Game game, int highRoll);
     
-    @Override
-    public void addActionPerformedEventHandler(ActionPerformedEventHandler handler)
-    {
-        getEventBus().addHandler(ActionPerformedEvent.TYPE, handler);
-    }
+    /*
+     * Adds an actionPerformed event listener to this gamelog
+     */
+    public void addActionPerformedEventHandler(ActionPerformedEventHandler handler);
+
 }

@@ -1,15 +1,15 @@
 package soc.common.board.hexes;
 
-import com.google.gwt.event.shared.*;
-
 import soc.common.board.Chit;
-import soc.common.board.resources.AbstractResource;
+import soc.common.board.resources.Resource;
+
+import com.google.gwt.event.shared.HandlerRegistration;
 
 public class ResourceHex extends AbstractHex
 {
-    private AbstractResource resource;
+    private Resource resource;
     private Chit chit;
-  
+
     /**
      * @return the chit
      */
@@ -19,26 +19,28 @@ public class ResourceHex extends AbstractHex
     }
 
     /**
-     * @param chit the chit to set
+     * @param chit
+     *            the chit to set
      */
     public ResourceHex setChit(Chit c)
     {
         this.chit = c;
-        
+
         eventBus.fireEvent(new ChitChangedEvent(c));
-        
+
         return this;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.board.hexes.Hex#Copy()
      */
     @Override
     public AbstractHex copy()
     {
-        ResourceHex rh = new ResourceHex()
-            .setChit(new Chit(5))
-            .setResource(getResource());
+        ResourceHex rh = new ResourceHex().setChit(new Chit(5)).setResource(
+                getResource());
         rh.setTerritory(territory);
         return rh;
     }
@@ -46,40 +48,44 @@ public class ResourceHex extends AbstractHex
     /**
      * @return the production
      */
-    public AbstractResource getResource()
+    public Resource getResource()
     {
         return resource;
     }
-    
+
     /**
-     * @param resource the resource to set
+     * @param resource
+     *            the resource to set
      */
-    public ResourceHex setResource(AbstractResource resource)
+    public ResourceHex setResource(Resource resource)
     {
         this.resource = resource;
-    
+
         return this;
     }
 
     /*
-     *  At init time, we want a resource
+     * At init time, we want a resource
      */
-    public ResourceHex(AbstractResource resource)
+    public ResourceHex(Resource resource)
     {
         super();
         this.resource = resource;
     }
-    
+
     public ResourceHex()
     {
     }
 
-    public HandlerRegistration addChitChangedEventHandler(ChitChangedEventHandler handler)
+    public HandlerRegistration addChitChangedEventHandler(
+            ChitChangedEventHandler handler)
     {
         return eventBus.addHandler(ChitChangedEvent.TYPE, handler);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.board.hexes.Hex#getColor()
      */
     @Override
@@ -88,7 +94,9 @@ public class ResourceHex extends AbstractHex
         return resource.getColor();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.board.hexes.Hex#getName()
      */
     @Override
@@ -96,8 +104,10 @@ public class ResourceHex extends AbstractHex
     {
         return resource.getName() + "Hex";
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.board.hexes.IHex#isBuildableLand()
      */
     @Override
@@ -106,7 +116,9 @@ public class ResourceHex extends AbstractHex
         return true;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.board.hexes.IHex#isBuildableSea()
      */
     @Override
@@ -116,7 +128,9 @@ public class ResourceHex extends AbstractHex
         return false;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.board.hexes.IHex#isPartOfGame()
      */
     @Override
@@ -125,7 +139,9 @@ public class ResourceHex extends AbstractHex
         return true;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.board.hexes.IHex#isPiratePlaceable()
      */
     @Override
@@ -134,7 +150,9 @@ public class ResourceHex extends AbstractHex
         return false;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.board.hexes.IHex#isRobberPlaceable()
      */
     @Override

@@ -1,6 +1,5 @@
 package soc.common.game.gamePhase;
 
-import soc.common.actions.gameAction.AbstractGameAction;
 import soc.common.actions.gameAction.GameAction;
 import soc.common.game.Game;
 import soc.common.game.gamePhase.turnPhase.BeforeDiceRollTurnPhase;
@@ -19,7 +18,9 @@ public class PlayTurnsGamePhase extends AbstractGamePhase
         return turnPhase;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.game.gamePhase.GamePhase#next(soc.common.game.Game)
      */
     @Override
@@ -28,58 +29,48 @@ public class PlayTurnsGamePhase extends AbstractGamePhase
         return new EndedGamePhase();
     }
 
-    /* (non-Javadoc)
-     * @see soc.common.game.gamePhase.GamePhase#performAction(soc.common.actions.gameAction.GameAction, soc.common.game.Game)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.common.game.gamePhase.GamePhase#performAction(soc.common.actions.
+     * gameAction.GameAction, soc.common.game.Game)
      */
     @Override
-    public void performAction(AbstractGameAction action, Game game)
+    public void performAction(GameAction action, Game game)
     {
-        /* TODO: port to java, first implement GameAction classes
+        /*
+         * TODO: port to java, first implement GameAction classes
          * 
-        ClaimVictoryAction claimVictory = inGameAction as ClaimVictoryAction;
-        if (claimVictory != null)
-        {
-            _TurnPhase.ProcessAction(inGameAction, game);
-            return;
-        }
-
-        PlacementDoneAction placementDone = inGameAction as PlacementDoneAction;
-        if (placementDone != null)
-        {
-            _TurnPhase.ProcessAction(inGameAction, game);
-            return;
-        }
-        EndTurnAction endTurn = inGameAction as EndTurnAction;
-        if (endTurn != null)
-        {
-            _TurnPhase = new BeforeDiceRollTurnPhase();
-            endTurn.PerformTurnAction(game);
-            return;
-        }
-        // Process the actual in the current turnphase
-        TurnPhase next = _TurnPhase.ProcessAction(inGameAction, game);
-
-        // If return phase does not match current phase, we have to switch phases and process the action
-        // again
-        if (_TurnPhase != next)
-        {
-            _TurnPhase = next; 
-            _TurnPhase = _TurnPhase.ProcessAction(inGameAction, game);
-        }
-
-        // When the incoming action is not valid, check if it's valid in the next phase.
-        // If so, switch phases
-        if (!_TurnPhase.AllowedAction(inGameAction, game))
-        {
-            if (_TurnPhase.Next().AllowedAction(inGameAction, game))
-            {
-                _TurnPhase = _TurnPhase.Next();
-            }
-        }
-        */
+         * ClaimVictoryAction claimVictory = inGameAction as ClaimVictoryAction;
+         * if (claimVictory != null) { _TurnPhase.ProcessAction(inGameAction,
+         * game); return; }
+         * 
+         * PlacementDoneAction placementDone = inGameAction as
+         * PlacementDoneAction; if (placementDone != null) {
+         * _TurnPhase.ProcessAction(inGameAction, game); return; } EndTurnAction
+         * endTurn = inGameAction as EndTurnAction; if (endTurn != null) {
+         * _TurnPhase = new BeforeDiceRollTurnPhase();
+         * endTurn.PerformTurnAction(game); return; } // Process the actual in
+         * the current turnphase TurnPhase next =
+         * _TurnPhase.ProcessAction(inGameAction, game);
+         * 
+         * // If return phase does not match current phase, we have to switch
+         * phases and process the action // again if (_TurnPhase != next) {
+         * _TurnPhase = next; _TurnPhase =
+         * _TurnPhase.ProcessAction(inGameAction, game); }
+         * 
+         * // When the incoming action is not valid, check if it's valid in the
+         * next phase. // If so, switch phases if
+         * (!_TurnPhase.AllowedAction(inGameAction, game)) { if
+         * (_TurnPhase.Next().AllowedAction(inGameAction, game)) { _TurnPhase =
+         * _TurnPhase.Next(); } }
+         */
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.game.gamePhase.GamePhase#start(soc.common.game.Game)
      */
     @Override
@@ -88,14 +79,17 @@ public class PlayTurnsGamePhase extends AbstractGamePhase
         super.start(game);
     }
 
-    /* (non-Javadoc)
-     * @see soc.common.game.gamePhase.GamePhase#isAllowed(soc.common.actions.gameAction.GameAction)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.common.game.gamePhase.GamePhase#isAllowed(soc.common.actions.gameAction
+     * .GameAction)
      */
     @Override
     public boolean isAllowed(GameAction action)
     {
         return turnPhase.isAllowed(action);
     }
-
 
 }

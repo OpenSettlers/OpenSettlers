@@ -2,12 +2,12 @@ package soc.common.board.routing;
 
 import soc.common.board.HexPoint;
 import soc.common.board.pieces.PlayerPiece;
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 
 public class GraphPointImpl implements GraphPoint
 {
     private HexPoint pointLocation;
-    private PlayerPiece playerPiece;
+    private transient PlayerPiece playerPiece;
     private boolean townBuildable;
 
     @Override
@@ -30,7 +30,7 @@ public class GraphPointImpl implements GraphPoint
     }
 
     @Override
-    public Player getPlayer()
+    public GamePlayer getPlayer()
     {
         return playerPiece == null ? null : playerPiece.getPlayer();
     }

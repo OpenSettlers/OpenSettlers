@@ -9,10 +9,10 @@ import soc.common.actions.gameAction.AbstractGameAction;
 import soc.common.actions.gameAction.turnActions.EndTurn;
 import soc.common.game.logs.ActionPerformedEvent;
 import soc.common.game.logs.ActionPerformedEventHandler;
-import soc.gwtClient.game.abstractWidgets.IGameHistoryWidget;
+import soc.gwtClient.game.abstractWidgets.GameHistoryWidget;
 import soc.gwtClient.game.abstractWidgets.IGamePanel;
 
-public class BitmapHistoryWidget implements IGameHistoryWidget, ActionPerformedEventHandler
+public class BitmapHistoryWidget implements GameHistoryWidget, ActionPerformedEventHandler
 {
     StringActionCell cell = new StringActionCell();
     ScrollPanel rootPanel = new ScrollPanel();

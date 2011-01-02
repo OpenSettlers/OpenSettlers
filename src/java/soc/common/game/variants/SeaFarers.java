@@ -1,30 +1,19 @@
 package soc.common.game.variants;
 
-import soc.common.actions.gameAction.turnActions.seaFarers.BuildShip;
-import soc.common.board.pieces.Ship;
-import soc.common.board.resources.Diamond;
-import soc.common.board.resources.ResourceList;
 import soc.common.game.Game;
+import soc.common.game.variants.rules.AddDiscoveryHex;
+import soc.common.game.variants.rules.AddGold;
+import soc.common.game.variants.rules.NewTerritoryBonus;
 
-public class SeaFarers extends RuleSet
+public class SeaFarers extends AbstractRuleSet
 {
 
     public SeaFarers(Game game)
     {
         super(game);
-    }
 
-    @Override
-    public void addBuildablePieces()
-    {
-        game.getGameRules().getPossibleActions().add(new BuildShip());
+        rules.add(new AddDiscoveryHex());
+        rules.add(new NewTerritoryBonus());
+        rules.add(new AddGold());
     }
-
-    @Override
-    public void setRules()
-    {
-        // TODO Auto-generated method stub
-        
-    }
-
 }

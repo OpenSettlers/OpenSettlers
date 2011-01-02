@@ -9,4 +9,6 @@ public interface OpenSettlersInternationalization
     public OpenSettlersConstants constants();
 
     public OpenSettlersActions actions();
+
+    public OpenSettlersLobby lobby();
 }

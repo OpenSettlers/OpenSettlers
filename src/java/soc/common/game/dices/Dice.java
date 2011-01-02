@@ -1,6 +1,6 @@
 package soc.common.game.dices;
 
-import com.google.gwt.user.client.Random;
+import soc.common.server.random.Random;
 
 public interface Dice
 {

@@ -4,16 +4,16 @@ import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 import soc.common.game.developmentCards.DevelopmentCardsChangedEventHandler;
 
 public abstract class AbstractLargestArmyWidget 
     implements ILargestArmyWidget, DevelopmentCardsChangedEventHandler
 {
     protected ComplexPanel rootPanel;
-    protected Player player; 
+    protected GamePlayer player; 
     
-    public AbstractLargestArmyWidget(Player player)
+    public AbstractLargestArmyWidget(GamePlayer player)
     {
         this.player=player;
         

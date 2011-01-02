@@ -1,6 +1,6 @@
 package soc.gwtClient.game.abstractWidgets;
 
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 import soc.common.game.developmentCards.DevelopmentCardsChangedEvent;
 import soc.common.game.developmentCards.DevelopmentCardsChangedEventHandler;
 
@@ -11,10 +11,10 @@ import com.google.gwt.user.client.ui.Widget;
 public abstract class AbstractDevelopmentCardsAmountWidget implements
         IDevelopmentCardsAmountWidget, DevelopmentCardsChangedEventHandler
 {
-    protected Player player;
+    protected GamePlayer player;
     protected ComplexPanel rootPanel;
     
-    public AbstractDevelopmentCardsAmountWidget(Player player)
+    public AbstractDevelopmentCardsAmountWidget(GamePlayer player)
     {
         this.player=player;
         

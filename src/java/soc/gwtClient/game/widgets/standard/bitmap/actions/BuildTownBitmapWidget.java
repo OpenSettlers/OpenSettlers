@@ -9,7 +9,7 @@ import soc.common.board.resources.ResourcesChangedEventHandler;
 import soc.common.game.Game;
 import soc.common.game.GamePhaseChangedEvent;
 import soc.common.game.GamePhaseChangedEventHandler;
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.AbstractActionWidget;
 import soc.gwtClient.game.abstractWidgets.IGamePanel;
 import soc.gwtClient.images.Resources;
@@ -36,7 +36,7 @@ public class BuildTownBitmapWidget extends AbstractActionWidget implements
     private Image trade4 = new Image(Resources.icons().trade());
     private BuildTown buildTown = new BuildTown();
 
-    public BuildTownBitmapWidget(IGamePanel gamePanel, Player player)
+    public BuildTownBitmapWidget(IGamePanel gamePanel, GamePlayer player)
     {
         super(gamePanel, player);
         absolutePanel.setSize("60px", "60px");

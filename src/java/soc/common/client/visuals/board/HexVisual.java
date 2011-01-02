@@ -4,20 +4,22 @@ import soc.common.board.hexes.ChitChangedEventHandler;
 import soc.common.board.hexes.Hex;
 import soc.common.board.hexes.TerritoryChangedEventHandler;
 import soc.common.board.ports.PortChangedEventHandler;
-import soc.common.client.visuals.IPieceVisual;
+import soc.common.client.visuals.PieceVisual;
 
-public interface HexVisual extends IPieceVisual, ChitChangedEventHandler,
+public interface HexVisual extends PieceVisual, ChitChangedEventHandler,
         TerritoryChangedEventHandler, PortChangedEventHandler
 {
     public HexVisual setHex(Hex hex);
 
+    public HexVisual setDarkened(boolean darkened);
+
     public Hex getHex();
 
-    public ITerritoryVisual getTerritory();
+    public TerritoryVisual getTerritory();
 
-    public IChitVisual getChitVisual();
+    public ChitVisual getChitVisual();
 
-    public IPortPossibilitiesVisual getPortPossibilitiesVisual();
+    public PortPossibilitiesVisual getPortPossibilitiesVisual();
 
-    public IBoardVisual getParent();
+    public BoardVisual getParent();
 }

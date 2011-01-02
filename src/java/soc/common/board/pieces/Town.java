@@ -7,11 +7,13 @@ import soc.common.board.resources.ResourceList;
 import soc.common.board.resources.Sheep;
 import soc.common.board.resources.Timber;
 import soc.common.board.resources.Wheat;
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 import soc.common.game.VictoryPointItem;
 
-public class Town extends PlayerPiece implements VictoryPointItem, PointPiece
+public class Town extends AbstractPlayerPiece implements VictoryPointItem,
+        PointPiece
 {
+    private static final long serialVersionUID = -2696233711789990786L;
     public static Town TOWN = new Town();
     private HexPoint pointLocation;
 
@@ -41,7 +43,7 @@ public class Town extends PlayerPiece implements VictoryPointItem, PointPiece
      * soc.common.game.Player)
      */
     @Override
-    public boolean canBuild(Board board, Player player)
+    public boolean canBuild(Board board, GamePlayer player)
     {
         // We need a town in stock...
         if (player.getStock().ofType(Town.TOWN).size() == 0)
@@ -73,5 +75,11 @@ public class Town extends PlayerPiece implements VictoryPointItem, PointPiece
         this.pointLocation = point;
 
         return this;
+    }
+
+    @Override
+    public boolean isStockPiece()
+    {
+        return true;
     }
 }

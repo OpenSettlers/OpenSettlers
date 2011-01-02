@@ -1,30 +1,31 @@
 package soc.common.server.actions;
 
-import com.google.gwt.user.client.Random;
-
 import soc.common.actions.gameAction.AbstractGameAction;
 import soc.common.actions.gameAction.turnActions.standard.RobPlayer;
 import soc.common.game.Game;
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
+import soc.common.server.GameServer;
+
+import com.google.gwt.user.client.Random;
 
 public class ServerRobPlayer implements ServerAction
 {
-    public RobPlayer robPlayer;
-    public Game game;
-    public Random random;
-    
-    public ServerRobPlayer(RobPlayer robPlayer, Game game, Random random)
+    private RobPlayer robPlayer;
+    private Game game;
+    private Random random;
+    private GameServer gameServer;
+
+    public ServerRobPlayer(RobPlayer robPlayer, GameServer gameServer)
     {
         super();
         this.robPlayer = robPlayer;
-        this.game = game;
-        this.random = random;
+        this.gameServer = gameServer;
     }
 
     @Override
     public void execute()
     {
-        Player victim = game.getPlayerByID(robPlayer.getVictimID());
+        GamePlayer victim = game.getPlayerByID(robPlayer.getVictimID());
         robPlayer.setStolenResource(victim.getResources().getRandom(random));
     }
 
@@ -37,8 +38,7 @@ public class ServerRobPlayer implements ServerAction
     @Override
     public AbstractGameAction getOpponentAction()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return robPlayer;
     }
 
 }

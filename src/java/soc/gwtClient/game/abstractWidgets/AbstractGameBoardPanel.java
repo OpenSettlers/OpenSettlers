@@ -1,6 +1,6 @@
 package soc.gwtClient.game.abstractWidgets;
 
-import soc.common.client.visuals.game.IGameBoardVisual;
+import soc.common.client.visuals.game.GameBoardVisual;
 
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -9,13 +9,13 @@ import com.google.gwt.user.client.ui.Widget;
 public class AbstractGameBoardPanel implements IGameBoardWidget
 {
     protected ComplexPanel rootPanel;
-    protected IGameBoardVisual gameBoard;
+    protected GameBoardVisual gameBoard;
 
-    public AbstractGameBoardPanel(IGameBoardVisual gameBoardVisual)
+    public AbstractGameBoardPanel(GameBoardVisual gameBoardVisual)
     {
         this.gameBoard = gameBoardVisual;
 
-        rootPanel.add(gameBoardVisual.getBoardVisual().asWidget());
+        rootPanel.add(gameBoardVisual.asWidget());
     }
 
     @Override
@@ -27,8 +27,7 @@ public class AbstractGameBoardPanel implements IGameBoardWidget
     @Override
     public Widget asWidget()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return gameBoard.asWidget();
     }
 
 }

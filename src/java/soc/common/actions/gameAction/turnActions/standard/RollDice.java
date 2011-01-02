@@ -13,9 +13,11 @@ import soc.common.board.pieces.PlayerPiece;
 import soc.common.board.pieces.Town;
 import soc.common.board.resources.ResourceList;
 import soc.common.game.Game;
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 import soc.common.game.dices.StandardDice;
 import soc.common.game.gamePhase.GamePhase;
+import soc.common.game.gamePhase.PlayTurnsGamePhase;
+import soc.common.game.gamePhase.turnPhase.RollDiceTurnPhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
 import soc.common.internationalization.I18n;
 
@@ -25,6 +27,15 @@ public class RollDice extends AbstractTurnAction
     private StandardDice dice;
     private List<Integer> looserPlayers = new ArrayList<Integer>();
     private List<HexLocation> hexesAffected = new ArrayList<HexLocation>();
+    private boolean robberBlockingProduction;
+
+    /**
+     * @return the robberBlockingProduction
+     */
+    public boolean isRobberBlockingProduction()
+    {
+        return robberBlockingProduction;
+    }
 
     /**
      * @return the looserPlayers
@@ -40,6 +51,14 @@ public class RollDice extends AbstractTurnAction
     public StandardDice getDice()
     {
         return dice;
+    }
+
+    /**
+     * @return the hexesAffected
+     */
+    public List<HexLocation> getHexesAffected()
+    {
+        return hexesAffected;
     }
 
     /**
@@ -79,15 +98,15 @@ public class RollDice extends AbstractTurnAction
     @Override
     public void perform(Game game)
     {
-        HashMap<Player, ResourceList> playersResources = new HashMap<Player, ResourceList>();
+        HashMap<GamePlayer, ResourceList> playersResources = new HashMap<GamePlayer, ResourceList>();
 
-        for (Player p : game.getPlayers())
+        for (GamePlayer p : game.getPlayers())
         {
             playersResources.put(p, new ResourceList());
         }
 
-        Player player = game.getPlayerByID(sender);
-        HexLocation robber = game.getRobber();
+        GamePlayer player = game.getPlayerByID(sender);
+        HexLocation robber = game.getRobber().getLocation();
 
         if (dice.getDice() != 7)
         {
@@ -114,7 +133,7 @@ public class RollDice extends AbstractTurnAction
                 // For normal resources, the location of the robber is omitted.
                 if (!hex.getLocation().equals(robber))
                 {
-                    for (Player player1 : game.getPlayers())
+                    for (GamePlayer player1 : game.getPlayers())
                     {
                         List<City> cities = new ArrayList<City>();
                         for (PlayerPiece piece : player1.getBuildPieces()
@@ -133,12 +152,12 @@ public class RollDice extends AbstractTurnAction
                         ResourceList gainedResources = new ResourceList();
                         for (Town town : towns)
                         {
-                            gainedResources.add(hex.getResource().Copy());
+                            gainedResources.add(hex.getResource().copy());
                         }
                         for (City zity : cities)
                         {
-                            gainedResources.add(hex.getResource().Copy());
-                            gainedResources.add(hex.getResource().Copy());
+                            gainedResources.add(hex.getResource().copy());
+                            gainedResources.add(hex.getResource().copy());
                         }
 
                         if (gainedResources.size() > 0)
@@ -152,10 +171,10 @@ public class RollDice extends AbstractTurnAction
                 hexesAffected.add(hex.getLocation());
             } // For rolledHexes
 
-            message = player.getName() + " rolled " + dice.toString();
+            message = player.getUser().getName() + " rolled " + dice.toString();
 
             // Add th resources to each player and remove them from the bank
-            for (Player resourcePlayer : playersResources.keySet())
+            for (GamePlayer resourcePlayer : playersResources.keySet())
             {
                 ResourceList gainedResources = playersResources
                         .get(resourcePlayer);
@@ -163,7 +182,7 @@ public class RollDice extends AbstractTurnAction
                 {
                     resourcePlayer.addResources(gainedResources);
                     game.getBank().remove(gainedResources, false);
-                    message += resourcePlayer.getName() + " gained "
+                    message += resourcePlayer.getUser().getName() + " gained "
                             + gainedResources.toString();
                 }
             }
@@ -174,19 +193,19 @@ public class RollDice extends AbstractTurnAction
             // Rolled a 7, create list of players to loose cards
             String playerList = "";
 
-            for (Player p1 : game.getPlayers())
+            for (GamePlayer p1 : game.getPlayers())
             {
                 if (p1.getResources().size() > p1
                         .getMaximumCardsInHandWhenSeven())
                 {
-                    looserPlayers.add(p1.getId());
+                    looserPlayers.add(p1.getUser().getId());
                     // Add comma and playername to message
                     playerList += looserPlayers.size() > 0 ? ", "
-                            + p1.getName() : p1.getName();
+                            + p1.getUser().getName() : p1.getUser().getName();
                 }
             }
 
-            message = player.getName() + " rolled a 7. ";
+            message = player.getUser().getName() + " rolled a 7. ";
 
             if (looserPlayers.size() > 0)
             {
@@ -205,20 +224,18 @@ public class RollDice extends AbstractTurnAction
     @Override
     public boolean isAllowed(TurnPhase turnPhase)
     {
-        // TODO Auto-generated method stub
-        return false;
+        return turnPhase instanceof RollDiceTurnPhase;
     }
 
     @Override
     public boolean isAllowed(GamePhase gamePhase)
     {
-        // TODO Auto-generated method stub
-        return false;
+        return gamePhase instanceof PlayTurnsGamePhase;
     }
 
     @Override
     public String getToDoMessage()
     {
-        return I18n.get().actions().rollDiceToDo(player.getName());
+        return I18n.get().actions().rollDiceToDo(player.getUser().getName());
     }
 }

@@ -1,6 +1,8 @@
 package soc.common.board.pieces;
 
-public class Piece
+import java.io.Serializable;
+
+public interface Piece extends Serializable
 {
 
 }

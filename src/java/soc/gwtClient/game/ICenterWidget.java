@@ -1,6 +1,6 @@
 package soc.gwtClient.game;
 
-import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.Widget;
 
 /*
  * Widget to be placed in the center of the app, between the titlebar and the statusbar 
@@ -8,5 +8,5 @@ import com.google.gwt.user.client.ui.Panel;
  */
 public interface ICenterWidget
 {
-    public Panel getRootWidget();
+    public Widget getRootWidget();
 }

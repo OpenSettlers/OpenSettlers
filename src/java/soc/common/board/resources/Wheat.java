@@ -3,7 +3,9 @@ package soc.common.board.resources;
 public class Wheat extends AbstractResource
 {
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.board.resources.Resource#getColor()
      */
     @Override
@@ -12,12 +14,9 @@ public class Wheat extends AbstractResource
         return "Yellow";
     }
 
-    @Override
-    public AbstractResource Copy()
-    {
-        return new Wheat();
-    }
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.board.resources.AbstractResource#isTradeable()
      */
     @Override

@@ -2,24 +2,26 @@ package soc.common.board.routing;
 
 import soc.common.board.HexSide;
 import soc.common.board.pieces.PlayerPiece;
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 
 public class GraphSideImpl implements GraphSide
 {
     private HexSide sideLocation;
     private PlayerPiece playerPiece;
-    
+
     @Override
     public HexSide getSide()
     {
         return sideLocation;
     }
+
     public GraphSideImpl setSide(HexSide side)
     {
-        this.sideLocation=side;
-        
+        this.sideLocation = side;
+
         return this;
     }
+
     @Override
     public PlayerPiece getPiece()
     {
@@ -27,25 +29,26 @@ public class GraphSideImpl implements GraphSide
     }
 
     @Override
-    public Player getPlayer()
+    public GamePlayer getPlayer()
     {
-        return playerPiece==null ? 
-                null : playerPiece.getPlayer();
+        return playerPiece == null ? null : playerPiece.getPlayer();
     }
 
     @Override
     public GraphElement setPlayerPiece(PlayerPiece piece)
     {
-        this.playerPiece=piece;
-        
+        this.playerPiece = piece;
+
         return this;
     }
+
     @Override
     public boolean isBuildable()
     {
         // TODO Auto-generated method stub
         return false;
     }
+
     @Override
     public GraphPoint setBuildable(boolean townBuildable)
     {

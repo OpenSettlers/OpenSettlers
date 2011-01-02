@@ -1,8 +1,8 @@
 package soc.common.client.behaviour.game;
 
 import soc.common.actions.gameAction.turnActions.standard.BuildRoad;
-import soc.common.client.visuals.IPieceVisual;
-import soc.common.client.visuals.board.IBoardVisual;
+import soc.common.client.visuals.PieceVisual;
+import soc.common.client.visuals.board.BoardVisual;
 
 public class BuildRoadBehaviour extends BuildSideBehaviour
 {
@@ -22,7 +22,7 @@ public class BuildRoadBehaviour extends BuildSideBehaviour
      * @see soc.common.client.behaviour.game.BuildSideBehaviour#clicked(soc.common.client.visuals.IPieceVisual, soc.common.client.visuals.board.IBoardVisual)
      */
     @Override
-    public void clicked(IPieceVisual pieceVisual, IBoardVisual board)
+    public void clicked(PieceVisual pieceVisual, BoardVisual board)
     {
         super.clicked(pieceVisual, board);
     }

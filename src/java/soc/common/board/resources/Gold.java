@@ -5,7 +5,9 @@ import soc.common.annotations.SeaFarers;
 @SeaFarers
 public class Gold extends AbstractResource
 {
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.board.resources.Resource#getColor()
      */
     @Override
@@ -14,13 +16,9 @@ public class Gold extends AbstractResource
         return "Gold";
     }
 
-    @Override
-    public AbstractResource Copy()
-    {
-        return new Gold();
-    }
-
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.board.resources.Resource#isTradeable()
      */
     @Override

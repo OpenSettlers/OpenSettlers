@@ -4,7 +4,7 @@ import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 
 import soc.common.actions.gameAction.turnActions.AbstractTurnAction;
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 
 /*
  * Interface for a widget that shows UI elements representing actions
@@ -12,6 +12,6 @@ import soc.common.game.Player;
  */
 public interface IActionWidget extends IsWidget
 {
-    public Player getPlayer();
+    public GamePlayer getPlayer();
     public IActionWidget setEnabled(boolean enabled);
 }

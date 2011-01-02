@@ -3,7 +3,7 @@ package soc.common.game.statuses;
 /*
  * When the game does not have enough players to continue with playing
  */
-public class WaitingForPlayers implements IGameStatus
+public class WaitingForPlayers implements GameStatus
 {
 
     /*

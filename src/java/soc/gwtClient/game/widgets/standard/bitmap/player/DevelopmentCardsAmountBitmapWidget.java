@@ -1,6 +1,6 @@
 package soc.gwtClient.game.widgets.standard.bitmap.player;
 
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 import soc.common.game.developmentCards.DevelopmentCardsChangedEvent;
 import soc.gwtClient.game.abstractWidgets.AbstractDevelopmentCardsAmountWidget;
 import soc.gwtClient.images.Resources;
@@ -14,7 +14,7 @@ public class DevelopmentCardsAmountBitmapWidget extends
     Image devcardImage = new Image(Resources.icons().developmentCardBackSmall());
     Label amountDevcards = new Label();
 
-    public DevelopmentCardsAmountBitmapWidget(Player player)
+    public DevelopmentCardsAmountBitmapWidget(GamePlayer player)
     {
         super(player);
 

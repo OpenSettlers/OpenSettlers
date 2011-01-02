@@ -1,8 +1,7 @@
 package soc.common.game.dices;
 
 import soc.common.annotations.SeaFarers;
-
-import com.google.gwt.user.client.Random;
+import soc.common.server.random.Random;
 
 /*
  * Represents a single 6-sided dice. Rolled when a volcano produces resources by
@@ -37,7 +36,7 @@ public class VolcanoDice implements Dice
     @Override
     public void roll(Random random)
     {
-        dice = (int) (Random.nextDouble() * 6);
+        dice = random.nextInt(6);
     }
 
     /**

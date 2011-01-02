@@ -5,7 +5,8 @@ import org.vaadin.gwtgraphics.client.animation.Animate;
 import org.vaadin.gwtgraphics.client.shape.Rectangle;
 
 import soc.common.board.HexSide;
-import soc.common.client.visuals.board.IBoardVisual;
+import soc.common.client.visuals.PieceVisual;
+import soc.common.client.visuals.board.BoardVisual;
 import soc.common.client.visuals.game.SideVisual;
 import soc.gwtClient.game.Point2D;
 
@@ -20,7 +21,7 @@ public class SvgSideVisual extends SideVisual
     private double width = 0.0;
     private double height = 0.0;
 
-    public SvgSideVisual(IBoardVisual parent, HexSide hexSide, Point2D location)
+    public SvgSideVisual(BoardVisual parent, HexSide hexSide, Point2D location)
     {
         super(parent, hexSide);
         this.location = location;
@@ -71,6 +72,23 @@ public class SvgSideVisual extends SideVisual
             new Animate(rectangle, "height", height * 1.25, height, 500)
                     .start();
         }
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.common.client.visuals.game.SideVisual#addPieceVisual(soc.common.client
+     * .visuals.PieceVisual)
+     */
+    @Override
+    public void addPieceVisual(PieceVisual pieceVisual)
+    {
+        // Keep track of it
+        pieceVisuals.add(pieceVisual);
+
+        // Add to svg canvas
+        group.add(((SvgVisual) pieceVisual).getVectorObject());
     }
 
 }

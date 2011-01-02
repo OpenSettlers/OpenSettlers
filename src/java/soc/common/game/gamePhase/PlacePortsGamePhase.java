@@ -1,6 +1,6 @@
 package soc.common.game.gamePhase;
 
-import soc.common.actions.gameAction.AbstractGameAction;
+import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.GamePhaseHasEnded;
 import soc.common.actions.gameAction.turnActions.seaFarers.PlacePort;
 import soc.common.annotations.SeaFarers;
@@ -17,7 +17,7 @@ public class PlacePortsGamePhase extends AbstractGamePhase
      * gameAction.GameAction, soc.common.game.Game)
      */
     @Override
-    public void performAction(AbstractGameAction action, Game game)
+    public void performAction(GameAction action, Game game)
     {
         action.perform(game);
     }
@@ -51,7 +51,7 @@ public class PlacePortsGamePhase extends AbstractGamePhase
                          */
 
                         // pass territoryID such that player knows to expect
-                        // possible port locations
+                                // possible port locations
                                 .setTerritoryID(t.getID()).setPlayer(
                                         game.getPlayers().get(
                                                 portCount

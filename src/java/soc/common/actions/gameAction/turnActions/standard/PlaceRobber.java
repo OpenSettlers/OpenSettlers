@@ -9,6 +9,10 @@ import soc.common.board.hexes.RandomHex;
 import soc.common.board.hexes.SeaHex;
 import soc.common.game.Game;
 import soc.common.game.gamePhase.GamePhase;
+import soc.common.game.gamePhase.PlayTurnsGamePhase;
+import soc.common.game.gamePhase.turnPhase.BeforeDiceRollTurnPhase;
+import soc.common.game.gamePhase.turnPhase.BuildingTurnPhase;
+import soc.common.game.gamePhase.turnPhase.RollDiceTurnPhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
 import soc.common.internationalization.I18n;
 
@@ -112,7 +116,7 @@ public class PlaceRobber extends AbstractTurnAction
     @Override
     public void perform(Game game)
     {
-        game.setRobber(newLocation);
+        game.getRobber().setLocation(newLocation);
 
         // TODO: fix message
         // _Message = String.Format("{0} put the robber on the {1}",
@@ -124,21 +128,21 @@ public class PlaceRobber extends AbstractTurnAction
     @Override
     public boolean isAllowed(TurnPhase turnPhase)
     {
-        // TODO Auto-generated method stub
-        return false;
+        return turnPhase instanceof BeforeDiceRollTurnPhase
+                || turnPhase instanceof RollDiceTurnPhase
+                || turnPhase instanceof BuildingTurnPhase;
     }
 
     @Override
     public boolean isAllowed(GamePhase gamePhase)
     {
-        // TODO Auto-generated method stub
-        return false;
+        return gamePhase instanceof PlayTurnsGamePhase;
     }
 
     @Override
     public String getToDoMessage()
     {
-        return I18n.get().actions().placeRobberToDo(player.getName());
+        return I18n.get().actions().placeRobberToDo(player.getUser().getName());
     }
 
 }

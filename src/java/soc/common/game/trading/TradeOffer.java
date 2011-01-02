@@ -1,6 +1,10 @@
 package soc.common.game.trading;
 
-public class TradeOffer
+import soc.common.board.resources.ResourceList;
+
+public interface TradeOffer
 {
-    private TradeResponseList responses = new TradeResponseList();
+    public int getTradeOfferID();
+    public ResourceList getOfferedResources();
+    public ResourceList getRequestedResources();
 }

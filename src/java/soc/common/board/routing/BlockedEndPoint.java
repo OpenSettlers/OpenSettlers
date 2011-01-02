@@ -4,7 +4,7 @@ import com.google.gwt.user.client.Random;
 
 import soc.common.board.HexPoint;
 import soc.common.board.pieces.PlayerPiece;
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 
 /*
  * Represents a splitted end point of a subgraph. When a town is built on an existing 
@@ -65,7 +65,7 @@ public class BlockedEndPoint implements GraphPoint
      * @see soc.common.board.routing.IGraphElement#getPlayer()
      */
     @Override
-    public Player getPlayer()
+    public GamePlayer getPlayer()
     {
         return null;
     }

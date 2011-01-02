@@ -2,22 +2,20 @@ package soc.common.actions;
 
 import java.util.Date;
 
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 
 public abstract class AbstractAction implements Action
 {
     private static final long serialVersionUID = -6754147108114150267L;
+    private String message;
+    private Date dateTimeExecuted;
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see soc.common.actions.Action#getDateTimeExecuted()
+    /**
+     * @return the dateTimeExecuted
      */
-    @Override
     public Date getDateTimeExecuted()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return dateTimeExecuted;
     }
 
     /*
@@ -28,8 +26,7 @@ public abstract class AbstractAction implements Action
     @Override
     public String getMessage()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return message;
     }
 
     /*
@@ -50,7 +47,7 @@ public abstract class AbstractAction implements Action
      * @see soc.common.actions.Action#getPlayer()
      */
     @Override
-    public Player getPlayer()
+    public GamePlayer getPlayer()
     {
         // TODO Auto-generated method stub
         return null;
@@ -74,7 +71,7 @@ public abstract class AbstractAction implements Action
      * @see soc.common.actions.Action#setPlayer(soc.common.game.Player)
      */
     @Override
-    public Action setPlayer(Player player)
+    public Action setPlayer(GamePlayer player)
     {
         // TODO Auto-generated method stub
         return null;

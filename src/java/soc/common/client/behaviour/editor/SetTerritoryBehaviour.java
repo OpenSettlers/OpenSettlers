@@ -1,17 +1,17 @@
 package soc.common.client.behaviour.editor;
 
 import soc.common.board.territories.Territory;
-import soc.common.client.behaviour.IInteractionBehaviour;
-import soc.common.client.visuals.IPieceVisual;
-import soc.common.client.visuals.board.IBoardVisual;
+import soc.common.client.behaviour.InteractionBehaviour;
+import soc.common.client.visuals.PieceVisual;
+import soc.common.client.visuals.board.BoardVisual;
 import soc.common.client.visuals.board.HexVisual;
 
-public class SetTerritoryBehaviour implements IInteractionBehaviour
+public class SetTerritoryBehaviour implements InteractionBehaviour
 {
     private Territory territory;
 
     @Override
-    public void clicked(IPieceVisual pieceVisual, IBoardVisual board)
+    public void clicked(PieceVisual pieceVisual, BoardVisual board)
     {
         if (pieceVisual instanceof HexVisual)
         {
@@ -45,7 +45,7 @@ public class SetTerritoryBehaviour implements IInteractionBehaviour
         return this;
     }
 
-    public void mouseEnter(IPieceVisual pieceVisual, IBoardVisual board)
+    public void mouseEnter(PieceVisual pieceVisual, BoardVisual board)
     {
         if (pieceVisual instanceof HexVisual)
         {
@@ -55,7 +55,7 @@ public class SetTerritoryBehaviour implements IInteractionBehaviour
     }
 
     @Override
-    public void mouseOut(IPieceVisual hex, IBoardVisual board)
+    public void mouseOut(PieceVisual hex, BoardVisual board)
     {
         hex.setSelected(false);
     }

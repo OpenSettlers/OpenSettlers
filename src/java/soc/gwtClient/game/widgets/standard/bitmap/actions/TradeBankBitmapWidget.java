@@ -6,7 +6,7 @@ import soc.common.board.resources.ResourcesChangedEvent;
 import soc.common.board.resources.ResourcesChangedEventHandler;
 import soc.common.game.GamePhaseChangedEvent;
 import soc.common.game.GamePhaseChangedEventHandler;
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.AbstractActionWidget;
 import soc.gwtClient.game.abstractWidgets.IGamePanel;
 import soc.gwtClient.images.Resources;
@@ -24,7 +24,7 @@ public class TradeBankBitmapWidget extends AbstractActionWidget implements
     PushButton btnTradeBank;
     boolean isTradeBankShown = false;
 
-    public TradeBankBitmapWidget(IGamePanel gamePanel, Player player)
+    public TradeBankBitmapWidget(IGamePanel gamePanel, GamePlayer player)
     {
         super(gamePanel, player);
 

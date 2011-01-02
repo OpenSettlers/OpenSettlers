@@ -131,6 +131,7 @@ import soc.message.ResetBoardVoteRequest;
 import soc.message.ResourceCount;
 import soc.message.RollDice;
 import soc.message.RollDicePrompt;
+import soc.message.SOCVersion;
 import soc.message.ServerPing;
 import soc.message.SetPlayedDevCard;
 import soc.message.SetSeatLock;
@@ -140,7 +141,6 @@ import soc.message.StartGame;
 import soc.message.StatusMessage;
 import soc.message.TextMsg;
 import soc.message.Turn;
-import soc.message.SOCVersion;
 import soc.server.SOCServer;
 import soc.server.genericServer.LocalStringConnection;
 import soc.server.genericServer.LocalStringServerSocket;
@@ -148,32 +148,33 @@ import soc.server.genericServer.StringConnection;
 import soc.util.GameList;
 import soc.util.Version;
 
-
 /**
- * Applet/Standalone client for connecting to the SOCServer.
- * Prompts for name and password, displays list of games and channels available.
- * The actual game is played in a separate {@link PlayerInterface} window.
+ * Applet/Standalone client for connecting to the SOCServer. Prompts for name
+ * and password, displays list of games and channels available. The actual game
+ * is played in a separate {@link PlayerInterface} window.
  *<P>
  * If you want another connection port, you have to specify it as the "port"
  * argument in the html source. If you run this as a stand-alone, you have to
  * specify the port.
  *<P>
- * At startup or init, will try to connect to server via {@link #connect()}.
- * See that method for more details.
+ * At startup or init, will try to connect to server via {@link #connect()}. See
+ * that method for more details.
  *<P>
  * There are three possible servers to which a client can be connected:
  *<UL>
- *  <LI>  A remote server, running on the other end of a TCP connection
- *  <LI>  A local TCP server, for hosting games, launched by this client: {@link #localTCPServer}
- *  <LI>  A "practice game" server, not bound to any TCP port, for practicing
- *        locally against robots: {@link #practiceServer}
+ * <LI>A remote server, running on the other end of a TCP connection
+ * <LI>A local TCP server, for hosting games, launched by this client:
+ * {@link #localTCPServer}
+ * <LI>A "practice game" server, not bound to any TCP port, for practicing
+ * locally against robots: {@link #practiceServer}
  *</UL>
  * At most, the client is connected to the practice server and one TCP server.
  * Each game's {@link Game#isLocal} flag determines which connection to use.
- *
+ * 
  * @author Robert S Thomas
  */
-public class PlayerClient extends Applet implements Runnable, ActionListener, TextListener, ItemListener
+public class PlayerClient extends Applet implements Runnable, ActionListener,
+        TextListener, ItemListener
 {
     private static final long serialVersionUID = 3879651133746360983L;
 
@@ -186,7 +187,9 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
     /** connect-or-practice panel (if jar launch), in cardlayout */
     protected static final String CONNECT_OR_PRACTICE_PANEL = "connOrPractice";
 
-    /** text prefix to show games this client cannot join. "(cannot join) "
+    /**
+     * text prefix to show games this client cannot join. "(cannot join) "
+     * 
      * @since 1.1.06
      */
     protected static final String GAMENAME_PREFIX_CANNOT_JOIN = "(cannot join) ";
@@ -195,7 +198,9 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
      * Default tcp port number 8880 to listen, and to connect to remote server.
      * Should match SOCServer.SOC_PORT_DEFAULT.
      *<P>
-     * 8880 is the default PlayerClient port since jsettlers 1.0.4, per cvs history.
+     * 8880 is the default PlayerClient port since jsettlers 1.0.4, per cvs
+     * history.
+     * 
      * @since 1.1.00
      */
     public static final int SOC_PORT_DEFAULT = 8880;
@@ -203,43 +208,48 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
     protected static final String STATSPREFEX = "  [";
 
     /**
-     * For use in password fields, and possibly by other places, detect if we're running on
-     * Mac OS X.  To identify osx from within java, see technote TN2110:
-     * http://developer.apple.com/technotes/tn2002/tn2110.html
+     * For use in password fields, and possibly by other places, detect if we're
+     * running on Mac OS X. To identify osx from within java, see technote
+     * TN2110: http://developer.apple.com/technotes/tn2002/tn2110.html
+     * 
      * @since 1.1.07
      */
-    public static final boolean isJavaOnOSX =
-        System.getProperty("os.name").toLowerCase().startsWith("mac os x");
+    public static final boolean isJavaOnOSX = System.getProperty("os.name")
+            .toLowerCase().startsWith("mac os x");
 
     protected TextField nick;
     protected TextField pass;
     protected TextField status;
     protected TextField channel;
-    // protected TextField game;  // removed 1.1.07 - NewGameOptionsFrame instead
+    // protected TextField game; // removed 1.1.07 - NewGameOptionsFrame instead
     protected java.awt.List chlist;
     protected java.awt.List gmlist;
 
     /**
      * "New Game..." button, brings up {@link NewGameOptionsFrame} window
+     * 
      * @since 1.1.07
      */
-    protected Button ng;  // new game
+    protected Button ng; // new game
 
-    protected Button jc;  // join channel
-    protected Button jg;  // join game
-    protected Button pg;  // practice game (local)
+    protected Button jc; // join channel
+    protected Button jg; // join game
+    protected Button pg; // practice game (local)
 
     /**
      * "Show Options" button, shows a game's {@link GameOption}s
+     * 
      * @since 1.1.07
      */
     protected Button so;
 
-    protected Label messageLabel;  // error message for messagepanel
-    protected Label messageLabel_top;   // secondary message
-    protected Label versionOrlocalTCPPortLabel;   // shows port number in mainpanel, if running localTCPServer;
-                                         // shows remote version# when connected to a remote server
-    protected Button pgm;  // practice game on messagepanel
+    protected Label messageLabel; // error message for messagepanel
+    protected Label messageLabel_top; // secondary message
+    protected Label versionOrlocalTCPPortLabel; // shows port number in
+                                                // mainpanel, if running
+                                                // localTCPServer;
+    // shows remote version# when connected to a remote server
+    protected Button pgm; // practice game on messagepanel
     protected AppletContext ac;
 
     /** For debug, our last messages sent, over the net and locally (pipes) */
@@ -247,16 +257,16 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * PlayerClient displays one of several panels to the user:
-     * {@link #MAIN_PANEL}, {@link #MESSAGE_PANEL} or
-     * (if launched from jar, or with no command-line arguments)
-     * {@link #CONNECT_OR_PRACTICE_PANEL}.
-     *
+     * {@link #MAIN_PANEL}, {@link #MESSAGE_PANEL} or (if launched from jar, or
+     * with no command-line arguments) {@link #CONNECT_OR_PRACTICE_PANEL}.
+     * 
      * @see #hasConnectOrPractice
      */
     protected CardLayout cardLayout;
 
     /**
-     * Hostname we're connected to, or null; set in constructor or {@link #init()}
+     * Hostname we're connected to, or null; set in constructor or
+     * {@link #init()}
      */
     public String host;
     public int port;
@@ -264,83 +274,86 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
     protected DataInputStream in;
     protected DataOutputStream out;
     protected Thread reader = null;
-    protected Exception ex = null;    // Network errors (TCP communication)
-    protected Exception ex_L = null;  // Local errors (stringport pipes)
+    protected Exception ex = null; // Network errors (TCP communication)
+    protected Exception ex_L = null; // Local errors (stringport pipes)
     protected boolean connected = false;
 
     /**
-     *  Server version number for remote server, sent soon after connect, or -1 if unknown.
-     *  A local server's version is always {@link Version#versionNumber()}.
+     * Server version number for remote server, sent soon after connect, or -1
+     * if unknown. A local server's version is always
+     * {@link Version#versionNumber()}.
      */
     protected int sVersion;
 
     /**
-     * Track the game options available at the remote server, at the practice server.
-     * Initialized by {@link #gameWithOptionsBeginSetup(boolean)}
-     * and/or {@link #handleVERSION(boolean, SOCVersion)}.
-     * These fields are never null, even if the respective server is not connected or not running.
+     * Track the game options available at the remote server, at the practice
+     * server. Initialized by {@link #gameWithOptionsBeginSetup(boolean)} and/or
+     * {@link #handleVERSION(boolean, SOCVersion)}. These fields are never null,
+     * even if the respective server is not connected or not running.
      *<P>
-     * For a summary of the flags and variables involved with game options,
-     * and the client/server interaction about their values, see
+     * For a summary of the flags and variables involved with game options, and
+     * the client/server interaction about their values, see
      * {@link GameOptionServerSet}'s javadoc.
-     *
+     * 
      * @since 1.1.07
      */
     protected GameOptionServerSet tcpServGameOpts = new GameOptionServerSet(),
-        practiceServGameOpts = new GameOptionServerSet();
+            practiceServGameOpts = new GameOptionServerSet();
 
     /**
-     * Task for timeout when asking remote server for {@link GameOptionInfo game options info}.
-     * Set up when sending {@link GameOptionGetInfos GAMEOPTIONGETINFOS}.
-     * In case of slow connection or server bug.
+     * Task for timeout when asking remote server for {@link GameOptionInfo game
+     * options info}. Set up when sending {@link GameOptionGetInfos
+     * GAMEOPTIONGETINFOS}. In case of slow connection or server bug.
+     * 
      * @see #gameOptionsSetTimeoutTask()
      * @since 1.1.07
      */
     protected GameOptionsTimeoutTask gameOptsTask = null;
 
     /**
-     * Task for timeout when asking remote server for {@link GameOption game options defaults}.
-     * Set up when sending {@link GameOptionGetDefaults GAMEOPTIONGETDEFAULTS}.
-     * In case of slow connection or server bug.
+     * Task for timeout when asking remote server for {@link GameOption game
+     * options defaults}. Set up when sending {@link GameOptionGetDefaults
+     * GAMEOPTIONGETDEFAULTS}. In case of slow connection or server bug.
+     * 
      * @see #gameWithOptionsBeginSetup(boolean)
      * @since 1.1.07
      */
     protected GameOptionDefaultsTimeoutTask gameOptsDefsTask = null;
 
     /**
-     * Utility for time-driven events in the client.
-     * For users, search for where-used of this field
-     * and of {@link #getEventTimer()}.
+     * Utility for time-driven events in the client. For users, search for
+     * where-used of this field and of {@link #getEventTimer()}.
+     * 
      * @since 1.1.07
      */
-    protected Timer eventTimer = new Timer(true);  // use daemon thread
+    protected Timer eventTimer = new Timer(true); // use daemon thread
 
     /**
-     * Once true, disable "nick" textfield, etc.
-     * Remains true, even if connected becomes false.
+     * Once true, disable "nick" textfield, etc. Remains true, even if connected
+     * becomes false.
      */
     protected boolean hasJoinedServer;
 
     /**
-     * If true, we'll give the user a choice to
-     * connect to a server, start a local server,
-     * or a local practice game.
-     * Used for when we're started from a jar, or
-     * from the command line with no arguments.
-     * Uses {@link ConnectOrPracticePanel}.
-     *
+     * If true, we'll give the user a choice to connect to a server, start a
+     * local server, or a local practice game. Used for when we're started from
+     * a jar, or from the command line with no arguments. Uses
+     * {@link ConnectOrPracticePanel}.
+     * 
      * @see #cardLayout
      */
     protected boolean hasConnectOrPractice;
 
     /**
      * If applicable, is set up in {@link #initVisualElements()}.
+     * 
      * @see #hasConnectOrPractice
      */
     protected ConnectOrPracticePanel connectOrPracticePane;
 
     /**
      * The currently showing new-game options frame, or null
+     * 
      * @since 1.1.07
      */
     public NewGameOptionsFrame newGameOptsFrame = null;
@@ -362,20 +375,22 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * Hint message if they try to join game without entering a nickname.
-     *
+     * 
      * @see #NEED_NICKNAME_BEFORE_JOIN_2
      */
     public static String NEED_NICKNAME_BEFORE_JOIN = "First enter a nickname, then join a channel or game.";
-    
+
     /**
-     * Stronger hint message if they still try to join game without entering a nickname.
-     *
+     * Stronger hint message if they still try to join game without entering a
+     * nickname.
+     * 
      * @see #NEED_NICKNAME_BEFORE_JOIN
      */
     public static String NEED_NICKNAME_BEFORE_JOIN_2 = "You must enter a nickname before you can join a channel or game.";
 
     /**
      * Status text to indicate client cannot join a game.
+     * 
      * @since 1.1.06
      */
     public static String STATUS_CANNOT_JOIN_THIS_GAME = "Cannot join, this client is incompatible with features of this game.";
@@ -412,26 +427,30 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
     public Hashtable games = new Hashtable();
 
     /**
-     * all announced game names on the remote server, including games which we can't
-     * join due to limitations of the client.
-     * May also contain options for all announced games on the server (not just ones
-     * we're in) which we can join (version is not higher than our version).
+     * all announced game names on the remote server, including games which we
+     * can't join due to limitations of the client. May also contain options for
+     * all announced games on the server (not just ones we're in) which we can
+     * join (version is not higher than our version).
      *<P>
-     * Key is the game name, without the UNJOINABLE prefix.
-     * This field is null until {@link #handleGAMES(Games, boolean) handleGAMES},
-     *   {@link #handleGAMESWITHOPTIONS(GamesWithOptions, boolean) handleGAMESWITHOPTIONS},
-     *   {@link #handleNEWGAME(NewGame, boolean) handleNEWGAME}
-     *   or {@link #handleNEWGAMEWITHOPTIONS(NewGameWithOptions, boolean) handleNEWGAMEWITHOPTIONS}
-     *   is called.
+     * Key is the game name, without the UNJOINABLE prefix. This field is null
+     * until {@link #handleGAMES(Games, boolean) handleGAMES},
+     * {@link #handleGAMESWITHOPTIONS(GamesWithOptions, boolean)
+     * handleGAMESWITHOPTIONS}, {@link #handleNEWGAME(NewGame, boolean)
+     * handleNEWGAME} or
+     * {@link #handleNEWGAMEWITHOPTIONS(NewGameWithOptions, boolean)
+     * handleNEWGAMEWITHOPTIONS} is called.
+     * 
      * @since 1.1.07
      */
     protected GameList serverGames = null;
 
     /**
-     * the unjoinable game names from {@link #serverGames} that player has asked to join,
-     * and been told they can't.  If they click again, try to connect.
-     * (This is a failsafe against bugs in server or client version-recognition.)
-     * Both key and value are the game name, without the UNJOINABLE prefix.
+     * the unjoinable game names from {@link #serverGames} that player has asked
+     * to join, and been told they can't. If they click again, try to connect.
+     * (This is a failsafe against bugs in server or client
+     * version-recognition.) Both key and value are the game name, without the
+     * UNJOINABLE prefix.
+     * 
      * @since 1.1.06
      */
     protected Hashtable gamesUnjoinableOverride = new Hashtable();
@@ -447,19 +466,18 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
     protected Vector ignoreList = new Vector();
 
     /**
-     * for local-practice game via {@link #prCli}; not connected to
-     * the network, not suited for multi-player games. Use {@link #localTCPServer}
-     * for those.
-     * SOCMessages of games where {@link Game#isLocal} is true are sent
-     * to practiceServer.
+     * for local-practice game via {@link #prCli}; not connected to the network,
+     * not suited for multi-player games. Use {@link #localTCPServer} for those.
+     * SOCMessages of games where {@link Game#isLocal} is true are sent to
+     * practiceServer.
      *<P>
      * Null before it's started in {@link #startPracticeGame()}.
      */
     protected SOCServer practiceServer = null;
 
     /**
-     * for connection to local-practice server {@link #practiceServer}.
-     * Null before it's started in {@link #startPracticeGame()}.
+     * for connection to local-practice server {@link #practiceServer}. Null
+     * before it's started in {@link #startPracticeGame()}.
      */
     protected StringConnection prCli = null;
 
@@ -469,16 +487,17 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
     protected int numPracticeGames = 0;
 
     /**
-     * Client-hosted TCP server. If client is running this server, it's also connected
-     * as a client, instead of being client of a remote server.
-     * Started via {@link #startLocalTCPServer(int)}.
-     * {@link #practiceServer} may still be activated at the user's request.
-     * Note that {@link Game#isLocal} is false for localTCPServer's games.
+     * Client-hosted TCP server. If client is running this server, it's also
+     * connected as a client, instead of being client of a remote server.
+     * Started via {@link #startLocalTCPServer(int)}. {@link #practiceServer}
+     * may still be activated at the user's request. Note that
+     * {@link Game#isLocal} is false for localTCPServer's games.
      */
     protected SOCServer localTCPServer = null;
 
     /**
-     * Create a PlayerClient connecting to localhost port {@link #SOC_PORT_DEFAULT}
+     * Create a PlayerClient connecting to localhost port
+     * {@link #SOC_PORT_DEFAULT}
      */
     public PlayerClient()
     {
@@ -486,11 +505,13 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
     }
 
     /**
-     * Create a PlayerClient either connecting to localhost port {@link #SOC_PORT_DEFAULT},
-     *   or initially showing 'Connect or Practice' panel.
-     *
-     * @param cp  If true, start by showing 'Connect or Practice' panel,
-     *       instead of connecting to localhost port.
+     * Create a PlayerClient either connecting to localhost port
+     * {@link #SOC_PORT_DEFAULT}, or initially showing 'Connect or Practice'
+     * panel.
+     * 
+     * @param cp
+     *            If true, start by showing 'Connect or Practice' panel, instead
+     *            of connecting to localhost port.
      */
     public PlayerClient(boolean cp)
     {
@@ -498,25 +519,30 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
     }
 
     /**
-     * Constructor for connecting to the specified host, on the specified
-     * port.  Must call 'init' or 'initVisualElements' to start up and do layout.
-     *
-     * @param h  host, or null for localhost
-     * @param p  port
+     * Constructor for connecting to the specified host, on the specified port.
+     * Must call 'init' or 'initVisualElements' to start up and do layout.
+     * 
+     * @param h
+     *            host, or null for localhost
+     * @param p
+     *            port
      */
     public PlayerClient(String h, int p)
     {
-        this (h, p, false);
+        this(h, p, false);
     }
 
     /**
-     * Constructor for connecting to the specified host, on the specified
-     * port.  Must call 'init' or 'initVisualElements' to start up and do layout.
-     *
-     * @param h  host, or null for localhost
-     * @param p  port
-     * @param cp  If true, start by showing 'Connect or Practice' panel,
-     *       instead of connecting to host and port.
+     * Constructor for connecting to the specified host, on the specified port.
+     * Must call 'init' or 'initVisualElements' to start up and do layout.
+     * 
+     * @param h
+     *            host, or null for localhost
+     * @param p
+     *            port
+     * @param cp
+     *            If true, start by showing 'Connect or Practice' panel, instead
+     *            of connecting to host and port.
      */
     public PlayerClient(String h, int p, boolean cp)
     {
@@ -524,7 +550,7 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
         host = h;
         port = p;
         hasConnectOrPractice = cp;
-        lastFaceChange = 1;  // Default human face
+        lastFaceChange = 1; // Default human face
     }
 
     /**
@@ -533,11 +559,11 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
     public void initVisualElements()
     {
         setFont(new Font("SansSerif", Font.PLAIN, 12));
-        
+
         nick = new TextField(20);
         pass = new TextField(20);
         if (isJavaOnOSX)
-            pass.setEchoChar('\u2022');  // round bullet (option-8)
+            pass.setEchoChar('\u2022'); // round bullet (option-8)
         else
             pass.setEchoChar('*');
         status = new TextField(20);
@@ -550,8 +576,8 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
         ng = new Button("New Game...");
         jc = new Button("Join Channel");
         jg = new Button("Join Game");
-        pg = new Button("Practice");  // "practice game" text is too wide
-        so = new Button("Show Options");  // show game options
+        pg = new Button("Practice"); // "practice game" text is too wide
+        so = new Button("Show Options"); // show game options
 
         // Username not entered yet: can't click buttons
         ng.setEnabled(false);
@@ -561,8 +587,9 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
         jg.setEnabled(false);
         so.setEnabled(false);
 
-        nick.addTextListener(this);    // Will enable buttons when field is not empty
-        nick.addActionListener(this);  // hit Enter to go to next field
+        nick.addTextListener(this); // Will enable buttons when field is not
+                                    // empty
+        nick.addActionListener(this); // hit Enter to go to next field
         pass.addActionListener(this);
         channel.addActionListener(this);
         chlist.addActionListener(this);
@@ -571,8 +598,8 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
         ng.addActionListener(this);
         jc.addActionListener(this);
         jg.addActionListener(this);
-        pg.addActionListener(this);        
-        so.addActionListener(this);        
+        pg.addActionListener(this);
+        so.addActionListener(this);
 
         ac = null;
 
@@ -651,7 +678,7 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
         gbl.setConstraints(l, c);
         mainPane.add(l);
 
-        c.gridwidth = 1;  // this position was "New Game:" label before 1.1.07
+        c.gridwidth = 1; // this position was "New Game:" label before 1.1.07
         gbl.setConstraints(pg, c);
         mainPane.add(pg);
 
@@ -676,7 +703,8 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
         gbl.setConstraints(l, c);
         mainPane.add(l);
 
-        // Row 5 (version/port# label, join channel btn, show-options btn, join game btn)
+        // Row 5 (version/port# label, join channel btn, show-options btn, join
+        // game btn)
 
         versionOrlocalTCPPortLabel = new Label();
         c.gridwidth = 1;
@@ -747,12 +775,12 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
         // secondary message at top of message pane, used with pgm button.
         messageLabel_top = new Label("", Label.CENTER);
-        messageLabel_top.setVisible(false);        
+        messageLabel_top.setVisible(false);
         messagePane.add(messageLabel_top, BorderLayout.NORTH);
 
         // message label that takes up the whole pane
         messageLabel = new Label("", Label.CENTER);
-        messageLabel.setForeground(new Color(252, 251, 243)); // off-white 
+        messageLabel.setForeground(new Color(252, 251, 243)); // off-white
         messagePane.add(messageLabel, BorderLayout.CENTER);
 
         // bottom of message pane: practice-game button
@@ -768,7 +796,8 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
         if (hasConnectOrPractice)
         {
             connectOrPracticePane = new ConnectOrPracticePanel(this);
-            add (connectOrPracticePane, CONNECT_OR_PRACTICE_PANEL);  // shown first
+            add(connectOrPracticePane, CONNECT_OR_PRACTICE_PANEL); // shown
+                                                                   // first
         }
         add(messagePane, MESSAGE_PANEL); // shown first unless cpPane
         add(mainPane, MAIN_PANEL);
@@ -779,8 +808,9 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * Retrieve a parameter and translate to a hex value.
-     *
-     * @param name a parameter name. null is ignored
+     * 
+     * @param name
+     *            a parameter name. null is ignored
      * @return the parameter parsed as a hex value or -1 on error
      */
     public int getHexParameter(String name)
@@ -807,25 +837,26 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
      */
     public void start()
     {
-        if (! hasConnectOrPractice)
+        if (!hasConnectOrPractice)
             nick.requestFocus();
     }
-    
+
     /**
      * Initialize the applet
      */
     public synchronized void init()
     {
-        System.out.println("Java Settlers Client " + Version.version() +
-                           ", build " + Version.buildnum() + ", " + Version.copyright());
-        System.out.println("Network layer based on code by Cristian Bogdan; local network by Jeremy Monin.");
+        System.out.println("Java Settlers Client " + Version.version()
+                + ", build " + Version.buildnum() + ", " + Version.copyright());
+        System.out
+                .println("Network layer based on code by Cristian Bogdan; local network by Jeremy Monin.");
 
         String param = null;
         int intValue;
-            
-        intValue = getHexParameter("background"); 
+
+        intValue = getHexParameter("background");
         if (intValue != -1)
-                setBackground(new Color(intValue));
+            setBackground(new Color(intValue));
 
         intValue = getHexParameter("foreground");
         if (intValue != -1)
@@ -837,21 +868,24 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
         if (param != null)
             channel.setText(param); // after visuals initialized
 
-        param = getParameter("nickname");  // for use with dynamically-generated html
+        param = getParameter("nickname"); // for use with dynamically-generated
+                                          // html
         if (param != null)
             nick.setText(param);
 
         System.out.println("Getting host...");
         host = getCodeBase().getHost();
         if (host.equals(""))
-            host = null;  // localhost
+            host = null; // localhost
 
-        try {
+        try
+        {
             param = getParameter("PORT");
             if (param != null)
                 port = Integer.parseInt(param);
         }
-        catch (Exception e) {
+        catch (Exception e)
+        {
             System.err.println("Invalid port: " + param);
         }
 
@@ -859,12 +893,17 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
     }
 
     /**
-     * Connect and give feedback by showing MESSAGE_PANEL.
-     * For more details, see {@link #connect()}.
-     * @param chost Hostname to connect to, or null for localhost
-     * @param cport Port number to connect to
-     * @param cuser User nickname
-     * @param cpass User optional password
+     * Connect and give feedback by showing MESSAGE_PANEL. For more details, see
+     * {@link #connect()}.
+     * 
+     * @param chost
+     *            Hostname to connect to, or null for localhost
+     * @param cport
+     *            Port number to connect to
+     * @param cuser
+     *            User nickname
+     * @param cpass
+     *            User optional password
      */
     public void connect(String chost, int cport, String cuser, String cpass)
     {
@@ -878,16 +917,16 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * Attempts to connect to the server. See {@link #connected} for success or
-     * failure. Once connected, starts a {@link #reader} thread.
-     * The first message over the connection is our version,
-     * and the second is the server's response:
-     * Either {@link RejectConnection}, or the lists of
+     * failure. Once connected, starts a {@link #reader} thread. The first
+     * message over the connection is our version, and the second is the
+     * server's response: Either {@link RejectConnection}, or the lists of
      * channels and games ({@link Channels}, {@link Games}).
      *<P>
-     * Before 1.1.06, the server's response was first,
-     * and version was sent in reply to server's version.
-     *
-     * @throws IllegalStateException if already connected
+     * Before 1.1.06, the server's response was first, and version was sent in
+     * reply to server's version.
+     * 
+     * @throws IllegalStateException
+     *             if already connected
      * @see soc.server.SOCServer#newConnection1(StringConnection)
      */
     public synchronized void connect()
@@ -895,13 +934,13 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
         String hostString = (host != null ? host : "localhost") + ":" + port;
         if (connected)
         {
-            throw new IllegalStateException("Already connected to " +
-                                            hostString);
+            throw new IllegalStateException("Already connected to "
+                    + hostString);
         }
-                
+
         System.out.println("Connecting to " + hostString);
-//        messageLabel.setText("Connecting to server...");
-        
+        // messageLabel.setText("Connecting to server...");
+
         try
         {
             s = new Socket(host, port);
@@ -910,7 +949,8 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
             connected = true;
             (reader = new Thread(this)).start();
             // send VERSION right away (1.1.06 and later)
-            putNet(SOCVersion.toCmd(Version.versionNumber(), Version.version(), Version.buildnum()));
+            putNet(SOCVersion.toCmd(Version.versionNumber(), Version.version(),
+                    Version.buildnum()));
         }
         catch (Exception e)
         {
@@ -920,7 +960,7 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
             if (ex_L == null)
             {
                 pgm.setVisible(true);
-                messageLabel_top.setText(msg);                
+                messageLabel_top.setText(msg);
                 messageLabel_top.setVisible(true);
                 messageLabel.setText(NET_UNAVAIL_CAN_PRACTICE_MSG);
                 validate();
@@ -943,8 +983,11 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
     }
 
     /**
-     * When nickname contents change, enable/disable buttons as appropriate. ({@link TextListener})
-     * @param e textevent from {@link #nick}
+     * When nickname contents change, enable/disable buttons as appropriate. (
+     * {@link TextListener})
+     * 
+     * @param e
+     *            textevent from {@link #nick}
      * @since 1.1.07
      */
     public void textValueChanged(TextEvent e)
@@ -958,8 +1001,11 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
     }
 
     /**
-     * When a game is selected/deselected, enable/disable buttons as appropriate. ({@link ItemListener})
-     * @param e textevent from {@link #gmlist}
+     * When a game is selected/deselected, enable/disable buttons as
+     * appropriate. ({@link ItemListener})
+     * 
+     * @param e
+     *            textevent from {@link #gmlist}
      * @since 1.1.07
      */
     public void itemStateChanged(ItemEvent e)
@@ -968,8 +1014,9 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
         if (wasSel != jg.isEnabled())
         {
             jg.setEnabled(wasSel);
-            so.setEnabled(wasSel && ((practiceServer != null)
-                || (sVersion >= NewGameWithOptions.VERSION_FOR_NEWGAMEWITHOPTIONS)));
+            so
+                    .setEnabled(wasSel
+                            && ((practiceServer != null) || (sVersion >= NewGameWithOptions.VERSION_FOR_NEWGAMEWITHOPTIONS)));
         }
     }
 
@@ -983,9 +1030,10 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
             Object target = e.getSource();
             guardedActionPerform(target);
         }
-        catch(Throwable thr)
+        catch (Throwable thr)
         {
-            System.err.println("-- Error caught in AWT event thread: " + thr + " --");
+            System.err.println("-- Error caught in AWT event thread: " + thr
+                    + " --");
             thr.printStackTrace();
             while (thr.getCause() != null)
             {
@@ -999,8 +1047,8 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
     }
 
     /**
-     * Act as if the "practice game" button has been clicked.
-     * Assumes the dialog panels are all initialized.
+     * Act as if the "practice game" button has been clicked. Assumes the dialog
+     * panels are all initialized.
      */
     public void clickPracticeButton()
     {
@@ -1009,20 +1057,26 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * Wrapped version of actionPerformed() for easier encapsulation.
-     * @param target Action source, from ActionEvent.getSource()
+     * 
+     * @param target
+     *            Action source, from ActionEvent.getSource()
      */
     private void guardedActionPerform(Object target)
     {
         boolean showPopupCannotJoin = false;
 
-        if ((target == jc) || (target == channel) || (target == chlist)) // Join channel stuff
+        if ((target == jc) || (target == channel) || (target == chlist)) // Join
+                                                                         // channel
+                                                                         // stuff
         {
-            showPopupCannotJoin = ! guardedActionPerform_channels(target);
+            showPopupCannotJoin = !guardedActionPerform_channels(target);
         }
         else if ((target == jg) || (target == ng) || (target == gmlist)
-                || (target == pg) || (target == pgm) || (target == so)) // Join game stuff
+                || (target == pg) || (target == pgm) || (target == so)) // Join
+                                                                        // game
+                                                                        // stuff
         {
-            showPopupCannotJoin = ! guardedActionPerform_games(target);
+            showPopupCannotJoin = !guardedActionPerform_games(target);
         }
 
         if (showPopupCannotJoin)
@@ -1030,8 +1084,7 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
             status.setText(STATUS_CANNOT_JOIN_THIS_GAME);
             // popup
             NotifyDialog.createAndShow(this, (Frame) null,
-                STATUS_CANNOT_JOIN_THIS_GAME,
-                "Cancel", true);
+                    STATUS_CANNOT_JOIN_THIS_GAME, "Cancel", true);
 
             return;
         }
@@ -1046,7 +1099,9 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * GuardedActionPerform when a channels-related button or field is clicked
-     * @param target Target as in actionPerformed
+     * 
+     * @param target
+     *            Target as in actionPerformed
      * @return True if OK, false if caller needs to show popup "cannot join"
      * @since 1.1.06
      */
@@ -1103,8 +1158,8 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
             if (channels.isEmpty())
             {
                 // May set hint message if empty, like NEED_NICKNAME_BEFORE_JOIN
-                if (! readValidNicknameAndPassword())
-                    return true;  // not filled in yet
+                if (!readValidNicknameAndPassword())
+                    return true; // not filled in yet
             }
 
             status.setText("Talking to server...");
@@ -1120,36 +1175,39 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
     }
 
     /**
-     * Read and validate username and password GUI fields into client's data fields.
-     * This method may set status bar to a hint message if username is empty,
-     * such as {@link #NEED_NICKNAME_BEFORE_JOIN}.
+     * Read and validate username and password GUI fields into client's data
+     * fields. This method may set status bar to a hint message if username is
+     * empty, such as {@link #NEED_NICKNAME_BEFORE_JOIN}.
+     * 
      * @return true if OK, false if blank or not ready
      * @see #getValidNickname(boolean)
      * @since 1.1.07
      */
     public boolean readValidNicknameAndPassword()
     {
-        nickname = getValidNickname(true);  // May set hint message if empty,
-                                        // like NEED_NICKNAME_BEFORE_JOIN
+        nickname = getValidNickname(true); // May set hint message if empty,
+        // like NEED_NICKNAME_BEFORE_JOIN
         if (nickname == null)
-           return false;  // not filled in yet
+            return false; // not filled in yet
 
         if (!gotPassword)
         {
-            password = getPassword();  // may be 0-length
+            password = getPassword(); // may be 0-length
         }
         return true;
     }
 
     /**
      * GuardedActionPerform when a games-related button or field is clicked
-     * @param target Target as in actionPerformed
+     * 
+     * @param target
+     *            Target as in actionPerformed
      * @return True if OK, false if caller needs to show popup "cannot join"
      * @since 1.1.06
      */
     private boolean guardedActionPerform_games(Object target)
     {
-        String gm;  // May also be 0-length string, if pulled from Lists
+        String gm; // May also be 0-length string, if pulled from Lists
 
         if ((target == pg) || (target == pgm)) // "Practice Game" Buttons
         {
@@ -1162,13 +1220,17 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
                 nick.setText(DEFAULT_PLAYER_NAME);
             }
         }
-        else if (target == ng)  // "New Game" button
+        else if (target == ng) // "New Game" button
         {
-            if (null != getValidNickname(false))  // name check, but don't set nick field yet
+            if (null != getValidNickname(false)) // name check, but don't set
+                                                 // nick field yet
             {
-                gameWithOptionsBeginSetup(false);  // Also may set status, WAIT_CURSOR
-            } else {
-                nick.requestFocusInWindow();  // Not a valid player nickname
+                gameWithOptionsBeginSetup(false); // Also may set status,
+                                                  // WAIT_CURSOR
+            }
+            else
+            {
+                nick.requestFocusInWindow(); // Not a valid player nickname
             }
             return true;
         }
@@ -1176,7 +1238,7 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
         {
             try
             {
-                gm = gmlist.getSelectedItem().trim();  // may be length 0
+                gm = gmlist.getSelectedItem().trim(); // may be length 0
             }
             catch (NullPointerException ex)
             {
@@ -1202,43 +1264,54 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
             return true;
         }
 
-        if (target == so)  // show game options
+        if (target == so) // show game options
         {
             // This game is either from remote server, or local practice server,
             // both servers' games are in the same GUI list.
             Hashtable opts = null;
-            if ((practiceServer != null) && (-1 != practiceServer.getGameState(gm)))
-                opts = practiceServer.getGameOptions(gm);  // won't ever need to parse from string on practice server
+            if ((practiceServer != null)
+                    && (-1 != practiceServer.getGameState(gm)))
+                opts = practiceServer.getGameOptions(gm); // won't ever need to
+                                                          // parse from string
+                                                          // on practice server
             else if (serverGames != null)
             {
                 opts = serverGames.getGameOptions(gm);
-                if ((opts == null) && (serverGames.getGameOptionsString(gm) != null))
+                if ((opts == null)
+                        && (serverGames.getGameOptionsString(gm) != null))
                 {
-                    // If necessary, parse game options from string before displaying.
+                    // If necessary, parse game options from string before
+                    // displaying.
                     // (Parsed options are cached, they won't be re-parsed)
-    
+
                     if (tcpServGameOpts.allOptionsReceived)
                     {
                         opts = serverGames.parseGameOptions(gm);
-                    } else {
+                    }
+                    else
+                    {
                         // not yet received; remember game name.
                         // when all are received, will show it,
                         // and will also clear WAIT_CURSOR.
                         // (see handleGAMEOPTIONINFO)
-    
+
                         tcpServGameOpts.gameInfoWaitingForOpts = gm;
-                        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-                        return true;  // <---- early return: not yet ready to show ----
+                        setCursor(Cursor
+                                .getPredefinedCursor(Cursor.WAIT_CURSOR));
+                        return true; // <---- early return: not yet ready to
+                                     // show ----
                     }
                 }
             }
 
-            // don't overwrite newGameOptsFrame field; this popup is to show an existing game.
+            // don't overwrite newGameOptsFrame field; this popup is to show an
+            // existing game.
             NewGameOptionsFrame.createAndShow(this, gm, opts, false, true);
             return true;
         }
 
-        final boolean unjoinablePrefix = gm.startsWith(GAMENAME_PREFIX_CANNOT_JOIN);
+        final boolean unjoinablePrefix = gm
+                .startsWith(GAMENAME_PREFIX_CANNOT_JOIN);
         if (unjoinablePrefix)
         {
             // Game is marked as un-joinable by this client. Remember that,
@@ -1248,11 +1321,13 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
         }
 
         // Can we not join that game?
-        if (unjoinablePrefix || ((serverGames != null) && serverGames.isUnjoinableGame(gm)))
+        if (unjoinablePrefix
+                || ((serverGames != null) && serverGames.isUnjoinableGame(gm)))
         {
-            if (! gamesUnjoinableOverride.containsKey(gm))
+            if (!gamesUnjoinableOverride.containsKey(gm))
             {
-                gamesUnjoinableOverride.put(gm, gm);  // Next click will try override
+                gamesUnjoinableOverride.put(gm, gm); // Next click will try
+                                                     // override
                 return false;
             }
         }
@@ -1260,8 +1335,7 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
         // Are we already in a game with that name?
         PlayerInterface pi = (PlayerInterface) playerInterfaces.get(gm);
 
-        if ((pi == null)
-                && ((target == pg) || (target == pgm))
+        if ((pi == null) && ((target == pg) || (target == pgm))
                 && (practiceServer != null)
                 && (gm.equalsIgnoreCase(DEFAULT_PRACTICE_GAMENAME)))
         {
@@ -1298,13 +1372,14 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
         {
             if (games.isEmpty())
             {
-                nickname = getValidNickname(true);  // May set hint message if empty,
-                                           // like NEED_NICKNAME_BEFORE_JOIN
+                nickname = getValidNickname(true); // May set hint message if
+                                                   // empty,
+                // like NEED_NICKNAME_BEFORE_JOIN
                 if (nickname == null)
-                    return true;  // not filled in yet
+                    return true; // not filled in yet
 
                 if (!gotPassword)
-                    password = getPassword();  // may be 0-length
+                    password = getPassword(); // may be 0-length
             }
 
             int endOfName = gm.indexOf(STATSPREFEX);
@@ -1320,15 +1395,17 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
                 {
                     status.setText("Starting practice game setup...");
                 }
-                gameWithOptionsBeginSetup(true);  // Also may set WAIT_CURSOR
+                gameWithOptionsBeginSetup(true); // Also may set WAIT_CURSOR
             }
             else
             {
                 // Join a game on the remote server.
                 // Send JOINGAME right away.
-                // (Create New Game is done above; see calls to gameWithOptionsBeginSetup)
+                // (Create New Game is done above; see calls to
+                // gameWithOptionsBeginSetup)
 
-                // May take a while for server to start game, so set WAIT_CURSOR.
+                // May take a while for server to start game, so set
+                // WAIT_CURSOR.
                 // The new-game window will clear this cursor
                 // (PlayerInterface constructor)
 
@@ -1346,9 +1423,11 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
     }
 
     /**
-     * Validate and return the nickname textfield, or null if blank or not ready.
-     * If successful, also set {@link #nickname} field.
-     * @param precheckOnly If true, only validate the name, don't set {@link #nickname}.
+     * Validate and return the nickname textfield, or null if blank or not
+     * ready. If successful, also set {@link #nickname} field.
+     * 
+     * @param precheckOnly
+     *            If true, only validate the name, don't set {@link #nickname}.
      * @since 1.1.07
      */
     protected String getValidNickname(boolean precheckOnly)
@@ -1370,21 +1449,22 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
         {
             n = n.substring(1, 20);
         }
-        if (! Message.isSingleLineAndSafe(n))
+        if (!Message.isSingleLineAndSafe(n))
         {
             status.setText(StatusMessage.MSG_SV_NEWGAME_NAME_REJECTED);
             return null;
         }
         nick.setText(n);
-        if (! precheckOnly)
+        if (!precheckOnly)
             nickname = n;
         return n;
     }
 
     /**
      * Validate and return the password textfield contents; may be 0-length.
-     * Also set {@link #password} field.
-     * If {@link #gotPassword} already, return current password without checking textfield.
+     * Also set {@link #password} field. If {@link #gotPassword} already, return
+     * current password without checking textfield.
+     * 
      * @since 1.1.07
      */
     protected String getPassword()
@@ -1404,8 +1484,9 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
     }
 
     /**
-     * Utility for time-driven events in the client.
-     * For some users, see where-used of this and of {@link PlayerInterface#getEventTimer()}.
+     * Utility for time-driven events in the client. For some users, see
+     * where-used of this and of {@link PlayerInterface#getEventTimer()}.
+     * 
      * @return the timer
      * @since 1.1.07
      */
@@ -1415,18 +1496,18 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
     }
 
     /**
-     * Want to start a new game, on a server which supports options.
-     * Do we know the valid options already?  If so, bring up the options window.
-     * If not, ask the server for them.
-     * Updates tcpServGameOpts, practiceServGameOpts, newGameOptsFrame.
-     * If a {@link NewGameOptionsFrame} is already showing, give it focus
-     * instead of creating a new one.
+     * Want to start a new game, on a server which supports options. Do we know
+     * the valid options already? If so, bring up the options window. If not,
+     * ask the server for them. Updates tcpServGameOpts, practiceServGameOpts,
+     * newGameOptsFrame. If a {@link NewGameOptionsFrame} is already showing,
+     * give it focus instead of creating a new one.
      *<P>
-     * For a summary of the flags and variables involved with game options,
-     * and the client/server interaction about their values, see
+     * For a summary of the flags and variables involved with game options, and
+     * the client/server interaction about their values, see
      * {@link GameOptionServerSet}.
-     *
-     * @param forPracticeServer  Ask {@link #practiceServer}, instead of remote tcp server?
+     * 
+     * @param forPracticeServer
+     *            Ask {@link #practiceServer}, instead of remote tcp server?
      * @since 1.1.07
      */
     protected void gameWithOptionsBeginSetup(final boolean forPracticeServer)
@@ -1445,23 +1526,27 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
             if (forPracticeServer)
             {
                 opts = practiceServGameOpts;
-                if (! opts.allOptionsReceived)
+                if (!opts.allOptionsReceived)
                 {
                     // We know what the practice options will be,
                     // because they're in our own JAR file.
                     // Also, the practice server isn't started yet,
                     // so we can't ask it for the options.
-                    // The practice server will be started when the player clicks
+                    // The practice server will be started when the player
+                    // clicks
                     // "Create Game" in the NewGameOptionsFrame, causing the new
                     // game to be requested from askStartGameWithOptions.
                     setKnown = true;
                     opts.optionSet = GameOption.getAllKnownOptions();
                 }
-            } else {
+            }
+            else
+            {
                 opts = tcpServGameOpts;
-                if ((! opts.allOptionsReceived) && (sVersion < NewGameWithOptions.VERSION_FOR_NEWGAMEWITHOPTIONS))
+                if ((!opts.allOptionsReceived)
+                        && (sVersion < NewGameWithOptions.VERSION_FOR_NEWGAMEWITHOPTIONS))
                 {
-                    // Server doesn't support them.  Don't ask it.
+                    // Server doesn't support them. Don't ask it.
                     setKnown = true;
                     opts.optionSet = null;
                 }
@@ -1483,11 +1568,15 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
             knowDefaults = opts.defaultsReceived;
         }
 
-        if (askedAlready && ! (optsAllKnown && knowDefaults))
+        if (askedAlready && !(optsAllKnown && knowDefaults))
         {
-            // If we're only waiting on defaults, how long ago did we ask for them?
-            // If > 5 seconds ago, assume we'll never know the unknown ones, and present gui frame.
-            if (optsAllKnown && (5000 < Math.abs(System.currentTimeMillis() - opts.askedDefaultsTime))) 
+            // If we're only waiting on defaults, how long ago did we ask for
+            // them?
+            // If > 5 seconds ago, assume we'll never know the unknown ones, and
+            // present gui frame.
+            if (optsAllKnown
+                    && (5000 < Math.abs(System.currentTimeMillis()
+                            - opts.askedDefaultsTime)))
             {
                 knowDefaults = true;
                 opts.defaultsReceived = true;
@@ -1497,17 +1586,19 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
                     gameOptsDefsTask = null;
                 }
                 // since optsAllKnown, will present frame below.
-            } else {
-                return;  // <--- Early return: Already waiting for an answer ----
+            }
+            else
+            {
+                return; // <--- Early return: Already waiting for an answer ----
             }
         }
 
         if (optsAllKnown && knowDefaults)
         {
             // All done, present the options window frame
-            newGameOptsFrame = NewGameOptionsFrame.createAndShow
-                (this, null, opts.optionSet, forPracticeServer, false);
-            return;  // <--- Early return: Show options to user ----
+            newGameOptsFrame = NewGameOptionsFrame.createAndShow(this, null,
+                    opts.optionSet, forPracticeServer, false);
+            return; // <--- Early return: Show options to user ----
         }
 
         // OK, we need the options.
@@ -1527,39 +1618,46 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
         if (gameOptsDefsTask != null)
             gameOptsDefsTask.cancel();
-        gameOptsDefsTask = new GameOptionDefaultsTimeoutTask(this, tcpServGameOpts, forPracticeServer);
-        eventTimer.schedule(gameOptsDefsTask, 5000 /* ms */ );
+        gameOptsDefsTask = new GameOptionDefaultsTimeoutTask(this,
+                tcpServGameOpts, forPracticeServer);
+        eventTimer.schedule(gameOptsDefsTask, 5000 /* ms */);
 
         // Once options are received, handlers will
         // create and show NewGameOptionsFrame.
     }
 
     /**
-     * Ask server to start a game with options.
-     * If is local(practice), will call {@link #startPracticeGame(String, Hashtable, boolean)}.
-     * Otherwise, ask remote server, and also set WAIT_CURSOR and status line ("Talking to server...").
+     * Ask server to start a game with options. If is local(practice), will call
+     * {@link #startPracticeGame(String, Hashtable, boolean)}. Otherwise, ask
+     * remote server, and also set WAIT_CURSOR and status line
+     * ("Talking to server...").
      *<P>
-     * Assumes {@link #getValidNickname(boolean) getValidNickname(true)}, {@link #getPassword()}, {@link #host},
-     * and {@link #gotPassword} are already called and valid.
-     *
-     * @param gmName Game name; for practice, null is allowed
-     * @param forPracticeServer Is this for a new game on the local-practice (not remote) server?
-     * @param opts Set of {@link GameOption game options} to use, or null
+     * Assumes {@link #getValidNickname(boolean) getValidNickname(true)},
+     * {@link #getPassword()}, {@link #host}, and {@link #gotPassword} are
+     * already called and valid.
+     * 
+     * @param gmName
+     *            Game name; for practice, null is allowed
+     * @param forPracticeServer
+     *            Is this for a new game on the local-practice (not remote)
+     *            server?
+     * @param opts
+     *            Set of {@link GameOption game options} to use, or null
      * @since 1.1.07
      * @see #readValidNicknameAndPassword()
      */
-    public void askStartGameWithOptions
-        (final String gmName, final boolean forPracticeServer, Hashtable opts)
+    public void askStartGameWithOptions(final String gmName,
+            final boolean forPracticeServer, Hashtable opts)
     {
         if (forPracticeServer)
         {
-            startPracticeGame(gmName, opts, true);  // Also sets WAIT_CURSOR
-        } else {
-            String askMsg =
-                (sVersion >= NewGameWithOptions.VERSION_FOR_NEWGAMEWITHOPTIONS)
-                ? NewGameWithOptionsRequest.toCmd
-                        (nickname, password, host, gmName, opts)
-                : JoinGame.toCmd(nickname, password, host, gmName);
+            startPracticeGame(gmName, opts, true); // Also sets WAIT_CURSOR
+        }
+        else
+        {
+            String askMsg = (sVersion >= NewGameWithOptions.VERSION_FOR_NEWGAMEWITHOPTIONS) ? NewGameWithOptionsRequest
+                    .toCmd(nickname, password, host, gmName, opts)
+                    : JoinGame.toCmd(nickname, password, host, gmName);
             putNet(askMsg);
             status.setText("Talking to server...");
             setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
@@ -1568,24 +1666,29 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * Look for active games that we're playing
-     *
-     * @param fromPracticeServer  Enumerate games from {@link #practiceServer},
-     *     instead of {@link #playerInterfaces}?
-     * @return Any found game of ours which is active (state not OVER), or null if none.
+     * 
+     * @param fromPracticeServer
+     *            Enumerate games from {@link #practiceServer}, instead of
+     *            {@link #playerInterfaces}?
+     * @return Any found game of ours which is active (state not OVER), or null
+     *         if none.
      * @see #anyHostedActiveGames()
      */
-    protected PlayerInterface findAnyActiveGame (boolean fromPracticeServer)
+    protected PlayerInterface findAnyActiveGame(boolean fromPracticeServer)
     {
         PlayerInterface pi = null;
-        int gs;  // gamestate
+        int gs; // gamestate
 
         Enumeration gameNames;
         if (fromPracticeServer)
         {
             if (practiceServer == null)
-                return null;  // <---- Early return: no games if no practice server ----
+                return null; // <---- Early return: no games if no practice
+                             // server ----
             gameNames = practiceServer.getGameNames();
-        } else {
+        }
+        else
+        {
             gameNames = playerInterfaces.keys();
         }
 
@@ -1600,9 +1703,11 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
                 {
                     pi = (PlayerInterface) playerInterfaces.get(tryGm);
                     if (pi != null)
-                        break;  // Active and we have a window with it
+                        break; // Active and we have a window with it
                 }
-            } else {
+            }
+            else
+            {
                 pi = (PlayerInterface) playerInterfaces.get(tryGm);
                 if (pi != null)
                 {
@@ -1610,24 +1715,27 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
                     gs = pi.getGame().getGameState();
                     if (gs < Game.OVER)
                     {
-                        break;      // Active
-                    } else {
-                        pi = null;  // Avoid false positive
+                        break; // Active
+                    }
+                    else
+                    {
+                        pi = null; // Avoid false positive
                     }
                 }
             }
         }
 
-        return pi;  // Active game, or null
+        return pi; // Active game, or null
     }
 
     /**
-     * Look for active games that we're hosting (state >= START1A, not yet OVER).
-     *
+     * Look for active games that we're hosting (state >= START1A, not yet
+     * OVER).
+     * 
      * @return If any hosted games of ours are active
      * @see #findAnyActiveGame(boolean)
      */
-    protected boolean anyHostedActiveGames ()
+    protected boolean anyHostedActiveGames()
     {
         if (localTCPServer == null)
             return false;
@@ -1640,20 +1748,20 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
             int gs = localTCPServer.getGameState(tryGm);
             if ((gs < Game.OVER) && (gs >= Game.START1A))
             {
-                return true;  // Active
+                return true; // Active
             }
         }
 
-        return false;  // No active games found
+        return false; // No active games found
     }
 
     /**
-     * continuously read from the net in a separate thread;
-     * not used for talking to the practice server.
+     * continuously read from the net in a separate thread; not used for talking
+     * to the practice server.
      */
     public void run()
     {
-        Thread.currentThread().setName("cli-netread");  // Thread name for debug
+        Thread.currentThread().setName("cli-netread"); // Thread name for debug
         try
         {
             while (connected)
@@ -1691,10 +1799,11 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
     }
 
     /**
-     * write a message to the net: either to a remote server,
-     * or to {@link #localTCPServer} for games we're hosting.
-     *
-     * @param s  the message
+     * write a message to the net: either to a remote server, or to
+     * {@link #localTCPServer} for games we're hosting.
+     * 
+     * @param s
+     *            the message
      * @return true if the message was sent, false if not
      * @see #put(String, boolean)
      */
@@ -1728,10 +1837,11 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * write a message to the practice server. {@link #localTCPServer} is not
-     * the same as the practice server; use {@link #putNet(String)} to send
-     * a message to the local TCP server.
-     *
-     * @param s  the message
+     * the same as the practice server; use {@link #putNet(String)} to send a
+     * message to the local TCP server.
+     * 
+     * @param s
+     *            the message
      * @return true if the message was sent, false if not
      * @see #put(String, boolean)
      */
@@ -1753,13 +1863,15 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
     }
 
     /**
-     * Write a message to the net or local server.
-     * Because the player can be in both network games and local games,
-     * we must route to the appropriate client-server connection.
+     * Write a message to the net or local server. Because the player can be in
+     * both network games and local games, we must route to the appropriate
+     * client-server connection.
      * 
-     * @param s  the message
-     * @param isLocal Is the server local (practice game), or network?
-     *                {@link #localTCPServer} is considered "network" here.
+     * @param s
+     *            the message
+     * @param isLocal
+     *            Is the server local (practice game), or network?
+     *            {@link #localTCPServer} is considered "network" here.
      * @return true if the message was sent, false if not
      */
     public synchronized boolean put(String s, boolean isLocal)
@@ -1771,16 +1883,18 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
     }
 
     /**
-     * Treat the incoming messages.
-     * Messages of unknown type are ignored (mes will be null from {@link Message#toMsg(String)}).
-     *
-     * @param mes    the message
-     * @param isLocal Server is local (practice game, not network)
+     * Treat the incoming messages. Messages of unknown type are ignored (mes
+     * will be null from {@link Message#toMsg(String)}).
+     * 
+     * @param mes
+     *            the message
+     * @param isLocal
+     *            Server is local (practice game, not network)
      */
     public void treat(Message mes, boolean isLocal)
     {
         if (mes == null)
-            return;  // Parsing error
+            return; // Parsing error
 
         D.ebugPrintln(mes.toString());
 
@@ -1790,8 +1904,8 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
             {
 
             /**
-             * echo the server ping, to ensure we're still connected.
-             * (ignored before version 1.1.08)
+             * echo the server ping, to ensure we're still connected. (ignored
+             * before version 1.1.08)
              */
             case Message.SERVERPING:
                 handleSERVERPING((ServerPing) mes, isLocal);
@@ -2022,8 +2136,8 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
                 break;
 
             /**
-             * the current player has cancelled an initial settlement,
-             * or has tried to place a piece illegally. 
+             * the current player has cancelled an initial settlement, or has
+             * tried to place a piece illegally.
              */
             case Message.CANCELBUILDREQUEST:
                 handleCANCELBUILDREQUEST((CancelBuildRequest) mes);
@@ -2093,8 +2207,8 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
                 break;
 
             /**
-             * set the flag that tells if a player has played a
-             * development card this turn
+             * set the flag that tells if a player has played a development card
+             * this turn
              */
             case Message.SETPLAYEDDEVCARD:
                 handleSETPLAYEDDEVCARD((SetPlayedDevCard) mes);
@@ -2143,15 +2257,16 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
                 break;
 
             /**
-             * handle the roll dice prompt message
-             * (it is now x's turn to roll the dice)
+             * handle the roll dice prompt message (it is now x's turn to roll
+             * the dice)
              */
             case Message.ROLLDICEPROMPT:
                 handleROLLDICEPROMPT((RollDicePrompt) mes);
                 break;
 
             /**
-             * handle board reset (new game with same players, same game name, new layout).
+             * handle board reset (new game with same players, same game name,
+             * new layout).
              */
             case Message.RESETBOARDAUTH:
                 handleRESETBOARDAUTH((ResetBoardAuth) mes);
@@ -2182,7 +2297,8 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
              * for game options (1.1.07)
              */
             case Message.GAMEOPTIONGETDEFAULTS:
-                handleGAMEOPTIONGETDEFAULTS((GameOptionGetDefaults) mes, isLocal);
+                handleGAMEOPTIONGETDEFAULTS((GameOptionGetDefaults) mes,
+                        isLocal);
                 break;
 
             case Message.GAMEOPTIONINFO:
@@ -2204,7 +2320,7 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
                 handlePLAYERSTATS((PlayerStats) mes);
                 break;
 
-            }  // switch (mes.getType())               
+            } // switch (mes.getType())
         }
         catch (Exception e)
         {
@@ -2212,24 +2328,26 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
             e.printStackTrace();
         }
 
-    }  // treat
+    } // treat
 
     /**
-     * Handle the "version" message, server's version report.
-     * Ask server for game-option info if client's version differs.
-     * If remote, store the server's version for {@link #getServerVersion(Game)}
-     * and display the version on the main panel.
-     * (Local server's version is always {@link Version#versionNumber()}.)
-     *
-     * @param isLocal Is the server local, or remote?  Client can be connected
-     *                only to local, or remote.
-     * @param mes  the messsage
+     * Handle the "version" message, server's version report. Ask server for
+     * game-option info if client's version differs. If remote, store the
+     * server's version for {@link #getServerVersion(Game)} and display the
+     * version on the main panel. (Local server's version is always
+     * {@link Version#versionNumber()}.)
+     * 
+     * @param isLocal
+     *            Is the server local, or remote? Client can be connected only
+     *            to local, or remote.
+     * @param mes
+     *            the messsage
      */
     private void handleVERSION(boolean isLocal, SOCVersion mes)
     {
         D.ebugPrintln("handleVERSION: " + mes);
         int vers = mes.getVersionNumber();
-        if (! isLocal)
+        if (!isLocal)
         {
             sVersion = vers;
 
@@ -2237,18 +2355,21 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
             // (If so, want to display its listening port# instead)
             if (null == localTCPServer)
             {
-                versionOrlocalTCPPortLabel.setForeground(new Color(252, 251, 243)); // off-white
-                versionOrlocalTCPPortLabel.setText("v " + mes.getVersionString());
-                new AWTToolTip ("Server version is " + mes.getVersionString()
-                                + " build " + mes.getBuild()
-                                + "; client is " + Version.version()
-                                + " bld " + Version.buildnum(),
-                                versionOrlocalTCPPortLabel);
+                versionOrlocalTCPPortLabel.setForeground(new Color(252, 251,
+                        243)); // off-white
+                versionOrlocalTCPPortLabel.setText("v "
+                        + mes.getVersionString());
+                new AWTToolTip("Server version is " + mes.getVersionString()
+                        + " build " + mes.getBuild() + "; client is "
+                        + Version.version() + " bld " + Version.buildnum(),
+                        versionOrlocalTCPPortLabel);
             }
 
-            if ((practiceServer == null) && (sVersion < NewGameWithOptions.VERSION_FOR_NEWGAMEWITHOPTIONS)
+            if ((practiceServer == null)
+                    && (sVersion < NewGameWithOptions.VERSION_FOR_NEWGAMEWITHOPTIONS)
                     && (so != null))
-                so.setEnabled(false);  // server too old for options, so don't use that button
+                so.setEnabled(false); // server too old for options, so don't
+                                      // use that button
         }
 
         // If we ever require a minimum server version, would check that here.
@@ -2262,44 +2383,60 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
         if (sVersion > cliVersion)
         {
             // Newer server: Ask it to list any options we don't know about yet.
-            if (! isLocal)
+            if (!isLocal)
                 gameOptionsSetTimeoutTask();
-            put(GameOptionGetInfos.toCmd(null), isLocal);  // sends "-"
-        } else if (sVersion < cliVersion)
+            put(GameOptionGetInfos.toCmd(null), isLocal); // sends "-"
+        }
+        else if (sVersion < cliVersion)
         {
             if (sVersion >= NewGameWithOptions.VERSION_FOR_NEWGAMEWITHOPTIONS)
             {
-                // Older server: Look for options created or changed since server's version.
+                // Older server: Look for options created or changed since
+                // server's version.
                 // Ask it what it knows about them.
-                Vector tooNewOpts = GameOption.optionsNewerThanVersion(sVersion, false, false, null);
+                Vector tooNewOpts = GameOption.optionsNewerThanVersion(
+                        sVersion, false, false, null);
                 if (tooNewOpts != null)
                 {
-                    if (! isLocal)
+                    if (!isLocal)
                         gameOptionsSetTimeoutTask();
-                    put(GameOptionGetInfos.toCmd(tooNewOpts.elements()), isLocal);
+                    put(GameOptionGetInfos.toCmd(tooNewOpts.elements()),
+                            isLocal);
                 }
-            } else {
-                // server is too old to understand options. Can't happen with local practice srv,
+            }
+            else
+            {
+                // server is too old to understand options. Can't happen with
+                // local practice srv,
                 // because that's our version (it runs from our own JAR file).
-                if (! isLocal)
+                if (!isLocal)
                     tcpServGameOpts.noMoreOptions(true);
             }
-        } else {
-            // sVersion == cliVersion, so we have same code as server for getAllKnownOptions.
-            // For local practice games, optionSet may already be initialized, so check vs null.
-            GameOptionServerSet opts = (isLocal ? practiceServGameOpts : tcpServGameOpts);
+        }
+        else
+        {
+            // sVersion == cliVersion, so we have same code as server for
+            // getAllKnownOptions.
+            // For local practice games, optionSet may already be initialized,
+            // so check vs null.
+            GameOptionServerSet opts = (isLocal ? practiceServGameOpts
+                    : tcpServGameOpts);
             if (opts.optionSet == null)
                 opts.optionSet = GameOption.getAllKnownOptions();
-            opts.noMoreOptions(isLocal);  // defaults not known unless it's local practice
+            opts.noMoreOptions(isLocal); // defaults not known unless it's local
+                                         // practice
         }
     }
 
     /**
-     * handle the {@link StatusMessage "status"} message.
-     * Used for server events, also used if player tries to join a game
-     * but their nickname is not OK.
-     * @param mes  the message
-     * @param isLocal from practice server, or remote server?
+     * handle the {@link StatusMessage "status"} message. Used for server
+     * events, also used if player tries to join a game but their nickname is
+     * not OK.
+     * 
+     * @param mes
+     *            the message
+     * @param isLocal
+     *            from practice server, or remote server?
      */
     protected void handleSTATUSMESSAGE(StatusMessage mes, final boolean isLocal)
     {
@@ -2312,7 +2449,8 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
             // Extract game name and failing game-opt keynames,
             // and pop up an error message window.
             String errMsg;
-            StringTokenizer st = new StringTokenizer(mes.getStatus(), Message.sep2);
+            StringTokenizer st = new StringTokenizer(mes.getStatus(),
+                    Message.sep2);
             try
             {
                 String gameName = null;
@@ -2323,9 +2461,11 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
                     optNames.addElement(st.nextToken());
                 StringBuffer err = new StringBuffer("Cannot create game ");
                 err.append(gameName);
-                err.append("\nThere is a problem with the option values chosen.\n");
+                err
+                        .append("\nThere is a problem with the option values chosen.\n");
                 err.append(errMsg);
-                Hashtable knowns = isLocal ? practiceServGameOpts.optionSet : tcpServGameOpts.optionSet;
+                Hashtable knowns = isLocal ? practiceServGameOpts.optionSet
+                        : tcpServGameOpts.optionSet;
                 for (int i = 0; i < optNames.size(); ++i)
                 {
                     err.append("\nThis option must be changed: ");
@@ -2341,16 +2481,18 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
             }
             catch (Throwable t)
             {
-                errMsg = mes.getStatus();  // fallback, not expected to happen
+                errMsg = mes.getStatus(); // fallback, not expected to happen
             }
-            NotifyDialog.createAndShow(this, (Frame) null,
-                errMsg, "Cancel", false);
+            NotifyDialog.createAndShow(this, (Frame) null, errMsg, "Cancel",
+                    false);
         }
     }
 
     /**
      * handle the "join authorization" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleJOINAUTH(JoinAuth mes)
     {
@@ -2358,7 +2500,7 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
         pass.setText("");
         pass.setEditable(false);
         gotPassword = true;
-        if (! hasJoinedServer)
+        if (!hasJoinedServer)
         {
             Container c = getParent();
             if ((c != null) && (c instanceof Frame))
@@ -2376,7 +2518,9 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * handle the "join channel" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleJOIN(Join mes)
     {
@@ -2388,7 +2532,9 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * handle the "members" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleMEMBERS(Members mes)
     {
@@ -2407,7 +2553,9 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * handle the "new channel" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleNEWCHANNEL(NewChannel mes)
     {
@@ -2415,23 +2563,27 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
     }
 
     /**
-     * handle the "list of channels" message; this message indicates that
-     * we're newly connected to the server.
-     * @param mes  the message
-     * @param isLocal is the server actually local (practice game)?
+     * handle the "list of channels" message; this message indicates that we're
+     * newly connected to the server.
+     * 
+     * @param mes
+     *            the message
+     * @param isLocal
+     *            is the server actually local (practice game)?
      */
     protected void handleCHANNELS(Channels mes, boolean isLocal)
     {
         //
         // this message indicates that we're connected to the server
         //
-        if (! isLocal)
+        if (!isLocal)
         {
             cardLayout.show(this, MAIN_PANEL);
             validate();
 
             nick.requestFocus();
-            status.setText("Login by entering nickname and then joining a channel or game.");
+            status
+                    .setText("Login by entering nickname and then joining a channel or game.");
         }
 
         Enumeration channelsEnum = (mes.getChannels()).elements();
@@ -2444,7 +2596,9 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * handle a broadcast text message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleBCASTTEXTMSG(BCastTextMsg mes)
     {
@@ -2462,14 +2616,17 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
         while (playerInterfaceKeysEnum.hasMoreElements())
         {
-            pi = (PlayerInterface) playerInterfaces.get(playerInterfaceKeysEnum.nextElement());
+            pi = (PlayerInterface) playerInterfaces.get(playerInterfaceKeysEnum
+                    .nextElement());
             pi.chatPrint("::: " + mes.getText() + " :::");
         }
     }
 
     /**
      * handle a text message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleTEXTMSG(TextMsg mes)
     {
@@ -2487,7 +2644,9 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * handle the "leave channel" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleLEAVE(Leave mes)
     {
@@ -2499,7 +2658,9 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * handle the "delete channel" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleDELETECHANNEL(DeleteChannel mes)
     {
@@ -2508,7 +2669,9 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * handle the "list of games" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleGAMES(Games mes, boolean isLocal)
     {
@@ -2518,7 +2681,7 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
         Enumeration gameNamesEnum = mes.getGames().elements();
 
-        if (! isLocal)  // local's gameoption data is set up in handleVERSION
+        if (!isLocal) // local's gameoption data is set up in handleVERSION
         {
             if (serverGames == null)
                 serverGames = new GameList();
@@ -2526,11 +2689,13 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
             // No more game-option info will be received,
             // because that's always sent before game names are sent.
-            // We may still ask for GAMEOPTIONGETDEFAULTS if asking to create a game,
+            // We may still ask for GAMEOPTIONGETDEFAULTS if asking to create a
+            // game,
             // but that will happen when user clicks that button, not yet.
             tcpServGameOpts.noMoreOptions(false);
 
-            // Reset enum for addToGameList call; serverGames.addGames has consumed it.
+            // Reset enum for addToGameList call; serverGames.addGames has
+            // consumed it.
             gameNamesEnum = mes.getGames().elements();
         }
 
@@ -2543,8 +2708,11 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
     /**
      * handle the "join game authorization" message: create new {@link Game} and
      * {@link PlayerInterface} so user can join the game
-     * @param mes  the message
-     * @param isLocal server is local for practice (vs. normal network)
+     * 
+     * @param mes
+     *            the message
+     * @param isLocal
+     *            server is local for practice (vs. normal network)
      */
     protected void handleJOINGAMEAUTH(JoinGameAuth mes, boolean isLocal)
     {
@@ -2552,7 +2720,7 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
         pass.setEditable(false);
         pass.setText("");
         gotPassword = true;
-        if (! hasJoinedServer)
+        if (!hasJoinedServer)
         {
             Container c = getParent();
             if ((c != null) && (c instanceof Frame))
@@ -2567,10 +2735,15 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
         Hashtable gameOpts;
         if (isLocal)
         {
-            gameOpts = practiceServGameOpts.optionSet;  // holds most recent settings by user
+            gameOpts = practiceServGameOpts.optionSet; // holds most recent
+                                                       // settings by user
             if (gameOpts != null)
-                gameOpts = (Hashtable) gameOpts.clone();  // changes here shouldn't change practiceServ's copy
-        } else {
+                gameOpts = (Hashtable) gameOpts.clone(); // changes here
+                                                         // shouldn't change
+                                                         // practiceServ's copy
+        }
+        else
+        {
             if (serverGames != null)
                 gameOpts = serverGames.parseGameOptions(gaName);
             else
@@ -2590,17 +2763,22 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * handle the "join game" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleJOINGAME(JoinGame mes)
     {
-        PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes.getGame());
+        PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes
+                .getGame());
         pi.print("*** " + mes.getNickname() + " has joined this game.");
     }
 
     /**
      * handle the "leave game" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleLEAVEGAME(LeaveGame mes)
     {
@@ -2615,8 +2793,8 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
             if (player != null)
             {
                 //
-                //  This user was not a spectator.
-                //  Remove first from interface, then from game data.
+                // This user was not a spectator.
+                // Remove first from interface, then from game data.
                 //
                 pi.removePlayer(player.getPlayerNumber());
                 ga.removePlayer(mes.getNickname());
@@ -2626,31 +2804,39 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * handle the "new game" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleNEWGAME(NewGame mes, boolean isLocal)
     {
-        addToGameList(mes.getGame(), null, ! isLocal);
+        addToGameList(mes.getGame(), null, !isLocal);
     }
 
     /**
      * handle the "delete game" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleDELETEGAME(DeleteGame mes, boolean isLocal)
     {
-        if (! deleteFromGameList(mes.getGame(), isLocal))
-            deleteFromGameList(GAMENAME_PREFIX_CANNOT_JOIN + mes.getGame(), isLocal);
+        if (!deleteFromGameList(mes.getGame(), isLocal))
+            deleteFromGameList(GAMENAME_PREFIX_CANNOT_JOIN + mes.getGame(),
+                    isLocal);
     }
 
     /**
      * handle the "game members" message, the server's hint that it's almost
      * done sending us the complete game state in response to JOINGAME.
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleGAMEMEMBERS(GameMembers mes)
     {
-        PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes.getGame());
+        PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes
+                .getGame());
         D.ebugPrintln("got GAMEMEMBERS");
         pi.began();
     }
@@ -2662,10 +2848,10 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
     {
         String ga = mes.getGame();
         int[] scores = mes.getScores();
-        
+
         // Update game list (initial window)
         updateGameStats(ga, scores, mes.getRobotSeats());
-        
+
         // If we're playing in a game, update the scores. (PlayerInterface)
         // This is used to show the true scores, including hidden
         // victory-point cards, at the game's end.
@@ -2673,17 +2859,18 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
     }
 
     /**
-     * handle the "game text message" message.
-     * Messages not from Server go to the chat area.
-     * Messages from Server go to the game text window.
-     * Urgent messages from Server (starting with ">>>") also go to the chat area,
+     * handle the "game text message" message. Messages not from Server go to
+     * the chat area. Messages from Server go to the game text window. Urgent
+     * messages from Server (starting with ">>>") also go to the chat area,
      * which has less activity, so they are harder to miss.
-     *
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleGAMETEXTMSG(GameTextMsg mes)
     {
-        PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes.getGame());
+        PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes
+                .getGame());
 
         if (pi != null)
         {
@@ -2707,7 +2894,9 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * handle the "player sitting down" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleSITDOWN(SitDown mes)
     {
@@ -2742,11 +2931,13 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
             /**
              * tell the GUI that a player is sitting
              */
-            final PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes.getGame());
+            final PlayerInterface pi = (PlayerInterface) playerInterfaces
+                    .get(mes.getGame());
             pi.addPlayer(mes.getNickname(), mesPN);
 
             /**
-             * let the board panel & building panel find our player object if we sat down
+             * let the board panel & building panel find our player object if we
+             * sat down
              */
             if (nickname.equals(mes.getNickname()))
             {
@@ -2756,7 +2947,7 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
                 /**
                  * change the face (this is so that old faces don't 'stick')
                  */
-                if (! ga.isBoardReset() && (ga.getGameState() < Game.START1A))
+                if (!ga.isBoardReset() && (ga.getGameState() < Game.START1A))
                 {
                     ga.getPlayer(mesPN).setFaceId(lastFaceChange);
                     changeFace(ga, lastFaceChange);
@@ -2794,7 +2985,9 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * handle the "board layout" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleBOARDLAYOUT(BoardLayout mes)
     {
@@ -2807,14 +3000,16 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
             bd.setNumberLayout(mes.getNumberLayout());
             bd.setRobberHex(mes.getRobberHex());
 
-            PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes.getGame());
+            PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes
+                    .getGame());
             pi.getBoardPanel().flushBoardLayoutAndRepaint();
         }
     }
 
     /**
-     * echo the server ping, to ensure we're still connected.
-     * (ignored before version 1.1.08)
+     * echo the server ping, to ensure we're still connected. (ignored before
+     * version 1.1.08)
+     * 
      * @since 1.1.08
      */
     private void handleSERVERPING(ServerPing mes, boolean isLocal)
@@ -2823,7 +3018,9 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
         if (timeval != -1)
         {
             put(mes.toCmd(), isLocal);
-        } else {
+        }
+        else
+        {
             ex = new RuntimeException("Kicked by player with same name.");
             destroy();
         }
@@ -2831,7 +3028,9 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * handle the "board layout" message, new format
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      * @since 1.1.08
      */
     protected void handleBOARDLAYOUT2(BoardLayout2 mes)
@@ -2848,23 +3047,29 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
         int[] portLayout = mes.getIntArrayPart("PL");
         if (portLayout != null)
             bd.setPortsLayout(portLayout);
-        PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes.getGame());
+        PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes
+                .getGame());
         pi.getBoardPanel().flushBoardLayoutAndRepaint();
     }
 
     /**
      * handle the "start game" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleSTARTGAME(StartGame mes)
     {
-        PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes.getGame());
+        PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes
+                .getGame());
         pi.startGame();
     }
 
     /**
      * handle the "game state" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleGAMESTATE(GameState mes)
     {
@@ -2872,7 +3077,8 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
         if (ga != null)
         {
-            PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes.getGame());
+            PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes
+                    .getGame());
             if (ga.getGameState() == Game.NEW && mes.getState() != Game.NEW)
             {
                 pi.startGame();
@@ -2885,14 +3091,16 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * handle the "set turn" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleSETTURN(SetTurn mes)
     {
         final String gaName = mes.getGame();
         Game ga = (Game) games.get(gaName);
         if (ga == null)
-            return;  // <--- Early return: not playing in that one ----
+            return; // <--- Early return: not playing in that one ----
 
         final int pn = mes.getPlayerNumber();
         ga.setCurrentPlayerNumber(pn);
@@ -2904,7 +3112,9 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * handle the "first player" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleFIRSTPLAYER(FirstPlayer mes)
     {
@@ -2918,7 +3128,9 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * handle the "turn" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleTURN(Turn mes)
     {
@@ -2937,7 +3149,9 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * handle the "player information" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handlePLAYERELEMENT(PlayerElement mes)
     {
@@ -2947,109 +3161,122 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
         {
             final int pn = mes.getPlayerNumber();
             final Player pl = ga.getPlayer(pn);
-            final PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes.getGame());
+            final PlayerInterface pi = (PlayerInterface) playerInterfaces
+                    .get(mes.getGame());
             final HandPanel hpan = pi.getPlayerHandPanel(pn);
-            int hpanUpdateRsrcType = -1;  // If not -1, update this type's amount display
+            int hpanUpdateRsrcType = -1; // If not -1, update this type's amount
+                                         // display
 
             switch (mes.getElementType())
             {
             case PlayerElement.ROADS:
 
-                DisplaylessPlayerClient.handlePLAYERELEMENT_numPieces
-                    (mes, pl, PlayingPiece.ROAD);
+                DisplaylessPlayerClient.handlePLAYERELEMENT_numPieces(mes, pl,
+                        PlayingPiece.ROAD);
                 hpan.updateValue(HandPanel.ROADS);
                 break;
 
             case PlayerElement.SETTLEMENTS:
 
-                DisplaylessPlayerClient.handlePLAYERELEMENT_numPieces
-                    (mes, pl, PlayingPiece.SETTLEMENT);
+                DisplaylessPlayerClient.handlePLAYERELEMENT_numPieces(mes, pl,
+                        PlayingPiece.SETTLEMENT);
                 hpan.updateValue(HandPanel.SETTLEMENTS);
                 break;
 
             case PlayerElement.CITIES:
 
-                DisplaylessPlayerClient.handlePLAYERELEMENT_numPieces
-                    (mes, pl, PlayingPiece.CITY);
+                DisplaylessPlayerClient.handlePLAYERELEMENT_numPieces(mes, pl,
+                        PlayingPiece.CITY);
                 hpan.updateValue(HandPanel.CITIES);
                 break;
 
             case PlayerElement.NUMKNIGHTS:
 
-                // PLAYERELEMENT(NUMKNIGHTS) is sent after a Soldier card is played.
+                // PLAYERELEMENT(NUMKNIGHTS) is sent after a Soldier card is
+                // played.
                 {
-                    final Player oldLargestArmyPlayer = ga.getPlayerWithLargestArmy();
-                    DisplaylessPlayerClient.handlePLAYERELEMENT_numKnights
-                        (mes, pl, ga);
+                    final Player oldLargestArmyPlayer = ga
+                            .getPlayerWithLargestArmy();
+                    DisplaylessPlayerClient.handlePLAYERELEMENT_numKnights(mes,
+                            pl, ga);
                     hpan.updateValue(HandPanel.NUMKNIGHTS);
 
-                    // Check for change in largest-army player; update handpanels'
+                    // Check for change in largest-army player; update
+                    // handpanels'
                     // LARGESTARMY and VICTORYPOINTS counters if so, and
                     // announce with text message.
-                    pi.updateLongestLargest(false, oldLargestArmyPlayer, ga.getPlayerWithLargestArmy());
+                    pi.updateLongestLargest(false, oldLargestArmyPlayer, ga
+                            .getPlayerWithLargestArmy());
                 }
 
                 break;
 
             case PlayerElement.CLAY:
 
-                DisplaylessPlayerClient.handlePLAYERELEMENT_numRsrc
-                    (mes, pl, ResourceConstants.CLAY);
+                DisplaylessPlayerClient.handlePLAYERELEMENT_numRsrc(mes, pl,
+                        ResourceConstants.CLAY);
                 hpanUpdateRsrcType = HandPanel.CLAY;
                 break;
 
             case PlayerElement.ORE:
 
-                DisplaylessPlayerClient.handlePLAYERELEMENT_numRsrc
-                    (mes, pl, ResourceConstants.ORE);
+                DisplaylessPlayerClient.handlePLAYERELEMENT_numRsrc(mes, pl,
+                        ResourceConstants.ORE);
                 hpanUpdateRsrcType = HandPanel.ORE;
                 break;
 
             case PlayerElement.SHEEP:
 
-                DisplaylessPlayerClient.handlePLAYERELEMENT_numRsrc
-                    (mes, pl, ResourceConstants.SHEEP);
+                DisplaylessPlayerClient.handlePLAYERELEMENT_numRsrc(mes, pl,
+                        ResourceConstants.SHEEP);
                 hpanUpdateRsrcType = HandPanel.SHEEP;
                 break;
 
             case PlayerElement.WHEAT:
 
-                DisplaylessPlayerClient.handlePLAYERELEMENT_numRsrc
-                    (mes, pl, ResourceConstants.WHEAT);
+                DisplaylessPlayerClient.handlePLAYERELEMENT_numRsrc(mes, pl,
+                        ResourceConstants.WHEAT);
                 hpanUpdateRsrcType = HandPanel.WHEAT;
                 break;
 
             case PlayerElement.WOOD:
 
-                DisplaylessPlayerClient.handlePLAYERELEMENT_numRsrc
-                    (mes, pl, ResourceConstants.WOOD);
+                DisplaylessPlayerClient.handlePLAYERELEMENT_numRsrc(mes, pl,
+                        ResourceConstants.WOOD);
                 hpanUpdateRsrcType = HandPanel.WOOD;
                 break;
 
             case PlayerElement.UNKNOWN:
 
                 /**
-                 * Note: if losing unknown resources, we first
-                 * convert player's known resources to unknown resources,
-                 * then remove mes's unknown resources from player.
+                 * Note: if losing unknown resources, we first convert player's
+                 * known resources to unknown resources, then remove mes's
+                 * unknown resources from player.
                  */
-                DisplaylessPlayerClient.handlePLAYERELEMENT_numRsrc
-                    (mes, pl, ResourceConstants.UNKNOWN);
+                DisplaylessPlayerClient.handlePLAYERELEMENT_numRsrc(mes, pl,
+                        ResourceConstants.UNKNOWN);
                 hpan.updateValue(HandPanel.NUMRESOURCES);
                 break;
 
             case PlayerElement.ASK_SPECIAL_BUILD:
                 if (0 != mes.getValue())
                 {
-                    try {
-                        ga.askSpecialBuild(pn, false);  // set per-player, per-game flags
+                    try
+                    {
+                        ga.askSpecialBuild(pn, false); // set per-player,
+                                                       // per-game flags
                     }
-                    catch (RuntimeException e) {}
-                } else {
+                    catch (RuntimeException e)
+                    {
+                    }
+                }
+                else
+                {
                     pl.setAskedSpecialBuild(false);
                 }
                 hpan.updateValue(HandPanel.ASK_SPECIAL_BUILD);
-                // for client player, hpan also refreshes BuildingPanel with this value.
+                // for client player, hpan also refreshes BuildingPanel with
+                // this value.
                 break;
 
             }
@@ -3063,7 +3290,7 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
                 else
                 {
                     hpan.updateValue(HandPanel.NUMRESOURCES);
-                }                
+                }
             }
 
             if (hpan.isClientPlayer() && (ga.getGameState() != Game.NEW))
@@ -3075,7 +3302,9 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * handle "resource count" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleRESOURCECOUNT(ResourceCount mes)
     {
@@ -3084,7 +3313,8 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
         if (ga != null)
         {
             Player pl = ga.getPlayer(mes.getPlayerNumber());
-            PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes.getGame());
+            PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes
+                    .getGame());
 
             if (mes.getCount() != pl.getResources().getTotal())
             {
@@ -3092,15 +3322,16 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
                 if (D.ebugOn)
                 {
-                    //pi.print(">>> RESOURCE COUNT ERROR: "+mes.getCount()+ " != "+rsrcs.getTotal());
+                    // pi.print(">>> RESOURCE COUNT ERROR: "+mes.getCount()+
+                    // " != "+rsrcs.getTotal());
                 }
 
                 //
-                //  fix it
+                // fix it
                 //
                 HandPanel hpan = pi.getPlayerHandPanel(mes.getPlayerNumber());
-                if (! hpan.isClientPlayer())
-                {                     
+                if (!hpan.isClientPlayer())
+                {
                     rsrcs.clear();
                     rsrcs.setAmount(mes.getCount(), ResourceConstants.UNKNOWN);
                     hpan.updateValue(HandPanel.NUMRESOURCES);
@@ -3111,7 +3342,9 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * handle the "dice result" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleDICERESULT(DiceResult mes)
     {
@@ -3119,7 +3352,8 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
         if (ga != null)
         {
-            PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes.getGame());
+            PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes
+                    .getGame());
             int roll = mes.getResult();
             ga.setCurrentDice(roll);
             pi.setTextDisplayRollExpected(roll);
@@ -3129,7 +3363,9 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * handle the "put piece" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handlePUTPIECE(PutPiece mes)
     {
@@ -3139,10 +3375,10 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
         {
             final int mesPn = mes.getPlayerNumber();
             final Player pl = ga.getPlayer(mesPn);
-            final PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes.getGame());
+            final PlayerInterface pi = (PlayerInterface) playerInterfaces
+                    .get(mes.getGame());
             final HandPanel mesHp = pi.getPlayerHandPanel(mesPn);
             final Player oldLongestRoadPlayer = ga.getPlayerWithLongestRoad();
-
 
             switch (mes.getPieceType())
             {
@@ -3160,7 +3396,8 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
                 mesHp.updateValue(HandPanel.SETTLEMENTS);
 
                 /**
-                 * if this is the second initial settlement, then update the resource display
+                 * if this is the second initial settlement, then update the
+                 * resource display
                  */
                 if (mesHp.isClientPlayer())
                 {
@@ -3191,12 +3428,14 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
             pi.getBuildingPanel().updateButtonStatus();
 
             /**
-             * Check for and announce change in longest road; update all players' victory points.
+             * Check for and announce change in longest road; update all
+             * players' victory points.
              */
             Player newLongestRoadPlayer = ga.getPlayerWithLongestRoad();
             if (newLongestRoadPlayer != oldLongestRoadPlayer)
             {
-                pi.updateLongestLargest(true, oldLongestRoadPlayer, newLongestRoadPlayer);
+                pi.updateLongestLargest(true, oldLongestRoadPlayer,
+                        newLongestRoadPlayer);
             }
         }
     }
@@ -3205,28 +3444,30 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
      * handle the rare "cancel build request" message; usually not sent from
      * server to client.
      *<P>
-     * - When sent from client to server, CANCELBUILDREQUEST means the player has changed
-     *   their mind about spending resources to build a piece.  Only allowed during normal
-     *   game play (PLACING_ROAD, PLACING_SETTLEMENT, or PLACING_CITY).
+     * - When sent from client to server, CANCELBUILDREQUEST means the player
+     * has changed their mind about spending resources to build a piece. Only
+     * allowed during normal game play (PLACING_ROAD, PLACING_SETTLEMENT, or
+     * PLACING_CITY).
      *<P>
-     *  When sent from server to client:
+     * When sent from server to client:
      *<P>
      * - During game startup (START1B or START2B): <BR>
-     *       Sent from server, CANCELBUILDREQUEST means the current player
-     *       wants to undo the placement of their initial settlement.  
+     * Sent from server, CANCELBUILDREQUEST means the current player wants to
+     * undo the placement of their initial settlement.
      *<P>
      * - During piece placement (PLACING_ROAD, PLACING_CITY, PLACING_SETTLEMENT,
-     *                           PLACING_FREE_ROAD1 or PLACING_FREE_ROAD2):
+     * PLACING_FREE_ROAD1 or PLACING_FREE_ROAD2):
      *<P>
-     *      Sent from server, CANCELBUILDREQUEST means the player has sent
-     *      an illegal PUTPIECE (bad building location). Humans can probably
-     *      decide a better place to put their road, but robots must cancel
-     *      the build request and decide on a new plan.
+     * Sent from server, CANCELBUILDREQUEST means the player has sent an illegal
+     * PUTPIECE (bad building location). Humans can probably decide a better
+     * place to put their road, but robots must cancel the build request and
+     * decide on a new plan.
      *<P>
-     *      Our client can ignore this case, because the server also sends a text
-     *      message that the human player is capable of reading and acting on.
-     *
-     * @param mes  the message
+     * Our client can ignore this case, because the server also sends a text
+     * message that the human player is capable of reading and acting on.
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleCANCELBUILDREQUEST(CancelBuildRequest mes)
     {
@@ -3238,7 +3479,8 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
         if ((sta != Game.START1B) && (sta != Game.START2B))
         {
             // The human player gets a text message from the server informing
-            // about the bad piece placement.  So, we can ignore this message type.
+            // about the bad piece placement. So, we can ignore this message
+            // type.
             return;
         }
         if (mes.getPieceType() != PlayingPiece.SETTLEMENT)
@@ -3248,14 +3490,17 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
         Settlement pp = new Settlement(pl, pl.getLastSettlementCoord(), null);
         ga.undoPutInitSettlement(pp);
 
-        PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes.getGame());
+        PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes
+                .getGame());
         pi.getPlayerHandPanel(pl.getPlayerNumber()).updateResourcesVP();
         pi.getBoardPanel().updateMode();
     }
 
     /**
      * handle the "robber moved" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleMOVEROBBER(MoveRobber mes)
     {
@@ -3263,12 +3508,13 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
         if (ga != null)
         {
-            PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes.getGame());
+            PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes
+                    .getGame());
 
             /**
              * Note: Don't call ga.moveRobber() because that will call the
-             * functions to do the stealing.  We just want to say where
-             * the robber moved without seeing if something was stolen.
+             * functions to do the stealing. We just want to say where the
+             * robber moved without seeing if something was stolen.
              */
             ga.getBoard().setRobberHex(mes.getCoordinates());
             pi.getBoardPanel().repaint();
@@ -3277,23 +3523,29 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * handle the "discard request" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleDISCARDREQUEST(DiscardRequest mes)
     {
-        PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes.getGame());
+        PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes
+                .getGame());
         pi.showDiscardDialog(mes.getNumberOfDiscards());
     }
 
     /**
      * handle the "choose player request" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleCHOOSEPLAYERREQUEST(ChoosePlayerRequest mes)
     {
-        PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes.getGame());
+        PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes
+                .getGame());
         boolean[] ch = mes.getChoices();
-        int[] choices = new int[ch.length];  // == Game.maxPlayers
+        int[] choices = new int[ch.length]; // == Game.maxPlayers
         int count = 0;
 
         for (int i = 0; i < ch.length; i++)
@@ -3310,7 +3562,9 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * handle the "make offer" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleMAKEOFFER(MakeOffer mes)
     {
@@ -3318,7 +3572,8 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
         if (ga != null)
         {
-            PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes.getGame());
+            PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes
+                    .getGame());
             TradeOffer offer = mes.getOffer();
             ga.getPlayer(offer.getFrom()).setCurrentOffer(offer);
             pi.getPlayerHandPanel(offer.getFrom()).updateCurrentOffer();
@@ -3327,7 +3582,9 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * handle the "clear offer" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleCLEAROFFER(ClearOffer mes)
     {
@@ -3335,13 +3592,16 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
         if (ga != null)
         {
-            PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes.getGame());
+            PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes
+                    .getGame());
             final int pn = mes.getPlayerNumber();
             if (pn != -1)
             {
                 ga.getPlayer(pn).setCurrentOffer(null);
                 pi.getPlayerHandPanel(pn).updateCurrentOffer();
-            } else {
+            }
+            else
+            {
                 for (int i = 0; i < ga.maxPlayers; ++i)
                 {
                     ga.getPlayer(i).setCurrentOffer(null);
@@ -3353,27 +3613,35 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * handle the "reject offer" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleREJECTOFFER(RejectOffer mes)
     {
-        PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes.getGame());
+        PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes
+                .getGame());
         pi.getPlayerHandPanel(mes.getPlayerNumber()).rejectOfferShowNonClient();
     }
 
     /**
      * handle the "clear trade message" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleCLEARTRADEMSG(ClearTradeMsg mes)
     {
-        PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes.getGame());
+        PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes
+                .getGame());
         pi.getPlayerHandPanel(mes.getPlayerNumber()).clearTradeMsg();
     }
 
     /**
      * handle the "number of development cards" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleDEVCARDCOUNT(DevCardCount mes)
     {
@@ -3382,7 +3650,8 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
         if (ga != null)
         {
             ga.setNumDevCards(mes.getNumDevCards());
-            PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes.getGame());
+            PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes
+                    .getGame());
             if (pi != null)
                 pi.updateDevCardCount();
         }
@@ -3390,7 +3659,9 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * handle the "development card action" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleDEVCARD(DevCard mes)
     {
@@ -3400,7 +3671,8 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
         {
             final int mesPN = mes.getPlayerNumber();
             Player player = ga.getPlayer(mesPN);
-            PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes.getGame());
+            PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes
+                    .getGame());
 
             switch (mes.getAction())
             {
@@ -3409,7 +3681,8 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
                 break;
 
             case DevCard.PLAY:
-                player.getDevCards().subtract(1, DevCardSet.OLD, mes.getCardType());
+                player.getDevCards().subtract(1, DevCardSet.OLD,
+                        mes.getCardType());
                 break;
 
             case DevCard.ADDOLD:
@@ -3425,7 +3698,7 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
             if (ourPlayerData != null)
             {
-                //if (true) {
+                // if (true) {
                 if (mesPN == ourPlayerData.getPlayerNumber())
                 {
                     HandPanel hp = pi.getClientHand();
@@ -3434,7 +3707,8 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
                 }
                 else
                 {
-                    pi.getPlayerHandPanel(mesPN).updateValue(HandPanel.NUMDEVCARDS);
+                    pi.getPlayerHandPanel(mesPN).updateValue(
+                            HandPanel.NUMDEVCARDS);
                 }
             }
             else
@@ -3446,7 +3720,9 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * handle the "set played dev card flag" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleSETPLAYEDDEVCARD(SetPlayedDevCard mes)
     {
@@ -3461,7 +3737,9 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * handle the "list of potential settlements" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handlePOTENTIALSETTLEMENTS(PotentialSettlements mes)
     {
@@ -3476,7 +3754,9 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * handle the "change face" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleCHANGEFACE(ChangeFace mes)
     {
@@ -3485,7 +3765,8 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
         if (ga != null)
         {
             Player player = ga.getPlayer(mes.getPlayerNumber());
-            PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes.getGame());
+            PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes
+                    .getGame());
             player.setFaceId(mes.getFaceId());
             pi.changeFace(mes.getPlayerNumber(), mes.getFaceId());
         }
@@ -3493,7 +3774,9 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * handle the "reject connection" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleREJECTCONNECTION(RejectConnection mes)
     {
@@ -3501,10 +3784,10 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
         // In case was WAIT_CURSOR while connecting
         setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-        
+
         if (ex_L == null)
         {
-            messageLabel_top.setText(mes.getText());                
+            messageLabel_top.setText(mes.getText());
             messageLabel_top.setVisible(true);
             messageLabel.setText(NET_UNAVAIL_CAN_PRACTICE_MSG);
             pgm.setVisible(true);
@@ -3523,7 +3806,9 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * handle the "longest road" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleLONGESTROAD(LongestRoad mes)
     {
@@ -3543,16 +3828,21 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
             }
             ga.setPlayerWithLongestRoad(newLongestRoadPlayer);
 
-            PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes.getGame());
+            PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes
+                    .getGame());
 
-            // Update player victory points; check for and announce change in longest road
-            pi.updateLongestLargest(true, oldLongestRoadPlayer, newLongestRoadPlayer);
+            // Update player victory points; check for and announce change in
+            // longest road
+            pi.updateLongestLargest(true, oldLongestRoadPlayer,
+                    newLongestRoadPlayer);
         }
     }
 
     /**
      * handle the "largest army" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleLARGESTARMY(LargestArmy mes)
     {
@@ -3572,16 +3862,21 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
             }
             ga.setPlayerWithLargestArmy(newLargestArmyPlayer);
 
-            PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes.getGame());
+            PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes
+                    .getGame());
 
-            // Update player victory points; check for and announce change in largest army
-            pi.updateLongestLargest(false, oldLargestArmyPlayer, newLargestArmyPlayer);
+            // Update player victory points; check for and announce change in
+            // largest army
+            pi.updateLongestLargest(false, oldLargestArmyPlayer,
+                    newLargestArmyPlayer);
         }
     }
 
     /**
      * handle the "set seat lock" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleSETSEATLOCK(SetSeatLock mes)
     {
@@ -3598,7 +3893,8 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
                 ga.unlockSeat(mes.getPlayerNumber());
             }
 
-            PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes.getGame());
+            PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes
+                    .getGame());
 
             for (int i = 0; i < ga.maxPlayers; i++)
             {
@@ -3607,33 +3903,34 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
             }
         }
     }
-    
+
     /**
-     * handle the "roll dice prompt" message;
-     *   if we're in a game and we're the dice roller,
-     *   either set the auto-roll timer, or prompt to roll or choose card.
-     *
-     * @param mes  the message
+     * handle the "roll dice prompt" message; if we're in a game and we're the
+     * dice roller, either set the auto-roll timer, or prompt to roll or choose
+     * card.
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleROLLDICEPROMPT(RollDicePrompt mes)
     {
-        PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes.getGame());
+        PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes
+                .getGame());
         if (pi == null)
-            return;  // Not one of our games        
+            return; // Not one of our games
         if (pi.clientIsCurrentPlayer())
             pi.getClientHand().autoRollOrPromptPlayer();
     }
 
     /**
-     * handle board reset
-     * (new game with same players, same game name, new layout).
-     * Create new Game object, destroy old one.
-     * For human players, the reset message will be followed
-     * with others which will fill in the game state.
-     * For robots, they must discard game state and ask to re-join.
-     *
-     * @param mes  the message
-     *
+     * handle board reset (new game with same players, same game name, new
+     * layout). Create new Game object, destroy old one. For human players, the
+     * reset message will be followed with others which will fill in the game
+     * state. For robots, they must discard game state and ask to re-join.
+     * 
+     * @param mes
+     *            the message
+     * 
      * @see soc.server.SOCServer#resetBoardAndNotify(String, int)
      * @see soc.game.Game#resetAsCopy()
      */
@@ -3642,80 +3939,86 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
         String gname = mes.getGame();
         Game ga = (Game) games.get(gname);
         if (ga == null)
-            return;  // Not one of our games
+            return; // Not one of our games
         PlayerInterface pi = (PlayerInterface) playerInterfaces.get(gname);
         if (pi == null)
-            return;  // Not one of our games
+            return; // Not one of our games
 
         Game greset = ga.resetAsCopy();
         greset.isLocal = ga.isLocal;
         games.put(gname, greset);
-        pi.resetBoard(greset, mes.getRejoinPlayerNumber(), mes.getRequestingPlayerNumber());
+        pi.resetBoard(greset, mes.getRejoinPlayerNumber(), mes
+                .getRequestingPlayerNumber());
         ga.destroyGame();
     }
 
     /**
-     * a player is requesting a board reset: we must update
-     * local game state, and vote unless we are the requester.
-     *
-     * @param mes  the message
+     * a player is requesting a board reset: we must update local game state,
+     * and vote unless we are the requester.
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleRESETBOARDVOTEREQUEST(ResetBoardVoteRequest mes)
     {
         String gname = mes.getGame();
         Game ga = (Game) games.get(gname);
         if (ga == null)
-            return;  // Not one of our games
+            return; // Not one of our games
         PlayerInterface pi = (PlayerInterface) playerInterfaces.get(gname);
         if (pi == null)
-            return;  // Not one of our games
+            return; // Not one of our games
 
         pi.resetBoardAskVote(mes.getRequestingPlayer());
     }
 
     /**
      * another player has voted on a board reset request: display the vote.
-     *
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleRESETBOARDVOTE(ResetBoardVote mes)
     {
         String gname = mes.getGame();
         Game ga = (Game) games.get(gname);
         if (ga == null)
-            return;  // Not one of our games
+            return; // Not one of our games
         PlayerInterface pi = (PlayerInterface) playerInterfaces.get(gname);
         if (pi == null)
-            return;  // Not one of our games
+            return; // Not one of our games
 
         pi.resetBoardVoted(mes.getPlayerNumber(), mes.getPlayerVote());
     }
 
     /**
      * voting complete, board reset request rejected
-     *
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleRESETBOARDREJECT(ResetBoardReject mes)
     {
         String gname = mes.getGame();
         Game ga = (Game) games.get(gname);
         if (ga == null)
-            return;  // Not one of our games
+            return; // Not one of our games
         PlayerInterface pi = (PlayerInterface) playerInterfaces.get(gname);
         if (pi == null)
-            return;  // Not one of our games
+            return; // Not one of our games
 
         pi.resetBoardRejected();
     }
 
     /**
-     * process the "game option get defaults" message.
-     * If any default option's keyname is unknown, ask the server.
+     * process the "game option get defaults" message. If any default option's
+     * keyname is unknown, ask the server.
+     * 
      * @see GameOptionServerSet
      * @since 1.1.07
      */
-    private void handleGAMEOPTIONGETDEFAULTS(GameOptionGetDefaults mes, boolean isLocal)
+    private void handleGAMEOPTIONGETDEFAULTS(GameOptionGetDefaults mes,
+            boolean isLocal)
     {
         GameOptionServerSet opts;
         if (isLocal)
@@ -3724,39 +4027,42 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
             opts = tcpServGameOpts;
 
         Vector unknowns;
-        synchronized(opts)
+        synchronized (opts)
         {
-            // receiveDefaults sets opts.defaultsReceived, may set opts.allOptionsReceived
-            unknowns = opts.receiveDefaults
-                (GameOption.parseOptionsToHash((mes.getOpts())));
+            // receiveDefaults sets opts.defaultsReceived, may set
+            // opts.allOptionsReceived
+            unknowns = opts.receiveDefaults(GameOption.parseOptionsToHash((mes
+                    .getOpts())));
         }
 
         if (unknowns != null)
         {
-            if (! isLocal)
+            if (!isLocal)
                 gameOptionsSetTimeoutTask();
             put(GameOptionGetInfos.toCmd(unknowns.elements()), isLocal);
-        } else {
+        }
+        else
+        {
             opts.newGameWaitingForOpts = false;
             if (gameOptsDefsTask != null)
             {
                 gameOptsDefsTask.cancel();
                 gameOptsDefsTask = null;
             }
-            newGameOptsFrame = NewGameOptionsFrame.createAndShow
-                (this, (String) null, opts.optionSet, isLocal, false);
+            newGameOptsFrame = NewGameOptionsFrame.createAndShow(this,
+                    (String) null, opts.optionSet, isLocal, false);
         }
     }
 
     /**
-     * process the "game option info" message
-     * by calling {@link GameOptionServerSet#receiveInfo(GameOptionInfo)}.
-     * If all are now received, possibly show options window for new game or existing game.
+     * process the "game option info" message by calling
+     * {@link GameOptionServerSet#receiveInfo(GameOptionInfo)}. If all are now
+     * received, possibly show options window for new game or existing game.
      *<P>
-     * For a summary of the flags and variables involved with game options,
-     * and the client/server interaction about their values, see
+     * For a summary of the flags and variables involved with game options, and
+     * the client/server interaction about their values, see
      * {@link GameOptionServerSet}.
-     *
+     * 
      * @since 1.1.07
      */
     private void handleGAMEOPTIONINFO(GameOptionInfo mes, boolean isLocal)
@@ -3769,36 +4075,40 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
         boolean hasAllNow, newGameWaiting;
         String gameInfoWaiting;
-        synchronized(opts)
+        synchronized (opts)
         {
             hasAllNow = opts.receiveInfo(mes);
             newGameWaiting = opts.newGameWaitingForOpts;
             gameInfoWaiting = opts.gameInfoWaitingForOpts;
         }
 
-        if ((! isLocal) && mes.getOptionNameKey().equals("-"))
+        if ((!isLocal) && mes.getOptionNameKey().equals("-"))
             gameOptionsCancelTimeoutTask();
 
         if (hasAllNow)
         {
             if (gameInfoWaiting != null)
             {
-                Hashtable gameOpts = serverGames.parseGameOptions(gameInfoWaiting);
-                newGameOptsFrame = NewGameOptionsFrame.createAndShow
-                    (this, gameInfoWaiting, gameOpts, isLocal, true);
-            } else if (newGameWaiting)
+                Hashtable gameOpts = serverGames
+                        .parseGameOptions(gameInfoWaiting);
+                newGameOptsFrame = NewGameOptionsFrame.createAndShow(this,
+                        gameInfoWaiting, gameOpts, isLocal, true);
+            }
+            else if (newGameWaiting)
             {
-                newGameOptsFrame = NewGameOptionsFrame.createAndShow
-                    (this, (String) null, opts.optionSet, isLocal, false);
+                newGameOptsFrame = NewGameOptionsFrame.createAndShow(this,
+                        (String) null, opts.optionSet, isLocal, false);
             }
         }
     }
 
     /**
      * process the "new game with options" message
+     * 
      * @since 1.1.07
      */
-    private void handleNEWGAMEWITHOPTIONS(NewGameWithOptions mes, boolean isLocal)
+    private void handleNEWGAMEWITHOPTIONS(NewGameWithOptions mes,
+            boolean isLocal)
     {
         String gname = mes.getGame();
         String opts = mes.getOptionsString();
@@ -3808,11 +4118,12 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
             gname = gname.substring(1);
             canJoin = false;
         }
-        addToGameList(! canJoin, gname, opts, ! isLocal);
+        addToGameList(!canJoin, gname, opts, !isLocal);
     }
 
     /**
      * handle the "list of games with options" message
+     * 
      * @since 1.1.07
      */
     private void handleGAMESWITHOPTIONS(GamesWithOptions mes, boolean isLocal)
@@ -3824,8 +4135,8 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
         GameList msgGames = mes.getGameList();
         if (msgGames == null)
             return;
-        if (! isLocal)  // local's gameoption data is set up in handleVERSION;
-        {               // local's gamelist is reached through practiceServer obj.
+        if (!isLocal) // local's gameoption data is set up in handleVERSION;
+        { // local's gamelist is reached through practiceServer obj.
             if (serverGames == null)
                 serverGames = msgGames;
             else
@@ -3833,7 +4144,8 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
             // No more game-option info will be received,
             // because that's always sent before game names are sent.
-            // We may still ask for GAMEOPTIONGETDEFAULTS if asking to create a game,
+            // We may still ask for GAMEOPTIONGETDEFAULTS if asking to create a
+            // game,
             // but that will happen when user clicks that button, not yet.
             tcpServGameOpts.noMoreOptions(false);
         }
@@ -3848,17 +4160,19 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * handle the "player stats" message
+     * 
      * @since 1.1.09
      */
     private void handlePLAYERSTATS(PlayerStats mes)
     {
-        PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes.getGame());
+        PlayerInterface pi = (PlayerInterface) playerInterfaces.get(mes
+                .getGame());
         if (pi == null)
-            return;  // Not one of our games
+            return; // Not one of our games
 
         final int stype = mes.getStatType();
         if (stype != PlayerStats.STYPE_RES_ROLL)
-            return;  // not recognized in this version
+            return; // not recognized in this version
 
         final int[] rstat = mes.getParams();
 
@@ -3878,17 +4192,21 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
     }
 
     /**
-     * add a new game to the initial window's list of games, and possibly
-     * to the {@link #serverGames server games list}.
-     *
-     * @param gameName the game name to add to the list;
-     *                 may have the prefix {@link Games#MARKER_THIS_GAME_UNJOINABLE}
-     * @param gameOptsStr String of packed {@link GameOption game options}, or null
-     * @param addToSrvList Should this game be added to the list of remote-server games?
-     *                 Local practice games should not be added.
-     *                 The {@link #serverGames} list also has a flag for cannotJoin.
+     * add a new game to the initial window's list of games, and possibly to the
+     * {@link #serverGames server games list}.
+     * 
+     * @param gameName
+     *            the game name to add to the list; may have the prefix
+     *            {@link Games#MARKER_THIS_GAME_UNJOINABLE}
+     * @param gameOptsStr
+     *            String of packed {@link GameOption game options}, or null
+     * @param addToSrvList
+     *            Should this game be added to the list of remote-server games?
+     *            Local practice games should not be added. The
+     *            {@link #serverGames} list also has a flag for cannotJoin.
      */
-    public void addToGameList(String gameName, String gameOptsStr, final boolean addToSrvList)
+    public void addToGameList(String gameName, String gameOptsStr,
+            final boolean addToSrvList)
     {
         boolean hasUnjoinMarker = (gameName.charAt(0) == Games.MARKER_THIS_GAME_UNJOINABLE);
         if (hasUnjoinMarker)
@@ -3899,17 +4217,22 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
     }
 
     /**
-     * add a new game to the initial window's list of games.
-     * If client can't join, also add to {@link #serverGames} as an unjoinable game.
-     *
-     * @param cannotJoin Can we not join this game?
-     * @param gameName the game name to add to the list;
-     *                 must not have the prefix {@link Games#MARKER_THIS_GAME_UNJOINABLE}.
-     * @param gameOptsStr String of packed {@link GameOption game options}, or null
-     * @param addToSrvList Should this game be added to the list of remote-server games?
-     *                 Local practice games should not be added.
+     * add a new game to the initial window's list of games. If client can't
+     * join, also add to {@link #serverGames} as an unjoinable game.
+     * 
+     * @param cannotJoin
+     *            Can we not join this game?
+     * @param gameName
+     *            the game name to add to the list; must not have the prefix
+     *            {@link Games#MARKER_THIS_GAME_UNJOINABLE}.
+     * @param gameOptsStr
+     *            String of packed {@link GameOption game options}, or null
+     * @param addToSrvList
+     *            Should this game be added to the list of remote-server games?
+     *            Local practice games should not be added.
      */
-    public void addToGameList(final boolean cannotJoin, String gameName, String gameOptsStr, final boolean addToSrvList)
+    public void addToGameList(final boolean cannotJoin, String gameName,
+            String gameOptsStr, final boolean addToSrvList)
     {
         if (addToSrvList)
         {
@@ -3921,7 +4244,7 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
         if (cannotJoin)
         {
             // for display:
-            // "(cannot join) "     TODO color would be nice
+            // "(cannot join) " TO-DO color would be nice
             gameName = GAMENAME_PREFIX_CANNOT_JOIN + gameName;
         }
 
@@ -3932,8 +4255,9 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
             gmlist.replaceItem(gameName, 0);
             gmlist.select(0);
             jg.setEnabled(true);
-            so.setEnabled((practiceServer != null)
-                || (sVersion >= NewGameWithOptions.VERSION_FOR_NEWGAMEWITHOPTIONS));
+            so
+                    .setEnabled((practiceServer != null)
+                            || (sVersion >= NewGameWithOptions.VERSION_FOR_NEWGAMEWITHOPTIONS));
         }
         else
         {
@@ -3943,9 +4267,11 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * add a new channel or game, put it in the list in alphabetical order
-     *
-     * @param thing  the thing to add to the list
-     * @param lst    the list
+     * 
+     * @param thing
+     *            the thing to add to the list
+     * @param lst
+     *            the list
      */
     public void addToList(String thing, java.awt.List lst)
     {
@@ -3959,29 +4285,28 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
             lst.add(thing, 0);
 
             /*
-               int i;
-               for(i=lst.getItemCount()-1;i>=0;i--)
-               if(lst.getItem(i).compareTo(thing)<0)
-               break;
-               lst.add(thing, i+1);
-               if(lst.getSelectedIndex()==-1)
-               lst.select(0);
+             * int i; for(i=lst.getItemCount()-1;i>=0;i--)
+             * if(lst.getItem(i).compareTo(thing)<0) break; lst.add(thing, i+1);
+             * if(lst.getSelectedIndex()==-1) lst.select(0);
              */
         }
     }
 
     /**
      * Update this game's stats in the game list display.
-     *
-     * @param gameName Name of game to update
-     * @param scores Each player position's score
-     * @param robots Is this position a robot?
+     * 
+     * @param gameName
+     *            Name of game to update
+     * @param scores
+     *            Each player position's score
+     * @param robots
+     *            Is this position a robot?
      * 
      * @see soc.message.GameStats
      */
     public void updateGameStats(String gameName, int[] scores, boolean[] robots)
     {
-        //D.ebugPrintln("UPDATE GAME STATS FOR "+gameName);
+        // D.ebugPrintln("UPDATE GAME STATS FOR "+gameName);
         String testString = gameName + STATSPREFEX;
 
         for (int i = 0; i < gmlist.getItemCount(); i++)
@@ -4034,34 +4359,37 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
             }
         }
     }
-    
-    /** If we're playing in a game that's just finished, update the scores.
-     *  This is used to show the true scores, including hidden
-     *  victory-point cards, at the game's end.
+
+    /**
+     * If we're playing in a game that's just finished, update the scores. This
+     * is used to show the true scores, including hidden victory-point cards, at
+     * the game's end.
      */
     public void updateGameEndStats(String game, int[] scores)
     {
         Game ga = (Game) games.get(game);
         if (ga == null)
-            return;  // Not playing in that game
+            return; // Not playing in that game
         if (ga.getGameState() != Game.OVER)
-            return;  // Should not have been sent; game is not yet over.
+            return; // Should not have been sent; game is not yet over.
 
         PlayerInterface pi = (PlayerInterface) playerInterfaces.get(game);
         pi.updateAtOver(scores);
     }
 
     /**
-     * delete a game from the list.
-     * If it's on the list, also remove from {@link #serverGames}.
-     *
-     * @param gameName  the game to remove
-     * @param isLocal   local practice, or at remote server?
+     * delete a game from the list. If it's on the list, also remove from
+     * {@link #serverGames}.
+     * 
+     * @param gameName
+     *            the game to remove
+     * @param isLocal
+     *            local practice, or at remote server?
      * @return true if deleted, false if not found in list
      */
     public boolean deleteFromGameList(String gameName, boolean isLocal)
     {
-        //String testString = gameName + STATSPREFEX;
+        // String testString = gameName + STATSPREFEX;
         String testString = gameName;
 
         if (gmlist.getItemCount() == 1)
@@ -4071,9 +4399,9 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
                 gmlist.replaceItem(" ", 0);
                 gmlist.deselect(0);
 
-                if ((! isLocal) && (serverGames != null)) 
+                if ((!isLocal) && (serverGames != null))
                 {
-                    serverGames.deleteGame(gameName);  // may not be in there
+                    serverGames.deleteGame(gameName); // may not be in there
                 }
                 return true;
             }
@@ -4097,9 +4425,9 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
             gmlist.select(gmlist.getItemCount() - 1);
         }
 
-        if (found && (! isLocal) && (serverGames != null))
+        if (found && (!isLocal) && (serverGames != null))
         {
-            serverGames.deleteGame(gameName);  // may not be in there
+            serverGames.deleteGame(gameName); // may not be in there
         }
 
         return found;
@@ -4107,9 +4435,11 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * delete a group
-     *
-     * @param thing   the thing to remove
-     * @param lst     the list
+     * 
+     * @param thing
+     *            the thing to remove
+     * @param lst
+     *            the list
      */
     public void deleteFromList(String thing, java.awt.List lst)
     {
@@ -4140,9 +4470,11 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * send a text message to a channel
-     *
-     * @param ch   the name of the channel
-     * @param mes  the message
+     * 
+     * @param ch
+     *            the name of the channel
+     * @param mes
+     *            the message
      */
     public void chSend(String ch, String mes)
     {
@@ -4154,8 +4486,9 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * the user leaves the given channel
-     *
-     * @param ch  the name of the channel
+     * 
+     * @param ch
+     *            the name of the channel
      */
     public void leaveChannel(String ch)
     {
@@ -4184,8 +4517,9 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * request to buy a development card
-     *
-     * @param ga     the game
+     * 
+     * @param ga
+     *            the game
      */
     public void buyDevCard(Game ga)
     {
@@ -4194,10 +4528,12 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * request to build something
-     *
-     * @param ga     the game
-     * @param piece  the type of piece, from {@link soc.game.PlayingPiece} constants,
-     *               or -1 to request the Special Building Phase.
+     * 
+     * @param ga
+     *            the game
+     * @param piece
+     *            the type of piece, from {@link soc.game.PlayingPiece}
+     *            constants, or -1 to request the Special Building Phase.
      */
     public void buildRequest(Game ga, int piece)
     {
@@ -4206,9 +4542,11 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * request to cancel building something
-     *
-     * @param ga     the game
-     * @param piece  the type of piece, from PlayingPiece constants
+     * 
+     * @param ga
+     *            the game
+     * @param piece
+     *            the type of piece, from PlayingPiece constants
      */
     public void cancelBuildRequest(Game ga, int piece)
     {
@@ -4217,35 +4555,44 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * put a piece on the board
-     *
-     * @param ga  the game where the action is taking place
-     * @param pp  the piece being placed
+     * 
+     * @param ga
+     *            the game where the action is taking place
+     * @param pp
+     *            the piece being placed
      */
     public void putPiece(Game ga, PlayingPiece pp)
     {
         /**
          * send the command
          */
-        put(PutPiece.toCmd(ga.getName(), pp.getPlayer().getPlayerNumber(), pp.getType(), pp.getCoordinates()), ga.isLocal);
+        put(PutPiece.toCmd(ga.getName(), pp.getPlayer().getPlayerNumber(), pp
+                .getType(), pp.getCoordinates()), ga.isLocal);
     }
 
     /**
      * the player wants to move the robber
-     *
-     * @param ga  the game
-     * @param pl  the player
-     * @param coord  where the player wants the robber
+     * 
+     * @param ga
+     *            the game
+     * @param pl
+     *            the player
+     * @param coord
+     *            where the player wants the robber
      */
     public void moveRobber(Game ga, Player pl, int coord)
     {
-        put(MoveRobber.toCmd(ga.getName(), pl.getPlayerNumber(), coord), ga.isLocal);
+        put(MoveRobber.toCmd(ga.getName(), pl.getPlayerNumber(), coord),
+                ga.isLocal);
     }
 
     /**
      * send a text message to the people in the game
-     *
-     * @param ga   the game
-     * @param me   the message
+     * 
+     * @param ga
+     *            the game
+     * @param me
+     *            the message
      */
     public void sendText(Game ga, String me)
     {
@@ -4257,8 +4604,9 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * the user leaves the given game
-     *
-     * @param ga   the game
+     * 
+     * @param ga
+     *            the game
      */
     public void leaveGame(Game ga)
     {
@@ -4269,9 +4617,11 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * the user sits down to play
-     *
-     * @param ga   the game
-     * @param pn   the number of the seat where the user wants to sit
+     * 
+     * @param ga
+     *            the game
+     * @param pn
+     *            the number of the seat where the user wants to sit
      */
     public void sitDown(Game ga, int pn)
     {
@@ -4280,8 +4630,9 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * the user is starting the game
-     *
-     * @param ga  the game
+     * 
+     * @param ga
+     *            the game
      */
     public void startGame(Game ga)
     {
@@ -4290,8 +4641,9 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * the user rolls the dice
-     *
-     * @param ga  the game
+     * 
+     * @param ga
+     *            the game
      */
     public void rollDice(Game ga)
     {
@@ -4300,8 +4652,9 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * the user is done with the turn
-     *
-     * @param ga  the game
+     * 
+     * @param ga
+     *            the game
      */
     public void endTurn(Game ga)
     {
@@ -4310,8 +4663,9 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * the user wants to discard
-     *
-     * @param ga  the game
+     * 
+     * @param ga
+     *            the game
      */
     public void discard(Game ga, ResourceSet rs)
     {
@@ -4320,9 +4674,11 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * the user chose a player to steal from
-     *
-     * @param ga  the game
-     * @param pn  the player id
+     * 
+     * @param ga
+     *            the game
+     * @param pn
+     *            the player id
      */
     public void choosePlayer(Game ga, int pn)
     {
@@ -4331,41 +4687,51 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * the user is rejecting the current offers
-     *
-     * @param ga  the game
+     * 
+     * @param ga
+     *            the game
      */
     public void rejectOffer(Game ga)
     {
-        put(RejectOffer.toCmd(ga.getName(), ga.getPlayer(nickname).getPlayerNumber()), ga.isLocal);
+        put(RejectOffer.toCmd(ga.getName(), ga.getPlayer(nickname)
+                .getPlayerNumber()), ga.isLocal);
     }
 
     /**
      * the user is accepting an offer
-     *
-     * @param ga  the game
-     * @param from the number of the player that is making the offer
+     * 
+     * @param ga
+     *            the game
+     * @param from
+     *            the number of the player that is making the offer
      */
     public void acceptOffer(Game ga, int from)
     {
-        put(AcceptOffer.toCmd(ga.getName(), ga.getPlayer(nickname).getPlayerNumber(), from), ga.isLocal);
+        put(AcceptOffer.toCmd(ga.getName(), ga.getPlayer(nickname)
+                .getPlayerNumber(), from), ga.isLocal);
     }
 
     /**
      * the user is clearing an offer
-     *
-     * @param ga  the game
+     * 
+     * @param ga
+     *            the game
      */
     public void clearOffer(Game ga)
     {
-        put(ClearOffer.toCmd(ga.getName(), ga.getPlayer(nickname).getPlayerNumber()), ga.isLocal);
+        put(ClearOffer.toCmd(ga.getName(), ga.getPlayer(nickname)
+                .getPlayerNumber()), ga.isLocal);
     }
 
     /**
      * the user wants to trade with the bank
-     *
-     * @param ga    the game
-     * @param give  what is being offered
-     * @param get   what the player wants
+     * 
+     * @param ga
+     *            the game
+     * @param give
+     *            what is being offered
+     * @param get
+     *            what the player wants
      */
     public void bankTrade(Game ga, ResourceSet give, ResourceSet get)
     {
@@ -4374,9 +4740,11 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * the user is making an offer to trade
-     *
-     * @param ga    the game
-     * @param offer the trade offer
+     * 
+     * @param ga
+     *            the game
+     * @param offer
+     *            the trade offer
      */
     public void offerTrade(Game ga, TradeOffer offer)
     {
@@ -4385,9 +4753,11 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * the user wants to play a development card
-     *
-     * @param ga  the game
-     * @param dc  the type of development card
+     * 
+     * @param ga
+     *            the game
+     * @param dc
+     *            the type of development card
      */
     public void playDevCard(Game ga, int dc)
     {
@@ -4396,9 +4766,11 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * the user picked 2 resources to discover
-     *
-     * @param ga    the game
-     * @param rscs  the resources
+     * 
+     * @param ga
+     *            the game
+     * @param rscs
+     *            the resources
      */
     public void discoveryPick(Game ga, ResourceSet rscs)
     {
@@ -4407,9 +4779,11 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * the user picked a resource to monopolize
-     *
-     * @param ga   the game
-     * @param res  the resource
+     * 
+     * @param ga
+     *            the game
+     * @param res
+     *            the resource
      */
     public void monopolyPick(Game ga, int res)
     {
@@ -4418,21 +4792,26 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * the user is changing the face image
-     *
-     * @param ga  the game
-     * @param id  the image id
+     * 
+     * @param ga
+     *            the game
+     * @param id
+     *            the image id
      */
     public void changeFace(Game ga, int id)
     {
         lastFaceChange = id;
-        put(ChangeFace.toCmd(ga.getName(), ga.getPlayer(nickname).getPlayerNumber(), id), ga.isLocal);
+        put(ChangeFace.toCmd(ga.getName(), ga.getPlayer(nickname)
+                .getPlayerNumber(), id), ga.isLocal);
     }
 
     /**
      * the user is locking a seat
-     *
-     * @param ga  the game
-     * @param pn  the seat number
+     * 
+     * @param ga
+     *            the game
+     * @param pn
+     *            the seat number
      */
     public void lockSeat(Game ga, int pn)
     {
@@ -4441,9 +4820,11 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * the user is unlocking a seat
-     *
-     * @param ga  the game
-     * @param pn  the seat number
+     * 
+     * @param ga
+     *            the game
+     * @param pn
+     *            the seat number
      */
     public void unlockSeat(Game ga, int pn)
     {
@@ -4451,29 +4832,30 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
     }
 
     /**
-     * Player wants to request to reset the board (same players, new game, new layout).
-     * Send {@link soc.message.ResetBoardRequest} to server;
-     * it will either respond with a
-     * {@link soc.message.ResetBoardAuth} message,
-     * or will tell other players to vote yes/no on the request.
-     * Before calling, check player.hasAskedBoardReset()
-     * and game.getResetVoteActive().
+     * Player wants to request to reset the board (same players, new game, new
+     * layout). Send {@link soc.message.ResetBoardRequest} to server; it will
+     * either respond with a {@link soc.message.ResetBoardAuth} message, or will
+     * tell other players to vote yes/no on the request. Before calling, check
+     * player.hasAskedBoardReset() and game.getResetVoteActive().
      */
     public void resetBoardRequest(Game ga)
     {
-        put(ResetBoardRequest.toCmd(Message.RESETBOARDREQUEST, ga.getName()), ga.isLocal);
+        put(ResetBoardRequest.toCmd(Message.RESETBOARDREQUEST, ga.getName()),
+                ga.isLocal);
     }
 
     /**
-     * Player is responding to a board-reset vote from another player.
-     * Send {@link soc.message.ResetBoardRequest} to server;
-     * it will either respond with a
-     * {@link soc.message.ResetBoardAuth} message,
-     * or will tell other players to vote yes/no on the request.
-     *
-     * @param ga Game to vote on
-     * @param pn Player number of our player who is voting
-     * @param voteYes If true, this player votes yes; if false, no
+     * Player is responding to a board-reset vote from another player. Send
+     * {@link soc.message.ResetBoardRequest} to server; it will either respond
+     * with a {@link soc.message.ResetBoardAuth} message, or will tell other
+     * players to vote yes/no on the request.
+     * 
+     * @param ga
+     *            Game to vote on
+     * @param pn
+     *            Player number of our player who is voting
+     * @param voteYes
+     *            If true, this player votes yes; if false, no
      */
     public void resetBoardVote(Game ga, int pn, boolean voteYes)
     {
@@ -4482,7 +4864,7 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * handle local client commands for channels
-     *
+     * 
      * @return true if a command was handled
      */
     public boolean doLocalCommand(String ch, String cmd)
@@ -4515,12 +4897,13 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * handle local client commands for games
-     *
+     * 
      * @return true if a command was handled
      */
     public boolean doLocalCommand(Game ga, String cmd)
     {
-        PlayerInterface pi = (PlayerInterface) playerInterfaces.get(ga.getName());
+        PlayerInterface pi = (PlayerInterface) playerInterfaces.get(ga
+                .getName());
 
         if (cmd.startsWith("\\ignore "))
         {
@@ -4617,8 +5000,9 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * add this name to the ignore list
-     *
-     * @param name the name to add
+     * 
+     * @param name
+     *            the name to add
      */
     protected void addToIgnoreList(String name)
     {
@@ -4632,8 +5016,9 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * remove this name from the ignore list
-     *
-     * @param name  the name to remove
+     * 
+     * @param name
+     *            the name to remove
      */
     protected void removeFromIgnoreList(String name)
     {
@@ -4666,17 +5051,19 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
         {
             String s = (String) ienum.nextElement();
             pi.print("* " + s);
-        }        
+        }
     }
 
     /**
-     * send a command to the server with a message
-     * asking a robot to show the debug info for
-     * a possible move after a move has been made
-     *
-     * @param ga  the game
-     * @param pname  the robot name
-     * @param piece  the piece to consider
+     * send a command to the server with a message asking a robot to show the
+     * debug info for a possible move after a move has been made
+     * 
+     * @param ga
+     *            the game
+     * @param pname
+     *            the robot name
+     * @param piece
+     *            the piece to consider
      */
     public void considerMove(Game ga, String pname, PlayingPiece piece)
     {
@@ -4705,13 +5092,15 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
     }
 
     /**
-     * send a command to the server with a message
-     * asking a robot to show the debug info for
-     * a possible move before a move has been made
-     *
-     * @param ga  the game
-     * @param pname  the robot name
-     * @param piece  the piece to consider
+     * send a command to the server with a message asking a robot to show the
+     * debug info for a possible move before a move has been made
+     * 
+     * @param ga
+     *            the game
+     * @param pname
+     *            the robot name
+     * @param piece
+     *            the piece to consider
      */
     public void considerTarget(Game ga, String pname, PlayingPiece piece)
     {
@@ -4740,8 +5129,9 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
     }
 
     /**
-     * Start the game-options info timeout
-     * ({@link GameOptionsTimeoutTask}) at 5 seconds.
+     * Start the game-options info timeout ({@link GameOptionsTimeoutTask}) at 5
+     * seconds.
+     * 
      * @see #gameOptionsCancelTimeoutTask()
      * @since 1.1.07
      */
@@ -4750,11 +5140,12 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
         if (gameOptsTask != null)
             gameOptsTask.cancel();
         gameOptsTask = new GameOptionsTimeoutTask(this, tcpServGameOpts);
-        eventTimer.schedule(gameOptsTask, 5000 /* ms */ );
+        eventTimer.schedule(gameOptsTask, 5000 /* ms */);
     }
- 
+
     /**
      * Cancel the game-options info timeout.
+     * 
      * @see #gameOptionsSetTimeoutTask()
      * @since 1.1.07
      */
@@ -4768,8 +5159,8 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
     }
 
     /**
-     * Create a game name, and start a practice game.
-     * Assumes {@link #MAIN_PANEL} is initialized.
+     * Create a game name, and start a practice game. Assumes
+     * {@link #MAIN_PANEL} is initialized.
      */
     public void startPracticeGame()
     {
@@ -4777,22 +5168,26 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
     }
 
     /**
-     * Setup for local practice game (local non-tcp server).
-     * If needed, a (stringport, not tcp) server, client, and robots are started.
-     *
-     * @param practiceGameName Unique name to give practice game; if name unknown, call
-     *         {@link #startPracticeGame()} instead
-     * @param gameOpts Set of {@link GameOption game options} to use, or null
-     * @param mainPanelIsActive Is the PlayerClient main panel active?
-     *         False if we're being called from elsewhere, such as
-     *         {@link ConnectOrPracticePanel}.
+     * Setup for local practice game (local non-tcp server). If needed, a
+     * (stringport, not tcp) server, client, and robots are started.
+     * 
+     * @param practiceGameName
+     *            Unique name to give practice game; if name unknown, call
+     *            {@link #startPracticeGame()} instead
+     * @param gameOpts
+     *            Set of {@link GameOption game options} to use, or null
+     * @param mainPanelIsActive
+     *            Is the PlayerClient main panel active? False if we're being
+     *            called from elsewhere, such as {@link ConnectOrPracticePanel}.
      */
-    public void startPracticeGame(String practiceGameName, Hashtable gameOpts, boolean mainPanelIsActive)
+    public void startPracticeGame(String practiceGameName, Hashtable gameOpts,
+            boolean mainPanelIsActive)
     {
         ++numPracticeGames;
 
         if (practiceGameName == null)
-            practiceGameName = DEFAULT_PRACTICE_GAMENAME + " " + (numPracticeGames);
+            practiceGameName = DEFAULT_PRACTICE_GAMENAME + " "
+                    + (numPracticeGames);
 
         // May take a while to start server & game.
         // The new-game window will clear this cursor.
@@ -4800,8 +5195,9 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
         if (practiceServer == null)
         {
-            practiceServer = new SOCServer(SOCServer.PRACTICE_STRINGPORT, 30, null, null);
-            practiceServer.setPriority(5);  // same as in SOCServer.main
+            practiceServer = new SOCServer(SOCServer.PRACTICE_STRINGPORT, 30,
+                    null, null);
+            practiceServer.setPriority(5); // same as in SOCServer.main
             practiceServer.start();
 
             // We need some opponents.
@@ -4812,11 +5208,13 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
         {
             try
             {
-                prCli = LocalStringServerSocket.connectTo(SOCServer.PRACTICE_STRINGPORT);
+                prCli = LocalStringServerSocket
+                        .connectTo(SOCServer.PRACTICE_STRINGPORT);
                 new SOCPlayerLocalStringReader((LocalStringConnection) prCli);
                 // Reader will start its own thread.
                 // Send VERSION right away (1.1.06 and later)
-                putLocal(SOCVersion.toCmd(Version.versionNumber(), Version.version(), Version.buildnum()));
+                putLocal(SOCVersion.toCmd(Version.versionNumber(), Version
+                        .version(), Version.buildnum()));
 
                 // local server will support per-game options
                 if (so != null)
@@ -4833,34 +5231,37 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
         if (gameOpts == null)
             putLocal(JoinGame.toCmd(nickname, password, host, practiceGameName));
         else
-            putLocal(NewGameWithOptionsRequest.toCmd(nickname, password, host, practiceGameName, gameOpts));
+            putLocal(NewGameWithOptionsRequest.toCmd(nickname, password, host,
+                    practiceGameName, gameOpts));
     }
 
     /**
-     * Setup for locally hosting a TCP server.
-     * If needed, a local server and robots are started, and client connects to it.
-     * If parent is a Frame, set titlebar to show "server" and port#.
-     * Show port number in {@link #versionOrlocalTCPPortLabel}. 
-     * If the {@link #localTCPServer} is already created, does nothing.
-     * If {@link #connected} already, does nothing.
-     *
-     * @param tport Port number to host on; must be greater than zero.
-     * @throws IllegalArgumentException If port is 0 or negative
+     * Setup for locally hosting a TCP server. If needed, a local server and
+     * robots are started, and client connects to it. If parent is a Frame, set
+     * titlebar to show "server" and port#. Show port number in
+     * {@link #versionOrlocalTCPPortLabel}. If the {@link #localTCPServer} is
+     * already created, does nothing. If {@link #connected} already, does
+     * nothing.
+     * 
+     * @param tport
+     *            Port number to host on; must be greater than zero.
+     * @throws IllegalArgumentException
+     *             If port is 0 or negative
      */
-    public void startLocalTCPServer(int tport)
-        throws IllegalArgumentException
+    public void startLocalTCPServer(int tport) throws IllegalArgumentException
     {
         if (localTCPServer != null)
         {
-            return;  // Already set up
+            return; // Already set up
         }
         if (connected)
         {
-            return;  // Already connected somewhere
+            return; // Already connected somewhere
         }
         if (tport < 1)
         {
-            throw new IllegalArgumentException("Port must be positive: " + tport);
+            throw new IllegalArgumentException("Port must be positive: "
+                    + tport);
         }
 
         // May take a while to start server.
@@ -4868,7 +5269,7 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
         localTCPServer = new SOCServer(tport, 30, null, null);
-        localTCPServer.setPriority(5);  // same as in SOCServer.main
+        localTCPServer.setPriority(5); // same as in SOCServer.main
         localTCPServer.start();
 
         // We need some opponents.
@@ -4877,10 +5278,9 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
         // Set label
         versionOrlocalTCPPortLabel.setText("Port: " + tport);
-        new AWTToolTip ("You are running a server on TCP port " + tport
-            + ". Version " + Version.version()
-            + " bld " + Version.buildnum(),
-            versionOrlocalTCPPortLabel);
+        new AWTToolTip("You are running a server on TCP port " + tport
+                + ". Version " + Version.version() + " bld "
+                + Version.buildnum(), versionOrlocalTCPPortLabel);
 
         // Set titlebar, if present
         {
@@ -4889,13 +5289,15 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
             {
                 try
                 {
-                    ((Frame) parent).setTitle("OpenSettlers server " + Version.version()
-                        + " - port " + tport);
-                } catch (Throwable t)
-                {}
+                    ((Frame) parent).setTitle("OpenSettlers server "
+                            + Version.version() + " - port " + tport);
+                }
+                catch (Throwable t)
+                {
+                }
             }
         }
-        
+
         // Connect to it
         host = "localhost";
         port = tport;
@@ -4913,11 +5315,12 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
     }
 
     /**
-     * Server version, for checking feature availability.
-     * Returns -1 if unknown.
-     * @param  game  Game being played on a local (practice) or remote server.
-     * @return Server version, format like {@link soc.util.Version#versionNumber()},
-     *         or 0 or -1.
+     * Server version, for checking feature availability. Returns -1 if unknown.
+     * 
+     * @param game
+     *            Game being played on a local (practice) or remote server.
+     * @return Server version, format like
+     *         {@link soc.util.Version#versionNumber()}, or 0 or -1.
      */
     public int getServerVersion(Game game)
     {
@@ -4929,13 +5332,14 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
 
     /**
      * applet info, of the form similar to that seen at server startup:
-     * PlayerClient (Java Settlers Client) 1.1.07, build JM20091027, 2001-2004 Robb Thomas, portions 2007-2009 Jeremy D Monin.
-     * Version and copyright info is from the {@link Version} utility class.
+     * PlayerClient (Java Settlers Client) 1.1.07, build JM20091027, 2001-2004
+     * Robb Thomas, portions 2007-2009 Jeremy D Monin. Version and copyright
+     * info is from the {@link Version} utility class.
      */
     public String getAppletInfo()
     {
-        return "PlayerClient (Java Settlers Client) " + Version.version() +
-        ", build " + Version.buildnum() + ", " + Version.copyright();
+        return "PlayerClient (Java Settlers Client) " + Version.version()
+                + ", build " + Version.buildnum() + ", " + Version.copyright();
     }
 
     /**
@@ -4944,14 +5348,16 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
      */
     public void destroy()
     {
-        boolean canLocal;  // Can we still start a local game?
+        boolean canLocal; // Can we still start a local game?
         canLocal = putLeaveAll();
 
         String err;
         if (canLocal)
         {
             err = "Sorry, network trouble has occurred. ";
-        } else {
+        }
+        else
+        {
             err = "Sorry, the applet has been destroyed. ";
         }
         err = err + ((ex == null) ? "Load the page again." : ex.toString());
@@ -4967,12 +5373,12 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
             // Local practice games can continue.
 
             PlayerInterface pi = ((PlayerInterface) e.nextElement());
-            if (! (canLocal && pi.getGame().isLocal))
+            if (!(canLocal && pi.getGame().isLocal))
             {
                 pi.over(err);
             }
         }
-        
+
         disconnect();
 
         // In case was WAIT_CURSOR while connecting
@@ -4983,42 +5389,47 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
             messageLabel_top.setText(err);
             messageLabel_top.setVisible(true);
             messageLabel.setText(NET_UNAVAIL_CAN_PRACTICE_MSG);
-            pgm.setVisible(true);            
+            pgm.setVisible(true);
         }
         else
         {
             messageLabel_top.setVisible(false);
             messageLabel.setText(err);
-            pgm.setVisible(false);            
+            pgm.setVisible(false);
         }
         cardLayout.show(this, MESSAGE_PANEL);
         validate();
         if (canLocal)
         {
             if (null == findAnyActiveGame(true))
-                pgm.requestFocus();  // No practice games: put this msg as topmost window
+                pgm.requestFocus(); // No practice games: put this msg as
+                                    // topmost window
             else
-                pgm.requestFocusInWindow();  // Practice game is active; don't interrupt to show this
+                pgm.requestFocusInWindow(); // Practice game is active; don't
+                                            // interrupt to show this
         }
     }
 
     /**
-     * For shutdown - Tell the server we're leaving all games.
-     * If we've started a local practice server, also tell that server.
-     * If we've started a TCP server, tell all players on that server, and shut it down.
-     *<P><em>
+     * For shutdown - Tell the server we're leaving all games. If we've started
+     * a local practice server, also tell that server. If we've started a TCP
+     * server, tell all players on that server, and shut it down.
+     *<P>
+     * <em>
      * Since no other state variables are set, call this only right before
      * discarding this object or calling System.exit.
      *</em>
-     * @return Can we still start local games? (No local exception yet in {@link #ex_L})
+     * 
+     * @return Can we still start local games? (No local exception yet in
+     *         {@link #ex_L})
      */
     public boolean putLeaveAll()
     {
-        boolean canLocal = (ex_L == null);  // Can we still start a local game? 
+        boolean canLocal = (ex_L == null); // Can we still start a local game?
 
         LeaveAll leaveAllMes = new LeaveAll();
         putNet(leaveAllMes.toCmd());
-        if ((prCli != null) && ! canLocal)
+        if ((prCli != null) && !canLocal)
             putLocal(leaveAllMes.toCmd());
         if ((localTCPServer != null) && (localTCPServer.isUp()))
         {
@@ -5061,34 +5472,38 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
             withConnectOrPractice = false;
             client = new PlayerClient(withConnectOrPractice);
 
-            try {
+            try
+            {
                 client.host = args[0];
                 client.port = Integer.parseInt(args[1]);
-            } catch (NumberFormatException x) {
+            }
+            catch (NumberFormatException x)
+            {
                 usage();
                 System.err.println("Invalid port: " + args[1]);
                 System.exit(1);
             }
         }
 
-        System.out.println("Java Settlers Client " + Version.version() +
-                ", build " + Version.buildnum() + ", " + Version.copyright());
-        System.out.println("Network layer based on code by Cristian Bogdan; local network by Jeremy Monin.");
+        System.out.println("Java Settlers Client " + Version.version()
+                + ", build " + Version.buildnum() + ", " + Version.copyright());
+        System.out
+                .println("Network layer based on code by Cristian Bogdan; local network by Jeremy Monin.");
 
         Frame frame = new Frame("OpenSettlers client " + Version.version());
-        frame.setBackground(new Color(Integer.parseInt("61AF71",16)));
+        frame.setBackground(new Color(Integer.parseInt("61AF71", 16)));
         frame.setForeground(Color.black);
         // Add a listener for the close event
         frame.addWindowListener(client.createWindowAdapter());
-        
+
         client.initVisualElements(); // after the background is set
-        
+
         frame.add(client, BorderLayout.CENTER);
         frame.pack();
         frame.setResizable(false);
         frame.setVisible(true);
 
-        if (! withConnectOrPractice)
+        if (!withConnectOrPractice)
             client.connect();
     }
 
@@ -5108,10 +5523,9 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
         }
 
         /**
-         * User has clicked window Close button.
-         * Check for active games, before exiting.
-         * If we are playing in a game, or running a local server hosting active games,
-         * ask the user to confirm if possible.
+         * User has clicked window Close button. Check for active games, before
+         * exiting. If we are playing in a game, or running a local server
+         * hosting active games, ask the user to confirm if possible.
          */
         public void windowClosing(WindowEvent evt)
         {
@@ -5122,7 +5536,8 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
                 piActive = cli.findAnyActiveGame(false);
 
             if (piActive != null)
-                QuitAllConfirmDialog.createAndShow(piActive.getClient(), piActive);
+                QuitAllConfirmDialog.createAndShow(piActive.getClient(),
+                        piActive);
             else
             {
                 boolean canAskHostingGames = false;
@@ -5139,11 +5554,11 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
                     if ((c != null) && (c instanceof Frame))
                     {
                         canAskHostingGames = true;
-                        QuitAllConfirmDialog.createAndShow(cli, (Frame) c);                        
+                        QuitAllConfirmDialog.createAndShow(cli, (Frame) c);
                     }
                 }
-                
-                if (! canAskHostingGames)
+
+                if (!canAskHostingGames)
                 {
                     // Just quit.
                     cli.putLeaveAll();
@@ -5157,25 +5572,26 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
          */
         public void windowOpened(WindowEvent evt)
         {
-            if (! cli.hasConnectOrPractice)
+            if (!cli.hasConnectOrPractice)
                 cli.nick.requestFocus();
         }
     }
 
     /**
-     * For local practice games, reader thread to get messages from the
-     * local server to be treated and reacted to.
+     * For local practice games, reader thread to get messages from the local
+     * server to be treated and reacted to.
      */
     protected class SOCPlayerLocalStringReader implements Runnable
     {
         LocalStringConnection locl;
 
-        /** 
+        /**
          * Start a new thread and listen to local server.
-         *
-         * @param localConn Active connection to local server
+         * 
+         * @param localConn
+         *            Active connection to local server
          */
-        protected SOCPlayerLocalStringReader (LocalStringConnection localConn)
+        protected SOCPlayerLocalStringReader(LocalStringConnection localConn)
         {
             locl = localConn;
 
@@ -5189,7 +5605,8 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
          */
         public void run()
         {
-            Thread.currentThread().setName("cli-stringread");  // Thread name for debug
+            Thread.currentThread().setName("cli-stringread"); // Thread name for
+                                                              // debug
             try
             {
                 while (locl.isConnected())
@@ -5204,24 +5621,25 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
                 if (locl.isConnected())
                 {
                     ex_L = e;
-                    System.out.println("could not read from string localnet: " + ex_L);
+                    System.out.println("could not read from string localnet: "
+                            + ex_L);
                     destroy();
                 }
             }
         }
     }
 
-
-
     /**
      * TimerTask used soon after client connect, to prevent waiting forever for
-     * {@link GameOptionInfo game options info}
-     * (assume slow connection or server bug).
-     * Set up when sending {@link GameOptionGetInfos GAMEOPTIONGETINFOS}.
+     * {@link GameOptionInfo game options info} (assume slow connection or
+     * server bug). Set up when sending {@link GameOptionGetInfos
+     * GAMEOPTIONGETINFOS}.
      *<P>
-     * When timer fires, assume no more options will be received.
-     * Call {@link PlayerClient#handleGAMEOPTIONINFO(GameOptionInfo, boolean) handleGAMEOPTIONINFO("-",false)}
-     * to trigger end-of-list behavior at client.
+     * When timer fires, assume no more options will be received. Call
+     * {@link PlayerClient#handleGAMEOPTIONINFO(GameOptionInfo, boolean)
+     * handleGAMEOPTIONINFO("-",false)} to trigger end-of-list behavior at
+     * client.
+     * 
      * @since 1.1.07
      */
     private static class GameOptionsTimeoutTask extends TimerTask
@@ -5229,7 +5647,7 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
         public PlayerClient pcli;
         public GameOptionServerSet srvOpts;
 
-        public GameOptionsTimeoutTask (PlayerClient c, GameOptionServerSet opts)
+        public GameOptionsTimeoutTask(PlayerClient c, GameOptionServerSet opts)
         {
             pcli = c;
             srvOpts = opts;
@@ -5240,23 +5658,25 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
          */
         public void run()
         {
-            pcli.gameOptsTask = null;  // Clear reference to this soon-to-expire obj
+            pcli.gameOptsTask = null; // Clear reference to this soon-to-expire
+                                      // obj
             srvOpts.noMoreOptions(false);
-            pcli.handleGAMEOPTIONINFO(new GameOptionInfo(new GameOption("-")), false);
+            pcli.handleGAMEOPTIONINFO(new GameOptionInfo(new GameOption("-")),
+                    false);
         }
 
-    }  // GameOptionsTimeoutTask
-
+    } // GameOptionsTimeoutTask
 
     /**
      * TimerTask used when new game is asked for, to prevent waiting forever for
-     * {@link GameOption game option defaults}.
-     * (in case of slow connection or server bug).
-     * Set up when sending {@link GameOptionGetDefaults GAMEOPTIONGETDEFAULTS}
-     * in {@link PlayerClient#gameWithOptionsBeginSetup(boolean)}.
+     * {@link GameOption game option defaults}. (in case of slow connection or
+     * server bug). Set up when sending {@link GameOptionGetDefaults
+     * GAMEOPTIONGETDEFAULTS} in
+     * {@link PlayerClient#gameWithOptionsBeginSetup(boolean)}.
      *<P>
-     * When timer fires, assume no defaults will be received.
-     * Display the new-game dialog.
+     * When timer fires, assume no defaults will be received. Display the
+     * new-game dialog.
+     * 
      * @since 1.1.07
      */
     private static class GameOptionDefaultsTimeoutTask extends TimerTask
@@ -5265,7 +5685,8 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
         public GameOptionServerSet srvOpts;
         public boolean forPracticeServer;
 
-        public GameOptionDefaultsTimeoutTask (PlayerClient c, GameOptionServerSet opts, boolean forPractice)
+        public GameOptionDefaultsTimeoutTask(PlayerClient c,
+                GameOptionServerSet opts, boolean forPractice)
         {
             pcli = c;
             srvOpts = opts;
@@ -5277,85 +5698,86 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
          */
         public void run()
         {
-            pcli.gameOptsDefsTask = null;  // Clear reference to this soon-to-expire obj
+            pcli.gameOptsDefsTask = null; // Clear reference to this
+                                          // soon-to-expire obj
             srvOpts.noMoreOptions(true);
             if (srvOpts.newGameWaitingForOpts)
                 pcli.gameWithOptionsBeginSetup(forPracticeServer);
         }
 
-    }  // GameOptionDefaultsTimeoutTask
-
+    } // GameOptionDefaultsTimeoutTask
 
     /**
-     * Track the server's valid game option set.
-     * One instance for remote tcp server, one for practice server.
-     * Not doing getters/setters - Synchronize on the object to set/read its fields.
+     * Track the server's valid game option set. One instance for remote tcp
+     * server, one for practice server. Not doing getters/setters - Synchronize
+     * on the object to set/read its fields.
      *<P>
      * Interaction with client-server messages at connect:
      *<OL>
-     *<LI> First, this object is created; <tt>allOptionsReceived</tt> false,
-     *     <tt>newGameWaitingForOpts</tt> false.
-     *     <tt>optionSet</tt> is set at client from {@link GameOption#getAllKnownOptions()}.
-     *<LI> At server connect, ask and receive info about options, if our version and the
-     *     server's version differ.  Once this is done, <tt>allOptionsReceived</tt> == true.
-     *<LI> When user wants to create a new game, <tt>askedDefaultsAlready</tt> is false;
-     *     ask server for its defaults (current option values for any new game).
-     *     Also set <tt>newGameWaitingForOpts</tt> = true.
-     *<LI> Server will respond with its current option values.  This sets
-     *     <tt>defaultsReceived</tt> and updates <tt>optionSet</tt>.
-     *     It's possible that the server's defaults contain option names that are
-     *     unknown at our version.  If so, <tt>allOptionsReceived</tt> is cleared, and we ask the
-     *     server about those specific options.
-     *     Otherwise, clear <tt>newGameWaitingForOpts</tt>.
-     *<LI> If waiting on option info from defaults above, the server replies with option info.
-     *     (They may remain as type {@link GameOption#OTYPE_UNKNOWN}.)
-     *     Once these are all received, set <tt>allOptionsReceived</tt> = true,
-     *     clear <tt>newGameWaitingForOpts</tt>.
-     *<LI> Once  <tt>newGameWaitingForOpts</tt> == false, show the {@link NewGameOptionsFrame}.
+     *<LI>First, this object is created; <tt>allOptionsReceived</tt> false,
+     * <tt>newGameWaitingForOpts</tt> false. <tt>optionSet</tt> is set at client
+     * from {@link GameOption#getAllKnownOptions()}.
+     *<LI>At server connect, ask and receive info about options, if our version
+     * and the server's version differ. Once this is done,
+     * <tt>allOptionsReceived</tt> == true.
+     *<LI>When user wants to create a new game, <tt>askedDefaultsAlready</tt>
+     * is false; ask server for its defaults (current option values for any new
+     * game). Also set <tt>newGameWaitingForOpts</tt> = true.
+     *<LI>Server will respond with its current option values. This sets
+     * <tt>defaultsReceived</tt> and updates <tt>optionSet</tt>. It's possible
+     * that the server's defaults contain option names that are unknown at our
+     * version. If so, <tt>allOptionsReceived</tt> is cleared, and we ask the
+     * server about those specific options. Otherwise, clear
+     * <tt>newGameWaitingForOpts</tt>.
+     *<LI>If waiting on option info from defaults above, the server replies
+     * with option info. (They may remain as type
+     * {@link GameOption#OTYPE_UNKNOWN}.) Once these are all received, set
+     * <tt>allOptionsReceived</tt> = true, clear <tt>newGameWaitingForOpts</tt>.
+     *<LI>Once <tt>newGameWaitingForOpts</tt> == false, show the
+     * {@link NewGameOptionsFrame}.
      *</OL>
-     *
+     * 
      * @since 1.1.07
      */
     public static class GameOptionServerSet
     {
         /**
-         * If true, we know all options on this server,
-         * or the server is too old to support options.
+         * If true, we know all options on this server, or the server is too old
+         * to support options.
          */
-        public boolean   allOptionsReceived = false;
+        public boolean allOptionsReceived = false;
 
         /**
          * If true, we've asked the server about defaults or options because
-         * we're about to create a new game.  When all are received,
-         * we should create and show a NewGameOptionsFrame.
+         * we're about to create a new game. When all are received, we should
+         * create and show a NewGameOptionsFrame.
          */
-        public boolean   newGameWaitingForOpts = false;
+        public boolean newGameWaitingForOpts = false;
 
         /**
-         * If non-null, we're waiting to hear about options because
-         * user has clicked 'show options' on a game.  When all are
-         * received, we should create and show a NewGameOptionsFrame
-         * with that game's options.
+         * If non-null, we're waiting to hear about options because user has
+         * clicked 'show options' on a game. When all are received, we should
+         * create and show a NewGameOptionsFrame with that game's options.
          */
-        public String    gameInfoWaitingForOpts = null;
+        public String gameInfoWaitingForOpts = null;
 
         /**
-         * Options will be null if {@link PlayerClient#sVersion}
-         * is less than {@link NewGameWithOptions#VERSION_FOR_NEWGAMEWITHOPTIONS}.
-         * Otherwise, set from {@link GameOption#getAllKnownOptions()}
-         * and update from server as needed.
+         * Options will be null if {@link PlayerClient#sVersion} is less than
+         * {@link NewGameWithOptions#VERSION_FOR_NEWGAMEWITHOPTIONS}. Otherwise,
+         * set from {@link GameOption#getAllKnownOptions()} and update from
+         * server as needed.
          */
         public Hashtable optionSet = null;
 
         /** Have we asked the server for default values? */
-        public boolean   askedDefaultsAlready = false;
+        public boolean askedDefaultsAlready = false;
 
         /** Has the server told us defaults? */
-        public boolean   defaultsReceived = false;
+        public boolean defaultsReceived = false;
 
         /**
-         * If {@link #askedDefaultsAlready}, the time it was asked,
-         * as returned by {@link System#currentTimeMillis()}.
+         * If {@link #askedDefaultsAlready}, the time it was asked, as returned
+         * by {@link System#currentTimeMillis()}.
          */
         public long askedDefaultsTime;
 
@@ -5365,10 +5787,13 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
         }
 
         /**
-         * The server doesn't have any more options to send (or none at all, from its version).
-         * Set fields as if we've already received the complete set of options, and aren't waiting
-         * for any more.
-         * @param askedDefaults Should we also set the askedDefaultsAlready flag? It not, leave it unchanged.
+         * The server doesn't have any more options to send (or none at all,
+         * from its version). Set fields as if we've already received the
+         * complete set of options, and aren't waiting for any more.
+         * 
+         * @param askedDefaults
+         *            Should we also set the askedDefaultsAlready flag? It not,
+         *            leave it unchanged.
          */
         public void noMoreOptions(boolean askedDefaults)
         {
@@ -5382,33 +5807,42 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
         }
 
         /**
-         * Set of default options has been received from the server, examine them.
-         * Sets allOptionsReceived, defaultsReceived, optionSet.  If we already have non-null optionSet,
-         * merge (update the values) instead of replacing the entire set with servOpts.
-         *
-         * @param servOpts The allowable {@link GameOption} received from the server.
-         *                 Assumes has been parsed already against the locally known opts,
-         *                 so ones that we don't know are {@link GameOption#OTYPE_UNKNOWN}.
-         * @return null if all are known, or a Vector of key names for unknown options.
+         * Set of default options has been received from the server, examine
+         * them. Sets allOptionsReceived, defaultsReceived, optionSet. If we
+         * already have non-null optionSet, merge (update the values) instead of
+         * replacing the entire set with servOpts.
+         * 
+         * @param servOpts
+         *            The allowable {@link GameOption} received from the server.
+         *            Assumes has been parsed already against the locally known
+         *            opts, so ones that we don't know are
+         *            {@link GameOption#OTYPE_UNKNOWN}.
+         * @return null if all are known, or a Vector of key names for unknown
+         *         options.
          */
         public Vector receiveDefaults(Hashtable servOpts)
         {
-            // Although javadoc says "update the values", replacing the option objects does the
-            // same thing; we already have parsed servOpts for all obj fields, including current value.
-            // Option objects are always accessed by key name, so replacement is OK.
+            // Although javadoc says "update the values", replacing the option
+            // objects does the
+            // same thing; we already have parsed servOpts for all obj fields,
+            // including current value.
+            // Option objects are always accessed by key name, so replacement is
+            // OK.
 
             if ((optionSet == null) || optionSet.isEmpty())
             {
                 optionSet = servOpts;
-            } else {
-                for (Enumeration e = servOpts.keys(); e.hasMoreElements(); )
+            }
+            else
+            {
+                for (Enumeration e = servOpts.keys(); e.hasMoreElements();)
                 {
                     final String oKey = (String) e.nextElement();
                     GameOption op = (GameOption) servOpts.get(oKey);
                     GameOption oldcopy = (GameOption) optionSet.get(oKey);
                     if (oldcopy != null)
                         optionSet.remove(oKey);
-                    optionSet.put(oKey, op);  // Even OTYPE_UNKNOWN are added
+                    optionSet.put(oKey, op); // Even OTYPE_UNKNOWN are added
                 }
             }
             Vector unknowns = GameOption.findUnknowns(servOpts);
@@ -5418,11 +5852,13 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
         }
 
         /**
-         * After calling receiveDefaults, call this as each GAMEOPTIONGETINFO is received.
-         * Updates allOptionsReceived.
-         *
-         * @param gi  Message from server with info on one parameter
-         * @return true if all are known, false if more are unknown after this one
+         * After calling receiveDefaults, call this as each GAMEOPTIONGETINFO is
+         * received. Updates allOptionsReceived.
+         * 
+         * @param gi
+         *            Message from server with info on one parameter
+         * @return true if all are known, false if more are unknown after this
+         *         one
          */
         public boolean receiveInfo(GameOptionInfo gi)
         {
@@ -5430,13 +5866,17 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
             GameOption oinfo = gi.getOptionInfo();
             GameOption oldcopy = (GameOption) optionSet.get(oKey);
 
-            if ((oinfo.optKey.equals("-")) && (oinfo.optType == GameOption.OTYPE_UNKNOWN))
+            if ((oinfo.optKey.equals("-"))
+                    && (oinfo.optType == GameOption.OTYPE_UNKNOWN))
             {
                 // end-of-list marker: no more options from server.
-                // That is end of srv's response to cli sending GAMEOPTIONGETINFOS("-").
+                // That is end of srv's response to cli sending
+                // GAMEOPTIONGETINFOS("-").
                 noMoreOptions(false);
                 return true;
-            } else {
+            }
+            else
+            {
                 // remove old, replace with new from server (if any)
                 GameOption.addKnownOption(oinfo);
                 if (oldcopy != null)
@@ -5447,6 +5887,6 @@ public class PlayerClient extends Applet implements Runnable, ActionListener, Te
             }
         }
 
-    }  // class GameOptionServerSet
+    } // class GameOptionServerSet
 
-}  // public class PlayerClient
+} // public class PlayerClient

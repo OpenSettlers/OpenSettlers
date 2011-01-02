@@ -41,11 +41,14 @@
  */
 package org.jgrapht.traverse;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Queue;
 
-import org.jgrapht.*;
-import org.jgrapht.util.*;
-
+import org.jgrapht.DirectedGraph;
+import org.jgrapht.util.ModifiableInteger;
 
 /**
  * Implements topological order traversal for a directed acyclic graph. A
@@ -54,33 +57,38 @@ import org.jgrapht.util.*;
  * in <tt>p</tt> (Skiena 1990, p. 208). See also <a
  * href="http://mathworld.wolfram.com/TopologicalSort.html">
  * http://mathworld.wolfram.com/TopologicalSort.html</a>.
- *
- * <p>See "Algorithms in Java, Third Edition, Part 5: Graph Algorithms" by
- * Robert Sedgewick and "Data Structures and Algorithms with Object-Oriented
- * Design Patterns in Java" by Bruno R. Preiss for implementation alternatives.
- * The latter can be found online at <a
- * href="http://www.brpreiss.com/books/opus5/">
- * http://www.brpreiss.com/books/opus5/</a></p>
- *
- * <p>For this iterator to work correctly the graph must be acyclic, and must
- * not be modified during iteration. Currently there are no means to ensure
- * that, nor to fail-fast; the results with cyclic input (including self-loops)
- * or concurrent modifications are undefined. To precheck a graph for cycles,
- * consider using {@link org.jgrapht.alg.CycleDetector} or {@link
- * org.jgrapht.alg.StrongConnectivityInspector}.</p>
- *
+ * 
+ * <p>
+ * See "Algorithms in Java, Third Edition, Part 5: Graph Algorithms" by Robert
+ * Sedgewick and "Data Structures and Algorithms with Object-Oriented Design
+ * Patterns in Java" by Bruno R. Preiss for implementation alternatives. The
+ * latter can be found online at <a href="http://www.brpreiss.com/books/opus5/">
+ * http://www.brpreiss.com/books/opus5/</a>
+ * </p>
+ * 
+ * <p>
+ * For this iterator to work correctly the graph must be acyclic, and must not
+ * be modified during iteration. Currently there are no means to ensure that,
+ * nor to fail-fast; the results with cyclic input (including self-loops) or
+ * concurrent modifications are undefined. To precheck a graph for cycles,
+ * consider using {@link org.jgrapht.alg.CycleDetector} or
+ * {@link org.jgrapht.alg.StrongConnectivityInspector}.
+ * </p>
+ * 
  * @author Marden Neubert
  * @since Dec 18, 2004
  */
-public class TopologicalOrderIterator<V, E>
-    extends CrossComponentIterator<V, E, Object>
+public class TopologicalOrderIterator<V, E> extends
+        CrossComponentIterator<V, E, Object>
 {
-    //~ Instance fields --------------------------------------------------------
+    // ~ Instance fields
+    // --------------------------------------------------------
 
     private Queue<V> queue;
     private Map<V, ModifiableInteger> inDegreeMap;
 
-    //~ Constructors -----------------------------------------------------------
+    // ~ Constructors
+    // -----------------------------------------------------------
 
     /**
      * Creates a new topological order iterator over the directed graph
@@ -89,8 +97,9 @@ public class TopologicalOrderIterator<V, E>
      * definition of source at <a
      * href="http://mathworld.wolfram.com/Source.html">
      * http://mathworld.wolfram.com/Source.html</a>.
-     *
-     * @param dg the directed graph to be iterated.
+     * 
+     * @param dg
+     *            the directed graph to be iterated.
      */
     public TopologicalOrderIterator(DirectedGraph<V, E> dg)
     {
@@ -104,11 +113,13 @@ public class TopologicalOrderIterator<V, E>
      * at one of the graph's <i>sources</i>. See the definition of source at <a
      * href="http://mathworld.wolfram.com/Source.html">
      * http://mathworld.wolfram.com/Source.html</a>.
-     *
-     * @param dg the directed graph to be iterated.
-     * @param queue queue to use for tie-break in case of partial order (e.g. a
-     * PriorityQueue can be used to break ties according to vertex priority);
-     * must be initially empty
+     * 
+     * @param dg
+     *            the directed graph to be iterated.
+     * @param queue
+     *            queue to use for tie-break in case of partial order (e.g. a
+     *            PriorityQueue can be used to break ties according to vertex
+     *            priority); must be initially empty
      */
     public TopologicalOrderIterator(DirectedGraph<V, E> dg, Queue<V> queue)
     {
@@ -117,10 +128,8 @@ public class TopologicalOrderIterator<V, E>
 
     // NOTE: This is a hack to deal with the fact that CrossComponentIterator
     // needs to know the start vertex in its constructor
-    private TopologicalOrderIterator(
-        DirectedGraph<V, E> dg,
-        Queue<V> queue,
-        Map<V, ModifiableInteger> inDegreeMap)
+    private TopologicalOrderIterator(DirectedGraph<V, E> dg, Queue<V> queue,
+            Map<V, ModifiableInteger> inDegreeMap)
     {
         this(dg, initialize(dg, queue, inDegreeMap));
         this.queue = queue;
@@ -137,15 +146,16 @@ public class TopologicalOrderIterator<V, E>
         super(dg, start);
     }
 
-    //~ Methods ----------------------------------------------------------------
+    // ~ Methods
+    // ----------------------------------------------------------------
 
     /**
      * @see CrossComponentIterator#isConnectedComponentExhausted()
      */
     protected boolean isConnectedComponentExhausted()
     {
-        // FIXME jvs 25-Apr-2005: This isn't correct for a graph with more than
-        // one component.  We will actually exhaust a connected component
+        // FIX-ME jvs 25-Apr-2005: This isn't correct for a graph with more than
+        // one component. We will actually exhaust a connected component
         // before the queue is empty, because initialize adds roots from all
         // components to the queue.
         return queue.isEmpty();
@@ -178,17 +188,20 @@ public class TopologicalOrderIterator<V, E>
 
     /**
      * Decrements the in-degree of a vertex.
-     *
-     * @param vertex the vertex whose in-degree will be decremented.
+     * 
+     * @param vertex
+     *            the vertex whose in-degree will be decremented.
      */
     private void decrementInDegree(V vertex)
     {
         ModifiableInteger inDegree = inDegreeMap.get(vertex);
 
-        if (inDegree.value > 0) {
+        if (inDegree.value > 0)
+        {
             inDegree.value--;
 
-            if (inDegree.value == 0) {
+            if (inDegree.value == 0)
+            {
                 queue.offer(vertex);
             }
         }
@@ -198,45 +211,51 @@ public class TopologicalOrderIterator<V, E>
      * Initializes the internal traversal object structure. Sets up the internal
      * queue with the directed graph vertices and creates the control structure
      * for the in-degrees.
-     *
-     * @param dg the directed graph to be iterated.
-     * @param queue initializer for queue
-     * @param inDegreeMap initializer for inDegreeMap
-     *
+     * 
+     * @param dg
+     *            the directed graph to be iterated.
+     * @param queue
+     *            initializer for queue
+     * @param inDegreeMap
+     *            initializer for inDegreeMap
+     * 
      * @return start vertex
      */
-    private static <V, E> V initialize(
-        DirectedGraph<V, E> dg,
-        Queue<V> queue,
-        Map<V, ModifiableInteger> inDegreeMap)
+    private static <V, E> V initialize(DirectedGraph<V, E> dg, Queue<V> queue,
+            Map<V, ModifiableInteger> inDegreeMap)
     {
-        for (Iterator<V> i = dg.vertexSet().iterator(); i.hasNext();) {
+        for (Iterator<V> i = dg.vertexSet().iterator(); i.hasNext();)
+        {
             V vertex = i.next();
 
             int inDegree = dg.inDegreeOf(vertex);
             inDegreeMap.put(vertex, new ModifiableInteger(inDegree));
 
-            if (inDegree == 0) {
+            if (inDegree == 0)
+            {
                 queue.offer(vertex);
             }
         }
 
-        if (queue.isEmpty()) {
+        if (queue.isEmpty())
+        {
             return null;
-        } else {
+        }
+        else
+        {
             return queue.peek();
         }
     }
 
-    //~ Inner Classes ----------------------------------------------------------
+    // ~ Inner Classes
+    // ----------------------------------------------------------
 
-    // NOTE jvs 22-Dec-2006:  For JDK1.4-compatibility, we can't assume
+    // NOTE jvs 22-Dec-2006: For JDK1.4-compatibility, we can't assume
     // that LinkedList implements Queue, since that wasn't introduced
-    // until JDK1.5, so use an adapter here.  Move this to
+    // until JDK1.5, so use an adapter here. Move this to
     // top-level in org.jgrapht.util if anyone else needs it.
-    private static class LinkedListQueue<T>
-        extends LinkedList<T>
-        implements Queue<T>
+    private static class LinkedListQueue<T> extends LinkedList<T> implements
+            Queue<T>
     {
         private static final long serialVersionUID = 4217659843476891334L;
 
@@ -252,7 +271,8 @@ public class TopologicalOrderIterator<V, E>
 
         public T peek()
         {
-            if (isEmpty()) {
+            if (isEmpty())
+            {
                 return null;
             }
             return getFirst();
@@ -260,7 +280,8 @@ public class TopologicalOrderIterator<V, E>
 
         public T poll()
         {
-            if (isEmpty()) {
+            if (isEmpty())
+            {
                 return null;
             }
             return removeFirst();

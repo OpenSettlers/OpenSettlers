@@ -1,8 +1,7 @@
 package soc.common.game.dices;
 
-import com.google.gwt.user.client.Random;
-
 import soc.common.annotations.CitiesKnights;
+import soc.common.server.random.Random;
 
 @CitiesKnights
 public class CitiesKnightsDice implements Dice
@@ -12,6 +11,6 @@ public class CitiesKnightsDice implements Dice
     public void roll(Random random)
     {
         // TODO Auto-generated method stub
-        
+
     }
 }

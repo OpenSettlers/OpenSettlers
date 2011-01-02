@@ -1,46 +1,40 @@
 package soc.gwtClient.game.widgets;
 
-import soc.common.board.Board;
-import soc.common.client.behaviour.game.IGameBehaviour;
-import soc.common.client.visuals.board.IBoardVisual;
-import soc.common.client.visuals.game.IGameBoardVisual;
-import soc.common.client.visuals.game.IHexPointsVisual;
-import soc.common.client.visuals.game.IHexSidesVisual;
-import soc.gwtClient.visuals.svg.SvgBoardVisual;
+import soc.common.client.behaviour.game.GameBehaviour;
+import soc.common.client.visuals.game.AbstractGameBoardVisual;
+import soc.common.client.visuals.game.GameBoardVisual;
+import soc.common.client.visuals.game.VisualFactory;
+import soc.common.game.Game;
+import soc.gwtClient.visuals.svg.SvgVisualFactory;
 
-public class SvgGameBoardVisual extends SvgBoardVisual implements IGameBoardVisual
+import com.google.gwt.user.client.ui.Widget;
+
+public class SvgGameBoardVisual extends AbstractGameBoardVisual implements
+        GameBoardVisual
 {
 
-    public SvgGameBoardVisual(int widthInPixels, int heightInPixels, Board b)
+    public SvgGameBoardVisual(int widthInPixels, int heightInPixels, Game game)
     {
-        super(widthInPixels, heightInPixels, b);
+        super(game);
     }
 
     @Override
-    public IBoardVisual getBoardVisual()
-    {
-        return this;
-    }
-
-    @Override
-    public IHexPointsVisual getHexPointsVisual()
+    public void setBehaviour(GameBehaviour gameBehaviour)
     {
         // TODO Auto-generated method stub
-        return null;
+
     }
 
     @Override
-    public IHexSidesVisual getHexSidesVisual()
+    public VisualFactory createVisualFactory()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return new SvgVisualFactory();
     }
 
     @Override
-    public void setBehaviour(IGameBehaviour gameBehaviour)
+    public Widget asWidget()
     {
-        // TODO Auto-generated method stub
-        
+        return boardVisual.asWidget();
     }
 
 }

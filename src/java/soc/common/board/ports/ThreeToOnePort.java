@@ -5,6 +5,7 @@ import soc.common.board.resources.ResourceList;
 
 public class ThreeToOnePort extends AbstractPort
 {
+    private static final long serialVersionUID = -2264455291636281867L;
 
     /*
      * Performs a 3:1 trade on a list of resources
@@ -42,15 +43,13 @@ public class ThreeToOnePort extends AbstractPort
     }
 
     /*
-     * TODO: BUG: diamonds can be traded too
-     * 
      * @see
      * soc.common.board.ports.Port#canTrade(soc.common.board.resources.Resource)
      */
     @Override
     public boolean canTrade(Resource resource)
     {
-        return true;
+        return resource.isTradeable();
     }
 
     @Override

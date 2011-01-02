@@ -7,13 +7,13 @@ import soc.common.board.pieces.PlayerPiece;
 import soc.common.board.pieces.Road;
 import soc.common.board.pieces.Town;
 import soc.common.game.Game;
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.AbstractStockWidget;
 import soc.gwtClient.game.abstractWidgets.IStockItemWidget;
 
 public class StockBitmapWidget extends AbstractStockWidget
 {
-    public StockBitmapWidget(Game game, Player player)
+    public StockBitmapWidget(Game game, GamePlayer player)
     {
         super(game, player);
     }

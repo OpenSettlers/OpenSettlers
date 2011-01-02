@@ -2,12 +2,12 @@ package soc.common.client.behaviour;
 
 import soc.common.board.hexes.SeaHex;
 import soc.common.board.ports.Port;
-import soc.common.client.visuals.IPieceVisual;
-import soc.common.client.visuals.board.IBoardVisual;
+import soc.common.client.visuals.PieceVisual;
+import soc.common.client.visuals.board.BoardVisual;
 import soc.common.client.visuals.board.HexVisual;
-import soc.common.client.visuals.board.IPortVisual;
+import soc.common.client.visuals.board.PortVisual;
 
-public class SetPortBehaviour implements IInteractionBehaviour
+public class SetPortBehaviour implements InteractionBehaviour
 {
     private Port port;
     private HexVisual currentHexVisual;
@@ -34,11 +34,11 @@ public class SetPortBehaviour implements IInteractionBehaviour
     }
 
     @Override
-    public void clicked(IPieceVisual pieceVisual, IBoardVisual board)
+    public void clicked(PieceVisual pieceVisual, BoardVisual board)
     {
-        if (pieceVisual instanceof IPortVisual)
+        if (pieceVisual instanceof PortVisual)
         {
-            IPortVisual portVisual = (IPortVisual) pieceVisual;
+            PortVisual portVisual = (PortVisual) pieceVisual;
             SeaHex seaHex = (SeaHex) currentHexVisual.getHex();
             /*
              * TODO: fix Port p = port.copy()
@@ -51,7 +51,7 @@ public class SetPortBehaviour implements IInteractionBehaviour
     }
 
     @Override
-    public void mouseEnter(IPieceVisual pieceVisual, IBoardVisual board)
+    public void mouseEnter(PieceVisual pieceVisual, BoardVisual board)
     {
         if (pieceVisual instanceof HexVisual)
         {
@@ -64,15 +64,15 @@ public class SetPortBehaviour implements IInteractionBehaviour
                 currentHexVisual = hexVisual;
             }
         }
-        if (pieceVisual instanceof IPortVisual)
+        if (pieceVisual instanceof PortVisual)
         {
-            IPortVisual portVisual = (IPortVisual) pieceVisual;
+            PortVisual portVisual = (PortVisual) pieceVisual;
             portVisual.setSelected(true);
         }
     }
 
     @Override
-    public void mouseOut(IPieceVisual pieceVisual, IBoardVisual board)
+    public void mouseOut(PieceVisual pieceVisual, BoardVisual board)
     {
         if (pieceVisual instanceof HexVisual)
         {
@@ -84,9 +84,9 @@ public class SetPortBehaviour implements IInteractionBehaviour
                 currentHexVisual = null;
             }
         }
-        if (pieceVisual instanceof IPortVisual)
+        if (pieceVisual instanceof PortVisual)
         {
-            IPortVisual portVisual = (IPortVisual) pieceVisual;
+            PortVisual portVisual = (PortVisual) pieceVisual;
             portVisual.setSelected(false);
         }
     }

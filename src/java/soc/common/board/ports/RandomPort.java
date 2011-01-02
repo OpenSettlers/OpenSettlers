@@ -5,6 +5,7 @@ package soc.common.board.ports;
  */
 public class RandomPort extends AbstractPort
 {
+    private static final long serialVersionUID = 5964428508404257705L;
 
     @Override
     public Port copy()
@@ -17,5 +18,4 @@ public class RandomPort extends AbstractPort
     {
         return "Gray";
     }
-
 }

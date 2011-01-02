@@ -1,6 +1,6 @@
 package soc.gwtClient.editor;
 
-import soc.common.client.behaviour.IInteractionBehaviour;
+import soc.common.client.behaviour.InteractionBehaviour;
 
 import com.google.gwt.event.shared.GwtEvent;
 
@@ -8,16 +8,16 @@ import com.google.gwt.event.shared.GwtEvent;
 public class BehaviourChanged extends GwtEvent<IBehaviourChangedHandler>
 {
     public static Type<IBehaviourChangedHandler> TYPE = new Type<IBehaviourChangedHandler>();
-    IInteractionBehaviour behaviour;
+    InteractionBehaviour behaviour;
     
-    public BehaviourChanged(IInteractionBehaviour behaviour)
+    public BehaviourChanged(InteractionBehaviour behaviour)
     {
         this.behaviour=behaviour;
     }
     /**
      * @return the behaviour
      */
-    public IInteractionBehaviour getBehaviour()
+    public InteractionBehaviour getBehaviour()
     {
         return behaviour;
     }

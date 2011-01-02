@@ -1,8 +1,8 @@
 package soc.common.server;
 
-import soc.common.actions.lobby.AbstractLobbyAction;
+import soc.common.actions.lobby.LobbyAction;
 
 public interface ILobbyServerCallback
 {
-    public void receive(AbstractLobbyAction action);
+    public void receive(LobbyAction action);
 }

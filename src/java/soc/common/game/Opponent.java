@@ -3,7 +3,7 @@ package soc.common.game;
 import soc.common.board.resources.ResourceList;
 import soc.common.game.developmentCards.DevelopmentCard;
 
-public class Opponent extends Player
+public class Opponent extends GamePlayerImpl
 {
     private int developmentCardsCount = 0;
     private int resourcesCount = 0;

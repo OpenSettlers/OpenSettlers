@@ -2,13 +2,14 @@ package soc.common.actions.gameAction.turnActions.standard;
 
 import soc.common.actions.gameAction.turnActions.AbstractTurnAction;
 import soc.common.board.HexSide;
-import soc.common.board.pieces.PlayerPiece;
+import soc.common.board.pieces.AbstractPlayerPiece;
 import soc.common.board.pieces.Road;
 import soc.common.game.Game;
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.InitialPlacementGamePhase;
 import soc.common.game.gamePhase.PlayTurnsGamePhase;
+import soc.common.game.gamePhase.turnPhase.BuildingTurnPhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
 import soc.common.internationalization.I18n;
 
@@ -63,7 +64,7 @@ public class BuildRoad extends AbstractTurnAction
             return false;
         }
 
-        Player player = game.getPlayerByID(sender);
+        GamePlayer player = game.getPlayerByID(sender);
 
         if (!(game.getCurrentPhase() instanceof InitialPlacementGamePhase))
         {
@@ -95,7 +96,7 @@ public class BuildRoad extends AbstractTurnAction
         player = game.getPlayerByID(sender);
         boolean usedRoadbuildingToken = false;
 
-        PlayerPiece road = player.getStock().remove(sideLocation);
+        AbstractPlayerPiece road = player.getStock().remove(sideLocation);
 
         // when in InGame phase, player should pay for road somehow
         if (game.getCurrentPhase() instanceof PlayTurnsGamePhase)
@@ -138,21 +139,20 @@ public class BuildRoad extends AbstractTurnAction
     @Override
     public boolean isAllowed(TurnPhase turnPhase)
     {
-        // TODO Auto-generated method stub
-        return false;
+        return turnPhase instanceof BuildingTurnPhase;
     }
 
     @Override
     public boolean isAllowed(GamePhase gamePhase)
     {
-        // TODO Auto-generated method stub
-        return false;
+        return gamePhase instanceof PlayTurnsGamePhase
+                || gamePhase instanceof InitialPlacementGamePhase;
     }
 
     @Override
     public String getToDoMessage()
     {
-        return I18n.get().actions().builtRoadToDo(player.getName());
+        return I18n.get().actions().builtRoadToDo(player.getUser().getName());
     }
 
 }

@@ -5,6 +5,8 @@ import soc.common.board.resources.ResourceList;
 
 public class FourToOnePort extends AbstractPort
 {
+    private static final long serialVersionUID = -9000999299490338479L;
+
     /*
      * Performs a 4:1 trade on a list of resources
      * 

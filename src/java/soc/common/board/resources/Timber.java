@@ -3,7 +3,9 @@ package soc.common.board.resources;
 public class Timber extends AbstractResource
 {
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.board.resources.Resource#getColor()
      */
     @Override
@@ -12,12 +14,9 @@ public class Timber extends AbstractResource
         return "DarkGreen";
     }
 
-    @Override
-    public AbstractResource Copy()
-    {
-        return new Timber();
-    }
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.board.resources.AbstractResource#isTradeable()
      */
     @Override

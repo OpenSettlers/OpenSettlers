@@ -17,8 +17,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>. **/
 package soc.client;
 
-import soc.disableDebug.D;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InterruptedIOException;
+import java.net.Socket;
+import java.util.Hashtable;
 
+import soc.disableDebug.D;
 import soc.game.Board;
 import soc.game.City;
 import soc.game.DevCardSet;
@@ -30,7 +36,6 @@ import soc.game.ResourceSet;
 import soc.game.Road;
 import soc.game.Settlement;
 import soc.game.TradeOffer;
-
 import soc.message.AcceptOffer;
 import soc.message.BCastTextMsg;
 import soc.message.BankTrade;
@@ -85,6 +90,7 @@ import soc.message.RejectOffer;
 import soc.message.ResetBoardAuth;
 import soc.message.ResourceCount;
 import soc.message.RollDice;
+import soc.message.SOCVersion;
 import soc.message.SetPlayedDevCard;
 import soc.message.SetSeatLock;
 import soc.message.SetTurn;
@@ -93,29 +99,17 @@ import soc.message.StartGame;
 import soc.message.StatusMessage;
 import soc.message.TextMsg;
 import soc.message.Turn;
-import soc.message.SOCVersion;
 import soc.robot.RobotClient;
 import soc.server.genericServer.LocalStringConnection;
 import soc.util.Version;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InterruptedIOException;
-
-import java.net.Socket;
-
-import java.util.Hashtable;
-
-
 /**
- * GUI-less standalone client for connecting to the SOCServer.
- * If you want another connection port, you have to specify it as the "port"
- * argument in the html source. If you run this as a stand-alone, you have to
- * specify the port.
+ * GUI-less standalone client for connecting to the SOCServer. If you want
+ * another connection port, you have to specify it as the "port" argument in the
+ * html source. If you run this as a stand-alone, you have to specify the port.
  *<P>
  * The {@link soc.robot.RobotClient} is based on this client.
- *
+ * 
  * @author Robert S Thomas
  */
 public class DisplaylessPlayerClient implements Runnable
@@ -126,18 +120,18 @@ public class DisplaylessPlayerClient implements Runnable
 
     protected String host;
     protected int port;
-    protected String strSocketName;  // For robots in local practice games
+    protected String strSocketName; // For robots in local practice games
     protected Socket s;
     protected DataInputStream in;
     protected DataOutputStream out;
-    protected LocalStringConnection sLocal;  // if strSocketName not null
+    protected LocalStringConnection sLocal; // if strSocketName not null
     /** Server version number, sent soon after connect, or -1 if unknown */
     protected int sVersion, sLocalVersion;
     protected Thread reader = null;
     protected Exception ex = null;
     protected boolean connected = false;
 
-    /** 
+    /**
      * were we rejected from server? (full or robot name taken)
      */
     protected boolean rejected = false;
@@ -168,8 +162,9 @@ public class DisplaylessPlayerClient implements Runnable
     protected Hashtable games = new Hashtable();
 
     /**
-     * Create a DisplaylessPlayerClient, which would connect to localhost port 8889.
-     * Does not actually connect; subclass must connect, such as {@link soc.robot.RobotClient#init()}
+     * Create a DisplaylessPlayerClient, which would connect to localhost port
+     * 8889. Does not actually connect; subclass must connect, such as
+     * {@link soc.robot.RobotClient#init()}
      *<P>
      * <b>Note:</b> The default OpenSettlers server port is 8880.
      */
@@ -179,35 +174,44 @@ public class DisplaylessPlayerClient implements Runnable
         port = 8889;
         strSocketName = null;
         gotPassword = false;
-        sVersion = -1;  sLocalVersion = -1;
+        sVersion = -1;
+        sLocalVersion = -1;
     }
 
     /**
      * Constructor for connecting to the specified host, on the specified port.
-     * Does not actually connect; subclass must connect, such as {@link soc.robot.RobotClient#init()}
-     *
-     * @param h  host
-     * @param p  port
-     * @param visual  true if this client is visual
+     * Does not actually connect; subclass must connect, such as
+     * {@link soc.robot.RobotClient#init()}
+     * 
+     * @param h
+     *            host
+     * @param p
+     *            port
+     * @param visual
+     *            true if this client is visual
      */
     public DisplaylessPlayerClient(String h, int p, boolean visual)
     {
         host = h;
         port = p;
         strSocketName = null;
-        sVersion = -1;  sLocalVersion = -1;
+        sVersion = -1;
+        sLocalVersion = -1;
     }
 
     /**
-     * Constructor for connecting to a local game (practice) on a local stringport.
-     * Does not actually connect; subclass must connect, such as {@link soc.robot.RobotClient#init()}
-     *
-     * @param s    the stringport that the server listens on
-     * @param visual  true if this client is visual
+     * Constructor for connecting to a local game (practice) on a local
+     * stringport. Does not actually connect; subclass must connect, such as
+     * {@link soc.robot.RobotClient#init()}
+     * 
+     * @param s
+     *            the stringport that the server listens on
+     * @param visual
+     *            true if this client is visual
      */
     public DisplaylessPlayerClient(String s, boolean visual)
     {
-        this();         
+        this();
         strSocketName = s;
     }
 
@@ -229,8 +233,10 @@ public class DisplaylessPlayerClient implements Runnable
         {
             Thread.currentThread().setName("robot-netread-" + nickname);
         }
-        catch (Throwable th) {}
-        
+        catch (Throwable th)
+        {
+        }
+
         try
         {
             while (connected)
@@ -240,8 +246,9 @@ public class DisplaylessPlayerClient implements Runnable
                     s = in.readUTF();
                 else
                     s = sLocal.readNext();
-                System.out.println("run method in Displayless with string :: "+s);
-                
+                System.out.println("run method in Displayless with string :: "
+                        + s);
+
                 treat((Message) Message.toMsg(s));
             }
         }
@@ -257,15 +264,14 @@ public class DisplaylessPlayerClient implements Runnable
             }
 
             ex = e;
-            if (! ((e instanceof java.io.EOFException)
-                  && (this instanceof RobotClient)))
+            if (!((e instanceof java.io.EOFException) && (this instanceof RobotClient)))
             {
                 System.err.println("could not read from the net: " + ex);
                 /**
-                 * Robots are periodically disconnected from server;
-                 * they will try to reconnect.  Any error message
-                 * from that is printed in {@link soc.robot.RobotClient#destroy()}.
-                 * So, print nothing here if that's the situation.
+                 * Robots are periodically disconnected from server; they will
+                 * try to reconnect. Any error message from that is printed in
+                 * {@link soc.robot.RobotClient#destroy()}. So, print nothing
+                 * here if that's the situation.
                  */
             }
             destroy();
@@ -282,16 +288,18 @@ public class DisplaylessPlayerClient implements Runnable
 
     /**
      * write a message to the net
-     *
-     * @param s  the message
+     * 
+     * @param s
+     *            the message
      * @return true if the message was sent, false if not
      */
     public synchronized boolean put(String s)
     {
         lastMessage = s;
-        
-        System.out.println("put() in SocDisplaylessplayerclient :: message :: "+lastMessage);
-        
+
+        System.out.println("put() in SocDisplaylessplayerclient :: message :: "
+                + lastMessage);
+
         D.ebugPrintln("OUT - " + s);
 
         if ((ex != null) || !connected)
@@ -323,15 +331,16 @@ public class DisplaylessPlayerClient implements Runnable
     }
 
     /**
-     * Treat the incoming messages.
-     * Messages of unknown type are ignored (mes will be null from {@link Message#toMsg(String)}).
-     *
-     * @param mes    the message
+     * Treat the incoming messages. Messages of unknown type are ignored (mes
+     * will be null from {@link Message#toMsg(String)}).
+     * 
+     * @param mes
+     *            the message
      */
     public void treat(Message mes)
     {
         if (mes == null)
-            return;  // Msg parsing error
+            return; // Msg parsing error
 
         D.ebugPrintln(mes.toString());
 
@@ -435,7 +444,7 @@ public class DisplaylessPlayerClient implements Runnable
              */
             case Message.LEAVEGAME:
                 handleLEAVEGAME((LeaveGame) mes);
-		System.out.println("someone left the game");
+                System.out.println("someone left the game");
                 break;
 
             /**
@@ -450,7 +459,7 @@ public class DisplaylessPlayerClient implements Runnable
              */
             case Message.DELETEGAME:
                 handleDELETEGAME((DeleteGame) mes);
-		System.out.println("game destroyed");
+                System.out.println("game destroyed");
                 break;
 
             /**
@@ -566,8 +575,8 @@ public class DisplaylessPlayerClient implements Runnable
                 break;
 
             /**
-             * the current player has cancelled an initial settlement,
-             * or has tried to place a piece illegally. 
+             * the current player has cancelled an initial settlement, or has
+             * tried to place a piece illegally.
              */
             case Message.CANCELBUILDREQUEST:
                 handleCANCELBUILDREQUEST((CancelBuildRequest) mes);
@@ -637,8 +646,8 @@ public class DisplaylessPlayerClient implements Runnable
                 break;
 
             /**
-             * set the flag that tells if a player has played a
-             * development card this turn
+             * set the flag that tells if a player has played a development card
+             * this turn
              */
             case Message.SETPLAYEDDEVCARD:
                 handleSETPLAYEDDEVCARD((SetPlayedDevCard) mes);
@@ -687,7 +696,8 @@ public class DisplaylessPlayerClient implements Runnable
                 break;
 
             /**
-             * handle board reset (new game with same players, same game name, new layout).
+             * handle board reset (new game with same players, same game name,
+             * new layout).
              */
             case Message.RESETBOARDAUTH:
                 handleRESETBOARDAUTH((ResetBoardAuth) mes);
@@ -697,20 +707,27 @@ public class DisplaylessPlayerClient implements Runnable
         }
         catch (Exception e)
         {
-            System.out.println("DisplaylessPlayerClient treat ERROR - " + e.getMessage());
+            System.out.println("DisplaylessPlayerClient treat ERROR - "
+                    + e.getMessage());
             e.printStackTrace();
         }
     }
 
     /**
      * handle the "status message" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
-    protected void handleSTATUSMESSAGE(StatusMessage mes) {}
+    protected void handleSTATUSMESSAGE(StatusMessage mes)
+    {
+    }
 
     /**
      * handle the "join authorization" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleJOINAUTH(JoinAuth mes)
     {
@@ -718,18 +735,19 @@ public class DisplaylessPlayerClient implements Runnable
     }
 
     /**
-     * Handle the "version" message, server's version report.
-     * Reply with client's version.
+     * Handle the "version" message, server's version report. Reply with
+     * client's version.
      *<P>
-     * Because DisplaylessPlayerClient is used only for the
-     * robot, and the robot should always be the same version as
-     * the server, don't ask server for info about
-     * {@link soc.game.GameOption game option} deltas between
-     * the two versions.
-     *
-     * @param isLocal Is the server local, or remote?  Client can be connected
-     *                only to local, or remote.
-     * @param mes  the messsage
+     * Because DisplaylessPlayerClient is used only for the robot, and the robot
+     * should always be the same version as the server, don't ask server for
+     * info about {@link soc.game.GameOption game option} deltas between the two
+     * versions.
+     * 
+     * @param isLocal
+     *            Is the server local, or remote? Client can be connected only
+     *            to local, or remote.
+     * @param mes
+     *            the messsage
      */
     private void handleVERSION(boolean isLocal, SOCVersion mes)
     {
@@ -740,71 +758,111 @@ public class DisplaylessPlayerClient implements Runnable
         else
             sVersion = vers;
 
-        // TODO check for minimum,maximum
+        // TO-DO check for minimum,maximum
 
         // Reply with our own version.
-        put(SOCVersion.toCmd(Version.versionNumber(), Version.version(), Version.buildnum()));
+        put(SOCVersion.toCmd(Version.versionNumber(), Version.version(),
+                Version.buildnum()));
 
-        // Don't check for game options different at version, unlike PlayerClient.handleVERSION.
+        // Don't check for game options different at version, unlike
+        // PlayerClient.handleVERSION.
     }
 
     /**
      * handle the "join channel" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
-    protected void handleJOIN(Join mes) {}
+    protected void handleJOIN(Join mes)
+    {
+    }
 
     /**
      * handle the "members" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
-    protected void handleMEMBERS(Members mes) {}
+    protected void handleMEMBERS(Members mes)
+    {
+    }
 
     /**
      * handle the "new channel" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
-    protected void handleNEWCHANNEL(NewChannel mes) {}
+    protected void handleNEWCHANNEL(NewChannel mes)
+    {
+    }
 
     /**
      * handle the "list of channels" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
-    protected void handleCHANNELS(Channels mes) {}
+    protected void handleCHANNELS(Channels mes)
+    {
+    }
 
     /**
      * handle a broadcast text message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
-    protected void handleBCASTTEXTMSG(BCastTextMsg mes) {}
+    protected void handleBCASTTEXTMSG(BCastTextMsg mes)
+    {
+    }
 
     /**
      * handle a text message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
-    protected void handleTEXTMSG(TextMsg mes) {}
+    protected void handleTEXTMSG(TextMsg mes)
+    {
+    }
 
     /**
      * handle the "leave channel" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
-    protected void handleLEAVE(Leave mes) {}
+    protected void handleLEAVE(Leave mes)
+    {
+    }
 
     /**
      * handle the "delete channel" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
-    protected void handleDELETECHANNEL(DeleteChannel mes) {}
+    protected void handleDELETECHANNEL(DeleteChannel mes)
+    {
+    }
 
     /**
      * handle the "list of games" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
-    protected void handleGAMES(Games mes) {}
+    protected void handleGAMES(Games mes)
+    {
+    }
 
     /**
      * handle the "join game authorization" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleJOINGAMEAUTH(JoinGameAuth mes)
     {
@@ -816,13 +874,19 @@ public class DisplaylessPlayerClient implements Runnable
 
     /**
      * handle the "join game" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
-    protected void handleJOINGAME(JoinGame mes) {}
+    protected void handleJOINGAME(JoinGame mes)
+    {
+    }
 
     /**
      * handle the "leave game" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleLEAVEGAME(LeaveGame mes)
     {
@@ -836,7 +900,7 @@ public class DisplaylessPlayerClient implements Runnable
             if (player != null)
             {
                 //
-                //  This user was not a spectator
+                // This user was not a spectator
                 //
                 ga.removePlayer(mes.getNickname());
             }
@@ -845,36 +909,56 @@ public class DisplaylessPlayerClient implements Runnable
 
     /**
      * handle the "new game" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
-    protected void handleNEWGAME(NewGame mes) {}
+    protected void handleNEWGAME(NewGame mes)
+    {
+    }
 
     /**
      * handle the "delete game" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
-    protected void handleDELETEGAME(DeleteGame mes) {}
+    protected void handleDELETEGAME(DeleteGame mes)
+    {
+    }
 
     /**
      * handle the "game members" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
-    protected void handleGAMEMEMBERS(GameMembers mes) {}
+    protected void handleGAMEMEMBERS(GameMembers mes)
+    {
+    }
 
     /**
      * handle the "game stats" message
      */
-    protected void handleGAMESTATS(GameStats mes) {}
+    protected void handleGAMESTATS(GameStats mes)
+    {
+    }
 
     /**
      * handle the "game text message" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
-    protected void handleGAMETEXTMSG(GameTextMsg mes) {}
+    protected void handleGAMETEXTMSG(GameTextMsg mes)
+    {
+    }
 
     /**
      * handle the "player sitting down" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleSITDOWN(SitDown mes)
     {
@@ -894,7 +978,8 @@ public class DisplaylessPlayerClient implements Runnable
                 /**
                  * set the robot flag
                  */
-                ga.getPlayer(mes.getPlayerNumber()).setRobotFlag(mes.isRobot(), false);
+                ga.getPlayer(mes.getPlayerNumber()).setRobotFlag(mes.isRobot(),
+                        false);
             }
             catch (Exception e)
             {
@@ -909,7 +994,9 @@ public class DisplaylessPlayerClient implements Runnable
 
     /**
      * handle the "board layout" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleBOARDLAYOUT(BoardLayout mes)
     {
@@ -926,7 +1013,9 @@ public class DisplaylessPlayerClient implements Runnable
 
     /**
      * handle the "board layout" message, new format
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      * @since 1.1.08
      */
     protected void handleBOARDLAYOUT2(BoardLayout2 mes)
@@ -947,13 +1036,19 @@ public class DisplaylessPlayerClient implements Runnable
 
     /**
      * handle the "start game" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
-    protected void handleSTARTGAME(StartGame mes) {}
+    protected void handleSTARTGAME(StartGame mes)
+    {
+    }
 
     /**
      * handle the "game state" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleGAMESTATE(GameState mes)
     {
@@ -967,7 +1062,9 @@ public class DisplaylessPlayerClient implements Runnable
 
     /**
      * handle the "set turn" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleSETTURN(SetTurn mes)
     {
@@ -981,7 +1078,9 @@ public class DisplaylessPlayerClient implements Runnable
 
     /**
      * handle the "first player" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleFIRSTPLAYER(FirstPlayer mes)
     {
@@ -995,7 +1094,9 @@ public class DisplaylessPlayerClient implements Runnable
 
     /**
      * handle the "turn" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleTURN(Turn mes)
     {
@@ -1010,13 +1111,13 @@ public class DisplaylessPlayerClient implements Runnable
 
     /**
      * handle the "player information" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handlePLAYERELEMENT(PlayerElement mes)
     {
-     
-    	
-    	
+
         final Game ga = (Game) games.get(mes.getGame());
 
         if (ga != null)
@@ -1042,7 +1143,8 @@ public class DisplaylessPlayerClient implements Runnable
 
             case PlayerElement.NUMKNIGHTS:
 
-                // PLAYERELEMENT(NUMKNIGHTS) is sent after a Soldier card is played.
+                // PLAYERELEMENT(NUMKNIGHTS) is sent after a Soldier card is
+                // played.
                 handlePLAYERELEMENT_numKnights(mes, pl, ga);
                 break;
 
@@ -1074,9 +1176,9 @@ public class DisplaylessPlayerClient implements Runnable
             case PlayerElement.UNKNOWN:
 
                 /**
-                 * Note: if losing unknown resources, we first
-                 * convert player's known resources to unknown resources,
-                 * then remove mes's unknown resources from player.
+                 * Note: if losing unknown resources, we first convert player's
+                 * known resources to unknown resources, then remove mes's
+                 * unknown resources from player.
                  */
                 handlePLAYERELEMENT_numRsrc(mes, pl, ResourceConstants.UNKNOWN);
                 break;
@@ -1084,11 +1186,19 @@ public class DisplaylessPlayerClient implements Runnable
             case PlayerElement.ASK_SPECIAL_BUILD:
                 if (0 != mes.getValue())
                 {
-                    try {
-                        ga.askSpecialBuild(pl.getPlayerNumber(), false);  // set per-player, per-game flags
+                    try
+                    {
+                        ga.askSpecialBuild(pl.getPlayerNumber(), false); // set
+                                                                         // per-player,
+                                                                         // per-game
+                                                                         // flags
                     }
-                    catch (RuntimeException e) {}
-                } else {
+                    catch (RuntimeException e)
+                    {
+                    }
+                }
+                else
+                {
                     pl.setAskedSpecialBuild(false);
                 }
                 break;
@@ -1098,17 +1208,20 @@ public class DisplaylessPlayerClient implements Runnable
     }
 
     /**
-     * Update a player's amount of a playing piece, for {@link #handlePLAYERELEMENT(PlayerElement)}.
-     * To avoid code duplication, also called from
-     * {@link PlayerClient#handlePLAYERELEMENT(PlayerElement)}
+     * Update a player's amount of a playing piece, for
+     * {@link #handlePLAYERELEMENT(PlayerElement)}. To avoid code duplication,
+     * also called from {@link PlayerClient#handlePLAYERELEMENT(PlayerElement)}
      * and {@link soc.robot.RobotBrain#run()}.
-     *
-     * @param mes       Message with amount and action (SET/GAIN/LOSE)
-     * @param pl        Player to update
-     * @param pieceType Playing piece type, as in {@link PlayingPiece#ROAD}
+     * 
+     * @param mes
+     *            Message with amount and action (SET/GAIN/LOSE)
+     * @param pl
+     *            Player to update
+     * @param pieceType
+     *            Playing piece type, as in {@link PlayingPiece#ROAD}
      */
-    public static void handlePLAYERELEMENT_numPieces
-        (PlayerElement mes, final Player pl, int pieceType)
+    public static void handlePLAYERELEMENT_numPieces(PlayerElement mes,
+            final Player pl, int pieceType)
     {
         switch (mes.getAction())
         {
@@ -1118,73 +1231,81 @@ public class DisplaylessPlayerClient implements Runnable
             break;
 
         case PlayerElement.GAIN:
-            pl.setNumPieces(pieceType, pl.getNumPieces(pieceType) + mes.getValue());
+            pl.setNumPieces(pieceType, pl.getNumPieces(pieceType)
+                    + mes.getValue());
 
             break;
 
         case PlayerElement.LOSE:
-            pl.setNumPieces(pieceType, pl.getNumPieces(pieceType) - mes.getValue());
+            pl.setNumPieces(pieceType, pl.getNumPieces(pieceType)
+                    - mes.getValue());
 
             break;
         }
     }
 
     /**
-     * Update a player's amount of knights, and game's largest army,
-     * for {@link #handlePLAYERELEMENT(PlayerElement)}.
-     * To avoid code duplication, also called from
-     * {@link PlayerClient#handlePLAYERELEMENT(PlayerElement)}
+     * Update a player's amount of knights, and game's largest army, for
+     * {@link #handlePLAYERELEMENT(PlayerElement)}. To avoid code duplication,
+     * also called from {@link PlayerClient#handlePLAYERELEMENT(PlayerElement)}
      * and {@link soc.robot.RobotBrain#run()}.
-     *
-     * @param mes  Message with amount and action (SET/GAIN/LOSE)
-     * @param pl   Player to update
-     * @param ga   Game of player
+     * 
+     * @param mes
+     *            Message with amount and action (SET/GAIN/LOSE)
+     * @param pl
+     *            Player to update
+     * @param ga
+     *            Game of player
      */
-    public static void handlePLAYERELEMENT_numKnights
-        (PlayerElement mes, final Player pl, final Game ga)
+    public static void handlePLAYERELEMENT_numKnights(PlayerElement mes,
+            final Player pl, final Game ga)
     {
         switch (mes.getAction())
         {
         case PlayerElement.SET:
             pl.setNumKnights(mes.getValue());
-    
+
             break;
-    
+
         case PlayerElement.GAIN:
             pl.setNumKnights(pl.getNumKnights() + mes.getValue());
-    
+
             break;
-    
+
         case PlayerElement.LOSE:
             pl.setNumKnights(pl.getNumKnights() - mes.getValue());
-    
+
             break;
         }
-    
+
         ga.updateLargestArmy();
     }
-    
+
     /**
-     * Update a player's amount of a resource, for {@link #handlePLAYERELEMENT(PlayerElement)}.
+     * Update a player's amount of a resource, for
+     * {@link #handlePLAYERELEMENT(PlayerElement)}.
      *<ul>
-     *<LI> If this is a {@link PlayerElement#LOSE} action, and the player does not have enough of that type,
-     *     the rest are taken from the player's UNKNOWN amount.
-     *<LI> If we are losing from type UNKNOWN,
-     *     first convert player's known resources to unknown resources
-     *     (individual amount information will be lost),
-     *     then remove mes's unknown resources from player.
+     *<LI>If this is a {@link PlayerElement#LOSE} action, and the player does
+     * not have enough of that type, the rest are taken from the player's
+     * UNKNOWN amount.
+     *<LI>If we are losing from type UNKNOWN, first convert player's known
+     * resources to unknown resources (individual amount information will be
+     * lost), then remove mes's unknown resources from player.
      *</ul>
      *<P>
      * To avoid code duplication, also called from
-     * {@link PlayerClient#handlePLAYERELEMENT(PlayerElement)}
-     * and {@link soc.robot.RobotBrain#run()}.
-     *
-     * @param mes    Message with amount and action (SET/GAIN/LOSE)
-     * @param pl     Player to update
-     * @param rtype  Type of resource, like {@link ResourceConstants#CLAY}
+     * {@link PlayerClient#handlePLAYERELEMENT(PlayerElement)} and
+     * {@link soc.robot.RobotBrain#run()}.
+     * 
+     * @param mes
+     *            Message with amount and action (SET/GAIN/LOSE)
+     * @param pl
+     *            Player to update
+     * @param rtype
+     *            Type of resource, like {@link ResourceConstants#CLAY}
      */
-    public static void handlePLAYERELEMENT_numRsrc
-        (PlayerElement mes, final Player pl, int rtype)
+    public static void handlePLAYERELEMENT_numRsrc(PlayerElement mes,
+            final Player pl, int rtype)
     {
         final int amount = mes.getValue();
 
@@ -1204,14 +1325,15 @@ public class DisplaylessPlayerClient implements Runnable
 
             if (rtype != ResourceConstants.UNKNOWN)
             {
-                int playerAmt = pl.getResources().getAmount(rtype); 
+                int playerAmt = pl.getResources().getAmount(rtype);
                 if (playerAmt >= amount)
                 {
                     pl.getResources().subtract(amount, rtype);
                 }
                 else
                 {
-                    pl.getResources().subtract(amount - playerAmt, ResourceConstants.UNKNOWN);
+                    pl.getResources().subtract(amount - playerAmt,
+                            ResourceConstants.UNKNOWN);
                     pl.getResources().setAmount(0, rtype);
                 }
             }
@@ -1224,7 +1346,8 @@ public class DisplaylessPlayerClient implements Runnable
                  * then remove mes's unknown resources from player
                  */
                 rs.convertToUnknown();
-                pl.getResources().subtract(mes.getValue(), ResourceConstants.UNKNOWN);
+                pl.getResources().subtract(mes.getValue(),
+                        ResourceConstants.UNKNOWN);
             }
 
             break;
@@ -1233,7 +1356,9 @@ public class DisplaylessPlayerClient implements Runnable
 
     /**
      * handle "resource count" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleRESOURCECOUNT(ResourceCount mes)
     {
@@ -1249,11 +1374,12 @@ public class DisplaylessPlayerClient implements Runnable
 
                 if (D.ebugOn)
                 {
-                    //pi.print(">>> RESOURCE COUNT ERROR: "+mes.getCount()+ " != "+rsrcs.getTotal());
+                    // pi.print(">>> RESOURCE COUNT ERROR: "+mes.getCount()+
+                    // " != "+rsrcs.getTotal());
                 }
 
                 //
-                //  fix it
+                // fix it
                 //
                 if (!pl.getName().equals(nickname))
                 {
@@ -1266,7 +1392,9 @@ public class DisplaylessPlayerClient implements Runnable
 
     /**
      * handle the "dice result" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleDICERESULT(DiceResult mes)
     {
@@ -1280,7 +1408,9 @@ public class DisplaylessPlayerClient implements Runnable
 
     /**
      * handle the "put piece" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handlePUTPIECE(PutPiece mes)
     {
@@ -1313,33 +1443,35 @@ public class DisplaylessPlayerClient implements Runnable
         }
     }
 
-   /**
-    * handle the rare "cancel build request" message; usually not sent from
-    * server to client.
-    *<P>
-    * - When sent from client to server, CANCELBUILDREQUEST means the player has changed
-    *   their mind about spending resources to build a piece.  Only allowed during normal
-    *   game play (PLACING_ROAD, PLACING_SETTLEMENT, or PLACING_CITY).
-    *<P>
-    *  When sent from server to client:
-    *<P>
-    * - During game startup (START1B or START2B): <BR>
-    *       Sent from server, CANCELBUILDREQUEST means the current player
-    *       wants to undo the placement of their initial settlement.  
-    *<P>
-    * - During piece placement (PLACING_ROAD, PLACING_CITY, PLACING_SETTLEMENT,
-    *                           PLACING_FREE_ROAD1 or PLACING_FREE_ROAD2):
-    *<P>
-    *      Sent from server, CANCELBUILDREQUEST means the player has sent
-    *      an illegal PUTPIECE (bad building location). Humans can probably
-    *      decide a better place to put their road, but robots must cancel
-    *      the build request and decide on a new plan.
-    *<P>
-    *      Our client can ignore this case, because the server also sends a text
-    *      message that the human player is capable of reading and acting on.
-    *
-    * @param mes  the message
-    */
+    /**
+     * handle the rare "cancel build request" message; usually not sent from
+     * server to client.
+     *<P>
+     * - When sent from client to server, CANCELBUILDREQUEST means the player
+     * has changed their mind about spending resources to build a piece. Only
+     * allowed during normal game play (PLACING_ROAD, PLACING_SETTLEMENT, or
+     * PLACING_CITY).
+     *<P>
+     * When sent from server to client:
+     *<P>
+     * - During game startup (START1B or START2B): <BR>
+     * Sent from server, CANCELBUILDREQUEST means the current player wants to
+     * undo the placement of their initial settlement.
+     *<P>
+     * - During piece placement (PLACING_ROAD, PLACING_CITY, PLACING_SETTLEMENT,
+     * PLACING_FREE_ROAD1 or PLACING_FREE_ROAD2):
+     *<P>
+     * Sent from server, CANCELBUILDREQUEST means the player has sent an illegal
+     * PUTPIECE (bad building location). Humans can probably decide a better
+     * place to put their road, but robots must cancel the build request and
+     * decide on a new plan.
+     *<P>
+     * Our client can ignore this case, because the server also sends a text
+     * message that the human player is capable of reading and acting on.
+     * 
+     * @param mes
+     *            the message
+     */
     protected void handleCANCELBUILDREQUEST(CancelBuildRequest mes)
     {
         Game ga = (Game) games.get(mes.getGame());
@@ -1350,7 +1482,8 @@ public class DisplaylessPlayerClient implements Runnable
         if ((sta != Game.START1B) && (sta != Game.START2B))
         {
             // The human player gets a text message from the server informing
-            // about the bad piece placement.  So, we can ignore this message type.
+            // about the bad piece placement. So, we can ignore this message
+            // type.
             // The robot player will override this method and react.
             return;
         }
@@ -1364,7 +1497,9 @@ public class DisplaylessPlayerClient implements Runnable
 
     /**
      * handle the "robber moved" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleMOVEROBBER(MoveRobber mes)
     {
@@ -1374,8 +1509,8 @@ public class DisplaylessPlayerClient implements Runnable
         {
             /**
              * Note: Don't call ga.moveRobber() because that will call the
-             * functions to do the stealing.  We just want to say where
-             * the robber moved without seeing if something was stolen.
+             * functions to do the stealing. We just want to say where the
+             * robber moved without seeing if something was stolen.
              */
             ga.getBoard().setRobberHex(mes.getCoordinates());
         }
@@ -1383,18 +1518,24 @@ public class DisplaylessPlayerClient implements Runnable
 
     /**
      * handle the "discard request" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
-    protected void handleDISCARDREQUEST(DiscardRequest mes) {}
+    protected void handleDISCARDREQUEST(DiscardRequest mes)
+    {
+    }
 
     /**
      * handle the "choose player request" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleCHOOSEPLAYERREQUEST(ChoosePlayerRequest mes)
     {
         boolean[] ch = mes.getChoices();
-        int[] choices = new int[ch.length];  // == Game.maxPlayers
+        int[] choices = new int[ch.length]; // == Game.maxPlayers
         int count = 0;
 
         for (int i = 0; i < ch.length; i++)
@@ -1409,7 +1550,9 @@ public class DisplaylessPlayerClient implements Runnable
 
     /**
      * handle the "make offer" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleMAKEOFFER(MakeOffer mes)
     {
@@ -1424,7 +1567,9 @@ public class DisplaylessPlayerClient implements Runnable
 
     /**
      * handle the "clear offer" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleCLEAROFFER(ClearOffer mes)
     {
@@ -1436,7 +1581,9 @@ public class DisplaylessPlayerClient implements Runnable
             if (pn != -1)
             {
                 ga.getPlayer(pn).setCurrentOffer(null);
-            } else {
+            }
+            else
+            {
                 for (int i = 0; i < ga.maxPlayers; ++i)
                     ga.getPlayer(i).setCurrentOffer(null);
             }
@@ -1445,19 +1592,29 @@ public class DisplaylessPlayerClient implements Runnable
 
     /**
      * handle the "reject offer" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
-    protected void handleREJECTOFFER(RejectOffer mes) {}
+    protected void handleREJECTOFFER(RejectOffer mes)
+    {
+    }
 
     /**
      * handle the "clear trade message" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
-    protected void handleCLEARTRADEMSG(ClearTradeMsg mes) {}
+    protected void handleCLEARTRADEMSG(ClearTradeMsg mes)
+    {
+    }
 
     /**
      * handle the "number of development cards" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleDEVCARDCOUNT(DevCardCount mes)
     {
@@ -1471,7 +1628,9 @@ public class DisplaylessPlayerClient implements Runnable
 
     /**
      * handle the "development card action" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleDEVCARD(DevCard mes)
     {
@@ -1488,7 +1647,8 @@ public class DisplaylessPlayerClient implements Runnable
                 break;
 
             case DevCard.PLAY:
-                player.getDevCards().subtract(1, DevCardSet.OLD, mes.getCardType());
+                player.getDevCards().subtract(1, DevCardSet.OLD,
+                        mes.getCardType());
                 break;
 
             case DevCard.ADDOLD:
@@ -1504,7 +1664,9 @@ public class DisplaylessPlayerClient implements Runnable
 
     /**
      * handle the "set played dev card flag" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleSETPLAYEDDEVCARD(SetPlayedDevCard mes)
     {
@@ -1519,7 +1681,9 @@ public class DisplaylessPlayerClient implements Runnable
 
     /**
      * handle the "list of potential settlements" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handlePOTENTIALSETTLEMENTS(PotentialSettlements mes)
     {
@@ -1534,7 +1698,9 @@ public class DisplaylessPlayerClient implements Runnable
 
     /**
      * handle the "change face" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleCHANGEFACE(ChangeFace mes)
     {
@@ -1549,7 +1715,9 @@ public class DisplaylessPlayerClient implements Runnable
 
     /**
      * handle the "reject connection" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleREJECTCONNECTION(RejectConnection mes)
     {
@@ -1560,7 +1728,9 @@ public class DisplaylessPlayerClient implements Runnable
 
     /**
      * handle the "longest road" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleLONGESTROAD(LongestRoad mes)
     {
@@ -1574,14 +1744,18 @@ public class DisplaylessPlayerClient implements Runnable
             }
             else
             {
-                ga.setPlayerWithLongestRoad(ga.getPlayer(mes.getPlayerNumber()));
+                ga
+                        .setPlayerWithLongestRoad(ga.getPlayer(mes
+                                .getPlayerNumber()));
             }
         }
     }
 
     /**
      * handle the "largest army" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleLARGESTARMY(LargestArmy mes)
     {
@@ -1595,14 +1769,18 @@ public class DisplaylessPlayerClient implements Runnable
             }
             else
             {
-                ga.setPlayerWithLargestArmy(ga.getPlayer(mes.getPlayerNumber()));
+                ga
+                        .setPlayerWithLargestArmy(ga.getPlayer(mes
+                                .getPlayerNumber()));
             }
         }
     }
 
     /**
      * handle the "set seat lock" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleSETSEATLOCK(SetSeatLock mes)
     {
@@ -1622,15 +1800,14 @@ public class DisplaylessPlayerClient implements Runnable
     }
 
     /**
-     * handle board reset
-     * (new game with same players, same game name, new layout).
-     * Create new Game object, destroy old one.
-     * For human players, the reset message will be followed
-     * with others which will fill in the game state.
-     * For robots, they must discard game state and ask to re-join.
-     *
-     * @param mes  the message
-     *
+     * handle board reset (new game with same players, same game name, new
+     * layout). Create new Game object, destroy old one. For human players, the
+     * reset message will be followed with others which will fill in the game
+     * state. For robots, they must discard game state and ask to re-join.
+     * 
+     * @param mes
+     *            the message
+     * 
      * @see soc.server.SOCServer#resetBoardAndNotify(String, int)
      * @see soc.game.Game#resetAsCopy()
      */
@@ -1639,7 +1816,7 @@ public class DisplaylessPlayerClient implements Runnable
         String gname = mes.getGame();
         Game ga = (Game) games.get(gname);
         if (ga == null)
-            return;  // Not one of our games
+            return; // Not one of our games
 
         Game greset = ga.resetAsCopy();
         greset.isLocal = ga.isLocal;
@@ -1649,9 +1826,11 @@ public class DisplaylessPlayerClient implements Runnable
 
     /**
      * send a text message to a channel
-     *
-     * @param ch   the name of the channel
-     * @param mes  the message
+     * 
+     * @param ch
+     *            the name of the channel
+     * @param mes
+     *            the message
      */
     public void chSend(String ch, String mes)
     {
@@ -1660,8 +1839,9 @@ public class DisplaylessPlayerClient implements Runnable
 
     /**
      * the user leaves the given channel
-     *
-     * @param ch  the name of the channel
+     * 
+     * @param ch
+     *            the name of the channel
      */
     public void leaveChannel(String ch)
     {
@@ -1693,8 +1873,9 @@ public class DisplaylessPlayerClient implements Runnable
 
     /**
      * request to buy a development card
-     *
-     * @param ga     the game
+     * 
+     * @param ga
+     *            the game
      */
     public void buyDevCard(Game ga)
     {
@@ -1703,10 +1884,12 @@ public class DisplaylessPlayerClient implements Runnable
 
     /**
      * request to build something
-     *
-     * @param ga     the game
-     * @param piece  the type of piece, from {@link soc.game.PlayingPiece} constants,
-     *               or -1 to request the Special Building Phase.
+     * 
+     * @param ga
+     *            the game
+     * @param piece
+     *            the type of piece, from {@link soc.game.PlayingPiece}
+     *            constants, or -1 to request the Special Building Phase.
      */
     public void buildRequest(Game ga, int piece)
     {
@@ -1715,9 +1898,11 @@ public class DisplaylessPlayerClient implements Runnable
 
     /**
      * request to cancel building something
-     *
-     * @param ga     the game
-     * @param piece  the type of piece from PlayingPiece
+     * 
+     * @param ga
+     *            the game
+     * @param piece
+     *            the type of piece from PlayingPiece
      */
     public void cancelBuildRequest(Game ga, int piece)
     {
@@ -1726,26 +1911,32 @@ public class DisplaylessPlayerClient implements Runnable
 
     /**
      * put a piece on the board
-     *
-     * @param ga  the game where the action is taking place
-     * @param pp  the piece being placed
+     * 
+     * @param ga
+     *            the game where the action is taking place
+     * @param pp
+     *            the piece being placed
      */
     public void putPiece(Game ga, PlayingPiece pp)
     {
         /**
          * send the command
          */
-		String cmd = PutPiece.toCmd(ga.getName(), pp.getPlayer().getPlayerNumber(), pp.getType(), pp.getCoordinates());
+        String cmd = PutPiece.toCmd(ga.getName(), pp.getPlayer()
+                .getPlayerNumber(), pp.getType(), pp.getCoordinates());
         System.out.printf("Message Sent: %s \n", cmd);
         put(cmd);
     }
 
     /**
      * the player wants to move the robber
-     *
-     * @param ga  the game
-     * @param pl  the player
-     * @param coord  where the player wants the robber
+     * 
+     * @param ga
+     *            the game
+     * @param pl
+     *            the player
+     * @param coord
+     *            where the player wants the robber
      */
     public void moveRobber(Game ga, Player pl, int coord)
     {
@@ -1754,9 +1945,11 @@ public class DisplaylessPlayerClient implements Runnable
 
     /**
      * send a text message to the people in the game
-     *
-     * @param ga   the game
-     * @param me   the message
+     * 
+     * @param ga
+     *            the game
+     * @param me
+     *            the message
      */
     public void sendText(Game ga, String me)
     {
@@ -1765,8 +1958,9 @@ public class DisplaylessPlayerClient implements Runnable
 
     /**
      * the user leaves the given game
-     *
-     * @param ga   the game
+     * 
+     * @param ga
+     *            the game
      */
     public void leaveGame(Game ga)
     {
@@ -1776,9 +1970,11 @@ public class DisplaylessPlayerClient implements Runnable
 
     /**
      * the user sits down to play
-     *
-     * @param ga   the game
-     * @param pn   the number of the seat where the user wants to sit
+     * 
+     * @param ga
+     *            the game
+     * @param pn
+     *            the number of the seat where the user wants to sit
      */
     public void sitDown(Game ga, int pn)
     {
@@ -1787,8 +1983,9 @@ public class DisplaylessPlayerClient implements Runnable
 
     /**
      * the user is starting the game
-     *
-     * @param ga  the game
+     * 
+     * @param ga
+     *            the game
      */
     public void startGame(Game ga)
     {
@@ -1797,8 +1994,9 @@ public class DisplaylessPlayerClient implements Runnable
 
     /**
      * the user rolls the dice
-     *
-     * @param ga  the game
+     * 
+     * @param ga
+     *            the game
      */
     public void rollDice(Game ga)
     {
@@ -1807,8 +2005,9 @@ public class DisplaylessPlayerClient implements Runnable
 
     /**
      * the user is done with the turn
-     *
-     * @param ga  the game
+     * 
+     * @param ga
+     *            the game
      */
     public void endTurn(Game ga)
     {
@@ -1817,8 +2016,9 @@ public class DisplaylessPlayerClient implements Runnable
 
     /**
      * the user wants to discard
-     *
-     * @param ga  the game
+     * 
+     * @param ga
+     *            the game
      */
     public void discard(Game ga, ResourceSet rs)
     {
@@ -1827,9 +2027,11 @@ public class DisplaylessPlayerClient implements Runnable
 
     /**
      * the user chose a player to steal from
-     *
-     * @param ga  the game
-     * @param pn  the player id
+     * 
+     * @param ga
+     *            the game
+     * @param pn
+     *            the player id
      */
     public void choosePlayer(Game ga, int pn)
     {
@@ -1838,41 +2040,51 @@ public class DisplaylessPlayerClient implements Runnable
 
     /**
      * the user is rejecting the current offers
-     *
-     * @param ga  the game
+     * 
+     * @param ga
+     *            the game
      */
     public void rejectOffer(Game ga)
     {
-        put(RejectOffer.toCmd(ga.getName(), ga.getPlayer(nickname).getPlayerNumber()));
+        put(RejectOffer.toCmd(ga.getName(), ga.getPlayer(nickname)
+                .getPlayerNumber()));
     }
 
     /**
      * the user is accepting an offer
-     *
-     * @param ga  the game
-     * @param from the number of the player that is making the offer
+     * 
+     * @param ga
+     *            the game
+     * @param from
+     *            the number of the player that is making the offer
      */
     public void acceptOffer(Game ga, int from)
     {
-        put(AcceptOffer.toCmd(ga.getName(), ga.getPlayer(nickname).getPlayerNumber(), from));
+        put(AcceptOffer.toCmd(ga.getName(), ga.getPlayer(nickname)
+                .getPlayerNumber(), from));
     }
 
     /**
      * the user is clearing an offer
-     *
-     * @param ga  the game
+     * 
+     * @param ga
+     *            the game
      */
     public void clearOffer(Game ga)
     {
-        put(ClearOffer.toCmd(ga.getName(), ga.getPlayer(nickname).getPlayerNumber()));
+        put(ClearOffer.toCmd(ga.getName(), ga.getPlayer(nickname)
+                .getPlayerNumber()));
     }
 
     /**
      * the user wants to trade with the bank
-     *
-     * @param ga    the game
-     * @param give  what is being offered
-     * @param get   what the player wants
+     * 
+     * @param ga
+     *            the game
+     * @param give
+     *            what is being offered
+     * @param get
+     *            what the player wants
      */
     public void bankTrade(Game ga, ResourceSet give, ResourceSet get)
     {
@@ -1881,9 +2093,11 @@ public class DisplaylessPlayerClient implements Runnable
 
     /**
      * the user is making an offer to trade
-     *
-     * @param ga    the game
-     * @param offer the trade offer
+     * 
+     * @param ga
+     *            the game
+     * @param offer
+     *            the trade offer
      */
     public void offerTrade(Game ga, TradeOffer offer)
     {
@@ -1892,9 +2106,11 @@ public class DisplaylessPlayerClient implements Runnable
 
     /**
      * the user wants to play a development card
-     *
-     * @param ga  the game
-     * @param dc  the type of development card
+     * 
+     * @param ga
+     *            the game
+     * @param dc
+     *            the type of development card
      */
     public void playDevCard(Game ga, int dc)
     {
@@ -1903,9 +2119,11 @@ public class DisplaylessPlayerClient implements Runnable
 
     /**
      * the user picked 2 resources to discover
-     *
-     * @param ga    the game
-     * @param rscs  the resources
+     * 
+     * @param ga
+     *            the game
+     * @param rscs
+     *            the resources
      */
     public void discoveryPick(Game ga, ResourceSet rscs)
     {
@@ -1914,9 +2132,11 @@ public class DisplaylessPlayerClient implements Runnable
 
     /**
      * the user picked a resource to monopolize
-     *
-     * @param ga   the game
-     * @param res  the resource
+     * 
+     * @param ga
+     *            the game
+     * @param res
+     *            the resource
      */
     public void monopolyPick(Game ga, int res)
     {
@@ -1925,20 +2145,25 @@ public class DisplaylessPlayerClient implements Runnable
 
     /**
      * the user is changing the face image
-     *
-     * @param ga  the game
-     * @param id  the image id
+     * 
+     * @param ga
+     *            the game
+     * @param id
+     *            the image id
      */
     public void changeFace(Game ga, int id)
     {
-        put(ChangeFace.toCmd(ga.getName(), ga.getPlayer(nickname).getPlayerNumber(), id));
+        put(ChangeFace.toCmd(ga.getName(), ga.getPlayer(nickname)
+                .getPlayerNumber(), id));
     }
 
     /**
      * the user is locking a seat
-     *
-     * @param ga  the game
-     * @param pn  the seat number
+     * 
+     * @param ga
+     *            the game
+     * @param pn
+     *            the seat number
      */
     public void lockSeat(Game ga, int pn)
     {
@@ -1947,9 +2172,11 @@ public class DisplaylessPlayerClient implements Runnable
 
     /**
      * the user is unlocking a seat
-     *
-     * @param ga  the game
-     * @param pn  the seat number
+     * 
+     * @param ga
+     *            the game
+     * @param pn
+     *            the seat number
      */
     public void unlockSeat(Game ga, int pn)
     {
@@ -1968,13 +2195,14 @@ public class DisplaylessPlayerClient implements Runnable
     {
         return false;
     }
-    
+
     /**
      * for stand-alones
      */
     public static void main(String[] args)
     {
-        DisplaylessPlayerClient ex1 = new DisplaylessPlayerClient(args[0], Integer.parseInt(args[1]), true);
+        DisplaylessPlayerClient ex1 = new DisplaylessPlayerClient(args[0],
+                Integer.parseInt(args[1]), true);
         new Thread(ex1).start();
         Thread.yield();
     }

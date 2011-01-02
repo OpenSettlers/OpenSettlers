@@ -66,15 +66,13 @@ public class GamePhaseHasEnded extends AbstractGameAction
     @Override
     public boolean isAllowed(TurnPhase turnPhase)
     {
-        // TODO Auto-generated method stub
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAllowed(GamePhase gamePhase)
     {
-        // TODO Auto-generated method stub
-        return false;
+        return true;
     }
 
     @Override

@@ -2,7 +2,7 @@ package soc.gwtClient.game.widgets.standard.bitmap;
 
 import soc.common.board.resources.Resource;
 import soc.common.board.resources.ResourcesChangedEvent;
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.AbstractHandCardsWidget;
 
 import com.google.gwt.user.client.ui.ComplexPanel;
@@ -12,7 +12,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class HandCardsBitmapWidget extends AbstractHandCardsWidget
 {
-    public HandCardsBitmapWidget(Player player)
+    public HandCardsBitmapWidget(GamePlayer player)
     {
         super(player);
 

@@ -1,31 +1,28 @@
 package soc.common.server.actions;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-
-import com.google.gwt.user.client.Random;
 
 import soc.common.actions.gameAction.AbstractGameAction;
 import soc.common.actions.gameAction.HostStartsGame;
-import soc.common.actions.gameAction.turnActions.StartGame;
-import soc.common.board.Board;
 import soc.common.game.Game;
-import soc.common.game.Player;
-import soc.common.game.developmentCards.DevelopmentCard;
+import soc.common.game.GameBoard;
+import soc.common.game.GamePlayerImpl;
 import soc.common.game.developmentCards.DevelopmentCardList;
-import soc.common.game.variants.IVariant;
 import soc.common.game.variants.Standard;
+import soc.common.game.variants.Variant;
+import soc.common.server.GameServer;
+import soc.common.server.data.UnregisteredUser;
 
 public class ServerStartGame implements ServerAction
 {
     HostStartsGame hostStartsGame;
-    Random random;
-    
-    public ServerStartGame(HostStartsGame hostStartsGame, Random random)
+    GameServer gameServer;
+
+    public ServerStartGame(HostStartsGame hostStartsGame, GameServer gameServer)
     {
         super();
         this.hostStartsGame = hostStartsGame;
-        this.random=random;
+        this.gameServer = gameServer;
     }
 
     @Override
@@ -38,58 +35,37 @@ public class ServerStartGame implements ServerAction
     public void execute()
     {
         createNewGame();
-        
 
     }
-    
+
     private void createNewGame()
     {
         Game result = new Game();
-        ArrayList<IVariant> rules = new ArrayList<IVariant>();
+        ArrayList<Variant> rules = new ArrayList<Variant>();
         rules.add(new Standard(result));
-        result.setRuleSets(rules);
-        ArrayList<Player> players = new ArrayList<Player>();
-        players.add
-        ((Player)
-            new Player()
-                .setColor("yellow")
-                .setId(1)
-                .setName("Piet")
-        );
-        players.add
-        ((Player)
-            new Player()
-                .setColor("white")
-                .setId(1)
-                .setName("Kees")
-        );
-        players.add
-        ((Player)
-            new Player()
-                .setColor("green")
-                .setId(1)
-                .setName("Truus")
-        );
-        players.add((Player)
-            new Player()
-                .setColor("red")
-                .setId(1)
-                .setName("Klaas")
-        );
-        players.add
-        ((Player)
-            new Player()
-                .setColor("blue")
-                .setId(1)
-                .setName("Henk")
-        );
-        
-        result.setBoard(new Board(8,8));
+        result.getPlayers().add(
+                (GamePlayerImpl) new GamePlayerImpl().setUser(
+                        new UnregisteredUser().setId(1).setName("Piet"))
+                        .setColor("yellow"));
+        result.getPlayers().add(
+                (GamePlayerImpl) new GamePlayerImpl().setUser(
+                        new UnregisteredUser().setId(1).setName("Kees"))
+                        .setColor("white"));
+        result.getPlayers().add(
+                (GamePlayerImpl) new GamePlayerImpl().setUser(
+                        new UnregisteredUser().setId(1).setName("Truus"))
+                        .setColor("green"));
+        result.getPlayers().add(
+                (GamePlayerImpl) new GamePlayerImpl().setUser(
+                        new UnregisteredUser().setId(1).setName("Klaas"))
+                        .setColor("red"));
+        result.getPlayers().add(
+                (GamePlayerImpl) new GamePlayerImpl().setUser(
+                        new UnregisteredUser().setId(1).setName("Henk"))
+                        .setColor("blue"));
 
-        result.setPlayers(players);
-        
-        result.makeRulesPermanent();
-        
+        result.setBoard(new GameBoard(8, 8));
+
         hostStartsGame.setGame(result);
     }
 
@@ -97,30 +73,19 @@ public class ServerStartGame implements ServerAction
     {
         DevelopmentCardList result = new DevelopmentCardList();
 
-        // initialize list
-        DevelopmentCardList allDevs = new DevelopmentCardList();
-
+        // TODO: reimplement without GWT unsupported Hashtable
         // Create a list to associate random value to each development card
-        HashMap<Integer, DevelopmentCard> list = new HashMap<Integer, DevelopmentCard>();
+        // Map<Integer, DevelopmentCard> list = new Hashtable<Integer,
+        // DevelopmentCard>();
 
-        // Associate the random int value to each development card
-        for (DevelopmentCard dev : allDevs)
-            list.put(random.nextInt(), dev);
+        // Associate the random int value to each development card, put them
+        // into sortable treemap
+        // /for (DevelopmentCard dev : devcards)
+        // list.put(gameServer.getRandom().nextInt(2100000000), dev);
 
-        // Sort the list by the random number
-        // TODO: port to java
-        //var sorted = from item in list
-        //             orderby item.Key
-        //             select item;
-
-        // Copy values to resultlist and add proper ID
-        //int id = 0;
-        //foreach (KeyValuePair<int, DevelopmentCard> pair in sorted)
-        //{
-        //    pair.Value.ID = id;
-        //    result.Add(pair.Value);
-        //    id++;
-        //}
+        // Populate result with randomly ordered devcards
+        // for (DevelopmentCard dev : list.values())
+        // result.add(dev);
 
         return null;
     }
@@ -128,7 +93,6 @@ public class ServerStartGame implements ServerAction
     @Override
     public AbstractGameAction getOpponentAction()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return hostStartsGame;
     }
 }

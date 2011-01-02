@@ -8,17 +8,17 @@ import soc.common.actions.gameAction.turnActions.standard.PlaceRobber;
 import soc.common.client.behaviour.game.BuildCityBehaviour;
 import soc.common.client.behaviour.game.BuildRoadBehaviour;
 import soc.common.client.behaviour.game.BuildTownBehaviour;
-import soc.common.client.behaviour.game.IGameBehaviour;
+import soc.common.client.behaviour.game.GameBehaviour;
 import soc.common.client.behaviour.game.PlaceRobberBehaviour;
 import soc.common.game.Game;
 
 /*
  * Viewport GameBehaviour factory for a TurnAction using standard ruleset
  */
-public class StandardGameBehaviourFactory implements IGameBehaviourFactory
+public class StandardGameBehaviourFactory implements GameBehaviourFactory
 {
     @Override
-    public IGameBehaviour createBehaviour(AbstractTurnAction turnAction,
+    public GameBehaviour createBehaviour(AbstractTurnAction turnAction,
             Game game)
     {
         if (turnAction instanceof BuildRoad)

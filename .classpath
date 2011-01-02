@@ -10,5 +10,6 @@
 	<classpathentry kind="lib" path="/home/ruud/workspace/OpenSettlers/lib/gwt-comet-1.2.1.jar"/>
 	<classpathentry kind="lib" path="/home/ruud/workspace/OpenSettlers/lib/lib-gwt-svg-0.5.0.jar"/>
 	<classpathentry kind="lib" path="/home/ruud/workspace/OpenSettlers/lib/db4o-7.12.156.14667-core-java5.jar"/>
+	<classpathentry kind="lib" path="/home/ruud/workspace/OpenSettlers/lib/jetty-all-server-7.2.2.v20101205.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

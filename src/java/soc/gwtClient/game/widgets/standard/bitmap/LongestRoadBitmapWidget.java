@@ -1,6 +1,6 @@
 package soc.gwtClient.game.widgets.standard.bitmap;
 
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.AbstractLongestRoadWidget;
 import soc.gwtClient.images.Resources;
 
@@ -13,7 +13,7 @@ public class LongestRoadBitmapWidget extends AbstractLongestRoadWidget
             .longestRoadSmall());
     private Label lblLongestRoadLength = new Label();
 
-    public LongestRoadBitmapWidget(Player player)
+    public LongestRoadBitmapWidget(GamePlayer player)
     {
         super(player);
 

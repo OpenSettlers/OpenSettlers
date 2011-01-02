@@ -140,7 +140,7 @@ public class HexLocation
     {
         if (h < 0 || w < 0)
             return false;
-        if (h > height || w > width)
+        if (h >= height || w >= width)
             return false;
         return true;
     }

@@ -1,119 +1,31 @@
 package soc.common.client.visuals.game;
 
-import soc.common.board.Board;
-import soc.common.client.behaviour.IInteractionBehaviour;
-import soc.common.client.behaviour.game.IGameBehaviour;
-import soc.common.client.visuals.IPieceVisual;
-import soc.common.client.visuals.board.IBoardVisual;
+import java.util.List;
+
+import soc.common.board.HexPoint;
+import soc.common.board.HexSide;
+import soc.common.board.hexes.Hex;
+import soc.common.client.behaviour.game.GameBehaviour;
+import soc.common.client.visuals.board.BoardVisual;
 import soc.common.game.Game;
 
-public abstract class GameBoardVisual implements IGameBoardVisual
+public interface GameBoardVisual extends BoardVisual
 {
-    protected Game game;
-    protected IBoardVisual boardVisual;
-    protected IHexPointsVisual possiblePointsVisual;
-    protected IHexSidesVisual possibleSidesVisual;
+    public Game getGame();
 
-    @Override
-    public IBoardVisual getBoardVisual()
-    {
-        return boardVisual;
-    }
+    public void setBehaviour(GameBehaviour gameBehaviour);
 
-    @Override
-    public IHexPointsVisual getHexPointsVisual()
-    {
-        return possiblePointsVisual;
-    }
+    public void setSelectablePoints(List<HexPoint> points);
 
-    @Override
-    public IHexSidesVisual getHexSidesVisual()
-    {
-        return possibleSidesVisual;
-    }
+    public void disablePoints();
 
-    @Override
-    public void setBehaviour(IGameBehaviour gameBehaviour)
-    {
-        // TODO Auto-generated method stub
+    public void setSelectableSides(List<HexSide> sides);
 
-    }
+    public void disableSides();
 
-    @Override
-    public Board getBoard()
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public void setSelectableHexes(List<Hex> hexes);
 
-    @Override
-    public IInteractionBehaviour getCurrentBehaviour()
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public void disableHexes();
 
-    @Override
-    public void hideTerritories()
-    {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public IBoardVisual setInteractionBehaviour(IInteractionBehaviour behaviour)
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public void showTerritories()
-    {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public boolean isEnabled()
-    {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean isSelected()
-    {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean isVisible()
-    {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public IPieceVisual setEnabled(boolean enabled)
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public IPieceVisual setSelected(boolean selected)
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public IPieceVisual setVisible(boolean visible)
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
+    public VisualFactory createVisualFactory();
 }

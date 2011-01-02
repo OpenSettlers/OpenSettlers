@@ -1,7 +1,7 @@
 package soc.gwtClient.game.widgets.standard.bitmap;
 
 import soc.common.board.resources.ResourcesChangedEvent;
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.AbstractResourceAmountWidget;
 import soc.gwtClient.images.Resources;
 
@@ -13,7 +13,7 @@ public class ResourceAmountBitmapWidget extends AbstractResourceAmountWidget
     Image cardImage = new Image(Resources.icons().blankCardSmall());
     Label lblAmountResources = new Label();
 
-    public ResourceAmountBitmapWidget(Player player)
+    public ResourceAmountBitmapWidget(GamePlayer player)
     {
         super(player);
 

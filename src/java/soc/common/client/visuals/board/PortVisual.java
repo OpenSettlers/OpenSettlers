@@ -1,58 +1,15 @@
 package soc.common.client.visuals.board;
 
 import soc.common.board.ports.Port;
-import soc.common.client.visuals.AbstractPieceVisual;
+import soc.common.client.visuals.PieceVisual;
 
-public abstract class PortVisual extends AbstractPieceVisual implements IPortVisual
+public interface PortVisual extends PieceVisual
 {
-    protected Port port;
-    protected IBoardVisual parent;
-    protected boolean valid = false;
+    public PortVisual setPort(Port port);
+    public Port getPort();
 
-    protected void updatePort() {}
-    protected void updateValid() {}
-    
-    public PortVisual(Port port, IBoardVisual parent)
-    {
-        this.port = port;
-        this.parent=parent;
-    }
-
-    /* (non-Javadoc)
-     * @see soc.common.client.visuals.board.IPortVisual#isValid()
-     */
-    @Override
-    public boolean isValid()
-    {
-        return valid;
-    }
-    
-    /* (non-Javadoc)
-     * @see soc.common.client.visuals.board.IPortVisual#setValid(boolean)
-     */
-    @Override
-    public IPortVisual setValid(boolean valid)
-    {
-        this.valid=valid;
-
-        updateValid();
-
-        return this;
-    }
-    
-    @Override
-    public Port getPort()
-    {
-        return port;
-    }
-
-    @Override
-    public IPortVisual setPort(Port port)
-    {
-        this.port=port;
-        
-        updatePort();
-
-        return this;
-    }   
+    // A PortVisual may showinvalid status, if the port is not allowed to be built
+    // on the selected spot.
+    public PortVisual setValid(boolean valid);
+    public boolean isValid();
 }

@@ -1,14 +1,14 @@
 package soc.common.board.routing;
 
 import soc.common.board.pieces.PlayerPiece;
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 
 public interface GraphElement
 {
     /*
      * Returns the player owning the element
      */
-    public Player getPlayer();
+    public GamePlayer getPlayer();
     
     /*
      * Returns the playerpiece residing on the element

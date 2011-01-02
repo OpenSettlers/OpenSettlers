@@ -4,7 +4,7 @@ package soc.common.client.visuals;
  * Base implementation of visual representation of a board object.
  * Implements selected, visible and enabled properties. 
  */
-public abstract class AbstractPieceVisual implements IPieceVisual
+public abstract class AbstractPieceVisual implements PieceVisual
 {
     protected boolean visible = true;
     protected boolean selected = false;
@@ -33,7 +33,7 @@ public abstract class AbstractPieceVisual implements IPieceVisual
     }
 
     @Override
-    public IPieceVisual setEnabled(boolean enabled)
+    public PieceVisual setEnabled(boolean enabled)
     {
         this.enabled=enabled;
         
@@ -43,7 +43,7 @@ public abstract class AbstractPieceVisual implements IPieceVisual
     }
 
     @Override
-    public IPieceVisual setSelected(boolean selected)
+    public PieceVisual setSelected(boolean selected)
     {
         this.selected=selected;
         
@@ -53,7 +53,7 @@ public abstract class AbstractPieceVisual implements IPieceVisual
     }
 
     @Override
-    public IPieceVisual setVisible(boolean visible)
+    public PieceVisual setVisible(boolean visible)
     {
         this.visible=visible;
         

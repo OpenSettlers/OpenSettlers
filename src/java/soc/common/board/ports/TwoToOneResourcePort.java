@@ -6,6 +6,7 @@ import soc.common.board.resources.ResourceList;
 
 public class TwoToOneResourcePort extends AbstractPort
 {
+    private static final long serialVersionUID = 2615564785346537011L;
     private AbstractResource resource;
 
     public TwoToOneResourcePort(AbstractResource r)

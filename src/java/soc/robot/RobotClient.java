@@ -17,15 +17,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>. **/
 package soc.robot;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.net.Socket;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.Vector;
 
 import soc.client.DisplaylessPlayerClient;
-
 import soc.disableDebug.D;
-
 import soc.game.Game;
 import soc.game.GameOption;
 import soc.game.Player;
-
 import soc.message.AcceptOffer;
 import soc.message.AdminPing;
 import soc.message.AdminReset;
@@ -64,6 +67,7 @@ import soc.message.RejectOffer;
 import soc.message.ResetBoardAuth;
 import soc.message.ResourceCount;
 import soc.message.RobotDismiss;
+import soc.message.SOCVersion;
 import soc.message.ServerPing;
 import soc.message.SetPlayedDevCard;
 import soc.message.SetTurn;
@@ -72,28 +76,15 @@ import soc.message.StartGame;
 import soc.message.StatusMessage;
 import soc.message.Turn;
 import soc.message.UpdateRobotParams;
-import soc.message.SOCVersion;
-
 import soc.server.genericServer.LocalStringServerSocket;
-
 import soc.util.CappedQueue;
 import soc.util.CutoffExceededException;
 import soc.util.RobotParameters;
 import soc.util.Version;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-
-import java.net.Socket;
-
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Vector;
-
-
 /**
  * This is a client that can play Settlers of Catan.
- *
+ * 
  * @author Robert S Thomas
  */
 public class RobotClient extends DisplaylessPlayerClient
@@ -130,13 +121,13 @@ public class RobotClient extends DisplaylessPlayerClient
     protected Hashtable seatRequests = new Hashtable();
 
     /**
-     * options for all games on the server we've been asked to join.
-     * Some games may have no options, so will have no entry here,
-     * although they will have an entry in {@link #games} once joined.
-     * Key = game name, Value = hashtable of {@link GameOption}.
-     * Entries are added in {@link #handleJOINGAMEREQUEST(JoinGameRequest)}.
-     * Since the robot and server are the same version, the
-     * set of "known options" will always be in sync.
+     * options for all games on the server we've been asked to join. Some games
+     * may have no options, so will have no entry here, although they will have
+     * an entry in {@link #games} once joined. Key = game name, Value =
+     * hashtable of {@link GameOption}. Entries are added in
+     * {@link #handleJOINGAMEREQUEST(JoinGameRequest)}. Since the robot and
+     * server are the same version, the set of "known options" will always be in
+     * sync.
      */
     private Hashtable gameOptions = new Hashtable();
 
@@ -171,19 +162,24 @@ public class RobotClient extends DisplaylessPlayerClient
     RobotResetThread resetThread;
 
     /**
-     * Have we printed the initial welcome msg from server?
-     * Suppress further ones (disconnect-reconnect).
+     * Have we printed the initial welcome msg from server? Suppress further
+     * ones (disconnect-reconnect).
+     * 
      * @since 1.1.06
      */
     boolean printedInitialWelcome = false;
 
     /**
      * Constructor for connecting to the specified host, on the specified port
-     *
-     * @param h  host
-     * @param p  port
-     * @param nn nickname for robot
-     * @param pw password for robot
+     * 
+     * @param h
+     *            host
+     * @param p
+     *            port
+     * @param nn
+     *            nickname for robot
+     * @param pw
+     *            password for robot
      */
     public RobotClient(String h, int p, String nn, String pw)
     {
@@ -200,11 +196,15 @@ public class RobotClient extends DisplaylessPlayerClient
     }
 
     /**
-     * Constructor for connecting to a local game (practice) on a local stringport.
-     *
-     * @param s    the stringport that the server listens on
-     * @param nn   nickname for robot
-     * @param pw   password for robot
+     * Constructor for connecting to a local game (practice) on a local
+     * stringport.
+     * 
+     * @param s
+     *            the stringport that the server listens on
+     * @param nn
+     *            nickname for robot
+     * @param pw
+     *            password for robot
      */
     public RobotClient(String s, String nn, String pw)
     {
@@ -229,15 +229,16 @@ public class RobotClient extends DisplaylessPlayerClient
             else
             {
                 sLocal = LocalStringServerSocket.connectTo(strSocketName);
-            }               
+            }
             connected = true;
             reader = new Thread(this);
             reader.start();
 
-            //resetThread = new RobotResetThread(this);
-            //resetThread.start();
-            put(SOCVersion.toCmd(Version.versionNumber(), Version.version(), Version.buildnum()));
-            put(ImARobot.toCmd(nickname, ImARobot.RBCLASS_BUILTIN)); 
+            // resetThread = new RobotResetThread(this);
+            // resetThread.start();
+            put(SOCVersion.toCmd(Version.versionNumber(), Version.version(),
+                    Version.buildnum()));
+            put(ImARobot.toCmd(nickname, ImARobot.RBCLASS_BUILTIN));
         }
         catch (Exception e)
         {
@@ -245,13 +246,13 @@ public class RobotClient extends DisplaylessPlayerClient
             System.err.println("Could not connect to the server: " + ex);
         }
     }
-    
+
     public void init()
     {
         init_noImARobot();
         try
         {
-        put(ImARobot.toCmd(nickname, ImARobot.RBCLASS_BUILTIN));
+            put(ImARobot.toCmd(nickname, ImARobot.RBCLASS_BUILTIN));
         }
         catch (Exception e)
         {
@@ -261,8 +262,8 @@ public class RobotClient extends DisplaylessPlayerClient
     }
 
     /**
-     * disconnect and then try to reconnect.
-     * If the reconnect fails, {@link #ex} is set. Otherwise ex is null.
+     * disconnect and then try to reconnect. If the reconnect fails, {@link #ex}
+     * is set. Otherwise ex is null.
      */
     public void disconnectReconnect()
     {
@@ -288,9 +289,10 @@ public class RobotClient extends DisplaylessPlayerClient
             reader = new Thread(this);
             reader.start();
 
-            //resetThread = new RobotResetThread(this);
-            //resetThread.start();
-            put(SOCVersion.toCmd(Version.versionNumber(), Version.version(), Version.buildnum()));
+            // resetThread = new RobotResetThread(this);
+            // resetThread.start();
+            put(SOCVersion.toCmd(Version.versionNumber(), Version.version(),
+                    Version.buildnum()));
             put(ImARobot.toCmd(nickname, ImARobot.RBCLASS_BUILTIN));
         }
         catch (Exception e)
@@ -301,16 +303,17 @@ public class RobotClient extends DisplaylessPlayerClient
     }
 
     /**
-     * Treat the incoming messages.
-     * Messages of unknown type are ignored (mes will be null from {@link Message#toMsg(String)}).
-     *
-     * @param mes    the message
+     * Treat the incoming messages. Messages of unknown type are ignored (mes
+     * will be null from {@link Message#toMsg(String)}).
+     * 
+     * @param mes
+     *            the message
      */
     @Override
     public void treat(Message mes)
     {
         if (mes == null)
-            return;  // Message syntax error or unknown type
+            return; // Message syntax error or unknown type
 
         D.ebugPrintln("IN - " + mes);
 
@@ -406,14 +409,16 @@ public class RobotClient extends DisplaylessPlayerClient
              * receive a board layout
              */
             case Message.BOARDLAYOUT:
-                handleBOARDLAYOUT((BoardLayout) mes);  // in soc.client.DisplaylessPlayerClient
+                handleBOARDLAYOUT((BoardLayout) mes); // in
+                // soc.client.DisplaylessPlayerClient
                 break;
 
             /**
              * receive a board layout (new format, as of 20091104 (v 1.1.08))
              */
             case Message.BOARDLAYOUT2:
-                handleBOARDLAYOUT2((BoardLayout2) mes);  // in soc.client.DisplaylessPlayerClient
+                handleBOARDLAYOUT2((BoardLayout2) mes); // in
+                // soc.client.DisplaylessPlayerClient
                 break;
 
             /**
@@ -557,8 +562,8 @@ public class RobotClient extends DisplaylessPlayerClient
                 break;
 
             /**
-             * set the flag that tells if a player has played a
-             * development card this turn
+             * set the flag that tells if a player has played a development card
+             * this turn
              */
             case Message.SETPLAYEDDEVCARD:
                 handleSETPLAYEDDEVCARD((SetPlayedDevCard) mes);
@@ -586,14 +591,16 @@ public class RobotClient extends DisplaylessPlayerClient
                 break;
 
             /**
-             * handle the reject connection message - JM TODO: placement within switch? (vs displaylesscli, playercli) 
+             * handle the reject connection message - JM TODO: placement within
+             * switch? (vs displaylesscli, playercli)
              */
             case Message.REJECTCONNECTION:
                 handleREJECTCONNECTION((RejectConnection) mes);
                 break;
 
             /**
-             * handle board reset (new game with same players, same game name, new layout).
+             * handle board reset (new game with same players, same game name,
+             * new layout).
              */
             case Message.RESETBOARDAUTH:
                 handleRESETBOARDAUTH((ResetBoardAuth) mes);
@@ -602,7 +609,8 @@ public class RobotClient extends DisplaylessPlayerClient
         }
         catch (Throwable e)
         {
-            System.err.println("RobotClient treat ERROR - " + e + " " + e.getMessage());
+            System.err.println("RobotClient treat ERROR - " + e + " "
+                    + e.getMessage());
             e.printStackTrace();
             while (e.getCause() != null)
             {
@@ -615,26 +623,28 @@ public class RobotClient extends DisplaylessPlayerClient
     }
 
     /**
-     * handle the server ping message.
-     * Echo back to server, to ensure we're still connected.
-     * (ignored before version 1.1.08)
-     *
-     * @param mes  the message
+     * handle the server ping message. Echo back to server, to ensure we're
+     * still connected. (ignored before version 1.1.08)
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleSERVERPING(ServerPing mes)
     {
         put(mes.toCmd());
         /*
-           D.ebugPrintln("(*)(*) ServerPing message = "+mes);
-           D.ebugPrintln("(*)(*) ServerPing sleepTime = "+mes.getSleepTime());
-           D.ebugPrintln("(*)(*) resetThread = "+resetThread);
-           resetThread.sleepMore();
+         * D.ebugPrintln("(*)(*) ServerPing message = "+mes);
+         * D.ebugPrintln("(*)(*) ServerPing sleepTime = "+mes.getSleepTime());
+         * D.ebugPrintln("(*)(*) resetThread = "+resetThread);
+         * resetThread.sleepMore();
          */
     }
 
     /**
      * handle the admin ping message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleADMINPING(AdminPing mes)
     {
@@ -643,13 +653,13 @@ public class RobotClient extends DisplaylessPlayerClient
         Game ga = (Game) games.get(mes.getGame());
 
         //
-        //  if the robot hears a PING and is in the game
-        //  where the admin is, then just say "OK".
-        //  otherwise, join the game that the admin is in
+        // if the robot hears a PING and is in the game
+        // where the admin is, then just say "OK".
+        // otherwise, join the game that the admin is in
         //
-        //  note: this is a hack because the bot never 
-        //        leaves the game and the game must be 
-        //        killed by the admin
+        // note: this is a hack because the bot never
+        // leaves the game and the game must be
+        // killed by the admin
         //
         if (ga != null)
         {
@@ -663,7 +673,9 @@ public class RobotClient extends DisplaylessPlayerClient
 
     /**
      * handle the admin reset message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleADMINRESET(AdminReset mes)
     {
@@ -673,32 +685,37 @@ public class RobotClient extends DisplaylessPlayerClient
 
     /**
      * handle the update robot params message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleUPDATEROBOTPARAMS(UpdateRobotParams mes)
     {
         currentRobotParameters = new RobotParameters(mes.getRobotParameters());
-        D.ebugPrintln("*** current robot parameters = " + currentRobotParameters);
+        D.ebugPrintln("*** current robot parameters = "
+                + currentRobotParameters);
     }
 
     /**
-     * handle the "join game request" message.
-     * Remember the game options, and record in {@link #seatRequests}.
-     * Send a {@link JoinGame JOINGAME} to server in response.
-     * Server will reply with {@link JoinGameAuth JOINGAMEAUTH}.
+     * handle the "join game request" message. Remember the game options, and
+     * record in {@link #seatRequests}. Send a {@link JoinGame JOINGAME} to
+     * server in response. Server will reply with {@link JoinGameAuth
+     * JOINGAMEAUTH}.
      *<P>
      * Board resets are handled similarly.
-     * @param mes  the message
-     *
+     * 
+     * @param mes
+     *            the message
+     * 
      * @see #handleRESETBOARDAUTH(ResetBoardAuth)
      */
     protected void handleJOINGAMEREQUEST(JoinGameRequest mes)
     {
         D.ebugPrintln("**** handleJOINGAMEREQUEST ****");
-	final String gaName = mes.getGame();
-	Hashtable gaOpts = mes.getOptions();
-	if (gaOpts != null)
-	    gameOptions.put(gaName, gaOpts);
+        final String gaName = mes.getGame();
+        Hashtable gaOpts = mes.getOptions();
+        if (gaOpts != null)
+            gameOptions.put(gaName, gaOpts);
 
         seatRequests.put(gaName, new Integer(mes.getPlayerNumber()));
         if (put(JoinGame.toCmd(nickname, password, host, gaName)))
@@ -711,15 +728,17 @@ public class RobotClient extends DisplaylessPlayerClient
      * handle the "status message" message by printing it to System.err;
      * messages with status value 0 are ignored (no problem is being reported)
      * once the initial welcome message has been printed.
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleSTATUSMESSAGE(StatusMessage mes)
     {
         final int sv = mes.getStatusValue();
-        if ((sv != 0) || ! printedInitialWelcome)
+        if ((sv != 0) || !printedInitialWelcome)
         {
-            System.err.println("Robot " + getNickname() + ": Status "
-                + sv + " from server: " + mes.getStatus());
+            System.err.println("Robot " + getNickname() + ": Status " + sv
+                    + " from server: " + mes.getStatus());
             if (sv == 0)
                 printedInitialWelcome = true;
         }
@@ -727,16 +746,18 @@ public class RobotClient extends DisplaylessPlayerClient
 
     /**
      * handle the "join game authorization" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     @Override
     protected void handleJOINGAMEAUTH(JoinGameAuth mes)
     {
         gamesPlayed++;
 
-	final String gaName = mes.getGame();
+        final String gaName = mes.getGame();
 
-	Game ga = new Game(gaName, true, (Hashtable) gameOptions.get(gaName));
+        Game ga = new Game(gaName, true, (Hashtable) gameOptions.get(gaName));
         games.put(gaName, ga);
 
         CappedQueue brainQ = new CappedQueue();
@@ -748,15 +769,22 @@ public class RobotClient extends DisplaylessPlayerClient
 
     /**
      * handle the "join game" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     @Override
-    protected void handleJOINGAME(JoinGame mes) {}
+    protected void handleJOINGAME(JoinGame mes)
+    {
+    }
 
     /**
-     * handle the "game members" message, which indicates the entire game state has now been sent.
-     * If we have a {@link #seatRequests} for this game, sit down now.
-     * @param mes  the message
+     * handle the "game members" message, which indicates the entire game state
+     * has now been sent. If we have a {@link #seatRequests} for this game, sit
+     * down now.
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleGAMEMEMBERS(GameMembers mes)
     {
@@ -767,7 +795,7 @@ public class RobotClient extends DisplaylessPlayerClient
 
         try
         {
-            //wait(Math.round(Math.random()*1000));
+            // wait(Math.round(Math.random()*1000));
         }
         catch (Exception e)
         {
@@ -777,18 +805,24 @@ public class RobotClient extends DisplaylessPlayerClient
         if (pn != null)
         {
             put(SitDown.toCmd(mes.getGame(), nickname, pn.intValue(), true));
-        } else {
-            System.err.println("** Cannot sit down: Assert failed: null pn for game " + mes.getGame());
+        }
+        else
+        {
+            System.err
+                    .println("** Cannot sit down: Assert failed: null pn for game "
+                            + mes.getGame());
         }
     }
 
     /**
      * handle the "game text message" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleGAMETEXTMSG(GameTextMsg mes)
     {
-        //D.ebugPrintln(mes.getNickname()+": "+mes.getText());
+        // D.ebugPrintln(mes.getNickname()+": "+mes.getText());
         if (mes.getText().startsWith(nickname + ":debug-off"))
         {
             Game ga = (Game) games.get(mes.getGame());
@@ -813,35 +847,41 @@ public class RobotClient extends DisplaylessPlayerClient
             }
         }
 
-        if (mes.getText().startsWith(nickname + ":current-plans") || mes.getText().startsWith(nickname + ":cp"))
+        if (mes.getText().startsWith(nickname + ":current-plans")
+                || mes.getText().startsWith(nickname + ":cp"))
         {
             Game ga = (Game) games.get(mes.getGame());
             RobotBrain brain = (RobotBrain) robotBrains.get(mes.getGame());
 
             if ((brain != null) && (brain.getDRecorder().isOn()))
             {
-                sendRecordsText(ga, brain.getDRecorder().getRecord(CURRENT_PLANS));
+                sendRecordsText(ga, brain.getDRecorder().getRecord(
+                        CURRENT_PLANS));
             }
         }
 
-        if (mes.getText().startsWith(nickname + ":current-resources") || mes.getText().startsWith(nickname + ":cr"))
+        if (mes.getText().startsWith(nickname + ":current-resources")
+                || mes.getText().startsWith(nickname + ":cr"))
         {
             Game ga = (Game) games.get(mes.getGame());
             RobotBrain brain = (RobotBrain) robotBrains.get(mes.getGame());
 
             if ((brain != null) && (brain.getDRecorder().isOn()))
             {
-                sendRecordsText(ga, brain.getDRecorder().getRecord(CURRENT_RESOURCES));
+                sendRecordsText(ga, brain.getDRecorder().getRecord(
+                        CURRENT_RESOURCES));
             }
         }
 
-        if (mes.getText().startsWith(nickname + ":last-plans") || mes.getText().startsWith(nickname + ":lp"))
+        if (mes.getText().startsWith(nickname + ":last-plans")
+                || mes.getText().startsWith(nickname + ":lp"))
         {
             RobotBrain brain = (RobotBrain) robotBrains.get(mes.getGame());
 
             if ((brain != null) && (brain.getDRecorder().isOn()))
             {
-                Vector record = brain.getOldDRecorder().getRecord(CURRENT_PLANS);
+                Vector record = brain.getOldDRecorder()
+                        .getRecord(CURRENT_PLANS);
 
                 if (record != null)
                 {
@@ -851,13 +891,15 @@ public class RobotClient extends DisplaylessPlayerClient
             }
         }
 
-        if (mes.getText().startsWith(nickname + ":last-resources") || mes.getText().startsWith(nickname + ":lr"))
+        if (mes.getText().startsWith(nickname + ":last-resources")
+                || mes.getText().startsWith(nickname + ":lr"))
         {
             RobotBrain brain = (RobotBrain) robotBrains.get(mes.getGame());
 
             if ((brain != null) && (brain.getDRecorder().isOn()))
             {
-                Vector record = brain.getOldDRecorder().getRecord(CURRENT_RESOURCES);
+                Vector record = brain.getOldDRecorder().getRecord(
+                        CURRENT_RESOURCES);
 
                 if (record != null)
                 {
@@ -867,7 +909,8 @@ public class RobotClient extends DisplaylessPlayerClient
             }
         }
 
-        if (mes.getText().startsWith(nickname + ":last-move") || mes.getText().startsWith(nickname + ":lm"))
+        if (mes.getText().startsWith(nickname + ":last-move")
+                || mes.getText().startsWith(nickname + ":lm"))
         {
             RobotBrain brain = (RobotBrain) robotBrains.get(mes.getGame());
 
@@ -913,7 +956,8 @@ public class RobotClient extends DisplaylessPlayerClient
             }
         }
 
-        if (mes.getText().startsWith(nickname + ":consider-move ") || mes.getText().startsWith(nickname + ":cm "))
+        if (mes.getText().startsWith(nickname + ":consider-move ")
+                || mes.getText().startsWith(nickname + ":cm "))
         {
             RobotBrain brain = (RobotBrain) robotBrains.get(mes.getGame());
 
@@ -949,7 +993,8 @@ public class RobotClient extends DisplaylessPlayerClient
             }
         }
 
-        if (mes.getText().startsWith(nickname + ":last-target") || mes.getText().startsWith(nickname + ":lt"))
+        if (mes.getText().startsWith(nickname + ":last-target")
+                || mes.getText().startsWith(nickname + ":lt"))
         {
             RobotBrain brain = (RobotBrain) robotBrains.get(mes.getGame());
 
@@ -995,7 +1040,8 @@ public class RobotClient extends DisplaylessPlayerClient
             }
         }
 
-        if (mes.getText().startsWith(nickname + ":consider-target ") || mes.getText().startsWith(nickname + ":ct "))
+        if (mes.getText().startsWith(nickname + ":consider-target ")
+                || mes.getText().startsWith(nickname + ":ct "))
         {
             RobotBrain brain = (RobotBrain) robotBrains.get(mes.getGame());
 
@@ -1039,7 +1085,7 @@ public class RobotClient extends DisplaylessPlayerClient
             sendText(ga, "Games won:" + gamesWon);
             sendText(ga, "Clean brain kills:" + cleanBrainKills);
             sendText(ga, "Brains running: " + robotBrains.size());
- 
+
             Runtime rt = Runtime.getRuntime();
             sendText(ga, "Total Memory:" + rt.totalMemory());
             sendText(ga, "Free Memory:" + rt.freeMemory());
@@ -1070,7 +1116,9 @@ public class RobotClient extends DisplaylessPlayerClient
 
     /**
      * handle the "someone is sitting down" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleSITDOWN(SitDown mes)
     {
@@ -1086,7 +1134,8 @@ public class RobotClient extends DisplaylessPlayerClient
             /**
              * set the robot flag
              */
-            ga.getPlayer(mes.getPlayerNumber()).setRobotFlag(mes.isRobot(), false);
+            ga.getPlayer(mes.getPlayerNumber()).setRobotFlag(mes.isRobot(),
+                    false);
 
             /**
              * let the robot brain find our player object if we sat down
@@ -1102,11 +1151,11 @@ public class RobotClient extends DisplaylessPlayerClient
                 switch (brain.getRobotParameters().getStrategyType())
                 {
                 case RobotDM.SMART_STRATEGY:
-                    faceId = -1;  // smarter robot face
+                    faceId = -1; // smarter robot face
                     break;
 
                 default:
-                    faceId = 0;   // default robot face
+                    faceId = 0; // default robot face
                 }
 
                 brain.setOurPlayerData();
@@ -1115,7 +1164,8 @@ public class RobotClient extends DisplaylessPlayerClient
                 /**
                  * change our face to the robot face
                  */
-                put(ChangeFace.toCmd(ga.getName(), mes.getPlayerNumber(), faceId));
+                put(ChangeFace.toCmd(ga.getName(), mes.getPlayerNumber(),
+                        faceId));
             }
             else
             {
@@ -1134,13 +1184,19 @@ public class RobotClient extends DisplaylessPlayerClient
 
     /**
      * handle the "start game" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
-    protected void handleSTARTGAME(StartGame mes) {}
+    protected void handleSTARTGAME(StartGame mes)
+    {
+    }
 
     /**
      * handle the "delete game" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleDELETEGAME(DeleteGame mes)
     {
@@ -1159,7 +1215,7 @@ public class RobotClient extends DisplaylessPlayerClient
                     if (ga.getPlayer(nickname).getTotalVP() >= Game.VP_WINNER)
                     {
                         gamesWon++;
-                        // TODO: hardcoded, assumes 10 to win (VP_WINNER)
+                        // TO-DO: hardcoded, assumes 10 to win (VP_WINNER)
                     }
                 }
 
@@ -1173,7 +1229,9 @@ public class RobotClient extends DisplaylessPlayerClient
 
     /**
      * handle the "game state" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleGAMESTATE(GameState mes)
     {
@@ -1199,7 +1257,9 @@ public class RobotClient extends DisplaylessPlayerClient
 
     /**
      * handle the "set turn" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleSETTURN(SetTurn mes)
     {
@@ -1220,7 +1280,9 @@ public class RobotClient extends DisplaylessPlayerClient
 
     /**
      * handle the "set first player" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleFIRSTPLAYER(FirstPlayer mes)
     {
@@ -1241,12 +1303,14 @@ public class RobotClient extends DisplaylessPlayerClient
 
     /**
      * handle the "turn" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleTURN(Turn mes)
     {
-    	System.out.println("SOCROBOTCLIENT HANDLE TURN");
-    	
+        System.out.println("SOCROBOTCLIENT HANDLE TURN");
+
         CappedQueue brainQ = (CappedQueue) brainQs.get(mes.getGame());
 
         if (brainQ != null)
@@ -1264,12 +1328,14 @@ public class RobotClient extends DisplaylessPlayerClient
 
     /**
      * handle the "player element" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handlePLAYERELEMENT(PlayerElement mes)
     {
-    	System.out.println("handle player element in the method");
-    	
+        System.out.println("handle player element in the method");
+
         CappedQueue brainQ = (CappedQueue) brainQs.get(mes.getGame());
 
         if (brainQ != null)
@@ -1287,7 +1353,9 @@ public class RobotClient extends DisplaylessPlayerClient
 
     /**
      * handle "resource count" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleRESOURCECOUNT(ResourceCount mes)
     {
@@ -1308,7 +1376,9 @@ public class RobotClient extends DisplaylessPlayerClient
 
     /**
      * handle the "dice result" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleDICERESULT(DiceResult mes)
     {
@@ -1329,13 +1399,15 @@ public class RobotClient extends DisplaylessPlayerClient
 
     /**
      * handle the "put piece" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handlePUTPIECE(PutPiece mes)
     {
-    	
-    	System.out.println("PUT PIECE CALLED IN RobotClient");
-    	
+
+        System.out.println("PUT PIECE CALLED IN RobotClient");
+
         CappedQueue brainQ = (CappedQueue) brainQs.get(mes.getGame());
 
         if (brainQ != null)
@@ -1354,7 +1426,6 @@ public class RobotClient extends DisplaylessPlayerClient
             if (ga != null)
             {
                 // Player pl = ga.getPlayer(mes.getPlayerNumber());
-                // JDM TODO - Was this in stock client?
             }
         }
     }
@@ -1363,27 +1434,29 @@ public class RobotClient extends DisplaylessPlayerClient
      * handle the rare "cancel build request" message; usually not sent from
      * server to client.
      *<P>
-     * - When sent from client to server, CANCELBUILDREQUEST means the player has changed
-     *   their mind about spending resources to build a piece.  Only allowed during normal
-     *   game play (PLACING_ROAD, PLACING_SETTLEMENT, or PLACING_CITY).
+     * - When sent from client to server, CANCELBUILDREQUEST means the player
+     * has changed their mind about spending resources to build a piece. Only
+     * allowed during normal game play (PLACING_ROAD, PLACING_SETTLEMENT, or
+     * PLACING_CITY).
      *<P>
-     *  When sent from server to client:
+     * When sent from server to client:
      *<P>
      * - During game startup (START1B or START2B): <BR>
-     *       Sent from server, CANCELBUILDREQUEST means the current player
-     *       wants to undo the placement of their initial settlement.  
+     * Sent from server, CANCELBUILDREQUEST means the current player wants to
+     * undo the placement of their initial settlement.
      *<P>
      * - During piece placement (PLACING_ROAD, PLACING_CITY, PLACING_SETTLEMENT,
-     *                           PLACING_FREE_ROAD1 or PLACING_FREE_ROAD2):
+     * PLACING_FREE_ROAD1 or PLACING_FREE_ROAD2):
      *<P>
-     *      Sent from server, CANCELBUILDREQUEST means the player has sent
-     *      an illegal PUTPIECE (bad building location). Humans can probably
-     *      decide a better place to put their road, but robots must cancel
-     *      the build request and decide on a new plan.
+     * Sent from server, CANCELBUILDREQUEST means the player has sent an illegal
+     * PUTPIECE (bad building location). Humans can probably decide a better
+     * place to put their road, but robots must cancel the build request and
+     * decide on a new plan.
      *<P>
-     *      Our robot client sends this to the brain to act on.
-     *
-     * @param mes  the message
+     * Our robot client sends this to the brain to act on.
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleCANCELBUILDREQUEST(CancelBuildRequest mes)
     {
@@ -1404,7 +1477,9 @@ public class RobotClient extends DisplaylessPlayerClient
 
     /**
      * handle the "move robber" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleMOVEROBBER(MoveRobber mes)
     {
@@ -1425,7 +1500,9 @@ public class RobotClient extends DisplaylessPlayerClient
 
     /**
      * handle the "discard request" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleDISCARDREQUEST(DiscardRequest mes)
     {
@@ -1446,7 +1523,9 @@ public class RobotClient extends DisplaylessPlayerClient
 
     /**
      * handle the "choose player request" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleCHOOSEPLAYERREQUEST(ChoosePlayerRequest mes)
     {
@@ -1467,7 +1546,9 @@ public class RobotClient extends DisplaylessPlayerClient
 
     /**
      * handle the "make offer" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleMAKEOFFER(MakeOffer mes)
     {
@@ -1488,7 +1569,9 @@ public class RobotClient extends DisplaylessPlayerClient
 
     /**
      * handle the "clear offer" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleCLEAROFFER(ClearOffer mes)
     {
@@ -1509,7 +1592,9 @@ public class RobotClient extends DisplaylessPlayerClient
 
     /**
      * handle the "reject offer" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleREJECTOFFER(RejectOffer mes)
     {
@@ -1530,7 +1615,9 @@ public class RobotClient extends DisplaylessPlayerClient
 
     /**
      * handle the "accept offer" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleACCEPTOFFER(AcceptOffer mes)
     {
@@ -1551,13 +1638,19 @@ public class RobotClient extends DisplaylessPlayerClient
 
     /**
      * handle the "clear trade" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
-    protected void handleCLEARTRADEMSG(ClearTradeMsg mes) {}
+    protected void handleCLEARTRADEMSG(ClearTradeMsg mes)
+    {
+    }
 
     /**
      * handle the "development card count" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleDEVCARDCOUNT(DevCardCount mes)
     {
@@ -1578,7 +1671,9 @@ public class RobotClient extends DisplaylessPlayerClient
 
     /**
      * handle the "development card action" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleDEVCARD(DevCard mes)
     {
@@ -1599,7 +1694,9 @@ public class RobotClient extends DisplaylessPlayerClient
 
     /**
      * handle the "set played development card" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleSETPLAYEDDEVCARD(SetPlayedDevCard mes)
     {
@@ -1620,7 +1717,9 @@ public class RobotClient extends DisplaylessPlayerClient
 
     /**
      * handle the "dismiss robot" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleROBOTDISMISS(RobotDismiss mes)
     {
@@ -1639,21 +1738,23 @@ public class RobotClient extends DisplaylessPlayerClient
             }
 
             /**
-             * if the brain isn't alive, then we need to leave
-             * the game
+             * if the brain isn't alive, then we need to leave the game
              */
             RobotBrain brain = (RobotBrain) robotBrains.get(mes.getGame());
 
             if ((brain == null) || (!brain.isAlive()))
             {
-                leaveGame((Game) games.get(mes.getGame()), "brain not alive", false);
+                leaveGame((Game) games.get(mes.getGame()), "brain not alive",
+                        false);
             }
         }
     }
 
     /**
      * handle the "potential settlements" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handlePOTENTIALSETTLEMENTS(PotentialSettlements mes)
     {
@@ -1674,7 +1775,9 @@ public class RobotClient extends DisplaylessPlayerClient
 
     /**
      * handle the "change face" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleCHANGEFACE(ChangeFace mes)
     {
@@ -1689,7 +1792,9 @@ public class RobotClient extends DisplaylessPlayerClient
 
     /**
      * handle the "longest road" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleLONGESTROAD(LongestRoad mes)
     {
@@ -1703,14 +1808,18 @@ public class RobotClient extends DisplaylessPlayerClient
             }
             else
             {
-                ga.setPlayerWithLongestRoad(ga.getPlayer(mes.getPlayerNumber()));
+                ga
+                        .setPlayerWithLongestRoad(ga.getPlayer(mes
+                                .getPlayerNumber()));
             }
         }
     }
 
     /**
      * handle the "largest army" message
-     * @param mes  the message
+     * 
+     * @param mes
+     *            the message
      */
     protected void handleLARGESTARMY(LargestArmy mes)
     {
@@ -1724,20 +1833,22 @@ public class RobotClient extends DisplaylessPlayerClient
             }
             else
             {
-                ga.setPlayerWithLargestArmy(ga.getPlayer(mes.getPlayerNumber()));
+                ga
+                        .setPlayerWithLargestArmy(ga.getPlayer(mes
+                                .getPlayerNumber()));
             }
         }
     }
 
     /**
-     * handle board reset
-     * (new game with same players, same game name).
-     * Destroy old Game object.
-     * Take robotbrain out of old game, don't yet put it in new game.
-     * Let server know we've done so, by sending LEAVEGAME via {@link #leaveGame(Game, String, boolean)}.
-     * Server will soon send a JOINGAMEREQUEST if we should join the new game.
-     *
-     * @param mes  the message
+     * handle board reset (new game with same players, same game name). Destroy
+     * old Game object. Take robotbrain out of old game, don't yet put it in new
+     * game. Let server know we've done so, by sending LEAVEGAME via
+     * {@link #leaveGame(Game, String, boolean)}. Server will soon send a
+     * JOINGAMEREQUEST if we should join the new game.
+     * 
+     * @param mes
+     *            the message
      * 
      * @see soc.server.SOCServer#resetBoardAndNotify(String, int)
      * @see soc.game.Game#resetAsCopy()
@@ -1750,19 +1861,22 @@ public class RobotClient extends DisplaylessPlayerClient
         String gname = mes.getGame();
         Game ga = (Game) games.get(gname);
         if (ga == null)
-            return;  // Not one of our games
+            return; // Not one of our games
 
         RobotBrain brain = (RobotBrain) robotBrains.get(gname);
         if (brain != null)
             brain.kill();
-        leaveGame(ga, "resetboardauth", false);  // Same as in handleROBOTDISMISS
+        leaveGame(ga, "resetboardauth", false); // Same as in handleROBOTDISMISS
         ga.destroyGame();
     }
 
     /**
      * Call sendText on each string element of record.
-     * @param ga Game to sendText to
-     * @param record Strings to send, or null
+     * 
+     * @param ga
+     *            Game to sendText to
+     * @param record
+     *            Strings to send, or null
      */
     protected void sendRecordsText(Game ga, Vector record)
     {
@@ -1780,9 +1894,11 @@ public class RobotClient extends DisplaylessPlayerClient
 
     /**
      * the user leaves the given game
-     *
-     * @param ga   the game
-     * @param leaveReason reason for leaving
+     * 
+     * @param ga
+     *            the game
+     * @param leaveReason
+     *            reason for leaving
      */
     public void leaveGame(Game ga, String leaveReason, boolean showDebugTrace)
     {
@@ -1791,7 +1907,8 @@ public class RobotClient extends DisplaylessPlayerClient
             robotBrains.remove(ga.getName());
             brainQs.remove(ga.getName());
             games.remove(ga.getName());
-            System.err.println("L1833 robot " + nickname + " leaving game " + ga + " due to " + leaveReason);
+            System.err.println("L1833 robot " + nickname + " leaving game "
+                    + ga + " due to " + leaveReason);
             if (showDebugTrace)
             {
                 soc.debug.D.ebugPrintStackTrace(null, "Leaving game here");
@@ -1826,13 +1943,15 @@ public class RobotClient extends DisplaylessPlayerClient
     {
         if (args.length < 4)
         {
-            System.err.println("Java Settlers robotclient " + Version.version() +
-                    ", build " + Version.buildnum());
-            System.err.println("usage: java soc.robot.RobotClient host port_number userid password");
+            System.err.println("Java Settlers robotclient " + Version.version()
+                    + ", build " + Version.buildnum());
+            System.err
+                    .println("usage: java soc.robot.RobotClient host port_number userid password");
             return;
         }
 
-        RobotClient ex1 = new RobotClient(args[0], Integer.parseInt(args[1]), args[2], args[3]);
+        RobotClient ex1 = new RobotClient(args[0], Integer.parseInt(args[1]),
+                args[2], args[3]);
         ex1.init();
     }
 }

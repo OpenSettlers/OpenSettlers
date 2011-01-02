@@ -1,6 +1,6 @@
 package soc.gwtClient.game.abstractWidgets;
 
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -9,9 +9,9 @@ import com.google.gwt.user.client.ui.Widget;
 public abstract class AbstractVictoryPointsWidget implements IVictoryPointsWidget
 {
     protected ComplexPanel rootPanel;
-    protected Player player;
+    protected GamePlayer player;
     
-    public AbstractVictoryPointsWidget(Player player)
+    public AbstractVictoryPointsWidget(GamePlayer player)
     {
         this.player=player;
         

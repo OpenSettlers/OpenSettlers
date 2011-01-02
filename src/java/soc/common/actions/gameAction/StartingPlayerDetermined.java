@@ -1,6 +1,6 @@
 package soc.common.actions.gameAction;
 
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
 import soc.common.internationalization.I18n;
@@ -9,12 +9,12 @@ public class StartingPlayerDetermined extends AbstractGameAction
 {
     private static final long serialVersionUID = 4916570503194938187L;
     private int diceRoll;
-    private Player gameStarter;
+    private GamePlayer gameStarter;
 
     /**
      * @return the gameStarter
      */
-    public Player getGameStarter()
+    public GamePlayer getGameStarter()
     {
         return gameStarter;
     }
@@ -23,7 +23,7 @@ public class StartingPlayerDetermined extends AbstractGameAction
      * @param gameStarter
      *            the gameStarter to set
      */
-    public StartingPlayerDetermined setGameStarter(Player gameStarter)
+    public StartingPlayerDetermined setGameStarter(GamePlayer gameStarter)
     {
         this.gameStarter = gameStarter;
 

@@ -1,13 +1,14 @@
 package soc.common.board.ports;
 
+import java.io.Serializable;
+
 import soc.common.board.HexLocation;
 import soc.common.board.HexSide;
 import soc.common.board.RotationPosition;
-import soc.common.board.resources.AbstractResource;
 import soc.common.board.resources.Resource;
 import soc.common.board.resources.ResourceList;
 
-public interface Port
+public interface Port extends Serializable
 {
 
     /**
@@ -18,7 +19,7 @@ public interface Port
     /**
      * @return the resource
      */
-    public abstract AbstractResource getResource();
+    public abstract Resource getResource();
 
     /**
      * @return the hexLocation

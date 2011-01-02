@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.Set;
 
 import org.jgrapht.Graphs;
+import org.jgrapht.UndirectedGraph;
 import org.jgrapht.graph.ListenableUndirectedGraph;
+import org.jgrapht.graph.SimpleGraph;
 import org.jgrapht.graph.UndirectedSubgraph;
 
 import soc.common.board.Board;
@@ -16,7 +18,7 @@ import soc.common.board.hexes.Hex;
 import soc.common.board.pieces.City;
 import soc.common.board.pieces.Road;
 import soc.common.board.pieces.Town;
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 
 /*
  * Implementation of a board graph to support longest route calculation and bots
@@ -27,13 +29,31 @@ import soc.common.game.Player;
  * - Volcano's may split a road, when a town blows up and the town connected a ship 
  *   and a road. 
  * 
- * In graph theory, a dot (HexPoint) is called a vertex. A line (HexSide) is called
+ * A dot (HexPoint) is called a vertex. A line (HexSide) is called
  * an edge.  
  */
 public class BoardGraph
 {
-    public ListenableUndirectedGraph<GraphPoint, GraphSide> graph = new ListenableUndirectedGraph<GraphPoint, GraphSide>(
+    private ListenableUndirectedGraph<GraphPoint, GraphSide> graph = new ListenableUndirectedGraph<GraphPoint, GraphSide>(
             GraphSide.class);
+
+    public Set<GraphSide> getSides()
+    {
+        return graph.edgeSet();
+    }
+
+    public Set<GraphPoint> getPoints()
+    {
+        return graph.vertexSet();
+    }
+
+    /**
+     * @return the graph
+     */
+    public ListenableUndirectedGraph<GraphPoint, GraphSide> getGraph()
+    {
+        return graph;
+    }
 
     /*
      * Create the graph containing of all the empty vertices and edges
@@ -46,17 +66,14 @@ public class BoardGraph
             // Iterate over all 6 possible HexPoint of a hex
             for (HexPoint point : hex.getLocation().getNeighbourHexPoints())
             {
-                GraphPoint graphPoint = getPointFromSet(point);
+                GraphPoint graphPoint = findGraphPoint(point);
 
-                if (graphPoint == null && // no need for duplicates
-                        // point should be actually on the board, not on the
-                        // edges
-                        point.fallsWithinBoardBounds(board.getWidth(), board
-                                .getHeight()))
+                if (board.includeInGame(point))
                 {
-                    graphPoint = new GraphPointImpl().setPoint(point);
+                    GraphPoint newGraphPoint = new GraphPointImpl()
+                            .setPoint(point);
 
-                    graph.addVertex(graphPoint);
+                    graph.addVertex(newGraphPoint);
                 }
             }
         }
@@ -80,19 +97,22 @@ public class BoardGraph
                     // Get the other point
                     HexPoint otherPoint = side.getOtherPoint(point.getPoint());
 
-                    // instantiate the other IGraphPoint
-                    GraphPoint otherGraphPoint = new GraphPointImpl()
-                            .setPoint(otherPoint);
+                    // get the other IGraphPoint
+                    GraphPoint otherGraphPoint = findGraphPoint(otherPoint);
 
-                    // Find existing side
-                    GraphSide graphSide = getSideFromSet(side);
-
-                    if (graphSide == null)
+                    if (otherGraphPoint != null)
                     {
-                        graphSide = new GraphSideImpl().setSide(side);
-                    }
 
-                    graph.addEdge(otherGraphPoint, point, graphSide);
+                        // Find existing side
+                        GraphSide graphSide = getSideFromSet(side);
+
+                        if (graphSide == null)
+                        {
+                            graphSide = new GraphSideImpl().setSide(side);
+                        }
+
+                        graph.addEdge(otherGraphPoint, point, graphSide);
+                    }
                 }
             }
         }
@@ -111,7 +131,7 @@ public class BoardGraph
         return null;
     }
 
-    private GraphPoint getPointFromSet(HexPoint point)
+    private GraphPoint findGraphPoint(HexPoint point)
     {
         for (GraphPoint graphPoint : graph.vertexSet())
         {
@@ -126,7 +146,7 @@ public class BoardGraph
 
     public void addTown(Town town)
     {
-        GraphPoint point = getPointFromSet(town.getPoint());
+        GraphPoint point = findGraphPoint(town.getPoint());
 
         point.setPlayerPiece(town);
 
@@ -148,7 +168,7 @@ public class BoardGraph
      */
     public void addCity(City city)
     {
-        GraphPoint point = getPointFromSet(city.getPoint());
+        GraphPoint point = findGraphPoint(city.getPoint());
 
         point.setPlayerPiece(city);
     }
@@ -178,28 +198,25 @@ public class BoardGraph
         }
     }
 
-    public UndirectedSubgraph<GraphPoint, GraphSide> getPlayerGraph(
-            Player player)
+    public UndirectedGraph<GraphPoint, GraphSide> getPlayerGraph(
+            GamePlayer player)
     {
-        UndirectedSubgraph<GraphPoint, GraphSide> result;
+        UndirectedGraph<GraphPoint, GraphSide> result = new SimpleGraph<GraphPoint, GraphSide>(
+                GraphSide.class);
 
-        // Create a set of sides of the player
-        Set<GraphSide> subSet = new HashSet<GraphSide>();
+        // Construct the players' graph with all his owned edges
         for (GraphSide side : graph.edgeSet())
         {
-            if (side.getPlayer() == player)
+            // Each encountered side ought to be unique.
+            if (side.getPlayer().equals(player))
             {
-                subSet.add(side);
+                GraphPoint source = graph.getEdgeSource(side);
+                GraphPoint target = graph.getEdgeTarget(side);
+                result.addVertex(source);
+                result.addVertex(target);
+                result.addEdge(source, target, side);
             }
         }
-
-        // Create subgraph, with players' sides and all the points of the main
-        // graph
-        result = new UndirectedSubgraph<GraphPoint, GraphSide>(graph, graph
-                .vertexSet(), subSet);
-
-        // Keep track of the points we need to remove
-        List<GraphPoint> pointsToRemove = new ArrayList<GraphPoint>();
 
         // Keep track of the points need splitting
         List<GraphPoint> pointsToSplit = new ArrayList<GraphPoint>();
@@ -208,25 +225,13 @@ public class BoardGraph
         // remove points when there are no roads/ships/bridges connecting
         for (GraphPoint point : result.vertexSet())
         {
-            // Mark points without roads/ships/bridges connecting to them for
-            // removal
-            if (result.degreeOf(point) == 0)
-            {
-                pointsToRemove.add(point);
-                continue;
-            }
-
             // Split the chain when HexPoint is in use by another player
+            // TODO: add support for volcanos by checking for ship+road
+            // disconnects
             if (point.getPlayer() != null && point.getPlayer() != player)
             {
                 pointsToSplit.add(point);
             }
-        }
-
-        // Remove marked points from subgraph
-        for (GraphPoint pointToRemove : pointsToRemove)
-        {
-            result.vertexSet().remove(pointToRemove);
         }
 
         // Split marked points in subgraph
@@ -259,20 +264,25 @@ public class BoardGraph
         return result;
     }
 
-    public Route getLongestRoute(List<Player> players)
+    /*
+     * Calculate longest route 1. Create a PlayerGraph for every player 2. Split
+     * the playergraph in seperate islands (nonconnected graphs) 3. Calculate
+     * longest path for every playergraph of every player
+     */
+    public Route getLongestRoute(List<GamePlayer> players)
     {
         // Route longestRoute = new Route();
 
-        Set<UndirectedSubgraph<GraphPoint, GraphSide>> playerGraphs = new HashSet<UndirectedSubgraph<GraphPoint, GraphSide>>();
+        Set<UndirectedGraph<GraphPoint, GraphSide>> playerGraphs = new HashSet<UndirectedGraph<GraphPoint, GraphSide>>();
 
         // Fill the set of graphs for each player
-        for (Player player : players)
+        for (GamePlayer player : players)
         {
             // Only consider players with at least 5 SidePieces
             if (player.getBuildPieces().getSidePieces().size() >= 5)
             {
                 // Get the subgraph from the main graph
-                UndirectedSubgraph<GraphPoint, GraphSide> subGraph = getPlayerGraph(player);
+                UndirectedGraph<GraphPoint, GraphSide> subGraph = getPlayerGraph(player);
 
                 // Add the graph when amount of vertices is equal or more then
                 // 5. No need
@@ -358,7 +368,7 @@ public class BoardGraph
         return connectedSides;
     }
 
-    public Set<GraphPoint> getTownCandidatesTurnPhase(Player forPlayer)
+    public Set<GraphPoint> getTownCandidatesTurnPhase(GamePlayer forPlayer)
     {
         Set<GraphPoint> result = new HashSet<GraphPoint>();
 
@@ -369,7 +379,7 @@ public class BoardGraph
      * Returns a set of possibilties for a player to build on, for his first
      * town
      */
-    public Set<GraphPoint> getTownCandidatesFirstTown(Player forPlayer)
+    public Set<GraphPoint> getTownCandidatesFirstTown(GamePlayer forPlayer)
     {
         Set<GraphPoint> result = new HashSet<GraphPoint>();
 
@@ -384,7 +394,7 @@ public class BoardGraph
     /*
      * Returns a set of possible locations for a player's second town
      */
-    public Set<GraphPoint> getTownCandidatesSecondTown(Player forPlayer)
+    public Set<GraphPoint> getTownCandidatesSecondTown(GamePlayer forPlayer)
     {
         Set<GraphPoint> result = new HashSet<GraphPoint>();
 
@@ -399,7 +409,7 @@ public class BoardGraph
     /*
      * Returns a list of possible locations to build his first town on
      */
-    public Set<GraphSide> getRoadCandidatesFirstTown(Player player)
+    public Set<GraphSide> getRoadCandidatesFirstTown(GamePlayer player)
     {
         Set<GraphSide> result = new HashSet<GraphSide>();
 
@@ -411,7 +421,7 @@ public class BoardGraph
     /*
      * 
      */
-    public Set<GraphSide> getRoadCandidatesSecondTown(Player player)
+    public Set<GraphSide> getRoadCandidatesSecondTown(GamePlayer player)
     {
         Set<GraphSide> result = new HashSet<GraphSide>();
 
@@ -420,7 +430,7 @@ public class BoardGraph
         return result;
     }
 
-    public Set<GraphSide> getRoadCandidates(Player player)
+    public Set<GraphSide> getRoadCandidates(GamePlayer player)
     {
         Set<GraphSide> result = new HashSet<GraphSide>();
 
@@ -429,7 +439,7 @@ public class BoardGraph
         return result;
     }
 
-    public Set<GraphSide> getShipBuildCandidates(Player player)
+    public Set<GraphSide> getShipBuildCandidates(GamePlayer player)
     {
         Set<GraphSide> result = new HashSet<GraphSide>();
 
@@ -438,7 +448,7 @@ public class BoardGraph
         return result;
     }
 
-    public Set<GraphSide> getShipMoveCandidates(Player player)
+    public Set<GraphSide> getShipMoveCandidates(GamePlayer player)
     {
         Set<GraphSide> result = new HashSet<GraphSide>();
 
@@ -447,7 +457,7 @@ public class BoardGraph
         return result;
     }
 
-    public Set<GraphSide> getBridgeBuildCandidates(Player player)
+    public Set<GraphSide> getBridgeBuildCandidates(GamePlayer player)
     {
         Set<GraphSide> result = new HashSet<GraphSide>();
 

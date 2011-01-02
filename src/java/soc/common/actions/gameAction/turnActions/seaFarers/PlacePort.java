@@ -71,6 +71,6 @@ public class PlacePort extends AbstractGameAction
     @Override
     public String getToDoMessage()
     {
-        return I18n.get().actions().placePortToDo(player.getName());
+        return I18n.get().actions().placePortToDo(player.getUser().getName());
     }
 }

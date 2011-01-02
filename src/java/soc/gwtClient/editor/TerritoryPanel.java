@@ -4,7 +4,7 @@ import soc.common.board.territories.TerritoriesChangedEvent;
 import soc.common.board.territories.TerritoriesChangedEventHandler;
 import soc.common.board.territories.Territory;
 import soc.common.client.behaviour.editor.SetTerritoryBehaviour;
-import soc.common.client.visuals.board.IBoardVisual;
+import soc.common.client.visuals.board.BoardVisual;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -27,7 +27,7 @@ public class TerritoryPanel extends VerticalPanel implements
         TerritoriesChangedEventHandler
 {
     SetTerritoryBehaviour behaviour;
-    IBoardVisual board;
+    BoardVisual board;
     final DialogBox dialogBox = new DialogBox();
 
     private HandlerManager handlerManager = new HandlerManager(this);
@@ -44,7 +44,7 @@ public class TerritoryPanel extends VerticalPanel implements
         return handlerManager.addHandler(BehaviourChanged.TYPE, handler);
     }
 
-    public TerritoryPanel(SetTerritoryBehaviour b, final IBoardVisual board)
+    public TerritoryPanel(SetTerritoryBehaviour b, final BoardVisual board)
     {
         super();
 

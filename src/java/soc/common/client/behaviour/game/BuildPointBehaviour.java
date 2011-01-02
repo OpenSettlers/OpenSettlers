@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import soc.common.board.HexPoint;
-import soc.common.client.visuals.IPieceVisual;
-import soc.common.client.visuals.board.IBoardVisual;
-import soc.common.client.visuals.game.IGameBoardVisual;
+import soc.common.client.visuals.PieceVisual;
+import soc.common.client.visuals.board.BoardVisual;
+import soc.common.client.visuals.game.GameBoardVisual;
 import soc.common.client.visuals.game.IPointVisual;
 
-public class BuildPointBehaviour implements IGameBehaviour
+public class BuildPointBehaviour implements GameBehaviour
 {
     List<HexPoint> possibleLocations = new ArrayList<HexPoint>();
 
     @Override
-    public void mouseEnter(IPieceVisual pieceVisual, IBoardVisual board)
+    public void mouseEnter(PieceVisual pieceVisual, BoardVisual board)
     {
         if (pieceVisual instanceof IPointVisual)
         {
@@ -24,7 +24,7 @@ public class BuildPointBehaviour implements IGameBehaviour
     }
 
     @Override
-    public void mouseOut(IPieceVisual pieceVisual, IBoardVisual board)
+    public void mouseOut(PieceVisual pieceVisual, BoardVisual board)
     {
         if (pieceVisual instanceof IPointVisual)
         {
@@ -34,19 +34,19 @@ public class BuildPointBehaviour implements IGameBehaviour
     }
 
     @Override
-    public void setNeutral(IGameBoardVisual visual)
+    public void setNeutral(GameBoardVisual visual)
     {
-        visual.getHexPointsVisual().setVisible(false);
+        // visual.getHexPointsVisual().setVisible(false);
     }
 
     @Override
-    public void start(IGameBoardVisual gameVisual)
+    public void start(GameBoardVisual gameVisual)
     {
-        gameVisual.getHexPointsVisual().updatePoints(possibleLocations);
+        // gameVisual.getHexPointsVisual().updatePoints(possibleLocations);
     }
 
     @Override
-    public void clicked(IPieceVisual pieceVisual, IBoardVisual board)
+    public void clicked(PieceVisual pieceVisual, BoardVisual board)
     {
         throw new RuntimeException();
     }

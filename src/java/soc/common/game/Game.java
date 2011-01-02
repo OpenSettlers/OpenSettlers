@@ -1,62 +1,60 @@
 package soc.common.game;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import soc.common.actions.Action;
 import soc.common.actions.gameAction.GameAction;
-import soc.common.board.Board;
 import soc.common.board.HexLocation;
+import soc.common.board.pieces.LargestArmy;
+import soc.common.board.pieces.LongestRoad;
+import soc.common.board.pieces.Pirate;
 import soc.common.board.pieces.PlayerPieceList;
-import soc.common.board.resources.Resource;
+import soc.common.board.pieces.Robber;
 import soc.common.board.resources.ResourceList;
 import soc.common.game.developmentCards.DevelopmentCardList;
-import soc.common.game.gamePhase.AbstractGamePhase;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.LobbyGamePhase;
 import soc.common.game.logs.ActionsQueue;
+import soc.common.game.logs.ActionsQueueImpl;
 import soc.common.game.logs.ChatLog;
+import soc.common.game.logs.ChatLogImpl;
 import soc.common.game.logs.GameLog;
-import soc.common.game.logs.IActionsQueue;
-import soc.common.game.logs.IChatLog;
-import soc.common.game.logs.IGameLog;
-import soc.common.game.statuses.IGameStatus;
+import soc.common.game.logs.GameLogImpl;
+import soc.common.game.statuses.GameStatus;
 import soc.common.game.statuses.WaitingForPlayers;
 import soc.common.game.statuses.WaitingForTurnActions;
-import soc.common.game.variants.IVariant;
 
 import com.google.gwt.event.shared.SimpleEventBus;
 
 public class Game
 {
     // Event subscribers/broadcasting mechanism
-    private SimpleEventBus eventBus = new SimpleEventBus();
-
-    private LinkedList<AbstractGamePhase> gamePhases = new LinkedList<AbstractGamePhase>();
+    private transient SimpleEventBus eventBus = new SimpleEventBus();
 
     // Lists of actions, logs & future actions
-    private IActionsQueue actionsQueue = new ActionsQueue();
-    private IGameLog gameLog = new GameLog();
-    private IChatLog chatLog = new ChatLog();
+    private ActionsQueue actionsQueue = new ActionsQueueImpl();
+    private GameLog gameLog = new GameLogImpl();
+    private ChatLog chatLog = new ChatLogImpl();
 
     // Abstracted rules
-    private IGameRules gameRules = new GameRules();
-
-    private List<IVariant> ruleSets = new ArrayList<IVariant>();
+    private GameRules gameRules;
 
     private ResourceList bank = new ResourceList();
 
-    private List<Player> players = new ArrayList<Player>();
-    private HexLocation pirate = new HexLocation(0, 0);
-    private HexLocation robber = new HexLocation(0, 1);
+    private List<GamePlayer> players = new ArrayList<GamePlayer>();
+    private List<GamePlayer> spectators = new ArrayList<GamePlayer>();
+    private Pirate pirate = new Pirate(new HexLocation(0, 0));
+    private Robber robber = null;
     private GamePhase currentPhase = new LobbyGamePhase();
     private GameSettings gameSettings = new GameSettings();
-    private Board board;
-    private Player gameStarter;
+    private GameBoard gameBoard;
+    private GamePlayer gameStarter;
     private DevelopmentCardList developmentCardStack = new DevelopmentCardList();
     private Turn currentTurn;
-    private IGameStatus currentStatus = new WaitingForPlayers();
+    private GameStatus currentStatus = new WaitingForPlayers();
+    private LargestArmy largestArmy;
+    private LongestRoad longestRoute;
 
     /*
      * Returns a list of all PlayerPieces in the game residing on a HexPoint
@@ -65,12 +63,43 @@ public class Game
     {
         PlayerPieceList result = new PlayerPieceList();
 
-        for (Player player : players)
+        for (GamePlayer player : players)
         {
             result.add(player.getBuildPieces().getPointPieces());
         }
 
         return result;
+    }
+
+    public void advanceTurn()
+    {
+        // Determine index of next player
+        int nextPlayerIndex = players.indexOf(currentTurn.getPlayer()) + 1;
+        if (nextPlayerIndex == players.size())
+        {
+            nextPlayerIndex = 0;
+        }
+
+        GamePlayer newPlayerOnTurn = players.get(nextPlayerIndex);
+
+        // Create a new turn
+        Turn newTurn = new TurnImpl().setID(currentTurn.getID() + 1).setPlayer(
+                newPlayerOnTurn);
+
+        currentTurn.getPlayer().setOnTurn(false);
+        newPlayerOnTurn.setOnTurn(true);
+
+        Turn oldTurn = currentTurn;
+        this.currentTurn = newTurn;
+
+        // Notify handlers the current turn is changed
+        eventBus.fireEvent(new TurnChangedEvent(oldTurn, newTurn));
+    }
+
+    public void start()
+    {
+        gameRules.setRules(this);
+        gameBoard.prepareForPlay(gameSettings);
     }
 
     /*
@@ -80,7 +109,7 @@ public class Game
     {
         PlayerPieceList result = new PlayerPieceList();
 
-        for (Player player : players)
+        for (GamePlayer player : players)
         {
             result.add(player.getBuildPieces().getSidePieces());
         }
@@ -90,7 +119,7 @@ public class Game
 
     public void updateStatus()
     {
-        IGameStatus newStatus = null;
+        GameStatus newStatus = null;
 
         if (actionsQueue.isWaitingForActions())
         {
@@ -101,6 +130,9 @@ public class Game
         currentStatus = newStatus;
     }
 
+    /*
+     * Returns true when given action is allowed to be performed
+     */
     public boolean isAllowed(Action action)
     {
         if (action instanceof GameAction)
@@ -126,7 +158,7 @@ public class Game
     /**
      * @return the gameStatus
      */
-    public IGameStatus getGameStatus()
+    public GameStatus getGameStatus()
     {
         return currentStatus;
     }
@@ -142,7 +174,7 @@ public class Game
     /**
      * @return the gameRules
      */
-    public IGameRules getGameRules()
+    public GameRules getGameRules()
     {
         return gameRules;
     }
@@ -150,20 +182,9 @@ public class Game
     /**
      * @return the chatLog
      */
-    public IChatLog getChatLog()
+    public ChatLog getChatLog()
     {
         return chatLog;
-    }
-
-    /**
-     * @param ruleSets
-     *            the ruleSets to set
-     */
-    public Game setRuleSets(List<IVariant> ruleSets)
-    {
-        this.ruleSets = ruleSets;
-
-        return this;
     }
 
     public void addGamePhaseChangedEventHandler(
@@ -180,7 +201,7 @@ public class Game
     /**
      * @return the robber
      */
-    public HexLocation getRobber()
+    public Robber getRobber()
     {
         return robber;
     }
@@ -189,7 +210,7 @@ public class Game
      * @param robber
      *            the robber to set
      */
-    public Game setRobber(HexLocation robber)
+    public Game setRobber(Robber robber)
     {
         this.robber = robber;
 
@@ -215,43 +236,10 @@ public class Game
         return this;
     }
 
-    public void makeRulesPermanent()
-    {
-        for (IVariant ruleset : ruleSets)
-        {
-            ruleset.setRules();
-        }
-
-        createBank();
-    }
-
-    /*
-     * Creates a bank. Adds X amount of resources per resource type found in the
-     * list of playable resources, where X is amount per resource
-     */
-    private void createBank()
-    {
-        for (Resource resource : gameRules.getSupportedResources())
-        {
-            for (int i = 0; i < gameRules.getBankAmountPerResource(); i++)
-            {
-                bank.add(resource.copy());
-            }
-        }
-    }
-
-    /**
-     * @return the ruleSets
-     */
-    public List<IVariant> getRuleSets()
-    {
-        return ruleSets;
-    }
-
     /**
      * @return the gameStarter
      */
-    public Player getGameStarter()
+    public GamePlayer getGameStarter()
     {
         return gameStarter;
     }
@@ -260,7 +248,7 @@ public class Game
      * @param gameStarter
      *            the gameStarter to set
      */
-    public Game setGameStarter(Player gameStarter)
+    public Game setGameStarter(GamePlayer gameStarter)
     {
         this.gameStarter = gameStarter;
 
@@ -270,27 +258,27 @@ public class Game
     /**
      * @return the board
      */
-    public Board getBoard()
+    public GameBoard getBoard()
     {
-        return board;
+        return gameBoard;
     }
 
     /**
      * @param board
      *            the board to set
      */
-    public Game setBoard(Board board)
+    public Game setBoard(GameBoard gameBoard)
     {
-        this.board = board;
+        this.gameBoard = gameBoard;
 
         return this;
     }
 
-    public Player getPlayerByID(int id)
+    public GamePlayer getPlayerByID(int id)
     {
-        for (Player p : players)
+        for (GamePlayer p : players)
         {
-            if (p.getId() == id)
+            if (p.getUser().getId() == id)
                 return p;
         }
         throw new RuntimeException("Trying to get non-existing player. ID "
@@ -319,18 +307,7 @@ public class Game
      */
     public Game()
     {
-    }
-
-    public Game(List<IVariant> ruleSets)
-    {
-        this.ruleSets = ruleSets;
-
-        for (IVariant ruleSet : ruleSets)
-        {
-            // Initialize the list of pieces allowed to be built
-            ruleSet.addBuildablePieces();
-        }
-
+        gameRules = new GameRulesImpl(this);
     }
 
     public ResourceList getBank()
@@ -343,52 +320,45 @@ public class Game
         this.bank = bank;
     }
 
-    public LinkedList<AbstractGamePhase> getGamePhases()
-    {
-        return gamePhases;
-    }
-
-    public void setGamePhases(LinkedList<AbstractGamePhase> gamePhases)
-    {
-        this.gamePhases = gamePhases;
-    }
-
-    public IActionsQueue getActionsQueue()
+    public ActionsQueue getActionsQueue()
     {
         return actionsQueue;
     }
 
-    public void setActionsQueue(IActionsQueue actionsQueue)
+    public void setActionsQueue(ActionsQueue actionsQueue)
     {
         this.actionsQueue = actionsQueue;
     }
 
-    public List<Player> getPlayers()
+    public List<GamePlayer> getPlayers()
     {
         return players;
     }
 
-    public void setPlayers(List<Player> players)
+    /**
+     * @return the spectators
+     */
+    public List<GamePlayer> getSpectators()
     {
-        this.players = players;
+        return spectators;
     }
 
-    public IGameLog getGameLog()
+    public GameLog getGameLog()
     {
         return gameLog;
     }
 
-    public void setGameLog(GameLog gameLog)
+    public void setGameLog(GameLogImpl gameLog)
     {
         this.gameLog = gameLog;
     }
 
-    public HexLocation getPirate()
+    public Pirate getPirate()
     {
         return pirate;
     }
 
-    public void setPirate(HexLocation pirate)
+    public void setPirate(Pirate pirate)
     {
         this.pirate = pirate;
     }
@@ -409,19 +379,58 @@ public class Game
         return this;
     }
 
-    /*
-     * Advances turn to the next player in sequence
-     */
-    public void nextTurn()
-    {
-        /*
-         * int index = players.indexOf(playerOnTurn) + 1; if (index ==
-         * players.size()) { index = 0; } return players.get(index);
-         */
-    }
-
     public Game copy()
     {
         return null;
     }
+
+    /**
+     * @return the largestArmy
+     */
+    public LargestArmy getLargestArmy()
+    {
+        return largestArmy;
+    }
+
+    /**
+     * @param largestArmy
+     *            the largestArmy to set
+     */
+    public Game setLargestArmy(LargestArmy largestArmy)
+    {
+        this.largestArmy = largestArmy;
+
+        return this;
+    }
+
+    /**
+     * @return the longestRoute
+     */
+    public LongestRoad getLongestRoute()
+    {
+        return longestRoute;
+    }
+
+    /**
+     * @param longestRoute
+     *            the longestRoute to set
+     */
+    public Game setLongestRoute(LongestRoad longestRoute)
+    {
+        this.longestRoute = longestRoute;
+
+        return this;
+    }
+
+    /**
+     * @param developmentCardStack
+     *            the developmentCardStack to set
+     */
+    public Game setDevelopmentCardStack(DevelopmentCardList developmentCardStack)
+    {
+        this.developmentCardStack = developmentCardStack;
+
+        return this;
+    }
+
 }

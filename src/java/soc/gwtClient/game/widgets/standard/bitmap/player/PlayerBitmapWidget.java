@@ -4,7 +4,7 @@ import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 
 import soc.common.game.Game;
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.AbstractPlayerWidget;
 import soc.gwtClient.game.abstractWidgets.IDevelopmentCardsAmountWidget;
 import soc.gwtClient.game.abstractWidgets.ILargestArmyWidget;
@@ -18,7 +18,7 @@ import soc.gwtClient.game.widgets.standard.bitmap.ResourceAmountBitmapWidget;
 
 public class PlayerBitmapWidget extends AbstractPlayerWidget
 {
-    public PlayerBitmapWidget(Game game, Player player)
+    public PlayerBitmapWidget(Game game, GamePlayer player)
     {
         super(game, player);
     }

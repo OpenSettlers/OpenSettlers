@@ -1,222 +1,97 @@
 package soc.common.game;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.event.shared.SimpleEventBus;
-
-import soc.common.actions.gameAction.turnActions.AbstractTurnAction;
 import soc.common.actions.gameAction.turnActions.TurnAction;
-import soc.common.board.resources.AbstractResource;
+import soc.common.board.hexes.Hex;
+import soc.common.board.pieces.LargestArmy;
+import soc.common.board.pieces.Piece;
+import soc.common.board.pieces.PlayerPiece;
 import soc.common.board.resources.Resource;
+import soc.common.game.developmentCards.DevelopmentCardList;
 import soc.common.game.dices.Dice;
-import soc.common.game.logs.ActionQueueChangedEvent;
 
-public class GameRules implements IGameRules
+/*
+ * Abstracted properties for game {@see IRuleSet} to modify
+ */
+public interface GameRules
 {
-    private List<TurnAction> possibleActions = new ArrayList<TurnAction>();
-    private List<Resource> playableResources = new ArrayList<Resource>();
-    private List<StockItem> stockPieces = new ArrayList<StockItem>();
-    private int bankAmountPerResource = 19;
-    private boolean enableLargestArmy;
-    private boolean isSeaFarers = false;
-    private boolean isSa3D = false;
-    private boolean isCitiesKnights = false;
-    private boolean isExtended = false;
-    private boolean isPioneers = false;
-    private boolean isTeamGame = false;
-    
-    // State of last rolled dice
-    private Dice diceType;
-    
-    /**
-     * @return the isSeaFarers
-     */
-    public boolean isSeaFarers()
-    {
-        return isSeaFarers;
-    }
+    public int getStockRoadAmount();
 
-    /**
-     * @param isSeaFarers the isSeaFarers to set
-     */
-    public GameRules setSeaFarers(boolean isSeaFarers)
-    {
-        this.isSeaFarers = isSeaFarers;
-    
-        return this;
-    }
+    public GameRules setStockRoadAmount(int stockRoads);
 
-    /**
-     * @return the isSa3D
-     */
-    public boolean isSa3D()
-    {
-        return isSa3D;
-    }
+    public int getStockCityAmount();
 
-    /**
-     * @param isSa3D the isSa3D to set
-     */
-    public GameRules setSa3D(boolean isSa3D)
-    {
-        this.isSa3D = isSa3D;
-    
-        return this;
-    }
+    public GameRules setStockCityAmount(int stockCities);
 
-    /**
-     * @return the isCitiesKnights
-     */
-    public boolean isCitiesKnights()
-    {
-        return isCitiesKnights;
-    }
+    public int getStockTownAmount();
 
-    /**
-     * @param isCitiesKnights the isCitiesKnights to set
-     */
-    public GameRules setCitiesKnights(boolean isCitiesKnights)
-    {
-        this.isCitiesKnights = isCitiesKnights;
-    
-        return this;
-    }
+    public GameRules setStockTownAmount(int stockTowns);
 
-    /**
-     * @return the isExtended
-     */
-    public boolean isExtended()
-    {
-        return isExtended;
-    }
+    public int getStockWallAmount();
 
-    /**
-     * @param isExtended the isExtended to set
-     */
-    public GameRules setExtended(boolean isExtended)
-    {
-        this.isExtended = isExtended;
-    
-        return this;
-    }
+    public GameRules setStockWallAmount(int stockWalls);
 
-    /**
-     * @return the isPioneers
-     */
-    public boolean isPioneers()
-    {
-        return isPioneers;
-    }
+    public int getStockBridgeAmount();
 
-    /**
-     * @param isPioneers the isPioneers to set
-     */
-    public GameRules setPioneers(boolean isPioneers)
-    {
-        this.isPioneers = isPioneers;
-    
-        return this;
-    }
+    public GameRules setStockBridgeAmount(int stockBridges);
 
-    /**
-     * @return the isTeamGame
-     */
-    public boolean isTeamGame()
-    {
-        return isTeamGame;
-    }
+    public int getStockShipAmount();
 
-    /**
-     * @param isTeamGame the isTeamGame to set
-     */
-    public GameRules setTeamGame(boolean isTeamGame)
-    {
-        this.isTeamGame = isTeamGame;
-    
-        return this;
-    }
+    public GameRules setStockShipAmount(int stockShips);
 
-        
-    @Override
-    public AbstractTurnAction createPlaceRobberPirateAction()
-    {
-        return null;
-    }
+    /*
+     * Creates an action for what to do when a 7 is rolled or a soldier
+     * development card is played. Standard will return PlaceRobber, where
+     * SeaFarers will return a PlaceRobberPirate
+     */
+    public TurnAction createPlaceRobberPirateAction();
 
-    /**
-     * @return the possibleActions
+    /*
+     * Returns a list of piece types allowed in stock along with amount of items
+     * maximum in stock for any player
      */
-    public List<TurnAction> getPossibleActions()
-    {
-        return possibleActions;
-    }
+    public List<PlayerPiece> getStockPieces();
 
-    /**
-     * @return the playableResources
+    /*
+     * Returns a list of TurnAction types allowed to be played during a turn
      */
-    public List<Resource> getSupportedResources()
-    {
-        return playableResources;
-    }
-    
-    public List<Resource> getTradeableResources()
-    {
-        List<Resource> tradeableResources = new ArrayList<Resource>();
-        
-        for (Resource resource: getSupportedResources())
-        {
-            if (resource.isTradeable())
-                tradeableResources.add(resource);
-        }
-        
-        return tradeableResources;
-    }
+    public List<TurnAction> getPossibleActions();
 
-    /**
-     * @return the stockPieces
+    /*
+     * Returns list of basic resource types
      */
-    public List<StockItem> getStockPieces()
-    {
-        return stockPieces;
-    }
+    public List<Resource> getSupportedResources();
 
-    /**
-     * @return the bankAmountPerResource
+    /*
+     * Returns a list of resources allowed to trade to players and bank
      */
-    public int getBankAmountPerResource()
-    {
-        return bankAmountPerResource;
-    }
+    public List<Resource> getTradeableResources();
 
-    /**
-     * @return the enableLargestArmy
+    /*
+     * Returns a list of supported hex types
      */
-    public boolean getEnableLargestArmy()
-    {
-        return enableLargestArmy;
-    }
-    /**
-     * @param enableLargestArmy the enableLargestArmy to set
+    public List<Hex> getHexTypes();
+
+    /*
+     * Returns amount of resources in the bank at beginning of the game
      */
-    public GameRules setEnableLargestArmy(boolean enableLargestArmy)
-    {
-        this.enableLargestArmy = enableLargestArmy;
-    
-        // Enables fluent interface usage
-        // http://en.wikipedia.org/wiki/Fluent_interface
-        return this;
-    }
-    @Override
-    public Dice getDiceType()
-    {
-        return diceType;
-    }
-    @Override
-    public GameRules setDiceType(Dice diceType)
-    {
-        this.diceType=diceType;
-        
-        return this;
-    }
+    public int getBankAmountPerResource();
+
+    // Returns the type of the dice rolled by the player on turn in the
+    // RollDiceTurnPhase
+    public Dice getDiceType();
+
+    // Sets the type of the dice
+    public GameRules setDiceType(Dice diceType);
+
+    public List<Piece> getPlayablePieces();
+
+    public LargestArmy getLArgestArmy();
+
+    public GameRules setLargestArmy(LargestArmy largestArmy);
+
+    public void setRules(Game game);
+
+    public GameRules setDevelopmentCardStack(DevelopmentCardList devCards);
 }

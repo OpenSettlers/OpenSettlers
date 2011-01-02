@@ -10,13 +10,14 @@ import soc.common.board.HexSide;
 import soc.common.board.hexes.Hex;
 import soc.common.board.hexes.ResourceHex;
 import soc.common.board.hexes.SeaHex;
-import soc.common.board.pieces.PlayerPiece;
+import soc.common.board.pieces.AbstractPlayerPiece;
 import soc.common.board.ports.Port;
 import soc.common.game.Game;
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.InitialPlacementGamePhase;
 import soc.common.game.gamePhase.PlayTurnsGamePhase;
+import soc.common.game.gamePhase.turnPhase.BuildingTurnPhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
 import soc.common.internationalization.I18n;
 
@@ -108,10 +109,10 @@ public class BuildTown extends AbstractTurnAction
     @Override
     public void perform(Game game)
     {
-        Player player = game.getPlayerByID(sender);
+        GamePlayer player = game.getPlayerByID(sender);
 
         // update town management
-        PlayerPiece town = player.getStock().remove(pointLocation);
+        AbstractPlayerPiece town = player.getStock().remove(pointLocation);
         player.getBuildPieces().add(town);
 
         if (game.getCurrentPhase() instanceof PlayTurnsGamePhase)
@@ -168,7 +169,7 @@ public class BuildTown extends AbstractTurnAction
             }
         }
 
-        message = I18n.get().actions().builtTown(player.getName());
+        message = I18n.get().actions().builtTown(player.getUser().getName());
 
         super.perform(game);
     }
@@ -176,21 +177,20 @@ public class BuildTown extends AbstractTurnAction
     @Override
     public boolean isAllowed(TurnPhase turnPhase)
     {
-        // TODO Auto-generated method stub
-        return false;
+        return turnPhase instanceof BuildingTurnPhase;
     }
 
     @Override
     public boolean isAllowed(GamePhase gamePhase)
     {
-        // TODO Auto-generated method stub
-        return false;
+        return gamePhase instanceof PlayTurnsGamePhase
+                || gamePhase instanceof InitialPlacementGamePhase;
     }
 
     @Override
     public String getToDoMessage()
     {
-        return I18n.get().actions().builtTownToDo(player.getName());
+        return I18n.get().actions().builtTownToDo(player.getUser().getName());
     }
 
 }

@@ -2,7 +2,7 @@ package soc.common.actions;
 
 import java.util.Date;
 
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 
 public class PlayerDisconnected extends AbstractAction
 {
@@ -30,7 +30,7 @@ public class PlayerDisconnected extends AbstractAction
     }
 
     @Override
-    public Player getPlayer()
+    public GamePlayer getPlayer()
     {
         // TODO Auto-generated method stub
         return null;
@@ -51,7 +51,7 @@ public class PlayerDisconnected extends AbstractAction
     }
 
     @Override
-    public Action setPlayer(Player player)
+    public Action setPlayer(GamePlayer player)
     {
         // TODO Auto-generated method stub
         return null;

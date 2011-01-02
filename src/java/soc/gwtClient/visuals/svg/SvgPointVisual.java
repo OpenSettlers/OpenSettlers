@@ -5,7 +5,8 @@ import org.vaadin.gwtgraphics.client.animation.Animate;
 import org.vaadin.gwtgraphics.client.shape.Circle;
 
 import soc.common.board.HexPoint;
-import soc.common.client.visuals.board.IBoardVisual;
+import soc.common.client.visuals.PieceVisual;
+import soc.common.client.visuals.board.BoardVisual;
 import soc.common.client.visuals.game.PointVisual;
 import soc.gwtClient.game.Point2D;
 
@@ -15,7 +16,7 @@ public class SvgPointVisual extends PointVisual
     private Group group;
     private Circle circle;
 
-    public SvgPointVisual(IBoardVisual parent, HexPoint hexPoint,
+    public SvgPointVisual(BoardVisual parent, HexPoint hexPoint,
             Point2D location)
     {
         super(parent, hexPoint);
@@ -48,6 +49,20 @@ public class SvgPointVisual extends PointVisual
             new Animate(circle, "radius", parent.getSize(),
                     parent.getSize() / 2, 500).start();
         }
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.common.client.visuals.game.IPointVisual#addPieceVisual(soc.common
+     * .client.visuals.PieceVisual)
+     */
+    @Override
+    public void addPieceVisual(PieceVisual pieceVisual)
+    {
+        pieceVisuals.add(pieceVisual);
+        group.add(((SvgVisual) pieceVisual).getVectorObject());
     }
 
 }

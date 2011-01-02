@@ -6,7 +6,9 @@ import soc.common.annotations.Sea3D;
 public class Diamond extends AbstractResource
 {
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.board.resources.Resource#getColor()
      */
     @Override
@@ -15,19 +17,15 @@ public class Diamond extends AbstractResource
         return "Grey";
     }
 
-    @Override
-    public AbstractResource Copy()
-    {
-        return new Diamond();
-    }
-
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.board.resources.Resource#isTradeable()
      */
     @Override
     public boolean isTradeable()
     {
-        return false; 
+        return false;
     }
 
     @Override

@@ -1,6 +1,6 @@
 package soc.common.game.gamePhase;
 
-import soc.common.actions.gameAction.AbstractGameAction;
+import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.GamePhaseHasEnded;
 import soc.common.actions.gameAction.turnActions.standard.BuildCity;
 import soc.common.actions.gameAction.turnActions.standard.BuildRoad;
@@ -79,7 +79,7 @@ public class InitialPlacementGamePhase extends AbstractGamePhase
     }
 
     @Override
-    public void performAction(AbstractGameAction gameAction, Game game)
+    public void performAction(GameAction gameAction, Game game)
     {
         gameAction.perform(game);
     }

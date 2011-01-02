@@ -4,7 +4,7 @@ import java.util.List;
 
 import soc.common.actions.gameAction.GameAction;
 
-public class WaitingForTurnActions implements IGameStatus
+public class WaitingForTurnActions implements GameStatus
 {
     private List<GameAction> blockingActions;
     

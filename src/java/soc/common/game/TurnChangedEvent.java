@@ -5,20 +5,30 @@ import com.google.gwt.event.shared.GwtEvent;
 public class TurnChangedEvent extends GwtEvent<TurnChangedEventHandler>
 {
     public static Type<TurnChangedEventHandler> TYPE = new Type<TurnChangedEventHandler>();
-    boolean isOnTurn;
-    
-    /**
-     * @return the isOnTurn
-     */
-    public boolean isOnTurn()
-    {
-        return isOnTurn;
-    }
+    private Turn oldTurn;
+    private Turn newTurn;
 
-    public TurnChangedEvent(boolean isOnTurn)
+    public TurnChangedEvent(Turn oldTurn, Turn newTurn)
     {
         super();
-        this.isOnTurn = isOnTurn;
+        this.oldTurn = oldTurn;
+        this.newTurn = newTurn;
+    }
+
+    /**
+     * @return the oldTurn
+     */
+    public Turn getOldTurn()
+    {
+        return oldTurn;
+    }
+
+    /**
+     * @return the newTurn
+     */
+    public Turn getNewTurn()
+    {
+        return newTurn;
     }
 
     @Override

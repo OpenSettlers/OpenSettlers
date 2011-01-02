@@ -26,7 +26,7 @@ public class PlaceRobberPirate extends AbstractTurnAction
     @Override
     public String getToDoMessage()
     {
-        return I18n.get().actions().placeRobberToDo(player.getName());
+        return I18n.get().actions().placeRobberToDo(player.getUser().getName());
     }
 
 }

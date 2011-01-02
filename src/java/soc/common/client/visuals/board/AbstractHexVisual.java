@@ -8,16 +8,22 @@ import soc.common.board.hexes.TerritoryChangedEvent;
 import soc.common.board.ports.PortChangedEvent;
 import soc.common.client.visuals.AbstractPieceVisual;
 
-public abstract class AbstractHexVisual extends AbstractPieceVisual implements HexVisual
+public abstract class AbstractHexVisual extends AbstractPieceVisual implements
+        HexVisual
 {
     protected Hex hex;
+    protected boolean darkened;
 
-    protected IChitVisual chit;
-    protected ITerritoryVisual territory;
-    protected IPortVisual port;
-    protected IPortPossibilitiesVisual portPossibilities;
+    protected ChitVisual chit;
+    protected TerritoryVisual territory;
+    protected PortVisual port;
+    protected PortPossibilitiesVisual portPossibilities;
 
-    protected IBoardVisual parent;
+    protected BoardVisual parent;
+
+    protected void updateDarkened()
+    {
+    }
 
     protected void updateHexVisual()
     {
@@ -42,7 +48,17 @@ public abstract class AbstractHexVisual extends AbstractPieceVisual implements H
         territory.setTerritory(hex.getTerritory());
     }
 
-    public AbstractHexVisual(Hex h, IBoardVisual parent)
+    @Override
+    public HexVisual setDarkened(boolean darkened)
+    {
+        this.darkened = darkened;
+
+        updateDarkened();
+
+        return this;
+    }
+
+    public AbstractHexVisual(Hex h, BoardVisual parent)
     {
         this.hex = h;
         this.parent = parent;
@@ -96,31 +112,29 @@ public abstract class AbstractHexVisual extends AbstractPieceVisual implements H
         territory.setVisible(hex.getTerritory() != null);
         updateTerritoryVisual();
 
-        // Enables fluent interface usage
-        // http://en.wikipedia.org/wiki/Fluent_interface
         return this;
     }
 
     @Override
-    public IChitVisual getChitVisual()
+    public ChitVisual getChitVisual()
     {
         return chit;
     }
 
     @Override
-    public IPortPossibilitiesVisual getPortPossibilitiesVisual()
+    public PortPossibilitiesVisual getPortPossibilitiesVisual()
     {
         return portPossibilities;
     }
 
     @Override
-    public ITerritoryVisual getTerritory()
+    public TerritoryVisual getTerritory()
     {
         return territory;
     }
 
     @Override
-    public IBoardVisual getParent()
+    public BoardVisual getParent()
     {
         return parent;
     }

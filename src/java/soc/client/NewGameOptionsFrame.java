@@ -53,26 +53,26 @@ import soc.message.StatusMessage;
 import soc.util.Version;
 
 /**
- * This is the dialog for options to set in a new game.
- * Prompt for name and options.
- *
+ * This is the dialog for options to set in a new game. Prompt for name and
+ * options.
+ * 
  * @author Jeremy D Monin <jeremy@nand.net>
  * @since 1.1.07
  */
-public class NewGameOptionsFrame extends Frame
-    implements ActionListener, KeyListener, ItemListener, TextListener, MouseListener
+public class NewGameOptionsFrame extends Frame implements ActionListener,
+        KeyListener, ItemListener, TextListener, MouseListener
 {
     private static final long serialVersionUID = -1187112417844074254L;
 
     /**
-     * Maximum range (min-max value) for integer-type options
-     * to be rendered using a value popup, instead of a textfield. 
+     * Maximum range (min-max value) for integer-type options to be rendered
+     * using a value popup, instead of a textfield.
+     * 
      * @see #initOption_int(GameOption)
      */
     public static final int INTFIELD_POPUP_MAXRANGE = 21;
 
-    private static final String TXT_SERVER_TOO_OLD
-        = "This server version does not support game options.";
+    private static final String TXT_SERVER_TOO_OLD = "This server version does not support game options.";
 
     private PlayerClient cl;
 
@@ -82,18 +82,23 @@ public class NewGameOptionsFrame extends Frame
     /** is this for display only? */
     private final boolean readOnly;
 
-    /** Contains this game's {@link GameOption}s, or null if none.
-     *  Unknowns (OTYPE_UNKNOWN) are removed in initInterface_options.
+    /**
+     * Contains this game's {@link GameOption}s, or null if none. Unknowns
+     * (OTYPE_UNKNOWN) are removed in initInterface_options.
      */
     private Hashtable opts;
 
-    /** Key = AWT control; value = {@link GameOption} within {@link #opts}. Empty if opts is null.  */
+    /**
+     * Key = AWT control; value = {@link GameOption} within {@link #opts}. Empty
+     * if opts is null.
+     */
     private Hashtable controlsOpts;
 
-    /** Key = {@link GameOption#optKey}; value = {@link Checkbox} if bool/intbool option.
-      * Empty if none, null if readOnly.
-      * Used to quickly find an option's associated checkbox.
-      */
+    /**
+     * Key = {@link GameOption#optKey}; value = {@link Checkbox} if bool/intbool
+     * option. Empty if none, null if readOnly. Used to quickly find an option's
+     * associated checkbox.
+     */
     private Hashtable boolOptCheckboxes;
 
     /** create is null if readOnly */
@@ -104,35 +109,41 @@ public class NewGameOptionsFrame extends Frame
     private TextField msgText;
 
     // // TODO refactor; these are from connectorprac panel
-    private static final Color NGOF_BG = new Color(Integer.parseInt("61AF71",16));
-    private static final Color HEADER_LABEL_BG = new Color(220,255,220);
-    private static final Color HEADER_LABEL_FG = new Color( 50, 80, 50);
+    private static final Color NGOF_BG = new Color(Integer.parseInt("61AF71",
+            16));
+    private static final Color HEADER_LABEL_BG = new Color(220, 255, 220);
+    private static final Color HEADER_LABEL_FG = new Color(50, 80, 50);
 
     /**
-     * Creates a new NewGameOptionsFrame.
-     * Once created, reset the mouse cursor from hourglass to normal, and clear main panel's status text.
-     *
-     * @param cli      Player client interface
-     * @param gaName   Requested name of game (can change in this frame),
-     *                 or null for blank or (forPractice)
-     *                 to use {@link PlayerClient#DEFAULT_PRACTICE_GAMENAME}.
-     * @param opts     Set of {@link GameOption}s; its values will be changed when "New Game" button
-     *                 is pressed, so the next OptionsFrame will default to the values the user has chosen.
-     *                 To preserve them, call {@link GameOption#cloneOptions(Hashtable)} beforehand.
-     *                 Null if server doesn't support game options.
-     *                 Unknown options ({@link GameOption#OTYPE_UNKNOWN}) will be removed.
-     * @param forPractice Will this game be on local practice server, vs remote tcp server?
-     * @param readOnly    Is this display-only (for use during a game), or can it be changed?
+     * Creates a new NewGameOptionsFrame. Once created, reset the mouse cursor
+     * from hourglass to normal, and clear main panel's status text.
+     * 
+     * @param cli
+     *            Player client interface
+     * @param gaName
+     *            Requested name of game (can change in this frame), or null for
+     *            blank or (forPractice) to use
+     *            {@link PlayerClient#DEFAULT_PRACTICE_GAMENAME}.
+     * @param opts
+     *            Set of {@link GameOption}s; its values will be changed when
+     *            "New Game" button is pressed, so the next OptionsFrame will
+     *            default to the values the user has chosen. To preserve them,
+     *            call {@link GameOption#cloneOptions(Hashtable)} beforehand.
+     *            Null if server doesn't support game options. Unknown options (
+     *            {@link GameOption#OTYPE_UNKNOWN}) will be removed.
+     * @param forPractice
+     *            Will this game be on local practice server, vs remote tcp
+     *            server?
+     * @param readOnly
+     *            Is this display-only (for use during a game), or can it be
+     *            changed?
      */
-    public NewGameOptionsFrame
-        (PlayerClient cli, String gaName, Hashtable opts, boolean forPractice, boolean readOnly)
+    public NewGameOptionsFrame(PlayerClient cli, String gaName, Hashtable opts,
+            boolean forPractice, boolean readOnly)
     {
-        super( readOnly
-                ? ("Current game options: " + gaName)
-                :
-                   (forPractice
-                    ? "New Game options: Practice game"
-                    : "New Game options"));
+        super(readOnly ? ("Current game options: " + gaName)
+                : (forPractice ? "New Game options: Practice game"
+                        : "New Game options"));
 
         setLayout(new BorderLayout());
 
@@ -141,14 +152,15 @@ public class NewGameOptionsFrame extends Frame
         this.forPractice = forPractice;
         this.readOnly = readOnly;
         controlsOpts = new Hashtable();
-        if (! readOnly)
+        if (!readOnly)
             boolOptCheckboxes = new Hashtable();
         if ((gaName == null) && forPractice)
         {
             if (cli.numPracticeGames == 0)
                 gaName = PlayerClient.DEFAULT_PRACTICE_GAMENAME;
             else
-                gaName = PlayerClient.DEFAULT_PRACTICE_GAMENAME + " " + (1 + cli.numPracticeGames);
+                gaName = PlayerClient.DEFAULT_PRACTICE_GAMENAME + " "
+                        + (1 + cli.numPracticeGames);
         }
 
         // same Frame setup as in PlayerClient.main
@@ -158,51 +170,59 @@ public class NewGameOptionsFrame extends Frame
         addKeyListener(this);
         initInterfaceElements(gaName);
 
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) { clickCancel(); }    
-            });
+        addWindowListener(new WindowAdapter()
+        {
+            public void windowClosing(WindowEvent e)
+            {
+                clickCancel();
+            }
+        });
 
         /**
-         * complete - reset mouse cursor from hourglass to normal
-         * (was set to hourglass before calling this constructor)
+         * complete - reset mouse cursor from hourglass to normal (was set to
+         * hourglass before calling this constructor)
          */
         cli.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-        cli.status.setText("");  // clear "Talking to server..."        
+        cli.status.setText(""); // clear "Talking to server..."
     }
 
     /**
-     * Creates and shows a new NewGameOptionsFrame.
-     * Once created, reset the mouse cursor from hourglass to normal, and clear main panel's status text.
-     * See constructor for parameters.
+     * Creates and shows a new NewGameOptionsFrame. Once created, reset the
+     * mouse cursor from hourglass to normal, and clear main panel's status
+     * text. See constructor for parameters.
+     * 
      * @return the new frame
      */
-    public static NewGameOptionsFrame createAndShow
-        (PlayerClient cli, String gaName, Hashtable opts, boolean forPractice, boolean readOnly)
+    public static NewGameOptionsFrame createAndShow(PlayerClient cli,
+            String gaName, Hashtable opts, boolean forPractice, boolean readOnly)
     {
-        NewGameOptionsFrame ngof = new NewGameOptionsFrame(cli, gaName, opts, forPractice, readOnly);
+        NewGameOptionsFrame ngof = new NewGameOptionsFrame(cli, gaName, opts,
+                forPractice, readOnly);
         ngof.pack();
         ngof.setVisible(true);
         ngof.gameName.requestFocus();
         return ngof;
     }
-    
+
     /**
-     * Interface setup for constructor. Assumes BorderLayout.
-     * Most elements are part of a sub-panel occupying most of this Frame, and using GridBagLayout.
+     * Interface setup for constructor. Assumes BorderLayout. Most elements are
+     * part of a sub-panel occupying most of this Frame, and using
+     * GridBagLayout.
      */
     private void initInterfaceElements(final String gaName)
     {
         GridBagLayout gbl = new GridBagLayout();
         GridBagConstraints gbc = new GridBagConstraints();
 
-        Panel bp = new Panel(gbl);  // Actual button panel
+        Panel bp = new Panel(gbl); // Actual button panel
         bp.setForeground(getForeground());
-        bp.setBackground(NGOF_BG);  // If this is omitted, firefox 3.5+ applet uses themed bg-color (seen OS X)
+        bp.setBackground(NGOF_BG); // If this is omitted, firefox 3.5+ applet
+                                   // uses themed bg-color (seen OS X)
 
         gbc.fill = GridBagConstraints.BOTH;
         gbc.gridwidth = GridBagConstraints.REMAINDER;
 
-        if (! readOnly)
+        if (!readOnly)
         {
             msgText = new TextField("Choose options for the new game.");
             msgText.setEditable(false);
@@ -231,9 +251,12 @@ public class NewGameOptionsFrame extends Frame
         if (readOnly)
         {
             gameName.setEnabled(false);
-        } else {
-            gameName.addTextListener(this);    // Will enable buttons when field is not empty
-            gameName.addKeyListener(this);     // for ESC/ENTER
+        }
+        else
+        {
+            gameName.addTextListener(this); // Will enable buttons when field is
+                                            // not empty
+            gameName.addKeyListener(this); // for ESC/ENTER
         }
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         gbl.setConstraints(gameName, gbc);
@@ -253,24 +276,26 @@ public class NewGameOptionsFrame extends Frame
             cancel = new Button("OK");
             cancel.setEnabled(true);
             gbc.gridwidth = GridBagConstraints.REMAINDER;
-        } else {
+        }
+        else
+        {
             cancel = new Button("Cancel");
-            cancel.addKeyListener(this);  // for win32 keyboard-focus
+            cancel.addKeyListener(this); // for win32 keyboard-focus
             gbc.gridwidth = 2;
         }
         gbl.setConstraints(cancel, gbc);
         bp.add(cancel);
         cancel.addActionListener(this);
-        
-        if (! readOnly)
+
+        if (!readOnly)
         {
             create = new Button("Create Game");
             AskDialog.styleAsDefault(create);
             create.addActionListener(this);
             create.addKeyListener(this);
-            create.setEnabled(! readOnly);
+            create.setEnabled(!readOnly);
             if ((gaName == null) || (gaName.length() == 0))
-                create.setEnabled(false);  // Will enable when gameName not empty
+                create.setEnabled(false); // Will enable when gameName not empty
             gbc.gridwidth = GridBagConstraints.REMAINDER;
             gbl.setConstraints(create, gbc);
             bp.add(create);
@@ -284,13 +309,13 @@ public class NewGameOptionsFrame extends Frame
     private final static Color LABEL_TXT_COLOR = new Color(252, 251, 243); // off-white
 
     /**
-     * Interface setup: Options. 
-     * One row per option.
-     * Boolean checkboxes go on the left edge; text and int/enum values are to right of checkboxes.
+     * Interface setup: Options. One row per option. Boolean checkboxes go on
+     * the left edge; text and int/enum values are to right of checkboxes.
      *<P>
      * If options are null, put a label with {@link #TXT_SERVER_TOO_OLD}.
      */
-    private void initInterface_Options(Panel bp, GridBagLayout gbl, GridBagConstraints gbc)
+    private void initInterface_Options(Panel bp, GridBagLayout gbl,
+            GridBagConstraints gbc)
     {
         Label L;
 
@@ -301,7 +326,7 @@ public class NewGameOptionsFrame extends Frame
             gbc.gridwidth = GridBagConstraints.REMAINDER;
             gbl.setConstraints(L, gbc);
             bp.add(L);
-            return;  // <---- Early return: no options ----
+            return; // <---- Early return: no options ----
         }
 
         gbc.anchor = GridBagConstraints.WEST;
@@ -309,27 +334,30 @@ public class NewGameOptionsFrame extends Frame
         // Sort and lay out options; remove unknowns from opts.
         // TreeSet sorts game options by description, using gameopt.compareTo.
         // The array lets us remove from opts without disrupting an iterator.
-        Object[] optArr =  new TreeSet(opts.values()).toArray();
+        Object[] optArr = new TreeSet(opts.values()).toArray();
         for (int i = 0; i < optArr.length; ++i)
         {
             GameOption op = (GameOption) optArr[i];
             if (op.optType == GameOption.OTYPE_UNKNOWN)
             {
                 opts.remove(op.optKey);
-                continue;  // <-- Removed, Go to next entry --
+                continue; // <-- Removed, Go to next entry --
             }
 
-            switch (op.optType)  // OTYPE_*
+            switch (op.optType)
+            // OTYPE_*
             {
             case GameOption.OTYPE_BOOL:
-                initInterface_Opt1(op, new Checkbox(), true, false, bp, gbl, gbc);
+                initInterface_Opt1(op, new Checkbox(), true, false, bp, gbl,
+                        gbc);
                 break;
 
             case GameOption.OTYPE_INT:
             case GameOption.OTYPE_INTBOOL:
                 {
                     final boolean hasCheckbox = (op.optType == GameOption.OTYPE_INTBOOL);
-                    initInterface_Opt1(op, initOption_int(op), hasCheckbox, true, bp, gbl, gbc);
+                    initInterface_Opt1(op, initOption_int(op), hasCheckbox,
+                            true, bp, gbl, gbc);
                 }
                 break;
 
@@ -338,14 +366,15 @@ public class NewGameOptionsFrame extends Frame
                 // Choice (popup menu)
                 {
                     final boolean hasCheckbox = (op.optType == GameOption.OTYPE_ENUMBOOL);
-                    initInterface_Opt1(op, initOption_enum(op), hasCheckbox, true, bp, gbl, gbc);
+                    initInterface_Opt1(op, initOption_enum(op), hasCheckbox,
+                            true, bp, gbl, gbc);
                 }
                 break;
 
             case GameOption.OTYPE_STR:
             case GameOption.OTYPE_STRHIDE:
                 {
-                    int txtwid = op.maxIntValue;  // used as max length
+                    int txtwid = op.maxIntValue; // used as max length
                     if (txtwid > 20)
                         txtwid = 20;
                     final boolean doHide = (op.optType == GameOption.OTYPE_STRHIDE);
@@ -354,40 +383,49 @@ public class NewGameOptionsFrame extends Frame
                     if (doHide)
                     {
                         if (PlayerClient.isJavaOnOSX)
-                            txtc.setEchoChar('\u2022');  // round bullet (option-8)
+                            txtc.setEchoChar('\u2022'); // round bullet
+                                                        // (option-8)
                         else
                             txtc.setEchoChar('*');
                     }
-                    if (! readOnly)
-                        txtc.addKeyListener(this);  // for ESC/ENTER
+                    if (!readOnly)
+                        txtc.addKeyListener(this); // for ESC/ENTER
                     initInterface_Opt1(op, txtc, false, false, bp, gbl, gbc);
                 }
                 break;
 
-                // default: unknown, see above
+            // default: unknown, see above
             }
 
-        }  // for(opts)
+        } // for(opts)
     }
 
     /**
      * Add one GridBagLayout row with this game option (component and label(s)).
      * The option's descriptive text may have "#" as a placeholder for where
      * int/enum value is specified (IntTextField or Choice-dropdown).
-     * @param op  Option data
-     * @param oc  Component with option choices (popup menu, textfield, etc).
-     *            If oc is a {@link TextField} or {@link Choice}, and hasCB,
+     * 
+     * @param op
+     *            Option data
+     * @param oc
+     *            Component with option choices (popup menu, textfield, etc). If
+     *            oc is a {@link TextField} or {@link Choice}, and hasCB,
      *            changing the component's value will set the checkbox.
-     * @param hasCB  Add a checkbox?  If oc is {@link Checkbox}, set this true;
-     *            it won't add a second checkbox.
-     * @param allowPH  Allow the "#" placeholder within option desc?
-     * @param bp  Add to this panel
-     * @param gbl Use this layout
-     * @param gbc Use these constraints; gridwidth will be set to 1 and then REMAINDER
+     * @param hasCB
+     *            Add a checkbox? If oc is {@link Checkbox}, set this true; it
+     *            won't add a second checkbox.
+     * @param allowPH
+     *            Allow the "#" placeholder within option desc?
+     * @param bp
+     *            Add to this panel
+     * @param gbl
+     *            Use this layout
+     * @param gbc
+     *            Use these constraints; gridwidth will be set to 1 and then
+     *            REMAINDER
      */
-    private void initInterface_Opt1(GameOption op, Component oc,
-            boolean hasCB, boolean allowPH,
-            Panel bp, GridBagLayout gbl, GridBagConstraints gbc)
+    private void initInterface_Opt1(GameOption op, Component oc, boolean hasCB,
+            boolean allowPH, Panel bp, GridBagLayout gbl, GridBagConstraints gbc)
     {
         Label L;
 
@@ -401,19 +439,21 @@ public class NewGameOptionsFrame extends Frame
                 cb = new Checkbox();
             controlsOpts.put(cb, op);
             cb.setState(op.getBoolValue());
-            cb.setEnabled(! readOnly);
+            cb.setEnabled(!readOnly);
             gbl.setConstraints(cb, gbc);
             bp.add(cb);
-            if (! readOnly)
+            if (!readOnly)
                 boolOptCheckboxes.put(op.optKey, cb);
-        } else {
-            L = new Label();  // to fill checkbox's column
+        }
+        else
+        {
+            L = new Label(); // to fill checkbox's column
             gbl.setConstraints(L, gbc);
             bp.add(L);
         }
 
         final int placeholderIdx = allowPH ? op.optDesc.indexOf('#') : -1;
-        Panel optp = new Panel();  // with FlowLayout
+        Panel optp = new Panel(); // with FlowLayout
         try
         {
             FlowLayout fl = (FlowLayout) (optp.getLayout());
@@ -421,7 +461,9 @@ public class NewGameOptionsFrame extends Frame
             fl.setVgap(0);
             fl.setHgap(0);
         }
-        catch (Throwable fle) {}
+        catch (Throwable fle)
+        {
+        }
 
         // Any text to the left of placeholder in optDesc?
         if (placeholderIdx > 0)
@@ -429,64 +471,69 @@ public class NewGameOptionsFrame extends Frame
             L = new Label(op.optDesc.substring(0, placeholderIdx - 1));
             L.setForeground(LABEL_TXT_COLOR);
             optp.add(L);
-            if (hasCB && ! readOnly)
+            if (hasCB && !readOnly)
             {
                 controlsOpts.put(L, op);
-                L.addMouseListener(this);  // Click label to toggle checkbox
+                L.addMouseListener(this); // Click label to toggle checkbox
             }
         }
 
         // TextField or Choice at placeholder position
-        if (! (oc instanceof Checkbox))
+        if (!(oc instanceof Checkbox))
         {
             controlsOpts.put(oc, op);
-            oc.setEnabled(! readOnly);
+            oc.setEnabled(!readOnly);
             optp.add(oc);
-            if (hasCB && ! readOnly)
+            if (hasCB && !readOnly)
             {
                 if (oc instanceof TextField)
                 {
-                    ((TextField) oc).addTextListener(this);  // for enable/disable
-                    ((TextField) oc).addKeyListener(this);   // for ESC/ENTER
-                } else if (oc instanceof Choice)
+                    ((TextField) oc).addTextListener(this); // for
+                                                            // enable/disable
+                    ((TextField) oc).addKeyListener(this); // for ESC/ENTER
+                }
+                else if (oc instanceof Choice)
                 {
                     ((Choice) oc).addItemListener(this);
                 }
             }
         }
 
-        // Any text to the right of placeholder?  Also creates
+        // Any text to the right of placeholder? Also creates
         // the text label if there is no placeholder (placeholderIdx == -1).
         if (placeholderIdx + 1 < op.optDesc.length())
         {
             L = new Label(op.optDesc.substring(placeholderIdx + 1));
             L.setForeground(LABEL_TXT_COLOR);
             optp.add(L);
-            if (hasCB && ! readOnly)
+            if (hasCB && !readOnly)
             {
                 controlsOpts.put(L, op);
-                L.addMouseListener(this);  // Click label to toggle checkbox
+                L.addMouseListener(this); // Click label to toggle checkbox
             }
         }
 
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         gbl.setConstraints(optp, gbc);
-        bp.add(optp);      
+        bp.add(optp);
     }
 
     /**
-     * Natural log of 10. For use in {@link #initOption_int(GameOption)}, to determine
-     * number of digits needed for the option in a textfield
+     * Natural log of 10. For use in {@link #initOption_int(GameOption)}, to
+     * determine number of digits needed for the option in a textfield
      */
     private static final double LOG_10 = Math.log(10.0);
 
     /**
-     * Based on this game option's type, present its intvalue either as
-     * a numeric textfield, or a popup menu if min/max are near each other.
-     * The maximum min/max distance which creates a popup is {@link #INTFIELD_POPUP_MAXRANGE}.
-     * @param op A GameOption with an integer value, that is,
-     *           of type {@link GameOption#OTYPE_INT OTYPE_INT}
-     *           or {@link GameOption#OTYPE_INTBOOL OTYPE_INTBOOL}
+     * Based on this game option's type, present its intvalue either as a
+     * numeric textfield, or a popup menu if min/max are near each other. The
+     * maximum min/max distance which creates a popup is
+     * {@link #INTFIELD_POPUP_MAXRANGE}.
+     * 
+     * @param op
+     *            A GameOption with an integer value, that is, of type
+     *            {@link GameOption#OTYPE_INT OTYPE_INT} or
+     *            {@link GameOption#OTYPE_INTBOOL OTYPE_INTBOOL}
      * @return an IntTextField or {@link java.awt.Choice} (popup menu)
      */
     private Component initOption_int(GameOption op)
@@ -498,7 +545,8 @@ public class NewGameOptionsFrame extends Frame
         if ((optrange > INTFIELD_POPUP_MAXRANGE) || (optrange < 0))
         {
             // IntTextField with width based on number of digits in min/max .
-            // Math.log10 isn't available in java 1.4, so we calculate it for now.
+            // Math.log10 isn't available in java 1.4, so we calculate it for
+            // now.
             int amaxv = Math.abs(op.maxIntValue);
             int aminv = Math.abs(op.minIntValue);
             final int magn;
@@ -506,11 +554,13 @@ public class NewGameOptionsFrame extends Frame
                 magn = amaxv;
             else
                 magn = aminv;
-            int twidth = 1 + (int) Math.ceil(Math.log(magn)/LOG_10);
+            int twidth = 1 + (int) Math.ceil(Math.log(magn) / LOG_10);
             if (twidth < 3)
                 twidth = 3;
-            c = new IntTextField(op.getIntValue(), twidth);          
-        } else {
+            c = new IntTextField(op.getIntValue(), twidth);
+        }
+        else
+        {
             Choice ch = new Choice();
             for (int i = op.minIntValue; i <= op.maxIntValue; ++i)
                 ch.add(Integer.toString(i));
@@ -525,8 +575,10 @@ public class NewGameOptionsFrame extends Frame
 
     /**
      * Create a popup menu for the choices of this enum.
-     * @param op Game option, of type {@link GameOption#OTYPE_ENUM OTYPE_ENUM}
-     *           or {@link GameOption#OTYPE_ENUMBOOL OTYPE_ENUMBOOL}
+     * 
+     * @param op
+     *            Game option, of type {@link GameOption#OTYPE_ENUM OTYPE_ENUM}
+     *            or {@link GameOption#OTYPE_ENUMBOOL OTYPE_ENUMBOOL}
      */
     private Choice initOption_enum(GameOption op)
     {
@@ -535,7 +587,7 @@ public class NewGameOptionsFrame extends Frame
         for (int i = 0; i < chs.length; ++i)
             ch.add(chs[i]);
 
-        int defaultIdx = op.getIntValue() - 1;  // enum numbering is 1-based
+        int defaultIdx = op.getIntValue() - 1; // enum numbering is 1-based
         if (defaultIdx > 0)
             ch.select(defaultIdx);
         return ch;
@@ -546,7 +598,7 @@ public class NewGameOptionsFrame extends Frame
     {
         try
         {
-            
+
             Object src = ae.getSource();
             if (src == create)
             {
@@ -561,10 +613,11 @@ public class NewGameOptionsFrame extends Frame
                 return;
             }
 
-        }  // try
-        catch(Throwable thr)
+        } // try
+        catch (Throwable thr)
         {
-            System.err.println("-- Error caught in AWT event thread: " + thr + " --");
+            System.err.println("-- Error caught in AWT event thread: " + thr
+                    + " --");
             thr.printStackTrace();
             while (thr.getCause() != null)
             {
@@ -584,30 +637,32 @@ public class NewGameOptionsFrame extends Frame
         String gmName = gameName.getText().trim();
         if (gmName.length() == 0)
         {
-            return;  // Should not happen (button disabled by TextListener)
+            return; // Should not happen (button disabled by TextListener)
         }
-        if (! Message.isSingleLineAndSafe(gmName))
+        if (!Message.isSingleLineAndSafe(gmName))
         {
             msgText.setText(StatusMessage.MSG_SV_NEWGAME_NAME_REJECTED);
             gameName.requestFocusInWindow();
-            return;  // Not a valid game name
+            return; // Not a valid game name
         }
 
         /**
-         * Is this game name already used?
-         * Always check remote server for the requested game name.
-         * Check practice game names only if creating another practice game.
+         * Is this game name already used? Always check remote server for the
+         * requested game name. Check practice game names only if creating
+         * another practice game.
          */
         boolean gameExists;
         if (forPractice)
-            gameExists = (cl.practiceServer != null) && (-1 != cl.practiceServer.getGameState(gmName));
+            gameExists = (cl.practiceServer != null)
+                    && (-1 != cl.practiceServer.getGameState(gmName));
         else
             gameExists = false;
         if (cl.serverGames != null)
             gameExists = gameExists || cl.serverGames.isGame(gmName);
         if (gameExists)
         {
-            NotifyDialog.createAndShow(cl, this, StatusMessage.MSG_SV_NEWGAME_ALREADY_EXISTS, null, true);
+            NotifyDialog.createAndShow(cl, this,
+                    StatusMessage.MSG_SV_NEWGAME_ALREADY_EXISTS, null, true);
             return;
         }
 
@@ -615,17 +670,34 @@ public class NewGameOptionsFrame extends Frame
         {
             if (readOptsValuesFromControls(checkOptionsMinVers))
             {
-                setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));  // Immediate feedback in this frame
-                cl.askStartGameWithOptions(gmName, forPractice, opts);  // Also sets WAIT_CURSOR, in main client frame
-            } else {
-                return;  // readOptsValues will put the err msg in dia's status line
+                setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR)); // Immediate
+                                                                           // feedback
+                                                                           // in
+                                                                           // this
+                                                                           // frame
+                cl.askStartGameWithOptions(gmName, forPractice, opts); // Also
+                                                                       // sets
+                                                                       // WAIT_CURSOR,
+                                                                       // in
+                                                                       // main
+                                                                       // client
+                                                                       // frame
             }
-        } else {
+            else
+            {
+                return; // readOptsValues will put the err msg in dia's status
+                        // line
+            }
+        }
+        else
+        {
             // Nickname field is also checked before this dialog is displayed,
             // so the user must have gone back and changed it.
             // Can't correct the problem from within this dialog, since the
             // nickname field (and hint message) is in PlayerClient's panel.
-            NotifyDialog.createAndShow(cl, this, "Please go back and enter a valid nickname for your user.", null, true);
+            NotifyDialog.createAndShow(cl, this,
+                    "Please go back and enter a valid nickname for your user.",
+                    null, true);
             return;
         }
 
@@ -638,8 +710,9 @@ public class NewGameOptionsFrame extends Frame
         dispose();
     }
 
-    /** Dismiss the frame, and clear client's {@link PlayerClient#newGameOptsFrame}
-     *  ref to this frame
+    /**
+     * Dismiss the frame, and clear client's
+     * {@link PlayerClient#newGameOptsFrame} ref to this frame
      */
     public void dispose()
     {
@@ -649,21 +722,24 @@ public class NewGameOptionsFrame extends Frame
     }
 
     /**
-     * Read option values from controls, as prep to request the new game.
-     * If there is a problem (out of range, bad character in integer field, etc),
+     * Read option values from controls, as prep to request the new game. If
+     * there is a problem (out of range, bad character in integer field, etc),
      * set {@link #msgText} and set focus on the field.
-     * @param checkOptionsMinVers Warn the user if the options will require a
-     *           minimum client version?  Won't do so if {@link #forPractice} is set,
-     *           because this isn't a problem for local practice games.
-     * @return true if all were read OK, false if a problem (such as NumberFormatException)
+     * 
+     * @param checkOptionsMinVers
+     *            Warn the user if the options will require a minimum client
+     *            version? Won't do so if {@link #forPractice} is set, because
+     *            this isn't a problem for local practice games.
+     * @return true if all were read OK, false if a problem (such as
+     *         NumberFormatException)
      */
     private boolean readOptsValuesFromControls(final boolean checkOptionsMinVers)
     {
         if (readOnly)
-            return false;  // shouldn't be called in that case
+            return false; // shouldn't be called in that case
 
         boolean allOK = true;
-        for (Enumeration e = controlsOpts.keys(); e.hasMoreElements(); )
+        for (Enumeration e = controlsOpts.keys(); e.hasMoreElements();)
         {
             Component ctrl = (Component) e.nextElement();
             if (ctrl instanceof Label)
@@ -671,41 +747,46 @@ public class NewGameOptionsFrame extends Frame
             GameOption op = (GameOption) controlsOpts.get(ctrl);
 
             // OTYPE_* - new option types may have new AWT control objects, or
-            //           may use the same controls with different contents as these.
+            // may use the same controls with different contents as these.
 
             if (ctrl instanceof Checkbox)
             {
-                op.setBoolValue(((Checkbox)ctrl).getState());
+                op.setBoolValue(((Checkbox) ctrl).getState());
             }
             else if (ctrl instanceof TextField)
             {
                 String txt = ((TextField) ctrl).getText().trim();
                 if ((op.optType == GameOption.OTYPE_STR)
-                    || (op.optType == GameOption.OTYPE_STRHIDE))
+                        || (op.optType == GameOption.OTYPE_STRHIDE))
                 {
                     try
                     {
                         op.setStringValue(txt);
-                    } catch (IllegalArgumentException ex)
+                    }
+                    catch (IllegalArgumentException ex)
                     {
                         allOK = false;
-                        msgText.setText("Please use only a single line of text here.");
+                        msgText
+                                .setText("Please use only a single line of text here.");
                         ctrl.requestFocusInWindow();
                     }
-                } else {
-                    try   // OTYPE_INT, OTYPE_INTBOOL
+                }
+                else
+                {
+                    try
+                    // OTYPE_INT, OTYPE_INTBOOL
                     {
                         int iv = Integer.parseInt(txt);
                         op.setIntValue(iv);
                         if (iv != op.getIntValue())
                         {
                             allOK = false;
-                            msgText.setText
-                                ("Out of range: Should be " + op.minIntValue
-                                 + " to " + op.maxIntValue);
+                            msgText.setText("Out of range: Should be "
+                                    + op.minIntValue + " to " + op.maxIntValue);
                             ctrl.requestFocusInWindow();
                         }
-                    } catch (NumberFormatException ex)
+                    }
+                    catch (NumberFormatException ex)
                     {
                         allOK = false;
                         msgText.setText("Please use only digits here.");
@@ -715,17 +796,18 @@ public class NewGameOptionsFrame extends Frame
             }
             else if (ctrl instanceof Choice)
             {
-                // this works with OTYPE_INT, OTYPE_INTBOOL, OTYPE_ENUM, OTYPE_ENUMBOOL
-                int chIdx = ((Choice) ctrl).getSelectedIndex();  // 0 to n-1
+                // this works with OTYPE_INT, OTYPE_INTBOOL, OTYPE_ENUM,
+                // OTYPE_ENUMBOOL
+                int chIdx = ((Choice) ctrl).getSelectedIndex(); // 0 to n-1
                 if (chIdx != -1)
                     op.setIntValue(chIdx + op.minIntValue);
                 else
                     allOK = false;
             }
 
-        }  // for(opts)
+        } // for(opts)
 
-        if (allOK && checkOptionsMinVers && ! forPractice)
+        if (allOK && checkOptionsMinVers && !forPractice)
         {
             int optsVers = GameOption.optionsMinimumVersion(controlsOpts);
             if (optsVers > -1)
@@ -756,11 +838,12 @@ public class NewGameOptionsFrame extends Frame
             case KeyEvent.VK_ESCAPE:
                 clickCancel();
                 break;
-            }  // switch(e)
-        }  // try
-        catch(Throwable thr)
+            } // switch(e)
+        } // try
+        catch (Throwable thr)
         {
-            System.err.println("-- Error caught in AWT event thread: " + thr + " --");
+            System.err.println("-- Error caught in AWT event thread: " + thr
+                    + " --");
             thr.printStackTrace();
             while (thr.getCause() != null)
             {
@@ -774,28 +857,38 @@ public class NewGameOptionsFrame extends Frame
     }
 
     /** Stub required by KeyListener */
-    public void keyReleased(KeyEvent arg0) { }
+    public void keyReleased(KeyEvent arg0)
+    {
+    }
 
     /** Stub required by KeyListener */
-    public void keyTyped(KeyEvent arg0) { }
+    public void keyTyped(KeyEvent arg0)
+    {
+    }
 
     /**
-     * When gamename contents change, enable/disable buttons as appropriate. (TextListener)
-     * Also handles {@link GameOption#OTYPE_INTBOOL} textfield/checkbox combos.
-     * @param e textevent from {@link #gameName}, or from a TextField in {@link #controlsOpts}
+     * When gamename contents change, enable/disable buttons as appropriate.
+     * (TextListener) Also handles {@link GameOption#OTYPE_INTBOOL}
+     * textfield/checkbox combos.
+     * 
+     * @param e
+     *            textevent from {@link #gameName}, or from a TextField in
+     *            {@link #controlsOpts}
      */
     public void textValueChanged(TextEvent e)
     {
         if (readOnly)
             return;
         Object srcObj = e.getSource();
-        if (! (srcObj instanceof TextField))
+        if (!(srcObj instanceof TextField))
             return;
-        final boolean notEmpty = (((TextField) srcObj).getText().trim().length() > 0);
+        final boolean notEmpty = (((TextField) srcObj).getText().trim()
+                .length() > 0);
         if (srcObj == gameName)
         {
             if (notEmpty != create.isEnabled())
-                create.setEnabled(notEmpty);  // enable "create" btn only if game name filled in
+                create.setEnabled(notEmpty); // enable "create" btn only if game
+                                             // name filled in
         }
         else
         {
@@ -812,8 +905,11 @@ public class NewGameOptionsFrame extends Frame
 
     /**
      * Set the checkbox when the popup-menu Choice value is changed for a
-     * {@link GameOption#OTYPE_INTBOOL} or {@link GameOption#OTYPE_ENUMBOOL}. (ItemListener)
-     * @param e textevent from a Choice in {@link #controlsOpts}
+     * {@link GameOption#OTYPE_INTBOOL} or {@link GameOption#OTYPE_ENUMBOOL}.
+     * (ItemListener)
+     * 
+     * @param e
+     *            textevent from a Choice in {@link #controlsOpts}
      */
     public void itemStateChanged(ItemEvent e)
     {
@@ -835,24 +931,32 @@ public class NewGameOptionsFrame extends Frame
         Checkbox cb = (Checkbox) boolOptCheckboxes.get(opt.optKey);
         if (cb == null)
             return;
-        cb.setState(! cb.getState());
+        cb.setState(!cb.getState());
     }
 
     /** required stub for MouseListener */
-    public void mouseEntered(MouseEvent e) {}
+    public void mouseEntered(MouseEvent e)
+    {
+    }
 
     /** required stub for MouseListener */
-    public void mouseExited(MouseEvent e) {}
+    public void mouseExited(MouseEvent e)
+    {
+    }
 
     /** required stub for MouseListener */
-    public void mousePressed(MouseEvent e) {}
+    public void mousePressed(MouseEvent e)
+    {
+    }
 
     /** required stub for MouseListener */
-    public void mouseReleased(MouseEvent e) {}
-
+    public void mouseReleased(MouseEvent e)
+    {
+    }
 
     /**
      * A textfield that accepts only nonnegative-integer characters.
+     * 
      * @author Jeremy D Monin <jeremy@nand.net>
      */
     public class IntTextField extends TextField implements KeyListener
@@ -870,6 +974,7 @@ public class NewGameOptionsFrame extends Frame
 
         /**
          * Parse the value of this textfield
+         * 
          * @return value, or 0 if can't parse it
          */
         public int getIntValue()
@@ -888,15 +993,19 @@ public class NewGameOptionsFrame extends Frame
         }
 
         /** stub for KeyListener */
-        public void keyPressed(KeyEvent e) {}
+        public void keyPressed(KeyEvent e)
+        {
+        }
 
         /** stub for KeyListener */
-        public void keyReleased(KeyEvent e) {}
+        public void keyReleased(KeyEvent e)
+        {
+        }
 
         /** reject entered characters which aren't digits */
         public void keyTyped(KeyEvent e)
         {
-            // TODO this is not working
+            // T-DO this is not working
 
             switch (e.getKeyCode())
             {
@@ -911,22 +1020,22 @@ public class NewGameOptionsFrame extends Frame
 
             default:
                 {
-                final char c = e.getKeyChar();
-                if (c == KeyEvent.CHAR_UNDEFINED)  // ctrl characters, arrows, etc
-                    return;
-                if (! Character.isDigit(c))
-                    e.consume();  // ignore non-digits
+                    final char c = e.getKeyChar();
+                    if (c == KeyEvent.CHAR_UNDEFINED) // ctrl characters,
+                                                      // arrows, etc
+                        return;
+                    if (!Character.isDigit(c))
+                        e.consume(); // ignore non-digits
                 }
-            }  // switch(e)
+            } // switch(e)
         }
 
-    }  // public inner class IntTextField
-
+    } // public inner class IntTextField
 
     /**
-     * This is the dialog to ask user if these options' required
-     * minimum client version is OK.
-     *
+     * This is the dialog to ask user if these options' required minimum client
+     * version is OK.
+     * 
      * @author Jeremy D Monin <jeremy@nand.net>
      */
     private class VersionConfirmDialog extends AskDialog
@@ -938,15 +1047,22 @@ public class NewGameOptionsFrame extends Frame
 
         /**
          * Creates a new VersionConfirmDialog.
-         *
-         * @param ngof  Parent options-frame, which contains these options
-         * @param minVers  Minimum required version for these options
+         * 
+         * @param ngof
+         *            Parent options-frame, which contains these options
+         * @param minVers
+         *            Minimum required version for these options
          */
         public VersionConfirmDialog(NewGameOptionsFrame ngof, int minVers)
         {
-            super(cl, ngof, "Confirm options minimum version",
-                "OpenSettlers " + Version.version(minVers) + " or newer is required for these game options.\nOlder clients won't be able to join.",
-                "Create with these options", "Change options", false, true);
+            super(
+                    cl,
+                    ngof,
+                    "Confirm options minimum version",
+                    "OpenSettlers "
+                            + Version.version(minVers)
+                            + " or newer is required for these game options.\nOlder clients won't be able to join.",
+                    "Create with these options", "Change options", false, true);
         }
 
         /**
@@ -966,14 +1082,14 @@ public class NewGameOptionsFrame extends Frame
         }
 
         /**
-         * React to the dialog window closed by user, or Esc pressed. (same as Change button)
+         * React to the dialog window closed by user, or Esc pressed. (same as
+         * Change button)
          */
         public void windowCloseChosen()
         {
             button2Chosen();
         }
 
-    }  // private inner class VersionConfirmDialog
+    } // private inner class VersionConfirmDialog
 
-
-}  // public class NewGameOptionsFrame
+} // public class NewGameOptionsFrame

@@ -3,7 +3,6 @@ package soc.common.game.gamePhase;
 import java.util.ArrayList;
 import java.util.List;
 
-import soc.common.actions.gameAction.AbstractGameAction;
 import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.StartingPlayerDetermined;
 import soc.common.actions.gameAction.turnActions.RolledSame;
@@ -11,7 +10,7 @@ import soc.common.actions.gameAction.turnActions.standard.RollDice;
 import soc.common.board.ports.Port;
 import soc.common.board.territories.Territory;
 import soc.common.game.Game;
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 
 public class DetermineFirstPlayerGamePhase extends AbstractGamePhase
 {
@@ -20,7 +19,7 @@ public class DetermineFirstPlayerGamePhase extends AbstractGamePhase
     {
         // expect each player to roll at least once (first phase: everyone rolls
         // once)
-        for (Player p : game.getPlayers())
+        for (GamePlayer p : game.getPlayers())
         {
             game.getActionsQueue().enqueue(new RollDice().setPlayer(p));
         }
@@ -40,7 +39,7 @@ public class DetermineFirstPlayerGamePhase extends AbstractGamePhase
     }
 
     @Override
-    public void performAction(AbstractGameAction action, Game game)
+    public void performAction(GameAction action, Game game)
     {
         action.perform(game);
 
@@ -61,8 +60,8 @@ public class DetermineFirstPlayerGamePhase extends AbstractGamePhase
                 // When starting player is not determined yet, repeat dice roll
                 // between winners until
                 // winner is determined
-                Player gameStarter = game.getGameLog().firstPlayerIsDetermined(
-                        game, highRoll);
+                GamePlayer gameStarter = game.getGameLog()
+                        .firstPlayerIsDetermined(game, highRoll);
                 if (gameStarter != null)
                 {
                     // We have a starting player

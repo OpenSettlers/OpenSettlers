@@ -1,6 +1,6 @@
 package soc.gwtClient.game.widgets.standard.bitmap.actions;
 
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 import soc.common.game.developmentCards.DevelopmentCard;
 import soc.common.game.developmentCards.DevelopmentCardsChangedEvent;
 import soc.common.game.developmentCards.DevelopmentCardsChangedEventHandler;
@@ -28,7 +28,7 @@ public class PlayDevelopmentCardBitmapWidget implements
     protected AbsolutePanel rootPanel = new AbsolutePanel();
     protected PopupPanel menuBar = new PopupPanel();
     protected VerticalPanel verticalPanel = new VerticalPanel();
-    protected Player player;
+    protected GamePlayer player;
     protected IGamePanel gamePanel;
     protected PushButton btnPlayDevelopmentCard = new PushButton(new Image(
             Resources.icons().developmentCardBack()));
@@ -36,7 +36,7 @@ public class PlayDevelopmentCardBitmapWidget implements
     protected boolean isMenubarShown = false;
     protected DevelopmentCardWidgetFactory devCardWidgetFactory = new DevelopmentCardBitmapWidgetFactory();
 
-    public PlayDevelopmentCardBitmapWidget(Player player, IGamePanel gamePanel)
+    public PlayDevelopmentCardBitmapWidget(GamePlayer player, IGamePanel gamePanel)
     {
         this.player = player;
         this.gamePanel = gamePanel;
@@ -97,7 +97,7 @@ public class PlayDevelopmentCardBitmapWidget implements
     }
 
     @Override
-    public Player getPlayer()
+    public GamePlayer getPlayer()
     {
         return player;
     }

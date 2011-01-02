@@ -9,11 +9,12 @@ import soc.common.utils.ClassUtils;
 public abstract class AbstractResource implements Resource
 {
     final String name;
-    
+
     public AbstractResource()
     {
         name = ClassUtils.getSimpleClassName(this.getClass().getName());
     }
+
     @Override
     public String toString()
     {
@@ -27,10 +28,10 @@ public abstract class AbstractResource implements Resource
     {
         return name;
     }
-    
-    public abstract AbstractResource Copy();
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override

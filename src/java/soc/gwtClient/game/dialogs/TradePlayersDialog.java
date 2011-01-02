@@ -5,7 +5,7 @@ import java.util.List;
 
 import soc.common.board.ports.PortList;
 import soc.common.board.resources.ResourceList;
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.IGamePanel;
 import soc.gwtClient.game.widgets.abstractWidgets.IResourceListWidget;
 import soc.gwtClient.game.widgets.abstractWidgets.IResourcePickerWidget;
@@ -61,7 +61,7 @@ public class TradePlayersDialog extends PopupPanel
         wantedResourcePickerWidget = createResourcePickerWidget(wantResources,
                 null, null, gamePanel);
 
-        for (Player opponent : gamePanel.getGame().getPlayers())
+        for (GamePlayer opponent : gamePanel.getGame().getPlayers())
         {
             ITradePlayerStatusWidget tradeStatus = new BitmapTradePlayerStatusWidget(
                     gamePanel, opponent, gamePanel.getPlayingPlayer());

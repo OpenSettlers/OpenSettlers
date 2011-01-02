@@ -4,14 +4,14 @@ import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 
 public abstract class AbstractStockItemWidget implements IStockItemWidget
 {
-    protected Player player;
+    protected GamePlayer player;
     protected ComplexPanel rootPanel;
     
-    public AbstractStockItemWidget(Player player)
+    public AbstractStockItemWidget(GamePlayer player)
     {
         this.player=player;
         

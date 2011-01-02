@@ -1,36 +1,36 @@
 package soc.common.client.behaviour.game;
 
-import soc.common.client.visuals.IPieceVisual;
-import soc.common.client.visuals.board.IBoardVisual;
-import soc.common.client.visuals.game.IGameBoardVisual;
+import soc.common.client.visuals.PieceVisual;
+import soc.common.client.visuals.board.BoardVisual;
+import soc.common.client.visuals.game.GameBoardVisual;
 import soc.common.client.visuals.game.ISideVisual;
 
 /*
  * Shows all possible sides for the user to select a side. 
  */
-public class BuildSideBehaviour implements IGameBehaviour
+public class BuildSideBehaviour implements GameBehaviour
 {
-    
+
     @Override
-    public void setNeutral(IGameBoardVisual visual)
+    public void setNeutral(GameBoardVisual visual)
     {
-        visual.getHexSidesVisual().setVisible(false);
+        // /visual.getHexSidesVisual().setVisible(false);
     }
 
     @Override
-    public void start(IGameBoardVisual gameVisual)
+    public void start(GameBoardVisual gameVisual)
     {
-        gameVisual.getHexSidesVisual().setVisible(true);
+        // gameVisual.getHexSidesVisual().setVisible(true);
     }
 
     @Override
-    public void clicked(IPieceVisual pieceVisual, IBoardVisual board)
+    public void clicked(PieceVisual pieceVisual, BoardVisual board)
     {
         throw new RuntimeException();
     }
 
     @Override
-    public void mouseEnter(IPieceVisual pieceVisual, IBoardVisual board)
+    public void mouseEnter(PieceVisual pieceVisual, BoardVisual board)
     {
         if (pieceVisual instanceof ISideVisual)
         {
@@ -39,7 +39,7 @@ public class BuildSideBehaviour implements IGameBehaviour
     }
 
     @Override
-    public void mouseOut(IPieceVisual pieceVisual, IBoardVisual board)
+    public void mouseOut(PieceVisual pieceVisual, BoardVisual board)
     {
         if (pieceVisual instanceof ISideVisual)
         {

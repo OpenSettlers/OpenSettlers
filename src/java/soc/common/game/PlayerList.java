@@ -1,8 +1,8 @@
 package soc.common.game;
 
-public interface PlayerList extends Iterable<Player>
+public interface PlayerList extends Iterable<GamePlayerImpl>
 {
     public void remove(PlayerList players);
-    public void remove(Player player);
-    public void add(Player player);
+    public void remove(GamePlayer player);
+    public void add(GamePlayer player);
 }

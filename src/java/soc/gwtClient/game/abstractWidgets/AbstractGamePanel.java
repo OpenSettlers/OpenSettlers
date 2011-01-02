@@ -1,15 +1,16 @@
 package soc.gwtClient.game.abstractWidgets;
 
 import soc.common.actions.gameAction.AbstractGameAction;
+import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.turnActions.AbstractTurnAction;
 import soc.common.board.pieces.PlayerPiece;
-import soc.common.client.behaviour.IGameBehaviourFactory;
+import soc.common.client.behaviour.GameBehaviourFactory;
 import soc.common.client.behaviour.StandardGameBehaviourFactory;
-import soc.common.client.behaviour.game.IGameBehaviour;
-import soc.common.client.visuals.game.IGameBoardVisual;
+import soc.common.client.behaviour.game.GameBehaviour;
+import soc.common.client.visuals.game.GameBoardVisual;
 import soc.common.game.Game;
-import soc.common.game.Player;
-import soc.common.server.IGameServer;
+import soc.common.game.GamePlayer;
+import soc.common.server.GameServer;
 import soc.common.server.IGameServerCallback;
 import soc.gwtClient.game.ICenterWidget;
 import soc.gwtClient.game.Point2D;
@@ -19,22 +20,21 @@ import soc.gwtClient.game.dialogs.TradePlayersDialog;
 public abstract class AbstractGamePanel implements IGamePanel, ICenterWidget,
         IGameServerCallback
 {
-    protected IGameServer server;
+    protected GameServer server;
     protected Game game;
     protected NewGameDialog newGameWindow;
     protected IActionsWidget buildPallette;
-    protected IBankStockPanel bankStockPanel;
-    protected IBankTradeUI bankTradeUI;
-    protected IGameBehaviourFactory gameBehaviourFactory;
-    protected IGameBoardVisual gameVisual;
+    protected BankStockPanel bankStockPanel;
+    protected BankTradeUI bankTradeUI;
+    protected GameBehaviourFactory gameBehaviourFactory;
+    protected GameBoardVisual gameBoardVisual;
     protected AbstractGameAction performingAction;
     protected IPlayersWidget playersWidget;
-    protected IGameBoardVisual gameBoard;
-    protected Player player;
-    protected IHandCardsWidget handCards;
-    protected IStatusPanel statusPanel;
+    protected GamePlayer player;
+    protected HandCardsWidget handCards;
+    protected StatusPanel statusPanel;
     protected TradePlayersDialog tradePlayers;
-    protected IGameHistoryWidget historyWidget;
+    protected GameHistoryWidget historyWidget;
 
     public AbstractGamePanel(Game game)
     {
@@ -46,7 +46,7 @@ public abstract class AbstractGamePanel implements IGamePanel, ICenterWidget,
         bankStockPanel = createBankStockPanel();
         buildPallette = createActionsWidget();
         playersWidget = createPlayersWidget();
-        gameBoard = createGameBoard(500, 500, game.getBoard());
+        gameBoardVisual = createGameBoard(500, 500, game);
         handCards = createHandCardsWidget(player);
         statusPanel = createStatusDicePanel(this);
         tradePlayers = new TradePlayersDialog(this);
@@ -78,7 +78,7 @@ public abstract class AbstractGamePanel implements IGamePanel, ICenterWidget,
      * .GameAction)
      */
     @Override
-    public void receive(AbstractGameAction action)
+    public void receive(GameAction action)
     {
         // perform the action
         game.getCurrentPhase().performAction(action, game);
@@ -97,7 +97,7 @@ public abstract class AbstractGamePanel implements IGamePanel, ICenterWidget,
         {
             AbstractTurnAction turnAction = (AbstractTurnAction) action;
             // Create a behaviour based on our action
-            IGameBehaviour gameBehaviour = gameBehaviourFactory
+            GameBehaviour gameBehaviour = gameBehaviourFactory
                     .createBehaviour(turnAction, game);
 
             if (gameBehaviour == null)
@@ -108,7 +108,7 @@ public abstract class AbstractGamePanel implements IGamePanel, ICenterWidget,
             else
             {
                 // Tell our GameVisual it needs to display the behaviour
-                gameVisual.setBehaviour(gameBehaviour);
+                gameBoardVisual.setBehaviour(gameBehaviour);
 
                 // Keep a reference to the action we are currently performing
                 performingAction = turnAction;
@@ -122,7 +122,7 @@ public abstract class AbstractGamePanel implements IGamePanel, ICenterWidget,
     }
 
     @Override
-    public void requestBankTrade(PlayerPiece piece, Player player)
+    public void requestBankTrade(PlayerPiece piece, GamePlayer player)
     {
         bankTradeUI.setPiece(piece);
         bankTradeUI.show();
@@ -134,7 +134,7 @@ public abstract class AbstractGamePanel implements IGamePanel, ICenterWidget,
      * @see soc.gwtClient.game.abstractWidgets.IGamePanel#getPlayingPlayer()
      */
     @Override
-    public Player getPlayingPlayer()
+    public GamePlayer getPlayingPlayer()
     {
         return player;
     }
@@ -155,7 +155,7 @@ public abstract class AbstractGamePanel implements IGamePanel, ICenterWidget,
     {
         Point2D location = playersWidget.getTopRightLocation();
         bankTradeUI.setPopupPosition(location.getX(), location.getY());
-        tradePlayers.show();
+        bankTradeUI.show();
     }
 
     public void hideTradeBankPanel()

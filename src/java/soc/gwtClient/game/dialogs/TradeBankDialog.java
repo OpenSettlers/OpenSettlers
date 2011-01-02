@@ -5,7 +5,7 @@ import soc.common.board.ports.PortList;
 import soc.common.board.resources.ResourceList;
 import soc.common.board.resources.ResourcesChangedEvent;
 import soc.common.board.resources.ResourcesChangedEventHandler;
-import soc.gwtClient.game.abstractWidgets.IBankTradeUI;
+import soc.gwtClient.game.abstractWidgets.BankTradeUI;
 import soc.gwtClient.game.abstractWidgets.IGamePanel;
 import soc.gwtClient.game.widgets.abstractWidgets.IResourceListWidget;
 import soc.gwtClient.game.widgets.abstractWidgets.IResourcePickerWidget;
@@ -25,7 +25,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class TradeBankDialog extends PopupPanel implements IBankTradeUI
+public class TradeBankDialog extends PopupPanel implements BankTradeUI
 {
     private ResourceList giveResources = new ResourceList();
     private ResourceList wantResources = new ResourceList();

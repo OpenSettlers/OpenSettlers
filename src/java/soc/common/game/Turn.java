@@ -6,7 +6,16 @@ import soc.common.game.trading.TradeOfferList;
 public interface Turn
 {
     public TradeOfferList getTradeOffers();
-    public Player getPlayer();
+
+    public GamePlayer getPlayer();
+
     public int getID();
+
     public TurnPhase getTurnPhase();
+
+    /**
+     * @param player
+     *            the player to set
+     */
+    public Turn setPlayer(GamePlayer player);
 }

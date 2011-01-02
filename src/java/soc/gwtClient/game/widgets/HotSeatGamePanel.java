@@ -1,22 +1,22 @@
 package soc.gwtClient.game.widgets;
 
 import soc.common.actions.gameAction.HostStartsGame;
-import soc.common.board.Board;
-import soc.common.client.visuals.game.IGameBoardVisual;
+import soc.common.client.visuals.game.GameBoardVisual;
 import soc.common.game.Game;
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 import soc.common.server.HotSeatServer;
+import soc.common.server.actions.ServerAction;
 import soc.gwtClient.game.ICenterWidget;
 import soc.gwtClient.game.abstractWidgets.AbstractBankStockWidget;
 import soc.gwtClient.game.abstractWidgets.AbstractGamePanel;
+import soc.gwtClient.game.abstractWidgets.BankStockPanel;
+import soc.gwtClient.game.abstractWidgets.BankTradeUI;
+import soc.gwtClient.game.abstractWidgets.GameHistoryWidget;
+import soc.gwtClient.game.abstractWidgets.HandCardsWidget;
 import soc.gwtClient.game.abstractWidgets.IActionsWidget;
-import soc.gwtClient.game.abstractWidgets.IBankStockPanel;
-import soc.gwtClient.game.abstractWidgets.IBankTradeUI;
-import soc.gwtClient.game.abstractWidgets.IGameHistoryWidget;
 import soc.gwtClient.game.abstractWidgets.IGamePanel;
-import soc.gwtClient.game.abstractWidgets.IHandCardsWidget;
 import soc.gwtClient.game.abstractWidgets.IPlayersWidget;
-import soc.gwtClient.game.abstractWidgets.IStatusPanel;
+import soc.gwtClient.game.abstractWidgets.StatusPanel;
 import soc.gwtClient.game.dialogs.TradeBankDialog;
 import soc.gwtClient.game.widgets.bitmap.BitmapHistoryWidget;
 import soc.gwtClient.game.widgets.bitmap.BoardLayoutPanel;
@@ -38,7 +38,7 @@ public class HotSeatGamePanel extends AbstractGamePanel implements
     DockLayoutPanel playersBankChatPanel = new DockLayoutPanel(Unit.EM);
     DockLayoutPanel boardActionResourcesPanel = new DockLayoutPanel(Unit.EM);
     TabLayoutPanel chatHistoryDebugPanel = new TabLayoutPanel(20.0, Unit.PX);
-    BoardLayoutPanel boardVisualPanel = new BoardLayoutPanel(gameBoard);
+    BoardLayoutPanel boardVisualPanel = new BoardLayoutPanel(gameBoardVisual);
     ChatPanel chatPanel;
     GameQueuePanel gameQueuePanel;
 
@@ -98,38 +98,45 @@ public class HotSeatGamePanel extends AbstractGamePanel implements
     }
 
     @Override
-    public IBankStockPanel createBankStockPanel()
+    public BankStockPanel createBankStockPanel()
     {
         return new AbstractBankStockWidget(game);
     }
 
     @Override
-    public IGameBoardVisual createGameBoard(int width, int height, Board board)
+    public GameBoardVisual createGameBoard(int width, int height, Game game)
     {
-        return new SvgGameBoardVisual(width, height, board);
+        return new SvgGameBoardVisual(width, height, game);
     }
 
     @Override
-    public IHandCardsWidget createHandCardsWidget(Player player)
+    public HandCardsWidget createHandCardsWidget(GamePlayer player)
     {
         return new HandCardsBitmapWidget(player);
     }
 
     @Override
-    public IStatusPanel createStatusDicePanel(IGamePanel gamePanel)
+    public StatusPanel createStatusDicePanel(IGamePanel gamePanel)
     {
         return new StatusBitmapPanel(gamePanel);
     }
 
     @Override
-    public IGameHistoryWidget createHistoryWidget(IGamePanel gamePanel)
+    public GameHistoryWidget createHistoryWidget(IGamePanel gamePanel)
     {
         return new BitmapHistoryWidget(gamePanel);
     }
 
     @Override
-    public IBankTradeUI createBankTradeUI(IGamePanel gamePanel)
+    public BankTradeUI createBankTradeUI(IGamePanel gamePanel)
     {
         return new TradeBankDialog(gamePanel);
+    }
+
+    @Override
+    public void receive(ServerAction serverAction)
+    {
+        // TODO Auto-generated method stub
+
     }
 }

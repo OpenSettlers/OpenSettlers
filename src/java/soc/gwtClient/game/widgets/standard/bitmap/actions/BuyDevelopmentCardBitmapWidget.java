@@ -3,7 +3,7 @@ package soc.gwtClient.game.widgets.standard.bitmap.actions;
 import soc.common.actions.gameAction.turnActions.standard.BuyDevelopmentCard;
 import soc.common.board.resources.ResourcesChangedEvent;
 import soc.common.board.resources.ResourcesChangedEventHandler;
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 import soc.common.game.TurnChangedEvent;
 import soc.common.game.TurnChangedEventHandler;
 import soc.common.game.developmentCards.DevelopmentCard;
@@ -29,7 +29,7 @@ public class BuyDevelopmentCardBitmapWidget extends AbstractActionWidget
             .icons().buyDvelopmentCard()));
     BuyDevelopmentCard buyDevelopmentCard = new BuyDevelopmentCard();
 
-    public BuyDevelopmentCardBitmapWidget(IGamePanel gamePanel, Player player)
+    public BuyDevelopmentCardBitmapWidget(IGamePanel gamePanel, GamePlayer player)
     {
         super(gamePanel, player);
 

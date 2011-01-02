@@ -5,15 +5,15 @@ import java.util.HashMap;
 import soc.common.board.Board;
 import soc.common.board.hexes.Hex;
 import soc.common.client.behaviour.DefaultBehaviour;
-import soc.common.client.behaviour.IInteractionBehaviour;
+import soc.common.client.behaviour.InteractionBehaviour;
 import soc.common.client.visuals.AbstractPieceVisual;
 import soc.gwtClient.editor.BehaviourChanged;
 import soc.gwtClient.editor.IBehaviourChangedHandler;
 
 public abstract class AbstractBoardVisual extends AbstractPieceVisual implements
-        IBoardVisual, IBehaviourChangedHandler
+        BoardVisual, IBehaviourChangedHandler
 {
-    protected IInteractionBehaviour editBehaviour = new DefaultBehaviour();
+    protected InteractionBehaviour editBehaviour = new DefaultBehaviour();
     protected Board board;
     protected HashMap<Hex, HexVisual> hexVisuals = new HashMap<Hex, HexVisual>();
 
@@ -22,6 +22,14 @@ public abstract class AbstractBoardVisual extends AbstractPieceVisual implements
     private double halfWidth;
     private double b;
     private double width;
+
+    /**
+     * @return the hexVisuals
+     */
+    public HashMap<Hex, HexVisual> getHexVisuals()
+    {
+        return hexVisuals;
+    }
 
     public AbstractBoardVisual()
     {
@@ -35,13 +43,13 @@ public abstract class AbstractBoardVisual extends AbstractPieceVisual implements
     }
 
     @Override
-    public IInteractionBehaviour getCurrentBehaviour()
+    public InteractionBehaviour getCurrentBehaviour()
     {
         return editBehaviour;
     }
 
     @Override
-    public IBoardVisual setInteractionBehaviour(IInteractionBehaviour behaviour)
+    public BoardVisual setInteractionBehaviour(InteractionBehaviour behaviour)
     {
         editBehaviour = behaviour;
 
@@ -142,7 +150,6 @@ public abstract class AbstractBoardVisual extends AbstractPieceVisual implements
     @Override
     public int getSize()
     {
-        // TODO Auto-generated method stub
         return (int) sideLength;
     }
 

@@ -5,10 +5,21 @@ import soc.common.game.trading.TradeOfferList;
 
 public class TurnImpl implements Turn
 {
-    private Player player;
+    private GamePlayer player;
     private int id;
     private TradeOfferList tradeOffers;
-    
+
+    /**
+     * @param player
+     *            the player to set
+     */
+    public Turn setPlayer(GamePlayer player)
+    {
+        this.player = player;
+
+        return this;
+    }
+
     @Override
     public TradeOfferList getTradeOffers()
     {
@@ -18,7 +29,7 @@ public class TurnImpl implements Turn
     /**
      * @return the player
      */
-    public Player getPlayer()
+    public GamePlayer getPlayer()
     {
         return player;
     }
@@ -31,7 +42,7 @@ public class TurnImpl implements Turn
 
     public Turn setID(int id)
     {
-        this.id=id;
+        this.id = id;
         return this;
     }
 
@@ -41,5 +52,5 @@ public class TurnImpl implements Turn
         // TODO Auto-generated method stub
         return null;
     }
-    
+
 }

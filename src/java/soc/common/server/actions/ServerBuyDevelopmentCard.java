@@ -1,25 +1,29 @@
 package soc.common.server.actions;
 
 import soc.common.actions.gameAction.AbstractGameAction;
+import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.turnActions.standard.BuyDevelopmentCard;
 import soc.common.game.Game;
+import soc.common.server.GameServer;
 
 public class ServerBuyDevelopmentCard implements ServerAction
 {
     private BuyDevelopmentCard buyDevCard;
     private Game game;
-    
-    public ServerBuyDevelopmentCard(BuyDevelopmentCard buyDevCard, Game game)
+    private GameServer gameServer;
+
+    public ServerBuyDevelopmentCard(BuyDevelopmentCard buyDevCard,
+            GameServer gameServer)
     {
         super();
         this.buyDevCard = buyDevCard;
-        this.game = game;
+        this.gameServer = gameServer;
     }
 
     @Override
     public void execute()
     {
-        buyDevCard.setDevelopmentCard(game.getDevelopmentCardStack().drawTop());
+        buyDevCard.setDevCard(game.getDevelopmentCardStack().drawTop());
     }
 
     @Override
@@ -29,10 +33,9 @@ public class ServerBuyDevelopmentCard implements ServerAction
     }
 
     @Override
-    public AbstractGameAction getOpponentAction()
+    public GameAction getOpponentAction()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return (BuyDevelopmentCard) new BuyDevelopmentCard().setResources(
+                buyDevCard.getResources()).setPlayer(buyDevCard.getPlayer());
     }
-
 }

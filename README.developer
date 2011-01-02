@@ -1,5 +1,11 @@
 README.developer - Notes and current status of 2010 OpenSettlers development
-    http://github.com/nsp/OpenSettlers
+    http://github.com/generateui/OpenSettlers
+
+OpenSettlers is a complete rewrite of SettleIn and JSettlers. The fork is based on JSettlers, as
+such the old JSettlers code is preserved until it can be discarded. In the meantime, it serves
+as a reference implmentation to gain inspiration from. 
+
+New OpenSettlers code can be found in the packages soc.common, soc.gwtClient and soc.gwtServer.
 
 The main server class is soc.common.game.
 The client communication is done using gwt-comet.

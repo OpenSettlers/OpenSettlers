@@ -4,7 +4,7 @@ import soc.common.actions.gameAction.turnActions.AbstractTurnAction;
 import soc.common.actions.gameAction.turnActions.EndTurn;
 import soc.common.game.GamePhaseChangedEvent;
 import soc.common.game.GamePhaseChangedEventHandler;
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.AbstractActionWidget;
 import soc.gwtClient.game.abstractWidgets.IGamePanel;
 import soc.gwtClient.images.Resources;
@@ -22,7 +22,7 @@ public class EndTurnBitmapWidget extends AbstractActionWidget implements
             .endTurn()));
     private EndTurn endTurn = new EndTurn();
 
-    public EndTurnBitmapWidget(final IGamePanel gamePanel, final Player player)
+    public EndTurnBitmapWidget(final IGamePanel gamePanel, final GamePlayer player)
     {
         super(gamePanel, player);
 

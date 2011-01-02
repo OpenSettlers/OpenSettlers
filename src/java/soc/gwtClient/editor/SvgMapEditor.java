@@ -14,7 +14,7 @@ import soc.common.client.behaviour.editor.SetChitBehaviour;
 import soc.common.client.behaviour.editor.SetHexBehaviour;
 import soc.common.client.behaviour.editor.SetTerritoryBehaviour;
 import soc.gwtClient.game.ICenterWidget;
-import soc.gwtClient.visuals.svg.SvgBoardVisual;
+import soc.gwtClient.visuals.svg.BoardSvg;
 
 public class SvgMapEditor extends MapEditor 
     implements IBehaviourChangedHandler, ICenterWidget
@@ -29,7 +29,7 @@ public class SvgMapEditor extends MapEditor
         SetChitBehaviour setChitBehaviour = new SetChitBehaviour();
         SetTerritoryBehaviour setTerritoryBehaviour = new SetTerritoryBehaviour();
         setTerritoryBehaviour.setTerritory(board.getTerritories().get(0));
-        final SvgBoardVisual boardVisual = new SvgBoardVisual(800,800, board);
+        final BoardSvg boardVisual = new BoardSvg(800,800, board);
         
         final ChitPanel chitPanel = new ChitPanel(setChitBehaviour);
         final PortPanel portPanel = new PortPanel(new SetPortBehaviour());

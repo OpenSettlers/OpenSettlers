@@ -5,6 +5,6 @@ import java.util.List;
 
 public class TradeResponseList
 {
-    private List<ITradeResponse> tradeResponses  = new ArrayList<ITradeResponse>();
+    private List<TradeResponse> tradeResponses  = new ArrayList<TradeResponse>();
     
 }

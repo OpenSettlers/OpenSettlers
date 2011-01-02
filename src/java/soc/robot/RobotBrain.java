@@ -17,9 +17,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>. **/
 package soc.robot;
 
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.Random;
+import java.util.Stack;
+import java.util.Vector;
+
 import soc.client.DisplaylessPlayerClient;
 import soc.disableDebug.D;
-
 import soc.game.Board;
 import soc.game.City;
 import soc.game.DevCardConstants;
@@ -33,7 +40,6 @@ import soc.game.ResourceSet;
 import soc.game.Road;
 import soc.game.Settlement;
 import soc.game.TradeOffer;
-
 import soc.message.AcceptOffer;
 import soc.message.CancelBuildRequest;
 import soc.message.ChoosePlayerRequest;
@@ -56,28 +62,16 @@ import soc.message.ResourceCount;
 import soc.message.SetPlayedDevCard;
 import soc.message.SetTurn;
 import soc.message.Turn;
-
 import soc.server.SOCServer;
-
 import soc.util.CappedQueue;
 import soc.util.CutoffExceededException;
 import soc.util.DebugRecorder;
 import soc.util.Queue;
 import soc.util.RobotParameters;
 
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.Random;
-import java.util.Stack;
-import java.util.Vector;
-
-
 /**
- * AI for playing Settlers of Catan.
- * Represents a robot player within 1 game.
- *
+ * AI for playing Settlers of Catan. Represents a robot player within 1 game.
+ * 
  * @author Robert S Thomas
  */
 public class RobotBrain extends Thread
@@ -103,8 +97,9 @@ public class RobotBrain extends Thread
     protected int turnTime;
 
     /**
-     * {@link #pause(int) Pause} for less time;
-     * speeds up response in 6-player games.
+     * {@link #pause(int) Pause} for less time; speeds up response in 6-player
+     * games.
+     * 
      * @since 1.1.09
      */
     private boolean pauseFaster;
@@ -131,6 +126,7 @@ public class RobotBrain extends Thread
 
     /**
      * The {@link #game} we're playing is on the 6-player board.
+     * 
      * @since 1.1.08
      */
     final private boolean gameIs6Player;
@@ -139,7 +135,7 @@ public class RobotBrain extends Thread
      * Our player data
      */
     protected Player ourPlayerData;
-    
+
     /**
      * Dummy player for cancelling bad placements
      */
@@ -156,16 +152,17 @@ public class RobotBrain extends Thread
     protected int counter;
 
     /**
-     * During this turn, which is another player's turn,
-     * have we yet decided whether to do the Special Building phase
-     * (for the 6-player board)?
+     * During this turn, which is another player's turn, have we yet decided
+     * whether to do the Special Building phase (for the 6-player board)?
+     * 
      * @since 1.1.08
      */
     private boolean decidedIfSpecialBuild;
 
     /**
-     * true when we're waiting for our requested Special Building phase
-     * (for the 6-player board).
+     * true when we're waiting for our requested Special Building phase (for the
+     * 6-player board).
+     * 
      * @since 1.1.08
      */
     private boolean waitingForSpecialBuild;
@@ -181,9 +178,8 @@ public class RobotBrain extends Thread
     protected Stack buildingPlan;
 
     /**
-     * This is what we tried building this turn,
-     * but the server said it was an illegal move
-     * (due to a bug in our robot).
+     * This is what we tried building this turn, but the server said it was an
+     * illegal move (due to a bug in our robot).
      * 
      * @see #whatWeWantToBuild
      * @see #failedBuildingAttempts
@@ -191,27 +187,26 @@ public class RobotBrain extends Thread
     protected PlayingPiece whatWeFailedToBuild;
 
     /**
-     * Track how many illegal placement requests we've
-     * made this turn.  Avoid infinite turn length, by
-     * preventing robot from alternately choosing two
+     * Track how many illegal placement requests we've made this turn. Avoid
+     * infinite turn length, by preventing robot from alternately choosing two
      * wrong things when the server denies a bad build.
      * 
      * @see #whatWeFailedToBuild
      * @see #MAX_DENIED_BUILDING_PER_TURN
      */
     protected int failedBuildingAttempts;
-    
+
     /**
-     * If, during a turn, we make this many illegal build
-     * requests that the server denies, stop trying.
+     * If, during a turn, we make this many illegal build requests that the
+     * server denies, stop trying.
      * 
      * @see #failedBuildingAttempts
      */
     public static int MAX_DENIED_BUILDING_PER_TURN = 3;
 
     /**
-     * these are the two resources that we want
-     * when we play a discovery dev card
+     * these are the two resources that we want when we play a discovery dev
+     * card
      */
     protected ResourceSet resourceChoices;
 
@@ -301,26 +296,22 @@ public class RobotBrain extends Thread
     protected boolean expectPLACING_FREE_ROAD2;
 
     /**
-     * true if were expecting a PUTPIECE message after
-     * a START1A game state
+     * true if were expecting a PUTPIECE message after a START1A game state
      */
     protected boolean expectPUTPIECE_FROM_START1A;
 
     /**
-     * true if were expecting a PUTPIECE message after
-     * a START1B game state
+     * true if were expecting a PUTPIECE message after a START1B game state
      */
     protected boolean expectPUTPIECE_FROM_START1B;
 
     /**
-     * true if were expecting a PUTPIECE message after
-     * a START1A game state
+     * true if were expecting a PUTPIECE message after a START1A game state
      */
     protected boolean expectPUTPIECE_FROM_START2A;
 
     /**
-     * true if were expecting a PUTPIECE message after
-     * a START1A game state
+     * true if were expecting a PUTPIECE message after a START1A game state
      */
     protected boolean expectPUTPIECE_FROM_START2B;
 
@@ -350,15 +341,15 @@ public class RobotBrain extends Thread
     protected boolean expectWAITING_FOR_MONOPOLY;
 
     /**
-     * true if we're waiting for a GAMESTATE message from the server.
-     * This is set after a robot action or requested action is sent to server,
-     * or just before ending our turn (which also sets waitingForOurTurn == true).
+     * true if we're waiting for a GAMESTATE message from the server. This is
+     * set after a robot action or requested action is sent to server, or just
+     * before ending our turn (which also sets waitingForOurTurn == true).
      */
     protected boolean waitingForGameState;
 
     /**
-     * true if we're waiting for a TURN message from the server
-     * when it's our turn
+     * true if we're waiting for a TURN message from the server when it's our
+     * turn
      */
     protected boolean waitingForOurTurn;
 
@@ -413,16 +404,20 @@ public class RobotBrain extends Thread
     protected int secondSettlement;
 
     /**
-     * During START states, coordinate of our most recently placed road or settlement.
-     * Used to avoid repeats in {@link #cancelWrongPiecePlacement(CancelBuildRequest)}.
+     * During START states, coordinate of our most recently placed road or
+     * settlement. Used to avoid repeats in
+     * {@link #cancelWrongPiecePlacement(CancelBuildRequest)}.
+     * 
      * @since 1.1.09
      */
     private int lastStartingPieceCoord;
 
     /**
-     * During START1B and START2B states, coordinate of the potential settlement node
-     * towards which we're building, as calculated by {@link #placeInitRoad()}.
-     * Used to avoid repeats in {@link #cancelWrongPiecePlacementLocal(PlayingPiece)}.
+     * During START1B and START2B states, coordinate of the potential settlement
+     * node towards which we're building, as calculated by
+     * {@link #placeInitRoad()}. Used to avoid repeats in
+     * {@link #cancelWrongPiecePlacementLocal(PlayingPiece)}.
+     * 
      * @since 1.1.09
      */
     private int lastStartingRoadTowardsNode;
@@ -433,8 +428,8 @@ public class RobotBrain extends Thread
     protected RobotPinger pinger;
 
     /**
-     * an object for recording debug information that can
-     * be accessed interactively
+     * an object for recording debug information that can be accessed
+     * interactively
      */
     protected DebugRecorder[] dRecorder;
 
@@ -456,16 +451,21 @@ public class RobotBrain extends Thread
     /**
      * Create a robot brain to play a game.
      *<P>
-     * Depending on {@link Game#getGameOptions() game options},
-     * constructor might copy and alter the robot parameters
-     * (for example, to clear {@link RobotParameters#getTradeFlag()}).
-     *
-     * @param rc  the robot client
-     * @param params  the robot parameters
-     * @param ga  the game we're playing
-     * @param mq  the message queue
+     * Depending on {@link Game#getGameOptions() game options}, constructor
+     * might copy and alter the robot parameters (for example, to clear
+     * {@link RobotParameters#getTradeFlag()}).
+     * 
+     * @param rc
+     *            the robot client
+     * @param params
+     *            the robot parameters
+     * @param ga
+     *            the game we're playing
+     * @param mq
+     *            the message queue
      */
-    public RobotBrain(RobotClient rc, RobotParameters params, Game ga, CappedQueue mq)
+    public RobotBrain(RobotClient rc, RobotParameters params, Game ga,
+            CappedQueue mq)
     {
         client = rc;
         robotParameters = params.copyIfOptionChanged(ga.getGameOptions());
@@ -517,7 +517,8 @@ public class RobotBrain extends Thread
         resourceChoices = new ResourceSet();
         resourceChoices.add(2, ResourceConstants.CLAY);
         monopolyChoice = ResourceConstants.SHEEP;
-        pinger = new RobotPinger(gameEventQ, client.getNickname() + "-" + game.getName());
+        pinger = new RobotPinger(gameEventQ, client.getNickname() + "-"
+                + game.getName());
         dRecorder = new DebugRecorder[2];
         dRecorder[0] = new DebugRecorder();
         dRecorder[1] = new DebugRecorder();
@@ -557,20 +558,19 @@ public class RobotBrain extends Thread
     }
 
     /**
-     * A player has sat down and been added to the game,
-     * during game formation. Create a PlayerTracker for them.
+     * A player has sat down and been added to the game, during game formation.
+     * Create a PlayerTracker for them.
      *<p>
-     * Called when SITDOWN received from server; one SITDOWN is
-     * sent for every player, and our robot player might not be the
-     * first or last SITDOWN.
+     * Called when SITDOWN received from server; one SITDOWN is sent for every
+     * player, and our robot player might not be the first or last SITDOWN.
      *<p>
-     * Since our playerTrackers are initialized when our robot's
-     * SITDOWN is received (robotclient calls setOurPlayerData()),
-     * and seats may be vacant at that time (because SITDOWN not yet
-     * received for those seats), we must add a PlayerTracker for
-     * each SITDOWN received after our player's.
-     *
-     * @param pn Player number
+     * Since our playerTrackers are initialized when our robot's SITDOWN is
+     * received (robotclient calls setOurPlayerData()), and seats may be vacant
+     * at that time (because SITDOWN not yet received for those seats), we must
+     * add a PlayerTracker for each SITDOWN received after our player's.
+     * 
+     * @param pn
+     *            Player number
      */
     public void addPlayerTracker(int pn)
     {
@@ -684,9 +684,10 @@ public class RobotBrain extends Thread
 
         for (int pn = 0; pn < game.maxPlayers; pn++)
         {
-            if ((pn != opn) && ! game.isSeatVacant(pn))
+            if ((pn != opn) && !game.isSeatVacant(pn))
             {
-                PlayerTracker tracker = new PlayerTracker(game.getPlayer(pn), this);
+                PlayerTracker tracker = new PlayerTracker(game.getPlayer(pn),
+                        this);
                 playerTrackers.put(new Integer(pn), tracker);
             }
         }
@@ -700,11 +701,11 @@ public class RobotBrain extends Thread
         switch (getRobotParameters().getStrategyType())
         {
         case RobotDM.SMART_STRATEGY:
-            faceId = -1;  // smarter robot face
+            faceId = -1; // smarter robot face
             break;
 
         default:
-            faceId = 0;   // default robot face
+            faceId = 0; // default robot face
         }
         if (ourPlayerData.getFaceId() != faceId)
         {
@@ -714,18 +715,23 @@ public class RobotBrain extends Thread
     }
 
     /**
-     * Here is the run method.  Just keep receiving game events
-     * and deal with each one.
-     * Remember that we're sent a {@link GameTextMsg}(<tt>"*PING*"</tt>) once per second.
+     * Here is the run method. Just keep receiving game events and deal with
+     * each one. Remember that we're sent a {@link GameTextMsg}(
+     * <tt>"*PING*"</tt>) once per second.
      */
     public void run()
     {
         // Thread name for debug
         try
         {
-            Thread.currentThread().setName("robotBrain-" + client.getNickname() + "-" + game.getName());
+            Thread.currentThread()
+                    .setName(
+                            "robotBrain-" + client.getNickname() + "-"
+                                    + game.getName());
         }
-        catch (Throwable th) {}
+        catch (Throwable th)
+        {
+        }
 
         if (pinger != null)
         {
@@ -745,21 +751,23 @@ public class RobotBrain extends Thread
                 {
                     Message mes;
 
-                    //if (!gameEventQ.empty()) {
-                    mes = (Message) gameEventQ.get();  // Sleeps until message received
+                    // if (!gameEventQ.empty()) {
+                    mes = (Message) gameEventQ.get(); // Sleeps until message
+                    // received
 
-                    //} else {
-                    //mes = null;
-                    //}
+                    // } else {
+                    // mes = null;
+                    // }
                     final int mesType;
 
                     if (mes != null)
                     {
                         mesType = mes.getType();
-                        if(mesType != Message.GAMETEXTMSG)
+                        if (mesType != Message.GAMETEXTMSG)
                             D.ebugPrintln("mes - " + mes);
 
-                        // Debug aid: when looking at message contents: avoid pings:
+                        // Debug aid: when looking at message contents: avoid
+                        // pings:
                         // check here for (mesType != Message.GAMETEXTMSG).
                     }
                     else
@@ -775,15 +783,16 @@ public class RobotBrain extends Thread
 
                     if (waitingForTradeResponse && (counter > 100))
                     {
-                        // Remember other players' responses, call client.clearOffer,
+                        // Remember other players' responses, call
+                        // client.clearOffer,
                         // clear waitingForTradeResponse and counter.
                         tradeStopWaitingClearOffer();
                     }
 
                     if (waitingForGameState && (counter > 10000))
                     {
-                        //D.ebugPrintln("counter = "+counter);
-                        //D.ebugPrintln("RESEND");
+                        // D.ebugPrintln("counter = "+counter);
+                        // D.ebugPrintln("RESEND");
                         counter = 0;
                         client.resend();
                     }
@@ -797,17 +806,20 @@ public class RobotBrain extends Thread
 
                     else if (mesType == Message.FIRSTPLAYER)
                     {
-                        game.setFirstPlayer(((FirstPlayer) mes).getPlayerNumber());
+                        game.setFirstPlayer(((FirstPlayer) mes)
+                                .getPlayerNumber());
                     }
 
                     else if (mesType == Message.SETTURN)
                     {
-                        game.setCurrentPlayerNumber(((SetTurn) mes).getPlayerNumber());
+                        game.setCurrentPlayerNumber(((SetTurn) mes)
+                                .getPlayerNumber());
                     }
 
                     else if (mesType == Message.TURN)
                     {
-                        game.setCurrentPlayerNumber(((Turn) mes).getPlayerNumber());
+                        game.setCurrentPlayerNumber(((Turn) mes)
+                                .getPlayerNumber());
                         game.updateAtTurn();
 
                         //
@@ -850,18 +862,26 @@ public class RobotBrain extends Thread
                         decidedIfSpecialBuild = false;
                         if (game.getGameState() == Game.SPECIAL_BUILDING)
                         {
-                            if (waitingForSpecialBuild && ! buildingPlan.isEmpty())
+                            if (waitingForSpecialBuild
+                                    && !buildingPlan.isEmpty())
                             {
                                 // Keep the building plan.
                                 // Will ask during loop body to build.
-                            } else {
+                            }
+                            else
+                            {
                                 // We have no plan, but will call planBuilding()
-                                // during the loop body.  If buildingPlan still empty,
-                                // bottom of loop will end our Special Building turn,
-                                // just as it would in gamestate PLAY1.  Otherwise,
+                                // during the loop body. If buildingPlan still
+                                // empty,
+                                // bottom of loop will end our Special Building
+                                // turn,
+                                // just as it would in gamestate PLAY1.
+                                // Otherwise,
                                 // will ask to build after planBuilding.
                             }
-                        } else {
+                        }
+                        else
+                        {
                             //
                             // reset any plans we had
                             //
@@ -885,7 +905,8 @@ public class RobotBrain extends Thread
                         waitingForOurTurn = false;
 
                         // Clear some per-turn variables.
-                        // For others, find the code which calls game.updateAtTurn().
+                        // For others, find the code which calls
+                        // game.updateAtTurn().
                         whatWeFailedToBuild = null;
                         failedBuildingAttempts = 0;
                     }
@@ -897,39 +918,56 @@ public class RobotBrain extends Thread
                     {
                     case Message.PLAYERELEMENT:
                         {
-                        handlePLAYERELEMENT((PlayerElement) mes);
+                            handlePLAYERELEMENT((PlayerElement) mes);
 
-                        // If this during the PLAY state, also updates the
-                        // negotiator's is-selling flags.
+                            // If this during the PLAY state, also updates the
+                            // negotiator's is-selling flags.
 
-                        // If our player is losing a resource needed for the buildingPlan, 
-                        // clear the plan if this is for the Special Building Phase (on the 6-player board).
-                        // In normal game play, we clear the building plan at the start of each turn.
+                            // If our player is losing a resource needed for the
+                            // buildingPlan,
+                            // clear the plan if this is for the Special
+                            // Building Phase (on the 6-player board).
+                            // In normal game play, we clear the building plan
+                            // at the start of each turn.
                         }
                         break;
 
                     case Message.RESOURCECOUNT:
                         {
-                        Player pl = game.getPlayer(((ResourceCount) mes).getPlayerNumber());
+                            Player pl = game.getPlayer(((ResourceCount) mes)
+                                    .getPlayerNumber());
 
-                        if (((ResourceCount) mes).getCount() != pl.getResources().getTotal())
-                        {
-                            ResourceSet rsrcs = pl.getResources();
-
-                            if (D.ebugOn)
+                            if (((ResourceCount) mes).getCount() != pl
+                                    .getResources().getTotal())
                             {
-                                client.sendText(game, ">>> RESOURCE COUNT ERROR FOR PLAYER " + pl.getPlayerNumber() + ": " + ((ResourceCount) mes).getCount() + " != " + rsrcs.getTotal());
-                            }
+                                ResourceSet rsrcs = pl.getResources();
 
-                            //
-                            //  fix it
-                            //
-                            if (pl.getPlayerNumber() != ourPN)
-                            {
-                                rsrcs.clear();
-                                rsrcs.setAmount(((ResourceCount) mes).getCount(), ResourceConstants.UNKNOWN);
+                                if (D.ebugOn)
+                                {
+                                    client
+                                            .sendText(
+                                                    game,
+                                                    ">>> RESOURCE COUNT ERROR FOR PLAYER "
+                                                            + pl
+                                                                    .getPlayerNumber()
+                                                            + ": "
+                                                            + ((ResourceCount) mes)
+                                                                    .getCount()
+                                                            + " != "
+                                                            + rsrcs.getTotal());
+                                }
+
+                                //
+                                // fix it
+                                //
+                                if (pl.getPlayerNumber() != ourPN)
+                                {
+                                    rsrcs.clear();
+                                    rsrcs.setAmount(((ResourceCount) mes)
+                                            .getCount(),
+                                            ResourceConstants.UNKNOWN);
+                                }
                             }
-                        }
                         }
                         break;
 
@@ -939,7 +977,8 @@ public class RobotBrain extends Thread
 
                     case Message.PUTPIECE:
                         handlePUTPIECE_updateGameData((PutPiece) mes);
-                        // For initial roads, also tracks their initial settlement in PlayerTracker.
+                        // For initial roads, also tracks their initial
+                        // settlement in PlayerTracker.
                         break;
 
                     case Message.CANCELBUILDREQUEST:
@@ -948,15 +987,20 @@ public class RobotBrain extends Thread
 
                     case Message.MOVEROBBER:
                         {
-                        //
-                        // Note: Don't call ga.moveRobber() because that will call the 
-                        // functions to do the stealing.  We just want to set where 
-                        // the robber moved, without seeing if something was stolen.
-                        // MOVEROBBER will be followed by PLAYERELEMENT messages to
-                        // report the gain/loss of resources.
-                        //
-                        moveRobberOnSeven = false;
-                        game.getBoard().setRobberHex(((MoveRobber) mes).getCoordinates());
+                            //
+                            // Note: Don't call ga.moveRobber() because that
+                            // will call the
+                            // functions to do the stealing. We just want to set
+                            // where
+                            // the robber moved, without seeing if something was
+                            // stolen.
+                            // MOVEROBBER will be followed by PLAYERELEMENT
+                            // messages to
+                            // report the gain/loss of resources.
+                            //
+                            moveRobberOnSeven = false;
+                            game.getBoard().setRobberHex(
+                                    ((MoveRobber) mes).getCoordinates());
                         }
                         break;
 
@@ -972,7 +1016,9 @@ public class RobotBrain extends Thread
                             if (pn != -1)
                             {
                                 game.getPlayer(pn).setCurrentOffer(null);
-                            } else {
+                            }
+                            else
+                            {
                                 for (int i = 0; i < game.maxPlayers; ++i)
                                     game.getPlayer(i).setCurrentOffer(null);
                             }
@@ -980,10 +1026,13 @@ public class RobotBrain extends Thread
                         break;
 
                     case Message.ACCEPTOFFER:
-                        if (waitingForTradeResponse && (robotParameters.getTradeFlag() == 1))
+                        if (waitingForTradeResponse
+                                && (robotParameters.getTradeFlag() == 1))
                         {
-                            if ((ourPN == (((AcceptOffer) mes).getOfferingNumber()))
-                                || (ourPN == ((AcceptOffer) mes).getAcceptingNumber()))
+                            if ((ourPN == (((AcceptOffer) mes)
+                                    .getOfferingNumber()))
+                                    || (ourPN == ((AcceptOffer) mes)
+                                            .getAcceptingNumber()))
                             {
                                 waitingForTradeResponse = false;
                             }
@@ -996,7 +1045,8 @@ public class RobotBrain extends Thread
                         break;
 
                     case Message.DEVCARDCOUNT:
-                        game.setNumDevCards(((DevCardCount) mes).getNumDevCards());
+                        game.setNumDevCards(((DevCardCount) mes)
+                                .getNumDevCards());
                         break;
 
                     case Message.DEVCARD:
@@ -1005,33 +1055,44 @@ public class RobotBrain extends Thread
 
                     case Message.SETPLAYEDDEVCARD:
                         {
-                        Player player = game.getPlayer(((SetPlayedDevCard) mes).getPlayerNumber());
-                        player.setPlayedDevCard(((SetPlayedDevCard) mes).hasPlayedDevCard());
+                            Player player = game
+                                    .getPlayer(((SetPlayedDevCard) mes)
+                                            .getPlayerNumber());
+                            player.setPlayedDevCard(((SetPlayedDevCard) mes)
+                                    .hasPlayedDevCard());
                         }
                         break;
 
                     case Message.POTENTIALSETTLEMENTS:
                         {
-                        Player player = game.getPlayer(((PotentialSettlements) mes).getPlayerNumber());
-                        player.setPotentialSettlements(((PotentialSettlements) mes).getPotentialSettlements());
+                            Player player = game
+                                    .getPlayer(((PotentialSettlements) mes)
+                                            .getPlayerNumber());
+                            player
+                                    .setPotentialSettlements(((PotentialSettlements) mes)
+                                            .getPotentialSettlements());
                         }
                         break;
 
-                    }  // switch(mesType)
+                    } // switch(mesType)
 
                     debugInfo();
 
-                    if ((game.getGameState() == Game.PLAY) && (!waitingForGameState))
+                    if ((game.getGameState() == Game.PLAY)
+                            && (!waitingForGameState))
                     {
                         rollOrPlayKnightOrExpectDice();
 
-                        // On our turn, ask client to roll dice or play a knight;
+                        // On our turn, ask client to roll dice or play a
+                        // knight;
                         // on other turns, update flags to expect dice result.
                         // Clears expectPLAY to false.
-                        // Sets either expectDICERESULT, or expectPLACING_ROBBER and waitingForGameState.
+                        // Sets either expectDICERESULT, or expectPLACING_ROBBER
+                        // and waitingForGameState.
                     }
 
-                    if ((game.getGameState() == Game.PLACING_ROBBER) && (!waitingForGameState))
+                    if ((game.getGameState() == Game.PLACING_ROBBER)
+                            && (!waitingForGameState))
                     {
                         expectPLACING_ROBBER = false;
 
@@ -1067,7 +1128,8 @@ public class RobotBrain extends Thread
                         }
                     }
 
-                    if ((game.getGameState() == Game.WAITING_FOR_DISCOVERY) && (!waitingForGameState))
+                    if ((game.getGameState() == Game.WAITING_FOR_DISCOVERY)
+                            && (!waitingForGameState))
                     {
                         expectWAITING_FOR_DISCOVERY = false;
 
@@ -1078,13 +1140,14 @@ public class RobotBrain extends Thread
                                 waitingForGameState = true;
                                 expectPLAY1 = true;
                                 counter = 0;
-                                client.discoveryPick(game, resourceChoices); //!!!
+                                client.discoveryPick(game, resourceChoices); // !!!
                                 pause(1500);
                             }
                         }
                     }
 
-                    if ((game.getGameState() == Game.WAITING_FOR_MONOPOLY) && (!waitingForGameState))
+                    if ((game.getGameState() == Game.WAITING_FOR_MONOPOLY)
+                            && (!waitingForGameState))
                     {
                         expectWAITING_FOR_MONOPOLY = false;
 
@@ -1095,84 +1158,116 @@ public class RobotBrain extends Thread
                                 waitingForGameState = true;
                                 expectPLAY1 = true;
                                 counter = 0;
-                                client.monopolyPick(game, monopolyChoice); //!!!
+                                client.monopolyPick(game, monopolyChoice); // !!!
                                 pause(1500);
                             }
                         }
                     }
 
-                    if (waitingForTradeMsg && (mesType == Message.GAMETEXTMSG) && (((GameTextMsg) mes).getNickname().equals(SOCServer.SERVERNAME)))
+                    if (waitingForTradeMsg
+                            && (mesType == Message.GAMETEXTMSG)
+                            && (((GameTextMsg) mes).getNickname()
+                                    .equals(SOCServer.SERVERNAME)))
                     {
                         //
-                        // This might be the trade message we've been waiting for
+                        // This might be the trade message we've been waiting
+                        // for
                         //
-                        if (((GameTextMsg) mes).getText().startsWith(client.getNickname() + " traded"))
+                        if (((GameTextMsg) mes).getText().startsWith(
+                                client.getNickname() + " traded"))
                         {
                             waitingForTradeMsg = false;
                         }
                     }
 
-                    if (waitingForDevCard && (mesType == Message.GAMETEXTMSG) && (((GameTextMsg) mes).getNickname().equals(SOCServer.SERVERNAME)))
+                    if (waitingForDevCard
+                            && (mesType == Message.GAMETEXTMSG)
+                            && (((GameTextMsg) mes).getNickname()
+                                    .equals(SOCServer.SERVERNAME)))
                     {
                         //
-                        // This might be the dev card message we've been waiting for
+                        // This might be the dev card message we've been waiting
+                        // for
                         //
-                        if (((GameTextMsg) mes).getText().equals(client.getNickname() + " bought a development card."))
+                        if (((GameTextMsg) mes).getText().equals(
+                                client.getNickname()
+                                        + " bought a development card."))
                         {
                             waitingForDevCard = false;
                         }
                     }
 
-                    if (((game.getGameState() == Game.PLAY1) || (game.getGameState() == Game.SPECIAL_BUILDING))
-                        && (!waitingForGameState) && (!waitingForTradeMsg) && (!waitingForTradeResponse) && (!waitingForDevCard)
-                        && (!expectPLACING_ROAD) && (!expectPLACING_SETTLEMENT) && (!expectPLACING_CITY) && (!expectPLACING_ROBBER) && (!expectPLACING_FREE_ROAD1) && (!expectPLACING_FREE_ROAD2) && (!expectWAITING_FOR_DISCOVERY) && (!expectWAITING_FOR_MONOPOLY))
+                    if (((game.getGameState() == Game.PLAY1) || (game
+                            .getGameState() == Game.SPECIAL_BUILDING))
+                            && (!waitingForGameState)
+                            && (!waitingForTradeMsg)
+                            && (!waitingForTradeResponse)
+                            && (!waitingForDevCard)
+                            && (!expectPLACING_ROAD)
+                            && (!expectPLACING_SETTLEMENT)
+                            && (!expectPLACING_CITY)
+                            && (!expectPLACING_ROBBER)
+                            && (!expectPLACING_FREE_ROAD1)
+                            && (!expectPLACING_FREE_ROAD2)
+                            && (!expectWAITING_FOR_DISCOVERY)
+                            && (!expectWAITING_FOR_MONOPOLY))
                     {
-                        // Time to decide to build, or take other normal actions.
+                        // Time to decide to build, or take other normal
+                        // actions.
 
                         expectPLAY1 = false;
 
                         // 6-player: check Special Building Phase
                         // during other players' turns.
-                        if ((! ourTurn) && waitingForOurTurn && gameIs6Player
-                             && (! decidedIfSpecialBuild) && (!expectPLACING_ROBBER))
+                        if ((!ourTurn) && waitingForOurTurn && gameIs6Player
+                                && (!decidedIfSpecialBuild)
+                                && (!expectPLACING_ROBBER))
                         {
                             decidedIfSpecialBuild = true;
 
                             /**
-                             * It's not our turn.  We're not doing anything else right now.
-                             * Gamestate has passed PLAY, so we know what resources to expect.
-                             * Do we want to Special Build?  Check the same conditions as during our turn.
-                             * Make a plan if we don't have one,
-                             * and if we haven't given up building
-                             * attempts this turn.
+                             * It's not our turn. We're not doing anything else
+                             * right now. Gamestate has passed PLAY, so we know
+                             * what resources to expect. Do we want to Special
+                             * Build? Check the same conditions as during our
+                             * turn. Make a plan if we don't have one, and if we
+                             * haven't given up building attempts this turn.
                              */
 
-                            if ((buildingPlan.empty()) && (ourPlayerData.getResources().getTotal() > 1) && (failedBuildingAttempts < MAX_DENIED_BUILDING_PER_TURN))
+                            if ((buildingPlan.empty())
+                                    && (ourPlayerData.getResources().getTotal() > 1)
+                                    && (failedBuildingAttempts < MAX_DENIED_BUILDING_PER_TURN))
                             {
                                 planBuilding();
 
                                 /*
                                  * planBuilding takes these actions:
-                                 *
-                                decisionMaker.planStuff(robotParameters.getStrategyType());
+                                 * 
+                                 * decisionMaker.planStuff(robotParameters.
+                                 * getStrategyType());
+                                 * 
+                                 * if (!buildingPlan.empty()) { lastTarget =
+                                 * (PossiblePiece) buildingPlan.peek();
+                                 * negotiator
+                                 * .setTargetPiece(ourPlayerData.getPlayerNumber
+                                 * (), (PossiblePiece) buildingPlan.peek()); }
+                                 */
 
                                 if (!buildingPlan.empty())
                                 {
-                                    lastTarget = (PossiblePiece) buildingPlan.peek();
-                                    negotiator.setTargetPiece(ourPlayerData.getPlayerNumber(), (PossiblePiece) buildingPlan.peek());
-                                }
-                                 */
-
-                                if ( ! buildingPlan.empty())
-                                {
                                     // Do we have the resources right now?
-                                    final PossiblePiece targetPiece = (PossiblePiece) buildingPlan.peek();
-                                    final ResourceSet targetResources = PlayingPiece.getResourcesToBuild(targetPiece.getType());
+                                    final PossiblePiece targetPiece = (PossiblePiece) buildingPlan
+                                            .peek();
+                                    final ResourceSet targetResources = PlayingPiece
+                                            .getResourcesToBuild(targetPiece
+                                                    .getType());
 
-                                    if ((ourPlayerData.getResources().contains(targetResources)))
+                                    if ((ourPlayerData.getResources()
+                                            .contains(targetResources)))
                                     {
-                                        // Ask server for the Special Building Phase.
-                                        // (TODO) if FAST_STRATEGY: Maybe randomly don't ask?
+                                        // Ask server for the Special Building
+                                        // Phase.
+                                        // randomly don't ask?
                                         waitingForSpecialBuild = true;
                                         client.buildRequest(game, -1);
                                         pause(100);
@@ -1187,28 +1282,34 @@ public class RobotBrain extends Thread
                             {
                                 counter = 0;
 
-                                //D.ebugPrintln("DOING PLAY1");
+                                // D.ebugPrintln("DOING PLAY1");
                                 if (D.ebugOn)
                                 {
-                                    client.sendText(game, "================================");
+                                    client.sendText(game,
+                                            "================================");
 
                                     // for each player in game:
-                                    //    sendText and debug-prn game.getPlayer(i).getResources()
+                                    // sendText and debug-prn
+                                    // game.getPlayer(i).getResources()
                                     printResources();
                                 }
 
                                 /**
-                                 * if we haven't played a dev card yet,
-                                 * and we have a knight, and we can get
-                                 * largest army, play the knight.
-                                 * If we're in SPECIAL_BUILDING (not PLAY1),
-                                 * can't trade or play development cards.
+                                 * if we haven't played a dev card yet, and we
+                                 * have a knight, and we can get largest army,
+                                 * play the knight. If we're in SPECIAL_BUILDING
+                                 * (not PLAY1), can't trade or play development
+                                 * cards.
                                  */
-                                if ((game.getGameState() == Game.PLAY1) && ! ourPlayerData.hasPlayedDevCard())
+                                if ((game.getGameState() == Game.PLAY1)
+                                        && !ourPlayerData.hasPlayedDevCard())
                                 {
-                                    Player laPlayer = game.getPlayerWithLargestArmy();
+                                    Player laPlayer = game
+                                            .getPlayerWithLargestArmy();
 
-                                    if (((laPlayer != null) && (laPlayer.getPlayerNumber() != ourPN)) || (laPlayer == null))
+                                    if (((laPlayer != null) && (laPlayer
+                                            .getPlayerNumber() != ourPN))
+                                            || (laPlayer == null))
                                     {
                                         int larmySize;
 
@@ -1218,10 +1319,24 @@ public class RobotBrain extends Thread
                                         }
                                         else
                                         {
-                                            larmySize = laPlayer.getNumKnights() + 1;
+                                            larmySize = laPlayer
+                                                    .getNumKnights() + 1;
                                         }
 
-                                        if (((ourPlayerData.getNumKnights() + ourPlayerData.getDevCards().getAmount(DevCardSet.NEW, DevCardConstants.KNIGHT) + ourPlayerData.getDevCards().getAmount(DevCardSet.OLD, DevCardConstants.KNIGHT)) >= larmySize) && (ourPlayerData.getDevCards().getAmount(DevCardSet.OLD, DevCardConstants.KNIGHT) > 0))
+                                        if (((ourPlayerData.getNumKnights()
+                                                + ourPlayerData
+                                                        .getDevCards()
+                                                        .getAmount(
+                                                                DevCardSet.NEW,
+                                                                DevCardConstants.KNIGHT) + ourPlayerData
+                                                .getDevCards()
+                                                .getAmount(DevCardSet.OLD,
+                                                        DevCardConstants.KNIGHT)) >= larmySize)
+                                                && (ourPlayerData
+                                                        .getDevCards()
+                                                        .getAmount(
+                                                                DevCardSet.OLD,
+                                                                DevCardConstants.KNIGHT) > 0))
                                         {
                                             /**
                                              * play a knight card
@@ -1229,48 +1344,66 @@ public class RobotBrain extends Thread
                                             expectPLACING_ROBBER = true;
                                             waitingForGameState = true;
                                             counter = 0;
-                                            client.playDevCard(game, DevCardConstants.KNIGHT);
+                                            client.playDevCard(game,
+                                                    DevCardConstants.KNIGHT);
                                             pause(1500);
                                         }
                                     }
                                 }
 
                                 /**
-                                 * make a plan if we don't have one,
-                                 * and if we haven't given up building
-                                 * attempts this turn.
+                                 * make a plan if we don't have one, and if we
+                                 * haven't given up building attempts this turn.
                                  */
-                                if (!expectPLACING_ROBBER && (buildingPlan.empty()) && (ourPlayerData.getResources().getTotal() > 1) && (failedBuildingAttempts < MAX_DENIED_BUILDING_PER_TURN))
+                                if (!expectPLACING_ROBBER
+                                        && (buildingPlan.empty())
+                                        && (ourPlayerData.getResources()
+                                                .getTotal() > 1)
+                                        && (failedBuildingAttempts < MAX_DENIED_BUILDING_PER_TURN))
                                 {
                                     planBuilding();
 
                                     /*
                                      * planBuilding takes these actions:
-                                     *
-                                    decisionMaker.planStuff(robotParameters.getStrategyType());
-
-                                    if (!buildingPlan.empty())
-                                    {
-                                        lastTarget = (PossiblePiece) buildingPlan.peek();
-                                        negotiator.setTargetPiece(ourPlayerData.getPlayerNumber(), (PossiblePiece) buildingPlan.peek());
-                                    }
+                                     * 
+                                     * decisionMaker.planStuff(robotParameters.
+                                     * getStrategyType());
+                                     * 
+                                     * if (!buildingPlan.empty()) { lastTarget =
+                                     * (PossiblePiece) buildingPlan.peek();
+                                     * negotiator
+                                     * .setTargetPiece(ourPlayerData.getPlayerNumber
+                                     * (), (PossiblePiece) buildingPlan.peek());
+                                     * }
                                      */
                                 }
 
-                                //D.ebugPrintln("DONE PLANNING");
-                                if (!expectPLACING_ROBBER && !buildingPlan.empty())
+                                // D.ebugPrintln("DONE PLANNING");
+                                if (!expectPLACING_ROBBER
+                                        && !buildingPlan.empty())
                                 {
                                     // Time to build something.
 
-                                    // Either ask to build a piece, or use trading or development
-                                    // cards to get resources to build it.  See javadoc for flags set.
+                                    // Either ask to build a piece, or use
+                                    // trading or development
+                                    // cards to get resources to build it. See
+                                    // javadoc for flags set.
                                     buildOrGetResourceByTradeOrCard();
                                 }
 
                                 /**
                                  * see if we're done with our turn
                                  */
-                                if (!(expectPLACING_SETTLEMENT || expectPLACING_FREE_ROAD1 || expectPLACING_FREE_ROAD2 || expectPLACING_ROAD || expectPLACING_CITY || expectWAITING_FOR_DISCOVERY || expectWAITING_FOR_MONOPOLY || expectPLACING_ROBBER || waitingForTradeMsg || waitingForTradeResponse || waitingForDevCard))
+                                if (!(expectPLACING_SETTLEMENT
+                                        || expectPLACING_FREE_ROAD1
+                                        || expectPLACING_FREE_ROAD2
+                                        || expectPLACING_ROAD
+                                        || expectPLACING_CITY
+                                        || expectWAITING_FOR_DISCOVERY
+                                        || expectWAITING_FOR_MONOPOLY
+                                        || expectPLACING_ROBBER
+                                        || waitingForTradeMsg
+                                        || waitingForTradeResponse || waitingForDevCard))
                                 {
                                     waitingForGameState = true;
                                     counter = 0;
@@ -1286,7 +1419,7 @@ public class RobotBrain extends Thread
                                         doneTrading = true;
                                     }
 
-                                    //D.ebugPrintln("!!! ENDING TURN !!!");
+                                    // D.ebugPrintln("!!! ENDING TURN !!!");
                                     negotiator.resetIsSelling();
                                     negotiator.resetOffersMade();
                                     buildingPlan.clear();
@@ -1299,15 +1432,14 @@ public class RobotBrain extends Thread
                     }
 
                     /**
-                     * Placement: Make various putPiece calls; server has told us it's OK to buy them.
-                     * Call client.putPiece.
-                     * Works when it's our turn and we have an expect flag set
-                     * (such as expectPLACING_SETTLEMENT, in these game states:
-                     * START1A - START2B
-                     * PLACING_SETTLEMENT, PLACING_ROAD, PLACING_CITY
+                     * Placement: Make various putPiece calls; server has told
+                     * us it's OK to buy them. Call client.putPiece. Works when
+                     * it's our turn and we have an expect flag set (such as
+                     * expectPLACING_SETTLEMENT, in these game states: START1A -
+                     * START2B PLACING_SETTLEMENT, PLACING_ROAD, PLACING_CITY
                      * PLACING_FREE_ROAD1, PLACING_FREE_ROAD2
                      */
-                    if (! waitingForGameState)
+                    if (!waitingForGameState)
                     {
                         placeIfExpectPlacing();
                     }
@@ -1317,10 +1449,8 @@ public class RobotBrain extends Thread
                      */
 
                     /*
-                       if (game.getGameState() == Game.OVER) {
-                       client.leaveGame(game);
-                       alive = false;
-                       }
+                     * if (game.getGameState() == Game.OVER) {
+                     * client.leaveGame(game); alive = false; }
                      */
 
                     /**
@@ -1329,7 +1459,8 @@ public class RobotBrain extends Thread
                     switch (mesType)
                     {
                     case Message.SETTURN:
-                        game.setCurrentPlayerNumber(((SetTurn) mes).getPlayerNumber());
+                        game.setCurrentPlayerNumber(((SetTurn) mes)
+                                .getPlayerNumber());
                         break;
 
                     case Message.PUTPIECE:
@@ -1340,8 +1471,10 @@ public class RobotBrain extends Thread
 
                         // For initial placement of our own pieces, also checks
                         // and clears expectPUTPIECE_FROM_START1A,
-                        // and sets expectSTART1B, etc.  The final initial putpiece
-                        // clears expectPUTPIECE_FROM_START2B and sets expectPLAY.
+                        // and sets expectSTART1B, etc. The final initial
+                        // putpiece
+                        // clears expectPUTPIECE_FROM_START2B and sets
+                        // expectPLAY.
 
                         break;
 
@@ -1349,11 +1482,11 @@ public class RobotBrain extends Thread
                         if (expectDICERESULT)
                         {
                             expectDICERESULT = false;
-    
+
                             if (((DiceResult) mes).getResult() == 7)
                             {
                                 moveRobberOnSeven = true;
-    
+
                                 if (ourPlayerData.getResources().getTotal() > 7)
                                     expectDISCARD = true;
 
@@ -1374,8 +1507,8 @@ public class RobotBrain extends Thread
                          * If we haven't recently discarded...
                          */
 
-                        //	if (!((expectPLACING_ROBBER || expectPLAY1) &&
-                        //	      (counter < 4000))) {
+                        // if (!((expectPLACING_ROBBER || expectPLAY1) &&
+                        // (counter < 4000))) {
                         if ((game.getCurrentDice() == 7) && (ourTurn))
                         {
                             expectPLACING_ROBBER = true;
@@ -1388,11 +1521,12 @@ public class RobotBrain extends Thread
                         counter = 0;
                         discard(((DiscardRequest) mes).getNumberOfDiscards());
 
-                        //	}
+                        // }
                         break;
 
                     case Message.CHOOSEPLAYERREQUEST:
-                        chooseRobberVictim(((ChoosePlayerRequest) mes).getChoices());
+                        chooseRobberVictim(((ChoosePlayerRequest) mes)
+                                .getChoices());
                         break;
 
                     case Message.ROBOTDISMISS:
@@ -1411,7 +1545,8 @@ public class RobotBrain extends Thread
                         }
                         break;
 
-                    }  // switch (mesType) - for some types, at bottom of loop body
+                    } // switch (mesType) - for some types, at bottom of loop
+                    // body
 
                     if (counter > 15000)
                     {
@@ -1421,21 +1556,18 @@ public class RobotBrain extends Thread
                     }
 
                     if ((failedBuildingAttempts > (2 * MAX_DENIED_BUILDING_PER_TURN))
-                        && (game.getGameState() <= Game.START2B))
+                            && (game.getGameState() <= Game.START2B))
                     {
                         // Apparently can't decide where we can initially place:
                         // Leave the game.
-                        client.leaveGame(game, "failedBuildingAttempts at start", false);
+                        client.leaveGame(game,
+                                "failedBuildingAttempts at start", false);
                         alive = false;
                     }
 
                     /*
-                       if (D.ebugOn) {
-                       if (mes != null) {
-                       debugInfo();
-                       D.ebugPrintln("~~~~~~~~~~~~~~~~");
-                       }
-                       }
+                     * if (D.ebugOn) { if (mes != null) { debugInfo();
+                     * D.ebugPrintln("~~~~~~~~~~~~~~~~"); } }
                      */
                     Thread.yield();
                 }
@@ -1443,7 +1575,8 @@ public class RobotBrain extends Thread
             catch (Throwable e)
             {
                 // Ignore errors due to game reset in another thread
-                if (alive && ((game == null) || (game.getGameState() != Game.RESET_OLD)))
+                if (alive
+                        && ((game == null) || (game.getGameState() != Game.RESET_OLD)))
                 {
                     D.ebugPrintln("*** Robot caught an exception - " + e);
                     System.out.println("*** Robot caught an exception - " + e);
@@ -1456,7 +1589,7 @@ public class RobotBrain extends Thread
             System.out.println("AGG! NO PINGER!");
         }
 
-        //D.ebugPrintln("STOPPING AND DEALLOCATING");
+        // D.ebugPrintln("STOPPING AND DEALLOCATING");
         gameEventQ = null;
         client.addCleanKill();
         client = null;
@@ -1473,17 +1606,17 @@ public class RobotBrain extends Thread
     }
 
     /**
-     * Stop waiting for responses to a trade offer.
-     * Remember other players' responses,
-     * Call {@link RobotClient#clearOffer(Game) client.clearOffer},
+     * Stop waiting for responses to a trade offer. Remember other players'
+     * responses, Call {@link RobotClient#clearOffer(Game) client.clearOffer},
      * clear {@link #waitingForTradeResponse} and {@link #counter}.
+     * 
      * @since 1.1.09
      */
     private void tradeStopWaitingClearOffer()
     {
-        ///
-        /// record which players said no by not saying anything
-        ///
+        // /
+        // / record which players said no by not saying anything
+        // /
         TradeOffer ourCurrentOffer = ourPlayerData.getCurrentOffer();
 
         if (ourCurrentOffer != null)
@@ -1491,9 +1624,7 @@ public class RobotBrain extends Thread
             boolean[] offeredTo = ourCurrentOffer.getTo();
             ResourceSet getSet = ourCurrentOffer.getGetSet();
 
-            for (int rsrcType = ResourceConstants.CLAY;
-                    rsrcType <= ResourceConstants.WOOD;
-                    rsrcType++)
+            for (int rsrcType = ResourceConstants.CLAY; rsrcType <= ResourceConstants.WOOD; rsrcType++)
             {
                 if (getSet.getAmount(rsrcType) > 0)
                 {
@@ -1502,7 +1633,8 @@ public class RobotBrain extends Thread
                         if (offeredTo[pn])
                         {
                             negotiator.markAsNotSelling(pn, rsrcType);
-                            negotiator.markAsNotWantingAnotherOffer(pn, rsrcType);
+                            negotiator.markAsNotWantingAnotherOffer(pn,
+                                    rsrcType);
                         }
                     }
                 }
@@ -1518,9 +1650,9 @@ public class RobotBrain extends Thread
     }
 
     /**
-     * If it's our turn and we have an expect flag set
-     * (such as {@link #expectPLACING_SETTLEMENT}), then
-     * call {@link RobotClient#putPiece(Game, PlayingPiece) client.putPiece}.
+     * If it's our turn and we have an expect flag set (such as
+     * {@link #expectPLACING_SETTLEMENT}), then call
+     * {@link RobotClient#putPiece(Game, PlayingPiece) client.putPiece}.
      *<P>
      * Looks for one of these game states:
      *<UL>
@@ -1531,6 +1663,7 @@ public class RobotBrain extends Thread
      * <LI> {@link Game#PLACING_FREE_ROAD1}
      * <LI> {@link Game#PLACING_FREE_ROAD2}
      *</UL>
+     * 
      * @since 1.1.09
      */
     private void placeIfExpectPlacing()
@@ -1540,16 +1673,17 @@ public class RobotBrain extends Thread
 
         switch (game.getGameState())
         {
-            case Game.PLACING_SETTLEMENT:
+        case Game.PLACING_SETTLEMENT:
             {
-                if ((ourTurn) && (!waitingForOurTurn) && (expectPLACING_SETTLEMENT))
+                if ((ourTurn) && (!waitingForOurTurn)
+                        && (expectPLACING_SETTLEMENT))
                 {
                     expectPLACING_SETTLEMENT = false;
                     waitingForGameState = true;
                     counter = 0;
                     expectPLAY1 = true;
-    
-                    //D.ebugPrintln("!!! PUTTING PIECE "+whatWeWantToBuild+" !!!");
+
+                    // D.ebugPrintln("!!! PUTTING PIECE "+whatWeWantToBuild+" !!!");
                     pause(500);
                     client.putPiece(game, whatWeWantToBuild);
                     pause(1000);
@@ -1557,7 +1691,7 @@ public class RobotBrain extends Thread
             }
             break;
 
-            case Game.PLACING_ROAD:
+        case Game.PLACING_ROAD:
             {
                 if ((ourTurn) && (!waitingForOurTurn) && (expectPLACING_ROAD))
                 {
@@ -1573,7 +1707,7 @@ public class RobotBrain extends Thread
             }
             break;
 
-            case Game.PLACING_CITY:
+        case Game.PLACING_CITY:
             {
                 if ((ourTurn) && (!waitingForOurTurn) && (expectPLACING_CITY))
                 {
@@ -1589,15 +1723,17 @@ public class RobotBrain extends Thread
             }
             break;
 
-            case Game.PLACING_FREE_ROAD1:
+        case Game.PLACING_FREE_ROAD1:
             {
-                if ((ourTurn) && (!waitingForOurTurn) && (expectPLACING_FREE_ROAD1))
+                if ((ourTurn) && (!waitingForOurTurn)
+                        && (expectPLACING_FREE_ROAD1))
                 {
                     expectPLACING_FREE_ROAD1 = false;
                     waitingForGameState = true;
                     counter = 0;
                     expectPLACING_FREE_ROAD2 = true;
-                    // D.ebugPrintln("!!! PUTTING PIECE 1 " + whatWeWantToBuild + " !!!");
+                    // D.ebugPrintln("!!! PUTTING PIECE 1 " + whatWeWantToBuild
+                    // + " !!!");
                     pause(500);
                     client.putPiece(game, whatWeWantToBuild);
                     pause(1000);
@@ -1605,23 +1741,26 @@ public class RobotBrain extends Thread
             }
             break;
 
-            case Game.PLACING_FREE_ROAD2:
+        case Game.PLACING_FREE_ROAD2:
             {
-                if ((ourTurn) && (!waitingForOurTurn) && (expectPLACING_FREE_ROAD2))
+                if ((ourTurn) && (!waitingForOurTurn)
+                        && (expectPLACING_FREE_ROAD2))
                 {
                     expectPLACING_FREE_ROAD2 = false;
                     waitingForGameState = true;
                     counter = 0;
                     expectPLAY1 = true;
-    
+
                     PossiblePiece posPiece = (PossiblePiece) buildingPlan.pop();
-    
+
                     if (posPiece.getType() == PossiblePiece.ROAD)
                     {
                         // D.ebugPrintln("posPiece = " + posPiece);
-                        whatWeWantToBuild = new Road(ourPlayerData, posPiece.getCoordinates(), null);
+                        whatWeWantToBuild = new Road(ourPlayerData, posPiece
+                                .getCoordinates(), null);
                         // D.ebugPrintln("$ POPPED OFF");
-                        // D.ebugPrintln("!!! PUTTING PIECE 2 " + whatWeWantToBuild + " !!!");
+                        // D.ebugPrintln("!!! PUTTING PIECE 2 " +
+                        // whatWeWantToBuild + " !!!");
                         pause(500);
                         client.putPiece(game, whatWeWantToBuild);
                         pause(1000);
@@ -1630,11 +1769,12 @@ public class RobotBrain extends Thread
             }
             break;
 
-            case Game.START1A:
+        case Game.START1A:
             {
                 expectSTART1A = false;
-    
-                if ((!waitingForOurTurn) && (ourTurn) && (!(expectPUTPIECE_FROM_START1A && (counter < 4000))))
+
+                if ((!waitingForOurTurn) && (ourTurn)
+                        && (!(expectPUTPIECE_FROM_START1A && (counter < 4000))))
                 {
                     expectPUTPIECE_FROM_START1A = true;
                     counter = 0;
@@ -1645,11 +1785,12 @@ public class RobotBrain extends Thread
             }
             break;
 
-            case Game.START1B:
+        case Game.START1B:
             {
                 expectSTART1B = false;
-    
-                if ((!waitingForOurTurn) && (ourTurn) && (!(expectPUTPIECE_FROM_START1B && (counter < 4000))))
+
+                if ((!waitingForOurTurn) && (ourTurn)
+                        && (!(expectPUTPIECE_FROM_START1B && (counter < 4000))))
                 {
                     expectPUTPIECE_FROM_START1B = true;
                     counter = 0;
@@ -1660,11 +1801,12 @@ public class RobotBrain extends Thread
             }
             break;
 
-            case Game.START2A:
+        case Game.START2A:
             {
                 expectSTART2A = false;
-    
-                if ((!waitingForOurTurn) && (ourTurn) && (!(expectPUTPIECE_FROM_START2A && (counter < 4000))))
+
+                if ((!waitingForOurTurn) && (ourTurn)
+                        && (!(expectPUTPIECE_FROM_START2A && (counter < 4000))))
                 {
                     expectPUTPIECE_FROM_START2A = true;
                     counter = 0;
@@ -1675,11 +1817,12 @@ public class RobotBrain extends Thread
             }
             break;
 
-            case Game.START2B:
+        case Game.START2B:
             {
                 expectSTART2B = false;
-    
-                if ((!waitingForOurTurn) && (ourTurn) && (!(expectPUTPIECE_FROM_START2B && (counter < 4000))))
+
+                if ((!waitingForOurTurn) && (ourTurn)
+                        && (!(expectPUTPIECE_FROM_START2B && (counter < 4000))))
                 {
                     expectPUTPIECE_FROM_START2B = true;
                     counter = 0;
@@ -1694,14 +1837,15 @@ public class RobotBrain extends Thread
     }
 
     /**
-     * On our turn, ask client to roll dice or play a knight;
-     * on other turns, update flags to expect dice result.
+     * On our turn, ask client to roll dice or play a knight; on other turns,
+     * update flags to expect dice result.
      *<P>
      * Call when gameState {@link Game#PLAY} && ! {@link #waitingForGameState}.
      *<P>
-     * Clears {@link #expectPLAY} to false.
-     * Sets either {@link #expectDICERESULT}, or {@link #expectPLACING_ROBBER} and {@link #waitingForGameState}.
-     *
+     * Clears {@link #expectPLAY} to false. Sets either
+     * {@link #expectDICERESULT}, or {@link #expectPLACING_ROBBER} and
+     * {@link #waitingForGameState}.
+     * 
      * @since 1.1.08
      */
     private void rollOrPlayKnightOrExpectDice()
@@ -1710,14 +1854,18 @@ public class RobotBrain extends Thread
 
         if ((!waitingForOurTurn) && (ourTurn))
         {
-            if (!expectPLAY1 && !expectDISCARD && !expectPLACING_ROBBER && !(expectDICERESULT && (counter < 4000)))
+            if (!expectPLAY1 && !expectDISCARD && !expectPLACING_ROBBER
+                    && !(expectDICERESULT && (counter < 4000)))
             {
                 /**
-                 * if we have a knight card and the robber
-                 * is on one of our numbers, play the knight card
+                 * if we have a knight card and the robber is on one of our
+                 * numbers, play the knight card
                  */
-                if ((ourPlayerData.getDevCards().getAmount(DevCardSet.OLD, DevCardConstants.KNIGHT) > 0)
-                    && ! (ourPlayerData.getNumbers().getNumberResourcePairsForHex(game.getBoard().getRobberHex())).isEmpty())
+                if ((ourPlayerData.getDevCards().getAmount(DevCardSet.OLD,
+                        DevCardConstants.KNIGHT) > 0)
+                        && !(ourPlayerData.getNumbers()
+                                .getNumberResourcePairsForHex(game.getBoard()
+                                        .getRobberHex())).isEmpty())
                 {
                     expectPLACING_ROBBER = true;
                     waitingForGameState = true;
@@ -1730,7 +1878,7 @@ public class RobotBrain extends Thread
                     expectDICERESULT = true;
                     counter = 0;
 
-                    //D.ebugPrintln("!!! ROLLING DICE !!!");
+                    // D.ebugPrintln("!!! ROLLING DICE !!!");
                     client.rollDice(game);
                 }
             }
@@ -1745,34 +1893,40 @@ public class RobotBrain extends Thread
     }
 
     /**
-     * Either ask to build a piece, or use trading or development cards to get resources to build it.
-     * Examines {@link #buildingPlan} for the next piece wanted.
+     * Either ask to build a piece, or use trading or development cards to get
+     * resources to build it. Examines {@link #buildingPlan} for the next piece
+     * wanted.
      *<P>
      * Call when these conditions are all true:
      * <UL>
-     *<LI> gameState {@link Game#PLAY1} or {@link Game#SPECIAL_BUILDING}
-     *<LI> <tt>waitingFor...</tt> flags all false ({@link #waitingForGameState}, etc) except possibly {@link #waitingForSpecialBuild}
+     *<LI>gameState {@link Game#PLAY1} or {@link Game#SPECIAL_BUILDING}
+     *<LI> <tt>waitingFor...</tt> flags all false ({@link #waitingForGameState},
+     * etc) except possibly {@link #waitingForSpecialBuild}
      *<LI> <tt>expect...</tt> flags all false ({@link #expectPLACING_ROAD}, etc)
-     *<LI> ! {@link #waitingForOurTurn}
+     *<LI>! {@link #waitingForOurTurn}
      *<LI> {@link #ourTurn}
-     *<LI> ! ({@link #expectPLAY} && (counter < 4000))
-     *<LI> ! {@link #buildingPlan}.empty()
+     *<LI>! ({@link #expectPLAY} && (counter < 4000))
+     *<LI>! {@link #buildingPlan}.empty()
      *</UL>
      *<P>
      * May set any of these flags:
      * <UL>
-     *<LI> {@link #waitingForGameState}, and {@link #expectWAITING_FOR_DISCOVERY} or {@link #expectWAITING_FOR_MONOPOLY}
-     *<LI> {@link #waitingForTradeMsg} or {@link #waitingForTradeResponse} or {@link #doneTrading}
-     *<LI> {@link #waitingForDevCard}, or {@link #waitingForGameState} and {@link #expectPLACING_SETTLEMENT} (etc).
+     *<LI> {@link #waitingForGameState}, and
+     * {@link #expectWAITING_FOR_DISCOVERY} or
+     * {@link #expectWAITING_FOR_MONOPOLY}
+     *<LI> {@link #waitingForTradeMsg} or {@link #waitingForTradeResponse} or
+     * {@link #doneTrading}
+     *<LI> {@link #waitingForDevCard}, or {@link #waitingForGameState} and
+     * {@link #expectPLACING_SETTLEMENT} (etc).
      *</UL>
-     *
+     * 
      * @since 1.1.08
      */
     private void buildOrGetResourceByTradeOrCard()
     {
         /**
-         * If we're in SPECIAL_BUILDING (not PLAY1),
-         * can't trade or play development cards.
+         * If we're in SPECIAL_BUILDING (not PLAY1), can't trade or play
+         * development cards.
          */
         final boolean gameStatePLAY1 = (game.getGameState() == Game.PLAY1);
 
@@ -1781,30 +1935,40 @@ public class RobotBrain extends Thread
          */
         boolean roadBuildingPlan = false;
 
-        if (gameStatePLAY1 && (! ourPlayerData.hasPlayedDevCard()) && (ourPlayerData.getNumPieces(PlayingPiece.ROAD) >= 2) && (ourPlayerData.getDevCards().getAmount(DevCardSet.OLD, DevCardConstants.ROADS) > 0))
+        if (gameStatePLAY1
+                && (!ourPlayerData.hasPlayedDevCard())
+                && (ourPlayerData.getNumPieces(PlayingPiece.ROAD) >= 2)
+                && (ourPlayerData.getDevCards().getAmount(DevCardSet.OLD,
+                        DevCardConstants.ROADS) > 0))
         {
-            //D.ebugPrintln("** Checking for Road Building Plan **");
+            // D.ebugPrintln("** Checking for Road Building Plan **");
             PossiblePiece topPiece = (PossiblePiece) buildingPlan.pop();
 
-            //D.ebugPrintln("$ POPPED "+topPiece);
-            if ((topPiece != null) && (topPiece.getType() == PossiblePiece.ROAD) && (!buildingPlan.empty()))
+            // D.ebugPrintln("$ POPPED "+topPiece);
+            if ((topPiece != null)
+                    && (topPiece.getType() == PossiblePiece.ROAD)
+                    && (!buildingPlan.empty()))
             {
                 PossiblePiece secondPiece = (PossiblePiece) buildingPlan.peek();
 
-                //D.ebugPrintln("secondPiece="+secondPiece);
-                if ((secondPiece != null) && (secondPiece.getType() == PossiblePiece.ROAD))
+                // D.ebugPrintln("secondPiece="+secondPiece);
+                if ((secondPiece != null)
+                        && (secondPiece.getType() == PossiblePiece.ROAD))
                 {
                     roadBuildingPlan = true;
-                    whatWeWantToBuild = new Road(ourPlayerData, topPiece.getCoordinates(), null);
-                    if (! whatWeWantToBuild.equals(whatWeFailedToBuild))
+                    whatWeWantToBuild = new Road(ourPlayerData, topPiece
+                            .getCoordinates(), null);
+                    if (!whatWeWantToBuild.equals(whatWeFailedToBuild))
                     {
                         waitingForGameState = true;
                         counter = 0;
                         expectPLACING_FREE_ROAD1 = true;
 
-                        //D.ebugPrintln("!! PLAYING ROAD BUILDING CARD");
+                        // D.ebugPrintln("!! PLAYING ROAD BUILDING CARD");
                         client.playDevCard(game, DevCardConstants.ROADS);
-                    } else {
+                    }
+                    else
+                    {
                         // We already tried to build this.
                         roadBuildingPlan = false;
                         cancelWrongPiecePlacementLocal(whatWeWantToBuild);
@@ -1813,44 +1977,48 @@ public class RobotBrain extends Thread
                 }
                 else
                 {
-                    //D.ebugPrintln("$ PUSHING "+topPiece);
+                    // D.ebugPrintln("$ PUSHING "+topPiece);
                     buildingPlan.push(topPiece);
                 }
             }
             else
             {
-                //D.ebugPrintln("$ PUSHING "+topPiece);
+                // D.ebugPrintln("$ PUSHING "+topPiece);
                 buildingPlan.push(topPiece);
             }
         }
 
-        if (! roadBuildingPlan)
+        if (!roadBuildingPlan)
         {
-            ///
-            /// figure out what resources we need
-            ///
+            // /
+            // / figure out what resources we need
+            // /
             PossiblePiece targetPiece = (PossiblePiece) buildingPlan.peek();
-            ResourceSet targetResources = PlayingPiece.getResourcesToBuild(targetPiece.getType());
+            ResourceSet targetResources = PlayingPiece
+                    .getResourcesToBuild(targetPiece.getType());
 
-            //D.ebugPrintln("^^^ targetPiece = "+targetPiece);
-            //D.ebugPrintln("^^^ ourResources = "+ourPlayerData.getResources());
+            // D.ebugPrintln("^^^ targetPiece = "+targetPiece);
+            // D.ebugPrintln("^^^ ourResources = "+ourPlayerData.getResources());
 
-            negotiator.setTargetPiece(ourPlayerData.getPlayerNumber(), targetPiece);
+            negotiator.setTargetPiece(ourPlayerData.getPlayerNumber(),
+                    targetPiece);
 
-            ///
-            /// if we have a 2 free resources card and we need
-            /// at least 2 resources, play the card
-            ///
-            if (gameStatePLAY1 && (! ourPlayerData.hasPlayedDevCard()) && (ourPlayerData.getDevCards().getAmount(DevCardSet.OLD, DevCardConstants.DISC) > 0))
+            // /
+            // / if we have a 2 free resources card and we need
+            // / at least 2 resources, play the card
+            // /
+            if (gameStatePLAY1
+                    && (!ourPlayerData.hasPlayedDevCard())
+                    && (ourPlayerData.getDevCards().getAmount(DevCardSet.OLD,
+                            DevCardConstants.DISC) > 0))
             {
                 ResourceSet ourResources = ourPlayerData.getResources();
                 int numNeededResources = 0;
 
-                for (int resource = ResourceConstants.CLAY;
-                        resource <= ResourceConstants.WOOD;
-                        resource++)
+                for (int resource = ResourceConstants.CLAY; resource <= ResourceConstants.WOOD; resource++)
                 {
-                    int diff = targetResources.getAmount(resource) - ourResources.getAmount(resource);
+                    int diff = targetResources.getAmount(resource)
+                            - ourResources.getAmount(resource);
 
                     if (diff > 0)
                     {
@@ -1862,9 +2030,9 @@ public class RobotBrain extends Thread
                 {
                     chooseFreeResources(targetResources);
 
-                    ///
-                    /// play the card
-                    ///
+                    // /
+                    // / play the card
+                    // /
                     expectWAITING_FOR_DISCOVERY = true;
                     waitingForGameState = true;
                     counter = 0;
@@ -1875,15 +2043,19 @@ public class RobotBrain extends Thread
 
             if (!expectWAITING_FOR_DISCOVERY)
             {
-                ///
-                /// if we have a monopoly card, play it
-                /// and take what there is most of
-                ///
-                if (gameStatePLAY1 && (! ourPlayerData.hasPlayedDevCard()) && (ourPlayerData.getDevCards().getAmount(DevCardSet.OLD, DevCardConstants.MONO) > 0) && chooseMonopoly())
+                // /
+                // / if we have a monopoly card, play it
+                // / and take what there is most of
+                // /
+                if (gameStatePLAY1
+                        && (!ourPlayerData.hasPlayedDevCard())
+                        && (ourPlayerData.getDevCards().getAmount(
+                                DevCardSet.OLD, DevCardConstants.MONO) > 0)
+                        && chooseMonopoly())
                 {
-                    ///
-                    /// play the card
-                    ///
+                    // /
+                    // / play the card
+                    // /
                     expectWAITING_FOR_MONOPOLY = true;
                     waitingForGameState = true;
                     counter = 0;
@@ -1893,14 +2065,18 @@ public class RobotBrain extends Thread
 
                 if (!expectWAITING_FOR_MONOPOLY)
                 {
-                    if (gameStatePLAY1 && (!doneTrading) && (!ourPlayerData.getResources().contains(targetResources)))
+                    if (gameStatePLAY1
+                            && (!doneTrading)
+                            && (!ourPlayerData.getResources().contains(
+                                    targetResources)))
                     {
                         waitingForTradeResponse = false;
 
                         if (robotParameters.getTradeFlag() == 1)
                         {
                             makeOffer(targetPiece);
-                            // makeOffer will set waitingForTradeResponse or doneTrading.
+                            // makeOffer will set waitingForTradeResponse or
+                            // doneTrading.
                         }
                     }
 
@@ -1917,15 +2093,20 @@ public class RobotBrain extends Thread
                         }
                     }
 
-                    ///
-                    /// build if we can
-                    ///
-                    if (!waitingForTradeMsg && !waitingForTradeResponse && ourPlayerData.getResources().contains(targetResources))
+                    // /
+                    // / build if we can
+                    // /
+                    if (!waitingForTradeMsg
+                            && !waitingForTradeResponse
+                            && ourPlayerData.getResources().contains(
+                                    targetResources))
                     {
                         // Calls buildingPlan.pop().
-                        // Checks against whatWeFailedToBuild to see if server has rejected this already.
+                        // Checks against whatWeFailedToBuild to see if server
+                        // has rejected this already.
                         // Calls client.buyDevCard or client.buildRequest.
-                        // Sets waitingForDevCard, or waitingForGameState and expectPLACING_SETTLEMENT (etc).
+                        // Sets waitingForDevCard, or waitingForGameState and
+                        // expectPLACING_SETTLEMENT (etc).
 
                         buildRequestPlannedPiece(targetPiece);
                     }
@@ -1935,9 +2116,11 @@ public class RobotBrain extends Thread
     }
 
     /**
-     * Handle a PUTPIECE for this game, by updating game data.
-     * For initial roads, also track their initial settlement in PlayerTracker.
-     * In general, most tracking is done a bit later in {@link #handlePUTPIECE_updateTrackers(PutPiece)}.
+     * Handle a PUTPIECE for this game, by updating game data. For initial
+     * roads, also track their initial settlement in PlayerTracker. In general,
+     * most tracking is done a bit later in
+     * {@link #handlePUTPIECE_updateTrackers(PutPiece)}.
+     * 
      * @since 1.1.08
      */
     private void handlePUTPIECE_updateGameData(PutPiece mes)
@@ -1949,15 +2132,18 @@ public class RobotBrain extends Thread
         {
         case PlayingPiece.ROAD:
 
-            if ((game.getGameState() == Game.START1B) || (game.getGameState() == Game.START2B))
+            if ((game.getGameState() == Game.START1B)
+                    || (game.getGameState() == Game.START2B))
             {
                 //
-                // Before processing this road, track the settlement that goes with it.
-                // This was deferred until road placement, in case a human player decides
+                // Before processing this road, track the settlement that goes
+                // with it.
+                // This was deferred until road placement, in case a human
+                // player decides
                 // to cancel their settlement and place it elsewhere.
                 //
-                PlayerTracker tr = (PlayerTracker) playerTrackers.get
-                    (new Integer(mes.getPlayerNumber()));
+                PlayerTracker tr = (PlayerTracker) playerTrackers
+                        .get(new Integer(mes.getPlayerNumber()));
                 Settlement se = tr.getPendingInitSettlement();
                 if (se != null)
                     trackNewSettlement(se, false);
@@ -1983,17 +2169,17 @@ public class RobotBrain extends Thread
     /**
      * Handle a CANCELBUILDREQUEST for this game.
      *<P>
-     *<b> During game startup</b> (START1B or START2B): <BR>
-     *    When sent from server to client, CANCELBUILDREQUEST means the current
-     *    player wants to undo the placement of their initial settlement.
+     * <b> During game startup</b> (START1B or START2B): <BR>
+     * When sent from server to client, CANCELBUILDREQUEST means the current
+     * player wants to undo the placement of their initial settlement.
      *<P>
-     *<b> During piece placement</b> (PLACING_ROAD, PLACING_CITY, PLACING_SETTLEMENT,
-     *                         PLACING_FREE_ROAD1, or PLACING_FREE_ROAD2): <BR>
-     *    When sent from server to client, CANCELBUILDREQUEST means the player
-     *    has sent an illegal PUTPIECE (bad building location). 
-     *    Humans can probably decide a better place to put their road,
-     *    but robots must cancel the build request and decide on a new plan.
-     *
+     * <b> During piece placement</b> (PLACING_ROAD, PLACING_CITY,
+     * PLACING_SETTLEMENT, PLACING_FREE_ROAD1, or PLACING_FREE_ROAD2): <BR>
+     * When sent from server to client, CANCELBUILDREQUEST means the player has
+     * sent an illegal PUTPIECE (bad building location). Humans can probably
+     * decide a better place to put their road, but robots must cancel the build
+     * request and decide on a new plan.
+     * 
      * @since 1.1.08
      */
     private void handleCANCELBUILDREQUEST(CancelBuildRequest mes)
@@ -2024,24 +2210,26 @@ public class RobotBrain extends Thread
                 //
                 final int pnum = game.getCurrentPlayerNumber();
                 Player pl = game.getPlayer(pnum);
-                Settlement pp = new Settlement(pl, pl.getLastSettlementCoord(), null);
+                Settlement pp = new Settlement(pl, pl.getLastSettlementCoord(),
+                        null);
                 game.undoPutInitSettlement(pp);
                 //
                 // "forget" to track this cancelled initial settlement.
                 // Wait for human player to place a new one.
                 //
-                PlayerTracker tr = (PlayerTracker) playerTrackers.get
-                    (new Integer(pnum));
+                PlayerTracker tr = (PlayerTracker) playerTrackers
+                        .get(new Integer(pnum));
                 tr.setPendingInitSettlement(null);
             }
             break;
 
-        case Game.PLAY1:  // asked to build, hasn't given location yet -> resources
-        case Game.PLACING_ROAD:        // has given location -> is bad location
+        case Game.PLAY1: // asked to build, hasn't given location yet ->
+            // resources
+        case Game.PLACING_ROAD: // has given location -> is bad location
         case Game.PLACING_SETTLEMENT:
         case Game.PLACING_CITY:
-        case Game.PLACING_FREE_ROAD1:  // JM TODO how to break out?
-        case Game.PLACING_FREE_ROAD2:  // JM TODO how to break out?
+        case Game.PLACING_FREE_ROAD1: // JM TO-DO how to break out?
+        case Game.PLACING_FREE_ROAD2: // JM TO-DO how to break out?
             //
             // We've asked for an illegal piece placement.
             // (Must be a bug.) Cancel and invalidate this
@@ -2054,8 +2242,9 @@ public class RobotBrain extends Thread
             //
             // Same as above, but in special building.
             // Sometimes happens if another player has placed since we
-            // requested special building.  If our PUTPIECE request is
-            // denied, server sends us CANCELBUILDREQUEST during SPECIAL_BUILDING.
+            // requested special building. If our PUTPIECE request is
+            // denied, server sends us CANCELBUILDREQUEST during
+            // SPECIAL_BUILDING.
             // This will cancel the placement, and also will
             // set variables to end our turn.
             //
@@ -2066,21 +2255,24 @@ public class RobotBrain extends Thread
             if (game.isSpecialBuilding())
             {
                 cancelWrongPiecePlacement(mes);
-            } else {
+            }
+            else
+            {
                 // Should not occur
-                D.ebugPrintln("Unexpected CANCELBUILDREQUEST at state " + gstate);
+                D.ebugPrintln("Unexpected CANCELBUILDREQUEST at state "
+                        + gstate);
             }
 
-        }  // switch (gameState)
+        } // switch (gameState)
     }
 
     /**
-     * Handle a MAKEOFFER for this game.
-     * if another player makes an offer, that's the
-     * same as a rejection, but still wants to deal.
-     * Call {@link #considerOffer(TradeOffer)}, and if
-     * we accept, clear our {@link #buildingPlan} so we'll replan it.
-     * Ignore our own MAKEOFFERs echoed from server.
+     * Handle a MAKEOFFER for this game. if another player makes an offer,
+     * that's the same as a rejection, but still wants to deal. Call
+     * {@link #considerOffer(TradeOffer)}, and if we accept, clear our
+     * {@link #buildingPlan} so we'll replan it. Ignore our own MAKEOFFERs
+     * echoed from server.
+     * 
      * @since 1.1.08
      */
     private void handleMAKEOFFER(MakeOffer mes)
@@ -2090,38 +2282,37 @@ public class RobotBrain extends Thread
 
         if ((offer.getFrom() == ourPlayerData.getPlayerNumber()))
         {
-            return;  // <---- Ignore our own offers ----
+            return; // <---- Ignore our own offers ----
         }
 
-        ///
-        /// record that this player wants to sell me the stuff
-        ///
+        // /
+        // / record that this player wants to sell me the stuff
+        // /
         ResourceSet giveSet = offer.getGiveSet();
 
-        for (int rsrcType = ResourceConstants.CLAY;
-                rsrcType <= ResourceConstants.WOOD;
-                rsrcType++)
+        for (int rsrcType = ResourceConstants.CLAY; rsrcType <= ResourceConstants.WOOD; rsrcType++)
         {
             if (giveSet.getAmount(rsrcType) > 0)
             {
-                D.ebugPrintln("%%% player " + offer.getFrom() + " wants to sell " + rsrcType);
+                D.ebugPrintln("%%% player " + offer.getFrom()
+                        + " wants to sell " + rsrcType);
                 negotiator.markAsWantsAnotherOffer(offer.getFrom(), rsrcType);
             }
         }
 
-        ///
-        /// record that this player is not selling the resources 
-        /// he is asking for
-        ///
+        // /
+        // / record that this player is not selling the resources
+        // / he is asking for
+        // /
         ResourceSet getSet = offer.getGetSet();
 
-        for (int rsrcType = ResourceConstants.CLAY;
-                rsrcType <= ResourceConstants.WOOD;
-                rsrcType++)
+        for (int rsrcType = ResourceConstants.CLAY; rsrcType <= ResourceConstants.WOOD; rsrcType++)
         {
             if (getSet.getAmount(rsrcType) > 0)
             {
-                D.ebugPrintln("%%% player " + offer.getFrom() + " wants to buy " + rsrcType + " and therefore does not want to sell it");
+                D.ebugPrintln("%%% player " + offer.getFrom()
+                        + " wants to buy " + rsrcType
+                        + " and therefore does not want to sell it");
                 negotiator.markAsNotSelling(offer.getFrom(), rsrcType);
             }
         }
@@ -2131,7 +2322,8 @@ public class RobotBrain extends Thread
             offerRejections[offer.getFrom()] = true;
 
             boolean everyoneRejected = true;
-            D.ebugPrintln("ourPlayerData.getCurrentOffer() = " + ourPlayerData.getCurrentOffer());
+            D.ebugPrintln("ourPlayerData.getCurrentOffer() = "
+                    + ourPlayerData.getCurrentOffer());
 
             if (ourPlayerData.getCurrentOffer() != null)
             {
@@ -2139,7 +2331,8 @@ public class RobotBrain extends Thread
 
                 for (int i = 0; i < game.maxPlayers; i++)
                 {
-                    D.ebugPrintln("offerRejections[" + i + "]=" + offerRejections[i]);
+                    D.ebugPrintln("offerRejections[" + i + "]="
+                            + offerRejections[i]);
 
                     if (offeredTo[i] && !offerRejections[i])
                         everyoneRejected = false;
@@ -2156,9 +2349,9 @@ public class RobotBrain extends Thread
             }
         }
 
-        ///
-        /// consider the offer
-        ///
+        // /
+        // / consider the offer
+        // /
         int ourResponseToOffer = considerOffer(offer);
 
         D.ebugPrintln("%%% ourResponseToOffer = " + ourResponseToOffer);
@@ -2167,9 +2360,9 @@ public class RobotBrain extends Thread
             return;
 
         int delayLength = Math.abs(rand.nextInt() % 500) + 3500;
-        if (gameIs6Player && ! waitingForTradeResponse)
+        if (gameIs6Player && !waitingForTradeResponse)
         {
-            delayLength *= 2;  // usually, pause is half-length in 6-player
+            delayLength *= 2; // usually, pause is half-length in 6-player
         }
         pause(delayLength);
 
@@ -2178,9 +2371,9 @@ public class RobotBrain extends Thread
         case RobotNegotiator.ACCEPT_OFFER:
             client.acceptOffer(game, offer.getFrom());
 
-            ///
-            /// clear our building plan, so that we replan
-            ///
+            // /
+            // / clear our building plan, so that we replan
+            // /
             buildingPlan.clear();
             negotiator.setTargetPiece(ourPlayerData.getPlayerNumber(), null);
 
@@ -2203,44 +2396,47 @@ public class RobotBrain extends Thread
     }
 
     /**
-     * Handle a REJECTOFFER for this game.
-     * watch rejections of other players' offers, and of our offers.
+     * Handle a REJECTOFFER for this game. watch rejections of other players'
+     * offers, and of our offers.
+     * 
      * @since 1.1.08
      */
     private void handleREJECTOFFER(RejectOffer mes)
     {
-        ///
-        /// see if everyone has rejected our offer
-        ///
+        // /
+        // / see if everyone has rejected our offer
+        // /
         int rejector = mes.getPlayerNumber();
 
-        if ((ourPlayerData.getCurrentOffer() != null) && (waitingForTradeResponse))
+        if ((ourPlayerData.getCurrentOffer() != null)
+                && (waitingForTradeResponse))
         {
             D.ebugPrintln("%%%%%%%%% REJECT OFFER %%%%%%%%%%%%%");
 
-            ///
-            /// record which player said no
-            ///
+            // /
+            // / record which player said no
+            // /
             ResourceSet getSet = ourPlayerData.getCurrentOffer().getGetSet();
 
-            for (int rsrcType = ResourceConstants.CLAY;
-                    rsrcType <= ResourceConstants.WOOD;
-                    rsrcType++)
+            for (int rsrcType = ResourceConstants.CLAY; rsrcType <= ResourceConstants.WOOD; rsrcType++)
             {
-                if ((getSet.getAmount(rsrcType) > 0) && (!negotiator.wantsAnotherOffer(rejector, rsrcType)))
+                if ((getSet.getAmount(rsrcType) > 0)
+                        && (!negotiator.wantsAnotherOffer(rejector, rsrcType)))
                     negotiator.markAsNotSelling(rejector, rsrcType);
             }
 
             offerRejections[mes.getPlayerNumber()] = true;
 
             boolean everyoneRejected = true;
-            D.ebugPrintln("ourPlayerData.getCurrentOffer() = " + ourPlayerData.getCurrentOffer());
+            D.ebugPrintln("ourPlayerData.getCurrentOffer() = "
+                    + ourPlayerData.getCurrentOffer());
 
             boolean[] offeredTo = ourPlayerData.getCurrentOffer().getTo();
 
             for (int i = 0; i < game.maxPlayers; i++)
             {
-                D.ebugPrintln("offerRejections[" + i + "]=" + offerRejections[i]);
+                D.ebugPrintln("offerRejections[" + i + "]="
+                        + offerRejections[i]);
 
                 if (offeredTo[i] && !offerRejections[i])
                     everyoneRejected = false;
@@ -2257,9 +2453,9 @@ public class RobotBrain extends Thread
         }
         else
         {
-            ///
-            /// we also want to watch rejections of other players' offers
-            ///
+            // /
+            // / we also want to watch rejections of other players' offers
+            // /
             D.ebugPrintln("%%%% ALT REJECT OFFER %%%%");
 
             for (int pn = 0; pn < game.maxPlayers; pn++)
@@ -2278,11 +2474,11 @@ public class RobotBrain extends Thread
                         //
                         ResourceSet getSet = offer.getGetSet();
 
-                        for (int rsrcType = ResourceConstants.CLAY;
-                                rsrcType <= ResourceConstants.WOOD;
-                                rsrcType++)
+                        for (int rsrcType = ResourceConstants.CLAY; rsrcType <= ResourceConstants.WOOD; rsrcType++)
                         {
-                            if ((getSet.getAmount(rsrcType) > 0) && (!negotiator.wantsAnotherOffer(rejector, rsrcType)))
+                            if ((getSet.getAmount(rsrcType) > 0)
+                                    && (!negotiator.wantsAnotherOffer(rejector,
+                                            rsrcType)))
                                 negotiator.markAsNotSelling(rejector, rsrcType);
                         }
                     }
@@ -2292,13 +2488,14 @@ public class RobotBrain extends Thread
     }
 
     /**
-     * Handle a DEVCARD for this game.
-     * No brain-specific action.
+     * Handle a DEVCARD for this game. No brain-specific action.
+     * 
      * @since 1.1.08
      */
     private void handleDEVCARD(DevCard mes)
     {
-        DevCardSet plCards = game.getPlayer(mes.getPlayerNumber()).getDevCards();
+        DevCardSet plCards = game.getPlayer(mes.getPlayerNumber())
+                .getDevCards();
         final int cardType = mes.getCardType();
 
         switch (mes.getAction())
@@ -2324,16 +2521,17 @@ public class RobotBrain extends Thread
     /**
      * Handle a PUTPIECE for this game, by updating {@link PlayerTracker}s.
      *<P>
-     * For initial placement of our own pieces, this method also checks
-     * and clears expectPUTPIECE_FROM_START1A, and sets expectSTART1B, etc.
-     * The final initial putpiece clears expectPUTPIECE_FROM_START2B and sets expectPLAY.
+     * For initial placement of our own pieces, this method also checks and
+     * clears expectPUTPIECE_FROM_START1A, and sets expectSTART1B, etc. The
+     * final initial putpiece clears expectPUTPIECE_FROM_START2B and sets
+     * expectPLAY.
      *<P>
-     * For initial settlements, won't track here:
-     * Delay tracking until the corresponding road is placed,
-     * in {@link #handlePUTPIECE_updateGameData(PutPiece)}.
-     * This prevents the need for tracker "undo" work if a human
-     * player changes their mind on where to place the settlement.
-     *
+     * For initial settlements, won't track here: Delay tracking until the
+     * corresponding road is placed, in
+     * {@link #handlePUTPIECE_updateGameData(PutPiece)}. This prevents the need
+     * for tracker "undo" work if a human player changes their mind on where to
+     * place the settlement.
+     * 
      * @since 1.1.08
      */
     private void handlePUTPIECE_updateTrackers(PutPiece mes)
@@ -2354,19 +2552,21 @@ public class RobotBrain extends Thread
         case PlayingPiece.SETTLEMENT:
 
             Player newSettlementPl = game.getPlayer(pn);
-            Settlement newSettlement = new Settlement(newSettlementPl, coord, null);
-            if ((game.getGameState() == Game.START1B) || (game.getGameState() == Game.START2B))
+            Settlement newSettlement = new Settlement(newSettlementPl, coord,
+                    null);
+            if ((game.getGameState() == Game.START1B)
+                    || (game.getGameState() == Game.START2B))
             {
                 // Track it after the road is placed
-                PlayerTracker tr = (PlayerTracker) playerTrackers.get
-                    (new Integer(newSettlementPl.getPlayerNumber()));
+                PlayerTracker tr = (PlayerTracker) playerTrackers
+                        .get(new Integer(newSettlementPl.getPlayerNumber()));
                 tr.setPendingInitSettlement(newSettlement);
             }
             else
             {
                 // Track it now
                 trackNewSettlement(newSettlement, false);
-            }                            
+            }
 
             break;
 
@@ -2385,32 +2585,40 @@ public class RobotBrain extends Thread
 
         if (pn != ourPlayerData.getPlayerNumber())
         {
-            return;  // <---- Not our piece ----
+            return; // <---- Not our piece ----
         }
 
         /**
          * Update expect-vars during initial placement of our pieces.
          */
 
-        if (expectPUTPIECE_FROM_START1A && (pieceType == PlayingPiece.SETTLEMENT) && (mes.getCoordinates() == ourPlayerData.getLastSettlementCoord()))
+        if (expectPUTPIECE_FROM_START1A
+                && (pieceType == PlayingPiece.SETTLEMENT)
+                && (mes.getCoordinates() == ourPlayerData
+                        .getLastSettlementCoord()))
         {
             expectPUTPIECE_FROM_START1A = false;
             expectSTART1B = true;
         }
 
-        if (expectPUTPIECE_FROM_START1B && (pieceType == PlayingPiece.ROAD) && (mes.getCoordinates() == ourPlayerData.getLastRoadCoord()))
+        if (expectPUTPIECE_FROM_START1B && (pieceType == PlayingPiece.ROAD)
+                && (mes.getCoordinates() == ourPlayerData.getLastRoadCoord()))
         {
             expectPUTPIECE_FROM_START1B = false;
             expectSTART2A = true;
         }
 
-        if (expectPUTPIECE_FROM_START2A && (pieceType == PlayingPiece.SETTLEMENT) && (mes.getCoordinates() == ourPlayerData.getLastSettlementCoord()))
+        if (expectPUTPIECE_FROM_START2A
+                && (pieceType == PlayingPiece.SETTLEMENT)
+                && (mes.getCoordinates() == ourPlayerData
+                        .getLastSettlementCoord()))
         {
             expectPUTPIECE_FROM_START2A = false;
             expectSTART2B = true;
         }
 
-        if (expectPUTPIECE_FROM_START2B && (pieceType == PlayingPiece.ROAD) && (mes.getCoordinates() == ourPlayerData.getLastRoadCoord()))
+        if (expectPUTPIECE_FROM_START2B && (pieceType == PlayingPiece.ROAD)
+                && (mes.getCoordinates() == ourPlayerData.getLastRoadCoord()))
         {
             expectPUTPIECE_FROM_START2B = false;
             expectPLAY = true;
@@ -2419,15 +2627,15 @@ public class RobotBrain extends Thread
     }
 
     /**
-     * Have the client ask to build this piece, unless we've already
-     * been told by the server to not build it.
-     * Calls {@link #buildingPlan}.pop().
-     * Checks against {@link #whatWeFailedToBuild} to see if server has rejected this already.
-     * Calls <tt>client.buyDevCard()</tt> or <tt>client.buildRequest()</tt>.
-     * Sets {@link #waitingForDevCard}, or {@link #waitingForGameState} and
-     * {@link #expectPLACING_SETTLEMENT} (etc).
-     *
-     * @param targetPiece  This should be the top piece of {@link #buildingPlan}.
+     * Have the client ask to build this piece, unless we've already been told
+     * by the server to not build it. Calls {@link #buildingPlan}.pop(). Checks
+     * against {@link #whatWeFailedToBuild} to see if server has rejected this
+     * already. Calls <tt>client.buyDevCard()</tt> or
+     * <tt>client.buildRequest()</tt>. Sets {@link #waitingForDevCard}, or
+     * {@link #waitingForGameState} and {@link #expectPLACING_SETTLEMENT} (etc).
+     * 
+     * @param targetPiece
+     *            This should be the top piece of {@link #buildingPlan}.
      * @since 1.1.08
      */
     private void buildRequestPlannedPiece(PossiblePiece targetPiece)
@@ -2450,46 +2658,61 @@ public class RobotBrain extends Thread
             waitingForGameState = true;
             counter = 0;
             expectPLACING_ROAD = true;
-            whatWeWantToBuild = new Road(ourPlayerData, targetPiece.getCoordinates(), null);
-            if (! whatWeWantToBuild.equals(whatWeFailedToBuild))
+            whatWeWantToBuild = new Road(ourPlayerData, targetPiece
+                    .getCoordinates(), null);
+            if (!whatWeWantToBuild.equals(whatWeFailedToBuild))
             {
-                D.ebugPrintln("!!! BUILD REQUEST FOR A ROAD AT " + Integer.toHexString(targetPiece.getCoordinates()) + " !!!");
+                D.ebugPrintln("!!! BUILD REQUEST FOR A ROAD AT "
+                        + Integer.toHexString(targetPiece.getCoordinates())
+                        + " !!!");
                 client.buildRequest(game, PlayingPiece.ROAD);
-            } else {
+            }
+            else
+            {
                 // We already tried to build this.
                 cancelWrongPiecePlacementLocal(whatWeWantToBuild);
                 // cancel sets whatWeWantToBuild = null;
             }
-            
+
             break;
 
         case PlayingPiece.SETTLEMENT:
             waitingForGameState = true;
             counter = 0;
             expectPLACING_SETTLEMENT = true;
-            whatWeWantToBuild = new Settlement(ourPlayerData, targetPiece.getCoordinates(), null);
-            if (! whatWeWantToBuild.equals(whatWeFailedToBuild))
+            whatWeWantToBuild = new Settlement(ourPlayerData, targetPiece
+                    .getCoordinates(), null);
+            if (!whatWeWantToBuild.equals(whatWeFailedToBuild))
             {
-                D.ebugPrintln("!!! BUILD REQUEST FOR A SETTLEMENT " + Integer.toHexString(targetPiece.getCoordinates()) + " !!!");
+                D.ebugPrintln("!!! BUILD REQUEST FOR A SETTLEMENT "
+                        + Integer.toHexString(targetPiece.getCoordinates())
+                        + " !!!");
                 client.buildRequest(game, PlayingPiece.SETTLEMENT);
-            } else {
+            }
+            else
+            {
                 // We already tried to build this.
                 cancelWrongPiecePlacementLocal(whatWeWantToBuild);
                 // cancel sets whatWeWantToBuild = null;
             }
-            
+
             break;
 
         case PlayingPiece.CITY:
             waitingForGameState = true;
             counter = 0;
             expectPLACING_CITY = true;
-            whatWeWantToBuild = new City(ourPlayerData, targetPiece.getCoordinates(), null);
-            if (! whatWeWantToBuild.equals(whatWeFailedToBuild))
+            whatWeWantToBuild = new City(ourPlayerData, targetPiece
+                    .getCoordinates(), null);
+            if (!whatWeWantToBuild.equals(whatWeFailedToBuild))
             {
-                D.ebugPrintln("!!! BUILD REQUEST FOR A CITY " + Integer.toHexString(targetPiece.getCoordinates()) + " !!!");
+                D.ebugPrintln("!!! BUILD REQUEST FOR A CITY "
+                        + Integer.toHexString(targetPiece.getCoordinates())
+                        + " !!!");
                 client.buildRequest(game, PlayingPiece.CITY);
-            } else {
+            }
+            else
+            {
                 // We already tried to build this.
                 cancelWrongPiecePlacementLocal(whatWeWantToBuild);
                 // cancel sets whatWeWantToBuild = null;
@@ -2500,16 +2723,18 @@ public class RobotBrain extends Thread
     }
 
     /**
-     * Plan the next building plan and target.
-     * Should be called from {@link #run()} under these conditions: <BR>
-     * (!expectPLACING_ROBBER && (buildingPlan.empty()) && (ourPlayerData.getResources().getTotal() > 1) && (failedBuildingAttempts < MAX_DENIED_BUILDING_PER_TURN))
+     * Plan the next building plan and target. Should be called from
+     * {@link #run()} under these conditions: <BR>
+     * (!expectPLACING_ROBBER && (buildingPlan.empty()) &&
+     * (ourPlayerData.getResources().getTotal() > 1) && (failedBuildingAttempts
+     * < MAX_DENIED_BUILDING_PER_TURN))
      *<P>
      * Sets these fields/actions: <BR>
-     *  {@link RobotDM#planStuff(int)} <BR>
-     *  {@link #buildingPlan} <BR>
-     *  {@link #lastTarget} <BR>
-     *  {@link RobotNegotiator#setTargetPiece(int, PossiblePiece)}
-     *
+     * {@link RobotDM#planStuff(int)} <BR>
+     * {@link #buildingPlan} <BR>
+     * {@link #lastTarget} <BR>
+     * {@link RobotNegotiator#setTargetPiece(int, PossiblePiece)}
+     * 
      * @since 1.1.08
      */
     private final void planBuilding()
@@ -2519,23 +2744,25 @@ public class RobotBrain extends Thread
         if (!buildingPlan.empty())
         {
             lastTarget = (PossiblePiece) buildingPlan.peek();
-            negotiator.setTargetPiece(ourPlayerData.getPlayerNumber(), (PossiblePiece) buildingPlan.peek());
+            negotiator.setTargetPiece(ourPlayerData.getPlayerNumber(),
+                    (PossiblePiece) buildingPlan.peek());
         }
     }
 
     /**
-     * Handle a PLAYERELEMENT for this game.
-     * Update a player's amount of a resource or a building type.
+     * Handle a PLAYERELEMENT for this game. Update a player's amount of a
+     * resource or a building type.
      *<P>
      * If this during the {@link Game#PLAY} state, then update the
      * {@link RobotNegotiator}'s is-selling flags.
      *<P>
-     * If our player is losing a resource needed for the {@link #buildingPlan}, 
-     * clear the plan if this is for the Special Building Phase (on the 6-player board).
-     * In normal game play, we clear the building plan at the start of each turn.
+     * If our player is losing a resource needed for the {@link #buildingPlan},
+     * clear the plan if this is for the Special Building Phase (on the 6-player
+     * board). In normal game play, we clear the building plan at the start of
+     * each turn.
      *<P>
      * Otherwise, only the game data is updated, nothing brain-specific.
-     *
+     * 
      * @since 1.1.08
      */
     private void handlePLAYERELEMENT(PlayerElement mes)
@@ -2546,87 +2773,92 @@ public class RobotBrain extends Thread
         {
         case PlayerElement.ROADS:
 
-            DisplaylessPlayerClient.handlePLAYERELEMENT_numPieces
-                (mes, pl, PlayingPiece.ROAD);
+            DisplaylessPlayerClient.handlePLAYERELEMENT_numPieces(mes, pl,
+                    PlayingPiece.ROAD);
             break;
 
         case PlayerElement.SETTLEMENTS:
 
-            DisplaylessPlayerClient.handlePLAYERELEMENT_numPieces
-                (mes, pl, PlayingPiece.SETTLEMENT);
+            DisplaylessPlayerClient.handlePLAYERELEMENT_numPieces(mes, pl,
+                    PlayingPiece.SETTLEMENT);
             break;
 
         case PlayerElement.CITIES:
 
-            DisplaylessPlayerClient.handlePLAYERELEMENT_numPieces
-                (mes, pl, PlayingPiece.CITY);
+            DisplaylessPlayerClient.handlePLAYERELEMENT_numPieces(mes, pl,
+                    PlayingPiece.CITY);
             break;
 
         case PlayerElement.NUMKNIGHTS:
 
             // PLAYERELEMENT(NUMKNIGHTS) is sent after a Soldier card is played.
-            DisplaylessPlayerClient.handlePLAYERELEMENT_numKnights
-                (mes, pl, game);
+            DisplaylessPlayerClient.handlePLAYERELEMENT_numKnights(mes, pl,
+                    game);
             break;
 
         case PlayerElement.CLAY:
 
-            handlePLAYERELEMENT_numRsrc
-                (mes, pl, ResourceConstants.CLAY, "CLAY");
+            handlePLAYERELEMENT_numRsrc(mes, pl, ResourceConstants.CLAY, "CLAY");
             break;
 
         case PlayerElement.ORE:
-            
-            handlePLAYERELEMENT_numRsrc
-                (mes, pl, ResourceConstants.ORE, "ORE");
+
+            handlePLAYERELEMENT_numRsrc(mes, pl, ResourceConstants.ORE, "ORE");
             break;
 
         case PlayerElement.SHEEP:
 
-            handlePLAYERELEMENT_numRsrc
-                (mes, pl, ResourceConstants.SHEEP, "SHEEP");
+            handlePLAYERELEMENT_numRsrc(mes, pl, ResourceConstants.SHEEP,
+                    "SHEEP");
             break;
 
         case PlayerElement.WHEAT:
 
-            handlePLAYERELEMENT_numRsrc
-                (mes, pl, ResourceConstants.WHEAT, "WHEAT");
+            handlePLAYERELEMENT_numRsrc(mes, pl, ResourceConstants.WHEAT,
+                    "WHEAT");
             break;
 
         case PlayerElement.WOOD:
 
-            handlePLAYERELEMENT_numRsrc
-                (mes, pl, ResourceConstants.WOOD, "WOOD");
+            handlePLAYERELEMENT_numRsrc(mes, pl, ResourceConstants.WOOD, "WOOD");
             break;
 
         case PlayerElement.UNKNOWN:
 
             /**
-             * Note: if losing unknown resources, we first
-             * convert player's known resources to unknown resources,
-             * then remove mes's unknown resources from player.
+             * Note: if losing unknown resources, we first convert player's
+             * known resources to unknown resources, then remove mes's unknown
+             * resources from player.
              */
-            handlePLAYERELEMENT_numRsrc
-                (mes, pl, ResourceConstants.UNKNOWN, "UNKNOWN");
+            handlePLAYERELEMENT_numRsrc(mes, pl, ResourceConstants.UNKNOWN,
+                    "UNKNOWN");
             break;
 
         case PlayerElement.ASK_SPECIAL_BUILD:
             if (0 != mes.getValue())
             {
-                try {
-                    game.askSpecialBuild(pl.getPlayerNumber(), false);  // set per-player, per-game flags
+                try
+                {
+                    game.askSpecialBuild(pl.getPlayerNumber(), false); // set
+                    // per-player,
+                    // per-game
+                    // flags
                 }
-                catch (RuntimeException e) {}
-            } else {
+                catch (RuntimeException e)
+                {
+                }
+            }
+            else
+            {
                 pl.setAskedSpecialBuild(false);
             }
             break;
 
         }
 
-        ///
-        /// if this during the PLAY state, then update the is selling flags
-        ///
+        // /
+        // / if this during the PLAY state, then update the is selling flags
+        // /
         if (game.getGameState() == Game.PLAY)
         {
             negotiator.resetIsSelling();
@@ -2636,63 +2868,71 @@ public class RobotBrain extends Thread
     /**
      * Update a player's amount of a resource.
      *<ul>
-     *<LI> If this is a {@link PlayerElement#LOSE} action, and the player does not have enough of that type,
-     *     the rest are taken from the player's UNKNOWN amount.
-     *<LI> If we are losing from type UNKNOWN,
-     *     first convert player's known resources to unknown resources
-     *     (individual amount information will be lost),
-     *     then remove mes's unknown resources from player.
-     *<LI> If this is a SET action, and it's for our own robot player,
-     *     check the amount against {@link #ourPlayerData}, and debug print
-     *     if they don't match already.
+     *<LI>If this is a {@link PlayerElement#LOSE} action, and the player does
+     * not have enough of that type, the rest are taken from the player's
+     * UNKNOWN amount.
+     *<LI>If we are losing from type UNKNOWN, first convert player's known
+     * resources to unknown resources (individual amount information will be
+     * lost), then remove mes's unknown resources from player.
+     *<LI>If this is a SET action, and it's for our own robot player, check the
+     * amount against {@link #ourPlayerData}, and debug print if they don't
+     * match already.
      *</ul>
      *<P>
-     * If our player is losing a resource needed for the {@link #buildingPlan}, 
-     * clear the plan if this is for the Special Building Phase (on the 6-player board).
-     * In normal game play, we clear the building plan at the start of each turn.
+     * If our player is losing a resource needed for the {@link #buildingPlan},
+     * clear the plan if this is for the Special Building Phase (on the 6-player
+     * board). In normal game play, we clear the building plan at the start of
+     * each turn.
      *<P>
-     *
-     * @param mes      Message with amount and action (SET/GAIN/LOSE)
-     * @param pl       Player to update
-     * @param rtype    Type of resource, like {@link ResourceConstants#CLAY}
-     * @param rtypeStr Resource type name, for debugging
+     * 
+     * @param mes
+     *            Message with amount and action (SET/GAIN/LOSE)
+     * @param pl
+     *            Player to update
+     * @param rtype
+     *            Type of resource, like {@link ResourceConstants#CLAY}
+     * @param rtypeStr
+     *            Resource type name, for debugging
      */
-    protected void handlePLAYERELEMENT_numRsrc
-        (PlayerElement mes, Player pl, int rtype, String rtypeStr)
+    protected void handlePLAYERELEMENT_numRsrc(PlayerElement mes, Player pl,
+            int rtype, String rtypeStr)
     {
         /**
-         * for SET, check the amount of unknown resources against
-         * what we think we know about our player.
+         * for SET, check the amount of unknown resources against what we think
+         * we know about our player.
          */
-        if (D.ebugOn && (pl == ourPlayerData) && (mes.getAction() == PlayerElement.SET)) 
+        if (D.ebugOn && (pl == ourPlayerData)
+                && (mes.getAction() == PlayerElement.SET))
         {
             if (mes.getValue() != ourPlayerData.getResources().getAmount(rtype))
             {
-                client.sendText(game, ">>> RSRC ERROR FOR " + rtypeStr
-                    + ": " + mes.getValue() + " != " + ourPlayerData.getResources().getAmount(rtype));
+                client.sendText(game, ">>> RSRC ERROR FOR " + rtypeStr + ": "
+                        + mes.getValue() + " != "
+                        + ourPlayerData.getResources().getAmount(rtype));
             }
         }
 
         /**
          * Update game data.
          */
-        DisplaylessPlayerClient.handlePLAYERELEMENT_numRsrc
-            (mes, pl, rtype);
+        DisplaylessPlayerClient.handlePLAYERELEMENT_numRsrc(mes, pl, rtype);
 
         /**
-         * Clear building plan, if we just lost a resource we need.
-         * Only necessary for Special Building Phase (6-player board),
-         * because in normal game play, we clear the building plan
-         * at the start of each turn.
+         * Clear building plan, if we just lost a resource we need. Only
+         * necessary for Special Building Phase (6-player board), because in
+         * normal game play, we clear the building plan at the start of each
+         * turn.
          */
         if (waitingForSpecialBuild && (pl == ourPlayerData)
-            && (mes.getAction() != PlayerElement.GAIN)
-            && ! buildingPlan.isEmpty())
+                && (mes.getAction() != PlayerElement.GAIN)
+                && !buildingPlan.isEmpty())
         {
-            final PossiblePiece targetPiece = (PossiblePiece) buildingPlan.peek();
-            final ResourceSet targetResources = PlayingPiece.getResourcesToBuild(targetPiece.getType());
+            final PossiblePiece targetPiece = (PossiblePiece) buildingPlan
+                    .peek();
+            final ResourceSet targetResources = PlayingPiece
+                    .getResourcesToBuild(targetPiece.getType());
 
-            if (! ourPlayerData.getResources().contains(targetResources))
+            if (!ourPlayerData.getResources().contains(targetResources))
             {
                 buildingPlan.clear();
 
@@ -2710,21 +2950,25 @@ public class RobotBrain extends Thread
     /**
      * Run a newly placed settlement through the playerTrackers.
      *<P>
-     * During initial board setup, settlements aren't tracked when placed.
-     * They are deferred until their corresponding road placement, in case
-     * a human player decides to cancel their settlement and place it elsewhere.
-     *
+     * During initial board setup, settlements aren't tracked when placed. They
+     * are deferred until their corresponding road placement, in case a human
+     * player decides to cancel their settlement and place it elsewhere.
+     * 
      * During normal play, the settlements are tracked immediately when placed.
-     *
-     * (Code previously in body of the run method.)
-     * Placing the code in its own method allows tracking that settlement when the
-     * road's putPiece message arrives.
-     *
-     * @param newSettlement The newly placed settlement for the playerTrackers
-     * @param isCancel Is this our own robot's settlement placement, rejected by the server?
-     *     If so, this method call will cancel its placement within the game data / robot data. 
+     * 
+     * (Code previously in body of the run method.) Placing the code in its own
+     * method allows tracking that settlement when the road's putPiece message
+     * arrives.
+     * 
+     * @param newSettlement
+     *            The newly placed settlement for the playerTrackers
+     * @param isCancel
+     *            Is this our own robot's settlement placement, rejected by the
+     *            server? If so, this method call will cancel its placement
+     *            within the game data / robot data.
      */
-    protected void trackNewSettlement(Settlement newSettlement, final boolean isCancel)
+    protected void trackNewSettlement(Settlement newSettlement,
+            final boolean isCancel)
     {
         Iterator trackersIter;
         trackersIter = playerTrackers.values().iterator();
@@ -2732,7 +2976,7 @@ public class RobotBrain extends Thread
         while (trackersIter.hasNext())
         {
             PlayerTracker tracker = (PlayerTracker) trackersIter.next();
-            if (! isCancel)
+            if (!isCancel)
                 tracker.addNewSettlement(newSettlement, playerTrackers);
             else
                 tracker.cancelWrongSettlement(newSettlement);
@@ -2743,14 +2987,16 @@ public class RobotBrain extends Thread
         while (trackersIter.hasNext())
         {
             PlayerTracker tracker = (PlayerTracker) trackersIter.next();
-            Iterator posRoadsIter = tracker.getPossibleRoads().values().iterator();
+            Iterator posRoadsIter = tracker.getPossibleRoads().values()
+                    .iterator();
 
             while (posRoadsIter.hasNext())
             {
                 ((PossibleRoad) posRoadsIter.next()).clearThreats();
             }
 
-            Iterator posSetsIter = tracker.getPossibleSettlements().values().iterator();
+            Iterator posSetsIter = tracker.getPossibleSettlements().values()
+                    .iterator();
 
             while (posSetsIter.hasNext())
             {
@@ -2768,15 +3014,17 @@ public class RobotBrain extends Thread
 
         if (isCancel)
         {
-            return;  // <--- Early return, nothing else to do ---
+            return; // <--- Early return, nothing else to do ---
         }
 
-        ///
-        /// see if this settlement bisected someone else's road
-        ///
-        int[] roadCount = { 0, 0, 0, 0, 0, 0 };  // Length should be Game.MAXPLAYERS
+        // /
+        // / see if this settlement bisected someone else's road
+        // /
+        int[] roadCount =
+            { 0, 0, 0, 0, 0, 0 }; // Length should be Game.MAXPLAYERS
         Board board = game.getBoard();
-        Enumeration adjEdgeEnum = board.getAdjacentEdgesToNode(newSettlement.getCoordinates()).elements();
+        Enumeration adjEdgeEnum = board.getAdjacentEdgesToNode(
+                newSettlement.getCoordinates()).elements();
 
         while (adjEdgeEnum.hasMoreElements())
         {
@@ -2793,24 +3041,27 @@ public class RobotBrain extends Thread
 
                     if (roadCount[road.getPlayer().getPlayerNumber()] == 2)
                     {
-                        if (road.getPlayer().getPlayerNumber() != ourPlayerData.getPlayerNumber())
+                        if (road.getPlayer().getPlayerNumber() != ourPlayerData
+                                .getPlayerNumber())
                         {
-                            ///
-                            /// this settlement bisects another players road
-                            ///
+                            // /
+                            // / this settlement bisects another players road
+                            // /
                             trackersIter = playerTrackers.values().iterator();
 
                             while (trackersIter.hasNext())
                             {
-                                PlayerTracker tracker = (PlayerTracker) trackersIter.next();
+                                PlayerTracker tracker = (PlayerTracker) trackersIter
+                                        .next();
 
-                                if (tracker.getPlayer().getPlayerNumber() == road.getPlayer().getPlayerNumber())
+                                if (tracker.getPlayer().getPlayerNumber() == road
+                                        .getPlayer().getPlayerNumber())
                                 {
-                                    //D.ebugPrintln("$$ updating LR Value for player "+tracker.getPlayer().getPlayerNumber());
-                                    //tracker.updateLRValues();
+                                    // D.ebugPrintln("$$ updating LR Value for player "+tracker.getPlayer().getPlayerNumber());
+                                    // tracker.updateLRValues();
                                 }
 
-                                //tracker.recalcLongestRoadETA();
+                                // tracker.recalcLongestRoadETA();
                             }
                         }
 
@@ -2819,12 +3070,12 @@ public class RobotBrain extends Thread
                 }
             }
         }
-        
+
         int pNum = newSettlement.getPlayer().getPlayerNumber();
 
-        ///
-        /// update the speedups from possible settlements
-        ///
+        // /
+        // / update the speedups from possible settlements
+        // /
         trackersIter = playerTrackers.values().iterator();
 
         while (trackersIter.hasNext())
@@ -2833,7 +3084,8 @@ public class RobotBrain extends Thread
 
             if (tracker.getPlayer().getPlayerNumber() == pNum)
             {
-                Iterator posSetsIter = tracker.getPossibleSettlements().values().iterator();
+                Iterator posSetsIter = tracker.getPossibleSettlements()
+                        .values().iterator();
 
                 while (posSetsIter.hasNext())
                 {
@@ -2844,9 +3096,9 @@ public class RobotBrain extends Thread
             }
         }
 
-        ///
-        /// update the speedups from possible cities
-        ///
+        // /
+        // / update the speedups from possible cities
+        // /
         trackersIter = playerTrackers.values().iterator();
 
         while (trackersIter.hasNext())
@@ -2855,7 +3107,8 @@ public class RobotBrain extends Thread
 
             if (tracker.getPlayer().getPlayerNumber() == pNum)
             {
-                Iterator posCitiesIter = tracker.getPossibleCities().values().iterator();
+                Iterator posCitiesIter = tracker.getPossibleCities().values()
+                        .iterator();
 
                 while (posCitiesIter.hasNext())
                 {
@@ -2869,9 +3122,13 @@ public class RobotBrain extends Thread
 
     /**
      * Run a newly placed city through the PlayerTrackers.
-     * @param newCity  The newly placed city
-     * @param isCancel Is this our own robot's city placement, rejected by the server?
-     *     If so, this method call will cancel its placement within the game data / robot data. 
+     * 
+     * @param newCity
+     *            The newly placed city
+     * @param isCancel
+     *            Is this our own robot's city placement, rejected by the
+     *            server? If so, this method call will cancel its placement
+     *            within the game data / robot data.
      */
     private void trackNewCity(City newCity, final boolean isCancel)
     {
@@ -2881,9 +3138,10 @@ public class RobotBrain extends Thread
         {
             PlayerTracker tracker = (PlayerTracker) trackersIter.next();
 
-            if (tracker.getPlayer().getPlayerNumber() == newCity.getPlayer().getPlayerNumber())
+            if (tracker.getPlayer().getPlayerNumber() == newCity.getPlayer()
+                    .getPlayerNumber())
             {
-                if (! isCancel)
+                if (!isCancel)
                     tracker.addOurNewCity(newCity);
                 else
                     tracker.cancelWrongCity(newCity);
@@ -2893,21 +3151,23 @@ public class RobotBrain extends Thread
 
         if (isCancel)
         {
-            return;  // <--- Early return, nothing else to do ---
+            return; // <--- Early return, nothing else to do ---
         }
 
-        ///
-        /// update the speedups from possible settlements
-        ///
+        // /
+        // / update the speedups from possible settlements
+        // /
         trackersIter = playerTrackers.values().iterator();
 
         while (trackersIter.hasNext())
         {
             PlayerTracker tracker = (PlayerTracker) trackersIter.next();
 
-            if (tracker.getPlayer().getPlayerNumber() == newCity.getPlayer().getPlayerNumber())
+            if (tracker.getPlayer().getPlayerNumber() == newCity.getPlayer()
+                    .getPlayerNumber())
             {
-                Iterator posSetsIter = tracker.getPossibleSettlements().values().iterator();
+                Iterator posSetsIter = tracker.getPossibleSettlements()
+                        .values().iterator();
 
                 while (posSetsIter.hasNext())
                 {
@@ -2918,18 +3178,20 @@ public class RobotBrain extends Thread
             }
         }
 
-        ///
-        /// update the speedups from possible cities
-        ///
+        // /
+        // / update the speedups from possible cities
+        // /
         trackersIter = playerTrackers.values().iterator();
 
         while (trackersIter.hasNext())
         {
             PlayerTracker tracker = (PlayerTracker) trackersIter.next();
 
-            if (tracker.getPlayer().getPlayerNumber() == newCity.getPlayer().getPlayerNumber())
+            if (tracker.getPlayer().getPlayerNumber() == newCity.getPlayer()
+                    .getPlayerNumber())
             {
-                Iterator posCitiesIter = tracker.getPossibleCities().values().iterator();
+                Iterator posCitiesIter = tracker.getPossibleCities().values()
+                        .iterator();
 
                 while (posCitiesIter.hasNext())
                 {
@@ -2944,9 +3206,12 @@ public class RobotBrain extends Thread
     /**
      * Run a newly placed road through the playerTrackers.
      * 
-     * @param newRoad  The newly placed road
-     * @param isCancel Is this our own robot's road placement, rejected by the server?
-     *     If so, this method call will cancel its placement within the game data / robot data. 
+     * @param newRoad
+     *            The newly placed road
+     * @param isCancel
+     *            Is this our own robot's road placement, rejected by the
+     *            server? If so, this method call will cancel its placement
+     *            within the game data / robot data.
      */
     protected void trackNewRoad(Road newRoad, final boolean isCancel)
     {
@@ -2959,7 +3224,7 @@ public class RobotBrain extends Thread
 
             try
             {
-                if (! isCancel)
+                if (!isCancel)
                     tracker.addNewRoad(newRoad, playerTrackers);
                 else
                     tracker.cancelWrongRoad(newRoad);
@@ -2986,14 +3251,16 @@ public class RobotBrain extends Thread
 
             try
             {
-                Iterator posRoadsIter = tracker.getPossibleRoads().values().iterator();
+                Iterator posRoadsIter = tracker.getPossibleRoads().values()
+                        .iterator();
 
                 while (posRoadsIter.hasNext())
                 {
                     ((PossibleRoad) posRoadsIter.next()).clearThreats();
                 }
 
-                Iterator posSetsIter = tracker.getPossibleSettlements().values().iterator();
+                Iterator posSetsIter = tracker.getPossibleSettlements()
+                        .values().iterator();
 
                 while (posSetsIter.hasNext())
                 {
@@ -3013,9 +3280,9 @@ public class RobotBrain extends Thread
             tracker.releaseMonitor();
         }
 
-        ///
-        /// update LR values and ETA
-        ///
+        // /
+        // / update LR values and ETA
+        // /
         trackersIter = playerTrackers.values().iterator();
 
         while (trackersIter.hasNext())
@@ -3026,13 +3293,14 @@ public class RobotBrain extends Thread
 
             try
             {
-                if (tracker.getPlayer().getPlayerNumber() == newRoad.getPlayer().getPlayerNumber())
+                if (tracker.getPlayer().getPlayerNumber() == newRoad
+                        .getPlayer().getPlayerNumber())
                 {
-                    //D.ebugPrintln("$$ updating LR Value for player "+tracker.getPlayer().getPlayerNumber());
-                    //tracker.updateLRValues();
+                    // D.ebugPrintln("$$ updating LR Value for player "+tracker.getPlayer().getPlayerNumber());
+                    // tracker.updateLRValues();
                 }
 
-                //tracker.recalcLongestRoadETA();
+                // tracker.recalcLongestRoadETA();
             }
             catch (Exception e)
             {
@@ -3047,20 +3315,20 @@ public class RobotBrain extends Thread
             tracker.releaseMonitor();
         }
     }
-    
+
     /**
-     *  We've asked for an illegal piece placement.
-     *  Cancel and invalidate this planned piece, make a new plan.
-     *  If {@link Game#isSpecialBuilding()}, will set variables to
-     *  force the end of our special building turn.
-     *  Also handles illegal requests to buy development cards
-     *  (piece type -2 in {@link CancelBuildRequest}).
+     * We've asked for an illegal piece placement. Cancel and invalidate this
+     * planned piece, make a new plan. If {@link Game#isSpecialBuilding()}, will
+     * set variables to force the end of our special building turn. Also handles
+     * illegal requests to buy development cards (piece type -2 in
+     * {@link CancelBuildRequest}).
      *<P>
-     *  This method increments {@link #failedBuildingAttempts},
-     *  but won't leave the game if we've failed too many times.
-     *  The brain's run loop should make that decision.
-     *
-     * @param mes Cancelmessage from server, including piece type
+     * This method increments {@link #failedBuildingAttempts}, but won't leave
+     * the game if we've failed too many times. The brain's run loop should make
+     * that decision.
+     * 
+     * @param mes
+     *            Cancelmessage from server, including piece type
      */
     protected void cancelWrongPiecePlacement(CancelBuildRequest mes)
     {
@@ -3068,7 +3336,9 @@ public class RobotBrain extends Thread
         if (cancelBuyDevCard)
         {
             waitingForDevCard = false;
-        } else {
+        }
+        else
+        {
             whatWeFailedToBuild = whatWeWantToBuild;
             ++failedBuildingAttempts;
         }
@@ -3080,7 +3350,7 @@ public class RobotBrain extends Thread
          */
         final boolean gameStateIsPLAY1 = (gameState == Game.PLAY1);
 
-        if (! (gameStateIsPLAY1 || cancelBuyDevCard))
+        if (!(gameStateIsPLAY1 || cancelBuyDevCard))
         {
             int coord = -1;
             switch (gameState)
@@ -3099,61 +3369,65 @@ public class RobotBrain extends Thread
             if (coord != -1)
             {
                 PlayingPiece cancelPiece;
-    
+
                 /**
-                 * First, invalidate that piece in trackers, so we don't try again to
-                 * build it. If we treat it like another player's new placement, we
-                 * can remove any of our planned pieces depending on this one.
+                 * First, invalidate that piece in trackers, so we don't try
+                 * again to build it. If we treat it like another player's new
+                 * placement, we can remove any of our planned pieces depending
+                 * on this one.
                  */
                 switch (mes.getPieceType())
                 {
                 case PlayingPiece.ROAD:
                     cancelPiece = new Road(dummyCancelPlayerData, coord, null);
                     break;
-    
+
                 case PlayingPiece.SETTLEMENT:
-                    cancelPiece = new Settlement(dummyCancelPlayerData, coord, null);
+                    cancelPiece = new Settlement(dummyCancelPlayerData, coord,
+                            null);
                     break;
-    
+
                 case PlayingPiece.CITY:
                     cancelPiece = new City(dummyCancelPlayerData, coord, null);
                     break;
-    
+
                 default:
-                    cancelPiece = null;  // To satisfy javac
+                    cancelPiece = null; // To satisfy javac
                 }
-    
+
                 cancelWrongPiecePlacementLocal(cancelPiece);
             }
-        } else {
+        }
+        else
+        {
             /**
-             *  stop trying to build it now, but don't prevent
-             *  us from trying later to build it.
-             */ 
+             * stop trying to build it now, but don't prevent us from trying
+             * later to build it.
+             */
             whatWeWantToBuild = null;
             buildingPlan.clear();
         }
 
         /**
-         * we've invalidated that piece in trackers.
-         * - clear whatWeWantToBuild, buildingPlan
-         * - set expectPLAY1, waitingForGameState
-         * - reset counter = 0
-         * - send CANCEL _to_ server, so all players get PLAYERELEMENT & GAMESTATE(PLAY1) messages.
-         * - wait for the play1 message, then can re-plan another piece.
-         * - update javadoc of this method (TODO)
+         * we've invalidated that piece in trackers. - clear whatWeWantToBuild,
+         * buildingPlan - set expectPLAY1, waitingForGameState - reset counter =
+         * 0 - send CANCEL _to_ server, so all players get PLAYERELEMENT &
+         * GAMESTATE(PLAY1) messages. - wait for the play1 message, then can
+         * re-plan another piece.
          */
 
         if (gameStateIsPLAY1 || game.isSpecialBuilding())
         {
             // Shouldn't have asked to build this piece at this time.
-            // End our confusion by ending our current turn. Can re-plan on next turn.
+            // End our confusion by ending our current turn. Can re-plan on next
+            // turn.
             failedBuildingAttempts = MAX_DENIED_BUILDING_PER_TURN;
             expectPLACING_ROAD = false;
             expectPLACING_SETTLEMENT = false;
             expectPLACING_CITY = false;
             decidedIfSpecialBuild = true;
-            waitingForGameState = false;  // otherwise, will wait forever for PLACING_ state
+            waitingForGameState = false; // otherwise, will wait forever for
+            // PLACING_ state
         }
         else if (gameState <= Game.START2B)
         {
@@ -3180,9 +3454,12 @@ public class RobotBrain extends Thread
                 break;
             }
             waitingForGameState = false;
-            // The run loop will check if failedBuildingAttempts > (2 * MAX_DENIED_BUILDING_PER_TURN).
+            // The run loop will check if failedBuildingAttempts > (2 *
+            // MAX_DENIED_BUILDING_PER_TURN).
             // This bot will leave the game there if it can't recover.
-        } else {
+        }
+        else
+        {
             expectPLAY1 = true;
             waitingForGameState = true;
             counter = 0;
@@ -3193,16 +3470,19 @@ public class RobotBrain extends Thread
 
     /**
      * Remove our incorrect piece placement, it's been rejected by the server.
-     * Take this piece out of trackers, without sending any response back to the server.
+     * Take this piece out of trackers, without sending any response back to the
+     * server.
      *<P>
      * This method invalidates that piece in trackers, so we don't try again to
-     * build it. Since we treat it like another player's new placement, we
-     * can remove any of our planned pieces depending on this one.
+     * build it. Since we treat it like another player's new placement, we can
+     * remove any of our planned pieces depending on this one.
      *<P>
      * Also calls {@link Player#clearPotentialSettlement(int)},
      * clearPotentialRoad, or clearPotentialCity.
-     *
-     * @param cancelPiece Type and coordinates of the piece to cancel; null is allowed but not very useful.
+     * 
+     * @param cancelPiece
+     *            Type and coordinates of the piece to cancel; null is allowed
+     *            but not very useful.
      */
     protected void cancelWrongPiecePlacementLocal(PlayingPiece cancelPiece)
     {
@@ -3218,7 +3498,8 @@ public class RobotBrain extends Thread
                 if (game.getGameState() <= Game.START2B)
                 {
                     // needed for placeInitRoad() calculations
-                    ourPlayerData.clearPotentialSettlement(lastStartingRoadTowardsNode);
+                    ourPlayerData
+                            .clearPotentialSettlement(lastStartingRoadTowardsNode);
                 }
                 break;
 
@@ -3249,21 +3530,24 @@ public class RobotBrain extends Thread
         {
             gameEventQ.put(null);
         }
-        catch (Exception exc) {}
+        catch (Exception exc)
+        {
+        }
     }
 
     /**
      * pause for a bit.
      *<P>
-     * In a 6-player game, pause only 75% as long, to shorten the overall game delay,
-     * except if {@link #waitingForTradeResponse}.
-     * This is indicated by the {@link #pauseFaster} flag.
-     *
-     * @param msec  number of milliseconds to pause
+     * In a 6-player game, pause only 75% as long, to shorten the overall game
+     * delay, except if {@link #waitingForTradeResponse}. This is indicated by
+     * the {@link #pauseFaster} flag.
+     * 
+     * @param msec
+     *            number of milliseconds to pause
      */
     public void pause(int msec)
     {
-        if (pauseFaster && ! waitingForTradeResponse)
+        if (pauseFaster && !waitingForTradeResponse)
             msec = (msec / 2) + (msec / 4);
 
         try
@@ -3271,7 +3555,9 @@ public class RobotBrain extends Thread
             Thread.yield();
             Thread.sleep(msec);
         }
-        catch (InterruptedException exc) {}
+        catch (InterruptedException exc)
+        {
+        }
     }
 
     /**
@@ -3291,7 +3577,8 @@ public class RobotBrain extends Thread
         int bestSpeed = 4 * BuildingSpeedEstimate.DEFAULT_ROLL_LIMIT;
         Board board = game.getBoard();
         ResourceSet emptySet = new ResourceSet();
-        PlayerNumbers playerNumbers = new PlayerNumbers(board.getBoardEncodingFormat());
+        PlayerNumbers playerNumbers = new PlayerNumbers(board
+                .getBoardEncodingFormat());
         int probTotal;
         int bestProbTotal;
         boolean[] ports = new boolean[Board.WOOD_PORT + 1];
@@ -3310,7 +3597,8 @@ public class RobotBrain extends Thread
                 // this is just for testing purposes
                 //
                 D.ebugPrintln("FIRST NODE -----------");
-                D.ebugPrintln("firstNode = " + board.nodeCoordToString(firstNode));
+                D.ebugPrintln("firstNode = "
+                        + board.nodeCoordToString(firstNode));
                 D.ebugPrint("numbers:[");
                 playerNumbers.clear();
                 probTotal = 0;
@@ -3321,7 +3609,8 @@ public class RobotBrain extends Thread
                     Integer hex = (Integer) hexes.nextElement();
                     int number = board.getNumberOnHexFromCoord(hex.intValue());
                     int resource = board.getHexTypeFromCoord(hex.intValue());
-                    playerNumbers.addNumberForResource(number, resource, hex.intValue());
+                    playerNumbers.addNumberForResource(number, resource, hex
+                            .intValue());
                     probTotal += prob[number];
                     D.ebugPrint(number + " ");
                 }
@@ -3329,10 +3618,10 @@ public class RobotBrain extends Thread
                 D.ebugPrintln("]");
                 D.ebugPrint("ports: ");
 
-                for (int portType = Board.MISC_PORT;
-                        portType <= Board.WOOD_PORT; portType++)
+                for (int portType = Board.MISC_PORT; portType <= Board.WOOD_PORT; portType++)
                 {
-                    if (board.getPortCoordinates(portType).contains(firstNodeInt))
+                    if (board.getPortCoordinates(portType).contains(
+                            firstNodeInt))
                     {
                         ports[portType] = true;
                     }
@@ -3352,16 +3641,23 @@ public class RobotBrain extends Thread
 
                 try
                 {
-                    speed += estimate.calculateRollsFast(emptySet, Game.SETTLEMENT_SET, 300, ports).getRolls();
-                    speed += estimate.calculateRollsFast(emptySet, Game.CITY_SET, 300, ports).getRolls();
-                    speed += estimate.calculateRollsFast(emptySet, Game.CARD_SET, 300, ports).getRolls();
-                    speed += estimate.calculateRollsFast(emptySet, Game.ROAD_SET, 300, ports).getRolls();
+                    speed += estimate.calculateRollsFast(emptySet,
+                            Game.SETTLEMENT_SET, 300, ports).getRolls();
+                    speed += estimate.calculateRollsFast(emptySet,
+                            Game.CITY_SET, 300, ports).getRolls();
+                    speed += estimate.calculateRollsFast(emptySet,
+                            Game.CARD_SET, 300, ports).getRolls();
+                    speed += estimate.calculateRollsFast(emptySet,
+                            Game.ROAD_SET, 300, ports).getRolls();
                 }
-                catch (CutoffExceededException e) {}
+                catch (CutoffExceededException e)
+                {
+                }
 
                 rolls = estimate.getEstimatesFromNothingFast(ports, 300);
                 D.ebugPrint(" road: " + rolls[BuildingSpeedEstimate.ROAD]);
-                D.ebugPrint(" stlmt: " + rolls[BuildingSpeedEstimate.SETTLEMENT]);
+                D.ebugPrint(" stlmt: "
+                        + rolls[BuildingSpeedEstimate.SETTLEMENT]);
                 D.ebugPrint(" city: " + rolls[BuildingSpeedEstimate.CITY]);
                 D.ebugPrintln(" card: " + rolls[BuildingSpeedEstimate.CARD]);
                 D.ebugPrintln("speed = " + speed);
@@ -3369,13 +3665,16 @@ public class RobotBrain extends Thread
                 //
                 // end test
                 //
-                for (int secondNode = firstNode + 1; secondNode <= Board.MAXNODE;
-                        secondNode++)
+                for (int secondNode = firstNode + 1; secondNode <= Board.MAXNODE; secondNode++)
                 {
-                    if ((ourPlayerData.isPotentialSettlement(secondNode)) && (! board.getAdjacentNodesToNode(secondNode).contains(firstNodeInt)))
+                    if ((ourPlayerData.isPotentialSettlement(secondNode))
+                            && (!board.getAdjacentNodesToNode(secondNode)
+                                    .contains(firstNodeInt)))
                     {
-                        D.ebugPrintln("firstNode = " + board.nodeCoordToString(firstNode));
-                        D.ebugPrintln("secondNode = " + board.nodeCoordToString(secondNode));
+                        D.ebugPrintln("firstNode = "
+                                + board.nodeCoordToString(firstNode));
+                        D.ebugPrintln("secondNode = "
+                                + board.nodeCoordToString(secondNode));
 
                         Integer secondNodeInt = new Integer(secondNode);
 
@@ -3385,27 +3684,35 @@ public class RobotBrain extends Thread
                         D.ebugPrint("numbers:[");
                         playerNumbers.clear();
                         probTotal = 0;
-                        hexes = Board.getAdjacentHexesToNode(firstNode).elements();
+                        hexes = Board.getAdjacentHexesToNode(firstNode)
+                                .elements();
 
                         while (hexes.hasMoreElements())
                         {
                             Integer hex = (Integer) hexes.nextElement();
-                            int number = board.getNumberOnHexFromCoord(hex.intValue());
-                            int resource = board.getHexTypeFromCoord(hex.intValue());
-                            playerNumbers.addNumberForResource(number, resource, hex.intValue());
+                            int number = board.getNumberOnHexFromCoord(hex
+                                    .intValue());
+                            int resource = board.getHexTypeFromCoord(hex
+                                    .intValue());
+                            playerNumbers.addNumberForResource(number,
+                                    resource, hex.intValue());
                             probTotal += prob[number];
                             D.ebugPrint(number + " ");
                         }
 
                         D.ebugPrint("] [");
-                        hexes = Board.getAdjacentHexesToNode(secondNode).elements();
+                        hexes = Board.getAdjacentHexesToNode(secondNode)
+                                .elements();
 
                         while (hexes.hasMoreElements())
                         {
                             Integer hex = (Integer) hexes.nextElement();
-                            int number = board.getNumberOnHexFromCoord(hex.intValue());
-                            int resource = board.getHexTypeFromCoord(hex.intValue());
-                            playerNumbers.addNumberForResource(number, resource, hex.intValue());
+                            int number = board.getNumberOnHexFromCoord(hex
+                                    .intValue());
+                            int resource = board.getHexTypeFromCoord(hex
+                                    .intValue());
+                            playerNumbers.addNumberForResource(number,
+                                    resource, hex.intValue());
                             probTotal += prob[number];
                             D.ebugPrint(number + " ");
                         }
@@ -3417,10 +3724,12 @@ public class RobotBrain extends Thread
                          */
                         D.ebugPrint("ports: ");
 
-                        for (int portType = Board.MISC_PORT;
-                                portType <= Board.WOOD_PORT; portType++)
+                        for (int portType = Board.MISC_PORT; portType <= Board.WOOD_PORT; portType++)
                         {
-                            if ((board.getPortCoordinates(portType).contains(firstNodeInt)) || (board.getPortCoordinates(portType).contains(secondNodeInt)))
+                            if ((board.getPortCoordinates(portType)
+                                    .contains(firstNodeInt))
+                                    || (board.getPortCoordinates(portType)
+                                            .contains(secondNodeInt)))
                             {
                                 ports[portType] = true;
                             }
@@ -3444,19 +3753,27 @@ public class RobotBrain extends Thread
 
                         try
                         {
-                            speed += estimate.calculateRollsFast(emptySet, Game.SETTLEMENT_SET, bestSpeed, ports).getRolls();
+                            speed += estimate.calculateRollsFast(emptySet,
+                                    Game.SETTLEMENT_SET, bestSpeed, ports)
+                                    .getRolls();
 
                             if (speed < bestSpeed)
                             {
-                                speed += estimate.calculateRollsFast(emptySet, Game.CITY_SET, bestSpeed, ports).getRolls();
+                                speed += estimate.calculateRollsFast(emptySet,
+                                        Game.CITY_SET, bestSpeed, ports)
+                                        .getRolls();
 
                                 if (speed < bestSpeed)
                                 {
-                                    speed += estimate.calculateRollsFast(emptySet, Game.CARD_SET, bestSpeed, ports).getRolls();
+                                    speed += estimate.calculateRollsFast(
+                                            emptySet, Game.CARD_SET, bestSpeed,
+                                            ports).getRolls();
 
                                     if (speed < bestSpeed)
                                     {
-                                        speed += estimate.calculateRollsFast(emptySet, Game.ROAD_SET, bestSpeed, ports).getRolls();
+                                        speed += estimate.calculateRollsFast(
+                                                emptySet, Game.ROAD_SET,
+                                                bestSpeed, ports).getRolls();
                                         allTheWay = true;
                                     }
                                 }
@@ -3467,11 +3784,16 @@ public class RobotBrain extends Thread
                             speed = bestSpeed;
                         }
 
-                        rolls = estimate.getEstimatesFromNothingFast(ports, bestSpeed);
-                        D.ebugPrint(" road: " + rolls[BuildingSpeedEstimate.ROAD]);
-                        D.ebugPrint(" stlmt: " + rolls[BuildingSpeedEstimate.SETTLEMENT]);
-                        D.ebugPrint(" city: " + rolls[BuildingSpeedEstimate.CITY]);
-                        D.ebugPrintln(" card: " + rolls[BuildingSpeedEstimate.CARD]);
+                        rolls = estimate.getEstimatesFromNothingFast(ports,
+                                bestSpeed);
+                        D.ebugPrint(" road: "
+                                + rolls[BuildingSpeedEstimate.ROAD]);
+                        D.ebugPrint(" stlmt: "
+                                + rolls[BuildingSpeedEstimate.SETTLEMENT]);
+                        D.ebugPrint(" city: "
+                                + rolls[BuildingSpeedEstimate.CITY]);
+                        D.ebugPrintln(" card: "
+                                + rolls[BuildingSpeedEstimate.CARD]);
                         D.ebugPrintln("allTheWay = " + allTheWay);
                         D.ebugPrintln("speed = " + speed);
 
@@ -3496,10 +3818,15 @@ public class RobotBrain extends Thread
                                 secondSettlement = secondNode;
                                 bestSpeed = speed;
                                 bestProbTotal = probTotal;
-                                D.ebugPrintln("firstSettlement = " + Integer.toHexString(firstSettlement));
-                                D.ebugPrintln("secondSettlement = " + Integer.toHexString(secondSettlement));
+                                D.ebugPrintln("firstSettlement = "
+                                        + Integer.toHexString(firstSettlement));
+                                D
+                                        .ebugPrintln("secondSettlement = "
+                                                + Integer
+                                                        .toHexString(secondSettlement));
                                 D.ebugPrintln("bestSpeed = " + bestSpeed);
-                                D.ebugPrintln("bestProbTotal = " + bestProbTotal);
+                                D.ebugPrintln("bestProbTotal = "
+                                        + bestProbTotal);
                             }
                         }
                     }
@@ -3523,8 +3850,7 @@ public class RobotBrain extends Thread
 
         Integer firstSettlementInt = new Integer(firstSettlement);
 
-        for (int portType = Board.MISC_PORT; portType <= Board.WOOD_PORT;
-                portType++)
+        for (int portType = Board.MISC_PORT; portType <= Board.WOOD_PORT; portType++)
         {
             if (board.getPortCoordinates(portType).contains(firstSettlementInt))
             {
@@ -3543,7 +3869,8 @@ public class RobotBrain extends Thread
 
         try
         {
-            firstSpeed += estimate.calculateRollsFast(emptySet, Game.SETTLEMENT_SET, cutoff, ports).getRolls();
+            firstSpeed += estimate.calculateRollsFast(emptySet,
+                    Game.SETTLEMENT_SET, cutoff, ports).getRolls();
         }
         catch (CutoffExceededException e)
         {
@@ -3552,7 +3879,8 @@ public class RobotBrain extends Thread
 
         try
         {
-            firstSpeed += estimate.calculateRollsFast(emptySet, Game.CITY_SET, cutoff, ports).getRolls();
+            firstSpeed += estimate.calculateRollsFast(emptySet, Game.CITY_SET,
+                    cutoff, ports).getRolls();
         }
         catch (CutoffExceededException e)
         {
@@ -3561,7 +3889,8 @@ public class RobotBrain extends Thread
 
         try
         {
-            firstSpeed += estimate.calculateRollsFast(emptySet, Game.CARD_SET, cutoff, ports).getRolls();
+            firstSpeed += estimate.calculateRollsFast(emptySet, Game.CARD_SET,
+                    cutoff, ports).getRolls();
         }
         catch (CutoffExceededException e)
         {
@@ -3570,7 +3899,8 @@ public class RobotBrain extends Thread
 
         try
         {
-            firstSpeed += estimate.calculateRollsFast(emptySet, Game.ROAD_SET, cutoff, ports).getRolls();
+            firstSpeed += estimate.calculateRollsFast(emptySet, Game.ROAD_SET,
+                    cutoff, ports).getRolls();
         }
         catch (CutoffExceededException e)
         {
@@ -3590,10 +3920,10 @@ public class RobotBrain extends Thread
 
         Integer secondSettlementInt = new Integer(secondSettlement);
 
-        for (int portType = Board.MISC_PORT; portType <= Board.WOOD_PORT;
-                portType++)
+        for (int portType = Board.MISC_PORT; portType <= Board.WOOD_PORT; portType++)
         {
-            if (board.getPortCoordinates(portType).contains(secondSettlementInt))
+            if (board.getPortCoordinates(portType)
+                    .contains(secondSettlementInt))
             {
                 ports[portType] = true;
             }
@@ -3609,7 +3939,8 @@ public class RobotBrain extends Thread
 
         try
         {
-            secondSpeed += estimate.calculateRollsFast(emptySet, Game.SETTLEMENT_SET, bestSpeed, ports).getRolls();
+            secondSpeed += estimate.calculateRollsFast(emptySet,
+                    Game.SETTLEMENT_SET, bestSpeed, ports).getRolls();
         }
         catch (CutoffExceededException e)
         {
@@ -3618,7 +3949,8 @@ public class RobotBrain extends Thread
 
         try
         {
-            secondSpeed += estimate.calculateRollsFast(emptySet, Game.CITY_SET, bestSpeed, ports).getRolls();
+            secondSpeed += estimate.calculateRollsFast(emptySet, Game.CITY_SET,
+                    bestSpeed, ports).getRolls();
         }
         catch (CutoffExceededException e)
         {
@@ -3627,7 +3959,8 @@ public class RobotBrain extends Thread
 
         try
         {
-            secondSpeed += estimate.calculateRollsFast(emptySet, Game.CARD_SET, bestSpeed, ports).getRolls();
+            secondSpeed += estimate.calculateRollsFast(emptySet, Game.CARD_SET,
+                    bestSpeed, ports).getRolls();
         }
         catch (CutoffExceededException e)
         {
@@ -3636,7 +3969,8 @@ public class RobotBrain extends Thread
 
         try
         {
-            secondSpeed += estimate.calculateRollsFast(emptySet, Game.ROAD_SET, bestSpeed, ports).getRolls();
+            secondSpeed += estimate.calculateRollsFast(emptySet, Game.ROAD_SET,
+                    bestSpeed, ports).getRolls();
         }
         catch (CutoffExceededException e)
         {
@@ -3650,7 +3984,9 @@ public class RobotBrain extends Thread
             secondSettlement = tmp;
         }
 
-        D.ebugPrintln(board.nodeCoordToString(firstSettlement) + ":" + firstSpeed + ", " + board.nodeCoordToString(secondSettlement) + ":" + secondSpeed);
+        D.ebugPrintln(board.nodeCoordToString(firstSettlement) + ":"
+                + firstSpeed + ", " + board.nodeCoordToString(secondSettlement)
+                + ":" + secondSpeed);
     }
 
     /**
@@ -3663,7 +3999,8 @@ public class RobotBrain extends Thread
         int bestSpeed = 4 * BuildingSpeedEstimate.DEFAULT_ROLL_LIMIT;
         Board board = game.getBoard();
         ResourceSet emptySet = new ResourceSet();
-        PlayerNumbers playerNumbers = new PlayerNumbers(board.getBoardEncodingFormat());
+        PlayerNumbers playerNumbers = new PlayerNumbers(board
+                .getBoardEncodingFormat());
         boolean[] ports = new boolean[Board.WOOD_PORT + 1];
         BuildingSpeedEstimate estimate = new BuildingSpeedEstimate();
         int probTotal;
@@ -3677,7 +4014,9 @@ public class RobotBrain extends Thread
 
         for (int secondNode = board.getMinNode(); secondNode <= Board.MAXNODE; secondNode++)
         {
-            if ((ourPlayerData.isPotentialSettlement(secondNode)) && (! board.getAdjacentNodesToNode(secondNode).contains(firstNodeInt)))
+            if ((ourPlayerData.isPotentialSettlement(secondNode))
+                    && (!board.getAdjacentNodesToNode(secondNode).contains(
+                            firstNodeInt)))
             {
                 Integer secondNodeInt = new Integer(secondNode);
 
@@ -3688,7 +4027,8 @@ public class RobotBrain extends Thread
                 playerNumbers.clear();
                 probTotal = 0;
 
-                Enumeration hexes = Board.getAdjacentHexesToNode(firstNode).elements();
+                Enumeration hexes = Board.getAdjacentHexesToNode(firstNode)
+                        .elements();
 
                 while (hexes.hasMoreElements())
                 {
@@ -3717,10 +4057,12 @@ public class RobotBrain extends Thread
                  */
                 D.ebugPrint("ports: ");
 
-                for (int portType = Board.MISC_PORT;
-                        portType <= Board.WOOD_PORT; portType++)
+                for (int portType = Board.MISC_PORT; portType <= Board.WOOD_PORT; portType++)
                 {
-                    if ((board.getPortCoordinates(portType).contains(firstNodeInt)) || (board.getPortCoordinates(portType).contains(secondNodeInt)))
+                    if ((board.getPortCoordinates(portType)
+                            .contains(firstNodeInt))
+                            || (board.getPortCoordinates(portType)
+                                    .contains(secondNodeInt)))
                     {
                         ports[portType] = true;
                     }
@@ -3744,19 +4086,24 @@ public class RobotBrain extends Thread
 
                 try
                 {
-                    speed += estimate.calculateRollsFast(emptySet, Game.SETTLEMENT_SET, bestSpeed, ports).getRolls();
+                    speed += estimate.calculateRollsFast(emptySet,
+                            Game.SETTLEMENT_SET, bestSpeed, ports).getRolls();
 
                     if (speed < bestSpeed)
                     {
-                        speed += estimate.calculateRollsFast(emptySet, Game.CITY_SET, bestSpeed, ports).getRolls();
+                        speed += estimate.calculateRollsFast(emptySet,
+                                Game.CITY_SET, bestSpeed, ports).getRolls();
 
                         if (speed < bestSpeed)
                         {
-                            speed += estimate.calculateRollsFast(emptySet, Game.CARD_SET, bestSpeed, ports).getRolls();
+                            speed += estimate.calculateRollsFast(emptySet,
+                                    Game.CARD_SET, bestSpeed, ports).getRolls();
 
                             if (speed < bestSpeed)
                             {
-                                speed += estimate.calculateRollsFast(emptySet, Game.ROAD_SET, bestSpeed, ports).getRolls();
+                                speed += estimate.calculateRollsFast(emptySet,
+                                        Game.ROAD_SET, bestSpeed, ports)
+                                        .getRolls();
                             }
                         }
                     }
@@ -3766,7 +4113,8 @@ public class RobotBrain extends Thread
                     speed = bestSpeed;
                 }
 
-                D.ebugPrintln(Integer.toHexString(firstNode) + ", " + Integer.toHexString(secondNode) + ":" + speed);
+                D.ebugPrintln(Integer.toHexString(firstNode) + ", "
+                        + Integer.toHexString(secondNode) + ":" + speed);
 
                 /**
                  * keep the settlements with the best speed
@@ -3777,14 +4125,19 @@ public class RobotBrain extends Thread
                     secondSettlement = secondNode;
                     bestSpeed = speed;
                     bestProbTotal = probTotal;
-                    D.ebugPrintln("firstSettlement = " + Integer.toHexString(firstSettlement));
-                    D.ebugPrintln("secondSettlement = " + Integer.toHexString(secondSettlement));
+                    D.ebugPrintln("firstSettlement = "
+                            + Integer.toHexString(firstSettlement));
+                    D.ebugPrintln("secondSettlement = "
+                            + Integer.toHexString(secondSettlement));
 
                     int[] rolls = estimate.getEstimatesFromNothingFast(ports);
                     D.ebugPrint("road: " + rolls[BuildingSpeedEstimate.ROAD]);
-                    D.ebugPrint(" stlmt: " + rolls[BuildingSpeedEstimate.SETTLEMENT]);
+                    D.ebugPrint(" stlmt: "
+                            + rolls[BuildingSpeedEstimate.SETTLEMENT]);
                     D.ebugPrint(" city: " + rolls[BuildingSpeedEstimate.CITY]);
-                    D.ebugPrintln(" card: " + rolls[BuildingSpeedEstimate.CARD]);
+                    D
+                            .ebugPrintln(" card: "
+                                    + rolls[BuildingSpeedEstimate.CARD]);
                     D.ebugPrintln("bestSpeed = " + bestSpeed);
                 }
                 else if (speed == bestSpeed)
@@ -3795,14 +4148,21 @@ public class RobotBrain extends Thread
                         secondSettlement = secondNode;
                         bestSpeed = speed;
                         bestProbTotal = probTotal;
-                        D.ebugPrintln("firstSettlement = " + Integer.toHexString(firstSettlement));
-                        D.ebugPrintln("secondSettlement = " + Integer.toHexString(secondSettlement));
+                        D.ebugPrintln("firstSettlement = "
+                                + Integer.toHexString(firstSettlement));
+                        D.ebugPrintln("secondSettlement = "
+                                + Integer.toHexString(secondSettlement));
 
-                        int[] rolls = estimate.getEstimatesFromNothingFast(ports);
-                        D.ebugPrint("road: " + rolls[BuildingSpeedEstimate.ROAD]);
-                        D.ebugPrint(" stlmt: " + rolls[BuildingSpeedEstimate.SETTLEMENT]);
-                        D.ebugPrint(" city: " + rolls[BuildingSpeedEstimate.CITY]);
-                        D.ebugPrintln(" card: " + rolls[BuildingSpeedEstimate.CARD]);
+                        int[] rolls = estimate
+                                .getEstimatesFromNothingFast(ports);
+                        D.ebugPrint("road: "
+                                + rolls[BuildingSpeedEstimate.ROAD]);
+                        D.ebugPrint(" stlmt: "
+                                + rolls[BuildingSpeedEstimate.SETTLEMENT]);
+                        D.ebugPrint(" city: "
+                                + rolls[BuildingSpeedEstimate.CITY]);
+                        D.ebugPrintln(" card: "
+                                + rolls[BuildingSpeedEstimate.CARD]);
                         D.ebugPrintln("bestSpeed = " + bestSpeed);
                     }
                 }
@@ -3815,10 +4175,11 @@ public class RobotBrain extends Thread
      */
     protected void placeFirstSettlement()
     {
-        //D.ebugPrintln("BUILD REQUEST FOR SETTLEMENT AT "+Integer.toHexString(firstSettlement));
+        // D.ebugPrintln("BUILD REQUEST FOR SETTLEMENT AT "+Integer.toHexString(firstSettlement));
         pause(500);
         lastStartingPieceCoord = firstSettlement;
-        client.putPiece(game, new Settlement(ourPlayerData, firstSettlement, null));
+        client.putPiece(game, new Settlement(ourPlayerData, firstSettlement,
+                null));
         pause(1000);
     }
 
@@ -3832,86 +4193,99 @@ public class RobotBrain extends Thread
             // This could mean that the server (incorrectly) asked us to
             // place another second settlement, after we've cleared the
             // potentialSettlements contents.
-            System.err.println("robot assert failed: secondSettlement -1, " + ourPlayerData.getName() + " leaving game " + game.getName());
+            System.err.println("robot assert failed: secondSettlement -1, "
+                    + ourPlayerData.getName() + " leaving game "
+                    + game.getName());
             failedBuildingAttempts = 2 + (2 * MAX_DENIED_BUILDING_PER_TURN);
             waitingForGameState = false;
             return;
         }
 
-        //D.ebugPrintln("BUILD REQUEST FOR SETTLEMENT AT "+Integer.toHexString(secondSettlement));
+        // D.ebugPrintln("BUILD REQUEST FOR SETTLEMENT AT "+Integer.toHexString(secondSettlement));
         pause(500);
         lastStartingPieceCoord = secondSettlement;
-        client.putPiece(game, new Settlement(ourPlayerData, secondSettlement, null));
+        client.putPiece(game, new Settlement(ourPlayerData, secondSettlement,
+                null));
         pause(1000);
     }
 
     /**
-     * Plan and place a road attached to our most recently placed initial settlement,
-     * in game states {@link Game#START1B START1B}, {@link Game#START2B START2B}.
+     * Plan and place a road attached to our most recently placed initial
+     * settlement, in game states {@link Game#START1B START1B},
+     * {@link Game#START2B START2B}.
      *<P>
-     * Road choice is based on the best nearby potential settlements, and doesn't
-     * directly check {@link Player#isPotentialRoad(int) ourPlayerData.isPotentialRoad(edgeCoord)}.
-     * If the server rejects our road choice, then {@link #cancelWrongPiecePlacementLocal(PlayingPiece)}
-     * will need to know which settlement node we were aiming for,
-     * and call {@link Player#clearPotentialSettlement(int) ourPlayerData.clearPotentialSettlement(nodeCoord)}.
-     * The {@link #lastStartingRoadTowardsNode} field holds this coordinate.
+     * Road choice is based on the best nearby potential settlements, and
+     * doesn't directly check {@link Player#isPotentialRoad(int)
+     * ourPlayerData.isPotentialRoad(edgeCoord)}. If the server rejects our road
+     * choice, then {@link #cancelWrongPiecePlacementLocal(PlayingPiece)} will
+     * need to know which settlement node we were aiming for, and call
+     * {@link Player#clearPotentialSettlement(int)
+     * ourPlayerData.clearPotentialSettlement(nodeCoord)}. The
+     * {@link #lastStartingRoadTowardsNode} field holds this coordinate.
      */
     public void placeInitRoad()
     {
         final int settlementNode = ourPlayerData.getLastSettlementCoord();
 
         /**
-         * Score the nearby nodes to build road towards: Key = coord Integer; value = Integer score towards "best" node.
+         * Score the nearby nodes to build road towards: Key = coord Integer;
+         * value = Integer score towards "best" node.
          */
         Hashtable twoAway = new Hashtable();
 
         D.ebugPrintln("--- placeInitRoad");
 
         /**
-         * look at all of the nodes that are 2 away from the
-         * last settlement, and pick the best one
+         * look at all of the nodes that are 2 away from the last settlement,
+         * and pick the best one
          */
         Board board = game.getBoard();
         int tmp;
 
-        tmp = settlementNode - 0x20;  // NW direction (northwest)
+        tmp = settlementNode - 0x20; // NW direction (northwest)
 
-        if (board.isNodeOnBoard(tmp) && ourPlayerData.isPotentialSettlement(tmp))
+        if (board.isNodeOnBoard(tmp)
+                && ourPlayerData.isPotentialSettlement(tmp))
         {
             twoAway.put(new Integer(tmp), new Integer(0));
         }
 
-        tmp = settlementNode + 0x02;  // NE
+        tmp = settlementNode + 0x02; // NE
 
-        if (board.isNodeOnBoard(tmp) && ourPlayerData.isPotentialSettlement(tmp))
+        if (board.isNodeOnBoard(tmp)
+                && ourPlayerData.isPotentialSettlement(tmp))
         {
             twoAway.put(new Integer(tmp), new Integer(0));
         }
 
-        tmp = settlementNode + 0x22;  // E
+        tmp = settlementNode + 0x22; // E
 
-        if (board.isNodeOnBoard(tmp) && ourPlayerData.isPotentialSettlement(tmp))
+        if (board.isNodeOnBoard(tmp)
+                && ourPlayerData.isPotentialSettlement(tmp))
         {
             twoAway.put(new Integer(tmp), new Integer(0));
         }
 
-        tmp = settlementNode + 0x20;  // SE
+        tmp = settlementNode + 0x20; // SE
 
-        if (board.isNodeOnBoard(tmp) && ourPlayerData.isPotentialSettlement(tmp))
+        if (board.isNodeOnBoard(tmp)
+                && ourPlayerData.isPotentialSettlement(tmp))
         {
             twoAway.put(new Integer(tmp), new Integer(0));
         }
 
-        tmp = settlementNode - 0x02;  // SW
+        tmp = settlementNode - 0x02; // SW
 
-        if (board.isNodeOnBoard(tmp) && ourPlayerData.isPotentialSettlement(tmp))
+        if (board.isNodeOnBoard(tmp)
+                && ourPlayerData.isPotentialSettlement(tmp))
         {
             twoAway.put(new Integer(tmp), new Integer(0));
         }
 
-        tmp = settlementNode - 0x22;  // W direction (west)
+        tmp = settlementNode - 0x22; // W direction (west)
 
-        if (board.isNodeOnBoard(tmp) && ourPlayerData.isPotentialSettlement(tmp))
+        if (board.isNodeOnBoard(tmp)
+                && ourPlayerData.isPotentialSettlement(tmp))
         {
             twoAway.put(new Integer(tmp), new Integer(0));
         }
@@ -3921,20 +4295,20 @@ public class RobotBrain extends Thread
         D.ebugPrintln("Init Road for " + client.getNickname());
 
         /**
-         * create a dummy player to calculate possible places to build
-         * taking into account where other players will build before
-         * we can.
+         * create a dummy player to calculate possible places to build taking
+         * into account where other players will build before we can.
          */
         Player dummy = new Player(ourPlayerData.getPlayerNumber(), game);
 
         if (game.getGameState() == Game.START1B)
         {
             /**
-             * do a look ahead so we don't build toward a place
-             * where someone else will build first.
+             * do a look ahead so we don't build toward a place where someone
+             * else will build first.
              */
             int numberOfBuilds = numberOfEnemyBuilds();
-            D.ebugPrintln("Other players will build " + numberOfBuilds + " settlements before I get to build again.");
+            D.ebugPrintln("Other players will build " + numberOfBuilds
+                    + " settlements before I get to build again.");
 
             if (numberOfBuilds > 0)
             {
@@ -3948,7 +4322,8 @@ public class RobotBrain extends Thread
                 {
                     if (ourPlayerData.isPotentialSettlement(i))
                     {
-                        D.ebugPrintln("-- potential settlement at " + Integer.toHexString(i));
+                        D.ebugPrintln("-- potential settlement at "
+                                + Integer.toHexString(i));
                         allNodes.put(new Integer(i), new Integer(0));
                     }
                 }
@@ -3964,30 +4339,32 @@ public class RobotBrain extends Thread
                 /**
                  * check 3:1 ports
                  */
-                Vector miscPortNodes = game.getBoard().getPortCoordinates(Board.MISC_PORT);
+                Vector miscPortNodes = game.getBoard().getPortCoordinates(
+                        Board.MISC_PORT);
                 bestSpot2AwayFromANodeSet(allNodes, miscPortNodes, 5);
 
                 /**
                  * check out good 2:1 ports
                  */
-                for (int portType = Board.CLAY_PORT;
-                        portType <= Board.WOOD_PORT; portType++)
+                for (int portType = Board.CLAY_PORT; portType <= Board.WOOD_PORT; portType++)
                 {
                     /**
-                     * if the chances of rolling a number on the resource is better than 1/3,
-                     * then it's worth looking at the port
+                     * if the chances of rolling a number on the resource is
+                     * better than 1/3, then it's worth looking at the port
                      */
                     if (resourceEstimates[portType] > 33)
                     {
-                        Vector portNodes = game.getBoard().getPortCoordinates(portType);
+                        Vector portNodes = game.getBoard().getPortCoordinates(
+                                portType);
                         int portWeight = (resourceEstimates[portType] * 10) / 56;
-                        bestSpot2AwayFromANodeSet(allNodes, portNodes, portWeight);
+                        bestSpot2AwayFromANodeSet(allNodes, portNodes,
+                                portWeight);
                     }
                 }
 
                 /*
-                 * create a list of potential settlements that takes into account
-                 * where other players will build
+                 * create a list of potential settlements that takes into
+                 * account where other players will build
                  */
                 Vector psList = new Vector();
 
@@ -3995,7 +4372,8 @@ public class RobotBrain extends Thread
                 {
                     if (ourPlayerData.isPotentialSettlement(j))
                     {
-                        D.ebugPrintln("- potential settlement at " + Integer.toHexString(j));
+                        D.ebugPrintln("- potential settlement at "
+                                + Integer.toHexString(j));
                         psList.addElement(new Integer(j));
                     }
                 }
@@ -4004,14 +4382,18 @@ public class RobotBrain extends Thread
 
                 for (int builds = 0; builds < numberOfBuilds; builds++)
                 {
-                    BoardNodeScorePair bestNodePair = new BoardNodeScorePair(0, 0);
+                    BoardNodeScorePair bestNodePair = new BoardNodeScorePair(0,
+                            0);
                     Enumeration nodesEnum = allNodes.keys();
 
                     while (nodesEnum.hasMoreElements())
                     {
                         Integer nodeCoord = (Integer) nodesEnum.nextElement();
-                        final int score = ((Integer) allNodes.get(nodeCoord)).intValue();
-                        D.ebugPrintln("NODE = " + Integer.toHexString(nodeCoord.intValue()) + " SCORE = " + score);
+                        final int score = ((Integer) allNodes.get(nodeCoord))
+                                .intValue();
+                        D.ebugPrintln("NODE = "
+                                + Integer.toHexString(nodeCoord.intValue())
+                                + " SCORE = " + score);
 
                         if (bestNodePair.getScore() < score)
                         {
@@ -4021,9 +4403,11 @@ public class RobotBrain extends Thread
                     }
 
                     /**
-                     * pretend that someone has built a settlement on the best spot
+                     * pretend that someone has built a settlement on the best
+                     * spot
                      */
-                    dummy.updatePotentials(new Settlement(ourPlayerData, bestNodePair.getNode(), null));
+                    dummy.updatePotentials(new Settlement(ourPlayerData,
+                            bestNodePair.getNode(), null));
 
                     /**
                      * remove this spot from the list of best spots
@@ -4044,7 +4428,9 @@ public class RobotBrain extends Thread
             Integer coord = (Integer) keynum.nextElement();
             final int score = ((Integer) twoAway.get(coord)).intValue();
 
-            D.ebugPrintln("Considering " + Integer.toHexString(coord.intValue()) + " with a score of " + score);
+            D.ebugPrintln("Considering "
+                    + Integer.toHexString(coord.intValue())
+                    + " with a score of " + score);
 
             if (dummy.isPotentialSettlement(coord.intValue()))
             {
@@ -4060,16 +4446,17 @@ public class RobotBrain extends Thread
             }
         }
 
-        final int destination = bestNodePair.getNode();  // coordinate of future settlement
+        final int destination = bestNodePair.getNode(); // coordinate of future
+        // settlement
         final int roadEdge;
 
         /**
-         * if the coords are (even, odd), then
-         * the node is 'Y'.
+         * if the coords are (even, odd), then the node is 'Y'.
          */
         if (((settlementNode >> 4) % 2) == 0)
         {
-            if ((destination == (settlementNode - 0x02)) || (destination == (settlementNode + 0x20)))
+            if ((destination == (settlementNode - 0x02))
+                    || (destination == (settlementNode + 0x20)))
             {
                 roadEdge = settlementNode - 0x01;
             }
@@ -4084,7 +4471,8 @@ public class RobotBrain extends Thread
         }
         else
         {
-            if ((destination == (settlementNode - 0x20)) || (destination == (settlementNode + 0x02)))
+            if ((destination == (settlementNode - 0x20))
+                    || (destination == (settlementNode + 0x02)))
             {
                 roadEdge = settlementNode - 0x10;
             }
@@ -4098,10 +4486,10 @@ public class RobotBrain extends Thread
             }
         }
 
-        //D.ebugPrintln("!!! PUTTING INIT ROAD !!!");
+        // D.ebugPrintln("!!! PUTTING INIT ROAD !!!");
         pause(500);
 
-        //D.ebugPrintln("Trying to build a road at "+Integer.toHexString(roadEdge));
+        // D.ebugPrintln("Trying to build a road at "+Integer.toHexString(roadEdge));
         lastStartingPieceCoord = roadEdge;
         lastStartingRoadTowardsNode = destination;
         client.putPiece(game, new Road(ourPlayerData, roadEdge, null));
@@ -4111,12 +4499,11 @@ public class RobotBrain extends Thread
     }
 
     /**
-     * Estimate the rarity of each resource, given this board's resource locations vs dice numbers.
-     * Cached after the first call.
-     *
-     * @return an array of rarity numbers where
-     *         estimates[Board.CLAY_HEX] == the clay rarity,
-     *         as an integer percentage 0-100 of dice rolls.
+     * Estimate the rarity of each resource, given this board's resource
+     * locations vs dice numbers. Cached after the first call.
+     * 
+     * @return an array of rarity numbers where estimates[Board.CLAY_HEX] == the
+     *         clay rarity, as an integer percentage 0-100 of dice rolls.
      */
     protected int[] estimateResourceRarity()
     {
@@ -4125,7 +4512,9 @@ public class RobotBrain extends Thread
             Board board = game.getBoard();
             final int[] numberWeights = NumberProbabilities.INT_VALUES;
 
-            resourceEstimates = new int[ResourceConstants.UNKNOWN];  // uses 1 to 5 (CLAY to WOOD)
+            resourceEstimates = new int[ResourceConstants.UNKNOWN]; // uses 1 to
+            // 5 (CLAY
+            // to WOOD)
             resourceEstimates[0] = 0;
 
             // look at each hex
@@ -4138,23 +4527,24 @@ public class RobotBrain extends Thread
             }
         }
 
-        //D.ebugPrint("Resource Estimates = ");
-        //for (int i = 1; i < 6; i++)
-        //{
-            //D.ebugPrint(i+":"+resourceEstimates[i]+" ");
-        //}
+        // D.ebugPrint("Resource Estimates = ");
+        // for (int i = 1; i < 6; i++)
+        // {
+        // D.ebugPrint(i+":"+resourceEstimates[i]+" ");
+        // }
 
-        //D.ebugPrintln();
+        // D.ebugPrintln();
         return resourceEstimates;
     }
 
     /**
-     * Takes a table of nodes and adds a weighted score to
-     * each node score in the table.  Nodes touching hexes
-     * with better numbers get better scores.
-     *
-     * @param nodes    the table of nodes with scores
-     * @param weight   a number that is multiplied by the score
+     * Takes a table of nodes and adds a weighted score to each node score in
+     * the table. Nodes touching hexes with better numbers get better scores.
+     * 
+     * @param nodes
+     *            the table of nodes with scores
+     * @param weight
+     *            a number that is multiplied by the score
      */
     protected void bestSpotForNumbers(Hashtable nodes, int weight)
     {
@@ -4167,43 +4557,46 @@ public class RobotBrain extends Thread
         {
             Integer node = (Integer) nodesEnum.nextElement();
 
-            //D.ebugPrintln("BSN - looking at node "+Integer.toHexString(node.intValue()));
+            // D.ebugPrintln("BSN - looking at node "+Integer.toHexString(node.intValue()));
             oldScore = ((Integer) nodes.get(node)).intValue();
 
             int score = 0;
-            Enumeration hexesEnum = Board.getAdjacentHexesToNode(node.intValue()).elements();
+            Enumeration hexesEnum = Board.getAdjacentHexesToNode(
+                    node.intValue()).elements();
 
             while (hexesEnum.hasMoreElements())
             {
                 int hex = ((Integer) hexesEnum.nextElement()).intValue();
                 score += numRating[board.getNumberOnHexFromCoord(hex)];
 
-                //D.ebugPrintln(" -- -- Adding "+numRating[board.getNumberOnHexFromCoord(hex)]);
+                // D.ebugPrintln(" -- -- Adding "+numRating[board.getNumberOnHexFromCoord(hex)]);
             }
 
             /*
-             * normalize score and multiply by weight
-             * 40 is highest practical score
-             * lowest score is 0
+             * normalize score and multiply by weight 40 is highest practical
+             * score lowest score is 0
              */
             int nScore = ((score * 100) / 40) * weight;
             Integer finalScore = new Integer(nScore + oldScore);
             nodes.put(node, finalScore);
 
-            //D.ebugPrintln("BSN -- put node "+Integer.toHexString(node.intValue())+" with old score "+oldScore+" + new score "+nScore);
+            // D.ebugPrintln("BSN -- put node "+Integer.toHexString(node.intValue())+" with old score "+oldScore+" + new score "+nScore);
         }
     }
 
     /**
-     * Takes a table of nodes and adds a weighted score to
-     * each node score in the table.  Nodes touching hexes
-     * with better numbers get better scores.  Also numbers
-     * that the player isn't touching yet are better than ones
-     * that the player is already touching.
-     *
-     * @param nodes    the table of nodes with scores. key = Int node, value = Int score, to be modified in this method
-     * @param player   the player that we are doing the rating for
-     * @param weight   a number that is multiplied by the score
+     * Takes a table of nodes and adds a weighted score to each node score in
+     * the table. Nodes touching hexes with better numbers get better scores.
+     * Also numbers that the player isn't touching yet are better than ones that
+     * the player is already touching.
+     * 
+     * @param nodes
+     *            the table of nodes with scores. key = Int node, value = Int
+     *            score, to be modified in this method
+     * @param player
+     *            the player that we are doing the rating for
+     * @param weight
+     *            a number that is multiplied by the score
      */
     protected void bestSpotForNumbers(Hashtable nodes, Player player, int weight)
     {
@@ -4216,11 +4609,12 @@ public class RobotBrain extends Thread
         {
             Integer node = (Integer) nodesEnum.nextElement();
 
-            //D.ebugPrintln("BSN - looking at node "+Integer.toHexString(node.intValue()));
+            // D.ebugPrintln("BSN - looking at node "+Integer.toHexString(node.intValue()));
             oldScore = ((Integer) nodes.get(node)).intValue();
 
             int score = 0;
-            Enumeration hexesEnum = Board.getAdjacentHexesToNode(node.intValue()).elements();
+            Enumeration hexesEnum = Board.getAdjacentHexesToNode(
+                    node.intValue()).elements();
 
             while (hexesEnum.hasMoreElements())
             {
@@ -4231,42 +4625,44 @@ public class RobotBrain extends Thread
                 if ((number != 0) && (!player.getNumbers().hasNumber(number)))
                 {
                     /**
-                     * add a bonus for numbers that the player doesn't already have
+                     * add a bonus for numbers that the player doesn't already
+                     * have
                      */
 
-                    //D.ebugPrintln("ADDING BONUS FOR NOT HAVING "+number);
+                    // D.ebugPrintln("ADDING BONUS FOR NOT HAVING "+number);
                     score += numRating[number];
                 }
 
-                //D.ebugPrintln(" -- -- Adding "+numRating[board.getNumberOnHexFromCoord(hex)]);
+                // D.ebugPrintln(" -- -- Adding "+numRating[board.getNumberOnHexFromCoord(hex)]);
             }
 
             /*
-             * normalize score and multiply by weight
-             * 80 is highest practical score
-             * lowest score is 0
+             * normalize score and multiply by weight 80 is highest practical
+             * score lowest score is 0
              */
             int nScore = ((score * 100) / 80) * weight;
             Integer finalScore = new Integer(nScore + oldScore);
             nodes.put(node, finalScore);
 
-            //D.ebugPrintln("BSN -- put node "+Integer.toHexString(node.intValue())+" with old score "+oldScore+" + new score "+nScore);
+            // D.ebugPrintln("BSN -- put node "+Integer.toHexString(node.intValue())+" with old score "+oldScore+" + new score "+nScore);
         }
     }
 
     /**
-     * Takes a table of nodes and adds a weighted score to
-     * each node score in the table.  A vector of nodes that
-     * we want to be near is also taken as an argument.
-     * Here are the rules for scoring:
-     * If a node is two away from a node in the desired set of nodes it gets 100.
-     * Otherwise it gets 0.
-     *
-     * @param nodesIn   the table of nodes to evaluate
-     * @param nodeSet   the set of desired nodes
-     * @param weight    the score multiplier
+     * Takes a table of nodes and adds a weighted score to each node score in
+     * the table. A vector of nodes that we want to be near is also taken as an
+     * argument. Here are the rules for scoring: If a node is two away from a
+     * node in the desired set of nodes it gets 100. Otherwise it gets 0.
+     * 
+     * @param nodesIn
+     *            the table of nodes to evaluate
+     * @param nodeSet
+     *            the set of desired nodes
+     * @param weight
+     *            the score multiplier
      */
-    protected void bestSpot2AwayFromANodeSet(Hashtable nodesIn, Vector nodeSet, int weight)
+    protected void bestSpot2AwayFromANodeSet(Hashtable nodesIn, Vector nodeSet,
+            int weight)
     {
         Enumeration nodesInEnum = nodesIn.keys();
 
@@ -4320,23 +4716,25 @@ public class RobotBrain extends Thread
 
             nodesIn.put(nodeCoord, new Integer(oldScore + score));
 
-            //D.ebugPrintln("BS2AFANS -- put node "+Integer.toHexString(node)+" with old score "+oldScore+" + new score "+score);
+            // D.ebugPrintln("BS2AFANS -- put node "+Integer.toHexString(node)+" with old score "+oldScore+" + new score "+score);
         }
     }
 
     /**
-     * Takes a table of nodes and adds a weighted score to
-     * each node score in the table.  A vector of nodes that
-     * we want to be on is also taken as an argument.
-     * Here are the rules for scoring:
-     * If a node is in the desired set of nodes it gets 100.
-     * Otherwise it gets 0.
-     *
-     * @param nodesIn   the table of nodes to evaluate
-     * @param nodeSet   the set of desired nodes
-     * @param weight    the score multiplier
+     * Takes a table of nodes and adds a weighted score to each node score in
+     * the table. A vector of nodes that we want to be on is also taken as an
+     * argument. Here are the rules for scoring: If a node is in the desired set
+     * of nodes it gets 100. Otherwise it gets 0.
+     * 
+     * @param nodesIn
+     *            the table of nodes to evaluate
+     * @param nodeSet
+     *            the set of desired nodes
+     * @param weight
+     *            the score multiplier
      */
-    protected void bestSpotInANodeSet(Hashtable nodesIn, Vector nodeSet, int weight)
+    protected void bestSpotInANodeSet(Hashtable nodesIn, Vector nodeSet,
+            int weight)
     {
         Enumeration nodesInEnum = nodesIn.keys();
 
@@ -4368,7 +4766,7 @@ public class RobotBrain extends Thread
 
             nodesIn.put(nodeCoord, new Integer(oldScore + score));
 
-            //D.ebugPrintln("BSIANS -- put node "+Integer.toHexString(node)+" with old score "+oldScore+" + new score "+score);
+            // D.ebugPrintln("BSIANS -- put node "+Integer.toHexString(node)+" with old score "+oldScore+" + new score "+score);
         }
     }
 
@@ -4394,12 +4792,14 @@ public class RobotBrain extends Thread
         while (trackersIter.hasNext())
         {
             PlayerTracker tracker = (PlayerTracker) trackersIter.next();
-            D.ebugPrintln("%%%%%%%%% TRACKER FOR PLAYER " + tracker.getPlayer().getPlayerNumber());
+            D.ebugPrintln("%%%%%%%%% TRACKER FOR PLAYER "
+                    + tracker.getPlayer().getPlayerNumber());
 
             try
             {
                 tracker.recalcWinGameETA();
-                winGameETAs[tracker.getPlayer().getPlayerNumber()] = tracker.getWinGameETA();
+                winGameETAs[tracker.getPlayer().getPlayerNumber()] = tracker
+                        .getWinGameETA();
                 D.ebugPrintln("winGameETA = " + tracker.getWinGameETA());
             }
             catch (NullPointerException e)
@@ -4413,18 +4813,21 @@ public class RobotBrain extends Thread
 
         for (int pnum = 0; pnum < game.maxPlayers; pnum++)
         {
-            if (! game.isSeatVacant(pnum))
+            if (!game.isSeatVacant(pnum))
             {
-                if ((victimNum < 0) && (pnum != ourPlayerData.getPlayerNumber()))
+                if ((victimNum < 0)
+                        && (pnum != ourPlayerData.getPlayerNumber()))
                 {
                     // The first pick
                     D.ebugPrintln("Picking a robber victim: pnum=" + pnum);
                     victimNum = pnum;
                 }
-                else if ((pnum != ourPlayerData.getPlayerNumber()) && (winGameETAs[pnum] < winGameETAs[victimNum]))
+                else if ((pnum != ourPlayerData.getPlayerNumber())
+                        && (winGameETAs[pnum] < winGameETAs[victimNum]))
                 {
                     // A better pick
-                    D.ebugPrintln("Picking a better robber victim: pnum=" + pnum);
+                    D.ebugPrintln("Picking a better robber victim: pnum="
+                            + pnum);
                     victimNum = pnum;
                 }
             }
@@ -4438,26 +4841,29 @@ public class RobotBrain extends Thread
         BuildingSpeedEstimate estimate = new BuildingSpeedEstimate();
         int bestHex = robberHex;
         int worstSpeed = 0;
-        final boolean skipDeserts = game.isGameOptionSet("RD");  // can't move robber to desert
+        final boolean skipDeserts = game.isGameOptionSet("RD"); // can't move
+        // robber to
+        // desert
         Board gboard = (skipDeserts ? game.getBoard() : null);
 
         for (int i = 0; i < hexes.length; i++)
         {
             /**
-             * only check hexes that we're not touching,
-             * and not the robber hex, and possibly not desert hexes
+             * only check hexes that we're not touching, and not the robber hex,
+             * and possibly not desert hexes
              */
             if ((hexes[i] != robberHex)
-                    && ourPlayerData.getNumbers().getNumberResourcePairsForHex(hexes[i]).isEmpty()
-                    && ! (skipDeserts && (gboard.getHexTypeFromCoord(hexes[i]) == Board.DESERT_HEX )))
+                    && ourPlayerData.getNumbers().getNumberResourcePairsForHex(
+                            hexes[i]).isEmpty()
+                    && !(skipDeserts && (gboard.getHexTypeFromCoord(hexes[i]) == Board.DESERT_HEX)))
             {
                 estimate.recalculateEstimates(victim.getNumbers(), hexes[i]);
 
-                int[] speeds = estimate.getEstimatesFromNothingFast(victim.getPortFlags());
+                int[] speeds = estimate.getEstimatesFromNothingFast(victim
+                        .getPortFlags());
                 int totalSpeed = 0;
 
-                for (int j = BuildingSpeedEstimate.MIN;
-                        j < BuildingSpeedEstimate.MAXPLUSONE; j++)
+                for (int j = BuildingSpeedEstimate.MIN; j < BuildingSpeedEstimate.MAXPLUSONE; j++)
                 {
                     totalSpeed += speeds[j];
                 }
@@ -4477,28 +4883,26 @@ public class RobotBrain extends Thread
         D.ebugPrintln("%%% bestHex = " + Integer.toHexString(bestHex));
 
         /**
-         * pick a spot at random if we can't decide.
-         * Don't pick deserts if the game option is set.
-         * Don't pick one of our hexes if at all possible.
-         * It's not likely we'll need to pick one of our hexes
-         * (we try 30 times to avoid it), so there isn't code here
-         * to pick the 'least bad' one.
-         * (TODO) consider that: it would be late in the game.
-         *       Use similar algorithm as picking for opponent,
-         *       but apply it worst vs best.
+         * pick a spot at random if we can't decide. Don't pick deserts if the
+         * game option is set. Don't pick one of our hexes if at all possible.
+         * It's not likely we'll need to pick one of our hexes (we try 30 times
+         * to avoid it), so there isn't code here to pick the 'least bad' one.
+         * (TO-DO) consider that: it would be late in the game. Use similar
+         * algorithm as picking for opponent, but apply it worst vs best.
          */
         if (bestHex == robberHex)
         {
             int numRand = 0;
             while ((bestHex == robberHex)
-                    || (skipDeserts
-                            && (gboard.getHexTypeFromCoord(bestHex) == Board.DESERT_HEX ))
-                    || ((numRand < 30)
-                            && ourPlayerData.getNumbers().getNumberResourcePairsForHex(bestHex).isEmpty()))
+                    || (skipDeserts && (gboard.getHexTypeFromCoord(bestHex) == Board.DESERT_HEX))
+                    || ((numRand < 30) && ourPlayerData.getNumbers()
+                            .getNumberResourcePairsForHex(bestHex).isEmpty()))
             {
                 bestHex = hexes[Math.abs(rand.nextInt()) % hexes.length];
-                // D.ebugPrintln("%%% random pick = " + Integer.toHexString(bestHex));
-                System.err.println("%%% random pick = " + Integer.toHexString(bestHex));
+                // D.ebugPrintln("%%% random pick = " +
+                // Integer.toHexString(bestHex));
+                System.err.println("%%% random pick = "
+                        + Integer.toHexString(bestHex));
                 ++numRand;
             }
         }
@@ -4510,16 +4914,17 @@ public class RobotBrain extends Thread
 
     /**
      * discard some resources
-     *
-     * @param numDiscards  the number of resources to discard
+     * 
+     * @param numDiscards
+     *            the number of resources to discard
      */
     protected void discard(int numDiscards)
     {
-        //D.ebugPrintln("DISCARDING...");
+        // D.ebugPrintln("DISCARDING...");
 
         /**
-         * if we have a plan, then try to keep the resources
-         * needed for that plan, otherwise discard at random
+         * if we have a plan, then try to keep the resources needed for that
+         * plan, otherwise discard at random
          */
         ResourceSet discards = new ResourceSet();
 
@@ -4534,18 +4939,19 @@ public class RobotBrain extends Thread
         if (!buildingPlan.empty())
         {
             PossiblePiece targetPiece = (PossiblePiece) buildingPlan.peek();
-            negotiator.setTargetPiece(ourPlayerData.getPlayerNumber(), targetPiece);
+            negotiator.setTargetPiece(ourPlayerData.getPlayerNumber(),
+                    targetPiece);
 
-            //D.ebugPrintln("targetPiece="+targetPiece);
-            ResourceSet targetResources = PlayingPiece.getResourcesToBuild(targetPiece.getType());
+            // D.ebugPrintln("targetPiece="+targetPiece);
+            ResourceSet targetResources = PlayingPiece
+                    .getResourcesToBuild(targetPiece.getType());
 
             /**
              * figure out what resources are NOT the ones we need
              */
             ResourceSet leftOvers = ourPlayerData.getResources().copy();
 
-            for (int rsrc = ResourceConstants.CLAY;
-                    rsrc <= ResourceConstants.WOOD; rsrc++)
+            for (int rsrc = ResourceConstants.CLAY; rsrc <= ResourceConstants.WOOD; rsrc++)
             {
                 if (leftOvers.getAmount(rsrc) > targetResources.getAmount(rsrc))
                 {
@@ -4561,19 +4967,17 @@ public class RobotBrain extends Thread
             neededRsrcs.subtract(leftOvers);
 
             /**
-             * figure out the order of resources from
-             * easiest to get to hardest
+             * figure out the order of resources from easiest to get to hardest
              */
 
-            //D.ebugPrintln("our numbers="+ourPlayerData.getNumbers());
-            BuildingSpeedEstimate estimate = new BuildingSpeedEstimate(ourPlayerData.getNumbers());
+            // D.ebugPrintln("our numbers="+ourPlayerData.getNumbers());
+            BuildingSpeedEstimate estimate = new BuildingSpeedEstimate(
+                    ourPlayerData.getNumbers());
             int[] rollsPerResource = estimate.getRollsPerResource();
-            int[] resourceOrder = 
-            {
-                ResourceConstants.CLAY, ResourceConstants.ORE,
-                ResourceConstants.SHEEP, ResourceConstants.WHEAT,
-                ResourceConstants.WOOD
-            };
+            int[] resourceOrder =
+                { ResourceConstants.CLAY, ResourceConstants.ORE,
+                        ResourceConstants.SHEEP, ResourceConstants.WHEAT,
+                        ResourceConstants.WOOD };
 
             for (int j = 4; j >= 0; j--)
             {
@@ -4600,7 +5004,7 @@ public class RobotBrain extends Thread
                  */
                 while ((discards.getTotal() < numDiscards) && (curRsrc < 5))
                 {
-                    //D.ebugPrintln("(1) dis.tot="+discards.getTotal()+" curRsrc="+curRsrc);
+                    // D.ebugPrintln("(1) dis.tot="+discards.getTotal()+" curRsrc="+curRsrc);
                     if (leftOvers.getAmount(resourceOrder[curRsrc]) > 0)
                     {
                         discards.add(1, resourceOrder[curRsrc]);
@@ -4619,7 +5023,7 @@ public class RobotBrain extends Thread
                  */
                 while ((discards.getTotal() < numDiscards) && (curRsrc < 5))
                 {
-                    //D.ebugPrintln("(2) dis.tot="+discards.getTotal()+" curRsrc="+curRsrc);
+                    // D.ebugPrintln("(2) dis.tot="+discards.getTotal()+" curRsrc="+curRsrc);
                     if (neededRsrcs.getAmount(resourceOrder[curRsrc]) > 0)
                     {
                         discards.add(1, resourceOrder[curRsrc]);
@@ -4640,20 +5044,23 @@ public class RobotBrain extends Thread
         else
         {
             /**
-             *  choose discards at random
+             * choose discards at random
              */
-            Game.discardPickRandom(ourPlayerData.getResources(), numDiscards, discards, rand);
+            Game.discardPickRandom(ourPlayerData.getResources(), numDiscards,
+                    discards, rand);
         }
 
-        //D.ebugPrintln("!!! DISCARDING !!!");
-        //D.ebugPrintln("discards="+discards);
+        // D.ebugPrintln("!!! DISCARDING !!!");
+        // D.ebugPrintln("discards="+discards);
         client.discard(game, discards);
     }
 
     /**
      * choose a robber victim
-     *
-     * @param choices a boolean array representing which players are possible victims
+     * 
+     * @param choices
+     *            a boolean array representing which players are possible
+     *            victims
      */
     protected void chooseRobberVictim(boolean[] choices)
     {
@@ -4664,7 +5071,7 @@ public class RobotBrain extends Thread
          */
         for (int i = 0; i < game.maxPlayers; i++)
         {
-            if (! game.isSeatVacant (i))
+            if (!game.isSeatVacant(i))
             {
                 if (choices[i])
                 {
@@ -4674,12 +5081,17 @@ public class RobotBrain extends Thread
                     }
                     else
                     {
-                        PlayerTracker tracker1 = (PlayerTracker) playerTrackers.get(new Integer(i));
-                        PlayerTracker tracker2 = (PlayerTracker) playerTrackers.get(new Integer(choice));
-    
-                        if ((tracker1 != null) && (tracker2 != null) && (tracker1.getWinGameETA() < tracker2.getWinGameETA()))
+                        PlayerTracker tracker1 = (PlayerTracker) playerTrackers
+                                .get(new Integer(i));
+                        PlayerTracker tracker2 = (PlayerTracker) playerTrackers
+                                .get(new Integer(choice));
+
+                        if ((tracker1 != null)
+                                && (tracker2 != null)
+                                && (tracker1.getWinGameETA() < tracker2
+                                        .getWinGameETA()))
                         {
-                            //D.ebugPrintln("Picking a robber victim: pnum="+i+" VP="+game.getPlayer(i).getPublicVP());
+                            // D.ebugPrintln("Picking a robber victim: pnum="+i+" VP="+game.getPlayer(i).getPublicVP());
                             choice = i;
                         }
                     }
@@ -4689,17 +5101,16 @@ public class RobotBrain extends Thread
 
         /**
          * choose victim at random
-         *
-           do {
-           choice = Math.abs(rand.nextInt() % Game.MAXPLAYERS);
-           } while (!choices[choice]);
+         * 
+         * do { choice = Math.abs(rand.nextInt() % Game.MAXPLAYERS); } while
+         * (!choices[choice]);
          */
         client.choosePlayer(game, choice);
     }
 
     /**
      * calculate the number of builds before the next turn during init placement
-     *
+     * 
      */
     protected int numberOfEnemyBuilds()
     {
@@ -4709,7 +5120,8 @@ public class RobotBrain extends Thread
         /**
          * This is the clockwise direction
          */
-        if ((game.getGameState() == Game.START1A) || (game.getGameState() == Game.START1B))
+        if ((game.getGameState() == Game.START1A)
+                || (game.getGameState() == Game.START1B))
         {
             do
             {
@@ -4723,12 +5135,11 @@ public class RobotBrain extends Thread
                     pNum = 0;
                 }
 
-                if ((pNum != game.getFirstPlayer()) && ! game.isSeatVacant (pNum))
+                if ((pNum != game.getFirstPlayer()) && !game.isSeatVacant(pNum))
                 {
                     numberOfBuilds++;
                 }
-            }
-            while (pNum != game.getFirstPlayer());
+            } while (pNum != game.getFirstPlayer());
         }
 
         /**
@@ -4746,21 +5157,21 @@ public class RobotBrain extends Thread
                 pNum = game.maxPlayers - 1;
             }
 
-            if ((pNum != game.getCurrentPlayerNumber()) && ! game.isSeatVacant (pNum))
+            if ((pNum != game.getCurrentPlayerNumber())
+                    && !game.isSeatVacant(pNum))
             {
                 numberOfBuilds++;
             }
-        }
-        while (pNum != game.getCurrentPlayerNumber());
+        } while (pNum != game.getCurrentPlayerNumber());
 
         return numberOfBuilds;
     }
 
     /**
-     * given a table of nodes/edges with scores, return the
-     * best scoring pair
-     *
-     * @param nodes  the table of nodes/edges
+     * given a table of nodes/edges with scores, return the best scoring pair
+     * 
+     * @param nodes
+     *            the table of nodes/edges
      * @return the best scoring pair
      */
     protected BoardNodeScorePair findBestScoringNode(Hashtable nodes)
@@ -4773,7 +5184,7 @@ public class RobotBrain extends Thread
             Integer nodeCoord = (Integer) nodesEnum.nextElement();
             Integer score = (Integer) nodes.get(nodeCoord);
 
-            //D.ebugPrintln("Checking:"+Integer.toHexString(nodeCoord.intValue())+" score:"+score);
+            // D.ebugPrintln("Checking:"+Integer.toHexString(nodeCoord.intValue())+" score:"+score);
             if (bestNodePair.getScore() < score.intValue())
             {
                 bestNodePair.setScore(score.intValue());
@@ -4785,18 +5196,23 @@ public class RobotBrain extends Thread
     }
 
     /**
-     * this is a function more for convience
-     * given a set of nodes, run a bunch of metrics across them
-     * to find which one is best for building a
+     * this is a function more for convience given a set of nodes, run a bunch
+     * of metrics across them to find which one is best for building a
      * settlement
-     *
-     * @param nodes          a hashtable of nodes, the scores in the table will be modified.
-     *                            Key = coord Integer; value = score Integer.
-     * @param numberWeight   the weight given to nodes on good numbers
-     * @param miscPortWeight the weight given to nodes on 3:1 ports
-     * @param portWeight     the weight given to nodes on good 2:1 ports
+     * 
+     * @param nodes
+     *            a hashtable of nodes, the scores in the table will be
+     *            modified. Key = coord Integer; value = score Integer.
+     * @param numberWeight
+     *            the weight given to nodes on good numbers
+     * @param miscPortWeight
+     *            the weight given to nodes on 3:1 ports
+     * @param portWeight
+     *            the weight given to nodes on good 2:1 ports
      */
-    protected void scoreNodesForSettlements(Hashtable nodes, final int numberWeight, final int miscPortWeight, final int portWeight)
+    protected void scoreNodesForSettlements(Hashtable nodes,
+            final int numberWeight, final int miscPortWeight,
+            final int portWeight)
     {
         /**
          * favor spots with the most high numbers
@@ -4811,7 +5227,8 @@ public class RobotBrain extends Thread
          */
         if (!ourPlayerData.getPortFlag(Board.MISC_PORT))
         {
-            Vector miscPortNodes = game.getBoard().getPortCoordinates(Board.MISC_PORT);
+            Vector miscPortNodes = game.getBoard().getPortCoordinates(
+                    Board.MISC_PORT);
             bestSpotInANodeSet(nodes, miscPortNodes, miscPortWeight);
         }
 
@@ -4820,14 +5237,14 @@ public class RobotBrain extends Thread
          */
         int[] resourceEstimates = estimateResourceRarity();
 
-        for (int portType = Board.CLAY_PORT; portType <= Board.WOOD_PORT;
-                portType++)
+        for (int portType = Board.CLAY_PORT; portType <= Board.WOOD_PORT; portType++)
         {
             /**
-             * if the chances of rolling a number on the resource is better than 1/3,
-             * then it's worth looking at the port
+             * if the chances of rolling a number on the resource is better than
+             * 1/3, then it's worth looking at the port
              */
-            if ((resourceEstimates[portType] > 33) && (!ourPlayerData.getPortFlag(portType)))
+            if ((resourceEstimates[portType] > 33)
+                    && (!ourPlayerData.getPortFlag(portType)))
             {
                 Vector portNodes = game.getBoard().getPortCoordinates(portType);
                 int estimatedPortWeight = (resourceEstimates[portType] * portWeight) / 56;
@@ -4842,10 +5259,11 @@ public class RobotBrain extends Thread
     protected void tradeStuff()
     {
         /**
-         * make a tree of all the possible trades that we can
-         * make with the bank or ports
+         * make a tree of all the possible trades that we can make with the bank
+         * or ports
          */
-        TradeTree treeRoot = new TradeTree(ourPlayerData.getResources(), (TradeTree) null);
+        TradeTree treeRoot = new TradeTree(ourPlayerData.getResources(),
+                (TradeTree) null);
         Hashtable treeNodes = new Hashtable();
         treeNodes.put(treeRoot.getResourceSet(), treeRoot);
 
@@ -4856,7 +5274,7 @@ public class RobotBrain extends Thread
         {
             TradeTree currentTreeNode = (TradeTree) queue.get();
 
-            //D.ebugPrintln("%%% Expanding "+currentTreeNode.getResourceSet());
+            // D.ebugPrintln("%%% Expanding "+currentTreeNode.getResourceSet());
             expandTradeTreeNode(currentTreeNode, treeNodes);
 
             Enumeration childrenEnum = currentTreeNode.getChildren().elements();
@@ -4865,7 +5283,7 @@ public class RobotBrain extends Thread
             {
                 TradeTree child = (TradeTree) childrenEnum.nextElement();
 
-                //D.ebugPrintln("%%% Child "+child.getResourceSet());
+                // D.ebugPrintln("%%% Child "+child.getResourceSet());
                 if (child.needsToBeExpanded())
                 {
                     /**
@@ -4886,9 +5304,10 @@ public class RobotBrain extends Thread
 
         while (possibleTrades.hasMoreElements())
         {
-            ResourceSet possibleTradeOutcome = (ResourceSet) possibleTrades.nextElement();
+            ResourceSet possibleTradeOutcome = (ResourceSet) possibleTrades
+                    .nextElement();
 
-            //D.ebugPrintln("%%% "+possibleTradeOutcome);
+            // D.ebugPrintln("%%% "+possibleTradeOutcome);
             int score = scoreTradeOutcome(possibleTradeOutcome);
 
             if (score > bestTradeScore)
@@ -4899,11 +5318,10 @@ public class RobotBrain extends Thread
         }
 
         /**
-         * find the trade outcome in the tree, then follow
-         * the chain of parents until you get to the root
-         * all the while pushing the outcomes onto a stack.
-         * then pop outcomes off of the stack and perfoem
-         * the trade to get each outcome
+         * find the trade outcome in the tree, then follow the chain of parents
+         * until you get to the root all the while pushing the outcomes onto a
+         * stack. then pop outcomes off of the stack and perfoem the trade to
+         * get each outcome
          */
         Stack stack = new Stack();
         TradeTree cursor = (TradeTree) treeNodes.get(bestTradeOutcome);
@@ -4931,8 +5349,7 @@ public class RobotBrain extends Thread
             /**
              * get rid of the negative numbers
              */
-            for (int rt = ResourceConstants.CLAY;
-                    rt <= ResourceConstants.WOOD; rt++)
+            for (int rt = ResourceConstants.CLAY; rt <= ResourceConstants.WOOD; rt++)
             {
                 if (give.getAmount(rt) < 0)
                 {
@@ -4945,9 +5362,9 @@ public class RobotBrain extends Thread
                 }
             }
 
-            //D.ebugPrintln("Making bank trade:");
-            //D.ebugPrintln("give: "+give);
-            //D.ebugPrintln("get: "+get);
+            // D.ebugPrintln("Making bank trade:");
+            // D.ebugPrintln("give: "+give);
+            // D.ebugPrintln("get: "+get);
             client.bankTrade(game, give, get);
             pause(2000);
             prevTreeNode = currTreeNode;
@@ -4956,11 +5373,14 @@ public class RobotBrain extends Thread
 
     /**
      * expand a trade tree node
-     *
-     * @param currentTreeNode   the tree node that we're expanding
-     * @param table  the table of all of the nodes in the tree except this one
+     * 
+     * @param currentTreeNode
+     *            the tree node that we're expanding
+     * @param table
+     *            the table of all of the nodes in the tree except this one
      */
-    protected void expandTradeTreeNode(TradeTree currentTreeNode, Hashtable table)
+    protected void expandTradeTreeNode(TradeTree currentTreeNode,
+            Hashtable table)
     {
         /**
          * the resources that we have to work with
@@ -4971,8 +5391,7 @@ public class RobotBrain extends Thread
          * go through the resources one by one, and generate all possible
          * resource sets that result from trading that type of resource
          */
-        for (int giveResource = ResourceConstants.CLAY;
-                giveResource <= ResourceConstants.WOOD; giveResource++)
+        for (int giveResource = ResourceConstants.CLAY; giveResource <= ResourceConstants.WOOD; giveResource++)
         {
             /**
              * find the ratio at which we can trade
@@ -4998,12 +5417,10 @@ public class RobotBrain extends Thread
             if (rSet.getAmount(giveResource) >= tradeRatio)
             {
                 /**
-                 * trade the resource that we're looking at for one
-                 * of every other resource
+                 * trade the resource that we're looking at for one of every
+                 * other resource
                  */
-                for (int getResource = ResourceConstants.CLAY;
-                        getResource <= ResourceConstants.WOOD;
-                        getResource++)
+                for (int getResource = ResourceConstants.CLAY; getResource <= ResourceConstants.WOOD; getResource++)
                 {
                     if (getResource != giveResource)
                     {
@@ -5011,7 +5428,8 @@ public class RobotBrain extends Thread
                         newTradeResult.subtract(tradeRatio, giveResource);
                         newTradeResult.add(1, getResource);
 
-                        TradeTree newTree = new TradeTree(newTradeResult, currentTreeNode);
+                        TradeTree newTree = new TradeTree(newTradeResult,
+                                currentTreeNode);
 
                         /**
                          * if the trade results in a set of resources that is
@@ -5022,12 +5440,13 @@ public class RobotBrain extends Thread
 
                         while (tableEnum.hasMoreElements())
                         {
-                            ResourceSet oldTradeResult = (ResourceSet) tableEnum.nextElement();
+                            ResourceSet oldTradeResult = (ResourceSet) tableEnum
+                                    .nextElement();
 
                             /*
-                               //D.ebugPrintln("%%%     "+newTradeResult);
-                               //D.ebugPrintln("%%%  <= "+oldTradeResult+" : "+
-                               ResourceSet.lte(newTradeResult, oldTradeResult));
+                             * //D.ebugPrintln("%%%     "+newTradeResult);
+                             * //D.ebugPrintln("%%%  <= "+oldTradeResult+" : "+
+                             * ResourceSet.lte(newTradeResult, oldTradeResult));
                              */
                             if (ResourceSet.lte(newTradeResult, oldTradeResult))
                             {
@@ -5044,15 +5463,17 @@ public class RobotBrain extends Thread
 
     /**
      * evaluate a trade outcome by calculating how much you could build with it
-     *
-     * @param tradeOutcome  a set of resources that would be the result of trading
+     * 
+     * @param tradeOutcome
+     *            a set of resources that would be the result of trading
      */
     protected int scoreTradeOutcome(ResourceSet tradeOutcome)
     {
         int score = 0;
         ResourceSet tempTO = tradeOutcome.copy();
 
-        if ((ourPlayerData.getNumPieces(PlayingPiece.SETTLEMENT) >= 1) && (ourPlayerData.hasPotentialSettlement()))
+        if ((ourPlayerData.getNumPieces(PlayingPiece.SETTLEMENT) >= 1)
+                && (ourPlayerData.hasPotentialSettlement()))
         {
             while (tempTO.contains(Game.SETTLEMENT_SET))
             {
@@ -5061,7 +5482,8 @@ public class RobotBrain extends Thread
             }
         }
 
-        if ((ourPlayerData.getNumPieces(PlayingPiece.ROAD) >= 1) && (ourPlayerData.hasPotentialRoad()))
+        if ((ourPlayerData.getNumPieces(PlayingPiece.ROAD) >= 1)
+                && (ourPlayerData.hasPotentialRoad()))
         {
             while (tempTO.contains(Game.ROAD_SET))
             {
@@ -5070,7 +5492,8 @@ public class RobotBrain extends Thread
             }
         }
 
-        if ((ourPlayerData.getNumPieces(PlayingPiece.CITY) >= 1) && (ourPlayerData.hasPotentialCity()))
+        if ((ourPlayerData.getNumPieces(PlayingPiece.CITY) >= 1)
+                && (ourPlayerData.hasPotentialCity()))
         {
             while (tempTO.contains(Game.CITY_SET))
             {
@@ -5079,14 +5502,15 @@ public class RobotBrain extends Thread
             }
         }
 
-        //D.ebugPrintln("Score for "+tradeOutcome+" : "+score);
+        // D.ebugPrintln("Score for "+tradeOutcome+" : "+score);
         return score;
     }
 
     /**
      * make trades to get the target resources
-     *
-     * @param targetResources  the resources that we want
+     * 
+     * @param targetResources
+     *            the resources that we want
      * @return true if we sent a request to trade
      */
     protected boolean tradeToTarget2(ResourceSet targetResources)
@@ -5096,11 +5520,15 @@ public class RobotBrain extends Thread
             return false;
         }
 
-        TradeOffer bankTrade = negotiator.getOfferToBank(targetResources, ourPlayerData.getResources());
+        TradeOffer bankTrade = negotiator.getOfferToBank(targetResources,
+                ourPlayerData.getResources());
 
-        if ((bankTrade != null) && (ourPlayerData.getResources().contains(bankTrade.getGiveSet())))
+        if ((bankTrade != null)
+                && (ourPlayerData.getResources().contains(bankTrade
+                        .getGiveSet())))
         {
-            client.bankTrade(game, bankTrade.getGiveSet(), bankTrade.getGetSet());
+            client.bankTrade(game, bankTrade.getGiveSet(), bankTrade
+                    .getGetSet());
             pause(2000);
 
             return true;
@@ -5113,10 +5541,11 @@ public class RobotBrain extends Thread
 
     /**
      * consider an offer made by another player
-     *
-     * @param offer  the offer to consider
-     * @return a code that represents how we want to respond
-     * note: a negative result means we do nothing
+     * 
+     * @param offer
+     *            the offer to consider
+     * @return a code that represents how we want to respond note: a negative
+     *         result means we do nothing
      */
     protected int considerOffer(TradeOffer offer)
     {
@@ -5124,13 +5553,15 @@ public class RobotBrain extends Thread
 
         Player offeringPlayer = game.getPlayer(offer.getFrom());
 
-        if ((offeringPlayer.getCurrentOffer() != null) && (offer == offeringPlayer.getCurrentOffer()))
+        if ((offeringPlayer.getCurrentOffer() != null)
+                && (offer == offeringPlayer.getCurrentOffer()))
         {
             boolean[] offeredTo = offer.getTo();
 
             if (offeredTo[ourPlayerData.getPlayerNumber()])
             {
-                response = negotiator.considerOffer2(offer, ourPlayerData.getPlayerNumber());
+                response = negotiator.considerOffer2(offer, ourPlayerData
+                        .getPlayerNumber());
             }
         }
 
@@ -5138,10 +5569,11 @@ public class RobotBrain extends Thread
     }
 
     /**
-     * make an offer to another player.
-     * Will set {@link #waitingForTradeResponse} or {@link #doneTrading}.
-     *
-     * @param target  the resources that we want
+     * make an offer to another player. Will set
+     * {@link #waitingForTradeResponse} or {@link #doneTrading}.
+     * 
+     * @param target
+     *            the resources that we want
      * @return true if we made an offer
      */
     protected boolean makeOffer(PossiblePiece target)
@@ -5153,9 +5585,9 @@ public class RobotBrain extends Thread
 
         if (offer != null)
         {
-            ///
-            ///  reset the offerRejections flag
-            ///
+            // /
+            // / reset the offerRejections flag
+            // /
             for (int i = 0; i < game.maxPlayers; i++)
             {
                 offerRejections[i] = false;
@@ -5177,8 +5609,9 @@ public class RobotBrain extends Thread
 
     /**
      * make a counter offer to another player
-     *
-     * @param offer their offer
+     * 
+     * @param offer
+     *            their offer
      * @return true if we made an offer
      */
     protected boolean makeCounterOffer(TradeOffer offer)
@@ -5189,9 +5622,9 @@ public class RobotBrain extends Thread
 
         if (counterOffer != null)
         {
-            ///
-            ///  reset the offerRejections flag
-            ///
+            // /
+            // / reset the offerRejections flag
+            // /
             offerRejections[offer.getFrom()] = false;
             waitingForTradeResponse = true;
             counter = 0;
@@ -5218,22 +5651,22 @@ public class RobotBrain extends Thread
         resourceChoices.clear();
 
         /**
-         * find the most needed resource by looking at
-         * which of the resources we still need takes the
-         * longest to aquire
+         * find the most needed resource by looking at which of the resources we
+         * still need takes the longest to aquire
          */
         ResourceSet rsCopy = ourPlayerData.getResources().copy();
-        BuildingSpeedEstimate estimate = new BuildingSpeedEstimate(ourPlayerData.getNumbers());
+        BuildingSpeedEstimate estimate = new BuildingSpeedEstimate(
+                ourPlayerData.getNumbers());
         int[] rollsPerResource = estimate.getRollsPerResource();
 
         for (int resourceCount = 0; resourceCount < 2; resourceCount++)
         {
             int mostNeededResource = -1;
 
-            for (int resource = ResourceConstants.CLAY;
-                    resource <= ResourceConstants.WOOD; resource++)
+            for (int resource = ResourceConstants.CLAY; resource <= ResourceConstants.WOOD; resource++)
             {
-                if (rsCopy.getAmount(resource) < targetResources.getAmount(resource))
+                if (rsCopy.getAmount(resource) < targetResources
+                        .getAmount(resource))
                 {
                     if (mostNeededResource < 0)
                     {
@@ -5256,6 +5689,7 @@ public class RobotBrain extends Thread
 
     /**
      * choose a resource to monopolize
+     * 
      * @return true if playing the card is worth it
      */
     protected boolean chooseMonopoly()
@@ -5263,10 +5697,9 @@ public class RobotBrain extends Thread
         int bestResourceCount = 0;
         int bestResource = 0;
 
-        for (int resource = ResourceConstants.CLAY;
-                resource <= ResourceConstants.WOOD; resource++)
+        for (int resource = ResourceConstants.CLAY; resource <= ResourceConstants.WOOD; resource++)
         {
-            //D.ebugPrintln("$$ resource="+resource);
+            // D.ebugPrintln("$$ resource="+resource);
             int freeResourceCount = 0;
             boolean twoForOne = false;
             boolean threeForOne = false;
@@ -5286,9 +5719,10 @@ public class RobotBrain extends Thread
             {
                 if (ourPlayerData.getPlayerNumber() != pn)
                 {
-                    resourceTotal += game.getPlayer(pn).getResources().getAmount(resource);
+                    resourceTotal += game.getPlayer(pn).getResources()
+                            .getAmount(resource);
 
-                    //D.ebugPrintln("$$ resourceTotal="+resourceTotal);
+                    // D.ebugPrintln("$$ resourceTotal="+resourceTotal);
                 }
             }
 
@@ -5305,7 +5739,7 @@ public class RobotBrain extends Thread
                 freeResourceCount = resourceTotal / 4;
             }
 
-            //D.ebugPrintln("freeResourceCount="+freeResourceCount);
+            // D.ebugPrintln("freeResourceCount="+freeResourceCount);
             if (freeResourceCount > bestResourceCount)
             {
                 bestResourceCount = freeResourceCount;
@@ -5331,76 +5765,53 @@ public class RobotBrain extends Thread
     protected void debugInfo()
     {
         /*
-           if (D.ebugOn) {
-           //D.ebugPrintln("$===============");
-           //D.ebugPrintln("gamestate = "+game.getGameState());
-           //D.ebugPrintln("counter = "+counter);
-           //D.ebugPrintln("resources = "+ourPlayerData.getResources().getTotal());
-           if (expectSTART1A)
-           //D.ebugPrintln("expectSTART1A");
-           if (expectSTART1B)
-           //D.ebugPrintln("expectSTART1B");
-           if (expectSTART2A)
-           //D.ebugPrintln("expectSTART2A");
-           if (expectSTART2B)
-           //D.ebugPrintln("expectSTART2B");
-           if (expectPLAY)
-           //D.ebugPrintln("expectPLAY");
-           if (expectPLAY1)
-           //D.ebugPrintln("expectPLAY1");
-           if (expectPLACING_ROAD)
-           //D.ebugPrintln("expectPLACING_ROAD");
-           if (expectPLACING_SETTLEMENT)
-           //D.ebugPrintln("expectPLACING_SETTLEMENT");
-           if (expectPLACING_CITY)
-           //D.ebugPrintln("expectPLACING_CITY");
-           if (expectPLACING_ROBBER)
-           //D.ebugPrintln("expectPLACING_ROBBER");
-           if (expectPLACING_FREE_ROAD1)
-           //D.ebugPrintln("expectPLACING_FREE_ROAD1");
-           if (expectPLACING_FREE_ROAD2)
-           //D.ebugPrintln("expectPLACING_FREE_ROAD2");
-           if (expectPUTPIECE_FROM_START1A)
-           //D.ebugPrintln("expectPUTPIECE_FROM_START1A");
-           if (expectPUTPIECE_FROM_START1B)
-           //D.ebugPrintln("expectPUTPIECE_FROM_START1B");
-           if (expectPUTPIECE_FROM_START2A)
-           //D.ebugPrintln("expectPUTPIECE_FROM_START2A");
-           if (expectPUTPIECE_FROM_START2B)
-           //D.ebugPrintln("expectPUTPIECE_FROM_START2B");
-           if (expectDICERESULT)
-           //D.ebugPrintln("expectDICERESULT");
-           if (expectDISCARD)
-           //D.ebugPrintln("expectDISCARD");
-           if (expectMOVEROBBER)
-           //D.ebugPrintln("expectMOVEROBBER");
-           if (expectWAITING_FOR_DISCOVERY)
-           //D.ebugPrintln("expectWAITING_FOR_DISCOVERY");
-           if (waitingForGameState)
-           //D.ebugPrintln("waitingForGameState");
-           if (waitingForOurTurn)
-           //D.ebugPrintln("waitingForOurTurn");
-           if (waitingForTradeMsg)
-           //D.ebugPrintln("waitingForTradeMsg");
-           if (waitingForDevCard)
-           //D.ebugPrintln("waitingForDevCard");
-           if (moveRobberOnSeven)
-           //D.ebugPrintln("moveRobberOnSeven");
-           if (waitingForTradeResponse)
-           //D.ebugPrintln("waitingForTradeResponse");
-           if (doneTrading)
-           //D.ebugPrintln("doneTrading");
-           if (ourTurn)
-           //D.ebugPrintln("ourTurn");
-           //D.ebugPrintln("whatWeWantToBuild = "+whatWeWantToBuild);
-           //D.ebugPrintln("#===============");
-           }
+         * if (D.ebugOn) { //D.ebugPrintln("$===============");
+         * //D.ebugPrintln("gamestate = "+game.getGameState());
+         * //D.ebugPrintln("counter = "+counter);
+         * //D.ebugPrintln("resources = "+
+         * ourPlayerData.getResources().getTotal()); if (expectSTART1A)
+         * //D.ebugPrintln("expectSTART1A"); if (expectSTART1B)
+         * //D.ebugPrintln("expectSTART1B"); if (expectSTART2A)
+         * //D.ebugPrintln("expectSTART2A"); if (expectSTART2B)
+         * //D.ebugPrintln("expectSTART2B"); if (expectPLAY)
+         * //D.ebugPrintln("expectPLAY"); if (expectPLAY1)
+         * //D.ebugPrintln("expectPLAY1"); if (expectPLACING_ROAD)
+         * //D.ebugPrintln("expectPLACING_ROAD"); if (expectPLACING_SETTLEMENT)
+         * //D.ebugPrintln("expectPLACING_SETTLEMENT"); if (expectPLACING_CITY)
+         * //D.ebugPrintln("expectPLACING_CITY"); if (expectPLACING_ROBBER)
+         * //D.ebugPrintln("expectPLACING_ROBBER"); if
+         * (expectPLACING_FREE_ROAD1)
+         * //D.ebugPrintln("expectPLACING_FREE_ROAD1"); if
+         * (expectPLACING_FREE_ROAD2)
+         * //D.ebugPrintln("expectPLACING_FREE_ROAD2"); if
+         * (expectPUTPIECE_FROM_START1A)
+         * //D.ebugPrintln("expectPUTPIECE_FROM_START1A"); if
+         * (expectPUTPIECE_FROM_START1B)
+         * //D.ebugPrintln("expectPUTPIECE_FROM_START1B"); if
+         * (expectPUTPIECE_FROM_START2A)
+         * //D.ebugPrintln("expectPUTPIECE_FROM_START2A"); if
+         * (expectPUTPIECE_FROM_START2B)
+         * //D.ebugPrintln("expectPUTPIECE_FROM_START2B"); if (expectDICERESULT)
+         * //D.ebugPrintln("expectDICERESULT"); if (expectDISCARD)
+         * //D.ebugPrintln("expectDISCARD"); if (expectMOVEROBBER)
+         * //D.ebugPrintln("expectMOVEROBBER"); if (expectWAITING_FOR_DISCOVERY)
+         * //D.ebugPrintln("expectWAITING_FOR_DISCOVERY"); if
+         * (waitingForGameState) //D.ebugPrintln("waitingForGameState"); if
+         * (waitingForOurTurn) //D.ebugPrintln("waitingForOurTurn"); if
+         * (waitingForTradeMsg) //D.ebugPrintln("waitingForTradeMsg"); if
+         * (waitingForDevCard) //D.ebugPrintln("waitingForDevCard"); if
+         * (moveRobberOnSeven) //D.ebugPrintln("moveRobberOnSeven"); if
+         * (waitingForTradeResponse) //D.ebugPrintln("waitingForTradeResponse");
+         * if (doneTrading) //D.ebugPrintln("doneTrading"); if (ourTurn)
+         * //D.ebugPrintln("ourTurn");
+         * //D.ebugPrintln("whatWeWantToBuild = "+whatWeWantToBuild);
+         * //D.ebugPrintln("#==============="); }
          */
     }
 
     /**
-     * For each player in game:
-     * client.sendText, and debug-print to console, game.getPlayer(i).getResources()
+     * For each player in game: client.sendText, and debug-print to console,
+     * game.getPlayer(i).getResources()
      */
     private void printResources()
     {

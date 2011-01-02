@@ -4,7 +4,7 @@ import soc.common.board.pieces.PiecesChangedEvent;
 import soc.common.board.pieces.PiecesChangedEventHandler;
 import soc.common.board.pieces.PlayerPiece;
 import soc.common.board.pieces.Town;
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.AbstractStockItemWidget;
 import soc.gwtClient.images.Resources;
 
@@ -18,7 +18,7 @@ public class StockTownBitmapWidget extends AbstractStockItemWidget implements
     private Label townAmount = new Label();
     private Town town = new Town();
 
-    public StockTownBitmapWidget(Player player)
+    public StockTownBitmapWidget(GamePlayer player)
     {
         super(player);
 

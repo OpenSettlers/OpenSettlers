@@ -17,34 +17,32 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>. **/
 package soc.game;
 
-import soc.disableDebug.D;
-
-import soc.message.Message;
-import soc.util.IntPair;
-import soc.util.NodeLenVis;
-
 import java.io.Serializable;
-
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Stack;
 import java.util.Vector;
 
+import soc.disableDebug.D;
+import soc.message.Message;
+import soc.util.IntPair;
+import soc.util.NodeLenVis;
 
 /**
- * A class for holding and manipulating player data.
- * The player exists within one Game, not persistent between games like PlayerClient or ClientData.
+ * A class for holding and manipulating player data. The player exists within
+ * one Game, not persistent between games like PlayerClient or ClientData.
  *<P>
- * For more information about the "legal" and "potential" road/settlement/city terms,
- * see page 61 of Robert S Thomas' dissertation.  Briefly:
- * "Legal" locations are where pieces can be placed, according to the game rules.
- * "Potential" locations are where pieces can be placed <em>soon</em>, based on the
- * current state of the game board.  For example, every legal settlement location is
- * also a potential settlement during initial placement (game state {@link Game#START1A START1A}
- * through {@link Game#START2A START2A}.  Once the player's second settlement is placed,
- * all potential settlement locations are cleared.  Only when they build 2 connected road
- * segments, will another potential settlement location be set.
- *
+ * For more information about the "legal" and "potential" road/settlement/city
+ * terms, see page 61 of Robert S Thomas' dissertation. Briefly: "Legal"
+ * locations are where pieces can be placed, according to the game rules.
+ * "Potential" locations are where pieces can be placed <em>soon</em>, based on
+ * the current state of the game board. For example, every legal settlement
+ * location is also a potential settlement during initial placement (game state
+ * {@link Game#START1A START1A} through {@link Game#START2A START2A}. Once the
+ * player's second settlement is placed, all potential settlement locations are
+ * cleared. Only when they build 2 connected road segments, will another
+ * potential settlement location be set.
+ * 
  * @author Robert S Thomas
  */
 public class Player implements DevCardConstants, Serializable, Cloneable
@@ -117,9 +115,10 @@ public class Player implements DevCardConstants, Serializable, Cloneable
     private ResourceSet resources;
 
     /**
-     * server-only total count of how many of each known resource the player has received this game
-     * from dice rolls.
-     * The used indexes are {@link ResourceConstants#CLAY} - {@link ResourceConstants#WOOD}.
+     * server-only total count of how many of each known resource the player has
+     * received this game from dice rolls. The used indexes are
+     * {@link ResourceConstants#CLAY} - {@link ResourceConstants#WOOD}.
+     * 
      * @since 1.1.09
      */
     private int[] resourceStats;
@@ -140,8 +139,8 @@ public class Player implements DevCardConstants, Serializable, Cloneable
     private int buildingVP;
 
     /**
-     * the final total score (pushed from server at end of game),
-     * or 0 if no score has been forced.
+     * the final total score (pushed from server at end of game), or 0 if no
+     * score has been forced.
      * 
      * @see #forceFinalVP(int)
      */
@@ -153,60 +152,56 @@ public class Player implements DevCardConstants, Serializable, Cloneable
     private boolean needToDiscard;
 
     /**
-     * all of the nodes that this player's roads touch
-     * this is used to calculate longest road
+     * all of the nodes that this player's roads touch this is used to calculate
+     * longest road
      */
     private Vector roadNodes;
 
     /**
-     * a graph of what nodes are connected by this
-     * player's roads
+     * a graph of what nodes are connected by this player's roads
      */
     private boolean[][] roadNodeGraph;
 
     /**
-     * a list of edges where it is legal to place a road.
-     * an edge is legal if a road could eventually be
-     * placed there.
+     * a list of edges where it is legal to place a road. an edge is legal if a
+     * road could eventually be placed there.
      */
     private boolean[] legalRoads;
 
     /**
-     * a list of nodes where it is legal to place a
-     * settlement.        a node is legal if a settlement
-     * could eventually be placed there.
+     * a list of nodes where it is legal to place a settlement. a node is legal
+     * if a settlement could eventually be placed there.
+     * 
      * @see #potentialSettlements
      * @see Board#nodesOnBoard
      */
     private boolean[] legalSettlements;
 
     /**
-     * a list of edges where a road could be placed
-     * on the next turn.
+     * a list of edges where a road could be placed on the next turn.
      */
     private boolean[] potentialRoads;
 
     /**
-     * a list of nodes where a settlement could be
-     * placed on the next turn.
-     * At start of the game, all {@link #legalSettlements} are also potential.
-     * When the second settlement is placed, this is cleared,
-     * and then re-set via {@link #updatePotentials(PlayingPiece) updatePotentials(Road)}.
+     * a list of nodes where a settlement could be placed on the next turn. At
+     * start of the game, all {@link #legalSettlements} are also potential. When
+     * the second settlement is placed, this is cleared, and then re-set via
+     * {@link #updatePotentials(PlayingPiece) updatePotentials(Road)}.
+     * 
      * @see #legalSettlements
      * @see Board#nodesOnBoard
      */
     private boolean[] potentialSettlements;
 
     /**
-     * a list of nodes where a city could be
-     * placed on the next turn.
+     * a list of nodes where a city could be placed on the next turn.
      */
     private boolean[] potentialCities;
 
     /**
-     * a boolean array stating wheather this player is touching a
-     * particular kind of port.
-     * Index == port type, in range {@link Board#MISC_PORT} to {@link Board#WOOD_PORT}
+     * a boolean array stating wheather this player is touching a particular
+     * kind of port. Index == port type, in range {@link Board#MISC_PORT} to
+     * {@link Board#WOOD_PORT}
      */
     private boolean[] ports;
 
@@ -226,14 +221,18 @@ public class Player implements DevCardConstants, Serializable, Cloneable
     private boolean boardResetAskedThisTurn;
 
     /**
-     * In 6-player mode, is the player asking to build during the Special Building Phase?
+     * In 6-player mode, is the player asking to build during the Special
+     * Building Phase?
+     * 
      * @see #hasSpecialBuiltThisTurn
      * @since 1.1.08
      */
     private boolean askedSpecialBuild;
 
     /**
-     * In 6-player mode, has the player already built during the Special Building Phase?
+     * In 6-player mode, has the player already built during the Special
+     * Building Phase?
+     * 
      * @see #askedSpecialBuild
      * @since 1.1.09
      */
@@ -245,8 +244,9 @@ public class Player implements DevCardConstants, Serializable, Cloneable
     private boolean robotFlag;
 
     /**
-     * Is this robot connection the built-in robot (not a 3rd-party),
-     * with the original AI?
+     * Is this robot connection the built-in robot (not a 3rd-party), with the
+     * original AI?
+     * 
      * @see soc.message.ImARobot
      * @since 1.1.09
      */
@@ -270,8 +270,9 @@ public class Player implements DevCardConstants, Serializable, Cloneable
 
     /**
      * create a copy of the player
-     *
-     * @param player        the player to copy
+     * 
+     * @param player
+     *            the player to copy
      */
     public Player(Player player)
     {
@@ -291,7 +292,8 @@ public class Player implements DevCardConstants, Serializable, Cloneable
         lrPaths = (Vector) player.lrPaths.clone();
         resources = player.resources.copy();
         resourceStats = new int[player.resourceStats.length];
-        System.arraycopy(player.resourceStats, 0, resourceStats, 0, player.resourceStats.length);
+        System.arraycopy(player.resourceStats, 0, resourceStats, 0,
+                player.resourceStats.length);
         devCards = new DevCardSet(player.devCards);
         numKnights = player.numKnights;
         buildingVP = player.buildingVP;
@@ -358,9 +360,11 @@ public class Player implements DevCardConstants, Serializable, Cloneable
 
     /**
      * create a new player
-     *
-     * @param pn the player number
-     * @param ga the game that the player is in
+     * 
+     * @param pn
+     *            the player number
+     * @param ga
+     *            the game that the player is in
      */
     public Player(int pn, Game ga)
     {
@@ -449,8 +453,7 @@ public class Player implements DevCardConstants, Serializable, Cloneable
     {
         // 6-player starts land 1 extra hex (2 edges) west of standard board,
         // and has an extra row of land hexes at north and south end.
-        final boolean is6player = (game.getBoard().getBoardEncodingFormat()
-            == Board.BOARD_ENCODING_6PLAYER);
+        final boolean is6player = (game.getBoard().getBoardEncodingFormat() == Board.BOARD_ENCODING_6PLAYER);
         final int westAdj = (is6player) ? 0x22 : 0x00;
 
         // Set each row of valid road (edge) coordinates:
@@ -511,14 +514,14 @@ public class Player implements DevCardConstants, Serializable, Cloneable
 
     /**
      * initialize the legal settlements array.
+     * 
      * @see Board#nodesOnBoard
      */
     private final void initLegalAndPotentialSettlements()
     {
         // 6-player starts land 1 extra hex (2 nodes) west of standard board,
         // and has an extra row of land hexes at north and south end.
-        final boolean is6player = (game.getBoard().getBoardEncodingFormat()
-            == Board.BOARD_ENCODING_6PLAYER);
+        final boolean is6player = (game.getBoard().getBoardEncodingFormat() == Board.BOARD_ENCODING_6PLAYER);
         final int westAdj = (is6player) ? 0x22 : 0x00;
 
         // Set each row of valid node coordinates:
@@ -530,7 +533,7 @@ public class Player implements DevCardConstants, Serializable, Cloneable
             {
                 potentialSettlements[i] = true;
                 legalSettlements[i] = true;
-            }            
+            }
         }
 
         for (i = 0x27 - westAdj; i <= 0x8D; i += 0x11)
@@ -575,18 +578,17 @@ public class Player implements DevCardConstants, Serializable, Cloneable
             {
                 potentialSettlements[i] = true;
                 legalSettlements[i] = true;
-            }            
+            }
         }
     }
 
     /**
-     * Set all nodes to not be potential settlements.
-     * Called by {@link Game#putPiece(PlayingPiece)}
-     * in state {@link Game#START2A} after 2nd settlement placement.
-     * After they have placed another road, that road's
-     * {@link #putPiece(PlayingPiece)} call will call
-     * {@link #updatePotentials(PlayingPiece)}, which
-     * will set potentialSettlements at the road's new end node.
+     * Set all nodes to not be potential settlements. Called by
+     * {@link Game#putPiece(PlayingPiece)} in state {@link Game#START2A} after
+     * 2nd settlement placement. After they have placed another road, that
+     * road's {@link #putPiece(PlayingPiece)} call will call
+     * {@link #updatePotentials(PlayingPiece)}, which will set
+     * potentialSettlements at the road's new end node.
      */
     public void clearPotentialSettlements()
     {
@@ -600,19 +602,20 @@ public class Player implements DevCardConstants, Serializable, Cloneable
 
     /**
      * set the name of the player
-     *
-     * @param na    the player's new name, or null.
-     *           For network message safety, must not contain
-     *           control characters, {@link Message#sep_char}, or {@link Message#sep2_char}.
-     *           This is enforced by calling {@link Message#isSingleLineAndSafe(String)}.
-     * @throws IllegalArgumentException if a non-null name fails
-     *           {@link Message#isSingleLineAndSafe(String)}.
-     *           This exception was added in 1.1.07.
+     * 
+     * @param na
+     *            the player's new name, or null. For network message safety,
+     *            must not contain control characters, {@link Message#sep_char},
+     *            or {@link Message#sep2_char}. This is enforced by calling
+     *            {@link Message#isSingleLineAndSafe(String)}.
+     * @throws IllegalArgumentException
+     *             if a non-null name fails
+     *             {@link Message#isSingleLineAndSafe(String)}. This exception
+     *             was added in 1.1.07.
      */
-    public void setName(String na)
-        throws IllegalArgumentException
+    public void setName(String na) throws IllegalArgumentException
     {
-        if ((na != null) && ! Message.isSingleLineAndSafe(na))
+        if ((na != null) && !Message.isSingleLineAndSafe(na))
             throw new IllegalArgumentException("na");
         name = na;
     }
@@ -651,8 +654,9 @@ public class Player implements DevCardConstants, Serializable, Cloneable
 
     /**
      * set the playedDevCard flag
-     *
-     * @param value         the value of the flag
+     * 
+     * @param value
+     *            the value of the flag
      */
     public void setPlayedDevCard(boolean value)
     {
@@ -669,8 +673,9 @@ public class Player implements DevCardConstants, Serializable, Cloneable
 
     /**
      * set the flag indicating if the player asked to reset the board this turn
-     *
-     * @param value  true to set, false to clear
+     * 
+     * @param value
+     *            true to set, false to clear
      */
     public void setAskedBoardReset(boolean value)
     {
@@ -678,10 +683,11 @@ public class Player implements DevCardConstants, Serializable, Cloneable
     }
 
     /**
-     * In 6-player mode's Special Building Phase, this player has asked to build.
-     * To set or clear this flag, use {@link #setAskedSpecialBuild(boolean)}.
-     *
-     * @return  if the player has asked to build
+     * In 6-player mode's Special Building Phase, this player has asked to
+     * build. To set or clear this flag, use
+     * {@link #setAskedSpecialBuild(boolean)}.
+     * 
+     * @return if the player has asked to build
      * @see #getAskSpecialBuildPieces()
      * @see #hasSpecialBuilt()
      * @since 1.1.08
@@ -692,13 +698,13 @@ public class Player implements DevCardConstants, Serializable, Cloneable
     }
 
     /**
-     * In 6-player mode's Special Building Phase, set or clear the flag
-     * for this player asking to build.
-     * Does not validate that they are currently allowed to ask;
-     * use {@link Game#canAskSpecialBuild(int, boolean)} for that.
-     * To read this flag, use {@link #hasAskedSpecialBuild()}.
-     *
-     * @param set  if the player has asked to build
+     * In 6-player mode's Special Building Phase, set or clear the flag for this
+     * player asking to build. Does not validate that they are currently allowed
+     * to ask; use {@link Game#canAskSpecialBuild(int, boolean)} for that. To
+     * read this flag, use {@link #hasAskedSpecialBuild()}.
+     * 
+     * @param set
+     *            if the player has asked to build
      * @see Game#askSpecialBuild(int, boolean)
      * @since 1.1.08
      */
@@ -708,10 +714,11 @@ public class Player implements DevCardConstants, Serializable, Cloneable
     }
 
     /**
-     * In 6-player mode's Special Building Phase, this player has already built this turn.
-     * To set or clear this flag, use {@link #setSpecialBuilt(boolean)}.
-     *
-     * @return  if the player has built
+     * In 6-player mode's Special Building Phase, this player has already built
+     * this turn. To set or clear this flag, use
+     * {@link #setSpecialBuilt(boolean)}.
+     * 
+     * @return if the player has built
      * @see #hasAskedSpecialBuild()
      * @since 1.1.09
      */
@@ -721,12 +728,12 @@ public class Player implements DevCardConstants, Serializable, Cloneable
     }
 
     /**
-     * In 6-player mode's Special Building Phase, set or clear the flag
-     * for this player already built this turn.
-     * Does not validate against current game conditions.
-     * To read this flag, use {@link #hasSpecialBuilt()}.
-     *
-     * @param set  if the player special-built this turn
+     * In 6-player mode's Special Building Phase, set or clear the flag for this
+     * player already built this turn. Does not validate against current game
+     * conditions. To read this flag, use {@link #hasSpecialBuilt()}.
+     * 
+     * @param set
+     *            if the player special-built this turn
      * @since 1.1.09
      */
     public void setSpecialBuilt(boolean set)
@@ -736,8 +743,9 @@ public class Player implements DevCardConstants, Serializable, Cloneable
 
     /**
      * set the "need to discard" flag
-     *
-     * @param value         the value of the flag
+     * 
+     * @param value
+     *            the value of the flag
      */
     public void setNeedToDiscard(boolean value)
     {
@@ -754,9 +762,12 @@ public class Player implements DevCardConstants, Serializable, Cloneable
 
     /**
      * set the robot flags.
-     * @param isRobot  Is this player a robot?
-     * @param isBuiltIn  Is this player the built-in robot type?
-     *   Assume false if unknown, such as in SITDOWN message received at other clients.
+     * 
+     * @param isRobot
+     *            Is this player a robot?
+     * @param isBuiltIn
+     *            Is this player the built-in robot type? Assume false if
+     *            unknown, such as in SITDOWN message received at other clients.
      */
     public void setRobotFlag(boolean isRobot, boolean isBuiltIn)
     {
@@ -766,6 +777,7 @@ public class Player implements DevCardConstants, Serializable, Cloneable
 
     /**
      * Is this player a robot AI (built-in or 3rd-party)?
+     * 
      * @return the value of the robot flag
      * @see #isBuiltInRobot()
      */
@@ -775,8 +787,9 @@ public class Player implements DevCardConstants, Serializable, Cloneable
     }
 
     /**
-     * Is this robot player the built-in robot (not a 3rd-party),
-     * with the original AI?  False if unknown.
+     * Is this robot player the built-in robot (not a 3rd-party), with the
+     * original AI? False if unknown.
+     * 
      * @see #isRobot()
      * @see soc.message.ImARobot
      * @return the value of the built-in-robot flag
@@ -789,8 +802,9 @@ public class Player implements DevCardConstants, Serializable, Cloneable
 
     /**
      * set the face image id
-     *
-     * @param id        the image id. 1 is the first human face image; 0 is the robot.
+     * 
+     * @param id
+     *            the image id. 1 is the first human face image; 0 is the robot.
      */
     public void setFaceId(int id)
     {
@@ -799,7 +813,9 @@ public class Player implements DevCardConstants, Serializable, Cloneable
 
     /**
      * get the face image id.
-     * @return  the face image id.  1 is the first human face image; 0 is the robot.
+     * 
+     * @return the face image id. 1 is the first human face image; 0 is the
+     *         robot.
      */
     public int getFaceId()
     {
@@ -816,8 +832,9 @@ public class Player implements DevCardConstants, Serializable, Cloneable
 
     /**
      * @return the number of pieces not in play for a particualr type of piece
-     *
-     * @param ptype the type of piece
+     * 
+     * @param ptype
+     *            the type of piece
      */
     public int getNumPieces(int ptype)
     {
@@ -825,11 +842,12 @@ public class Player implements DevCardConstants, Serializable, Cloneable
     }
 
     /**
-     * set the amount of pieces not in play
-     * for a particular type of piece
-     *
-     * @param ptype         the type of piece
-     * @param amt                 the amount
+     * set the amount of pieces not in play for a particular type of piece
+     * 
+     * @param ptype
+     *            the type of piece
+     * @param amt
+     *            the amount
      */
     public void setNumPieces(int ptype, int amt)
     {
@@ -869,8 +887,7 @@ public class Player implements DevCardConstants, Serializable, Cloneable
     }
 
     /**
-     * @return the coordinates of the last settlement
-     * played by this player
+     * @return the coordinates of the last settlement played by this player
      */
     public int getLastSettlementCoord()
     {
@@ -878,8 +895,7 @@ public class Player implements DevCardConstants, Serializable, Cloneable
     }
 
     /**
-     * @return the coordinates of the last road
-     * played by this player
+     * @return the coordinates of the last road played by this player
      */
     public int getLastRoadCoord()
     {
@@ -904,7 +920,9 @@ public class Player implements DevCardConstants, Serializable, Cloneable
 
     /**
      * set the longest paths vector
-     * @param vec  the vector
+     * 
+     * @param vec
+     *            the vector
      */
     public void setLRPaths(Vector vec)
     {
@@ -915,15 +933,18 @@ public class Player implements DevCardConstants, Serializable, Cloneable
         while (pathEnum.hasMoreElements())
         {
             LRPathData pd = (LRPathData) pathEnum.nextElement();
-            D.ebugPrintln("restoring pd for player " + playerNumber + " :" + pd);
+            D
+                    .ebugPrintln("restoring pd for player " + playerNumber
+                            + " :" + pd);
             lrPaths.addElement(pd);
         }
     }
 
     /**
      * set the longest road length
-     *
-     * @param len         the length
+     * 
+     * @param len
+     *            the length
      */
     public void setLongestRoadLength(int len)
     {
@@ -939,14 +960,14 @@ public class Player implements DevCardConstants, Serializable, Cloneable
     }
 
     /**
-     * On server, get the current totals of resources received by dice rolls by this player.
-     * Please treat this as read-only.
+     * On server, get the current totals of resources received by dice rolls by
+     * this player. Please treat this as read-only.
      *<P>
      * Not currently tracked at client.
-     *
-     * @return array of resource counts from dice rolls;
-     *   the used indexes are {@link ResourceConstants#CLAY} - {@link ResourceConstants#WOOD}.
-     *   Index 0 is unused.
+     * 
+     * @return array of resource counts from dice rolls; the used indexes are
+     *         {@link ResourceConstants#CLAY} - {@link ResourceConstants#WOOD}.
+     *         Index 0 is unused.
      * @since 1.1.09
      */
     public int[] getResourceRollStats()
@@ -956,8 +977,10 @@ public class Player implements DevCardConstants, Serializable, Cloneable
 
     /**
      * Add to this player's resources and resource-roll totals.
-     * @param rolled The resources gained by this roll, as from
-     *     {@link Game#getResourcesGainedFromRoll(Player, int)}
+     * 
+     * @param rolled
+     *            The resources gained by this roll, as from
+     *            {@link Game#getResourcesGainedFromRoll(Player, int)}
      * @since 1.1.09
      */
     public void addRolledResources(ResourceSet rolled)
@@ -974,13 +997,13 @@ public class Player implements DevCardConstants, Serializable, Cloneable
     {
         return devCards;
     }
-    
+
     /**
      * @return whether this player has any unplayed dev cards
      * 
      * @see #getDevCards()
-     */     
-    public boolean hasUnplayedDevCards()  // hasUnplayedDevCards
+     */
+    public boolean hasUnplayedDevCards() // hasUnplayedDevCards
     {
         return (0 < devCards.getNumUnplayed());
     }
@@ -995,8 +1018,9 @@ public class Player implements DevCardConstants, Serializable, Cloneable
 
     /**
      * set the number of knights in play
-     *
-     * @param nk        the number of knights
+     * 
+     * @param nk
+     *            the number of knights
      */
     public void setNumKnights(int nk)
     {
@@ -1022,7 +1046,8 @@ public class Player implements DevCardConstants, Serializable, Cloneable
         }
         else
         {
-            return (game.getPlayerWithLongestRoad().getPlayerNumber() == this.getPlayerNumber());
+            return (game.getPlayerWithLongestRoad().getPlayerNumber() == this
+                    .getPlayerNumber());
         }
     }
 
@@ -1037,15 +1062,16 @@ public class Player implements DevCardConstants, Serializable, Cloneable
         }
         else
         {
-            return (game.getPlayerWithLargestArmy().getPlayerNumber() == this.getPlayerNumber());
+            return (game.getPlayerWithLargestArmy().getPlayerNumber() == this
+                    .getPlayerNumber());
         }
     }
 
     /**
-     * This player's number of publicly known victory points.
-     * Public victory points exclude VP development cards, except at
-     * end of game, when they've been announced by server.
-     *  
+     * This player's number of publicly known victory points. Public victory
+     * points exclude VP development cards, except at end of game, when they've
+     * been announced by server.
+     * 
      * @return the number of publicly known victory points
      * @see #forceFinalVP(int)
      */
@@ -1053,7 +1079,7 @@ public class Player implements DevCardConstants, Serializable, Cloneable
     {
         if (finalTotalVP > 0)
             return finalTotalVP;
-        
+
         int vp = buildingVP;
 
         /**
@@ -1091,18 +1117,19 @@ public class Player implements DevCardConstants, Serializable, Cloneable
     }
 
     /**
-     * If game is over, server can push the final score for
-     * each player to the client.  During play, true scores aren't
-     * known, because of hidden victory-point cards.
-     * getTotalVP() and getPublicVP() will report this, if set.
+     * If game is over, server can push the final score for each player to the
+     * client. During play, true scores aren't known, because of hidden
+     * victory-point cards. getTotalVP() and getPublicVP() will report this, if
+     * set.
      * 
-     * @param score Total score for the player, or 0 for no forced total.
+     * @param score
+     *            Total score for the player, or 0 for no forced total.
      */
     public void forceFinalVP(int score)
     {
         if (game.getGameState() != Game.OVER)
-            return;  // Consider throw IllegalStateException
-        
+            return; // Consider throw IllegalStateException
+
         finalTotalVP = score;
     }
 
@@ -1124,8 +1151,9 @@ public class Player implements DevCardConstants, Serializable, Cloneable
 
     /**
      * set the current offer for this player
-     *
-     * @param of        the offer
+     * 
+     * @param of
+     *            the offer
      */
     public void setCurrentOffer(TradeOffer of)
     {
@@ -1133,23 +1161,25 @@ public class Player implements DevCardConstants, Serializable, Cloneable
     }
 
     /**
-     * @return true if one of this player's roads connects
-     *                                 the two nodes.
-     *
-     * @param node1         coordinates of first node
-     * @param node2         coordinates of second node
+     * @return true if one of this player's roads connects the two nodes.
+     * 
+     * @param node1
+     *            coordinates of first node
+     * @param node2
+     *            coordinates of second node
      */
     public boolean isConnectedByRoad(int node1, int node2)
     {
-        //D.ebugPrintln("isConnectedByRoad "+Integer.toHexString(node1)+", "+Integer.toHexString(node2)+" = "+roadNodeGraph[node1][node2]);
+        // D.ebugPrintln("isConnectedByRoad "+Integer.toHexString(node1)+", "+Integer.toHexString(node2)+" = "+roadNodeGraph[node1][node2]);
         return roadNodeGraph[node1][node2];
     }
 
     /**
-     * put a piece into play
-     * note: placing a city automatically removes the settlement there
-     *
-     * @param piece         the piece to be put into play
+     * put a piece into play note: placing a city automatically removes the
+     * settlement there
+     * 
+     * @param piece
+     *            the piece to be put into play
      */
     public void putPiece(PlayingPiece piece)
     {
@@ -1174,7 +1204,8 @@ public class Player implements DevCardConstants, Serializable, Cloneable
                 /**
                  * add the nodes this road touches to the roadNodes list
                  */
-                Enumeration nodes = board.getAdjacentNodesToEdge(piece.getCoordinates()).elements();
+                Enumeration nodes = board.getAdjacentNodesToEdge(
+                        piece.getCoordinates()).elements();
                 int[] nodeCoords = new int[2];
                 int i = 0;
 
@@ -1182,7 +1213,7 @@ public class Player implements DevCardConstants, Serializable, Cloneable
                 {
                     Integer node = (Integer) nodes.nextElement();
 
-                    //D.ebugPrintln("^^^ node = "+Integer.toHexString(node.intValue()));
+                    // D.ebugPrintln("^^^ node = "+Integer.toHexString(node.intValue()));
                     nodeCoords[i] = node.intValue();
                     i++;
 
@@ -1190,7 +1221,7 @@ public class Player implements DevCardConstants, Serializable, Cloneable
                      * only add nodes that aren't in the list
                      */
 
-                    //D.ebugPrintln("(roadNodes.contains(node)) = "+(roadNodes.contains(node)));
+                    // D.ebugPrintln("(roadNodes.contains(node)) = "+(roadNodes.contains(node)));
                     if (!(roadNodes.contains(node)))
                     {
                         roadNodes.addElement(node);
@@ -1203,8 +1234,8 @@ public class Player implements DevCardConstants, Serializable, Cloneable
                 roadNodeGraph[nodeCoords[0]][nodeCoords[1]] = true;
                 roadNodeGraph[nodeCoords[1]][nodeCoords[0]] = true;
 
-                //D.ebugPrintln("^^ roadNodeGraph["+Integer.toHexString(nodeCoords[0])+"]["+Integer.toHexString(nodeCoords[1])+"] = true");
-                //D.ebugPrintln("^^ roadNodeGraph["+Integer.toHexString(nodeCoords[1])+"]["+Integer.toHexString(nodeCoords[0])+"] = true");
+                // D.ebugPrintln("^^ roadNodeGraph["+Integer.toHexString(nodeCoords[0])+"]["+Integer.toHexString(nodeCoords[1])+"] = true");
+                // D.ebugPrintln("^^ roadNodeGraph["+Integer.toHexString(nodeCoords[1])+"]["+Integer.toHexString(nodeCoords[0])+"] = true");
                 break;
 
             /**
@@ -1224,7 +1255,8 @@ public class Player implements DevCardConstants, Serializable, Cloneable
                 /**
                  * update our port flags
                  */
-                int portType = board.getPortTypeFromNodeCoord(piece.getCoordinates());
+                int portType = board.getPortTypeFromNodeCoord(piece
+                        .getCoordinates());
                 if (portType != -1)
                     setPortFlag(portType, true);
                 break;
@@ -1242,8 +1274,8 @@ public class Player implements DevCardConstants, Serializable, Cloneable
                 buildingVP += 2;
 
                 /**
-                 * update what numbers we're touching
-                 * a city counts as touching a number twice
+                 * update what numbers we're touching a city counts as touching
+                 * a number twice
                  */
                 ourNumbers.updateNumbers(piece, board);
                 break;
@@ -1256,22 +1288,23 @@ public class Player implements DevCardConstants, Serializable, Cloneable
     /**
      * undo the putting of a piece.
      *<P>
-     * Among other actions,
-     * Updates the potential building lists
-     * for removing settlements or cities.
-     * Updates port flags, this player's dice resource numbers, etc.
+     * Among other actions, Updates the potential building lists for removing
+     * settlements or cities. Updates port flags, this player's dice resource
+     * numbers, etc.
      *<P>
      * If the piece is ours, calls {@link #removePiece(PlayingPiece)}.
      *<P>
-     * For removing second initial settlement (state START2B),
-     *   will zero the player's resource cards. 
-     *
-     * @param piece         the piece placement to be undone.
-     *
+     * For removing second initial settlement (state START2B), will zero the
+     * player's resource cards.
+     * 
+     * @param piece
+     *            the piece placement to be undone.
+     * 
      */
     public void undoPutPiece(PlayingPiece piece)
     {
-        final boolean ours = (piece.getPlayer().getPlayerNumber() == this.getPlayerNumber());
+        final boolean ours = (piece.getPlayer().getPlayerNumber() == this
+                .getPlayerNumber());
 
         final Board board = game.getBoard();
         switch (piece.getType())
@@ -1299,10 +1332,11 @@ public class Player implements DevCardConstants, Serializable, Cloneable
 
                 //
                 // call updatePotentials
-                // on our roads that are adjacent to 
+                // on our roads that are adjacent to
                 // this edge
                 //
-                Vector adjEdges = board.getAdjacentEdgesToEdge(piece.getCoordinates());
+                Vector adjEdges = board.getAdjacentEdgesToEdge(piece
+                        .getCoordinates());
                 Enumeration roadEnum = roads.elements();
 
                 while (roadEnum.hasMoreElements())
@@ -1337,72 +1371,79 @@ public class Player implements DevCardConstants, Serializable, Cloneable
                 //
                 // update our port flags
                 //
-                final int portType = board.getPortTypeFromNodeCoord(piece.getCoordinates());
+                final int portType = board.getPortTypeFromNodeCoord(piece
+                        .getCoordinates());
                 if (portType != -1)
                 {
                     boolean only1portOfType;
                     if (portType == Board.MISC_PORT)
                     {
                         only1portOfType = false;
-                    } else {
+                    }
+                    else
+                    {
                         // how many 2:1 ports of this type?
                         int nPort = board.getPortCoordinates(portType).size() / 2;
                         only1portOfType = (nPort < 2);
                     }
-                    
-                        if (only1portOfType)
-                        {
-                            // since only one settlement on this kind of port,
-                            // we can just set the port flag to false
-                            setPortFlag(portType, false);
-                        }
-                        else
-                        {
-                            //
-                            // there are muliple ports, so we need to check all
-                            // the settlements and cities
-                            //
-                            boolean havePortType = false;
-                            Enumeration settlementEnum = settlements.elements();
 
-                            while (settlementEnum.hasMoreElements())
+                    if (only1portOfType)
+                    {
+                        // since only one settlement on this kind of port,
+                        // we can just set the port flag to false
+                        setPortFlag(portType, false);
+                    }
+                    else
+                    {
+                        //
+                        // there are muliple ports, so we need to check all
+                        // the settlements and cities
+                        //
+                        boolean havePortType = false;
+                        Enumeration settlementEnum = settlements.elements();
+
+                        while (settlementEnum.hasMoreElements())
+                        {
+                            Settlement settlement = (Settlement) settlementEnum
+                                    .nextElement();
+                            if (board.getPortTypeFromNodeCoord(settlement
+                                    .getCoordinates()) == portType)
                             {
-                                Settlement settlement = (Settlement) settlementEnum.nextElement();
-                                if (board.getPortTypeFromNodeCoord(settlement.getCoordinates()) == portType)
+                                havePortType = true;
+                                break;
+                            }
+                        }
+
+                        if (!havePortType)
+                        {
+                            Enumeration cityEnum = cities.elements();
+                            while (cityEnum.hasMoreElements())
+                            {
+                                City city = (City) cityEnum.nextElement();
+                                if (board.getPortTypeFromNodeCoord(city
+                                        .getCoordinates()) == portType)
                                 {
                                     havePortType = true;
                                     break;
                                 }
                             }
-
-                            if (!havePortType)
-                            {
-                                Enumeration cityEnum = cities.elements();
-                                while (cityEnum.hasMoreElements())
-                                {
-                                    City city = (City) cityEnum.nextElement();
-                                    if (board.getPortTypeFromNodeCoord(city.getCoordinates()) == portType)
-                                    {
-                                        havePortType = true;
-                                        break;
-                                    }
-                                }
-                            }
-
-                            setPortFlag(portType, havePortType);
                         }
-                }  // if (portType != -1)
-            }  // if (ours)
+
+                        setPortFlag(portType, havePortType);
+                    }
+                } // if (portType != -1)
+            } // if (ours)
 
             //
-            // update settlement potentials 
+            // update settlement potentials
             //
             undoPutPieceAuxSettlement(piece.getCoordinates());
 
             //
             // check adjacent nodes
             //
-            Enumeration adjNodesEnum = board.getAdjacentNodesToNode(piece.getCoordinates()).elements();
+            Enumeration adjNodesEnum = board.getAdjacentNodesToNode(
+                    piece.getCoordinates()).elements();
 
             while (adjNodesEnum.hasMoreElements())
             {
@@ -1413,7 +1454,8 @@ public class Player implements DevCardConstants, Serializable, Cloneable
             if (ours && (game.getGameState() == Game.START2B))
             {
                 resources.clear();
-                // resourceStats[] is 0 already, because nothing's been rolled yet
+                // resourceStats[] is 0 already, because nothing's been rolled
+                // yet
             }
 
             break;
@@ -1429,8 +1471,8 @@ public class Player implements DevCardConstants, Serializable, Cloneable
                 potentialCities[piece.getCoordinates()] = true;
 
                 /**
-                 * update what numbers we're touching
-                 * a city counts as touching a number twice
+                 * update what numbers we're touching a city counts as touching
+                 * a number twice
                  */
                 ourNumbers.undoUpdateNumbers(piece, board);
                 ourNumbers.undoUpdateNumbers(piece, board);
@@ -1442,14 +1484,16 @@ public class Player implements DevCardConstants, Serializable, Cloneable
 
     /**
      * Auxiliary function for undoing settlement placement
-     *
-     * @param settlementNode  the node we want to consider
+     * 
+     * @param settlementNode
+     *            the node we want to consider
      */
     protected void undoPutPieceAuxSettlement(int settlementNode)
     {
-        //D.ebugPrintln("))))) undoPutPieceAuxSettlement : node = "+Integer.toHexString(settlementNode));
+        // D.ebugPrintln("))))) undoPutPieceAuxSettlement : node = "+Integer.toHexString(settlementNode));
         //
-        // if this node doesn't have any neighboring settlements or cities, make it legal
+        // if this node doesn't have any neighboring settlements or cities, make
+        // it legal
         //
         boolean haveNeighbor = false;
         Board board = game.getBoard();
@@ -1469,7 +1513,7 @@ public class Player implements DevCardConstants, Serializable, Cloneable
                 {
                     haveNeighbor = true;
 
-                    //D.ebugPrintln(")))) haveNeighbor = true : node = "+Integer.toHexString(adjNode.intValue()));
+                    // D.ebugPrintln(")))) haveNeighbor = true : node = "+Integer.toHexString(adjNode.intValue()));
                     break;
                 }
             }
@@ -1497,7 +1541,7 @@ public class Player implements DevCardConstants, Serializable, Cloneable
                     {
                         haveNeighbor = true;
 
-                        //D.ebugPrintln(")))) haveNeighbor = true : node = "+Integer.toHexString(adjNode.intValue()));
+                        // D.ebugPrintln(")))) haveNeighbor = true : node = "+Integer.toHexString(adjNode.intValue()));
                         break;
                     }
                 }
@@ -1510,7 +1554,7 @@ public class Player implements DevCardConstants, Serializable, Cloneable
 
             if (!haveNeighbor)
             {
-                //D.ebugPrintln(")))) haveNeighbor = false");
+                // D.ebugPrintln(")))) haveNeighbor = false");
                 //
                 // check to see if this node is on the board
                 //
@@ -1518,7 +1562,7 @@ public class Player implements DevCardConstants, Serializable, Cloneable
                 {
                     legalSettlements[settlementNode] = true;
 
-                    //D.ebugPrintln(")))) legalSettlements["+Integer.toHexString(settlementNode)+"] = true");
+                    // D.ebugPrintln(")))) legalSettlements["+Integer.toHexString(settlementNode)+"] = true");
                     //
                     // if it's the beginning of the game, make it potental
                     //
@@ -1526,16 +1570,18 @@ public class Player implements DevCardConstants, Serializable, Cloneable
                     {
                         potentialSettlements[settlementNode] = true;
 
-                        //D.ebugPrintln(")))) potentialSettlements["+Integer.toHexString(settlementNode)+"] = true");
+                        // D.ebugPrintln(")))) potentialSettlements["+Integer.toHexString(settlementNode)+"] = true");
                     }
                     else
                     {
                         //
-                        // if it's legal and we have an adjacent road, make it potential
+                        // if it's legal and we have an adjacent road, make it
+                        // potential
                         //
-                        //D.ebugPrintln(")))) checking for adjacent roads");
+                        // D.ebugPrintln(")))) checking for adjacent roads");
                         boolean adjRoad = false;
-                        Vector adjEdges = board.getAdjacentEdgesToNode(settlementNode);
+                        Vector adjEdges = board
+                                .getAdjacentEdgesToNode(settlementNode);
                         Enumeration roadsEnum = roads.elements();
 
                         while (roadsEnum.hasMoreElements())
@@ -1545,11 +1591,12 @@ public class Player implements DevCardConstants, Serializable, Cloneable
 
                             while (adjEdgesEnum.hasMoreElements())
                             {
-                                Integer adjEdge = (Integer) adjEdgesEnum.nextElement();
+                                Integer adjEdge = (Integer) adjEdgesEnum
+                                        .nextElement();
 
                                 if (road.getCoordinates() == adjEdge.intValue())
                                 {
-                                    //D.ebugPrintln("))) found adj road at "+Integer.toHexString(adjEdge.intValue()));
+                                    // D.ebugPrintln("))) found adj road at "+Integer.toHexString(adjEdge.intValue()));
                                     adjRoad = true;
 
                                     break;
@@ -1566,7 +1613,7 @@ public class Player implements DevCardConstants, Serializable, Cloneable
                         {
                             potentialSettlements[settlementNode] = true;
 
-                            //D.ebugPrintln(")))) potentialSettlements["+Integer.toHexString(settlementNode)+"] = true");
+                            // D.ebugPrintln(")))) potentialSettlements["+Integer.toHexString(settlementNode)+"] = true");
                         }
                     }
                 }
@@ -1575,13 +1622,12 @@ public class Player implements DevCardConstants, Serializable, Cloneable
     }
 
     /**
-     * remove a player's piece from the board,
-     * and put it back in the player's hand.
+     * remove a player's piece from the board, and put it back in the player's
+     * hand.
      *<P>
-     * NOTE: Does NOT update the potential building lists
-     *           for removing settlements or cities.
-     *       DOES update potential road lists.
-     *
+     * NOTE: Does NOT update the potential building lists for removing
+     * settlements or cities. DOES update potential road lists.
+     * 
      * @see #undoPutPiece(PlayingPiece)
      */
     public void removePiece(PlayingPiece piece)
@@ -1595,7 +1641,8 @@ public class Player implements DevCardConstants, Serializable, Cloneable
         {
             PlayingPiece p = (PlayingPiece) pEnum.nextElement();
 
-            if ((piece.getType() == p.getType()) && (piece.getCoordinates() == p.getCoordinates()))
+            if ((piece.getType() == p.getType())
+                    && (piece.getCoordinates() == p.getCoordinates()))
             {
                 pieces.removeElement(p);
 
@@ -1606,9 +1653,11 @@ public class Player implements DevCardConstants, Serializable, Cloneable
                     numPieces[PlayingPiece.ROAD]++;
 
                     /**
-                     * remove the nodes this road touches from the roadNodes list
+                     * remove the nodes this road touches from the roadNodes
+                     * list
                      */
-                    Enumeration nodes = board.getAdjacentNodesToEdge(piece.getCoordinates()).elements();
+                    Enumeration nodes = board.getAdjacentNodesToEdge(
+                            piece.getCoordinates()).elements();
                     int[] nodeCoords = new int[2];
                     int i = 0;
 
@@ -1619,10 +1668,12 @@ public class Player implements DevCardConstants, Serializable, Cloneable
                         i++;
 
                         /**
-                         * only remove nodes if none of our roads are touching it
+                         * only remove nodes if none of our roads are touching
+                         * it
                          */
                         Enumeration roadsEnum = roads.elements();
-                        Vector adjEdges = board.getAdjacentEdgesToNode(node.intValue());
+                        Vector adjEdges = board.getAdjacentEdgesToNode(node
+                                .intValue());
                         boolean match = false;
 
                         while (roadsEnum.hasMoreElements())
@@ -1632,7 +1683,8 @@ public class Player implements DevCardConstants, Serializable, Cloneable
 
                             while (adjEdgesEnum.hasMoreElements())
                             {
-                                Integer adjEdge = (Integer) adjEdgesEnum.nextElement();
+                                Integer adjEdge = (Integer) adjEdgesEnum
+                                        .nextElement();
 
                                 if (adjEdge.intValue() == rd.getCoordinates())
                                 {
@@ -1663,7 +1715,7 @@ public class Player implements DevCardConstants, Serializable, Cloneable
 
                     /**
                      * update the potential places to build roads
-                     *
+                     * 
                      * NOTE: we're assuming that we could build a road here
                      * before, so we can make it a legal spot again
                      */
@@ -1671,12 +1723,12 @@ public class Player implements DevCardConstants, Serializable, Cloneable
                     legalRoads[piece.getCoordinates()] = true;
 
                     /**
-                     * check each adjacent legal edge, if there are
-                     * no roads touching it, then it's no longer a
-                     * potential road
+                     * check each adjacent legal edge, if there are no roads
+                     * touching it, then it's no longer a potential road
                      */
                     Vector allPieces = board.getPieces();
-                    Enumeration adjEdgesEnum = board.getAdjacentEdgesToEdge(piece.getCoordinates()).elements();
+                    Enumeration adjEdgesEnum = board.getAdjacentEdgesToEdge(
+                            piece.getCoordinates()).elements();
 
                     while (adjEdgesEnum.hasMoreElements())
                     {
@@ -1687,25 +1739,37 @@ public class Player implements DevCardConstants, Serializable, Cloneable
                             boolean isPotentialRoad = false;
 
                             /**
-                             * check each adjacent node for blocking
-                             * settlements or cities
+                             * check each adjacent node for blocking settlements
+                             * or cities
                              */
-                            final int[] adjNodes = Board.getAdjacentNodesToEdge_arr(adjEdge.intValue());
+                            final int[] adjNodes = Board
+                                    .getAdjacentNodesToEdge_arr(adjEdge
+                                            .intValue());
 
-                            for (int ni = 0; (ni < 2) && ! isPotentialRoad; ++ni) 
+                            for (int ni = 0; (ni < 2) && !isPotentialRoad; ++ni)
                             {
-                                boolean blocked = false;  // Are we blocked in this node's direction?
+                                boolean blocked = false; // Are we blocked in
+                                // this node's
+                                // direction?
                                 final int adjNode = adjNodes[ni];
-                                Enumeration allPiecesEnum = allPieces.elements();
+                                Enumeration allPiecesEnum = allPieces
+                                        .elements();
 
                                 while (allPiecesEnum.hasMoreElements())
                                 {
-                                    PlayingPiece aPiece = (PlayingPiece) allPiecesEnum.nextElement();
+                                    PlayingPiece aPiece = (PlayingPiece) allPiecesEnum
+                                            .nextElement();
 
-                                    if ((aPiece.getCoordinates() == adjNode) && (aPiece.getPlayer().getPlayerNumber() != this.getPlayerNumber()) && ((aPiece.getType() == PlayingPiece.SETTLEMENT) || (aPiece.getType() == PlayingPiece.CITY)))
+                                    if ((aPiece.getCoordinates() == adjNode)
+                                            && (aPiece.getPlayer()
+                                                    .getPlayerNumber() != this
+                                                    .getPlayerNumber())
+                                            && ((aPiece.getType() == PlayingPiece.SETTLEMENT) || (aPiece
+                                                    .getType() == PlayingPiece.CITY)))
                                     {
                                         /**
-                                         * we're blocked, don't bother checking adjacent edges
+                                         * we're blocked, don't bother checking
+                                         * adjacent edges
                                          */
                                         blocked = true;
 
@@ -1715,21 +1779,30 @@ public class Player implements DevCardConstants, Serializable, Cloneable
 
                                 if (!blocked)
                                 {
-                                    Enumeration adjAdjEdgesEnum = board.getAdjacentEdgesToNode(adjNode).elements();
+                                    Enumeration adjAdjEdgesEnum = board
+                                            .getAdjacentEdgesToNode(adjNode)
+                                            .elements();
 
-                                    while ((adjAdjEdgesEnum.hasMoreElements()) && (isPotentialRoad == false))
+                                    while ((adjAdjEdgesEnum.hasMoreElements())
+                                            && (isPotentialRoad == false))
                                     {
-                                        Integer adjAdjEdge = (Integer) adjAdjEdgesEnum.nextElement();
+                                        Integer adjAdjEdge = (Integer) adjAdjEdgesEnum
+                                                .nextElement();
 
-                                        if (adjAdjEdge.intValue() != adjEdge.intValue())
+                                        if (adjAdjEdge.intValue() != adjEdge
+                                                .intValue())
                                         {
-                                            Enumeration ourRoadsEnum = roads.elements();
+                                            Enumeration ourRoadsEnum = roads
+                                                    .elements();
 
-                                            while (ourRoadsEnum.hasMoreElements())
+                                            while (ourRoadsEnum
+                                                    .hasMoreElements())
                                             {
-                                                Road ourRoad = (Road) ourRoadsEnum.nextElement();
+                                                Road ourRoad = (Road) ourRoadsEnum
+                                                        .nextElement();
 
-                                                if (ourRoad.getCoordinates() == adjAdjEdge.intValue())
+                                                if (ourRoad.getCoordinates() == adjAdjEdge
+                                                        .intValue())
                                                 {
                                                     /**
                                                      * we're still connected
@@ -1771,14 +1844,14 @@ public class Player implements DevCardConstants, Serializable, Cloneable
     }
 
     /**
-     * update the arrays that keep track of where
-     * this player can play a piece
-     *
-     * @param piece         a piece that has just been played
+     * update the arrays that keep track of where this player can play a piece
+     * 
+     * @param piece
+     *            a piece that has just been played
      */
     public void updatePotentials(PlayingPiece piece)
     {
-        //D.ebugPrintln("&&& UPDATING POTENTIALS FOR "+piece);
+        // D.ebugPrintln("&&& UPDATING POTENTIALS FOR "+piece);
         int tmp;
         final boolean ours;
         boolean blocked;
@@ -1822,7 +1895,11 @@ public class Player implements DevCardConstants, Serializable, Cloneable
                     {
                         PlayingPiece p = (PlayingPiece) pEnum.nextElement();
 
-                        if ((p.getCoordinates() == node) && (p.getPlayer().getPlayerNumber() != this.getPlayerNumber()) && ((p.getType() == PlayingPiece.SETTLEMENT) || (p.getType() == PlayingPiece.CITY)))
+                        if ((p.getCoordinates() == node)
+                                && (p.getPlayer().getPlayerNumber() != this
+                                        .getPlayerNumber())
+                                && ((p.getType() == PlayingPiece.SETTLEMENT) || (p
+                                        .getType() == PlayingPiece.CITY)))
                         {
                             blocked = true;
 
@@ -1871,7 +1948,8 @@ public class Player implements DevCardConstants, Serializable, Cloneable
             }
 
             // if it's our piece, add potential roads and city.
-            // otherwise, check for cutoffs of our potential roads by this piece.
+            // otherwise, check for cutoffs of our potential roads by this
+            // piece.
 
             if (ours)
             {
@@ -1890,36 +1968,45 @@ public class Player implements DevCardConstants, Serializable, Cloneable
                 // see if a nearby potential road has been cut off:
                 // build vector of our road edge IDs placed so far.
                 // for each of 3 adjacent edges to node:
-                //  if we have potentialRoad(edge)
-                //    check ourRoads vs that edge's far-end (away from node of new settlement)
-                //    unless we have a road on far-end, this edge is no longer potential,
-                //      because we're not getting past opponent's new settlement (on this end
-                //      of the edge) to build it.
+                // if we have potentialRoad(edge)
+                // check ourRoads vs that edge's far-end (away from node of new
+                // settlement)
+                // unless we have a road on far-end, this edge is no longer
+                // potential,
+                // because we're not getting past opponent's new settlement (on
+                // this end
+                // of the edge) to build it.
 
-                Hashtable ourRoads = new Hashtable();  // TODO more efficient way of looking this up, with fewer temp objs
-                Object hashDummy = new Object();   // a value is needed for hashtable
+                Hashtable ourRoads = new Hashtable(); // TO-DO more efficient
+                                                      // way
+                // of looking this up,
+                // with fewer temp objs
+                Object hashDummy = new Object(); // a value is needed for
+                // hashtable
                 Enumeration pEnum = (this.pieces).elements();
                 while (pEnum.hasMoreElements())
                 {
                     PlayingPiece p = (PlayingPiece) pEnum.nextElement();
                     if (p.getType() == PlayingPiece.ROAD)
-                        ourRoads.put(new Integer(p.getCoordinates()), hashDummy);
+                        ourRoads
+                                .put(new Integer(p.getCoordinates()), hashDummy);
                 }
 
                 adjac = board.getAdjacentEdgesToNode_arr(id);
                 for (int i = 0; i < 3; ++i)
                 {
-                    tmp = adjac[i];  // edge coordinate
-                    if ((tmp == -1) || ! potentialRoads[tmp])
+                    tmp = adjac[i]; // edge coordinate
+                    if ((tmp == -1) || !potentialRoads[tmp])
                     {
-                        continue;  // We don't have a potential road here, so
-                                   // there's nothing to be potentially broken.
+                        continue; // We don't have a potential road here, so
+                        // there's nothing to be potentially broken.
                     }
 
                     // find the far-end node coordinate
                     final int farNode;
                     {
-                        final int[] enodes = Board.getAdjacentNodesToEdge_arr(tmp);
+                        final int[] enodes = Board
+                                .getAdjacentNodesToEdge_arr(tmp);
                         if (enodes[0] == id)
                             farNode = enodes[1];
                         else
@@ -1931,18 +2018,20 @@ public class Player implements DevCardConstants, Serializable, Cloneable
                     // If so, we'll still be able to get to the edge (tmp)
                     // that touches the new settlement's node.
 
-                    final int[] farEdges = board.getAdjacentEdgesToNode_arr(farNode);
+                    final int[] farEdges = board
+                            .getAdjacentEdgesToNode_arr(farNode);
                     boolean foundOurRoad = false;
                     for (int ie = 0; ie < 3; ++ie)
                     {
                         int farEdge = farEdges[ie];
-                        if ((farEdge != tmp) && ourRoads.contains(new Integer(farEdge)))
+                        if ((farEdge != tmp)
+                                && ourRoads.contains(new Integer(farEdge)))
                         {
                             foundOurRoad = true;
                             break;
                         }
                     }
-                    if (! foundOurRoad)
+                    if (!foundOurRoad)
                     {
                         // the potential road is no longer connected
                         potentialRoads[tmp] = false;
@@ -1966,8 +2055,9 @@ public class Player implements DevCardConstants, Serializable, Cloneable
 
     /**
      * set which nodes are potential settlements
-     *
-     * @param psList        the list of potential settlements
+     * 
+     * @param psList
+     *            the list of potential settlements
      */
     public void setPotentialSettlements(Vector psList)
     {
@@ -1984,7 +2074,8 @@ public class Player implements DevCardConstants, Serializable, Cloneable
 
     /**
      * @return true if this node is a potential settlement
-     * @param node        the coordinates of a node on the board
+     * @param node
+     *            the coordinates of a node on the board
      */
     public boolean isPotentialSettlement(int node)
     {
@@ -1992,10 +2083,11 @@ public class Player implements DevCardConstants, Serializable, Cloneable
     }
 
     /**
-     * Set this node to not be a potential settlement.
-     * For use (by robots) when the server denies our request to build at a certain spot.
-     *
-     * @param node  coordinates of a node on the board
+     * Set this node to not be a potential settlement. For use (by robots) when
+     * the server denies our request to build at a certain spot.
+     * 
+     * @param node
+     *            coordinates of a node on the board
      * @see #isPotentialSettlement(int)
      * @since 1.1.09
      */
@@ -2006,7 +2098,8 @@ public class Player implements DevCardConstants, Serializable, Cloneable
 
     /**
      * @return true if this node is a potential city
-     * @param node        the coordinates of a node on the board
+     * @param node
+     *            the coordinates of a node on the board
      */
     public boolean isPotentialCity(int node)
     {
@@ -2014,10 +2107,11 @@ public class Player implements DevCardConstants, Serializable, Cloneable
     }
 
     /**
-     * Set this node to not be a potential city.
-     * For use (by robots) when the server denies our request to build at a certain spot.
-     *
-     * @param node  coordinates of a node on the board
+     * Set this node to not be a potential city. For use (by robots) when the
+     * server denies our request to build at a certain spot.
+     * 
+     * @param node
+     *            coordinates of a node on the board
      * @see #isPotentialCity(int)
      * @since 1.1.09
      */
@@ -2028,7 +2122,9 @@ public class Player implements DevCardConstants, Serializable, Cloneable
 
     /**
      * @return true if this edge is a potential road
-     * @param edge        the coordinates of an edge on the board. Accepts -1 for edge 0x00.
+     * @param edge
+     *            the coordinates of an edge on the board. Accepts -1 for edge
+     *            0x00.
      */
     public boolean isPotentialRoad(int edge)
     {
@@ -2038,10 +2134,12 @@ public class Player implements DevCardConstants, Serializable, Cloneable
     }
 
     /**
-     * Set this edge to not be a potential road.
-     * For use (by robots) when the server denies our request to build at a certain spot.
-     *
-     * @param node  coordinates of a an edge on the board. Accepts -1 for edge 0x00.
+     * Set this edge to not be a potential road. For use (by robots) when the
+     * server denies our request to build at a certain spot.
+     * 
+     * @param node
+     *            coordinates of a an edge on the board. Accepts -1 for edge
+     *            0x00.
      * @see #isPotentialRoad(int)
      * @since 1.1.09
      */
@@ -2054,7 +2152,9 @@ public class Player implements DevCardConstants, Serializable, Cloneable
 
     /**
      * @return true if this edge is a legal road
-     * @param edge        the coordinates of an edge on the board. Accepts -1 for edge 0x00.
+     * @param edge
+     *            the coordinates of an edge on the board. Accepts -1 for edge
+     *            0x00.
      */
     public boolean isLegalRoad(int edge)
     {
@@ -2068,7 +2168,7 @@ public class Player implements DevCardConstants, Serializable, Cloneable
      */
     public boolean hasPotentialRoad()
     {
-        // TODO efficiency; maybe a count variable instead?
+        // TO-DO efficiency; maybe a count variable instead?
         for (int i = game.getBoard().getMinNode(); i <= Board.MAXNODE; i++)
         {
             if (potentialRoads[i])
@@ -2085,7 +2185,7 @@ public class Player implements DevCardConstants, Serializable, Cloneable
      */
     public boolean hasPotentialSettlement()
     {
-        // TODO efficiency; maybe a count variable instead?
+        // TO-DO efficiency; maybe a count variable instead?
         for (int i = game.getBoard().getMinNode(); i <= Board.MAXNODE; i++)
         {
             if (potentialSettlements[i])
@@ -2102,7 +2202,7 @@ public class Player implements DevCardConstants, Serializable, Cloneable
      */
     public boolean hasPotentialCity()
     {
-        // TODO efficiency; maybe a count variable instead?
+        // TO-DO efficiency; maybe a count variable instead?
         for (int i = game.getBoard().getMinNode(); i <= Board.MAXNODE; i++)
         {
             if (potentialCities[i])
@@ -2116,15 +2216,15 @@ public class Player implements DevCardConstants, Serializable, Cloneable
 
     /**
      * Calculates the longest road for a player
-     *
+     * 
      * @return the length of the longest road for that player
      */
     public int calcLongestRoad2()
     {
-        //Date startTime = new Date();
+        // Date startTime = new Date();
         //
         // clear the lr paths vector so that we have an accurate
-        // representation.  if someone cut our longest path in two
+        // representation. if someone cut our longest path in two
         // we won't catch it unless we clear the vector
         //
         D.ebugPrintln("CLEARING PATH DATA");
@@ -2160,11 +2260,16 @@ public class Player implements DevCardConstants, Serializable, Cloneable
                 {
                     PlayingPiece p = (PlayingPiece) pEnum.nextElement();
 
-                    if ((len > 0) && (p.getPlayer().getPlayerNumber() != this.getPlayerNumber()) && ((p.getType() == PlayingPiece.SETTLEMENT) || (p.getType() == PlayingPiece.CITY)) && (p.getCoordinates() == coord))
+                    if ((len > 0)
+                            && (p.getPlayer().getPlayerNumber() != this
+                                    .getPlayerNumber())
+                            && ((p.getType() == PlayingPiece.SETTLEMENT) || (p
+                                    .getType() == PlayingPiece.CITY))
+                            && (p.getCoordinates() == coord))
                     {
                         pathEnd = true;
 
-                        //D.ebugPrintln("^^^ path end at "+Integer.toHexString(coord));
+                        // D.ebugPrintln("^^^ path end at "+Integer.toHexString(coord));
                         break;
                     }
                 }
@@ -2183,8 +2288,8 @@ public class Player implements DevCardConstants, Serializable, Cloneable
 
                     if (board.isNodeOnBoard(j) && isConnectedByRoad(coord, j))
                     {
-                        for (Enumeration ev = visited.elements();
-                                ev.hasMoreElements();)
+                        for (Enumeration ev = visited.elements(); ev
+                                .hasMoreElements();)
                         {
                             IntPair vis = (IntPair) ev.nextElement();
 
@@ -2211,8 +2316,8 @@ public class Player implements DevCardConstants, Serializable, Cloneable
 
                     if (board.isNodeOnBoard(j) && isConnectedByRoad(coord, j))
                     {
-                        for (Enumeration ev = visited.elements();
-                                ev.hasMoreElements();)
+                        for (Enumeration ev = visited.elements(); ev
+                                .hasMoreElements();)
                         {
                             IntPair vis = (IntPair) ev.nextElement();
 
@@ -2239,8 +2344,8 @@ public class Player implements DevCardConstants, Serializable, Cloneable
 
                     if (board.isNodeOnBoard(j) && isConnectedByRoad(coord, j))
                     {
-                        for (Enumeration ev = visited.elements();
-                                ev.hasMoreElements();)
+                        for (Enumeration ev = visited.elements(); ev
+                                .hasMoreElements();)
                         {
                             IntPair vis = (IntPair) ev.nextElement();
 
@@ -2267,8 +2372,8 @@ public class Player implements DevCardConstants, Serializable, Cloneable
 
                     if (board.isNodeOnBoard(j) && isConnectedByRoad(coord, j))
                     {
-                        for (Enumeration ev = visited.elements();
-                                ev.hasMoreElements();)
+                        for (Enumeration ev = visited.elements(); ev
+                                .hasMoreElements();)
                         {
                             IntPair vis = (IntPair) ev.nextElement();
 
@@ -2298,37 +2403,41 @@ public class Player implements DevCardConstants, Serializable, Cloneable
                     }
 
                     //
-                    // we want to store the longest path for a single set of nodes
-                    // check to make sure that we don't save two paths that share a node
+                    // we want to store the longest path for a single set of
+                    // nodes
+                    // check to make sure that we don't save two paths that
+                    // share a node
                     //
                     boolean intersection;
                     boolean addNewPath = true;
                     Vector trash = new Vector();
 
-                    for (Enumeration pdEnum = lrPaths.elements();
-                            pdEnum.hasMoreElements();)
+                    for (Enumeration pdEnum = lrPaths.elements(); pdEnum
+                            .hasMoreElements();)
                     {
-                        LRPathData oldPathData = (LRPathData) pdEnum.nextElement();
+                        LRPathData oldPathData = (LRPathData) pdEnum
+                                .nextElement();
                         D.ebugPrintln("oldPathData = " + oldPathData);
 
                         Vector nodePairs = oldPathData.getNodePairs();
                         intersection = false;
 
-                        for (Enumeration ev = visited.elements();
-                                ev.hasMoreElements();)
+                        for (Enumeration ev = visited.elements(); ev
+                                .hasMoreElements();)
                         {
                             IntPair vis = (IntPair) ev.nextElement();
                             D.ebugPrintln("vis = " + vis);
 
-                            for (Enumeration npev = nodePairs.elements();
-                                    npev.hasMoreElements();)
+                            for (Enumeration npev = nodePairs.elements(); npev
+                                    .hasMoreElements();)
                             {
                                 IntPair np = (IntPair) npev.nextElement();
                                 D.ebugPrintln("np = " + np);
 
                                 if (np.equals(vis))
                                 {
-                                    D.ebugPrintln("oldPathData.nodePairs.contains(vis)");
+                                    D
+                                            .ebugPrintln("oldPathData.nodePairs.contains(vis)");
                                     intersection = true;
 
                                     break;
@@ -2361,17 +2470,19 @@ public class Player implements DevCardConstants, Serializable, Cloneable
 
                     if (!trash.isEmpty())
                     {
-                        for (Enumeration trashEnum = trash.elements();
-                                trashEnum.hasMoreElements();)
+                        for (Enumeration trashEnum = trash.elements(); trashEnum
+                                .hasMoreElements();)
                         {
-                            LRPathData oldPathData = (LRPathData) trashEnum.nextElement();
+                            LRPathData oldPathData = (LRPathData) trashEnum
+                                    .nextElement();
                             lrPaths.removeElement(oldPathData);
                         }
                     }
 
                     if (addNewPath)
                     {
-                        LRPathData newPathData = new LRPathData(pathStartCoord, coord, len, visited);
+                        LRPathData newPathData = new LRPathData(pathStartCoord,
+                                coord, len, visited);
                         D.ebugPrintln("ADDING PATH: " + newPathData);
                         lrPaths.addElement(newPathData);
                     }
@@ -2381,17 +2492,20 @@ public class Player implements DevCardConstants, Serializable, Cloneable
 
         longestRoadLength = longest;
 
-        //Date stopTime = new Date();
-        //long elapsed = stopTime.getTime() - startTime.getTime();
-        //System.out.println("LONGEST FOR "+name+" IS "+longest+" TIME = "+elapsed+"ms");
+        // Date stopTime = new Date();
+        // long elapsed = stopTime.getTime() - startTime.getTime();
+        // System.out.println("LONGEST FOR "+name+" IS "+longest+" TIME = "+elapsed+"ms");
         return longest;
     }
 
     /**
      * set a port flag
-     *
-     * @param portType  the type of port; in range {@link Board#MISC_PORT} to {@link Board#WOOD_PORT}
-     * @param value                        true or false
+     * 
+     * @param portType
+     *            the type of port; in range {@link Board#MISC_PORT} to
+     *            {@link Board#WOOD_PORT}
+     * @param value
+     *            true or false
      */
     public void setPortFlag(int portType, boolean value)
     {
@@ -2400,8 +2514,10 @@ public class Player implements DevCardConstants, Serializable, Cloneable
 
     /**
      * @return the port flag for a type of port
-     *
-     * @param portType   the type of port; in range {@link Board#MISC_PORT} to {@link Board#WOOD_PORT}
+     * 
+     * @param portType
+     *            the type of port; in range {@link Board#MISC_PORT} to
+     *            {@link Board#WOOD_PORT}
      */
     public boolean getPortFlag(int portType)
     {
@@ -2416,7 +2532,10 @@ public class Player implements DevCardConstants, Serializable, Cloneable
         return ports;
     }
 
-    /** TODO this constructor is unused; is it worth maintaining? is it missing fields?
+    /**
+     * TO-DO this constructor is unused; is it worth maintaining? is it missing
+     * fields?
+     * 
      * @return a copy of this player
      */
     public Player copy()
@@ -2430,47 +2549,53 @@ public class Player implements DevCardConstants, Serializable, Cloneable
         }
 
         /**
-         * copy all of the pieces that have been played by all players
-         * we need to get all pieces so that we have an accurate potential
-         * building map
+         * copy all of the pieces that have been played by all players we need
+         * to get all pieces so that we have an accurate potential building map
          */
         for (int pnum = 0; pnum < game.maxPlayers; pnum++)
         {
             if (pnum != this.getPlayerNumber())
             {
-                Enumeration piecesEnum = game.getPlayer(pnum).getPieces().elements();
+                Enumeration piecesEnum = game.getPlayer(pnum).getPieces()
+                        .elements();
 
                 while (piecesEnum.hasMoreElements())
                 {
-                    PlayingPiece piece = (PlayingPiece) piecesEnum.nextElement();
+                    PlayingPiece piece = (PlayingPiece) piecesEnum
+                            .nextElement();
                     Player owner = game.getPlayer(pnum);
 
                     switch (piece.getType())
                     {
                     case PlayingPiece.ROAD:
-                        copy.putPiece(new Road(owner, piece.getCoordinates(), board));
+                        copy.putPiece(new Road(owner, piece.getCoordinates(),
+                                board));
 
                         break;
 
                     case PlayingPiece.SETTLEMENT:
-                        copy.putPiece(new Settlement(owner, piece.getCoordinates(), board));
+                        copy.putPiece(new Settlement(owner, piece
+                                .getCoordinates(), board));
 
                         break;
 
                     case PlayingPiece.CITY:
 
                         /**
-                         * if it's a city, put down a settlement first in order to
-                         * get the proper potential settlement list and number list
+                         * if it's a city, put down a settlement first in order
+                         * to get the proper potential settlement list and
+                         * number list
                          */
                         if (piece.getType() == PlayingPiece.CITY)
                         {
-                            Settlement temp = new Settlement(owner, piece.getCoordinates(), board);
+                            Settlement temp = new Settlement(owner, piece
+                                    .getCoordinates(), board);
                             copy.putPiece(temp);
                             copy.removePiece(temp);
                         }
 
-                        copy.putPiece(new City(owner, piece.getCoordinates(), board));
+                        copy.putPiece(new City(owner, piece.getCoordinates(),
+                                board));
 
                         break;
                     }
@@ -2482,35 +2607,41 @@ public class Player implements DevCardConstants, Serializable, Cloneable
 
                 while (piecesEnum.hasMoreElements())
                 {
-                    PlayingPiece piece = (PlayingPiece) piecesEnum.nextElement();
+                    PlayingPiece piece = (PlayingPiece) piecesEnum
+                            .nextElement();
                     Player owner = copy;
 
                     switch (piece.getType())
                     {
                     case PlayingPiece.ROAD:
-                        copy.putPiece(new Road(owner, piece.getCoordinates(), board));
+                        copy.putPiece(new Road(owner, piece.getCoordinates(),
+                                board));
 
                         break;
 
                     case PlayingPiece.SETTLEMENT:
-                        copy.putPiece(new Settlement(owner, piece.getCoordinates(), board));
+                        copy.putPiece(new Settlement(owner, piece
+                                .getCoordinates(), board));
 
                         break;
 
                     case PlayingPiece.CITY:
 
                         /**
-                         * if it's a city, put down a settlement first in order to
-                         * get the proper potential settlement list and number list
+                         * if it's a city, put down a settlement first in order
+                         * to get the proper potential settlement list and
+                         * number list
                          */
                         if (piece.getType() == PlayingPiece.CITY)
                         {
-                            Settlement temp = new Settlement(owner, piece.getCoordinates(), board);
+                            Settlement temp = new Settlement(owner, piece
+                                    .getCoordinates(), board);
                             copy.putPiece(temp);
                             copy.removePiece(temp);
                         }
 
-                        copy.putPiece(new City(owner, piece.getCoordinates(), board));
+                        copy.putPiece(new City(owner, piece.getCoordinates(),
+                                board));
 
                         break;
                     }
@@ -2523,24 +2654,25 @@ public class Player implements DevCardConstants, Serializable, Cloneable
          */
         ResourceSet copyResources = copy.getResources();
 
-        for (int rType = ResourceConstants.CLAY;
-                rType <= ResourceConstants.UNKNOWN; rType++)
+        for (int rType = ResourceConstants.CLAY; rType <= ResourceConstants.UNKNOWN; rType++)
         {
             copyResources.setAmount(resources.getAmount(rType), rType);
         }
         copy.resourceStats = new int[resourceStats.length];
-        System.arraycopy(resourceStats, 0, copy.resourceStats, 0, resourceStats.length);
+        System.arraycopy(resourceStats, 0, copy.resourceStats, 0,
+                resourceStats.length);
 
         /**
          * copy the dev cards
          */
         DevCardSet copyDevCards = getDevCards();
 
-        for (int dcType = DevCardConstants.KNIGHT;
-                dcType <= DevCardConstants.UNKNOWN; dcType++)
+        for (int dcType = DevCardConstants.KNIGHT; dcType <= DevCardConstants.UNKNOWN; dcType++)
         {
-            copyDevCards.setAmount(devCards.getAmount(DevCardSet.OLD, dcType), DevCardSet.OLD, dcType);
-            copyDevCards.setAmount(devCards.getAmount(DevCardSet.NEW, dcType), DevCardSet.NEW, dcType);
+            copyDevCards.setAmount(devCards.getAmount(DevCardSet.OLD, dcType),
+                    DevCardSet.OLD, dcType);
+            copyDevCards.setAmount(devCards.getAmount(DevCardSet.NEW, dcType),
+                    DevCardSet.NEW, dcType);
         }
 
         /**
@@ -2551,19 +2683,13 @@ public class Player implements DevCardConstants, Serializable, Cloneable
         /**
          * copy port flags
          */
-        for (int port = Board.MISC_PORT; port <= Board.WOOD_PORT;
-                port++)
+        for (int port = Board.MISC_PORT; port <= Board.WOOD_PORT; port++)
         {
             copy.setPortFlag(port, ports[port]);
         }
 
         /**
-         * NEED TO COPY :
-         *        currentOffer
-         *        playedDevCard flag
-         *        robotFlag
-         *        faceId
-         *        other recently added fields (TODO)
+         * NEED TO COPY : currentOffer playedDevCard flag robotFlag faceId
          */
         return copy;
     }

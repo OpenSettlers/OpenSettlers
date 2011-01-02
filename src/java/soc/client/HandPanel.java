@@ -17,18 +17,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>. **/
 package soc.client;
 
-import soc.disableDebug.D;
-
-import soc.game.Board;
-import soc.game.DevCardConstants;
-import soc.game.DevCardSet;
-import soc.game.Game;
-import soc.game.Player;
-import soc.game.PlayingPiece;
-import soc.game.ResourceConstants;
-import soc.game.ResourceSet;
-import soc.game.TradeOffer;
-
 import java.awt.Button;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -42,19 +30,27 @@ import java.awt.PopupMenu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
-
-import java.util.Timer;  // For auto-roll
+import java.util.Timer;
 import java.util.TimerTask;
 
+import soc.disableDebug.D;
+import soc.game.Board;
+import soc.game.DevCardConstants;
+import soc.game.DevCardSet;
+import soc.game.Game;
+import soc.game.Player;
+import soc.game.PlayingPiece;
+import soc.game.ResourceConstants;
+import soc.game.ResourceSet;
+import soc.game.TradeOffer;
 
 /**
- * This panel displays a player's information.
- * If the player is us, then more information is
- * displayed than in another player's hand panel.
+ * This panel displays a player's information. If the player is us, then more
+ * information is displayed than in another player's hand panel.
  *<P>
- * Custom layout: see {@link #doLayout()}.
- * To set this panel's position or size, please use {@link #setBounds(int, int, int, int)},
- * because it is overridden to also update {@link #getBlankStandIn()}.
+ * Custom layout: see {@link #doLayout()}. To set this panel's position or size,
+ * please use {@link #setBounds(int, int, int, int)}, because it is overridden
+ * to also update {@link #getBlankStandIn()}.
  */
 public class HandPanel extends Panel implements ActionListener
 {
@@ -63,8 +59,9 @@ public class HandPanel extends Panel implements ActionListener
     /** Minimum desired width, in pixels */
     public static final int WIDTH_MIN = 218;
 
-    /** Items to update via {@link #updateValue(int)};
-     * similar values to {@link soc.message.PlayerElement}
+    /**
+     * Items to update via {@link #updateValue(int)}; similar values to
+     * {@link soc.message.PlayerElement}
      */
     public static final int ROADS = 0;
     public static final int SETTLEMENTS = 1;
@@ -83,16 +80,22 @@ public class HandPanel extends Panel implements ActionListener
 
     /**
      * Item flag for asked special build in {@link #updateValue(int)}.
+     * 
      * @since 1.1.08
      */
-    public static final int ASK_SPECIAL_BUILD = 16;  // same as PlayerElement.ASK_SPECIAL_BUILD
+    public static final int ASK_SPECIAL_BUILD = 16; // same as
+                                                    // PlayerElement.ASK_SPECIAL_BUILD
 
     /** Auto-roll timer countdown, 5 seconds unless changed at program start. */
     public static int AUTOROLL_TIME = 5;
 
     /** Array of five zeroes, one per resource type; for {@link #sqPanel}. */
-    protected static final int[] zero = { 0, 0, 0, 0, 0 };
-    /** Before game starts, use {@link #pname} to show if a seat is no-robots-allowed. */
+    protected static final int[] zero =
+        { 0, 0, 0, 0, 0 };
+    /**
+     * Before game starts, use {@link #pname} to show if a seat is
+     * no-robots-allowed.
+     */
     protected static final String SITLOCKED = "Locked: No robot";
     protected static final String SIT = "Sit Here";
     protected static final String START = "Start Game";
@@ -109,27 +112,33 @@ public class HandPanel extends Panel implements ActionListener
     protected static final String SEND = "Offer";
     protected static final String BANK = "Bank/Port";
     protected static final String CARD = "  Play Card  ";
-    protected static final String GIVE = "I Give:";  // No trailing space (room for wider colorsquares)
+    protected static final String GIVE = "I Give:"; // No trailing space (room
+                                                    // for wider colorsquares)
     protected static final String GET = "I Get:";
     protected static final String AUTOROLL_COUNTDOWN = "Auto-Roll in: ";
     protected static final String ROLL_OR_PLAY_CARD = "Roll or Play Card";
     protected static final String OFFERBUTTIP_ENA = "Send trade offer to other players";
     protected static final String OFFERBUTTIP_DIS = "To offer a trade, first click resources";
-    protected static final String TRADEMSG_DISCARD = "Discarding..."; 
+    protected static final String TRADEMSG_DISCARD = "Discarding...";
 
     /** If player has won the game, update pname label */
     protected static final String WINNER_SUFFIX = " - Winner";
 
     /** Panel text color, and player name color when not current player */
     protected static final Color COLOR_FOREGROUND = Color.BLACK;
-    /** Player name background color when current player (foreground does not change) */
+    /**
+     * Player name background color when current player (foreground does not
+     * change)
+     */
     protected Color pnameActiveBG;
 
     /**
-     * Blank area which is normally hidden, except during addPlayer when handpanel is hidden.
-     * This prevents a big black area on the display (which looks like a crash).
-     * For perf/display-bugs during component layout (OSX firefox).
-     * Added to pi's layout by {@link PlayerInterface#initInterfaceElements(boolean)}.
+     * Blank area which is normally hidden, except during addPlayer when
+     * handpanel is hidden. This prevents a big black area on the display (which
+     * looks like a crash). For perf/display-bugs during component layout (OSX
+     * firefox). Added to pi's layout by
+     * {@link PlayerInterface#initInterfaceElements(boolean)}.
+     * 
      * @since 1.1.06
      */
     private ColorSquare blankStandIn;
@@ -139,25 +148,28 @@ public class HandPanel extends Panel implements ActionListener
     protected Button startBut;
     protected Button takeOverBut;
 
-    /** Seat lock/unlock shown in robot handpanels during game play,
-     *  to prevent/allow humans to join and take over a robot's seat.
-     *  Used during different game states than {@link #sitBut}.
+    /**
+     * Seat lock/unlock shown in robot handpanels during game play, to
+     * prevent/allow humans to join and take over a robot's seat. Used during
+     * different game states than {@link #sitBut}.
      */
     protected Button sittingRobotLockBut;
 
-    /** When true, the game is still forming, player has chosen a seat;
-     *  "Sit Here" button is labeled as "Lock".  Humans can use this to
-     *  lock robots out of that seat, so as to start a game with fewer
-     *  players and some vacant seats.
-     *  Set by {@link #renameSitButLock()}, cleared elsewhere.
-     *  This affects {@link #sitBut} and not {@link #sittingRobotLockBut}.
-     *  @see #addPlayer(String)
-     *  @see #updateSeatLockButton()
+    /**
+     * When true, the game is still forming, player has chosen a seat;
+     * "Sit Here" button is labeled as "Lock". Humans can use this to lock
+     * robots out of that seat, so as to start a game with fewer players and
+     * some vacant seats. Set by {@link #renameSitButLock()}, cleared elsewhere.
+     * This affects {@link #sitBut} and not {@link #sittingRobotLockBut}.
+     * 
+     * @see #addPlayer(String)
+     * @see #updateSeatLockButton()
      */
     protected boolean sitButIsLock;
 
     /**
      * Face icon; can right-click/triple-click for face chooser popup.
+     * 
      * @since 1.1.00
      */
     protected FaceButton faceImg;
@@ -179,18 +191,18 @@ public class HandPanel extends Panel implements ActionListener
     protected Label woodLab;
 
     /**
-     * For right-click resource to trade - If playerIsClient, track cost
-     * of bank/port trade per resource. Index 0 unused; index 1 is
-     * {@link ResourceConstants#CLAY}, etc. Highest index is 5.
-     * Null, unless playerIsClient and addPlayer has been called.
+     * For right-click resource to trade - If playerIsClient, track cost of
+     * bank/port trade per resource. Index 0 unused; index 1 is
+     * {@link ResourceConstants#CLAY}, etc. Highest index is 5. Null, unless
+     * playerIsClient and addPlayer has been called.
      */
     protected int[] resourceTradeCost;
 
     /**
-     * For right-click resource to trade - If playerIsClient, popup menus
-     * to bank/port trade resources. Index 0 unused; index 1 is
-     * {@link ResourceConstants#CLAY}, etc. Highest index is 5.
-     * Null, unless playerIsClient and addPlayer has been called.
+     * For right-click resource to trade - If playerIsClient, popup menus to
+     * bank/port trade resources. Index 0 unused; index 1 is
+     * {@link ResourceConstants#CLAY}, etc. Highest index is 5. Null, unless
+     * playerIsClient and addPlayer has been called.
      */
     protected ResourceTradeTypeMenu[] resourceTradeMenu;
 
@@ -206,7 +218,7 @@ public class HandPanel extends Panel implements ActionListener
     protected Label developmentLab;
     protected ColorSquare knightsSq;
     protected Label knightsLab;
-    //protected Label cardLab; // no longer used?
+    // protected Label cardLab; // no longer used?
     protected List cardList;
     protected Button playCardBut;
     protected SquaresPanel sqPanel;
@@ -214,8 +226,9 @@ public class HandPanel extends Panel implements ActionListener
     // Trading interface
 
     /**
-     * Game option NT: If true, only bank trading is allowed,
-     * trading between players is disabled.
+     * Game option NT: If true, only bank trading is allowed, trading between
+     * players is disabled.
+     * 
      * @since 1.1.07
      */
     protected boolean playerTradingDisabled;
@@ -226,8 +239,9 @@ public class HandPanel extends Panel implements ActionListener
     protected Button offerBut;
 
     /**
-     * Hint for "Offer" button; non-null only if interactive
-     *   and if playerTradingDisabled == false.
+     * Hint for "Offer" button; non-null only if interactive and if
+     * playerTradingDisabled == false.
+     * 
      * @see #OFFERBUTTIP_DIS
      * @see #OFFERBUTTIP_ENA
      * @see #interactive
@@ -241,27 +255,32 @@ public class HandPanel extends Panel implements ActionListener
     protected Button bankBut;
 
     /**
-     * Checkboxes to send to the other three players.
-     * Enabled/disabled at removeStartBut().
-     * This is null if {@link #playerTradingDisabled}.
-     *
+     * Checkboxes to send to the other three players. Enabled/disabled at
+     * removeStartBut(). This is null if {@link #playerTradingDisabled}.
+     * 
      * @see #playerSendMap
      */
     protected ColorSquare[] playerSend;
 
-    /** displays auto-roll countdown, or prompts to roll/play card.
+    /**
+     * displays auto-roll countdown, or prompts to roll/play card.
+     * 
      * @see #setRollPrompt(String, boolean)
      */
     protected Label rollPromptCountdownLab;
     protected boolean rollPromptInUse;
-    protected TimerTask autoRollTimerTask;  // Created every turn when countdown needed
+    protected TimerTask autoRollTimerTask; // Created every turn when countdown
+                                           // needed
     protected Button rollBut;
 
-    /** "Done" with turn during play; also "Restart" for board reset at end of game */
+    /**
+     * "Done" with turn during play; also "Restart" for board reset at end of
+     * game
+     */
     protected Button doneBut;
 
     /** True when {@link #doneBut}'s label is Restart ({@link #DONE_RESTART}) */
-    protected boolean doneButIsRestart; 
+    protected boolean doneButIsRestart;
 
     protected Button quitBut;
     protected PlayerInterface playerInterface;
@@ -269,57 +288,71 @@ public class HandPanel extends Panel implements ActionListener
     protected Game game;
     protected Player player;
 
-    /** Does this panel represent our client's own hand?  If true, implies {@link #interactive}. */
+    /**
+     * Does this panel represent our client's own hand? If true, implies
+     * {@link #interactive}.
+     */
     protected boolean playerIsClient;
 
-    /** Is this panel's player the game's current player?  Used for hilight - set in updateAtTurn() */
+    /**
+     * Is this panel's player the game's current player? Used for hilight - set
+     * in updateAtTurn()
+     */
     protected boolean playerIsCurrent;
 
-    /** Do we have any seated player? Set by {@link #addPlayer(String)}, cleared by {@link #removePlayer()}. */
+    /**
+     * Do we have any seated player? Set by {@link #addPlayer(String)}, cleared
+     * by {@link #removePlayer()}.
+     */
     protected boolean inPlay;
 
-    /** Three player numbers to send trade offers to.
-     *  For i from 0 to 2, playerSendMap[i] is playerNumber for checkbox i.
-     *  This is null if {@link #playerTradingDisabled}.
-     *
+    /**
+     * Three player numbers to send trade offers to. For i from 0 to 2,
+     * playerSendMap[i] is playerNumber for checkbox i. This is null if
+     * {@link #playerTradingDisabled}.
+     * 
      * @see #playerSend
      */
     protected int[] playerSendMap;
 
     /**
-     * Display other players' trade offers and related messages.
-     * Does not apply to client's hand panel (<tt>playerIsClient</tt> == true).
-     * Both offer and counter-offer display are part of this object.
-     * Also used to display board-reset vote messages.
-     * When displaying a message, looks like a {@link SpeechBalloon}.
+     * Display other players' trade offers and related messages. Does not apply
+     * to client's hand panel (<tt>playerIsClient</tt> == true). Both offer and
+     * counter-offer display are part of this object. Also used to display
+     * board-reset vote messages. When displaying a message, looks like a
+     * {@link SpeechBalloon}.
      *<P>
-     * If the handpanel is not tall enough, other controls will be obscured by this one.
-     * This low height is indicated by {@link #offerHidesControls} and possibly {@link #offerCounterHidesFace}.
-     *
+     * If the handpanel is not tall enough, other controls will be obscured by
+     * this one. This low height is indicated by {@link #offerHidesControls} and
+     * possibly {@link #offerCounterHidesFace}.
+     * 
      * @see #offerIsResetMessage
      * @see #offerIsDiscardMessage
      */
     protected TradeOfferPanel offer;
 
     /**
-     * If true, the handpanel isn't tall enough, so when the {@link #offer} message panel
-     * is showing something, we must hide other controls.
-     * Does not apply to client's hand panel.
-     *
+     * If true, the handpanel isn't tall enough, so when the {@link #offer}
+     * message panel is showing something, we must hide other controls. Does not
+     * apply to client's hand panel.
+     * 
      * @see #hideTradeMsgShowOthers(boolean)
      * @since 1.1.08
      */
     private boolean offerHidesControls, offerCounterHidesFace;
-    
+
     /**
-     * When handpanel isn't tall enough, are we currently in the situation described
-     * at {@link #offerHidesControls} or {@link #offerCounterHidesFace}?
+     * When handpanel isn't tall enough, are we currently in the situation
+     * described at {@link #offerHidesControls} or
+     * {@link #offerCounterHidesFace}?
+     * 
      * @since 1.1.08
      */
     private boolean offerHidingControls, offerCounterHidingFace;
 
     /**
-     * Board-reset voting: If true, {@link #offer} is holding a message related to a board-reset vote.
+     * Board-reset voting: If true, {@link #offer} is holding a message related
+     * to a board-reset vote.
      */
     protected boolean offerIsResetMessage;
 
@@ -329,23 +362,27 @@ public class HandPanel extends Panel implements ActionListener
     protected boolean offerIsDiscardMessage;
 
     /**
-     * Board-reset voting: If true, {@link #offer} was holding an active trade offer
-     * before {@link #offerIsResetMessage} or {@link #offerIsDiscardMessage} was set.
+     * Board-reset voting: If true, {@link #offer} was holding an active trade
+     * offer before {@link #offerIsResetMessage} or
+     * {@link #offerIsDiscardMessage} was set.
      */
     protected boolean offerIsMessageWasTrade;
 
     /**
-     * When this flag is true, the panel is interactive.
-     * If {@link #playerIsClient} true, implies interactive.
+     * When this flag is true, the panel is interactive. If
+     * {@link #playerIsClient} true, implies interactive.
      */
     protected boolean interactive;
 
     /**
      * make a new hand panel
-     *
-     * @param pi  the interface that this panel is a part of
-     * @param pl  the player associated with this panel
-     * @param in  the interactive flag setting
+     * 
+     * @param pi
+     *            the interface that this panel is a part of
+     * @param pl
+     *            the player associated with this panel
+     * @param in
+     *            the interactive flag setting
      */
     public HandPanel(PlayerInterface pi, Player pl, boolean in)
     {
@@ -355,9 +392,11 @@ public class HandPanel extends Panel implements ActionListener
 
     /**
      * make a new hand panel
-     *
-     * @param pi  the interface that this panel is a part of
-     * @param pl  the player associated with this panel
+     * 
+     * @param pi
+     *            the interface that this panel is a part of
+     * @param pl
+     *            the player associated with this panel
      */
     public HandPanel(PlayerInterface pi, Player pl)
     {
@@ -365,12 +404,15 @@ public class HandPanel extends Panel implements ActionListener
     }
 
     /**
-     * Stuff to do when a HandPanel is created.
-     *   Calls {@link #removePlayer()} as part of creation.
-     *
-     * @param pi   player interface
-     * @param pl   the player data
-     * @param in   the interactive flag setting
+     * Stuff to do when a HandPanel is created. Calls {@link #removePlayer()} as
+     * part of creation.
+     * 
+     * @param pi
+     *            player interface
+     * @param pl
+     *            the player data
+     * @param in
+     *            the interactive flag setting
      */
     protected void creation(PlayerInterface pi, Player pl, boolean in)
     {
@@ -379,19 +421,22 @@ public class HandPanel extends Panel implements ActionListener
         game = pi.getGame();
         player = pl;
         playerIsCurrent = false;
-        playerIsClient = false;  // confirmed by call to removePlayer() at end of method.
+        playerIsClient = false; // confirmed by call to removePlayer() at end of
+                                // method.
         interactive = in;
 
         // Note no AWT layout is used - custom layout, see doLayout().
 
-        final Color pcolor = playerInterface.getPlayerColor(player.getPlayerNumber());
+        final Color pcolor = playerInterface.getPlayerColor(player
+                .getPlayerNumber());
         setBackground(pcolor);
         setForeground(COLOR_FOREGROUND);
         setFont(new Font("SansSerif", Font.PLAIN, 10));
 
         blankStandIn = new ColorSquare(pcolor, "One moment...");
         blankStandIn.setVisible(false);
-        // playerinterface.initInterfaceElements will add blankStandIn to its layout, and set its size/position.
+        // playerinterface.initInterfaceElements will add blankStandIn to its
+        // layout, and set its size/position.
 
         faceImg = new FaceButton(playerInterface, player.getPlayerNumber());
         add(faceImg);
@@ -399,7 +444,7 @@ public class HandPanel extends Panel implements ActionListener
         pname = new Label();
         pname.setFont(new Font("Serif", Font.PLAIN, 14));
         add(pname);
-        pnameActiveBG = null;  // Will be calculated at first turn
+        pnameActiveBG = null; // Will be calculated at first turn
 
         startBut = new Button(START);
         startBut.addActionListener(this);
@@ -412,9 +457,13 @@ public class HandPanel extends Panel implements ActionListener
         vpSq.setTooltipText("Total victory points for this opponent");
         if (Game.VP_WINNER <= 12)
         {
-            vpSq.setTooltipHighWarningLevel("Close to winning", Game.VP_WINNER - 2);  // (win checked in Game.checkForWinner)
-        } else {
-            vpSq.setTooltipHighWarningLevel("Close to winning", Game.VP_WINNER - 3);
+            vpSq.setTooltipHighWarningLevel("Close to winning",
+                    Game.VP_WINNER - 2); // (win checked in Game.checkForWinner)
+        }
+        else
+        {
+            vpSq.setTooltipHighWarningLevel("Close to winning",
+                    Game.VP_WINNER - 3);
         }
         add(vpSq);
 
@@ -458,10 +507,10 @@ public class HandPanel extends Panel implements ActionListener
         add(woodSq);
         woodSq.setTooltipText("Right-click to trade wood");
 
-        //cardLab = new Label("Cards:");
-        //add(cardLab);
+        // cardLab = new Label("Cards:");
+        // add(cardLab);
         cardList = new List(0, false);
-        cardList.addActionListener(this);  // double-click support
+        cardList.addActionListener(this); // double-click support
         add(cardList);
 
         roadSq = new ColorSquare(ColorSquare.GREY, 0);
@@ -475,7 +524,8 @@ public class HandPanel extends Panel implements ActionListener
         settlementSq = new ColorSquare(ColorSquare.GREY, 0);
         add(settlementSq);
         settlementSq.setTooltipText("Pieces available to place");
-        settlementSq.setTooltipLowWarningLevel("Almost out of settlements to place", 1);
+        settlementSq.setTooltipLowWarningLevel(
+                "Almost out of settlements to place", 1);
         settlementSq.setTooltipZeroText("No more settlements available");
         settlementLab = new Label("Stlmts:");
         add(settlementLab);
@@ -488,7 +538,8 @@ public class HandPanel extends Panel implements ActionListener
         cityLab = new Label("Cities:");
         add(cityLab);
 
-        knightsLab = new Label("Soldiers:");  // No trailing space (room for wider colorsquares at left)
+        knightsLab = new Label("Soldiers:"); // No trailing space (room for
+                                             // wider colorsquares at left)
         add(knightsLab);
         knightsSq = new ColorSquare(ColorSquare.GREY, 0);
         add(knightsSq);
@@ -499,7 +550,8 @@ public class HandPanel extends Panel implements ActionListener
         resourceSq = new ColorSquare(ColorSquare.GREY, 0);
         add(resourceSq);
         resourceSq.setTooltipText("Amount in hand");
-        resourceSq.setTooltipHighWarningLevel("If 7 is rolled, would discard half these resources", 8);
+        resourceSq.setTooltipHighWarningLevel(
+                "If 7 is rolled, would discard half these resources", 8);
 
         developmentLab = new Label("Dev. Cards: ");
         add(developmentLab);
@@ -549,7 +601,9 @@ public class HandPanel extends Panel implements ActionListener
         {
             offerBut = null;
             offerButTip = null;
-        } else {
+        }
+        else
+        {
             offerBut = new Button(SEND);
             offerBut.addActionListener(this);
             offerBut.setEnabled(interactive);
@@ -573,9 +627,11 @@ public class HandPanel extends Panel implements ActionListener
         {
             playerSend = null;
             playerSendMap = null;
-        } else {
-            playerSend = new ColorSquare[game.maxPlayers-1];
-            playerSendMap = new int[game.maxPlayers-1];
+        }
+        else
+        {
+            playerSend = new ColorSquare[game.maxPlayers - 1];
+            playerSendMap = new int[game.maxPlayers - 1];
 
             // set the trade buttons correctly
             int cnt = 0;
@@ -585,19 +641,21 @@ public class HandPanel extends Panel implements ActionListener
                 {
                     Color color = playerInterface.getPlayerColor(pn);
                     playerSendMap[cnt] = pn;
-                    playerSend[cnt] = new ColorSquare(ColorSquare.CHECKBOX, true, color);
-                    playerSend[cnt].setColor(playerInterface.getPlayerColor(pn));
+                    playerSend[cnt] = new ColorSquare(ColorSquare.CHECKBOX,
+                            true, color);
+                    playerSend[cnt]
+                            .setColor(playerInterface.getPlayerColor(pn));
                     playerSend[cnt].setBoolValue(true);
                     add(playerSend[cnt]);
                     cnt++;
                 }
             }
-        }  // if(playerTradingDisabled)
+        } // if(playerTradingDisabled)
 
         rollPromptCountdownLab = new Label(" ");
         add(rollPromptCountdownLab);
-        rollPromptInUse = false;   // Nothing yet (no game in progress)
-        autoRollTimerTask = null;  // Nothing yet
+        rollPromptInUse = false; // Nothing yet (no game in progress)
+        autoRollTimerTask = null; // Nothing yet
 
         rollBut = new Button(ROLL);
         rollBut.addActionListener(this);
@@ -617,7 +675,7 @@ public class HandPanel extends Panel implements ActionListener
 
         offer = new TradeOfferPanel(this, player.getPlayerNumber());
         offer.setVisible(false);
-        offerIsResetMessage = false;        
+        offerIsResetMessage = false;
         add(offer);
 
         // set the starting state of the panel
@@ -661,178 +719,186 @@ public class HandPanel extends Panel implements ActionListener
      */
     public void actionPerformed(ActionEvent e)
     {
-        try {
-        String target = e.getActionCommand();
+        try
+        {
+            String target = e.getActionCommand();
 
-        PlayerClient client = playerInterface.getClient();
-        Game game = playerInterface.getGame();
+            PlayerClient client = playerInterface.getClient();
+            Game game = playerInterface.getGame();
 
-        if (target == LOCKSEAT)
-        {
-            client.lockSeat(game, player.getPlayerNumber());
-        }
-        else if (target == UNLOCKSEAT)
-        {
-            client.unlockSeat(game, player.getPlayerNumber());
-        }
-        else if (target == TAKEOVER)
-        {
-            client.sitDown(game, player.getPlayerNumber());
-        }
-        else if (target == SIT)
-        {
-            client.sitDown(game, player.getPlayerNumber());
-        }
-        else if (target == START)
-        {
-            client.startGame(game);
-        }
-        else if (target == ROBOT)
-        {
-            // cf.cc.addRobot(cf.cname, playerNum);
-        }
-        else if (target == ROLL)
-        {
-            if (autoRollTimerTask != null)
+            if (target == LOCKSEAT)
             {
-                autoRollTimerTask.cancel();
-                autoRollTimerTask = null;
+                client.lockSeat(game, player.getPlayerNumber());
             }
-            clickRollButton();
-        }
-        else if (target == QUIT)
-        {
-            QuitConfirmDialog.createAndShow(client, playerInterface);
-        }
-        else if (target == DONE)
-        {
-            // sqPanel.setValues(zero, zero);
-            client.endTurn(game);
-        }
-        else if (target == DONE_RESTART)
-        {
-            playerInterface.resetBoardRequest();
-        }
-        else if (target == CLEAR)
-        {
-            clearOffer(true);    // Zero the square panel numbers, unless board-reset vote in progress
-            if (game.getGameState() == Game.PLAY1)
+            else if (target == UNLOCKSEAT)
             {
-                client.clearOffer(game);
+                client.unlockSeat(game, player.getPlayerNumber());
             }
-        }
-        else if (target == BANK)
-        {
-            int gstate = game.getGameState(); 
-            if (gstate == Game.PLAY1)
+            else if (target == TAKEOVER)
             {
-                int[] give = new int[5];
-                int[] get = new int[5];
-                sqPanel.getValues(give, get);
-                client.clearOffer(game);
+                client.sitDown(game, player.getPlayerNumber());
+            }
+            else if (target == SIT)
+            {
+                client.sitDown(game, player.getPlayerNumber());
+            }
+            else if (target == START)
+            {
+                client.startGame(game);
+            }
+            else if (target == ROBOT)
+            {
+                // cf.cc.addRobot(cf.cname, playerNum);
+            }
+            else if (target == ROLL)
+            {
+                if (autoRollTimerTask != null)
+                {
+                    autoRollTimerTask.cancel();
+                    autoRollTimerTask = null;
+                }
+                clickRollButton();
+            }
+            else if (target == QUIT)
+            {
+                QuitConfirmDialog.createAndShow(client, playerInterface);
+            }
+            else if (target == DONE)
+            {
+                // sqPanel.setValues(zero, zero);
+                client.endTurn(game);
+            }
+            else if (target == DONE_RESTART)
+            {
+                playerInterface.resetBoardRequest();
+            }
+            else if (target == CLEAR)
+            {
+                clearOffer(true); // Zero the square panel numbers, unless
+                                  // board-reset vote in progress
+                if (game.getGameState() == Game.PLAY1)
+                {
+                    client.clearOffer(game);
+                }
+            }
+            else if (target == BANK)
+            {
+                int gstate = game.getGameState();
+                if (gstate == Game.PLAY1)
+                {
+                    int[] give = new int[5];
+                    int[] get = new int[5];
+                    sqPanel.getValues(give, get);
+                    client.clearOffer(game);
 
-                ResourceSet giveSet = new ResourceSet(give);
-                ResourceSet getSet = new ResourceSet(get);
-                client.bankTrade(game, giveSet, getSet);
-            }
-            else if (gstate == Game.OVER)
-            {
-                String msg = game.gameOverMessageToPlayer(player);
+                    ResourceSet giveSet = new ResourceSet(give);
+                    ResourceSet getSet = new ResourceSet(get);
+                    client.bankTrade(game, giveSet, getSet);
+                }
+                else if (gstate == Game.OVER)
+                {
+                    String msg = game.gameOverMessageToPlayer(player);
                     // msg = "The game is over; you are the winner!";
                     // msg = "The game is over; <someone> won.";
                     // msg = "The game is over; no one won.";
-                playerInterface.print("* " + msg);
+                    playerInterface.print("* " + msg);
+                }
             }
-        }
-        else if (target == SEND)
-        {
-            if (playerTradingDisabled)
-                return;
-
-            if (game.getGameState() == Game.PLAY1)
+            else if (target == SEND)
             {
-                int[] give = new int[5];
-                int[] get = new int[5];
-                int giveSum = 0;
-                int getSum = 0;
-                sqPanel.getValues(give, get);
+                if (playerTradingDisabled)
+                    return;
 
-                for (int i = 0; i < 5; i++)
+                if (game.getGameState() == Game.PLAY1)
                 {
-                    giveSum += give[i];
-                    getSum += get[i];
-                }
+                    int[] give = new int[5];
+                    int[] get = new int[5];
+                    int giveSum = 0;
+                    int getSum = 0;
+                    sqPanel.getValues(give, get);
 
-                ResourceSet giveSet = new ResourceSet(give);
-                ResourceSet getSet = new ResourceSet(get);
-
-                if (!player.getResources().contains(giveSet))
-                {
-                    playerInterface.print("*** You can't offer what you don't have.");
-                }
-                else if ((giveSum == 0) || (getSum == 0))
-                {
-                    playerInterface.print("*** A trade must contain at least one resource card from each player.");
-                }
-                else
-                {
-                    // bool array elements begin as false
-                    boolean[] to = new boolean[game.maxPlayers];
-                    boolean toAny = false;
-
-                    if (game.getCurrentPlayerNumber() == player.getPlayerNumber())
+                    for (int i = 0; i < 5; i++)
                     {
-                        for (int i = 0; i < (game.maxPlayers - 1); i++)
+                        giveSum += give[i];
+                        getSum += get[i];
+                    }
+
+                    ResourceSet giveSet = new ResourceSet(give);
+                    ResourceSet getSet = new ResourceSet(get);
+
+                    if (!player.getResources().contains(giveSet))
+                    {
+                        playerInterface
+                                .print("*** You can't offer what you don't have.");
+                    }
+                    else if ((giveSum == 0) || (getSum == 0))
+                    {
+                        playerInterface
+                                .print("*** A trade must contain at least one resource card from each player.");
+                    }
+                    else
+                    {
+                        // bool array elements begin as false
+                        boolean[] to = new boolean[game.maxPlayers];
+                        boolean toAny = false;
+
+                        if (game.getCurrentPlayerNumber() == player
+                                .getPlayerNumber())
                         {
-                            if (playerSend[i].getBoolValue() && ! game.isSeatVacant(playerSendMap[i]))
+                            for (int i = 0; i < (game.maxPlayers - 1); i++)
                             {
-                                to[playerSendMap[i]] = true;
-                                toAny = true;
+                                if (playerSend[i].getBoolValue()
+                                        && !game.isSeatVacant(playerSendMap[i]))
+                                {
+                                    to[playerSendMap[i]] = true;
+                                    toAny = true;
+                                }
                             }
                         }
-                    }
-                    else
-                    {
-                        // can only offer to current player
-                        to[game.getCurrentPlayerNumber()] = true;
-                        toAny = true;
-                    }
+                        else
+                        {
+                            // can only offer to current player
+                            to[game.getCurrentPlayerNumber()] = true;
+                            toAny = true;
+                        }
 
-                    if (! toAny)
-                    {
-                        playerInterface.print("*** Please choose at least one opponent's checkbox.");
-                    }
-                    else
-                    {
-                        TradeOffer tradeOffer =
-                            new TradeOffer(game.getName(),
-                                              player.getPlayerNumber(),
-                                              to, giveSet, getSet);
-                        client.offerTrade(game, tradeOffer);
+                        if (!toAny)
+                        {
+                            playerInterface
+                                    .print("*** Please choose at least one opponent's checkbox.");
+                        }
+                        else
+                        {
+                            TradeOffer tradeOffer = new TradeOffer(game
+                                    .getName(), player.getPlayerNumber(), to,
+                                    giveSet, getSet);
+                            client.offerTrade(game, tradeOffer);
+                        }
                     }
                 }
             }
+            else if ((e.getSource() == cardList) || (target == CARD))
+            {
+                clickPlayCardButton();
+            }
         }
-        else if ((e.getSource() == cardList) || (target == CARD))
+        catch (Throwable th)
         {
-            clickPlayCardButton();
-        }
-        } catch (Throwable th) {
             playerInterface.chatPrintStackTrace(th);
         }
     }
 
     /**
-     * Handle a click on the "play card" button, or double-click
-     * on an item in the list of cards held.
-     * Called from actionPerformed()
+     * Handle a click on the "play card" button, or double-click on an item in
+     * the list of cards held. Called from actionPerformed()
      */
     public void clickPlayCardButton()
     {
         String item;
-        int itemNum;  // Which one to play from list?
+        int itemNum; // Which one to play from list?
 
-        setRollPrompt(null, false);  // Clear prompt if Play Card clicked (instead of Roll clicked)
+        setRollPrompt(null, false); // Clear prompt if Play Card clicked
+                                    // (instead of Roll clicked)
         if (playerIsCurrent && player.hasPlayedDevCard())
         {
             playerInterface.print("*** You may play only one card per turn.");
@@ -852,39 +918,45 @@ public class HandPanel extends Panel implements ActionListener
                 itemNum = 0;
                 if (item.length() == 0)
                     return;
-            } else {
+            }
+            else
+            {
                 /**
-                 * No card selected, multiple are in the list.
-                 * See if only one card isn't a "(VP)" card, isn't new.
-                 * If more than one, but they're all same type (ex.
-                 * unplayed Robbers), pretend there's only one.
+                 * No card selected, multiple are in the list. See if only one
+                 * card isn't a "(VP)" card, isn't new. If more than one, but
+                 * they're all same type (ex. unplayed Robbers), pretend there's
+                 * only one.
                  */
-                itemNum = -1;  // Nothing yet
+                itemNum = -1; // Nothing yet
                 String itemNumText = null;
                 for (int i = cardList.getItemCount() - 1; i >= 0; --i)
                 {
                     item = cardList.getItem(i);
                     if ((item != null) && (item.length() > 0)
-                        && (item.indexOf("VP)") <= 0)
-                        && ! item.startsWith("*NEW*"))
+                            && (item.indexOf("VP)") <= 0)
+                            && !item.startsWith("*NEW*"))
                     {
                         // Non-VP non-new card found
                         if (itemNum == -1)
                         {
                             itemNum = i;
                             itemNumText = item;
-                        } else if (! item.equals(itemNumText))
+                        }
+                        else if (!item.equals(itemNumText))
                         {
-                            itemNum = -1;  // More than one found,
-                            break;         // stop looking.
+                            itemNum = -1; // More than one found,
+                            break; // stop looking.
                         }
                     }
                 }
                 if (itemNum == -1)
                 {
-                    playerInterface.print("* Please click a card first to select it.");
+                    playerInterface
+                            .print("* Please click a card first to select it.");
                     return;
-                } else {
+                }
+                else
+                {
                     item = itemNumText;
                 }
             }
@@ -893,9 +965,9 @@ public class HandPanel extends Panel implements ActionListener
         // At this point, itemNum is the index of the card we want,
         // and item is its text string.
 
-        if (! playerIsCurrent)
+        if (!playerIsCurrent)
         {
-            return;  // <--- Early Return: Not current player ---
+            return; // <--- Early Return: Not current player ---
         }
 
         int cardTypeToPlay = -1;
@@ -929,7 +1001,8 @@ public class HandPanel extends Panel implements ActionListener
         }
         else if (item.indexOf("VP)") > 0)
         {
-            playerInterface.print("*** You secretly played this VP card when you bought it.");
+            playerInterface
+                    .print("*** You secretly played this VP card when you bought it.");
             itemNum = cardList.getSelectedIndex();
             if (itemNum >= 0)
                 cardList.deselect(itemNum);
@@ -941,22 +1014,23 @@ public class HandPanel extends Panel implements ActionListener
         }
     }
 
-    /** Handle a click on the roll button.
-     *  Called from actionPerformed() and the auto-roll timer task.
+    /**
+     * Handle a click on the roll button. Called from actionPerformed() and the
+     * auto-roll timer task.
      */
     public void clickRollButton()
     {
         if (rollPromptInUse)
-            setRollPrompt(null, false);  // Clear it
+            setRollPrompt(null, false); // Clear it
         client.rollDice(game);
-        rollBut.setEnabled(false);  // Only one roll per turn
+        rollBut.setEnabled(false); // Only one roll per turn
     }
 
     /**
-     * Add the "lock" button for when a robot is currently playing in this position.
-     * This is not the large "lock" button seen in empty positions when the
-     * game is forming, which prevents a robot from sitting down. That button
-     * is actually sitBut with a different label.
+     * Add the "lock" button for when a robot is currently playing in this
+     * position. This is not the large "lock" button seen in empty positions
+     * when the game is forming, which prevents a robot from sitting down. That
+     * button is actually sitBut with a different label.
      *<P>
      * This method was <tt>addSeatLockBut()</tt> before 1.1.07.
      */
@@ -965,18 +1039,18 @@ public class HandPanel extends Panel implements ActionListener
         D.ebugPrintln("*** addSeatLockBut() ***");
         D.ebugPrintln("seatLockBut = " + sittingRobotLockBut);
 
-            if (game.isSeatLocked(player.getPlayerNumber()))
-            {
-                sittingRobotLockBut.setLabel(UNLOCKSEAT);
-            }
-            else
-            {
-                sittingRobotLockBut.setLabel(UNLOCKSEAT);
-            }
+        if (game.isSeatLocked(player.getPlayerNumber()))
+        {
+            sittingRobotLockBut.setLabel(UNLOCKSEAT);
+        }
+        else
+        {
+            sittingRobotLockBut.setLabel(UNLOCKSEAT);
+        }
 
-            sittingRobotLockBut.setVisible(true);
+        sittingRobotLockBut.setVisible(true);
 
-            //seatLockBut.repaint();
+        // seatLockBut.repaint();
     }
 
     /**
@@ -988,25 +1062,26 @@ public class HandPanel extends Panel implements ActionListener
     }
 
     /**
-     * Add the "Sit Here" button. If this button has been used as
-     * a "lock" button to keep out a robot, revert the label to "Sit Here"
-     * unless clientHasSatAlready.
+     * Add the "Sit Here" button. If this button has been used as a "lock"
+     * button to keep out a robot, revert the label to "Sit Here" unless
+     * clientHasSatAlready.
      *<P>
-     * <b>Note:</b> Does not check if the seat is vacant (in case we're
-     * removing a player, and game state is not yet updated);
-     * please call {@link Game#isSeatVacant(int)} before calling this.
-     *
-     * @param clientHasSatAlready Is the client seated in this game?
-     *   If so, button label should be "lock"/"unlock" (about robots).
-     *   (Added in 1.1.07)
+     * <b>Note:</b> Does not check if the seat is vacant (in case we're removing
+     * a player, and game state is not yet updated); please call
+     * {@link Game#isSeatVacant(int)} before calling this.
+     * 
+     * @param clientHasSatAlready
+     *            Is the client seated in this game? If so, button label should
+     *            be "lock"/"unlock" (about robots). (Added in 1.1.07)
      */
     public void addSitButton(boolean clientHasSatAlready)
     {
-        if (sitButIsLock && ! clientHasSatAlready)
+        if (sitButIsLock && !clientHasSatAlready)
         {
             sitBut.setLabel(SIT);
             sitButIsLock = false;
-        } else if (clientHasSatAlready && ! sitButIsLock)
+        }
+        else if (clientHasSatAlready && !sitButIsLock)
         {
             renameSitButLock();
         }
@@ -1023,20 +1098,19 @@ public class HandPanel extends Panel implements ActionListener
 
     /**
      * Change the face image
-     *
-     * @param id  the id of the image
+     * 
+     * @param id
+     *            the id of the image
      */
     public void changeFace(int id)
     {
         faceImg.setFace(id);
     }
 
-
     /**
-     * remove this player.
-     * To prevent inconsistencies, call this <em>before</em> calling
-     * {@link Game#removePlayer(String)}.
-     * Also called from constructor, before {@link #doLayout()}.
+     * remove this player. To prevent inconsistencies, call this <em>before</em>
+     * calling {@link Game#removePlayer(String)}. Also called from constructor,
+     * before {@link #doLayout()}.
      */
     public void removePlayer()
     {
@@ -1044,8 +1118,8 @@ public class HandPanel extends Panel implements ActionListener
             blankStandIn.setVisible(true);
         setVisible(false);
 
-        //D.ebugPrintln("REMOVE PLAYER");
-        //D.ebugPrintln("NAME = "+player.getName());
+        // D.ebugPrintln("REMOVE PLAYER");
+        // D.ebugPrintln("NAME = "+player.getName());
         vpLab.setVisible(false);
         vpSq.setVisible(false);
         faceImg.setVisible(false);
@@ -1064,7 +1138,7 @@ public class HandPanel extends Panel implements ActionListener
         larmyLab.setVisible(false);
         lroadLab.setVisible(false);
 
-        offerHidingControls = false;  
+        offerHidingControls = false;
         offerCounterHidingFace = false;
 
         if (playerIsClient)
@@ -1073,8 +1147,8 @@ public class HandPanel extends Panel implements ActionListener
             if (playerInterface.getClientHand() == this)
                 playerInterface.setClientHand(null);
             playerIsClient = false;
-        } 
-		else if (game.getGameState() == Game.NEW)
+        }
+        else if (game.getGameState() == Game.NEW)
         {
             // Un-hide "Sit Here" or "Lock" button
             boolean clientAlreadySitting = (playerInterface.getClientHand() != null);
@@ -1107,7 +1181,7 @@ public class HandPanel extends Panel implements ActionListener
             resourceTradeMenu = null;
         }
 
-        //cardLab.setVisible(false);
+        // cardLab.setVisible(false);
         cardList.setVisible(false);
         playCardBut.setVisible(false);
 
@@ -1117,9 +1191,9 @@ public class HandPanel extends Panel implements ActionListener
         clearOfferBut.setVisible(false);
         bankBut.setVisible(false);
 
-        if (! playerTradingDisabled)
+        if (!playerTradingDisabled)
         {
-            offerBut.setVisible(false);  // also hides offerButTip if created
+            offerBut.setVisible(false); // also hides offerButTip if created
             for (int i = 0; i < (game.maxPlayers - 1); i++)
             {
                 playerSend[i].setVisible(false);
@@ -1130,14 +1204,15 @@ public class HandPanel extends Panel implements ActionListener
         doneBut.setVisible(false);
         quitBut.setVisible(false);
 
-        setRollPrompt(null, true);  // Clear it, and cancel autoRollTimerTask if running
+        setRollPrompt(null, true); // Clear it, and cancel autoRollTimerTask if
+                                   // running
 
         /* other player's hand */
         resourceLab.setVisible(false);
         resourceSq.setVisible(false);
         developmentLab.setVisible(false);
         developmentSq.setVisible(false);
-        faceImg.removeFacePopupMenu();  // Also disables left-click to change
+        faceImg.removeFacePopupMenu(); // Also disables left-click to change
 
         removeTakeOverBut();
         removeSittingRobotLockBut();
@@ -1152,8 +1227,8 @@ public class HandPanel extends Panel implements ActionListener
     }
 
     /**
-     * Remove elements to clean up this panel.
-     * Calls removePlayer() as part of cleanup.
+     * Remove elements to clean up this panel. Calls removePlayer() as part of
+     * cleanup.
      */
     public void destroy()
     {
@@ -1163,12 +1238,13 @@ public class HandPanel extends Panel implements ActionListener
 
     /**
      * Add a player (human or robot) at this currently-vacant seat position.
-     * Update controls at this handpanel.
-     * Also update ALL OTHER handpanels in our {@link #playerInterface} this way:
-     * Remove all of the sit and take over buttons.
-     * If game still forming, can lock seats (for fewer players/robots).
-     *
-     * @param name Name of player to add
+     * Update controls at this handpanel. Also update ALL OTHER handpanels in
+     * our {@link #playerInterface} this way: Remove all of the sit and take
+     * over buttons. If game still forming, can lock seats (for fewer
+     * players/robots).
+     * 
+     * @param name
+     *            Name of player to add
      */
     public void addPlayer(String name)
     {
@@ -1177,7 +1253,7 @@ public class HandPanel extends Panel implements ActionListener
         setVisible(false);
 
         /* This is visible for both our hand and opponent hands */
-        if (! game.isBoardReset())
+        if (!game.isBoardReset())
         {
             faceImg.setDefaultFace();
         }
@@ -1202,7 +1278,8 @@ public class HandPanel extends Panel implements ActionListener
         knightsLab.setVisible(true);
         knightsSq.setVisible(true);
 
-        playerIsCurrent = (game.getCurrentPlayerNumber() == player.getPlayerNumber());
+        playerIsCurrent = (game.getCurrentPlayerNumber() == player
+                .getPlayerNumber());
 
         if (player.getName().equals(client.getNickname()))
         {
@@ -1225,7 +1302,7 @@ public class HandPanel extends Panel implements ActionListener
                 vpSq.setVisible(true);
             }
 
-            faceImg.addFacePopupMenu();  // Also enables left-click to change
+            faceImg.addFacePopupMenu(); // Also enables left-click to change
 
             claySq.setVisible(true);
             clayLab.setVisible(true);
@@ -1242,7 +1319,7 @@ public class HandPanel extends Panel implements ActionListener
             if (resourceTradeMenu != null)
             {
                 // Must have forgot to call removePlayer;
-                //   clean it up now
+                // clean it up now
                 for (int i = 0; i < resourceTradeMenu.length; ++i)
                 {
                     if (resourceTradeMenu[i] != null)
@@ -1258,7 +1335,7 @@ public class HandPanel extends Panel implements ActionListener
             }
             updateResourceTradeCosts(true);
 
-            //cardLab.setVisible(true);
+            // cardLab.setVisible(true);
             cardList.setVisible(true);
             playCardBut.setVisible(true);
 
@@ -1269,7 +1346,7 @@ public class HandPanel extends Panel implements ActionListener
             clearOfferBut.setVisible(true);
             bankBut.setVisible(true);
 
-            if (! playerTradingDisabled)
+            if (!playerTradingDisabled)
             {
                 offerBut.setVisible(true);
                 for (int i = 0; i < (game.maxPlayers - 1); i++)
@@ -1280,8 +1357,8 @@ public class HandPanel extends Panel implements ActionListener
                 }
             }
             rollBut.setVisible(true);
-            doneButIsRestart = ((game.getGameState() <= Game.START2B)
-                 || (game.getGameState() == Game.OVER));
+            doneButIsRestart = ((game.getGameState() <= Game.START2B) || (game
+                    .getGameState() == Game.OVER));
             if (doneButIsRestart)
                 doneBut.setLabel(DONE_RESTART);
             else
@@ -1302,17 +1379,20 @@ public class HandPanel extends Panel implements ActionListener
                     playerInterface.getPlayerHandPanel(i).removeSitBut();
             }
 
-            updateButtonsAtAdd();  // Enable,disable the proper buttons
+            updateButtonsAtAdd(); // Enable,disable the proper buttons
         }
         else
         {
             /* This is another player's hand */
 
             D.ebugPrintln("**** HandPanel.addPlayer(name) ****");
-            D.ebugPrintln("player.getPlayerNumber() = " + player.getPlayerNumber());
+            D.ebugPrintln("player.getPlayerNumber() = "
+                    + player.getPlayerNumber());
             D.ebugPrintln("player.isRobot() = " + player.isRobot());
-            D.ebugPrintln("game.isSeatLocked(" + player.getPlayerNumber() + ") = " + game.isSeatLocked(player.getPlayerNumber()));
-            D.ebugPrintln("game.getPlayer(client.getNickname()) = " + game.getPlayer(client.getNickname()));
+            D.ebugPrintln("game.isSeatLocked(" + player.getPlayerNumber()
+                    + ") = " + game.isSeatLocked(player.getPlayerNumber()));
+            D.ebugPrintln("game.getPlayer(client.getNickname()) = "
+                    + game.getPlayer(client.getNickname()));
 
             knightsSq.setTooltipText("Size of this opponent's army");
 
@@ -1321,12 +1401,15 @@ public class HandPanel extends Panel implements ActionListener
             // because it may not have been set at this point.
             // Use game.getPlayer(client.getNickname()) instead:
 
-            if (player.isRobot() && (game.getPlayer(client.getNickname()) == null) && (!game.isSeatLocked(player.getPlayerNumber())))
+            if (player.isRobot()
+                    && (game.getPlayer(client.getNickname()) == null)
+                    && (!game.isSeatLocked(player.getPlayerNumber())))
             {
                 addTakeOverBut();
             }
 
-            if (player.isRobot() && (game.getPlayer(client.getNickname()) != null))
+            if (player.isRobot()
+                    && (game.getPlayer(client.getNickname()) != null))
             {
                 addSittingRobotLockBut();
             }
@@ -1356,39 +1439,42 @@ public class HandPanel extends Panel implements ActionListener
         repaint();
     }
 
-    /** Player is client, is current, and has no playable cards,
-     *  so begin auto-roll countdown.
-     *
-     * Called by autoRollOrPromptPlayer when that condition is met.
-     * Countdown begins with AUTOROLL_TIME seconds.
-     *
+    /**
+     * Player is client, is current, and has no playable cards, so begin
+     * auto-roll countdown.
+     * 
+     * Called by autoRollOrPromptPlayer when that condition is met. Countdown
+     * begins with AUTOROLL_TIME seconds.
+     * 
      * @see #autoRollOrPromptPlayer()
      */
     protected void autoRollSetupTimer()
     {
         Timer piTimer = playerInterface.getEventTimer();
         if (autoRollTimerTask != null)
-            autoRollTimerTask.cancel();  // cancel any previous
-        if (! game.canRollDice(player.getPlayerNumber()))
+            autoRollTimerTask.cancel(); // cancel any previous
+        if (!game.canRollDice(player.getPlayerNumber()))
             return;
 
         // Set up to run once per second, it will cancel
-        //   itself after AUTOROLL_TIME seconds.
+        // itself after AUTOROLL_TIME seconds.
         autoRollTimerTask = new HandPanelAutoRollTask();
-        piTimer.scheduleAtFixedRate(autoRollTimerTask, 0, 1000 /* ms */ );
+        piTimer.scheduleAtFixedRate(autoRollTimerTask, 0, 1000 /* ms */);
     }
 
     /**
      * Handpanel interface updates at start of each turn (not just our turn).
-     * Calls {@link #updateTakeOverButton()}, and checks if current player (for hilight).
-     * Called from client when server sends {@link soc.message.Message#TURN}.
-     * Called also at start of game by {@link PlayerInterface#updateAtGameState()},
-     * because the server sends no TURN between the last road (gamestate START2B)
-     * and the first player's turn (state PLAY).
+     * Calls {@link #updateTakeOverButton()}, and checks if current player (for
+     * hilight). Called from client when server sends
+     * {@link soc.message.Message#TURN}. Called also at start of game by
+     * {@link PlayerInterface#updateAtGameState()}, because the server sends no
+     * TURN between the last road (gamestate START2B) and the first player's
+     * turn (state PLAY).
      */
     public void updateAtTurn()
     {
-        playerIsCurrent = (game.getCurrentPlayerNumber() == player.getPlayerNumber());
+        playerIsCurrent = (game.getCurrentPlayerNumber() == player
+                .getPlayerNumber());
         if (playerIsCurrent)
         {
             if (pnameActiveBG == null)
@@ -1406,8 +1492,9 @@ public class HandPanel extends Panel implements ActionListener
         {
             int gs = game.getGameState();
             boolean normalTurnStarting = (gs == Game.PLAY || gs == Game.PLAY1);
-            clearOffer(normalTurnStarting);  // Zero the square panel numbers, etc. (TODO) better descr.
-                // at any player's turn, not just when playerIsCurrent.
+            clearOffer(normalTurnStarting); // Zero the square panel numbers,
+                                            // etc. (TO-DO) better descr.
+            // at any player's turn, not just when playerIsCurrent.
             if (doneButIsRestart && normalTurnStarting)
             {
                 doneBut.setLabel(DONE);
@@ -1416,11 +1503,12 @@ public class HandPanel extends Panel implements ActionListener
             normalTurnStarting = normalTurnStarting && playerIsCurrent;
             doneBut.setEnabled(normalTurnStarting || (gs <= Game.START2B)
                     || (playerIsCurrent && (gs == Game.SPECIAL_BUILDING)));
-                // "Done" at Normal turn,
-                // or "Restart" during game-start (label DONE_RESTART),
-                // or "Done" during 6-player Special Building Phase.
-            playCardBut.setEnabled(normalTurnStarting && (cardList.getItemCount() > 0));
-            bankBut.setEnabled(false);  // enabled by updateAtPlay1()
+            // "Done" at Normal turn,
+            // or "Restart" during game-start (label DONE_RESTART),
+            // or "Done" during 6-player Special Building Phase.
+            playCardBut.setEnabled(normalTurnStarting
+                    && (cardList.getItemCount() > 0));
+            bankBut.setEnabled(false); // enabled by updateAtPlay1()
         }
 
         // Although this method is called at the start of our turn,
@@ -1434,21 +1522,21 @@ public class HandPanel extends Panel implements ActionListener
     }
 
     /**
-     * Client is current player; state changed from PLAY to PLAY1.
-     * (Dice has been rolled, or card played.)
-     * Update interface accordingly.
-     * Should not be called except by client's playerinterface.
+     * Client is current player; state changed from PLAY to PLAY1. (Dice has
+     * been rolled, or card played.) Update interface accordingly. Should not be
+     * called except by client's playerinterface.
      */
     public void updateAtPlay1()
     {
-       if (! playerIsClient)
-           return;
+        if (!playerIsClient)
+            return;
 
-       bankBut.setEnabled(true);
+        bankBut.setEnabled(true);
     }
 
-    /** Enable,disable the proper buttons
-     * when the client (player) is added to a game.
+    /**
+     * Enable,disable the proper buttons when the client (player) is added to a
+     * game.
      */
     public void updateButtonsAtAdd()
     {
@@ -1462,11 +1550,11 @@ public class HandPanel extends Panel implements ActionListener
             rollBut.setEnabled(false);
             doneBut.setEnabled(false);
             playCardBut.setEnabled(false);
-            bankBut.setEnabled(false);  // enabled by updateAtPlay1()
+            bankBut.setEnabled(false); // enabled by updateAtPlay1()
         }
 
-        clearOfferBut.setEnabled(false);  // No trade offer has been set yet
-        if (! playerTradingDisabled)
+        clearOfferBut.setEnabled(false); // No trade offer has been set yet
+        if (!playerTradingDisabled)
         {
             offerBut.setEnabled(false);
             if (offerButTip != null)
@@ -1493,7 +1581,8 @@ public class HandPanel extends Panel implements ActionListener
         if (playerTradingDisabled)
             return;
 
-        final boolean enaOfferBut = notAllZero && ((gs == Game.PLAY) || (gs == Game.PLAY1));
+        final boolean enaOfferBut = notAllZero
+                && ((gs == Game.PLAY) || (gs == Game.PLAY1));
         offerBut.setEnabled(enaOfferBut);
         if (offerButTip != null)
         {
@@ -1505,71 +1594,62 @@ public class HandPanel extends Panel implements ActionListener
     }
 
     /**
-     * Callback from {@link TradeOfferPanel}.
-     * For players who aren't the client:
-     * If our {@link TradeOfferPanel} shows/hides the counter offer,
-     * may need to rearrange or hide controls under it.
-     * This should be called when in {@link TradeOfferPanel#OFFER_MODE},
-     * not in {@link TradeOfferPanel#MESSAGE_MODE}.
-     *
-     * @param counterVisible Is the counter-offer showing?
+     * Callback from {@link TradeOfferPanel}. For players who aren't the client:
+     * If our {@link TradeOfferPanel} shows/hides the counter offer, may need to
+     * rearrange or hide controls under it. This should be called when in
+     * {@link TradeOfferPanel#OFFER_MODE}, not in
+     * {@link TradeOfferPanel#MESSAGE_MODE}.
+     * 
+     * @param counterVisible
+     *            Is the counter-offer showing?
      * @since 1.1.08
      */
     public void offerCounterOfferVisibleChanged(final boolean counterVisible)
     {
-        if (! offerCounterHidesFace)
+        if (!offerCounterHidesFace)
             return;
-        hideTradeMsgShowOthers(false);  // move 'offer' around if needed, hide/show faceImg.
+        hideTradeMsgShowOthers(false); // move 'offer' around if needed,
+                                       // hide/show faceImg.
     }
 
     /**
-     * If the player (client) has no playable
-     * cards, begin auto-roll countdown,
+     * If the player (client) has no playable cards, begin auto-roll countdown,
      * Otherwise, prompt them to roll or pick a card.
-     *
+     * 
      * Call only if panel's player is the client, and the game's current player.
-     *
+     * 
      * Called when server sends a RollDicePrompt message.
-     *
+     * 
      * @see #updateAtTurn()
      * @see #autoRollSetupTimer()
      */
     public void autoRollOrPromptPlayer()
     {
-        updateAtTurn();  // Game state may have changed
-        if (player.hasUnplayedDevCards()
-                && ! player.hasPlayedDevCard())
+        updateAtTurn(); // Game state may have changed
+        if (player.hasUnplayedDevCards() && !player.hasPlayedDevCard())
             setRollPrompt(ROLL_OR_PLAY_CARD, false);
         else
             autoRollSetupTimer();
     }
 
     /**
-     * Update the displayed list of player's development cards,
-     * and enable or disable the "Play Card" button.
+     * Update the displayed list of player's development cards, and enable or
+     * disable the "Play Card" button.
      */
     public void updateDevCards()
     {
         DevCardSet cards = player.getDevCards();
 
-        int[] cardTypes = { DevCardConstants.DISC,
-                            DevCardConstants.KNIGHT,
-                            DevCardConstants.MONO,
-                            DevCardConstants.ROADS,
-                            DevCardConstants.CAP,
-                            DevCardConstants.LIB,
-                            DevCardConstants.TEMP,
-                            DevCardConstants.TOW,
-                            DevCardConstants.UNIV };
-        String[] cardNames = {"Year of Plenty",
-                              "Soldier",
-                              "Monopoly",
-                              "Road Building",
-                              "Gov. House (1VP)",
-                              "Market (1VP)",
-                              "Temple (1VP)",
-                              "Chapel (1VP)",
-                              "University (1VP)"};
+        int[] cardTypes =
+            { DevCardConstants.DISC, DevCardConstants.KNIGHT,
+                    DevCardConstants.MONO, DevCardConstants.ROADS,
+                    DevCardConstants.CAP, DevCardConstants.LIB,
+                    DevCardConstants.TEMP, DevCardConstants.TOW,
+                    DevCardConstants.UNIV };
+        String[] cardNames =
+            { "Year of Plenty", "Soldier", "Monopoly", "Road Building",
+                    "Gov. House (1VP)", "Market (1VP)", "Temple (1VP)",
+                    "Chapel (1VP)", "University (1VP)" };
         boolean hasOldCards = false;
 
         synchronized (cardList.getTreeLock())
@@ -1601,10 +1681,11 @@ public class HandPanel extends Panel implements ActionListener
     }
 
     /**
-     * Remove the "lock" button seen when a robot is currently playing in this position.
+     * Remove the "lock" button seen when a robot is currently playing in this
+     * position.
      *<P>
      * This method was <tt>removeSeatLockBut()</tt> before 1.1.07.
-     *
+     * 
      * @see #addSittingRobotLockBut()
      * @see #removeSitBut()
      */
@@ -1622,9 +1703,10 @@ public class HandPanel extends Panel implements ActionListener
     }
 
     /**
-     * Remove the sit-here / lockout-robot button.
-     * If it's currently "lockout", revert button text to "sit-here",
-     * and hide the "locked, no robot" text label.
+     * Remove the sit-here / lockout-robot button. If it's currently "lockout",
+     * revert button text to "sit-here", and hide the "locked, no robot" text
+     * label.
+     * 
      * @see #renameSitButLock()
      * @see #addSittingRobotLockBut()
      */
@@ -1637,17 +1719,17 @@ public class HandPanel extends Panel implements ActionListener
             sitBut.setLabel(SIT);
             sitButIsLock = false;
             if ((player == null) || (player.getName() == null))
-                pname.setVisible(false);  // Hide "Locked: No robot" text
+                pname.setVisible(false); // Hide "Locked: No robot" text
         }
     }
 
     /**
-     * Remove the sit-here/lockout-robot button, only if its label
-     * is currently "lockout". (sitButIsLock == true).  This button
-     * is also used for newly joining players to choose a seat.  If the
-     * button label is "sit here", our interface is a newly joining
-     * player to a game that's already started; otherwise they arrived
-     * while the game was forming, and now it's started, so clean up the window.
+     * Remove the sit-here/lockout-robot button, only if its label is currently
+     * "lockout". (sitButIsLock == true). This button is also used for newly
+     * joining players to choose a seat. If the button label is "sit here", our
+     * interface is a newly joining player to a game that's already started;
+     * otherwise they arrived while the game was forming, and now it's started,
+     * so clean up the window.
      */
     public void removeSitLockoutBut()
     {
@@ -1656,20 +1738,21 @@ public class HandPanel extends Panel implements ActionListener
     }
 
     /**
-     * If game is still forming (state NEW), and player has
-     * just chosen a seat, can lock empty seats for a game
-     * with fewer players/robots. This uses the same server-interface as
-     * the "lock" button shown when robot is playing in the position,
-     * but a different button in the client (the sit-here button).
+     * If game is still forming (state NEW), and player has just chosen a seat,
+     * can lock empty seats for a game with fewer players/robots. This uses the
+     * same server-interface as the "lock" button shown when robot is playing in
+     * the position, but a different button in the client (the sit-here button).
+     * 
      * @see #updateSeatLockButton()
      */
     public void renameSitButLock()
     {
         if (game.getGameState() != Game.NEW)
-            return;  // TODO consider IllegalStateException
+            return; // TO-DO consider IllegalStateException
         if (game.isSeatLocked(player.getPlayerNumber()))
         {
-            sitBut.setLabel(UNLOCKSEAT);  // actionPerformed target becomes UNLOCKSEAT
+            sitBut.setLabel(UNLOCKSEAT); // actionPerformed target becomes
+                                         // UNLOCKSEAT
             pname.setText(SITLOCKED);
             pname.setVisible(true);
         }
@@ -1697,7 +1780,8 @@ public class HandPanel extends Panel implements ActionListener
     {
         // First, hide or show victory-point buttons
         {
-            boolean seatTaken = ! game.isSeatVacant(getPlayer().getPlayerNumber());
+            boolean seatTaken = !game.isSeatVacant(getPlayer()
+                    .getPlayerNumber());
             vpLab.setVisible(seatTaken);
             vpSq.setVisible(seatTaken);
         }
@@ -1705,11 +1789,11 @@ public class HandPanel extends Panel implements ActionListener
         startBut.setVisible(false);
 
         // Update the player-trading checkboxes
-        if (! playerTradingDisabled)
+        if (!playerTradingDisabled)
         {
             for (int i = 0; i < (game.maxPlayers - 1); i++)
             {
-                boolean seatTaken = ! game.isSeatVacant(playerSendMap[i]);
+                boolean seatTaken = !game.isSeatVacant(playerSendMap[i]);
                 playerSend[i].setBoolValue(seatTaken);
                 playerSend[i].setEnabled(seatTaken);
                 if (seatTaken)
@@ -1723,10 +1807,10 @@ public class HandPanel extends Panel implements ActionListener
     }
 
     /**
-     * Display or update this player's trade offer, or hide if none.
-     * If a game reset request is in progress, don't show the offer, because
-     * they use the same display component ({@link #offer}).  In that case
-     * the trade offer will be refreshed after the reset is cancelled.
+     * Display or update this player's trade offer, or hide if none. If a game
+     * reset request is in progress, don't show the offer, because they use the
+     * same display component ({@link #offer}). In that case the trade offer
+     * will be refreshed after the reset is cancelled.
      *<P>
      * Does not display if playerIsClient.
      */
@@ -1738,9 +1822,9 @@ public class HandPanel extends Panel implements ActionListener
 
             if (currentOffer != null)
             {
-                if (! (offerIsResetMessage || offerIsDiscardMessage))
+                if (!(offerIsResetMessage || offerIsDiscardMessage))
                 {
-                    if (! playerIsClient)
+                    if (!playerIsClient)
                     {
                         offer.setOffer(currentOffer);
                         offer.setVisible(true);
@@ -1750,7 +1834,7 @@ public class HandPanel extends Panel implements ActionListener
                     }
                 }
                 else
-                    offerIsMessageWasTrade = true;  // Will show after voting
+                    offerIsMessageWasTrade = true; // Will show after voting
             }
             else
             {
@@ -1760,7 +1844,8 @@ public class HandPanel extends Panel implements ActionListener
     }
 
     /**
-     * Show that this player (who isn't the client) has rejected another player's offer.
+     * Show that this player (who isn't the client) has rejected another
+     * player's offer.
      */
     public void rejectOfferShowNonClient()
     {
@@ -1770,13 +1855,14 @@ public class HandPanel extends Panel implements ActionListener
         if (offerHidesControls)
             hideTradeMsgShowOthers(false);
         offer.setVisible(true);
-        //validate();
+        // validate();
         repaint();
     }
 
     /**
-     * Client is rejecting the current offer from another player.
-     * Send to the server, hide the trade message, trigger a repaint.
+     * Client is rejecting the current offer from another player. Send to the
+     * server, hide the trade message, trigger a repaint.
+     * 
      * @since 1.1.08
      */
     public void rejectOfferAtClient()
@@ -1784,19 +1870,19 @@ public class HandPanel extends Panel implements ActionListener
         client.rejectOffer(game);
         if (offerHidesControls)
             hideTradeMsgShowOthers(false);
-        repaint();        
+        repaint();
     }
 
     /**
-     * If the trade-offer panel is showing a message
-     * (not a trade offer), clear and hide it.
-     * Assumes this hand's player is not the client.
+     * If the trade-offer panel is showing a message (not a trade offer), clear
+     * and hide it. Assumes this hand's player is not the client.
+     * 
      * @see #tradeSetMessage(String)
      */
     public void clearTradeMsg()
     {
         if ((offer.getMode() == TradeOfferPanel.MESSAGE_MODE)
-            && ! (offerIsResetMessage || offerIsDiscardMessage))
+                && !(offerIsResetMessage || offerIsDiscardMessage))
         {
             offer.setMessage(null);
             offer.setVisible(false);
@@ -1807,17 +1893,19 @@ public class HandPanel extends Panel implements ActionListener
     }
 
     /**
-     * If handpanel isn't tall enough, when the {@link #offer}
-     * message panel is showing, we must hide other controls.
+     * If handpanel isn't tall enough, when the {@link #offer} message panel is
+     * showing, we must hide other controls.
      *<P>
-     * This method does <b>not</b> hide/show the trade offer;
-     * other methods do that, and then call this method to show/hide
-     * the controls that would be obscured by it.
+     * This method does <b>not</b> hide/show the trade offer; other methods do
+     * that, and then call this method to show/hide the controls that would be
+     * obscured by it.
      *<P>
-     * If {@link #offerCounterHidesFace}, will check {@link TradeOfferPanel#isCounterOfferMode()}
-     * and redo layout (to hide/move) if needed.
-     *
-     * @param hideTradeMsg Are we hiding, or showing, the trade offer message panel?
+     * If {@link #offerCounterHidesFace}, will check
+     * {@link TradeOfferPanel#isCounterOfferMode()} and redo layout (to
+     * hide/move) if needed.
+     * 
+     * @param hideTradeMsg
+     *            Are we hiding, or showing, the trade offer message panel?
      * @see #tradeSetMessage(String)
      * @see #clearTradeMsg()
      * @see #offerHidesControls
@@ -1825,7 +1913,7 @@ public class HandPanel extends Panel implements ActionListener
      */
     private void hideTradeMsgShowOthers(final boolean hideTradeMsg)
     {
-        if (! offerHidesControls)
+        if (!offerHidesControls)
             return;
 
         if (offerHidingControls == hideTradeMsg)
@@ -1842,57 +1930,59 @@ public class HandPanel extends Panel implements ActionListener
             settlementLab.setVisible(hideTradeMsg);
             citySq.setVisible(hideTradeMsg);
             cityLab.setVisible(hideTradeMsg);
-    
+
             if (inPlay && player.isRobot())
             {
-                final boolean clientAlreadySat = (null != playerInterface.getClientHand());
-    
+                final boolean clientAlreadySat = (null != playerInterface
+                        .getClientHand());
+
                 if (clientAlreadySat)
                     sittingRobotLockBut.setVisible(hideTradeMsg);
-                else if (! game.isSeatLocked(player.getPlayerNumber()))
+                else if (!game.isSeatLocked(player.getPlayerNumber()))
                     takeOverBut.setVisible(hideTradeMsg);
             }
 
-            offerHidingControls = ! hideTradeMsg;
+            offerHidingControls = !hideTradeMsg;
         }
 
-        if (! offerCounterHidesFace)
+        if (!offerCounterHidesFace)
             return;
 
         final boolean counterIsShowing = offer.isCounterOfferMode();
         if (offerCounterHidingFace != counterIsShowing)
         {
-            faceImg.setVisible(! counterIsShowing);
-            pname.setVisible(! counterIsShowing);
-            vpLab.setVisible(! counterIsShowing);
-            vpSq.setVisible(! counterIsShowing);
-            larmyLab.setVisible(! counterIsShowing);
-            lroadLab.setVisible(! counterIsShowing);
+            faceImg.setVisible(!counterIsShowing);
+            pname.setVisible(!counterIsShowing);
+            vpLab.setVisible(!counterIsShowing);
+            vpSq.setVisible(!counterIsShowing);
+            larmyLab.setVisible(!counterIsShowing);
+            lroadLab.setVisible(!counterIsShowing);
 
             offerCounterHidingFace = counterIsShowing;
             invalidate();
-            doLayout();  // must move offer panel
+            doLayout(); // must move offer panel
             repaint();
         }
     }
 
     /**
-     * Clear the current offer.
-     * If player is client, clear the numbers in the resource "offer" squares,
-     * and disable the "offer" and "clear" buttons (since no resources are selected).
-     * Otherwise just hide the last-displayed offer.
-     *
-     * @param updateSendCheckboxes If true, and player is client, update the
-     *    selection checkboxes for which opponents are sent the offer.
-     *    If it's currently our turn, check all boxes where the seat isn't empty.
-     *    Otherwise, check only the box for the opponent whose turn it is.
+     * Clear the current offer. If player is client, clear the numbers in the
+     * resource "offer" squares, and disable the "offer" and "clear" buttons
+     * (since no resources are selected). Otherwise just hide the last-displayed
+     * offer.
+     * 
+     * @param updateSendCheckboxes
+     *            If true, and player is client, update the selection checkboxes
+     *            for which opponents are sent the offer. If it's currently our
+     *            turn, check all boxes where the seat isn't empty. Otherwise,
+     *            check only the box for the opponent whose turn it is.
      */
     public void clearOffer(boolean updateSendCheckboxes)
     {
-        if (! offerIsResetMessage)
+        if (!offerIsResetMessage)
         {
             offer.setVisible(false);
-            offer.clearOffer();  // Clear to zero the offer and counter-offer
+            offer.clearOffer(); // Clear to zero the offer and counter-offer
         }
 
         if (playerIsClient)
@@ -1901,16 +1991,18 @@ public class HandPanel extends Panel implements ActionListener
             sqPanel.setValues(zero, zero);
 
             // reset the send squares (checkboxes)
-            if (updateSendCheckboxes && ! playerTradingDisabled)
+            if (updateSendCheckboxes && !playerTradingDisabled)
             {
-                int pcurr = game.getCurrentPlayerNumber();  // current player number
-                boolean pIsCurr = (pcurr == player.getPlayerNumber());  // are we current? 
+                int pcurr = game.getCurrentPlayerNumber(); // current player
+                                                           // number
+                boolean pIsCurr = (pcurr == player.getPlayerNumber()); // are we
+                                                                       // current?
                 for (int i = 0; i < game.maxPlayers - 1; i++)
                 {
                     boolean canSend;
                     if (pIsCurr)
                         // send to any occupied seat
-                        canSend = ! game.isSeatVacant(playerSendMap[i]);
+                        canSend = !game.isSeatVacant(playerSendMap[i]);
                     else
                         // send only to current player
                         canSend = (pcurr == playerSendMap[i]);
@@ -1920,7 +2012,7 @@ public class HandPanel extends Panel implements ActionListener
             }
 
             clearOfferBut.setEnabled(false);
-            if (! playerTradingDisabled)
+            if (!playerTradingDisabled)
             {
                 offerBut.setEnabled(false);
                 offerButTip.setTip(OFFERBUTTIP_DIS);
@@ -1935,12 +2027,14 @@ public class HandPanel extends Panel implements ActionListener
     }
 
     /**
-     * Show or hide a message in the trade-panel.
-     * Should not be client player, only other players.
-     * Sets offerIsMessageWasTrade, but does not set boolean modes (offerIsResetMessage, offerIsDiscardMessage, etc.)
-     * Will clear boolean modes if message null.
-     *
-     * @param message Message to show, or null to hide (and return tradepanel to previous display, if any)
+     * Show or hide a message in the trade-panel. Should not be client player,
+     * only other players. Sets offerIsMessageWasTrade, but does not set boolean
+     * modes (offerIsResetMessage, offerIsDiscardMessage, etc.) Will clear
+     * boolean modes if message null.
+     * 
+     * @param message
+     *            Message to show, or null to hide (and return tradepanel to
+     *            previous display, if any)
      */
     private void tradeSetMessage(String message)
     {
@@ -1960,7 +2054,7 @@ public class HandPanel extends Panel implements ActionListener
             // restore previous state of offer panel
             offerIsDiscardMessage = false;
             offerIsResetMessage = false;
-            if ((! offerIsMessageWasTrade) || (! inPlay))
+            if ((!offerIsMessageWasTrade) || (!inPlay))
                 clearTradeMsg();
             else
                 updateCurrentOffer();
@@ -1969,33 +2063,37 @@ public class HandPanel extends Panel implements ActionListener
 
     /**
      * Show or hide a message related to board-reset voting.
-     *
-     * @param message Message to show, or null to hide
-     * @throws IllegalStateException if offerIsDiscardMessage true when called
+     * 
+     * @param message
+     *            Message to show, or null to hide
+     * @throws IllegalStateException
+     *             if offerIsDiscardMessage true when called
      */
     public void resetBoardSetMessage(String message)
-        throws IllegalStateException
+            throws IllegalStateException
     {
-        if (! inPlay)
+        if (!inPlay)
             return;
         if (offerIsDiscardMessage)
-            throw new IllegalStateException("Cannot call resetmessage when discard msg");
+            throw new IllegalStateException(
+                    "Cannot call resetmessage when discard msg");
         tradeSetMessage(message);
         offerIsResetMessage = (message != null);
     }
 
     /**
-     * Show the "discarding..." message in the trade panel.
-     * Assumes player can't be discarding and asking for board-reset at same time.
-     * Normally, this will be cleared by {@link #updateValue(int)} for NUMRESOURCES,
-     * because that's what the server sends all other players on discard.
+     * Show the "discarding..." message in the trade panel. Assumes player can't
+     * be discarding and asking for board-reset at same time. Normally, this
+     * will be cleared by {@link #updateValue(int)} for NUMRESOURCES, because
+     * that's what the server sends all other players on discard.
+     * 
      * @see #clearDiscardMsg()
      * @see #TRADEMSG_DISCARD
      * @return true if set, false if not set because was in reset-mode already.
      */
     public boolean setDiscardMsg()
     {
-        if (! inPlay)
+        if (!inPlay)
             return false;
         if (offerIsResetMessage)
             return false;
@@ -2005,27 +2103,28 @@ public class HandPanel extends Panel implements ActionListener
     }
 
     /**
-     * Clear the "discarding..." message in the trade panel.
-     * Assumes player can't be discarding and asking for board-reset at same time.
-     * If wasn't in discardMessage mode, do nothing.
+     * Clear the "discarding..." message in the trade panel. Assumes player
+     * can't be discarding and asking for board-reset at same time. If wasn't in
+     * discardMessage mode, do nothing.
+     * 
      * @see #setDiscardMsg()
      */
     public void clearDiscardMsg()
     {
-        if (! offerIsDiscardMessage)
+        if (!offerIsDiscardMessage)
             return;
         tradeSetMessage(null);
         offerIsDiscardMessage = false;
     }
 
     /**
-     * update the takeover button so that it only
-     * allows takover when it's not the robot's turn
+     * update the takeover button so that it only allows takover when it's not
+     * the robot's turn
      */
     public void updateTakeOverButton()
     {
-        if ((!game.isSeatLocked(player.getPlayerNumber())) &&
-            (game.getCurrentPlayerNumber() != player.getPlayerNumber()))
+        if ((!game.isSeatLocked(player.getPlayerNumber()))
+                && (game.getCurrentPlayerNumber() != player.getPlayerNumber()))
         {
             takeOverBut.setLabel(TAKEOVER);
         }
@@ -2035,8 +2134,9 @@ public class HandPanel extends Panel implements ActionListener
         }
     }
 
-    /** Client is current player, turn has just begun.
-     * Enable any previously disabled buttons.
+    /**
+     * Client is current player, turn has just begun. Enable any previously
+     * disabled buttons.
      */
     public void updateRollButton()
     {
@@ -2044,13 +2144,11 @@ public class HandPanel extends Panel implements ActionListener
     }
 
     /**
-     * update the seat lock button so that it
-     * allows a player to lock an unlocked seat
-     * and vice versa. Called from client when server
-     * sends a SETSEATLOCK message. Updates both
-     * buttons: The robot-seat-lock (when robot playing at
-     * this position) and the robot-lockout (game forming,
-     * seat vacant, no robot here please) buttons.
+     * update the seat lock button so that it allows a player to lock an
+     * unlocked seat and vice versa. Called from client when server sends a
+     * SETSEATLOCK message. Updates both buttons: The robot-seat-lock (when
+     * robot playing at this position) and the robot-lockout (game forming, seat
+     * vacant, no robot here please) buttons.
      */
     public void updateSeatLockButton()
     {
@@ -2090,8 +2188,9 @@ public class HandPanel extends Panel implements ActionListener
 
     /**
      * turn the "largest army" label on or off
-     *
-     * @param haveIt  true if this player has the largest army
+     * 
+     * @param haveIt
+     *            true if this player has the largest army
      */
     protected void setLArmy(boolean haveIt)
     {
@@ -2100,8 +2199,9 @@ public class HandPanel extends Panel implements ActionListener
 
     /**
      * turn the "longest road" label on or off
-     *
-     * @param haveIt  true if this player has the longest road
+     * 
+     * @param haveIt
+     *            true if this player has the longest road
      */
     protected void setLRoad(boolean haveIt)
     {
@@ -2109,21 +2209,21 @@ public class HandPanel extends Panel implements ActionListener
     }
 
     /**
-     * update the value of a player element.
-     * Call this after updating game data.
+     * update the value of a player element. Call this after updating game data.
      *<P>
-     * If VICTORYPOINTS is updated, and game state is over, check for winner
-     * and update (player name label, victory-points tooltip, disable bank/trade btn)
-     *
-     * @param vt  the type of value
+     * If VICTORYPOINTS is updated, and game state is over, check for winner and
+     * update (player name label, victory-points tooltip, disable bank/trade
+     * btn)
+     * 
+     * @param vt
+     *            the type of value
      */
     public void updateValue(int vt)
     {
         /**
-         * We say that we're getting the total vp, but
-         * for other players this will automatically get
-         * the public vp because we will assume their
-         * dev card vp total is zero.
+         * We say that we're getting the total vp, but for other players this
+         * will automatically get the public vp because we will assume their dev
+         * card vp total is zero.
          */
         switch (vt)
         {
@@ -2136,7 +2236,8 @@ public class HandPanel extends Panel implements ActionListener
                 {
                     if (game.getPlayerWithWin() == player)
                     {
-                        vpSq.setTooltipText("Winner with " + newVP + " victory points");
+                        vpSq.setTooltipText("Winner with " + newVP
+                                + " victory points");
                         pname.setText(player.getName() + WINNER_SUFFIX);
                     }
                     if (interactive)
@@ -2144,7 +2245,8 @@ public class HandPanel extends Panel implements ActionListener
                     if (interactive)
                         playCardBut.setEnabled(false);
                     doneBut.setLabel(DONE_RESTART);
-                    doneBut.setEnabled(true);  // In case it's another player's turn
+                    doneBut.setEnabled(true); // In case it's another player's
+                                              // turn
                     doneButIsRestart = true;
                 }
             }
@@ -2164,31 +2266,36 @@ public class HandPanel extends Panel implements ActionListener
 
         case CLAY:
 
-            claySq.setIntValue(player.getResources().getAmount(ResourceConstants.CLAY));
+            claySq.setIntValue(player.getResources().getAmount(
+                    ResourceConstants.CLAY));
 
             break;
 
         case ORE:
 
-            oreSq.setIntValue(player.getResources().getAmount(ResourceConstants.ORE));
+            oreSq.setIntValue(player.getResources().getAmount(
+                    ResourceConstants.ORE));
 
             break;
 
         case SHEEP:
 
-            sheepSq.setIntValue(player.getResources().getAmount(ResourceConstants.SHEEP));
+            sheepSq.setIntValue(player.getResources().getAmount(
+                    ResourceConstants.SHEEP));
 
             break;
 
         case WHEAT:
 
-            wheatSq.setIntValue(player.getResources().getAmount(ResourceConstants.WHEAT));
+            wheatSq.setIntValue(player.getResources().getAmount(
+                    ResourceConstants.WHEAT));
 
             break;
 
         case WOOD:
 
-            woodSq.setIntValue(player.getResources().getAmount(ResourceConstants.WOOD));
+            woodSq.setIntValue(player.getResources().getAmount(
+                    ResourceConstants.WOOD));
 
             break;
 
@@ -2207,7 +2314,8 @@ public class HandPanel extends Panel implements ActionListener
 
         case SETTLEMENTS:
 
-            settlementSq.setIntValue(player.getNumPieces(PlayingPiece.SETTLEMENT));
+            settlementSq.setIntValue(player
+                    .getNumPieces(PlayingPiece.SETTLEMENT));
             if (playerIsClient)
                 updateResourceTradeCosts(false);
 
@@ -2233,7 +2341,8 @@ public class HandPanel extends Panel implements ActionListener
 
         case ASK_SPECIAL_BUILD:
             if (player.hasAskedSpecialBuild())
-                playerInterface.print("* " + player.getName() + " wants to Special Build.");
+                playerInterface.print("* " + player.getName()
+                        + " wants to Special Build.");
             if (playerIsClient)
                 playerInterface.getBuildingPanel().updateButtonStatus();
             break;
@@ -2242,8 +2351,8 @@ public class HandPanel extends Panel implements ActionListener
     }
 
     /**
-     * Re-read player's resource info and victory points, update the
-     * display and resource trade costs and resourceTradeMenu text.
+     * Re-read player's resource info and victory points, update the display and
+     * resource trade costs and resourceTradeMenu text.
      */
     public void updateResourcesVP()
     {
@@ -2264,17 +2373,18 @@ public class HandPanel extends Panel implements ActionListener
     }
 
     /**
-     * If playerIsClient, update cost of bank/port trade per resource.
-     * Update resourceTradeCost numbers and resourceTradeMenu text.
-     *
-     * @param doInit If true, fill resourceTradeMenu[] with newly constructed menus.
+     * If playerIsClient, update cost of bank/port trade per resource. Update
+     * resourceTradeCost numbers and resourceTradeMenu text.
+     * 
+     * @param doInit
+     *            If true, fill resourceTradeMenu[] with newly constructed
+     *            menus.
      */
     public void updateResourceTradeCosts(boolean doInit)
     {
         boolean has3Port = player.getPortFlag(Board.MISC_PORT);
 
-        for (int i = ResourceConstants.CLAY;
-                i <= ResourceConstants.WOOD; ++i)
+        for (int i = ResourceConstants.CLAY; i <= ResourceConstants.WOOD; ++i)
         {
             int oldCost = resourceTradeCost[i];
             int newCost;
@@ -2292,7 +2402,7 @@ public class HandPanel extends Panel implements ActionListener
                 /**
                  * Update menu text
                  */
-                if (! doInit)
+                if (!doInit)
                 {
                     resourceTradeMenu[i].updateCost(newCost);
                 }
@@ -2302,21 +2412,26 @@ public class HandPanel extends Panel implements ActionListener
                     switch (i)
                     {
                     case ResourceConstants.CLAY:
-                        resSq = claySq;  break;
+                        resSq = claySq;
+                        break;
                     case ResourceConstants.ORE:
-                        resSq = oreSq;   break;
+                        resSq = oreSq;
+                        break;
                     case ResourceConstants.SHEEP:
-                        resSq = sheepSq; break;
+                        resSq = sheepSq;
+                        break;
                     case ResourceConstants.WHEAT:
-                        resSq = wheatSq; break;
+                        resSq = wheatSq;
+                        break;
                     case ResourceConstants.WOOD:
-                        resSq = woodSq;  break;
+                        resSq = woodSq;
+                        break;
                     default:
                         // Should not happen
                         resSq = null;
                     }
-                    resourceTradeMenu[i] = new
-                        ResourceTradeTypeMenu(this, i, resSq, newCost);
+                    resourceTradeMenu[i] = new ResourceTradeTypeMenu(this, i,
+                            resSq, newCost);
                 }
             }
         }
@@ -2324,6 +2439,7 @@ public class HandPanel extends Panel implements ActionListener
 
     /**
      * Is this panel showing the client's player?
+     * 
      * @see #isClientAndCurrentPlayer()
      */
     public boolean isClientPlayer()
@@ -2332,15 +2448,14 @@ public class HandPanel extends Panel implements ActionListener
     }
 
     /**
-     * Is this panel showing the client's player,
-     * and is that player the game's current player?
+     * Is this panel showing the client's player, and is that player the game's
+     * current player?
      *<P>
-     * Note that because of the order of network messages,
-     * after this player's turn, there's a brief time when
-     * the state becomes PLAY again, before the current player
-     * is changed to the next player.  So, it appears that
-     * this player can roll again, but they cannot.
-     * To guard against this, use {@link #isClientAndCurrentlyCanRoll()} instead.
+     * Note that because of the order of network messages, after this player's
+     * turn, there's a brief time when the state becomes PLAY again, before the
+     * current player is changed to the next player. So, it appears that this
+     * player can roll again, but they cannot. To guard against this, use
+     * {@link #isClientAndCurrentlyCanRoll()} instead.
      */
     public boolean isClientAndCurrentPlayer()
     {
@@ -2348,25 +2463,28 @@ public class HandPanel extends Panel implements ActionListener
     }
 
     /**
-     * Is this panel showing the client's player,
-     * and is that player the game's current player,
-     * and are they able to roll the dice right now?
+     * Is this panel showing the client's player, and is that player the game's
+     * current player, and are they able to roll the dice right now?
+     * 
      * @since 1.1.09
      */
     public boolean isClientAndCurrentlyCanRoll()
     {
-        return playerIsClient && playerIsCurrent
-           && (rollBut != null) && rollBut.isEnabled();
+        return playerIsClient && playerIsCurrent && (rollBut != null)
+                && rollBut.isEnabled();
     }
 
-    /** Set or clear the roll prompt / auto-roll countdown display.
-     *
-     * @param prompt The message to display, or null to clear it.
-     * @param cancelTimer Cancel {@link #autoRollTimerTask}, for use with null prompt
+    /**
+     * Set or clear the roll prompt / auto-roll countdown display.
+     * 
+     * @param prompt
+     *            The message to display, or null to clear it.
+     * @param cancelTimer
+     *            Cancel {@link #autoRollTimerTask}, for use with null prompt
      */
     protected void setRollPrompt(String prompt, final boolean cancelTimer)
     {
-        boolean wasUse = rollPromptInUse; 
+        boolean wasUse = rollPromptInUse;
         rollPromptInUse = (prompt != null);
         if (rollPromptInUse)
         {
@@ -2385,13 +2503,15 @@ public class HandPanel extends Panel implements ActionListener
             {
                 autoRollTimerTask.cancel();
                 autoRollTimerTask = null;
-            }            
+            }
         }
     }
 
     /**
      * For {@link PlayerInterface}'s use, to set its size and position
-     * @return the stand-in blank colorsquare: not a subcomponent, but shows up when handpanel is hidden
+     * 
+     * @return the stand-in blank colorsquare: not a subcomponent, but shows up
+     *         when handpanel is hidden
      * @see #setBounds(int, int, int, int)
      * @since 1.1.06
      */
@@ -2402,6 +2522,7 @@ public class HandPanel extends Panel implements ActionListener
 
     /**
      * Overriden to also update {@link #getBlankStandIn()} bounds.
+     * 
      * @since 1.1.06
      */
     public void setBounds(int x, int y, int width, int height)
@@ -2417,7 +2538,7 @@ public class HandPanel extends Panel implements ActionListener
     public void doLayout()
     {
         Dimension dim = getSize();
-        int inset = 3;  // was 8 before 1.1.08
+        int inset = 3; // was 8 before 1.1.08
         int space = 2;
 
         FontMetrics fm = this.getFontMetrics(this.getFont());
@@ -2428,50 +2549,73 @@ public class HandPanel extends Panel implements ActionListener
         if (!inPlay)
         {
             /* just show the 'sit' button */
-            /* and the 'robot' button     */
-            /* and the pname label        */
-            sitBut.setBounds((dim.width - 60) / 2, (dim.height - 82) / 2, 60, 40);
+            /* and the 'robot' button */
+            /* and the pname label */
+            sitBut.setBounds((dim.width - 60) / 2, (dim.height - 82) / 2, 60,
+                    40);
             pname.setBounds(inset + faceW + inset, inset, pnameW, lineH);
         }
         else
         {
-            int stlmtsW = fm.stringWidth("Stlmts:_");     //Bug in stringWidth does not give correct size for ' '
-            int knightsW = fm.stringWidth("Soldiers:") + 2;  // +2 because Label text does not start at pixel column 0
+            int stlmtsW = fm.stringWidth("Stlmts:_"); // Bug in stringWidth does
+                                                      // not give correct size
+                                                      // for ' '
+            int knightsW = fm.stringWidth("Soldiers:") + 2; // +2 because Label
+                                                            // text does not
+                                                            // start at pixel
+                                                            // column 0
 
             faceImg.setBounds(inset, inset, faceW, faceW);
             pname.setBounds(inset + faceW + inset, inset, pnameW, lineH);
 
-            //if (true) {
+            // if (true) {
             if (playerIsClient)
             {
                 /* This is our hand */
-                //sqPanel.doLayout();
+                // sqPanel.doLayout();
 
                 Dimension sqpDim = sqPanel.getSize();
-                int sheepW = fm.stringWidth("Sheep:_");           //Bug in stringWidth does not give correct size for ' '
-                int pcW = fm.stringWidth(CARD.replace(' ','_'));  //Bug in stringWidth
-                int giveW = fm.stringWidth(GIVE.replace(' ','_'));
+                int sheepW = fm.stringWidth("Sheep:_"); // Bug in stringWidth
+                                                        // does not give correct
+                                                        // size for ' '
+                int pcW = fm.stringWidth(CARD.replace(' ', '_')); // Bug in
+                                                                  // stringWidth
+                int giveW = fm.stringWidth(GIVE.replace(' ', '_'));
                 int cardsH = 5 * (lineH + space);
                 int tradeH = sqpDim.height + space + (2 * (lineH + space));
-                int sectionSpace = (dim.height - (inset + faceW + cardsH + tradeH + lineH + inset)) / 3;
+                int sectionSpace = (dim.height - (inset + faceW + cardsH
+                        + tradeH + lineH + inset)) / 3;
                 int tradeY = inset + faceW + sectionSpace;
                 int cardsY = tradeY + tradeH + sectionSpace;
 
                 // Always reposition everything
-                startBut.setBounds(inset + faceW + inset, inset + lineH + space, dim.width - (inset + faceW + inset + inset), lineH);
+                startBut.setBounds(inset + faceW + inset,
+                        inset + lineH + space, dim.width
+                                - (inset + faceW + inset + inset), lineH);
 
-                int vpW = fm.stringWidth(vpLab.getText().replace(' ','_'));  //Bug in stringWidth
-                vpLab.setBounds(inset + faceW + inset, (inset + faceW) - lineH, vpW, lineH);
-                vpSq.setBounds(inset + faceW + inset + vpW + space, (inset + faceW) - lineH, ColorSquare.WIDTH, ColorSquare.WIDTH);
+                int vpW = fm.stringWidth(vpLab.getText().replace(' ', '_')); // Bug
+                                                                             // in
+                                                                             // stringWidth
+                vpLab.setBounds(inset + faceW + inset, (inset + faceW) - lineH,
+                        vpW, lineH);
+                vpSq.setBounds(inset + faceW + inset + vpW + space,
+                        (inset + faceW) - lineH, ColorSquare.WIDTH,
+                        ColorSquare.WIDTH);
 
-                int topStuffW = inset + faceW + inset + vpW + space + ColorSquare.WIDTH + space;
+                int topStuffW = inset + faceW + inset + vpW + space
+                        + ColorSquare.WIDTH + space;
 
                 // always position these: though they may not be visible
-                larmyLab.setBounds(topStuffW, (inset + faceW) - lineH, (dim.width - (topStuffW + inset + space)) / 2, lineH);
-                lroadLab.setBounds(topStuffW + ((dim.width - (topStuffW + inset + space)) / 2) + space, (inset + faceW) - lineH, (dim.width - (topStuffW + inset + space)) / 2, lineH);
+                larmyLab.setBounds(topStuffW, (inset + faceW) - lineH,
+                        (dim.width - (topStuffW + inset + space)) / 2, lineH);
+                lroadLab.setBounds(topStuffW
+                        + ((dim.width - (topStuffW + inset + space)) / 2)
+                        + space, (inset + faceW) - lineH,
+                        (dim.width - (topStuffW + inset + space)) / 2, lineH);
 
                 giveLab.setBounds(inset, tradeY, giveW, lineH);
-                getLab.setBounds(inset, tradeY + ColorSquareLarger.HEIGHT_L, giveW, lineH);
+                getLab.setBounds(inset, tradeY + ColorSquareLarger.HEIGHT_L,
+                        giveW, lineH);
                 sqPanel.setLocation(inset + giveW + space, tradeY);
 
                 int tbW = ((giveW + sqpDim.width) / 2);
@@ -2481,151 +2625,254 @@ public class HandPanel extends Panel implements ActionListener
                 {
                     if (game.maxPlayers == 4)
                         offerBut.setBounds(tbX, tbY, tbW, lineH);
-                    else  // 6-player: leave room for 5 checkboxes
-                        offerBut.setBounds(tbX, tbY, (2 * tbW) + space - (5 * (1 + ColorSquare.WIDTH)), lineH);
+                    else
+                        // 6-player: leave room for 5 checkboxes
+                        offerBut.setBounds(tbX, tbY, (2 * tbW) + space
+                                - (5 * (1 + ColorSquare.WIDTH)), lineH);
                 }
                 clearOfferBut.setBounds(tbX, tbY + lineH + space, tbW, lineH);
-                bankBut.setBounds(tbX + tbW + space, tbY + lineH + space, tbW, lineH);
+                bankBut.setBounds(tbX + tbW + space, tbY + lineH + space, tbW,
+                        lineH);
 
-                if (! playerTradingDisabled)
+                if (!playerTradingDisabled)
                 {
                     if (game.maxPlayers == 4)
                     {
-                        playerSend[0].setBounds(tbX + tbW + space, tbY, ColorSquare.WIDTH, ColorSquare.HEIGHT);
-                        playerSend[1].setBounds(tbX + tbW + space + ((tbW - ColorSquare.WIDTH) / 2), tbY, ColorSquare.WIDTH, ColorSquare.HEIGHT);
-                        playerSend[2].setBounds((tbX + tbW + space + tbW) - ColorSquare.WIDTH, tbY, ColorSquare.WIDTH, ColorSquare.HEIGHT);
-                    } else {
+                        playerSend[0].setBounds(tbX + tbW + space, tbY,
+                                ColorSquare.WIDTH, ColorSquare.HEIGHT);
+                        playerSend[1].setBounds(tbX + tbW + space
+                                + ((tbW - ColorSquare.WIDTH) / 2), tbY,
+                                ColorSquare.WIDTH, ColorSquare.HEIGHT);
+                        playerSend[2].setBounds((tbX + tbW + space + tbW)
+                                - ColorSquare.WIDTH, tbY, ColorSquare.WIDTH,
+                                ColorSquare.HEIGHT);
+                    }
+                    else
+                    {
                         // 6-player: 5 checkboxes
-                        int px = tbX + (2 * (space + tbW)) - ColorSquare.WIDTH - 1;
-                        for (int pi = 4; pi >=0; --pi, px -= (ColorSquare.WIDTH + 1))
-                            playerSend[pi].setBounds(px, tbY, ColorSquare.WIDTH, ColorSquare.HEIGHT);
+                        int px = tbX + (2 * (space + tbW)) - ColorSquare.WIDTH
+                                - 1;
+                        for (int pi = 4; pi >= 0; --pi, px -= (ColorSquare.WIDTH + 1))
+                            playerSend[pi].setBounds(px, tbY,
+                                    ColorSquare.WIDTH, ColorSquare.HEIGHT);
                     }
                 }
 
-                knightsLab.setBounds(dim.width - inset - knightsW - ColorSquare.WIDTH - space, tradeY, knightsW, lineH);
-                knightsSq.setBounds(dim.width - inset - ColorSquare.WIDTH, tradeY, ColorSquare.WIDTH, ColorSquare.HEIGHT);
-                roadLab.setBounds(dim.width - inset - knightsW - ColorSquare.WIDTH - space, tradeY + lineH + space, knightsW, lineH);
-                roadSq.setBounds(dim.width - inset - ColorSquare.WIDTH, tradeY + lineH + space, ColorSquare.WIDTH, ColorSquare.HEIGHT);
-                settlementLab.setBounds(dim.width - inset - knightsW - ColorSquare.WIDTH - space, tradeY + (2 * (lineH + space)), knightsW, lineH);
-                settlementSq.setBounds(dim.width - inset - ColorSquare.WIDTH, tradeY + (2 * (lineH + space)), ColorSquare.WIDTH, ColorSquare.HEIGHT);
-                cityLab.setBounds(dim.width - inset - knightsW - ColorSquare.WIDTH - space, tradeY + (3 * (lineH + space)), knightsW, lineH);
-                citySq.setBounds(dim.width - inset - ColorSquare.WIDTH, tradeY + (3 * (lineH + space)), ColorSquare.WIDTH, ColorSquare.HEIGHT);
+                knightsLab.setBounds(dim.width - inset - knightsW
+                        - ColorSquare.WIDTH - space, tradeY, knightsW, lineH);
+                knightsSq.setBounds(dim.width - inset - ColorSquare.WIDTH,
+                        tradeY, ColorSquare.WIDTH, ColorSquare.HEIGHT);
+                roadLab.setBounds(dim.width - inset - knightsW
+                        - ColorSquare.WIDTH - space, tradeY + lineH + space,
+                        knightsW, lineH);
+                roadSq.setBounds(dim.width - inset - ColorSquare.WIDTH, tradeY
+                        + lineH + space, ColorSquare.WIDTH, ColorSquare.HEIGHT);
+                settlementLab.setBounds(dim.width - inset - knightsW
+                        - ColorSquare.WIDTH - space, tradeY
+                        + (2 * (lineH + space)), knightsW, lineH);
+                settlementSq.setBounds(dim.width - inset - ColorSquare.WIDTH,
+                        tradeY + (2 * (lineH + space)), ColorSquare.WIDTH,
+                        ColorSquare.HEIGHT);
+                cityLab.setBounds(dim.width - inset - knightsW
+                        - ColorSquare.WIDTH - space, tradeY
+                        + (3 * (lineH + space)), knightsW, lineH);
+                citySq.setBounds(dim.width - inset - ColorSquare.WIDTH, tradeY
+                        + (3 * (lineH + space)), ColorSquare.WIDTH,
+                        ColorSquare.HEIGHT);
 
                 clayLab.setBounds(inset, cardsY, sheepW, lineH);
-                claySq.setBounds(inset + sheepW + space, cardsY, ColorSquare.WIDTH, ColorSquare.HEIGHT);
-                oreLab.setBounds(inset, cardsY + (lineH + space), sheepW, lineH);
-                oreSq.setBounds(inset + sheepW + space, cardsY + (lineH + space), ColorSquare.WIDTH, ColorSquare.HEIGHT);
-                sheepLab.setBounds(inset, cardsY + (2 * (lineH + space)), sheepW, lineH);
-                sheepSq.setBounds(inset + sheepW + space, cardsY + (2 * (lineH + space)), ColorSquare.WIDTH, ColorSquare.HEIGHT);
-                wheatLab.setBounds(inset, cardsY + (3 * (lineH + space)), sheepW, lineH);
-                wheatSq.setBounds(inset + sheepW + space, cardsY + (3 * (lineH + space)), ColorSquare.WIDTH, ColorSquare.HEIGHT);
-                woodLab.setBounds(inset, cardsY + (4 * (lineH + space)), sheepW, lineH);
-                woodSq.setBounds(inset + sheepW + space, cardsY + (4 * (lineH + space)), ColorSquare.WIDTH, ColorSquare.HEIGHT);
+                claySq.setBounds(inset + sheepW + space, cardsY,
+                        ColorSquare.WIDTH, ColorSquare.HEIGHT);
+                oreLab
+                        .setBounds(inset, cardsY + (lineH + space), sheepW,
+                                lineH);
+                oreSq.setBounds(inset + sheepW + space, cardsY
+                        + (lineH + space), ColorSquare.WIDTH,
+                        ColorSquare.HEIGHT);
+                sheepLab.setBounds(inset, cardsY + (2 * (lineH + space)),
+                        sheepW, lineH);
+                sheepSq.setBounds(inset + sheepW + space, cardsY
+                        + (2 * (lineH + space)), ColorSquare.WIDTH,
+                        ColorSquare.HEIGHT);
+                wheatLab.setBounds(inset, cardsY + (3 * (lineH + space)),
+                        sheepW, lineH);
+                wheatSq.setBounds(inset + sheepW + space, cardsY
+                        + (3 * (lineH + space)), ColorSquare.WIDTH,
+                        ColorSquare.HEIGHT);
+                woodLab.setBounds(inset, cardsY + (4 * (lineH + space)),
+                        sheepW, lineH);
+                woodSq.setBounds(inset + sheepW + space, cardsY
+                        + (4 * (lineH + space)), ColorSquare.WIDTH,
+                        ColorSquare.HEIGHT);
 
-                int clW = dim.width - (inset + sheepW + space + ColorSquare.WIDTH + (4 * space) + inset);
-                int clX = inset + sheepW + space + ColorSquare.WIDTH + (4 * space);
+                int clW = dim.width
+                        - (inset + sheepW + space + ColorSquare.WIDTH
+                                + (4 * space) + inset);
+                int clX = inset + sheepW + space + ColorSquare.WIDTH
+                        + (4 * space);
                 cardList.setBounds(clX, cardsY, clW, (4 * (lineH + space)) - 2);
-                playCardBut.setBounds(((clW - pcW) / 2) + clX, cardsY + (4 * (lineH + space)), pcW, lineH);
+                playCardBut.setBounds(((clW - pcW) / 2) + clX, cardsY
+                        + (4 * (lineH + space)), pcW, lineH);
 
                 int bbW = 50;
                 tbY = dim.height - lineH - inset;
                 // Label lines up over Roll button
-                rollPromptCountdownLab.setBounds(dim.width - (bbW + space + bbW + inset), tbY - lineH, dim.width - 2*inset, lineH);
+                rollPromptCountdownLab.setBounds(dim.width
+                        - (bbW + space + bbW + inset), tbY - lineH, dim.width
+                        - 2 * inset, lineH);
                 // Bottom row of buttons
                 quitBut.setBounds(inset, tbY, bbW, lineH);
-                rollBut.setBounds(dim.width - (bbW + space + bbW + inset), tbY, bbW, lineH);
+                rollBut.setBounds(dim.width - (bbW + space + bbW + inset), tbY,
+                        bbW, lineH);
                 doneBut.setBounds(dim.width - inset - bbW, tbY, bbW, lineH);
 
-                offerHidesControls = false;  // since it won't ever be showing
+                offerHidesControls = false; // since it won't ever be showing
                 offerCounterHidesFace = false;
             }
             else
             {
                 /* This is another player's hand */
-                int balloonH = dim.height - (inset + (4 * (lineH + space)) + inset);  // offer-message panel
-                int dcardsW = fm.stringWidth("Dev._Cards:_");                //Bug in stringWidth does not give correct size for ' '
-                int vpW = fm.stringWidth(vpLab.getText().replace(' ','_'));  //Bug in stringWidth
+                int balloonH = dim.height
+                        - (inset + (4 * (lineH + space)) + inset); // offer-message
+                                                                   // panel
+                int dcardsW = fm.stringWidth("Dev._Cards:_"); // Bug in
+                                                              // stringWidth
+                                                              // does not give
+                                                              // correct size
+                                                              // for ' '
+                int vpW = fm.stringWidth(vpLab.getText().replace(' ', '_')); // Bug
+                                                                             // in
+                                                                             // stringWidth
 
                 if (player.isRobot())
                 {
                     if (game.getPlayer(client.getNickname()) == null)
                     {
-                        takeOverBut.setBounds(10, (inset + balloonH) - 10, dim.width - 20, 20);
+                        takeOverBut.setBounds(10, (inset + balloonH) - 10,
+                                dim.width - 20, 20);
                     }
                     else if (sittingRobotLockBut.isVisible())
                     {
-                        //seatLockBut.setBounds(10, inset+balloonH-10, dim.width-20, 20);
-                        sittingRobotLockBut.setBounds(inset + dcardsW + space + ColorSquare.WIDTH + space, inset + balloonH + (lineH + space) + (lineH / 2), (dim.width - (2 * (inset + ColorSquare.WIDTH + (2 * space))) - stlmtsW - dcardsW), 2 * (lineH + space));
+                        // seatLockBut.setBounds(10, inset+balloonH-10,
+                        // dim.width-20, 20);
+                        sittingRobotLockBut
+                                .setBounds(
+                                        inset + dcardsW + space
+                                                + ColorSquare.WIDTH + space,
+                                        inset + balloonH + (lineH + space)
+                                                + (lineH / 2),
+                                        (dim.width
+                                                - (2 * (inset
+                                                        + ColorSquare.WIDTH + (2 * space)))
+                                                - stlmtsW - dcardsW),
+                                        2 * (lineH + space));
                     }
                 }
 
-                // Are we tall enough for room, after the offer, for other controls?
+                // Are we tall enough for room, after the offer, for other
+                // controls?
                 // If not, they will be hid when offer is visible.
-                offerHidesControls = (dim.height - (inset + faceW + space + balloonH))
-                    < (3 * (lineH + space));
+                offerHidesControls = (dim.height - (inset + faceW + space + balloonH)) < (3 * (lineH + space));
                 if (offerHidesControls)
                 {
                     // This field is calculated based on height.
-                    offerCounterHidesFace =
-                        ((dim.height - TradeOfferPanel.OFFER_HEIGHT - TradeOfferPanel.OFFER_COUNTER_HEIGHT + TradeOfferPanel.OFFER_BUTTONS_HEIGHT)
-                        < faceW);
+                    offerCounterHidesFace = ((dim.height
+                            - TradeOfferPanel.OFFER_HEIGHT
+                            - TradeOfferPanel.OFFER_COUNTER_HEIGHT + TradeOfferPanel.OFFER_BUTTONS_HEIGHT) < faceW);
 
                     // This is a dynamic flag, set by hideTradeMsgShowOthers
-                    // when the user clicks button to show/hide the counter-offer.
+                    // when the user clicks button to show/hide the
+                    // counter-offer.
                     // If true, hideTradeMsgShowOthers has already hid faceImg,
                     // pname, vpLab and vpSq, to make room for it.
                     if (offerCounterHidingFace)
                     {
-                        offer.setBounds(inset, inset, dim.width - (2 * inset), dim.height - (2 * inset));
-                    } else {
-                        offer.setBounds(inset, inset + faceW + space, dim.width - (2 * inset), dim.height - (inset + faceW + 2 * space));
+                        offer.setBounds(inset, inset, dim.width - (2 * inset),
+                                dim.height - (2 * inset));
+                    }
+                    else
+                    {
+                        offer.setBounds(inset, inset + faceW + space, dim.width
+                                - (2 * inset), dim.height
+                                - (inset + faceW + 2 * space));
                     }
                     offer.setCounterHidesBalloonPoint(offerCounterHidingFace);
-                } else {
-                    offer.setBounds(inset, inset + faceW + space, dim.width - (2 * inset), balloonH);
+                }
+                else
+                {
+                    offer.setBounds(inset, inset + faceW + space, dim.width
+                            - (2 * inset), balloonH);
                     offerCounterHidesFace = false;
                 }
                 offer.doLayout();
 
-                vpLab.setBounds(inset + faceW + inset, (inset + faceW) - lineH, vpW, lineH);
-                vpSq.setBounds(inset + faceW + inset + vpW + space, (inset + faceW) - lineH, ColorSquare.WIDTH, ColorSquare.HEIGHT);
+                vpLab.setBounds(inset + faceW + inset, (inset + faceW) - lineH,
+                        vpW, lineH);
+                vpSq.setBounds(inset + faceW + inset + vpW + space,
+                        (inset + faceW) - lineH, ColorSquare.WIDTH,
+                        ColorSquare.HEIGHT);
 
-                int topStuffW = inset + faceW + inset + vpW + space + ColorSquare.WIDTH + space;
+                int topStuffW = inset + faceW + inset + vpW + space
+                        + ColorSquare.WIDTH + space;
 
                 // always position these: though they may not be visible
-                larmyLab.setBounds(topStuffW, (inset + faceW) - lineH, (dim.width - (topStuffW + inset + space)) / 2, lineH);
-                lroadLab.setBounds(topStuffW + ((dim.width - (topStuffW + inset + space)) / 2) + space, (inset + faceW) - lineH, (dim.width - (topStuffW + inset + space)) / 2, lineH);
+                larmyLab.setBounds(topStuffW, (inset + faceW) - lineH,
+                        (dim.width - (topStuffW + inset + space)) / 2, lineH);
+                lroadLab.setBounds(topStuffW
+                        + ((dim.width - (topStuffW + inset + space)) / 2)
+                        + space, (inset + faceW) - lineH,
+                        (dim.width - (topStuffW + inset + space)) / 2, lineH);
 
-                resourceLab.setBounds(inset, inset + balloonH + (2 * (lineH + space)), dcardsW, lineH);
-                resourceSq.setBounds(inset + dcardsW + space, inset + balloonH + (2 * (lineH + space)), ColorSquare.WIDTH, ColorSquare.HEIGHT);
-                developmentLab.setBounds(inset, inset + balloonH + (3 * (lineH + space)), dcardsW, lineH);
-                developmentSq.setBounds(inset + dcardsW + space, inset + balloonH + (3 * (lineH + space)), ColorSquare.WIDTH, ColorSquare.HEIGHT);
-                knightsLab.setBounds(inset, inset + balloonH + (lineH + space), dcardsW, lineH);
-                knightsSq.setBounds(inset + dcardsW + space, inset + balloonH + (lineH + space), ColorSquare.WIDTH, ColorSquare.HEIGHT);
+                resourceLab.setBounds(inset, inset + balloonH
+                        + (2 * (lineH + space)), dcardsW, lineH);
+                resourceSq.setBounds(inset + dcardsW + space, inset + balloonH
+                        + (2 * (lineH + space)), ColorSquare.WIDTH,
+                        ColorSquare.HEIGHT);
+                developmentLab.setBounds(inset, inset + balloonH
+                        + (3 * (lineH + space)), dcardsW, lineH);
+                developmentSq.setBounds(inset + dcardsW + space, inset
+                        + balloonH + (3 * (lineH + space)), ColorSquare.WIDTH,
+                        ColorSquare.HEIGHT);
+                knightsLab.setBounds(inset, inset + balloonH + (lineH + space),
+                        dcardsW, lineH);
+                knightsSq.setBounds(inset + dcardsW + space, inset + balloonH
+                        + (lineH + space), ColorSquare.WIDTH,
+                        ColorSquare.HEIGHT);
 
-                roadLab.setBounds(dim.width - inset - stlmtsW - ColorSquare.WIDTH - space, inset + balloonH + (lineH + space), stlmtsW, lineH);
-                roadSq.setBounds(dim.width - inset - ColorSquare.WIDTH, inset + balloonH + (lineH + space), ColorSquare.WIDTH, ColorSquare.HEIGHT);
-                settlementLab.setBounds(dim.width - inset - stlmtsW - ColorSquare.WIDTH - space, inset + balloonH + (2 * (lineH + space)), stlmtsW, lineH);
-                settlementSq.setBounds(dim.width - inset - ColorSquare.WIDTH, inset + balloonH + (2 * (lineH + space)), ColorSquare.WIDTH, ColorSquare.HEIGHT);
-                cityLab.setBounds(dim.width - inset - stlmtsW - ColorSquare.WIDTH - space, inset + balloonH + (3 * (lineH + space)), stlmtsW, lineH);
-                citySq.setBounds(dim.width - inset - ColorSquare.WIDTH, inset + balloonH + (3 * (lineH + space)), ColorSquare.WIDTH, ColorSquare.HEIGHT);
+                roadLab.setBounds(dim.width - inset - stlmtsW
+                        - ColorSquare.WIDTH - space, inset + balloonH
+                        + (lineH + space), stlmtsW, lineH);
+                roadSq.setBounds(dim.width - inset - ColorSquare.WIDTH, inset
+                        + balloonH + (lineH + space), ColorSquare.WIDTH,
+                        ColorSquare.HEIGHT);
+                settlementLab.setBounds(dim.width - inset - stlmtsW
+                        - ColorSquare.WIDTH - space, inset + balloonH
+                        + (2 * (lineH + space)), stlmtsW, lineH);
+                settlementSq.setBounds(dim.width - inset - ColorSquare.WIDTH,
+                        inset + balloonH + (2 * (lineH + space)),
+                        ColorSquare.WIDTH, ColorSquare.HEIGHT);
+                cityLab.setBounds(dim.width - inset - stlmtsW
+                        - ColorSquare.WIDTH - space, inset + balloonH
+                        + (3 * (lineH + space)), stlmtsW, lineH);
+                citySq.setBounds(dim.width - inset - ColorSquare.WIDTH, inset
+                        + balloonH + (3 * (lineH + space)), ColorSquare.WIDTH,
+                        ColorSquare.HEIGHT);
             }
         }
     }
 
-
     /**
-     * Used for countdown before auto-roll of the current player.
-     * Updates on-screen countdown, fires auto-roll at 0.
-     *
+     * Used for countdown before auto-roll of the current player. Updates
+     * on-screen countdown, fires auto-roll at 0.
+     * 
      * @see HandPanel#AUTOROLL_TIME
      * @see HandPanel#autoRollSetupTimer()
-     *
+     * 
      * @author Jeremy D Monin <jeremy@nand.net>
      */
     protected class HandPanelAutoRollTask extends java.util.TimerTask
     {
-        int timeRemain;  // seconds displayed, seconds at start of "run" tick
+        int timeRemain; // seconds displayed, seconds at start of "run" tick
 
         protected HandPanelAutoRollTask()
         {
@@ -2637,10 +2884,13 @@ public class HandPanel extends Panel implements ActionListener
             // for debugging
             if (Thread.currentThread().getName().startsWith("Thread-"))
             {
-                try {
+                try
+                {
                     Thread.currentThread().setName("timertask-autoroll");
                 }
-                catch (Throwable th) {}
+                catch (Throwable th)
+                {
+                }
             }
 
             // autoroll function
@@ -2648,10 +2898,13 @@ public class HandPanel extends Panel implements ActionListener
             {
                 if (timeRemain > 0)
                 {
-                    setRollPrompt(AUTOROLL_COUNTDOWN + Integer.toString(timeRemain), false);
-                } else {
-                    clickRollButton();  // Clear prompt, click Roll
-                    cancel();  // End of countdown for this timer
+                    setRollPrompt(AUTOROLL_COUNTDOWN
+                            + Integer.toString(timeRemain), false);
+                }
+                else
+                {
+                    clickRollButton(); // Clear prompt, click Roll
+                    cancel(); // End of countdown for this timer
                 }
             }
             catch (Throwable thr)
@@ -2660,15 +2913,15 @@ public class HandPanel extends Panel implements ActionListener
             }
             finally
             {
-                --timeRemain;  // for next tick                
+                --timeRemain; // for next tick
             }
         }
 
-    }  // inner class HandPanelAutoRollTask
+    } // inner class HandPanelAutoRollTask
 
     /**
      * Menu item for right-click on resource square to trade with bank/port.
-     *
+     * 
      * @see soc.client.HandPanel.ResourceTradePopupMenu
      * @author Jeremy D Monin <jeremy@nand.net>
      */
@@ -2683,20 +2936,26 @@ public class HandPanel extends Panel implements ActionListener
         private boolean shortTxt;
 
         /**
-         * Create a bank/port trade MenuItem, with text such as "Trade 2 brick for 1 wheat".
-         *
-         * @param numFrom  Number of resources to trade for 1 resource
-         * @param typeFrom Source resource type, as in {@link ResourceConstants}.
-         * @param typeTo   Target resource type, as in {@link ResourceConstants}.
-         *                 If typeFrom == typeTo, menuitem will be disabled.
-         * @param shortText If true, short ("For 1 wheat") vs full "Trade 2 brick for 1 wheat"
+         * Create a bank/port trade MenuItem, with text such as
+         * "Trade 2 brick for 1 wheat".
+         * 
+         * @param numFrom
+         *            Number of resources to trade for 1 resource
+         * @param typeFrom
+         *            Source resource type, as in {@link ResourceConstants}.
+         * @param typeTo
+         *            Target resource type, as in {@link ResourceConstants}. If
+         *            typeFrom == typeTo, menuitem will be disabled.
+         * @param shortText
+         *            If true, short ("For 1 wheat") vs full
+         *            "Trade 2 brick for 1 wheat"
          */
-        public ResourceTradeMenuItem(int numFrom, int typeFrom, int typeTo, boolean shortText)
+        public ResourceTradeMenuItem(int numFrom, int typeFrom, int typeTo,
+                boolean shortText)
         {
-            super( (shortText
-                    ? "For 1 "
-                    : ("Trade " + numFrom + " " + ResourceConstants.resName(typeFrom) + " for 1 "))
-                   + ResourceConstants.resName(typeTo));
+            super((shortText ? "For 1 " : ("Trade " + numFrom + " "
+                    + ResourceConstants.resName(typeFrom) + " for 1 "))
+                    + ResourceConstants.resName(typeTo));
             tradeNum = numFrom;
             tradeFrom = typeFrom;
             tradeTo = typeTo;
@@ -2707,8 +2966,10 @@ public class HandPanel extends Panel implements ActionListener
 
         /**
          * Update menu item text to new cost of trade.
-         * @param numFrom Trade this many resources;
-         *                if the number is unchanged, the text is not updated.
+         * 
+         * @param numFrom
+         *            Trade this many resources; if the number is unchanged, the
+         *            text is not updated.
          */
         public void setCost(int numFrom)
         {
@@ -2718,13 +2979,14 @@ public class HandPanel extends Panel implements ActionListener
             if (shortTxt)
                 setLabel("For 1 " + ResourceConstants.resName(tradeTo));
             else
-                setLabel("Trade " + numFrom + " " + ResourceConstants.resName(tradeFrom)
-                        + " for 1 " + ResourceConstants.resName(tradeTo));
+                setLabel("Trade " + numFrom + " "
+                        + ResourceConstants.resName(tradeFrom) + " for 1 "
+                        + ResourceConstants.resName(tradeTo));
         }
 
         /**
-         * Enable or disable this menu item.
-         * If from-to resources are same, always disabled.
+         * Enable or disable this menu item. If from-to resources are same,
+         * always disabled.
          */
         public void setEnabled(boolean enable)
         {
@@ -2755,10 +3017,11 @@ public class HandPanel extends Panel implements ActionListener
         public void createBankTradeRequest(HandPanel hp)
         {
             // Code like actionPerformed for BANK button
-            Game game = hp.getGame(); 
+            Game game = hp.getGame();
             if (game.getGameState() != Game.PLAY1)
             {
-                hp.getPlayerInterface().print("* You cannot trade at this time.\n");
+                hp.getPlayerInterface().print(
+                        "* You cannot trade at this time.\n");
                 return;
             }
 
@@ -2772,16 +3035,17 @@ public class HandPanel extends Panel implements ActionListener
             hp.getClient().bankTrade(game, giveSet, getSet);
         }
 
-    }  // ResourceTradeMenuItem
+    } // ResourceTradeMenuItem
 
     /**
      * Menu for right-click on resource square to trade with bank/port.
-     *
+     * 
      * @see HandPanel.ResourceTradeTypeMenu
      * @see BoardPanel.ResourceTradeAllMenu
      * @author Jeremy D Monin <jeremy@nand.net>
      */
-    /* package-access */ static abstract class ResourceTradePopupMenu extends PopupMenu
+    /* package-access */static abstract class ResourceTradePopupMenu extends
+            PopupMenu
     {
         /**
          * 
@@ -2796,35 +3060,40 @@ public class HandPanel extends Panel implements ActionListener
         }
 
         /**
-         * Show menu at this position. Before showing, enable or
-         * disable based on gamestate and player's resources.
+         * Show menu at this position. Before showing, enable or disable based
+         * on gamestate and player's resources.
          * 
-         * @param x   Mouse x-position relative to colorsquare
-         * @param y   Mouse y-position relative to colorsquare
-         *
+         * @param x
+         *            Mouse x-position relative to colorsquare
+         * @param y
+         *            Mouse y-position relative to colorsquare
+         * 
          * @see #setEnabledIfCanTrade(boolean)
          */
         public abstract void show(int x, int y);
 
         /**
          * Enable or disable based on gamestate and player's resources.
-         *
-         * @param itemsOnly If true, enable/disable items, instead of the menu itself.
+         * 
+         * @param itemsOnly
+         *            If true, enable/disable items, instead of the menu itself.
          */
         public abstract void setEnabledIfCanTrade(boolean itemsOnly);
 
         /** Cleanup, for removing this menu. */
         public abstract void destroy();
 
-    }  /* static nested class ResourceTradePopupMenu */
+    } /* static nested class ResourceTradePopupMenu */
 
     /**
-     * Menu for right-click on resource square to trade one resource type with bank/port.
-     *
+     * Menu for right-click on resource square to trade one resource type with
+     * bank/port.
+     * 
      * @author Jeremy D Monin <jeremy@nand.net>
      */
-    /* package-access */ static class ResourceTradeTypeMenu extends ResourceTradePopupMenu
-        implements java.awt.event.MouseListener, java.awt.event.ActionListener
+    /* package-access */static class ResourceTradeTypeMenu extends
+            ResourceTradePopupMenu implements java.awt.event.MouseListener,
+            java.awt.event.ActionListener
     {
         /**
          * 
@@ -2834,82 +3103,98 @@ public class HandPanel extends Panel implements ActionListener
         private int resTypeFrom;
         private int costFrom;
         boolean isForThree1;
-        private ResourceTradeMenuItem[] tradeForItems;        
+        private ResourceTradeMenuItem[] tradeForItems;
 
-        /** Menu attached to a resource colorsquare in the client player's handpanel */
-        public ResourceTradeTypeMenu(HandPanel hp, int typeFrom, ColorSquare sq, int numFrom)
+        /**
+         * Menu attached to a resource colorsquare in the client player's
+         * handpanel
+         */
+        public ResourceTradeTypeMenu(HandPanel hp, int typeFrom,
+                ColorSquare sq, int numFrom)
         {
-          super(hp, "Bank/Port Trade");
-          init(typeFrom, sq, numFrom, false);
+            super(hp, "Bank/Port Trade");
+            init(typeFrom, sq, numFrom, false);
         }
 
         /**
          * One-time-use menu for board popup menu.
-         *
-         * @param hp  Handpanel with player's information (including trade costs)
-         * @param typeFrom Resource type from which to trade
-         * @param forThree1 Is part of a 3-for-1 port trade menu, with all resource types
-         *
-         * @throws IllegalStateException If client not current player
+         * 
+         * @param hp
+         *            Handpanel with player's information (including trade
+         *            costs)
+         * @param typeFrom
+         *            Resource type from which to trade
+         * @param forThree1
+         *            Is part of a 3-for-1 port trade menu, with all resource
+         *            types
+         * 
+         * @throws IllegalStateException
+         *             If client not current player
          */
-        public ResourceTradeTypeMenu(HandPanel hp, int typeFrom, boolean forThree1)
-            throws IllegalStateException
+        public ResourceTradeTypeMenu(HandPanel hp, int typeFrom,
+                boolean forThree1) throws IllegalStateException
         {
             super(hp, "Trade Port");
-            if (! hp.getPlayerInterface().clientIsCurrentPlayer())
+            if (!hp.getPlayerInterface().clientIsCurrentPlayer())
                 throw new IllegalStateException("Not current player");
             init(typeFrom, null, hp.resourceTradeCost[typeFrom], forThree1);
         }
 
         /** Common to both constructors */
-        private void init(int typeFrom, ColorSquare sq, int numFrom, boolean forThree1)
+        private void init(int typeFrom, ColorSquare sq, int numFrom,
+                boolean forThree1)
         {
-          resSq = sq;
-          resTypeFrom = typeFrom;
-          costFrom = numFrom;
-          isForThree1 = forThree1;
-          if (forThree1)
-              setLabel("Trade " + costFrom + " "
-                  + ResourceConstants.resName(typeFrom) + " ");
+            resSq = sq;
+            resTypeFrom = typeFrom;
+            costFrom = numFrom;
+            isForThree1 = forThree1;
+            if (forThree1)
+                setLabel("Trade " + costFrom + " "
+                        + ResourceConstants.resName(typeFrom) + " ");
 
-          if (resSq != null)
-          {
-              resSq.add(this);
-              resSq.addMouseListener(this);
-          }
-          tradeForItems = new ResourceTradeMenuItem[5];
-          for (int i = 0; i < 5; ++i)
-          {
-              tradeForItems[i] = new ResourceTradeMenuItem(numFrom, typeFrom, i+1, forThree1);
-              add(tradeForItems[i]);
-              tradeForItems[i].addActionListener(this);
-          }
+            if (resSq != null)
+            {
+                resSq.add(this);
+                resSq.addMouseListener(this);
+            }
+            tradeForItems = new ResourceTradeMenuItem[5];
+            for (int i = 0; i < 5; ++i)
+            {
+                tradeForItems[i] = new ResourceTradeMenuItem(numFrom, typeFrom,
+                        i + 1, forThree1);
+                add(tradeForItems[i]);
+                tradeForItems[i].addActionListener(this);
+            }
         }
 
         /**
-         * Show menu at this position. Before showing, enable or
-         * disable based on gamestate and player's resources.
+         * Show menu at this position. Before showing, enable or disable based
+         * on gamestate and player's resources.
          * 
-         * @param x   Mouse x-position relative to colorsquare
-         * @param y   Mouse y-position relative to colorsquare
+         * @param x
+         *            Mouse x-position relative to colorsquare
+         * @param y
+         *            Mouse y-position relative to colorsquare
          */
         public void show(int x, int y)
         {
-            setEnabledIfCanTrade(true);  // enable/disable each item
+            setEnabledIfCanTrade(true); // enable/disable each item
             super.show(resSq, x, y);
         }
 
         /**
          * Enable or disable based on gamestate and player's resources.
-         *
-         * @param itemsOnly If true, enable/disable items, instead of the menu itself.
+         * 
+         * @param itemsOnly
+         *            If true, enable/disable items, instead of the menu itself.
          */
         public void setEnabledIfCanTrade(boolean itemsOnly)
         {
             Player p = hpan.getPlayer();
             boolean canTrade = (hpan.getGame().getGameState() == Game.PLAY1)
-                && (hpan.getGame().getCurrentPlayerNumber() == p.getPlayerNumber())
-                && (costFrom <= p.getResources().getAmount(resTypeFrom));
+                    && (hpan.getGame().getCurrentPlayerNumber() == p
+                            .getPlayerNumber())
+                    && (costFrom <= p.getResources().getAmount(resTypeFrom));
             if (itemsOnly)
             {
                 for (int i = 0; i < 5; ++i)
@@ -2952,7 +3237,7 @@ public class HandPanel extends Panel implements ActionListener
         {
             try
             {
-                Object src = e.getSource(); 
+                Object src = e.getSource();
                 ResourceTradeMenuItem mi = null;
                 for (int i = 0; i < 5; ++i)
                 {
@@ -2967,18 +3252,20 @@ public class HandPanel extends Panel implements ActionListener
 
                 mi.createBankTradeRequest(hpan);
 
-            } catch (Throwable th) {
+            }
+            catch (Throwable th)
+            {
                 hpan.getPlayerInterface().chatPrintStackTrace(th);
             }
         }
 
         /**
-         * Handle popup-click on resource colorsquare.
-         * mousePressed has xwindows/OS-X popup trigger.
+         * Handle popup-click on resource colorsquare. mousePressed has
+         * xwindows/OS-X popup trigger.
          */
         public void mousePressed(MouseEvent evt)
         {
-            mouseClicked(evt);  // same desired code: react to isPopupTrigger
+            mouseClicked(evt); // same desired code: react to isPopupTrigger
         }
 
         /**
@@ -2986,31 +3273,38 @@ public class HandPanel extends Panel implements ActionListener
          */
         public void mouseClicked(MouseEvent evt)
         {
-            try {
+            try
+            {
                 if ((resSq == evt.getSource()) && evt.isPopupTrigger())
                 {
                     evt.consume();
                     show(evt.getX(), evt.getY());
                 }
-            } catch (Throwable th) {
+            }
+            catch (Throwable th)
+            {
                 hpan.getPlayerInterface().chatPrintStackTrace(th);
             }
         }
 
         /**
-         * Handle popup-click on resource colorsquare.
-         * mouseReleased has win32 popup trigger.
+         * Handle popup-click on resource colorsquare. mouseReleased has win32
+         * popup trigger.
          */
         public void mouseReleased(MouseEvent evt)
         {
-            mouseClicked(evt);  // same desired code: react to isPopupTrigger
+            mouseClicked(evt); // same desired code: react to isPopupTrigger
         }
 
         /** Stub required for MouseListener */
-        public void mouseEntered(MouseEvent evt) {}
+        public void mouseEntered(MouseEvent evt)
+        {
+        }
 
         /** Stub required for MouseListener */
-        public void mouseExited(MouseEvent evt) {}
+        public void mouseExited(MouseEvent evt)
+        {
+        }
 
         /** Cleanup, for removing this menu. */
         public void destroy()
@@ -3034,6 +3328,6 @@ public class HandPanel extends Panel implements ActionListener
             removeAll();
         }
 
-    }  /* static nested class ResourceTradeTypeMenu */
+    } /* static nested class ResourceTradeTypeMenu */
 
-}  // class HandPanel
+} // class HandPanel

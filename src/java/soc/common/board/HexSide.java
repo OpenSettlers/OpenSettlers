@@ -168,7 +168,7 @@ public class HexSide
     }
 
     /*
-     * Creates two HexPoints, each consisting of three HexLocations TODO:
+     * Creates two HexPoints, each consisting of three HexLocations. TODO:
      * copy+paste image reference from paper
      */
     private void calculatePoints()

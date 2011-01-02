@@ -9,12 +9,15 @@ import soc.common.board.resources.ResourceList;
 
 public abstract class AbstractPort implements Port
 {
+    private static final long serialVersionUID = 1247189120735462756L;
     protected HexLocation seaLocation;
     protected HexLocation landLocation;
     protected HexSide hexSide;
     protected RotationPosition rotationPosition;
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.board.ports.Port#getLandLocation()
      */
     public HexLocation getLandLocation()
@@ -22,7 +25,9 @@ public abstract class AbstractPort implements Port
         return landLocation;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.board.ports.Port#getResource()
      */
     public AbstractResource getResource()
@@ -30,7 +35,9 @@ public abstract class AbstractPort implements Port
         return null;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.board.ports.Port#getHexLocation()
      */
     public HexLocation getHexLocation()
@@ -38,7 +45,9 @@ public abstract class AbstractPort implements Port
         return seaLocation;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.board.ports.Port#getHexSide()
      */
     public HexSide getHexSide()
@@ -46,7 +55,9 @@ public abstract class AbstractPort implements Port
         return hexSide;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.board.ports.Port#setHexSide(soc.common.board.HexSide)
      */
     public Port setHexSide(HexSide hexSide)
@@ -56,7 +67,9 @@ public abstract class AbstractPort implements Port
         return this;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.board.ports.Port#getRotationPosition()
      */
     public RotationPosition getRotationPosition()
@@ -78,7 +91,9 @@ public abstract class AbstractPort implements Port
         return this;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.board.ports.Port#getInAmount()
      */
     public int getInAmount()
@@ -86,7 +101,9 @@ public abstract class AbstractPort implements Port
         throw new RuntimeException();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.board.ports.Port#getOutAmount()
      */
     public int getOutAmount()
@@ -119,8 +136,12 @@ public abstract class AbstractPort implements Port
     /*
      * Returns amount of gold tradeable for given resource
      */
-    /* (non-Javadoc)
-     * @see soc.common.board.ports.Port#divide(soc.common.board.resources.ResourceList, soc.common.board.resources.Resource)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.common.board.ports.Port#divide(soc.common.board.resources.ResourceList
+     * , soc.common.board.resources.Resource)
      */
     public int divide(ResourceList resources, Resource type)
     {
@@ -143,8 +164,11 @@ public abstract class AbstractPort implements Port
         return amountGold;
     }
 
-    /* (non-Javadoc)
-     * @see soc.common.board.ports.Port#canTrade(soc.common.board.resources.Resource)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.common.board.ports.Port#canTrade(soc.common.board.resources.Resource)
      */
     public boolean canTrade(Resource resource)
     {

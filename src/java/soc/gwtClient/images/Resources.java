@@ -7,6 +7,7 @@ import soc.common.board.hexes.Hex;
 import soc.common.board.hexes.NoneHex;
 import soc.common.board.hexes.RandomHex;
 import soc.common.board.hexes.ResourceHex;
+import soc.common.board.hexes.SeaHex;
 import soc.common.board.hexes.VolcanoHex;
 import soc.common.board.pieces.City;
 import soc.common.board.pieces.PlayerPiece;
@@ -23,6 +24,8 @@ import soc.common.board.resources.Resource;
 import soc.common.board.resources.Sheep;
 import soc.common.board.resources.Timber;
 import soc.common.board.resources.Wheat;
+import soc.gwtClient.images.defaultTheme.Icons;
+import soc.gwtClient.images.defaultTheme.Images;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ImageResource;
@@ -190,6 +193,10 @@ public class Resources
         if (hex instanceof DesertHex)
         {
             return images.desertHex();
+        }
+        if (hex instanceof SeaHex)
+        {
+            return images.seaHex();
         }
         if (hex instanceof VolcanoHex)
         {

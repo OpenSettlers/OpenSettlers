@@ -4,10 +4,9 @@ import java.util.Date;
 
 import soc.common.actions.AbstractAction;
 import soc.common.game.Game;
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 import soc.common.game.Turn;
-import soc.common.game.User;
-import soc.common.game.statuses.IGameStatus;
+import soc.common.game.statuses.GameStatus;
 import soc.common.utils.ClassUtils;
 
 /*
@@ -19,7 +18,7 @@ public abstract class AbstractGameAction extends AbstractAction implements
     private static final long serialVersionUID = -2161422971683389585L;
 
     protected int sender;
-    protected transient Player player;
+    protected transient GamePlayer player;
     protected transient String invalidMessage;
     protected transient String toDoMessage;
     protected transient String message = "No message implemented yet";
@@ -34,6 +33,7 @@ public abstract class AbstractGameAction extends AbstractAction implements
     /**
      * @return DateTime when this action is performed
      */
+    @Override
     public Date getDateTimeExecuted()
     {
         return dateTimeExecuted;
@@ -78,13 +78,12 @@ public abstract class AbstractGameAction extends AbstractAction implements
     /**
      * @return the player
      */
-    public Player getPlayer()
+    public GamePlayer getPlayer()
     {
         if (sender == 0 && player == null)
         {
-            User p = new Player().setId(0).setName("Server");
-
-            player = (Player) p;
+            // TODO: fix
+            // player = new GamePlayerImpl().setId(0).setName("Server");
         }
         return player;
     }
@@ -93,10 +92,10 @@ public abstract class AbstractGameAction extends AbstractAction implements
      * @param player
      *            the player to set
      */
-    public GameAction setPlayer(Player player)
+    public GameAction setPlayer(GamePlayer player)
     {
         this.player = player;
-        this.sender = player.getId();
+        this.sender = player.getUser().getId();
 
         return this;
     }
@@ -144,7 +143,7 @@ public abstract class AbstractGameAction extends AbstractAction implements
      * .IGameStatus)
      */
     @Override
-    public boolean isAllowed(IGameStatus gameStatus)
+    public boolean isAllowed(GameStatus gameStatus)
     {
         if (gameStatus.isGameBlocking())
         {

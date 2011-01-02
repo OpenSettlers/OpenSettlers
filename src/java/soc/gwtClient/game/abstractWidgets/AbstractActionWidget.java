@@ -9,26 +9,26 @@ import soc.common.board.resources.ResourcesChangedEvent;
 import soc.common.board.resources.ResourcesChangedEventHandler;
 import soc.common.game.Game;
 import soc.common.game.GamePhaseChangedEventHandler;
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 
 public abstract class AbstractActionWidget implements 
         IActionWidget
 {
-    protected Player player;
+    protected GamePlayer player;
     protected IGamePanel gamePanel;
     protected ComplexPanel rootPanel;
     protected boolean onTurn;
     protected boolean enabled;
     protected abstract void updateEnabled();
 
-    public AbstractActionWidget(IGamePanel gamePanel, Player player)
+    public AbstractActionWidget(IGamePanel gamePanel, GamePlayer player)
     {
         this.player=player;
         this.gamePanel = gamePanel;
     }
 
     @Override
-    public Player getPlayer()
+    public GamePlayer getPlayer()
     {
         return player;
     }

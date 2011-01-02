@@ -1,113 +1,52 @@
 package soc.common.game.logs;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import soc.common.actions.gameAction.GameAction;
 import soc.common.game.Game;
 
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.event.shared.SimpleEventBus;
 
 /*
- * A list of queued actions. This aids the user in what to expect from them, they
- * can actually see a list of things they must do.
+ * Represents a queue of GameActions with additional information per GameAction,
+ * {@see QueuedAction}.
  */
-public class ActionsQueue implements IActionsQueue
+public interface ActionsQueue
 {
-    private List<QueuedAction> actions = new ArrayList<QueuedAction>();
-    private SimpleEventBus eventBus = new SimpleEventBus();
+    // Enqueues given gameAction
+    public void enqueue(GameAction gameAction);
 
-    @Override
-    public void enqueue(GameAction inGameAction)
-    {
-        QueuedAction queuedAction = new QueuedAction(inGameAction, false, false);
-        enqueue(queuedAction);
-    }
+    // Enqueues given queuedAction at nd of queue
+    public void enqueue(QueuedAction queuedAction);
 
-    @Override
-    public void enqueue(QueuedAction queuedAction)
-    {
-        actions.add(queuedAction);
-        eventBus.fireEvent(new ActionQueueChangedEvent(queuedAction, null));
-    }
+    // Enqueues given queuedAction as first to process
+    public void enqueuePriority(QueuedAction queuedAction);
 
-    @Override
-    public QueuedAction peek()
-    {
-        return actions.get(0);
-    }
+    // Removes and returns first item in line to process from the queue
+    public QueuedAction dequeue();
 
-    @Override
-    public QueuedAction dequeue()
-    {
-        QueuedAction queuedAction = actions.get(0);
-        actions.remove(0);
-        return queuedAction;
-    }
+    // Assumes given action is expected. Removes and returns first item in line
+    // to process from the queue
+    public QueuedAction dequeue(GameAction action);
 
-    /*
-     * Returns true when given action is expected with relation to the gamestate
-     * 
-     * @see
-     * soc.common.game.logs.IActionsQueue#isExpected(soc.common.actions.gameAction
-     * .GameAction, soc.common.game.Game)
-     */
-    @Override
-    public boolean isExpected(GameAction action, Game game)
-    {
-        // TODO: implement
+    // Returns true when first item in the queue equals given GameAction
+    public GameAction findExpected(GameAction action, Game game);
 
-        return false;
-    }
+    // Returns GameAction on top of the queue without removing it
+    public QueuedAction peek();
 
-    @Override
-    public int size()
-    {
-        return actions.size();
-    }
+    // Returns GameAction on top of the queue without removing it
+    public GameAction peekAction();
 
-    @Override
-    public GameAction peekAction()
-    {
-        return actions.get(0).getAction();
-    }
+    // Returns amount of queued items
+    public int size();
 
-    @Override
-    public void enqueuePriority(QueuedAction queuedAction)
-    {
-        actions.add(0, queuedAction);
-    }
+    // Returns true if first action in the queue is blocking
+    public boolean isWaitingForActions();
 
-    @Override
-    public boolean isWaitingForActions()
-    {
-        return actions.get(0).isBlocking();
-    }
+    // Returns a list of the actions which must be performed first
+    public List<GameAction> getBlockingActions();
 
-    public List<GameAction> getBlockingActions()
-    {
-        List<GameAction> result = new ArrayList<GameAction>();
-
-        for (int i = 0; i < actions.size(); i++)
-        {
-            if (actions.get(i).isBlocking())
-            {
-                result.add(actions.get(i).getAction());
-            }
-            else
-            {
-                break;
-            }
-        }
-
-        return result;
-    }
-
-    @Override
     public HandlerRegistration addQueueChangedEventHandler(
-            ActionQueueChangedEventHandler handler)
-    {
-        return eventBus.addHandler(ActionQueueChangedEvent.TYPE, handler);
-    }
+            ActionQueueChangedEventHandler handler);
 }

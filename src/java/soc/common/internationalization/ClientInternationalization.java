@@ -11,6 +11,7 @@ public class ClientInternationalization implements
     public OpenSettlersMisc misc = GWT.create(OpenSettlersMisc.class);
     public OpenSettlersStatuses statuses = GWT
             .create(OpenSettlersStatuses.class);
+    public OpenSettlersLobby lobby = GWT.create(OpenSettlersLobby.class);
 
     @Override
     public OpenSettlersActions actions()
@@ -34,6 +35,12 @@ public class ClientInternationalization implements
     public OpenSettlersStatuses statuses()
     {
         return statuses;
+    }
+
+    @Override
+    public OpenSettlersLobby lobby()
+    {
+        return lobby;
     }
 
 }

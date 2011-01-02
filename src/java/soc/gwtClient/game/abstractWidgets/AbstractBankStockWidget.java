@@ -9,7 +9,7 @@ import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class AbstractBankStockWidget implements IBankStockPanel
+public class AbstractBankStockWidget implements BankStockPanel
 {
     protected ComplexPanel rootPanel;
     protected Game game;

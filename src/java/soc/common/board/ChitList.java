@@ -1,9 +1,9 @@
 package soc.common.board;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import soc.common.annotations.SeaFarers;
+import soc.common.server.random.Random;
 
 /*
  * Represents a list of chits
@@ -46,7 +46,7 @@ public class ChitList extends ArrayList<Chit>
     }
 
     /*
-     * Returns a Seafarers swapbag for Greater Catan maps A swapbag has 7
+     * Returns a Seafarers swapbag for Greater Crouton maps A swapbag has 7
      * numbers: 2,3,4,5, 9,10,11
      */
     @SeaFarers
@@ -73,9 +73,35 @@ public class ChitList extends ArrayList<Chit>
      */
     public Chit pickRandomChit(Random random)
     {
-        int randomIndex = (int) random.nextDouble() * size();
+        int randomIndex = random.nextInt(size());
 
         return this.get(randomIndex);
+    }
+
+    public Chit pickRandomNon68Chit(Random random)
+    {
+        ChitList listOf68Chits = get68Chits();
+        if (listOf68Chits.size() == 0)
+        {
+            throw new RuntimeException("No 6/8 chit found whil expected");
+        }
+
+        return listOf68Chits.pickRandomChit(random);
+    }
+
+    public ChitList get68Chits()
+    {
+        ChitList result = new ChitList();
+
+        for (Chit chit : this)
+        {
+            if (chit.getNumber() == 6 || chit.getNumber() == 8)
+            {
+                result.add(chit);
+            }
+        }
+
+        return result;
     }
 
     /*

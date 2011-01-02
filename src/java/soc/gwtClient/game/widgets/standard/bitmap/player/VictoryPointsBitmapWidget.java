@@ -1,6 +1,6 @@
 package soc.gwtClient.game.widgets.standard.bitmap.player;
 
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 import soc.common.game.VictoryPointsChangedEvent;
 import soc.gwtClient.game.abstractWidgets.AbstractVictoryPointsWidget;
 import soc.gwtClient.images.Resources;
@@ -13,7 +13,7 @@ public class VictoryPointsBitmapWidget extends AbstractVictoryPointsWidget
     Image victoryPointsImage = new Image(Resources.icons().victoryPointsSmall());
     Label lblVictoryPointsAmount = new Label();
 
-    public VictoryPointsBitmapWidget(Player player)
+    public VictoryPointsBitmapWidget(GamePlayer player)
     {
         super(player);
 

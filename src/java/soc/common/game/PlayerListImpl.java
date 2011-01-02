@@ -6,7 +6,7 @@ import java.util.List;
 
 public class PlayerListImpl implements PlayerList
 {
-    private List<Player> players = new ArrayList<Player>();
+    private List<GamePlayerImpl> players = new ArrayList<GamePlayerImpl>();
     
     @Override
     public void remove(PlayerList players)
@@ -16,21 +16,21 @@ public class PlayerListImpl implements PlayerList
     }
 
     @Override
-    public void remove(Player player)
+    public void remove(GamePlayer player)
     {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public Iterator<Player> iterator()
+    public Iterator<GamePlayerImpl> iterator()
     {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public void add(Player player)
+    public void add(GamePlayer player)
     {
         // TODO Auto-generated method stub
         

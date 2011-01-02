@@ -1,6 +1,6 @@
 package soc.gwtClient.game.widgets.standard.bitmap;
 
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 import soc.common.game.developmentCards.DevelopmentCardsChangedEvent;
 import soc.common.game.developmentCards.standard.Soldier;
 import soc.gwtClient.game.abstractWidgets.AbstractLargestArmyWidget;
@@ -15,7 +15,7 @@ public class LargestArmyBitmapWidget extends AbstractLargestArmyWidget
     Label amountSoldiers = new Label();
     Soldier soldier = new Soldier();
 
-    public LargestArmyBitmapWidget(Player player)
+    public LargestArmyBitmapWidget(GamePlayer player)
     {
         super(player);
 

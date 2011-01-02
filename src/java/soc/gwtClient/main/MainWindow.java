@@ -1,8 +1,5 @@
 package soc.gwtClient.main;
 
-import java.util.ArrayList;
-
-import soc.common.board.Board;
 import soc.common.board.ports.ThreeToOnePort;
 import soc.common.board.ports.TwoToOneResourcePort;
 import soc.common.board.resources.Clay;
@@ -11,19 +8,20 @@ import soc.common.board.resources.Sheep;
 import soc.common.board.resources.Timber;
 import soc.common.board.resources.Wheat;
 import soc.common.game.Game;
-import soc.common.game.Player;
+import soc.common.game.GameBoard;
+import soc.common.game.GamePlayerImpl;
 import soc.common.game.developmentCards.standard.Monopoly;
 import soc.common.game.developmentCards.standard.RoadBuilding;
 import soc.common.game.developmentCards.standard.Soldier;
 import soc.common.game.developmentCards.standard.VictoryPoint;
 import soc.common.game.developmentCards.standard.YearOfPlenty;
-import soc.common.game.variants.IVariant;
-import soc.common.game.variants.Standard;
 import soc.common.internationalization.ClientInternationalization;
 import soc.common.internationalization.I18n;
+import soc.common.server.data.UnregisteredUser;
 import soc.gwtClient.editor.SvgMapEditor;
 import soc.gwtClient.game.ICenterWidget;
 import soc.gwtClient.game.widgets.HotSeatGamePanel;
+import soc.gwtClient.lobby.GameLobby;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.Style.Unit;
@@ -48,6 +46,7 @@ public class MainWindow implements EntryPoint
     ICenterWidget currentWidget;
     ICenterWidget hotseatGame;
     ICenterWidget wikiPage;
+    ICenterWidget lobby;
 
     private final MenuBar rootMenuBar = new MenuBar(true);
     private MenuItem editorMenutItem;
@@ -71,6 +70,7 @@ public class MainWindow implements EntryPoint
         welcomePanel = new WelcomePanel(this);
         hotseatGame = new HotSeatGamePanel(createGame());
         wikiPage = new WikiPanel();
+        lobby = new GameLobby();
 
         currentWidget = welcomePanel;
         centerWidget.add(currentWidget.getRootWidget());
@@ -114,6 +114,14 @@ public class MainWindow implements EntryPoint
         return mapEditor;
     }
 
+    /**
+     * @return the lobby
+     */
+    public ICenterWidget getLobby()
+    {
+        return lobby;
+    }
+
     private void createMenu()
     {
 
@@ -139,26 +147,28 @@ public class MainWindow implements EntryPoint
     private Game createGame()
     {
         Game result = new Game();
-        ArrayList<IVariant> rules = new ArrayList<IVariant>();
-        rules.add(new Standard(result));
-        result.setRuleSets(rules);
-        ArrayList<Player> players = new ArrayList<Player>();
-        players.add((Player) new Player().setColor("yellow").setId(1).setName(
-                "Piet"));
-        players.add((Player) new Player().setColor("white").setId(1).setName(
-                "Kees"));
-        players.add((Player) new Player().setColor("green").setId(1).setName(
-                "Truus"));
-        players.add((Player) new Player().setColor("red").setId(1).setName(
-                "Klaas"));
-        players.add((Player) new Player().setColor("blue").setId(1).setName(
-                "Henk"));
+        result.getPlayers().add(
+                (GamePlayerImpl) new GamePlayerImpl().setUser(
+                        new UnregisteredUser().setId(1).setName("Piet"))
+                        .setColor("yellow"));
+        result.getPlayers().add(
+                (GamePlayerImpl) new GamePlayerImpl().setUser(
+                        new UnregisteredUser().setId(1).setName("Kees"))
+                        .setColor("white"));
+        result.getPlayers().add(
+                (GamePlayerImpl) new GamePlayerImpl().setUser(
+                        new UnregisteredUser().setId(1).setName("Truus"))
+                        .setColor("green"));
+        result.getPlayers().add(
+                (GamePlayerImpl) new GamePlayerImpl().setUser(
+                        new UnregisteredUser().setId(1).setName("Klaas"))
+                        .setColor("red"));
+        result.getPlayers().add(
+                (GamePlayerImpl) new GamePlayerImpl().setUser(
+                        new UnregisteredUser().setId(1).setName("Henk"))
+                        .setColor("blue"));
 
-        result.setBoard(new Board(8, 8));
-
-        result.setPlayers(players);
-
-        result.makeRulesPermanent();
+        result.setBoard(new GameBoard(8, 8));
 
         result.getPlayers().get(0).getDevelopmentCards().add(new Soldier());
         result.getPlayers().get(0).getDevelopmentCards().add(new Monopoly());
@@ -193,6 +203,8 @@ public class MainWindow implements EntryPoint
         result.getPlayers().get(0).getPorts().add(
                 new TwoToOneResourcePort(new Timber()));
         result.getPlayers().get(0).getPorts().add(new ThreeToOnePort());
+
+        result.start();
         return result;
     }
 }

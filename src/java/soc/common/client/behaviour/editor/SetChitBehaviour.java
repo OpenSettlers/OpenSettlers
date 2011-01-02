@@ -3,17 +3,17 @@ package soc.common.client.behaviour.editor;
 import soc.common.board.Chit;
 import soc.common.board.hexes.Hex;
 import soc.common.board.hexes.ResourceHex;
-import soc.common.client.behaviour.IInteractionBehaviour;
-import soc.common.client.visuals.IPieceVisual;
-import soc.common.client.visuals.board.IBoardVisual;
+import soc.common.client.behaviour.InteractionBehaviour;
+import soc.common.client.visuals.PieceVisual;
+import soc.common.client.visuals.board.BoardVisual;
 import soc.common.client.visuals.board.HexVisual;
 
-public class SetChitBehaviour implements IInteractionBehaviour
+public class SetChitBehaviour implements InteractionBehaviour
 {
     private Chit currentChit = new Chit(2);
 
     @Override
-    public void clicked(IPieceVisual pieceVisual, IBoardVisual board)
+    public void clicked(PieceVisual pieceVisual, BoardVisual board)
     {
         if (pieceVisual instanceof HexVisual)
         {
@@ -49,7 +49,7 @@ public class SetChitBehaviour implements IInteractionBehaviour
     }
 
     @Override
-    public void mouseEnter(IPieceVisual pieceVisual, IBoardVisual board)
+    public void mouseEnter(PieceVisual pieceVisual, BoardVisual board)
     {
         if (pieceVisual instanceof HexVisual)
         {
@@ -62,7 +62,7 @@ public class SetChitBehaviour implements IInteractionBehaviour
     }
 
     @Override
-    public void mouseOut(IPieceVisual pieceVisual, IBoardVisual board)
+    public void mouseOut(PieceVisual pieceVisual, BoardVisual board)
     {
         pieceVisual.setSelected(false);
     }

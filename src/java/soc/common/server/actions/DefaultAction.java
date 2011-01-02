@@ -1,28 +1,42 @@
 package soc.common.server.actions;
 
-import soc.common.actions.gameAction.AbstractGameAction;
 import soc.common.actions.gameAction.GameAction;
+import soc.common.server.GameServer;
 
+/*
+ * Any action not requiring any special server side logic
+ */
 public class DefaultAction extends AbstractServerAction
 {
     protected GameAction action;
-    public DefaultAction(GameAction action)
+    protected GameServer gameServer;
+
+    public DefaultAction(GameAction action, GameServer gameServer)
     {
-        this.action=action;
+        this.action = action;
+        this.gameServer = gameServer;
     }
 
     @Override
-    public AbstractGameAction getAction()
+    public GameAction getAction()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return action;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see soc.common.server.actions.AbstractServerAction#execute()
+     */
+    @Override
+    public void execute()
+    {
+        action.perform(gameServer.getGame());
     }
 
     @Override
-    public AbstractGameAction getOpponentAction()
+    public GameAction getOpponentAction()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return action;
     }
-
 }

@@ -1,6 +1,5 @@
 package soc.common.game.gamePhase;
 
-import soc.common.actions.gameAction.AbstractGameAction;
 import soc.common.actions.gameAction.GameAction;
 import soc.common.game.Game;
 import soc.common.utils.ClassUtils;
@@ -11,7 +10,7 @@ import soc.common.utils.ClassUtils;
  */
 public abstract class AbstractGamePhase implements GamePhase
 {
-    public void performAction(AbstractGameAction action, Game game)
+    public void performAction(GameAction action, Game game)
     {
     };
 

@@ -5,7 +5,7 @@ import soc.common.board.resources.ResourceList;
 import soc.common.board.resources.Sheep;
 import soc.common.board.resources.Wheat;
 import soc.common.game.Game;
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
 import soc.common.utils.ClassUtils;
@@ -38,7 +38,7 @@ public class DevelopmentCard
         return true;
     }
 
-    public static boolean canPay(Player player)
+    public static boolean canPay(GamePlayer player)
     {
         //TODO: implement
         return true;
@@ -49,7 +49,7 @@ public class DevelopmentCard
         return cost;
     }
     
-    public void play(Game game, Player player)
+    public void play(Game game, GamePlayer player)
     {
         isPlayable = false;
     }

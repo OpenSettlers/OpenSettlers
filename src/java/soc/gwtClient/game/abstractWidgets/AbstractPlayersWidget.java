@@ -1,7 +1,7 @@
 package soc.gwtClient.game.abstractWidgets;
 
 import soc.common.game.Game;
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -18,7 +18,7 @@ public abstract class AbstractPlayersWidget implements IPlayersWidget
         
         rootPanel = createRootPanel();
         
-        for (Player player : game.getPlayers())
+        for (GamePlayer player : game.getPlayers())
         {
             rootPanel.add(createPlayerWidget(game, player));
         }

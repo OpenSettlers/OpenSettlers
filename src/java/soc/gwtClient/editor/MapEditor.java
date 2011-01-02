@@ -1,11 +1,11 @@
 package soc.gwtClient.editor;
 
 import soc.common.board.territories.Territory;
-import soc.common.client.behaviour.IInteractionBehaviour;
+import soc.common.client.behaviour.InteractionBehaviour;
 
 public class MapEditor implements IMapEditor
 {
-    protected IInteractionBehaviour editBehaviour;
+    protected InteractionBehaviour editBehaviour;
     protected Territory currentTerritory;
 
     @Override

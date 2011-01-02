@@ -2,7 +2,7 @@ package soc.gwtClient.game.widgets.standard.bitmap.actions;
 
 import com.google.gwt.user.client.ui.Widget;
 
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 import soc.common.game.developmentCards.DevelopmentCardsChangedEvent;
 import soc.common.game.developmentCards.DevelopmentCardsChangedEventHandler;
 import soc.gwtClient.game.abstractWidgets.IActionWidget;
@@ -13,7 +13,7 @@ public class PlayDevelopmentCardWidget2 implements IActionWidget,
 {
 
     @Override
-    public Player getPlayer()
+    public GamePlayer getPlayer()
     {
         // TODO Auto-generated method stub
         return null;

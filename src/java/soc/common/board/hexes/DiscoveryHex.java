@@ -1,25 +1,28 @@
 package soc.common.board.hexes;
 
-
 import soc.common.annotations.SeaFarers;
 
 @SeaFarers
 public class DiscoveryHex extends AbstractHex
 {
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.board.hexes.Hex#Copy()
      */
     @Override
     public AbstractHex copy()
     {
         DiscoveryHex result = new DiscoveryHex();
-        
+
         result.setTerritory(territory);
-        
+
         return result;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.board.hexes.Hex#getColor()
      */
     @Override
@@ -28,7 +31,9 @@ public class DiscoveryHex extends AbstractHex
         return "White";
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.board.hexes.Hex#isBuildableLand()
      */
     @Override
@@ -37,7 +42,9 @@ public class DiscoveryHex extends AbstractHex
         return false;
     }
 
-    /* (non-Javadoc)
+    /*
+     * Pieces on a sea side can't build
+     * 
      * @see soc.common.board.hexes.Hex#isBuildableSea()
      */
     @Override
@@ -46,7 +53,9 @@ public class DiscoveryHex extends AbstractHex
         return false;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.board.hexes.Hex#isPartOfGame()
      */
     @Override
@@ -55,7 +64,9 @@ public class DiscoveryHex extends AbstractHex
         return true;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.board.hexes.Hex#isPiratePlaceable()
      */
     @Override
@@ -64,7 +75,9 @@ public class DiscoveryHex extends AbstractHex
         return false;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.board.hexes.Hex#isRobberPlaceable()
      */
     @Override

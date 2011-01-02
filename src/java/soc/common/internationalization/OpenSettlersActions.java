@@ -52,4 +52,7 @@ public interface OpenSettlersActions extends Messages
 
     @DefaultMessage("{0} should accept the settings")
     String acceptSettingsToDo(String name);
+
+    @DefaultMessage("{0} should loose {1} cards")
+    String looseCardsToDo(String playerName, int amountCards);
 }

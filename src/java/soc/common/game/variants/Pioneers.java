@@ -1,6 +1,8 @@
 package soc.common.game.variants;
 
 import soc.common.game.Game;
+import soc.common.game.variants.rules.UseBridges;
+import soc.common.game.variants.rules.UseWalls;
 
 /*
  * A Pioneers ruleset adds two pieces: a wall and a bridge.
@@ -10,35 +12,15 @@ import soc.common.game.Game;
  * 
  * Those two pieces can be built in the usual BuildingTurnPhase
  */
-public class Pioneers extends RuleSet
+@soc.common.annotations.Pioneers
+public class Pioneers extends AbstractRuleSet
 {
     public Pioneers(Game game)
     {
         super(game);
-    }
-    
-    public void CreateBank(int amount)
-    {
-        if (nextRuleSet !=null)
-        {
-            nextRuleSet.createBank(amount);
-        }
+
+        rules.add(new UseWalls());
+        rules.add(new UseBridges());
     }
 
-    public void Initialize(Game game)
-    {
-        // get the BuildingTurnPhase, and add BuildWall and BuildBridge as allowed actions
-    }
-
-    @Override
-    public void addBuildablePieces()
-    {
-    }
-
-    @Override
-    public void setRules()
-    {
-        // TODO Auto-generated method stub
-        
-    }
 }

@@ -1,7 +1,7 @@
 package soc.gwtClient.game.abstractWidgets;
 
 import soc.common.actions.gameAction.turnActions.TurnAction;
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.factories.IActionWidgetFactory;
 
 import com.google.gwt.user.client.ui.ComplexPanel;
@@ -11,10 +11,10 @@ import com.google.gwt.user.client.ui.Widget;
 public abstract class AbstractActionsWidget implements IActionsWidget
 {
     protected ComplexPanel rootPanel;
-    protected Player player;
+    protected GamePlayer player;
     protected IGamePanel gamePanel;
 
-    public AbstractActionsWidget(IGamePanel gamePanel, Player player)
+    public AbstractActionsWidget(IGamePanel gamePanel, GamePlayer player)
     {
         this.player = player;
         this.gamePanel = gamePanel;

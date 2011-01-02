@@ -2,7 +2,7 @@ package soc.common.game.developmentCards.standard;
 
 import soc.common.board.resources.ResourceList;
 import soc.common.game.Game;
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 import soc.common.game.developmentCards.DevelopmentCard;
 
 public class YearOfPlenty extends DevelopmentCard 
@@ -19,7 +19,7 @@ public class YearOfPlenty extends DevelopmentCard
     }
 
     @Override
-    public void play(Game game, Player player)
+    public void play(Game game, GamePlayer player)
     {
         // TODO: fix mssage     
         //message = String.format("%s gained %s by playing a Year of Plenty card",

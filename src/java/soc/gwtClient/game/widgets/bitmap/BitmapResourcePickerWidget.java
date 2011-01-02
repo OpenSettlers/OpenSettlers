@@ -4,7 +4,7 @@ import soc.common.board.ports.PortList;
 import soc.common.board.resources.AbstractResource;
 import soc.common.board.resources.Resource;
 import soc.common.board.resources.ResourceList;
-import soc.common.game.Player;
+import soc.common.game.GamePlayerImpl;
 import soc.gwtClient.game.abstractWidgets.IGamePanel;
 import soc.gwtClient.game.widgets.abstractWidgets.AbstractResourcePickerWidget;
 import soc.gwtClient.game.widgets.abstractWidgets.IResourcePickerWidget;

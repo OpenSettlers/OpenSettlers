@@ -1,6 +1,6 @@
 package soc.common.game.dices;
 
-import com.google.gwt.user.client.Random;
+import soc.common.server.random.Random;
 
 public class StandardDice implements Dice
 {
@@ -41,8 +41,8 @@ public class StandardDice implements Dice
     @Override
     public void roll(Random random)
     {
-        dice1 = (int) (Random.nextDouble() * 6);
-        dice2 = (int) (Random.nextDouble() * 6);
+        dice1 = random.nextInt(6);
+        dice2 = random.nextInt(6);
     }
 
     /**

@@ -9,9 +9,9 @@ import soc.common.board.HexSide;
 
 import com.google.gwt.event.shared.SimpleEventBus;
 
-public class PlayerPieceList implements Iterable<PlayerPiece>
+public class PlayerPieceList implements Iterable<AbstractPlayerPiece>
 {
-    List<PlayerPiece> playerPieces = new ArrayList<PlayerPiece>();
+    List<AbstractPlayerPiece> playerPieces = new ArrayList<AbstractPlayerPiece>();
     SimpleEventBus eventBus;
 
     private void safelyFireEvent(PiecesChangedEvent event)
@@ -23,12 +23,12 @@ public class PlayerPieceList implements Iterable<PlayerPiece>
     }
 
     @Override
-    public Iterator<PlayerPiece> iterator()
+    public Iterator<AbstractPlayerPiece> iterator()
     {
         return playerPieces.iterator();
     }
 
-    public PlayerPiece get(int index)
+    public AbstractPlayerPiece get(int index)
     {
         return playerPieces.get(index);
     }
@@ -40,7 +40,7 @@ public class PlayerPieceList implements Iterable<PlayerPiece>
     {
         PlayerPieceList result = new PlayerPieceList();
 
-        for (PlayerPiece piece : this)
+        for (AbstractPlayerPiece piece : this)
         {
             if (piece.getClass() == type.getClass())
                 result.add(piece);
@@ -53,7 +53,7 @@ public class PlayerPieceList implements Iterable<PlayerPiece>
     {
         PlayerPieceList result = new PlayerPieceList();
 
-        for (PlayerPiece piece : this)
+        for (AbstractPlayerPiece piece : this)
         {
             if (piece instanceof SidePiece)
                 result.add(piece);
@@ -66,7 +66,7 @@ public class PlayerPieceList implements Iterable<PlayerPiece>
     {
         PlayerPieceList result = new PlayerPieceList();
 
-        for (PlayerPiece piece : this)
+        for (AbstractPlayerPiece piece : this)
         {
             if (piece instanceof PointPiece)
                 result.add(piece);
@@ -75,7 +75,7 @@ public class PlayerPieceList implements Iterable<PlayerPiece>
         return result;
     }
 
-    public void add(PlayerPiece piece)
+    public void add(AbstractPlayerPiece piece)
     {
         playerPieces.add(piece);
         safelyFireEvent(new PiecesChangedEvent(piece, null));
@@ -83,7 +83,7 @@ public class PlayerPieceList implements Iterable<PlayerPiece>
 
     public void add(PlayerPieceList pieces)
     {
-        for (PlayerPiece playerPiece : pieces)
+        for (AbstractPlayerPiece playerPiece : pieces)
         {
             playerPieces.add(playerPiece);
         }
@@ -147,10 +147,10 @@ public class PlayerPieceList implements Iterable<PlayerPiece>
         return false;
     }
 
-    public PlayerPiece remove(HexPoint pointLocation)
+    public AbstractPlayerPiece remove(HexPoint pointLocation)
     {
-        PlayerPiece playerPieceToRemove = null;
-        for (PlayerPiece playerPiece : playerPieces)
+        AbstractPlayerPiece playerPieceToRemove = null;
+        for (AbstractPlayerPiece playerPiece : playerPieces)
         {
             if (playerPiece instanceof PointPiece)
             {
@@ -174,10 +174,10 @@ public class PlayerPieceList implements Iterable<PlayerPiece>
         return playerPieceToRemove;
     }
 
-    public PlayerPiece remove(HexSide side)
+    public AbstractPlayerPiece remove(HexSide side)
     {
-        PlayerPiece playerPieceToRemove = null;
-        for (PlayerPiece playerPiece : playerPieces)
+        AbstractPlayerPiece playerPieceToRemove = null;
+        for (AbstractPlayerPiece playerPiece : playerPieces)
         {
             if (playerPiece instanceof PointPiece)
             {
@@ -214,7 +214,7 @@ public class PlayerPieceList implements Iterable<PlayerPiece>
                 "Tried to get a piece which is not contained in the list");
     }
 
-    public static void move(PlayerPiece pieceToMove, PlayerPieceList from,
+    public static void move(AbstractPlayerPiece pieceToMove, PlayerPieceList from,
             PlayerPieceList to)
     {
         from.remove(pieceToMove);

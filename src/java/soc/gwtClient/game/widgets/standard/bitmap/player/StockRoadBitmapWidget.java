@@ -4,7 +4,7 @@ import soc.common.board.pieces.PiecesChangedEvent;
 import soc.common.board.pieces.PiecesChangedEventHandler;
 import soc.common.board.pieces.PlayerPiece;
 import soc.common.board.pieces.Road;
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.AbstractStockItemWidget;
 import soc.gwtClient.images.Resources;
 
@@ -18,7 +18,7 @@ public class StockRoadBitmapWidget extends AbstractStockItemWidget implements
     private Image roadImage = new Image(Resources.icons().roadSmall());
     private Label roadAmount = new Label();
 
-    public StockRoadBitmapWidget(Player player)
+    public StockRoadBitmapWidget(GamePlayer player)
     {
         super(player);
 

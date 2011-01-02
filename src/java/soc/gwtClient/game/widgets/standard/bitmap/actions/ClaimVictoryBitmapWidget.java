@@ -1,6 +1,6 @@
 package soc.gwtClient.game.widgets.standard.bitmap.actions;
 
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 import soc.common.game.VictoryPointsChangedEvent;
 import soc.common.game.VictoryPointsChangedEventHandler;
 import soc.gwtClient.game.abstractWidgets.AbstractActionWidget;
@@ -17,7 +17,7 @@ public class ClaimVictoryBitmapWidget extends AbstractActionWidget implements
     PushButton btnClaimVictory = new PushButton(new Image(Resources.icons()
             .claimVictory()));
 
-    public ClaimVictoryBitmapWidget(IGamePanel gamePanel, Player player)
+    public ClaimVictoryBitmapWidget(IGamePanel gamePanel, GamePlayer player)
     {
         super(gamePanel, player);
 

@@ -1,45 +1,40 @@
 package soc.common.server.actions;
 
-import com.google.gwt.user.client.Random;
-
-import soc.common.actions.gameAction.AbstractGameAction;
+import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.turnActions.standard.RollDice;
-import soc.common.game.Game;
 import soc.common.game.dices.StandardDice;
+import soc.common.server.GameServer;
 
 public class ServerRollDice implements ServerAction
 {
     RollDice rollDice;
-    Game game;
-    Random random;
-    
-    public ServerRollDice(RollDice rollDice, Game game, Random random)
+    GameServer gameServer;
+
+    public ServerRollDice(RollDice rollDice, GameServer gameServer)
     {
         super();
         this.rollDice = rollDice;
-        this.game = game;
-        this.random = random;
+        this.gameServer = gameServer;
     }
 
     @Override
     public void execute()
     {
         StandardDice dice = new StandardDice();
-        dice.roll(random);
+        dice.roll(gameServer.getRandom());
         rollDice.setDice(dice);
     }
 
     @Override
-    public AbstractGameAction getAction()
+    public GameAction getAction()
     {
         return rollDice;
     }
 
     @Override
-    public AbstractGameAction getOpponentAction()
+    public GameAction getOpponentAction()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return rollDice;
     }
 
 }

@@ -1,14 +1,14 @@
 package soc.gwtClient.game.widgets.bitmap;
 
-import soc.common.client.visuals.board.IBoardVisual;
+import soc.common.client.visuals.board.BoardVisual;
 
 import com.google.gwt.user.client.ui.LayoutPanel;
 
 public class BoardLayoutPanel extends LayoutPanel
 {
-    IBoardVisual boardVisual;
+    BoardVisual boardVisual;
 
-    public BoardLayoutPanel(IBoardVisual boardVisual)
+    public BoardLayoutPanel(BoardVisual boardVisual)
     {
         super();
         this.boardVisual = boardVisual;

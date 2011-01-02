@@ -5,6 +5,8 @@ import soc.common.board.RotationPosition;
 
 public class PossiblePort extends AbstractPort
 {
+    private static final long serialVersionUID = 5430147957433152867L;
+
     public PossiblePort()
     {
     }

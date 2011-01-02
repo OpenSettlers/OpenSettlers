@@ -1,38 +1,25 @@
 package soc.common.game.variants;
 
-import soc.common.board.pieces.Wall;
-import soc.common.board.resources.Clay;
-import soc.common.board.resources.Ore;
-import soc.common.board.resources.ResourceList;
-import soc.common.board.resources.Sheep;
-import soc.common.board.resources.Timber;
-import soc.common.board.resources.Wheat;
-import soc.common.game.Game;
-import soc.common.game.StockItem;
-import soc.common.game.dices.CitiesKnightsDice;
+import java.util.ArrayList;
+import java.util.List;
 
-public class CitiesKnights extends RuleSet 
+import soc.common.game.Game;
+import soc.common.game.variants.rules.GameRule;
+import soc.common.game.variants.rules.NoLargestArmy;
+import soc.common.game.variants.rules.UseCitiesKnightsDice;
+import soc.common.game.variants.rules.UseWalls;
+
+public class CitiesKnights extends AbstractRuleSet
 {
+    private List<GameRule> rules = new ArrayList<GameRule>();
 
     public CitiesKnights(Game game)
     {
         super(game);
-        // TODO Auto-generated constructor stub
-    }
 
-    @Override
-    public void setRules()
-    {
-        game.getGameRules().setEnableLargestArmy(false);
-        game.getGameRules().getStockPieces().add
-        (
-                new StockItem()
-                .setPiece(new Wall())
-                .setAmount(3)
-        );
-        
-        // Overrule standard dice type with CitisKnights dices
-        game.getGameRules().setDiceType(new CitiesKnightsDice());
+        rules.add(new NoLargestArmy());
+        rules.add(new UseCitiesKnightsDice());
+        rules.add(new UseWalls());
     }
 
 }

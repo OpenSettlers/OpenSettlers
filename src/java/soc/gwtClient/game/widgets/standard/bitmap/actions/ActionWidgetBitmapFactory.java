@@ -11,7 +11,7 @@ import soc.common.actions.gameAction.turnActions.standard.PlayDevelopmentCard;
 import soc.common.actions.gameAction.turnActions.standard.RollDice;
 import soc.common.actions.gameAction.turnActions.standard.TradeBank;
 import soc.common.actions.gameAction.turnActions.standard.TradePlayer;
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.IActionWidget;
 import soc.gwtClient.game.abstractWidgets.IGamePanel;
 import soc.gwtClient.game.abstractWidgets.factories.IActionWidgetFactory;
@@ -26,7 +26,7 @@ public class ActionWidgetBitmapFactory implements IActionWidgetFactory
     private IDiceWidgetFactory diceWidgetFactory = new DiceWidgetBitmapFactory();
 
     @Override
-    public IActionWidget createActionWidget(TurnAction action, Player player,
+    public IActionWidget createActionWidget(TurnAction action, GamePlayer player,
             IGamePanel gamePanel)
     {
         if (action instanceof BuildRoad)

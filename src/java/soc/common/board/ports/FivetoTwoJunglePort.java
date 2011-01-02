@@ -10,6 +10,7 @@ import soc.common.annotations.OpenSettlers;
 @OpenSettlers
 public class FivetoTwoJunglePort extends AbstractPort
 {
+    private static final long serialVersionUID = 5264443650140189402L;
 
     @Override
     public Port copy()

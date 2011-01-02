@@ -1,7 +1,7 @@
 package soc.gwtClient.game.widgets.standard.svg;
 
 import soc.common.game.DiceChangedEvent;
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 import soc.common.game.dices.Dice;
 import soc.common.game.dices.StandardDice;
 import soc.gwtClient.game.abstractWidgets.AbstractStandardDiceWidget;
@@ -51,7 +51,7 @@ public class SvgStandardDiceWidget extends AbstractStandardDiceWidget
     }
 
     @Override
-    public Player getPlayer()
+    public GamePlayer getPlayer()
     {
         return null;
     }

@@ -1,6 +1,6 @@
 package soc.gwtClient.game.widgets.standard.bitmap;
 
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -13,7 +13,7 @@ import com.google.gwt.user.client.ui.PushButton;
 
 public class StealPlayerCardBitmapWidget extends HorizontalPanel
 {
-    private Player player;
+    private GamePlayer player;
     Label lblPlayerName = new Label("playername");
     HorizontalPanel cardsPanel = new HorizontalPanel();
 
@@ -35,12 +35,12 @@ public class StealPlayerCardBitmapWidget extends HorizontalPanel
         add(cardsPanel);
     }
 
-    public StealPlayerCardBitmapWidget(Player player)
+    public StealPlayerCardBitmapWidget(GamePlayer player)
     {
         this();
         this.player = player;
 
-        lblPlayerName.setText(player.getName());
+        lblPlayerName.setText(player.getUser().getName());
         for (int i = 0; i < player.getResourcesCount(); i++)
         {
             PushButton btn = new PushButton(new Image(
@@ -57,7 +57,8 @@ public class StealPlayerCardBitmapWidget extends HorizontalPanel
         }
         if (player.getResourcesCount() == 0)
         {
-            cardsPanel.add(new Label(player.getName() + " has no cards"));
+            cardsPanel.add(new Label(player.getUser().getName()
+                    + " has no cards"));
         }
     }
 

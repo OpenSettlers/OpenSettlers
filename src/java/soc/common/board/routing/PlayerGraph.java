@@ -1,26 +1,77 @@
 package soc.common.board.routing;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.jgrapht.UndirectedGraph;
-import org.jgrapht.graph.UndirectedSubgraph;
+import org.jgrapht.graph.SimpleGraph;
 
-public class PlayerGraph extends UndirectedSubgraph<GraphPoint, GraphSide>
+import soc.common.game.GamePlayer;
+
+public class PlayerGraph
 {
-    private static final long serialVersionUID = -7701781640158460743L;
-    private Set<GraphPoint> ends = new HashSet<GraphPoint>();
-    private Set<GraphPoint> splits = new HashSet<GraphPoint>();
+    // Set of GraphPoints connected to only one GraphSide
+    private List<GraphPoint> ends = new ArrayList<GraphPoint>();
+
+    // Set of GraphPoints connected to three GraphSides
+    private List<GraphPoint> splits = new ArrayList<GraphPoint>();
+
+    private UndirectedGraph<GraphPoint, GraphSide> graph = new SimpleGraph<GraphPoint, GraphSide>(
+            GraphSide.class);
+    UndirectedGraph<GraphPoint, GraphSide> base;
+    private Route longestPath;
+    private GamePlayer player;
 
     public PlayerGraph(UndirectedGraph<GraphPoint, GraphSide> base,
-            Set<GraphPoint> vertexSubset, Set<GraphSide> edgeSubset)
+            GamePlayer player)
     {
-        super(base, vertexSubset, edgeSubset);
+        this.base = base;
 
-        // Initiate the sets of splits and ends
-        for (GraphPoint point : vertexSet())
+        constructEndsAndSplits();
+
+        // If there are no splits, all the edges belong to the longest path
+        if (splits.size() == 0)
         {
-            int degree = degreeOf(point);
+            longestPath = new RouteImpl(base, base.edgeSet(), player);
+        }
+        else
+        // We have splits. Create weighted graph where every split is a new
+        // node, with edge weight
+        // representing amount of edges between a split
+        {
+            calculatLongestPath();
+        }
+
+    }
+
+    private void calculatLongestPath()
+    {
+        // Create a set of paths (set of edges) for every split
+        List<Set<GraphSide>> paths = new ArrayList<Set<GraphSide>>();
+        for (GraphPoint split : splits)
+        {
+            Set<GraphSide> neighbourSides = base.edgesOf(split);
+            for (GraphSide side : neighbourSides)
+            {
+                Set<GraphSide> path = new HashSet<GraphSide>();
+                path.add(side);
+            }
+
+        }
+    }
+
+    private void constructRoad(GraphPoint start)
+    {
+    }
+
+    private void constructEndsAndSplits()
+    {
+        // Construct the sets of splits and ends
+        for (GraphPoint point : base.vertexSet())
+        {
+            int degree = base.degreeOf(point);
             if (degree == 1)
             {
                 ends.add(point);
@@ -31,5 +82,4 @@ public class PlayerGraph extends UndirectedSubgraph<GraphPoint, GraphSide>
             }
         }
     }
-
 }

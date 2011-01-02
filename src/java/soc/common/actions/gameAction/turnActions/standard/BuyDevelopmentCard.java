@@ -3,9 +3,11 @@ package soc.common.actions.gameAction.turnActions.standard;
 import soc.common.actions.gameAction.turnActions.AbstractTurnAction;
 import soc.common.board.resources.ResourceList;
 import soc.common.game.Game;
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 import soc.common.game.developmentCards.DevelopmentCard;
 import soc.common.game.gamePhase.GamePhase;
+import soc.common.game.gamePhase.PlayTurnsGamePhase;
+import soc.common.game.gamePhase.turnPhase.BuildingTurnPhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
 import soc.common.internationalization.I18n;
 
@@ -53,10 +55,6 @@ public class BuyDevelopmentCard extends AbstractTurnAction
         return this;
     }
 
-    public void setDevelopmentCard(DevelopmentCard drawTop)
-    {
-    }
-
     /*
      * (non-Javadoc)
      * 
@@ -73,7 +71,7 @@ public class BuyDevelopmentCard extends AbstractTurnAction
         if (resources == null)
             return false;
 
-        // ...and to devcard too.
+        // ...and a devcard too.
         if (game.getDevelopmentCardStack().size() == 0)
         {
             invalidMessage = "Development cards are all gone!";
@@ -88,7 +86,7 @@ public class BuyDevelopmentCard extends AbstractTurnAction
         // TODO: fix ResourceList.ofType
         // if (resources.ofType(Diamond.class) > 2) return true;
 
-        Player player = game.getPlayerByID(sender);
+        GamePlayer player = game.getPlayerByID(sender);
 
         if (!player.getResources().hasAtLeast(resources))
         {
@@ -108,7 +106,7 @@ public class BuyDevelopmentCard extends AbstractTurnAction
     @Override
     public void perform(Game game)
     {
-        Player gamePlayer = game.getPlayerByID(sender);
+        GamePlayer gamePlayer = game.getPlayerByID(sender);
 
         // Perform resources administration
         player.getResources().subtractResources(resources);
@@ -132,15 +130,13 @@ public class BuyDevelopmentCard extends AbstractTurnAction
     @Override
     public boolean isAllowed(TurnPhase turnPhase)
     {
-        // TODO Auto-generated method stub
-        return false;
+        return turnPhase instanceof BuildingTurnPhase;
     }
 
     @Override
     public boolean isAllowed(GamePhase gamePhase)
     {
-        // TODO Auto-generated method stub
-        return false;
+        return gamePhase instanceof PlayTurnsGamePhase;
     }
 
     @Override

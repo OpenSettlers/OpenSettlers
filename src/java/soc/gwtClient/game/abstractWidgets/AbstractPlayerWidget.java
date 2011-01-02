@@ -1,7 +1,7 @@
 package soc.gwtClient.game.abstractWidgets;
 
 import soc.common.game.Game;
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -19,25 +19,25 @@ public abstract class AbstractPlayerWidget implements IPlayerWidget
 
     protected ComplexPanel rootPanel;
     protected Game game;
-    protected Player player;
+    protected GamePlayer player;
     protected Label lblName = new Label();
-    
-    public AbstractPlayerWidget(Game game, Player player)
+
+    public AbstractPlayerWidget(Game game, GamePlayer player)
     {
-        this.game=game;
-        this.player=player;
-        
-        rootPanel=createRootPanel();
-        
+        this.game = game;
+        this.player = player;
+
+        rootPanel = createRootPanel();
+
         stockWidget = createStockWidget();
-        lblName.setText(player.getName());
-        
-        devcardsWidget=createDevcardsWidget();
-        largestArmyWidget=createLargestArmyWidget();
-        resourcesWidget=createResourcesWidget();
+        lblName.setText(player.getUser().getName());
+
+        devcardsWidget = createDevcardsWidget();
+        largestArmyWidget = createLargestArmyWidget();
+        resourcesWidget = createResourcesWidget();
         longestRoadWidget = createLongestRoadWidget();
-        victoryPointWidget=createVictoryPointWidget();
-        
+        victoryPointWidget = createVictoryPointWidget();
+
         rootPanel.add(lblName);
         rootPanel.add(stockWidget);
 
@@ -46,11 +46,13 @@ public abstract class AbstractPlayerWidget implements IPlayerWidget
         rootPanel.add(largestArmyWidget);
         rootPanel.add(longestRoadWidget);
         rootPanel.add(victoryPointWidget);
-        
+
         rootPanel.setStyleName("player-widget-" + player.getColor());
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.google.gwt.user.client.ui.IsWidget#asWidget()
      */
     @Override
@@ -59,7 +61,9 @@ public abstract class AbstractPlayerWidget implements IPlayerWidget
         return rootPanel;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.gwtClient.client.game.IPlayerPanel#createRootPanel()
      */
     @Override

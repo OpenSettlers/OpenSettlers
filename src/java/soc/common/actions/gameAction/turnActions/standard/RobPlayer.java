@@ -6,8 +6,12 @@ import soc.common.actions.gameAction.turnActions.AbstractTurnAction;
 import soc.common.board.HexPoint;
 import soc.common.board.resources.Resource;
 import soc.common.game.Game;
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 import soc.common.game.gamePhase.GamePhase;
+import soc.common.game.gamePhase.PlayTurnsGamePhase;
+import soc.common.game.gamePhase.turnPhase.BeforeDiceRollTurnPhase;
+import soc.common.game.gamePhase.turnPhase.BuildingTurnPhase;
+import soc.common.game.gamePhase.turnPhase.RollDiceTurnPhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
 import soc.common.internationalization.I18n;
 
@@ -23,7 +27,7 @@ public class RobPlayer extends AbstractTurnAction
     private int victimID = 0;
 
     // Player being robbed
-    private Player robbedPlayer;
+    private GamePlayer robbedPlayer;
 
     // Server-assigned random resource taken from the robbed player
     private Resource stolenResource;
@@ -50,7 +54,7 @@ public class RobPlayer extends AbstractTurnAction
     /**
      * @return Player being robbed a resource of
      */
-    public Player getRobbedPlayer()
+    public GamePlayer getRobbedPlayer()
     {
         return robbedPlayer;
     }
@@ -59,7 +63,7 @@ public class RobPlayer extends AbstractTurnAction
      * @param robbedPlayer
      *            the robbedPlayer to set
      */
-    public RobPlayer setRobbedPlayer(Player robbedPlayer)
+    public RobPlayer setRobbedPlayer(GamePlayer robbedPlayer)
     {
         this.robbedPlayer = robbedPlayer;
 
@@ -69,7 +73,7 @@ public class RobPlayer extends AbstractTurnAction
         }
         else
         {
-            victimID = robbedPlayer.getId();
+            victimID = robbedPlayer.getUser().getId();
         }
 
         return this;
@@ -102,7 +106,7 @@ public class RobPlayer extends AbstractTurnAction
         {
             // Check if the robbed player has a town or city on one of the 6
             // points
-            List<HexPoint> possiblePoints = game.getRobber()
+            List<HexPoint> possiblePoints = game.getRobber().getLocation()
                     .getNeighbourHexPoints();
 
             boolean containsTownOrCity = false;
@@ -154,13 +158,14 @@ public class RobPlayer extends AbstractTurnAction
             player.getResources().add(stolenResource);
             robbedPlayer.getResources().remove(stolenResource);
 
-            message = player.getName() + " stole one "
+            message = player.getUser().getName() + " stole one "
                     + stolenResource.toString() + " from "
-                    + robbedPlayer.getName();
+                    + robbedPlayer.getUser().getName();
         }
         else
         {
-            message = player.getName() + " stole nothing! How refreshing";
+            message = player.getUser().getName()
+                    + " stole nothing! How refreshing";
         }
 
         super.perform(game);
@@ -169,20 +174,20 @@ public class RobPlayer extends AbstractTurnAction
     @Override
     public boolean isAllowed(TurnPhase turnPhase)
     {
-        // TODO Auto-generated method stub
-        return false;
+        return turnPhase instanceof BeforeDiceRollTurnPhase
+                || turnPhase instanceof RollDiceTurnPhase
+                || turnPhase instanceof BuildingTurnPhase;
     }
 
     @Override
     public boolean isAllowed(GamePhase gamePhase)
     {
-        // TODO Auto-generated method stub
-        return false;
+        return gamePhase instanceof PlayTurnsGamePhase;
     }
 
     @Override
     public String getToDoMessage()
     {
-        return I18n.get().actions().robPlayerToDo(player.getName());
+        return I18n.get().actions().robPlayerToDo(player.getUser().getName());
     }
 }

@@ -24,8 +24,6 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
 
-// import org.apache.log4j.Logger;
-
 import soc.disableDebug.D;
 import soc.game.Board;
 import soc.game.Game;
@@ -36,12 +34,15 @@ import soc.game.Settlement;
 import soc.util.CutoffExceededException;
 
 /**
- * This class is a temporary class put in place to slowly pull tasks out of RobotBrain
- * and start replacing them with classes that implement strategy interfaces. (Strategy Pattern)
+ * This class is a temporary class put in place to slowly pull tasks out of
+ * RobotBrain and start replacing them with classes that implement strategy
+ * interfaces. (Strategy Pattern)
+ * 
  * @author Eli
- *
+ * 
  */
-public class OpeningBuildStrategy {
+public class OpeningBuildStrategy
+{
 
     /**
      * used in planning where to put our first and second settlements
@@ -52,13 +53,13 @@ public class OpeningBuildStrategy {
      * used in planning where to put our first and second settlements
      */
     protected int secondSettlement;
-    
+
     /**
      * used to cache resource estimates for the board
      */
     protected int[] resourceEstimates;
-    
-	/**
+
+    /**
      * figure out where to place the two settlements
      */
     public int planInitialSettlements(Game game, Player ourPlayerData)
@@ -66,7 +67,7 @@ public class OpeningBuildStrategy {
         D.debug("--- planInitialSettlements");
 
         int[] rolls;
-        Enumeration hexes;  // Integers
+        Enumeration hexes; // Integers
         int speed;
         boolean allTheWay;
         firstSettlement = 0;
@@ -75,7 +76,8 @@ public class OpeningBuildStrategy {
         int bestSpeed = 4 * BuildingSpeedEstimate.DEFAULT_ROLL_LIMIT;
         Board board = game.getBoard();
         ResourceSet emptySet = new ResourceSet();
-        PlayerNumbers playerNumbers = new PlayerNumbers(board.getBoardEncodingFormat());
+        PlayerNumbers playerNumbers = new PlayerNumbers(board
+                .getBoardEncodingFormat());
         int probTotal;
         int bestProbTotal;
         boolean[] ports = new boolean[Board.WOOD_PORT + 1];
@@ -95,7 +97,7 @@ public class OpeningBuildStrategy {
                 //
                 D.debug("FIRST NODE -----------");
                 D.debug("firstNode = " + board.nodeCoordToString(firstNode));
-                
+
                 StringBuffer sb = new StringBuffer();
                 sb.append("numbers:[");
                 playerNumbers.clear();
@@ -107,7 +109,8 @@ public class OpeningBuildStrategy {
                     Integer hex = (Integer) hexes.nextElement();
                     int number = board.getNumberOnHexFromCoord(hex.intValue());
                     int resource = board.getHexTypeFromCoord(hex.intValue());
-                    playerNumbers.addNumberForResource(number, resource, hex.intValue());
+                    playerNumbers.addNumberForResource(number, resource, hex
+                            .intValue());
                     probTotal += prob[number];
                     sb.append(number + " ");
                 }
@@ -117,10 +120,10 @@ public class OpeningBuildStrategy {
                 sb = new StringBuffer();
                 sb.append("ports: ");
 
-                for (int portType = Board.MISC_PORT;
-                        portType <= Board.WOOD_PORT; portType++)
+                for (int portType = Board.MISC_PORT; portType <= Board.WOOD_PORT; portType++)
                 {
-                    if (board.getPortCoordinates(portType).contains(firstNodeInt))
+                    if (board.getPortCoordinates(portType).contains(
+                            firstNodeInt))
                     {
                         ports[portType] = true;
                     }
@@ -140,12 +143,18 @@ public class OpeningBuildStrategy {
 
                 try
                 {
-                    speed += estimate.calculateRollsFast(emptySet, Game.SETTLEMENT_SET, 300, ports).getRolls();
-                    speed += estimate.calculateRollsFast(emptySet, Game.CITY_SET, 300, ports).getRolls();
-                    speed += estimate.calculateRollsFast(emptySet, Game.CARD_SET, 300, ports).getRolls();
-                    speed += estimate.calculateRollsFast(emptySet, Game.ROAD_SET, 300, ports).getRolls();
+                    speed += estimate.calculateRollsFast(emptySet,
+                            Game.SETTLEMENT_SET, 300, ports).getRolls();
+                    speed += estimate.calculateRollsFast(emptySet,
+                            Game.CITY_SET, 300, ports).getRolls();
+                    speed += estimate.calculateRollsFast(emptySet,
+                            Game.CARD_SET, 300, ports).getRolls();
+                    speed += estimate.calculateRollsFast(emptySet,
+                            Game.ROAD_SET, 300, ports).getRolls();
                 }
-                catch (CutoffExceededException e) {}
+                catch (CutoffExceededException e)
+                {
+                }
 
                 rolls = estimate.getEstimatesFromNothingFast(ports, 300);
                 sb = new StringBuffer();
@@ -159,13 +168,16 @@ public class OpeningBuildStrategy {
                 //
                 // end test
                 //
-                for (int secondNode = firstNode + 1; secondNode <= Board.MAXNODE;
-                        secondNode++)
+                for (int secondNode = firstNode + 1; secondNode <= Board.MAXNODE; secondNode++)
                 {
-                    if ((ourPlayerData.isPotentialSettlement(secondNode)) && (! board.getAdjacentNodesToNode(secondNode).contains(firstNodeInt)))
+                    if ((ourPlayerData.isPotentialSettlement(secondNode))
+                            && (!board.getAdjacentNodesToNode(secondNode)
+                                    .contains(firstNodeInt)))
                     {
-                        D.debug("firstNode = " + board.nodeCoordToString(firstNode));
-                        D.debug("secondNode = " + board.nodeCoordToString(secondNode));
+                        D.debug("firstNode = "
+                                + board.nodeCoordToString(firstNode));
+                        D.debug("secondNode = "
+                                + board.nodeCoordToString(secondNode));
 
                         Integer secondNodeInt = new Integer(secondNode);
 
@@ -176,27 +188,35 @@ public class OpeningBuildStrategy {
                         sb.append("numbers:[");
                         playerNumbers.clear();
                         probTotal = 0;
-                        hexes = Board.getAdjacentHexesToNode(firstNode).elements();
+                        hexes = Board.getAdjacentHexesToNode(firstNode)
+                                .elements();
 
                         while (hexes.hasMoreElements())
                         {
                             Integer hex = (Integer) hexes.nextElement();
-                            int number = board.getNumberOnHexFromCoord(hex.intValue());
-                            int resource = board.getHexTypeFromCoord(hex.intValue());
-                            playerNumbers.addNumberForResource(number, resource, hex.intValue());
+                            int number = board.getNumberOnHexFromCoord(hex
+                                    .intValue());
+                            int resource = board.getHexTypeFromCoord(hex
+                                    .intValue());
+                            playerNumbers.addNumberForResource(number,
+                                    resource, hex.intValue());
                             probTotal += prob[number];
                             sb.append(number + " ");
                         }
 
                         sb.append("] [");
-                        hexes = Board.getAdjacentHexesToNode(secondNode).elements();
+                        hexes = Board.getAdjacentHexesToNode(secondNode)
+                                .elements();
 
                         while (hexes.hasMoreElements())
                         {
                             Integer hex = (Integer) hexes.nextElement();
-                            int number = board.getNumberOnHexFromCoord(hex.intValue());
-                            int resource = board.getHexTypeFromCoord(hex.intValue());
-                            playerNumbers.addNumberForResource(number, resource, hex.intValue());
+                            int number = board.getNumberOnHexFromCoord(hex
+                                    .intValue());
+                            int resource = board.getHexTypeFromCoord(hex
+                                    .intValue());
+                            playerNumbers.addNumberForResource(number,
+                                    resource, hex.intValue());
                             probTotal += prob[number];
                             sb.append(number + " ");
                         }
@@ -210,10 +230,12 @@ public class OpeningBuildStrategy {
                         sb = new StringBuffer();
                         sb.append("ports: ");
 
-                        for (int portType = Board.MISC_PORT;
-                                portType <= Board.WOOD_PORT; portType++)
+                        for (int portType = Board.MISC_PORT; portType <= Board.WOOD_PORT; portType++)
                         {
-                            if ((board.getPortCoordinates(portType).contains(firstNodeInt)) || (board.getPortCoordinates(portType).contains(secondNodeInt)))
+                            if ((board.getPortCoordinates(portType)
+                                    .contains(firstNodeInt))
+                                    || (board.getPortCoordinates(portType)
+                                            .contains(secondNodeInt)))
                             {
                                 ports[portType] = true;
                             }
@@ -237,19 +259,27 @@ public class OpeningBuildStrategy {
 
                         try
                         {
-                            speed += estimate.calculateRollsFast(emptySet, Game.SETTLEMENT_SET, bestSpeed, ports).getRolls();
+                            speed += estimate.calculateRollsFast(emptySet,
+                                    Game.SETTLEMENT_SET, bestSpeed, ports)
+                                    .getRolls();
 
                             if (speed < bestSpeed)
                             {
-                                speed += estimate.calculateRollsFast(emptySet, Game.CITY_SET, bestSpeed, ports).getRolls();
+                                speed += estimate.calculateRollsFast(emptySet,
+                                        Game.CITY_SET, bestSpeed, ports)
+                                        .getRolls();
 
                                 if (speed < bestSpeed)
                                 {
-                                    speed += estimate.calculateRollsFast(emptySet, Game.CARD_SET, bestSpeed, ports).getRolls();
+                                    speed += estimate.calculateRollsFast(
+                                            emptySet, Game.CARD_SET, bestSpeed,
+                                            ports).getRolls();
 
                                     if (speed < bestSpeed)
                                     {
-                                        speed += estimate.calculateRollsFast(emptySet, Game.ROAD_SET, bestSpeed, ports).getRolls();
+                                        speed += estimate.calculateRollsFast(
+                                                emptySet, Game.ROAD_SET,
+                                                bestSpeed, ports).getRolls();
                                         allTheWay = true;
                                     }
                                 }
@@ -260,12 +290,20 @@ public class OpeningBuildStrategy {
                             speed = bestSpeed;
                         }
 
-                        rolls = estimate.getEstimatesFromNothingFast(ports, bestSpeed);
+                        rolls = estimate.getEstimatesFromNothingFast(ports,
+                                bestSpeed);
                         sb = new StringBuffer();
-                        sb.append(" road: " + rolls[BuildingSpeedEstimate.ROAD]);
-                        sb.append(" stlmt: " + rolls[BuildingSpeedEstimate.SETTLEMENT]);
-                        sb.append(" city: " + rolls[BuildingSpeedEstimate.CITY]);
-                        sb.append(" card: " + rolls[BuildingSpeedEstimate.CARD]);
+                        sb
+                                .append(" road: "
+                                        + rolls[BuildingSpeedEstimate.ROAD]);
+                        sb.append(" stlmt: "
+                                + rolls[BuildingSpeedEstimate.SETTLEMENT]);
+                        sb
+                                .append(" city: "
+                                        + rolls[BuildingSpeedEstimate.CITY]);
+                        sb
+                                .append(" card: "
+                                        + rolls[BuildingSpeedEstimate.CARD]);
                         D.debug(sb.toString());
                         D.debug("allTheWay = " + allTheWay);
                         D.debug("speed = " + speed);
@@ -291,8 +329,12 @@ public class OpeningBuildStrategy {
                                 secondSettlement = secondNode;
                                 bestSpeed = speed;
                                 bestProbTotal = probTotal;
-                                D.debug("firstSettlement = " + Integer.toHexString(firstSettlement));
-                                D.debug("secondSettlement = " + Integer.toHexString(secondSettlement));
+                                D.debug("firstSettlement = "
+                                        + Integer.toHexString(firstSettlement));
+                                D
+                                        .debug("secondSettlement = "
+                                                + Integer
+                                                        .toHexString(secondSettlement));
                                 D.debug("bestSpeed = " + bestSpeed);
                                 D.debug("bestProbTotal = " + bestProbTotal);
                             }
@@ -318,8 +360,7 @@ public class OpeningBuildStrategy {
 
         Integer firstSettlementInt = new Integer(firstSettlement);
 
-        for (int portType = Board.MISC_PORT; portType <= Board.WOOD_PORT;
-                portType++)
+        for (int portType = Board.MISC_PORT; portType <= Board.WOOD_PORT; portType++)
         {
             if (board.getPortCoordinates(portType).contains(firstSettlementInt))
             {
@@ -338,7 +379,8 @@ public class OpeningBuildStrategy {
 
         try
         {
-            firstSpeed += estimate.calculateRollsFast(emptySet, Game.SETTLEMENT_SET, cutoff, ports).getRolls();
+            firstSpeed += estimate.calculateRollsFast(emptySet,
+                    Game.SETTLEMENT_SET, cutoff, ports).getRolls();
         }
         catch (CutoffExceededException e)
         {
@@ -347,7 +389,8 @@ public class OpeningBuildStrategy {
 
         try
         {
-            firstSpeed += estimate.calculateRollsFast(emptySet, Game.CITY_SET, cutoff, ports).getRolls();
+            firstSpeed += estimate.calculateRollsFast(emptySet, Game.CITY_SET,
+                    cutoff, ports).getRolls();
         }
         catch (CutoffExceededException e)
         {
@@ -356,7 +399,8 @@ public class OpeningBuildStrategy {
 
         try
         {
-            firstSpeed += estimate.calculateRollsFast(emptySet, Game.CARD_SET, cutoff, ports).getRolls();
+            firstSpeed += estimate.calculateRollsFast(emptySet, Game.CARD_SET,
+                    cutoff, ports).getRolls();
         }
         catch (CutoffExceededException e)
         {
@@ -365,7 +409,8 @@ public class OpeningBuildStrategy {
 
         try
         {
-            firstSpeed += estimate.calculateRollsFast(emptySet, Game.ROAD_SET, cutoff, ports).getRolls();
+            firstSpeed += estimate.calculateRollsFast(emptySet, Game.ROAD_SET,
+                    cutoff, ports).getRolls();
         }
         catch (CutoffExceededException e)
         {
@@ -385,10 +430,10 @@ public class OpeningBuildStrategy {
 
         Integer secondSettlementInt = new Integer(secondSettlement);
 
-        for (int portType = Board.MISC_PORT; portType <= Board.WOOD_PORT;
-                portType++)
+        for (int portType = Board.MISC_PORT; portType <= Board.WOOD_PORT; portType++)
         {
-            if (board.getPortCoordinates(portType).contains(secondSettlementInt))
+            if (board.getPortCoordinates(portType)
+                    .contains(secondSettlementInt))
             {
                 ports[portType] = true;
             }
@@ -404,7 +449,8 @@ public class OpeningBuildStrategy {
 
         try
         {
-            secondSpeed += estimate.calculateRollsFast(emptySet, Game.SETTLEMENT_SET, bestSpeed, ports).getRolls();
+            secondSpeed += estimate.calculateRollsFast(emptySet,
+                    Game.SETTLEMENT_SET, bestSpeed, ports).getRolls();
         }
         catch (CutoffExceededException e)
         {
@@ -413,7 +459,8 @@ public class OpeningBuildStrategy {
 
         try
         {
-            secondSpeed += estimate.calculateRollsFast(emptySet, Game.CITY_SET, bestSpeed, ports).getRolls();
+            secondSpeed += estimate.calculateRollsFast(emptySet, Game.CITY_SET,
+                    bestSpeed, ports).getRolls();
         }
         catch (CutoffExceededException e)
         {
@@ -422,7 +469,8 @@ public class OpeningBuildStrategy {
 
         try
         {
-            secondSpeed += estimate.calculateRollsFast(emptySet, Game.CARD_SET, bestSpeed, ports).getRolls();
+            secondSpeed += estimate.calculateRollsFast(emptySet, Game.CARD_SET,
+                    bestSpeed, ports).getRolls();
         }
         catch (CutoffExceededException e)
         {
@@ -431,7 +479,8 @@ public class OpeningBuildStrategy {
 
         try
         {
-            secondSpeed += estimate.calculateRollsFast(emptySet, Game.ROAD_SET, bestSpeed, ports).getRolls();
+            secondSpeed += estimate.calculateRollsFast(emptySet, Game.ROAD_SET,
+                    bestSpeed, ports).getRolls();
         }
         catch (CutoffExceededException e)
         {
@@ -445,7 +494,9 @@ public class OpeningBuildStrategy {
             secondSettlement = tmp;
         }
 
-        D.debug(board.nodeCoordToString(firstSettlement) + ":" + firstSpeed + ", " + board.nodeCoordToString(secondSettlement) + ":" + secondSpeed);
+        D.debug(board.nodeCoordToString(firstSettlement) + ":" + firstSpeed
+                + ", " + board.nodeCoordToString(secondSettlement) + ":"
+                + secondSpeed);
         return firstSettlement;
     }
 
@@ -459,7 +510,8 @@ public class OpeningBuildStrategy {
         int bestSpeed = 4 * BuildingSpeedEstimate.DEFAULT_ROLL_LIMIT;
         Board board = game.getBoard();
         ResourceSet emptySet = new ResourceSet();
-        PlayerNumbers playerNumbers = new PlayerNumbers(board.getBoardEncodingFormat());
+        PlayerNumbers playerNumbers = new PlayerNumbers(board
+                .getBoardEncodingFormat());
         boolean[] ports = new boolean[Board.WOOD_PORT + 1];
         BuildingSpeedEstimate estimate = new BuildingSpeedEstimate();
         int probTotal;
@@ -473,7 +525,9 @@ public class OpeningBuildStrategy {
 
         for (int secondNode = board.getMinNode(); secondNode <= Board.MAXNODE; secondNode++)
         {
-            if ((ourPlayerData.isPotentialSettlement(secondNode)) && (! board.getAdjacentNodesToNode(secondNode).contains(firstNodeInt)))
+            if ((ourPlayerData.isPotentialSettlement(secondNode))
+                    && (!board.getAdjacentNodesToNode(secondNode).contains(
+                            firstNodeInt)))
             {
                 Integer secondNodeInt = new Integer(secondNode);
 
@@ -485,7 +539,8 @@ public class OpeningBuildStrategy {
                 playerNumbers.clear();
                 probTotal = 0;
 
-                Enumeration hexes = Board.getAdjacentHexesToNode(firstNode).elements();  // Integers
+                Enumeration hexes = Board.getAdjacentHexesToNode(firstNode)
+                        .elements(); // Integers
 
                 while (hexes.hasMoreElements())
                 {
@@ -514,10 +569,12 @@ public class OpeningBuildStrategy {
                  */
                 sb.append("ports: ");
 
-                for (int portType = Board.MISC_PORT;
-                        portType <= Board.WOOD_PORT; portType++)
+                for (int portType = Board.MISC_PORT; portType <= Board.WOOD_PORT; portType++)
                 {
-                    if ((board.getPortCoordinates(portType).contains(firstNodeInt)) || (board.getPortCoordinates(portType).contains(secondNodeInt)))
+                    if ((board.getPortCoordinates(portType)
+                            .contains(firstNodeInt))
+                            || (board.getPortCoordinates(portType)
+                                    .contains(secondNodeInt)))
                     {
                         ports[portType] = true;
                     }
@@ -541,19 +598,24 @@ public class OpeningBuildStrategy {
 
                 try
                 {
-                    speed += estimate.calculateRollsFast(emptySet, Game.SETTLEMENT_SET, bestSpeed, ports).getRolls();
+                    speed += estimate.calculateRollsFast(emptySet,
+                            Game.SETTLEMENT_SET, bestSpeed, ports).getRolls();
 
                     if (speed < bestSpeed)
                     {
-                        speed += estimate.calculateRollsFast(emptySet, Game.CITY_SET, bestSpeed, ports).getRolls();
+                        speed += estimate.calculateRollsFast(emptySet,
+                                Game.CITY_SET, bestSpeed, ports).getRolls();
 
                         if (speed < bestSpeed)
                         {
-                            speed += estimate.calculateRollsFast(emptySet, Game.CARD_SET, bestSpeed, ports).getRolls();
+                            speed += estimate.calculateRollsFast(emptySet,
+                                    Game.CARD_SET, bestSpeed, ports).getRolls();
 
                             if (speed < bestSpeed)
                             {
-                                speed += estimate.calculateRollsFast(emptySet, Game.ROAD_SET, bestSpeed, ports).getRolls();
+                                speed += estimate.calculateRollsFast(emptySet,
+                                        Game.ROAD_SET, bestSpeed, ports)
+                                        .getRolls();
                             }
                         }
                     }
@@ -563,7 +625,8 @@ public class OpeningBuildStrategy {
                     speed = bestSpeed;
                 }
 
-                D.debug(Integer.toHexString(firstNode) + ", " + Integer.toHexString(secondNode) + ":" + speed);
+                D.debug(Integer.toHexString(firstNode) + ", "
+                        + Integer.toHexString(secondNode) + ":" + speed);
 
                 /**
                  * keep the settlements with the best speed
@@ -574,13 +637,16 @@ public class OpeningBuildStrategy {
                     secondSettlement = secondNode;
                     bestSpeed = speed;
                     bestProbTotal = probTotal;
-                    D.debug("firstSettlement = " + Integer.toHexString(firstSettlement));
-                    D.debug("secondSettlement = " + Integer.toHexString(secondSettlement));
+                    D.debug("firstSettlement = "
+                            + Integer.toHexString(firstSettlement));
+                    D.debug("secondSettlement = "
+                            + Integer.toHexString(secondSettlement));
 
                     int[] rolls = estimate.getEstimatesFromNothingFast(ports);
                     sb = new StringBuffer();
                     sb.append("road: " + rolls[BuildingSpeedEstimate.ROAD]);
-                    sb.append(" stlmt: " + rolls[BuildingSpeedEstimate.SETTLEMENT]);
+                    sb.append(" stlmt: "
+                            + rolls[BuildingSpeedEstimate.SETTLEMENT]);
                     sb.append(" city: " + rolls[BuildingSpeedEstimate.CITY]);
                     sb.append(" card: " + rolls[BuildingSpeedEstimate.CARD]);
                     D.debug(sb.toString());
@@ -594,15 +660,23 @@ public class OpeningBuildStrategy {
                         secondSettlement = secondNode;
                         bestSpeed = speed;
                         bestProbTotal = probTotal;
-                        D.debug("firstSettlement = " + Integer.toHexString(firstSettlement));
-                        D.debug("secondSettlement = " + Integer.toHexString(secondSettlement));
+                        D.debug("firstSettlement = "
+                                + Integer.toHexString(firstSettlement));
+                        D.debug("secondSettlement = "
+                                + Integer.toHexString(secondSettlement));
 
-                        int[] rolls = estimate.getEstimatesFromNothingFast(ports);
+                        int[] rolls = estimate
+                                .getEstimatesFromNothingFast(ports);
                         sb = new StringBuffer();
                         sb.append("road: " + rolls[BuildingSpeedEstimate.ROAD]);
-                        sb.append(" stlmt: " + rolls[BuildingSpeedEstimate.SETTLEMENT]);
-                        sb.append(" city: " + rolls[BuildingSpeedEstimate.CITY]);
-                        sb.append(" card: " + rolls[BuildingSpeedEstimate.CARD]);
+                        sb.append(" stlmt: "
+                                + rolls[BuildingSpeedEstimate.SETTLEMENT]);
+                        sb
+                                .append(" city: "
+                                        + rolls[BuildingSpeedEstimate.CITY]);
+                        sb
+                                .append(" card: "
+                                        + rolls[BuildingSpeedEstimate.CARD]);
                         D.debug(sb.toString());
                         D.debug("bestSpeed = " + bestSpeed);
                     }
@@ -611,62 +685,68 @@ public class OpeningBuildStrategy {
         }
         return secondSettlement;
     }
-    
+
     /**
      * place a road attached to the last initial settlement
      */
     public int planInitRoad(Game game, Player ourPlayerData, RobotClient client)
     {
         int settlementNode = ourPlayerData.getLastSettlementCoord();
-        Hashtable twoAway = new Hashtable();  // <Integer,Integer>
+        Hashtable twoAway = new Hashtable(); // <Integer,Integer>
 
         D.debug("--- placeInitRoad");
 
         /**
-         * look at all of the nodes that are 2 away from the
-         * last settlement and pick the best one
+         * look at all of the nodes that are 2 away from the last settlement and
+         * pick the best one
          */
         Board board = game.getBoard();
         int tmp;
 
         tmp = settlementNode - 0x20;
 
-        if (board.isNodeOnBoard(tmp) && ourPlayerData.isPotentialSettlement(tmp))
+        if (board.isNodeOnBoard(tmp)
+                && ourPlayerData.isPotentialSettlement(tmp))
         {
             twoAway.put(new Integer(tmp), new Integer(0));
         }
 
         tmp = settlementNode + 0x02;
 
-        if (board.isNodeOnBoard(tmp) && ourPlayerData.isPotentialSettlement(tmp))
+        if (board.isNodeOnBoard(tmp)
+                && ourPlayerData.isPotentialSettlement(tmp))
         {
             twoAway.put(new Integer(tmp), new Integer(0));
         }
 
         tmp = settlementNode + 0x22;
 
-        if (board.isNodeOnBoard(tmp) && ourPlayerData.isPotentialSettlement(tmp))
+        if (board.isNodeOnBoard(tmp)
+                && ourPlayerData.isPotentialSettlement(tmp))
         {
             twoAway.put(new Integer(tmp), new Integer(0));
         }
 
         tmp = settlementNode + 0x20;
 
-        if (board.isNodeOnBoard(tmp) && ourPlayerData.isPotentialSettlement(tmp))
+        if (board.isNodeOnBoard(tmp)
+                && ourPlayerData.isPotentialSettlement(tmp))
         {
             twoAway.put(new Integer(tmp), new Integer(0));
         }
 
         tmp = settlementNode - 0x02;
 
-        if (board.isNodeOnBoard(tmp) && ourPlayerData.isPotentialSettlement(tmp))
+        if (board.isNodeOnBoard(tmp)
+                && ourPlayerData.isPotentialSettlement(tmp))
         {
             twoAway.put(new Integer(tmp), new Integer(0));
         }
 
         tmp = settlementNode - 0x22;
 
-        if (board.isNodeOnBoard(tmp) && ourPlayerData.isPotentialSettlement(tmp))
+        if (board.isNodeOnBoard(tmp)
+                && ourPlayerData.isPotentialSettlement(tmp))
         {
             twoAway.put(new Integer(tmp), new Integer(0));
         }
@@ -676,34 +756,35 @@ public class OpeningBuildStrategy {
         D.debug("Init Road for " + client.getNickname());
 
         /**
-         * create a dummy player to calculate possible places to build
-         * taking into account where other players will build before
-         * we can.
+         * create a dummy player to calculate possible places to build taking
+         * into account where other players will build before we can.
          */
         Player dummy = new Player(ourPlayerData.getPlayerNumber(), game);
 
         if (game.getGameState() == Game.START1B)
         {
             /**
-             * do a look ahead so we don't build toward a place
-             * where someone else will build first.
+             * do a look ahead so we don't build toward a place where someone
+             * else will build first.
              */
             int numberOfBuilds = numberOfEnemyBuilds(game);
-            D.debug("Other players will build " + numberOfBuilds + " settlements before I get to build again.");
+            D.debug("Other players will build " + numberOfBuilds
+                    + " settlements before I get to build again.");
 
             if (numberOfBuilds > 0)
             {
                 /**
                  * rule out where other players are going to build
                  */
-                Hashtable allNodes = new Hashtable();  // <Integer.Integer>
+                Hashtable allNodes = new Hashtable(); // <Integer.Integer>
                 final int minNode = board.getMinNode();
 
                 for (int i = minNode; i <= Board.MAXNODE; i++)
                 {
                     if (ourPlayerData.isPotentialSettlement(i))
                     {
-                        D.debug("-- potential settlement at " + Integer.toHexString(i));
+                        D.debug("-- potential settlement at "
+                                + Integer.toHexString(i));
                         allNodes.put(new Integer(i), new Integer(0));
                     }
                 }
@@ -719,38 +800,41 @@ public class OpeningBuildStrategy {
                 /**
                  * check 3:1 ports
                  */
-                Vector miscPortNodes = game.getBoard().getPortCoordinates(Board.MISC_PORT);
+                Vector miscPortNodes = game.getBoard().getPortCoordinates(
+                        Board.MISC_PORT);
                 bestSpot2AwayFromANodeSet(allNodes, miscPortNodes, 5);
 
                 /**
                  * check out good 2:1 ports
                  */
-                for (int portType = Board.CLAY_PORT;
-                        portType <= Board.WOOD_PORT; portType++)
+                for (int portType = Board.CLAY_PORT; portType <= Board.WOOD_PORT; portType++)
                 {
                     /**
-                     * if the chances of rolling a number on the resource is better than 1/3,
-                     * then it's worth looking at the port
+                     * if the chances of rolling a number on the resource is
+                     * better than 1/3, then it's worth looking at the port
                      */
                     if (resourceEstimates[portType] > 33)
                     {
-                        Vector portNodes = game.getBoard().getPortCoordinates(portType);
+                        Vector portNodes = game.getBoard().getPortCoordinates(
+                                portType);
                         int portWeight = (resourceEstimates[portType] * 10) / 56;
-                        bestSpot2AwayFromANodeSet(allNodes, portNodes, portWeight);
+                        bestSpot2AwayFromANodeSet(allNodes, portNodes,
+                                portWeight);
                     }
                 }
 
                 /*
-                 * create a list of potential settlements that takes into account
-                 * where other players will build
+                 * create a list of potential settlements that takes into
+                 * account where other players will build
                  */
-                Vector psList = new Vector();  // <Integer>
+                Vector psList = new Vector(); // <Integer>
 
                 for (int j = minNode; j <= Board.MAXNODE; j++)
                 {
                     if (ourPlayerData.isPotentialSettlement(j))
                     {
-                        D.debug("- potential settlement at " + Integer.toHexString(j));
+                        D.debug("- potential settlement at "
+                                + Integer.toHexString(j));
                         psList.addElement(new Integer(j));
                     }
                 }
@@ -759,14 +843,18 @@ public class OpeningBuildStrategy {
 
                 for (int builds = 0; builds < numberOfBuilds; builds++)
                 {
-                    BoardNodeScorePair bestNodePair = new BoardNodeScorePair(0, 0);
-                    Enumeration nodesEnum = allNodes.keys();  // <Integer>
+                    BoardNodeScorePair bestNodePair = new BoardNodeScorePair(0,
+                            0);
+                    Enumeration nodesEnum = allNodes.keys(); // <Integer>
 
                     while (nodesEnum.hasMoreElements())
                     {
                         Integer nodeCoord = (Integer) nodesEnum.nextElement();
-                        final int score = ((Integer) allNodes.get(nodeCoord)).intValue();
-                        D.debug("NODE = " + Integer.toHexString(nodeCoord.intValue()) + " SCORE = " + score);
+                        final int score = ((Integer) allNodes.get(nodeCoord))
+                                .intValue();
+                        D.debug("NODE = "
+                                + Integer.toHexString(nodeCoord.intValue())
+                                + " SCORE = " + score);
 
                         if (bestNodePair.getScore() < score)
                         {
@@ -776,9 +864,11 @@ public class OpeningBuildStrategy {
                     }
 
                     /**
-                     * pretend that someone has built a settlement on the best spot
+                     * pretend that someone has built a settlement on the best
+                     * spot
                      */
-                    dummy.updatePotentials(new Settlement(ourPlayerData, bestNodePair.getNode(), null));
+                    dummy.updatePotentials(new Settlement(ourPlayerData,
+                            bestNodePair.getNode(), null));
 
                     /**
                      * remove this spot from the list of best spots
@@ -792,14 +882,15 @@ public class OpeningBuildStrategy {
          * Find the best scoring node
          */
         BoardNodeScorePair bestNodePair = new BoardNodeScorePair(0, 0);
-        Enumeration cenum = twoAway.keys();  // <Integer>
+        Enumeration cenum = twoAway.keys(); // <Integer>
 
         while (cenum.hasMoreElements())
         {
             Integer coord = (Integer) cenum.nextElement();
             final int score = ((Integer) twoAway.get(coord)).intValue();
 
-            D.debug("Considering " + Integer.toHexString(coord.intValue()) + " with a score of " + score);
+            D.debug("Considering " + Integer.toHexString(coord.intValue())
+                    + " with a score of " + score);
 
             if (dummy.isPotentialSettlement(coord.intValue()))
             {
@@ -819,12 +910,12 @@ public class OpeningBuildStrategy {
         int destination = bestNodePair.getNode();
 
         /**
-         * if the coords are (even, odd), then
-         * the node is 'Y'.
+         * if the coords are (even, odd), then the node is 'Y'.
          */
         if (((settlementNode >> 4) % 2) == 0)
         {
-            if ((destination == (settlementNode - 0x02)) || (destination == (settlementNode + 0x20)))
+            if ((destination == (settlementNode - 0x02))
+                    || (destination == (settlementNode + 0x20)))
             {
                 roadEdge = settlementNode - 0x01;
             }
@@ -839,7 +930,8 @@ public class OpeningBuildStrategy {
         }
         else
         {
-            if ((destination == (settlementNode - 0x20)) || (destination == (settlementNode + 0x02)))
+            if ((destination == (settlementNode - 0x20))
+                    || (destination == (settlementNode + 0x02)))
             {
                 roadEdge = settlementNode - 0x10;
             }
@@ -853,22 +945,27 @@ public class OpeningBuildStrategy {
             }
         }
         dummy.destroyPlayer();
-        
+
         return roadEdge;
     }
-    
+
     /**
-     * this is a function more for convience
-     * given a set of nodes, run a bunch of metrics across them
-     * to find which one is best for building a
+     * this is a function more for convience given a set of nodes, run a bunch
+     * of metrics across them to find which one is best for building a
      * settlement
-     *
-     * @param nodes          a hashtable of nodes, the scores in the table will be modified. Hashtable<Integer,Integer>.
-     * @param numberWeight   the weight given to nodes on good numbers
-     * @param miscPortWeight the weight given to nodes on 3:1 ports
-     * @param portWeight     the weight given to nodes on good 2:1 ports
+     * 
+     * @param nodes
+     *            a hashtable of nodes, the scores in the table will be
+     *            modified. Hashtable<Integer,Integer>.
+     * @param numberWeight
+     *            the weight given to nodes on good numbers
+     * @param miscPortWeight
+     *            the weight given to nodes on 3:1 ports
+     * @param portWeight
+     *            the weight given to nodes on good 2:1 ports
      */
-    protected void scoreNodesForSettlements(Hashtable nodes, int numberWeight, int miscPortWeight, int portWeight, Game game, Player ourPlayerData)
+    protected void scoreNodesForSettlements(Hashtable nodes, int numberWeight,
+            int miscPortWeight, int portWeight, Game game, Player ourPlayerData)
     {
         /**
          * favor spots with the most high numbers
@@ -883,25 +980,27 @@ public class OpeningBuildStrategy {
          */
         if (!ourPlayerData.getPortFlag(Board.MISC_PORT))
         {
-            Vector miscPortNodes = game.getBoard().getPortCoordinates(Board.MISC_PORT);
+            Vector miscPortNodes = game.getBoard().getPortCoordinates(
+                    Board.MISC_PORT);
             bestSpotInANodeSet(nodes, miscPortNodes, miscPortWeight);
         }
 
         /**
          * check out good 2:1 ports that we don't have
          */
-        //TODO: this is extremely dangerous as there already exists a variable called resourceEstimates
+        // TO-DO: this is extremely dangerous as there already exists a variable
+        // called resourceEstimates
         int[] resourceEstimates = null;
         resourceEstimates = estimateResourceRarity(game);
 
-        for (int portType = Board.CLAY_PORT; portType <= Board.WOOD_PORT;
-                portType++)
+        for (int portType = Board.CLAY_PORT; portType <= Board.WOOD_PORT; portType++)
         {
             /**
-             * if the chances of rolling a number on the resource is better than 1/3,
-             * then it's worth looking at the port
+             * if the chances of rolling a number on the resource is better than
+             * 1/3, then it's worth looking at the port
              */
-            if ((resourceEstimates[portType] > 33) && (!ourPlayerData.getPortFlag(portType)))
+            if ((resourceEstimates[portType] > 33)
+                    && (!ourPlayerData.getPortFlag(portType)))
             {
                 Vector portNodes = game.getBoard().getPortCoordinates(portType);
                 int estimatedPortWeight = (resourceEstimates[portType] * portWeight) / 56;
@@ -909,22 +1008,24 @@ public class OpeningBuildStrategy {
             }
         }
     }
-    
+
     /**
-     * Takes a table of nodes and adds a weighted score to
-     * each node score in the table.  A vector of nodes that
-     * we want to be on is also taken as an argument.
-     * Here are the rules for scoring:
-     * If a node is in the desired set of nodes it gets 100.
-     * Otherwise it gets 0.
-     *
-     * @param nodesIn   the table of nodes to evaluate: Hashtable<Integer,Integer>
-     * @param nodeSet   the set of desired nodes
-     * @param weight    the score multiplier
+     * Takes a table of nodes and adds a weighted score to each node score in
+     * the table. A vector of nodes that we want to be on is also taken as an
+     * argument. Here are the rules for scoring: If a node is in the desired set
+     * of nodes it gets 100. Otherwise it gets 0.
+     * 
+     * @param nodesIn
+     *            the table of nodes to evaluate: Hashtable<Integer,Integer>
+     * @param nodeSet
+     *            the set of desired nodes
+     * @param weight
+     *            the score multiplier
      */
-    protected void bestSpotInANodeSet(Hashtable nodesIn, Vector nodeSet, int weight)
+    protected void bestSpotInANodeSet(Hashtable nodesIn, Vector nodeSet,
+            int weight)
     {
-        Enumeration nodesInEnum = nodesIn.keys();  // <Integer>
+        Enumeration nodesInEnum = nodesIn.keys(); // <Integer>
 
         while (nodesInEnum.hasMoreElements())
         {
@@ -954,25 +1055,27 @@ public class OpeningBuildStrategy {
 
             nodesIn.put(nodeCoord, new Integer(oldScore + score));
 
-            //log.debug("BSIANS -- put node "+Integer.toHexString(node)+" with old score "+oldScore+" + new score "+score);
+            // log.debug("BSIANS -- put node "+Integer.toHexString(node)+" with old score "+oldScore+" + new score "+score);
         }
     }
-    
+
     /**
-     * Takes a table of nodes and adds a weighted score to
-     * each node score in the table.  A vector of nodes that
-     * we want to be near is also taken as an argument.
-     * Here are the rules for scoring:
-     * If a node is two away from a node in the desired set of nodes it gets 100.
-     * Otherwise it gets 0.
-     *
-     * @param nodesIn   the table of nodes to evaluate: Hashtable<Integer,Integer>
-     * @param nodeSet   the set of desired nodes
-     * @param weight    the score multiplier
+     * Takes a table of nodes and adds a weighted score to each node score in
+     * the table. A vector of nodes that we want to be near is also taken as an
+     * argument. Here are the rules for scoring: If a node is two away from a
+     * node in the desired set of nodes it gets 100. Otherwise it gets 0.
+     * 
+     * @param nodesIn
+     *            the table of nodes to evaluate: Hashtable<Integer,Integer>
+     * @param nodeSet
+     *            the set of desired nodes
+     * @param weight
+     *            the score multiplier
      */
-    protected void bestSpot2AwayFromANodeSet(Hashtable nodesIn, Vector nodeSet, int weight)
+    protected void bestSpot2AwayFromANodeSet(Hashtable nodesIn, Vector nodeSet,
+            int weight)
     {
-        Enumeration nodesInEnum = nodesIn.keys();  // <Integer>
+        Enumeration nodesInEnum = nodesIn.keys(); // <Integer>
 
         while (nodesInEnum.hasMoreElements())
         {
@@ -1024,15 +1127,15 @@ public class OpeningBuildStrategy {
 
             nodesIn.put(nodeCoord, new Integer(oldScore + score));
 
-            //log.debug("BS2AFANS -- put node "+Integer.toHexString(node)+" with old score "+oldScore+" + new score "+score);
+            // log.debug("BS2AFANS -- put node "+Integer.toHexString(node)+" with old score "+oldScore+" + new score "+score);
         }
     }
-    
+
     /**
      * estimate the rarity of each resource
-     *
-     * @return an array of rarity numbers where
-     *         estimates[Board.CLAY_HEX] == the clay rarity
+     * 
+     * @return an array of rarity numbers where estimates[Board.CLAY_HEX] == the
+     *         clay rarity
      */
     protected int[] estimateResourceRarity(Game game)
     {
@@ -1058,65 +1161,66 @@ public class OpeningBuildStrategy {
             }
         }
 
-        //D.ebugPrint("Resource Estimates = ");
+        // D.ebugPrint("Resource Estimates = ");
         for (int i = 1; i < 6; i++)
         {
-            //D.ebugPrint(i+":"+resourceEstimates[i]+" ");
+            // D.ebugPrint(i+":"+resourceEstimates[i]+" ");
         }
 
-        //log.debug();
+        // log.debug();
         return resourceEstimates;
     }
-    
+
     /**
-     * Takes a table of nodes and adds a weighted score to
-     * each node score in the table.  Nodes touching hexes
-     * with better numbers get better scores.
-     *
-     * @param nodes    the table of nodes with scores: Hashtable<Integer,Integer>
-     * @param weight   a number that is multiplied by the score
+     * Takes a table of nodes and adds a weighted score to each node score in
+     * the table. Nodes touching hexes with better numbers get better scores.
+     * 
+     * @param nodes
+     *            the table of nodes with scores: Hashtable<Integer,Integer>
+     * @param weight
+     *            a number that is multiplied by the score
      */
     protected void bestSpotForNumbers(Hashtable nodes, int weight, Game game)
     {
         int[] numRating = NumberProbabilities.INT_VALUES;
         Board board = game.getBoard();
         int oldScore;
-        Enumeration nodesEnum = nodes.keys();  // <Integer>
+        Enumeration nodesEnum = nodes.keys(); // <Integer>
 
         while (nodesEnum.hasMoreElements())
         {
             Integer node = (Integer) nodesEnum.nextElement();
 
-            //log.debug("BSN - looking at node "+Integer.toHexString(node.intValue()));
+            // log.debug("BSN - looking at node "+Integer.toHexString(node.intValue()));
             oldScore = ((Integer) nodes.get(node)).intValue();
 
             int score = 0;
-            Enumeration hexesEnum = Board.getAdjacentHexesToNode(node.intValue()).elements();  // <Integer>
+            Enumeration hexesEnum = Board.getAdjacentHexesToNode(
+                    node.intValue()).elements(); // <Integer>
 
             while (hexesEnum.hasMoreElements())
             {
                 int hex = ((Integer) hexesEnum.nextElement()).intValue();
                 score += numRating[board.getNumberOnHexFromCoord(hex)];
 
-                //log.debug(" -- -- Adding "+numRating[board.getNumberOnHexFromCoord(hex)]);
+                // log.debug(" -- -- Adding "+numRating[board.getNumberOnHexFromCoord(hex)]);
             }
 
             /*
-             * normalize score and multiply by weight
-             * 40 is highest practical score
-             * lowest score is 0
+             * normalize score and multiply by weight 40 is highest practical
+             * score lowest score is 0
              */
             int nScore = ((score * 100) / 40) * weight;
             Integer finalScore = new Integer(nScore + oldScore);
             nodes.put(node, finalScore);
 
-            //log.debug("BSN -- put node "+Integer.toHexString(node.intValue())+" with old score "+oldScore+" + new score "+nScore);
+            // log.debug("BSN -- put node "+Integer.toHexString(node.intValue())+" with old score "+oldScore+" + new score "+nScore);
         }
     }
-    
+
     /**
      * calculate the number of builds before the next turn during init placement
-     *
+     * 
      */
     protected int numberOfEnemyBuilds(Game game)
     {
@@ -1126,7 +1230,8 @@ public class OpeningBuildStrategy {
         /**
          * This is the clockwise direction
          */
-        if ((game.getGameState() == Game.START1A) || (game.getGameState() == Game.START1B))
+        if ((game.getGameState() == Game.START1A)
+                || (game.getGameState() == Game.START1B))
         {
             do
             {
@@ -1140,12 +1245,11 @@ public class OpeningBuildStrategy {
                     pNum = 0;
                 }
 
-                if ((pNum != game.getFirstPlayer()) && ! game.isSeatVacant (pNum))
+                if ((pNum != game.getFirstPlayer()) && !game.isSeatVacant(pNum))
                 {
                     numberOfBuilds++;
                 }
-            }
-            while (pNum != game.getFirstPlayer());
+            } while (pNum != game.getFirstPlayer());
         }
 
         /**
@@ -1163,43 +1267,47 @@ public class OpeningBuildStrategy {
                 pNum = game.maxPlayers - 1;
             }
 
-            if ((pNum != game.getCurrentPlayerNumber()) && ! game.isSeatVacant (pNum))
+            if ((pNum != game.getCurrentPlayerNumber())
+                    && !game.isSeatVacant(pNum))
             {
                 numberOfBuilds++;
             }
-        }
-        while (pNum != game.getCurrentPlayerNumber());
+        } while (pNum != game.getCurrentPlayerNumber());
 
         return numberOfBuilds;
     }
-    
+
     /**
-     * Takes a table of nodes and adds a weighted score to
-     * each node score in the table.  Nodes touching hexes
-     * with better numbers get better scores.  Also numbers
-     * that the player isn't touching yet are better than ones
-     * that the player is already touching.
-     *
-     * @param nodes    the table of nodes with scores: Hashtable<Integer,Integer>
-     * @param player   the player that we are doing the rating for
-     * @param weight   a number that is multiplied by the score
+     * Takes a table of nodes and adds a weighted score to each node score in
+     * the table. Nodes touching hexes with better numbers get better scores.
+     * Also numbers that the player isn't touching yet are better than ones that
+     * the player is already touching.
+     * 
+     * @param nodes
+     *            the table of nodes with scores: Hashtable<Integer,Integer>
+     * @param player
+     *            the player that we are doing the rating for
+     * @param weight
+     *            a number that is multiplied by the score
      */
-    protected void bestSpotForNumbers(Hashtable nodes, Player player, int weight, Game game)
+    protected void bestSpotForNumbers(Hashtable nodes, Player player,
+            int weight, Game game)
     {
         int[] numRating = NumberProbabilities.INT_VALUES;
         Board board = game.getBoard();
         int oldScore;
-        Enumeration nodesEnum = nodes.keys();  // <Integer>
+        Enumeration nodesEnum = nodes.keys(); // <Integer>
 
         while (nodesEnum.hasMoreElements())
         {
             Integer node = (Integer) nodesEnum.nextElement();
 
-            //log.debug("BSN - looking at node "+Integer.toHexString(node.intValue()));
+            // log.debug("BSN - looking at node "+Integer.toHexString(node.intValue()));
             oldScore = ((Integer) nodes.get(node)).intValue();
 
             int score = 0;
-            Enumeration hexesEnum = Board.getAdjacentHexesToNode(node.intValue()).elements();  // <Integer>
+            Enumeration hexesEnum = Board.getAdjacentHexesToNode(
+                    node.intValue()).elements(); // <Integer>
 
             while (hexesEnum.hasMoreElements())
             {
@@ -1210,26 +1318,26 @@ public class OpeningBuildStrategy {
                 if ((number != 0) && (!player.getNumbers().hasNumber(number)))
                 {
                     /**
-                     * add a bonus for numbers that the player doesn't already have
+                     * add a bonus for numbers that the player doesn't already
+                     * have
                      */
 
-                    //log.debug("ADDING BONUS FOR NOT HAVING "+number);
+                    // log.debug("ADDING BONUS FOR NOT HAVING "+number);
                     score += numRating[number];
                 }
 
-                //log.debug(" -- -- Adding "+numRating[board.getNumberOnHexFromCoord(hex)]);
+                // log.debug(" -- -- Adding "+numRating[board.getNumberOnHexFromCoord(hex)]);
             }
 
             /*
-             * normalize score and multiply by weight
-             * 80 is highest practical score
-             * lowest score is 0
+             * normalize score and multiply by weight 80 is highest practical
+             * score lowest score is 0
              */
             int nScore = ((score * 100) / 80) * weight;
             Integer finalScore = new Integer(nScore + oldScore);
             nodes.put(node, finalScore);
 
-            //log.debug("BSN -- put node "+Integer.toHexString(node.intValue())+" with old score "+oldScore+" + new score "+nScore);
+            // log.debug("BSN -- put node "+Integer.toHexString(node.intValue())+" with old score "+oldScore+" + new score "+nScore);
         }
     }
 }

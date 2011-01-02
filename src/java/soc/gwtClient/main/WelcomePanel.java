@@ -60,6 +60,18 @@ public class WelcomePanel extends HorizontalPanel implements ICenterWidget
             }
         });
         rootPanel.add(btnMapCreator);
+
+        Button btnLobby = new Button();
+        btnLobby.setHTML("<H1>Lobby</H1>Find games and players");
+        btnLobby.addClickHandler(new ClickHandler()
+        {
+            @Override
+            public void onClick(ClickEvent event)
+            {
+                mainWindow.setCurrentWidget(mainWindow.getLobby());
+            }
+        });
+        rootPanel.add(btnLobby);
     }
 
     @Override

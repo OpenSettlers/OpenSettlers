@@ -2,7 +2,7 @@ package soc.common.game.developmentCards.standard;
 
 import soc.common.board.resources.*;
 import soc.common.game.Game;
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 import soc.common.game.developmentCards.DevelopmentCard;
 
 /*
@@ -77,13 +77,13 @@ public class Monopoly extends DevelopmentCard
      * @see soc.common.game.developmentCards.DevelopmentCard#play(soc.common.game.Game, soc.common.game.Player)
      */
     @Override
-    public void play(Game game, Player player)
+    public void play(Game game, GamePlayer player)
     {
         StringBuilder msg = new StringBuilder();
         // TODO: fix using external library
         //msg.append(String.format("%s stole ", player.getName()));
 
-        for (Player opponent : game.getPlayers())
+        for (GamePlayer opponent : game.getPlayers())
         {
             //steal only form opponents
             if (!opponent.equals(player))

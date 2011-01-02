@@ -5,10 +5,10 @@ import java.util.List;
 
 import soc.common.actions.gameAction.turnActions.standard.BuildTown;
 import soc.common.board.HexPoint;
-import soc.common.client.behaviour.IInteractionBehaviour;
-import soc.common.client.visuals.IPieceVisual;
-import soc.common.client.visuals.board.IBoardVisual;
-import soc.common.client.visuals.game.IGameBoardVisual;
+import soc.common.client.behaviour.InteractionBehaviour;
+import soc.common.client.visuals.PieceVisual;
+import soc.common.client.visuals.board.BoardVisual;
+import soc.common.client.visuals.game.GameBoardVisual;
 
 public class BuildTownBehaviour extends BuildPointBehaviour
 {
@@ -21,7 +21,7 @@ public class BuildTownBehaviour extends BuildPointBehaviour
     }
 
     @Override
-    public void clicked(IPieceVisual pieceVisual, IBoardVisual board)
+    public void clicked(PieceVisual pieceVisual, BoardVisual board)
     {
         
     }

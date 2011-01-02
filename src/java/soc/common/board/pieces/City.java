@@ -5,11 +5,13 @@ import soc.common.board.HexPoint;
 import soc.common.board.resources.Ore;
 import soc.common.board.resources.ResourceList;
 import soc.common.board.resources.Wheat;
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 import soc.common.game.VictoryPointItem;
 
-public class City extends PlayerPiece implements VictoryPointItem, PointPiece
+public class City extends AbstractPlayerPiece implements VictoryPointItem,
+        PointPiece
 {
+    private static final long serialVersionUID = 6682481845539642397L;
     public static City CITY = new City();
     private HexPoint pointLocation;
 
@@ -40,7 +42,7 @@ public class City extends PlayerPiece implements VictoryPointItem, PointPiece
      * soc.common.game.Player)
      */
     @Override
-    public boolean canBuild(Board board, Player player)
+    public boolean canBuild(Board board, GamePlayer player)
     {
         // We need a city in stock...
         if (player.getStock().ofType(City.CITY).size() == 0)
@@ -75,6 +77,12 @@ public class City extends PlayerPiece implements VictoryPointItem, PointPiece
         pointLocation = point;
 
         return this;
+    }
+
+    @Override
+    public boolean isStockPiece()
+    {
+        return true;
     }
 
 }

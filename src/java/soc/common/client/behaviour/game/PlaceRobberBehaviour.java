@@ -1,13 +1,13 @@
 package soc.common.client.behaviour.game;
 
 import soc.common.actions.gameAction.turnActions.standard.PlaceRobber;
-import soc.common.client.visuals.IPieceVisual;
-import soc.common.client.visuals.board.IBoardVisual;
+import soc.common.client.visuals.PieceVisual;
+import soc.common.client.visuals.board.BoardVisual;
 import soc.common.client.visuals.board.HexVisual;
-import soc.common.client.visuals.game.IGameBoardVisual;
+import soc.common.client.visuals.game.GameBoardVisual;
 import soc.common.game.Game;
 
-public class PlaceRobberBehaviour implements IGameBehaviour
+public class PlaceRobberBehaviour implements GameBehaviour
 {
     PlaceRobber placeRobber;
     Game game;
@@ -20,19 +20,19 @@ public class PlaceRobberBehaviour implements IGameBehaviour
     }
 
     @Override
-    public void setNeutral(IGameBoardVisual visual)
+    public void setNeutral(GameBoardVisual visual)
     {
         // TODO: implement when able to iterate of collection of IHexVisuals in IBoardVisual
     }
 
     @Override
-    public void start(IGameBoardVisual gameVisual)
+    public void start(GameBoardVisual gameVisual)
     {
         // TODO: implement when able to iterate of collection of IHexVisuals in IBoardVisual
     }
 
     @Override
-    public void clicked(IPieceVisual pieceVisual, IBoardVisual board)
+    public void clicked(PieceVisual pieceVisual, BoardVisual board)
     {
         if (possiblePosition(pieceVisual))
         {
@@ -41,7 +41,7 @@ public class PlaceRobberBehaviour implements IGameBehaviour
     }
 
     @Override
-    public void mouseEnter(IPieceVisual pieceVisual, IBoardVisual board)
+    public void mouseEnter(PieceVisual pieceVisual, BoardVisual board)
     {
         if (possiblePosition(pieceVisual))
         {
@@ -50,7 +50,7 @@ public class PlaceRobberBehaviour implements IGameBehaviour
     }
 
     @Override
-    public void mouseOut(IPieceVisual pieceVisual, IBoardVisual board)
+    public void mouseOut(PieceVisual pieceVisual, BoardVisual board)
     {
         if (possiblePosition(pieceVisual))
         {
@@ -62,7 +62,7 @@ public class PlaceRobberBehaviour implements IGameBehaviour
      * Returns true if given piece visual is a hexvisual showing a landhex,
      * and the robber is not on given hexvisual position
      */
-    private boolean possiblePosition(IPieceVisual pieceVisual)
+    private boolean possiblePosition(PieceVisual pieceVisual)
     {
         if (pieceVisual instanceof HexVisual)
         {

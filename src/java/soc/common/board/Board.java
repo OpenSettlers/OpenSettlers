@@ -6,6 +6,7 @@ import soc.common.board.hexes.SeaHex;
 import soc.common.board.ports.Port;
 import soc.common.board.ports.PortList;
 import soc.common.board.ports.PossiblePort;
+import soc.common.board.routing.BoardGraph;
 import soc.common.board.territories.TerritoryImpl;
 import soc.common.board.territories.TerritoryList;
 import soc.common.game.GameSettings;
@@ -46,9 +47,10 @@ public class Board
     // list of hexes this board is made of
     private HexGrid hexes;
 
-    /*
-     * Specific settings for this board
-     */
+    // graph containing all the GraphPoints and GraphSides
+    private BoardGraph graph;
+
+    // Specific settings for this board
     private BoardSettings boardSettings;
 
     /*
@@ -206,8 +208,10 @@ public class Board
     // / 2. Replaces random ports from those out of RandomPorts bag
     // / 3. Replaces deserts by volcano/jungles if necessary
     // / </summary>
-    public void PrepareForPlay(GameSettings settings)
+    public void prepareForPlay(GameSettings settings)
     {
+        graph = new BoardGraph();
+        graph.buildGraph(this);
         // TODO: add code from JSettlers
 
     }
@@ -252,6 +256,14 @@ public class Board
         return territories;
     }
 
+    /**
+     * @return the graph
+     */
+    public BoardGraph getGraph()
+    {
+        return graph;
+    }
+
     /*
      * Returns true when target side can be built on for land pieces
      */
@@ -259,5 +271,30 @@ public class Board
     {
         return hexes.get(side.getHex1()).isBuildableLand()
                 || hexes.get(side.getHex2()).isBuildableLand();
+    }
+
+    public boolean includeInGame(HexPoint point)
+    {
+        // We dont't want to add null
+        if (point == null)
+        {
+            return false;
+        }
+        // HexPoint should connect to three valid hexes
+        if (!point.fallsWithinBoardBounds(hexes.getWidth(), hexes.getHeight()))
+        {
+            return false;
+        }
+
+        // Hex should be able to build either sea or land on
+        for (HexLocation neighbour : point.getHexLocations())
+        {
+            if (hexes.get(neighbour).isBuildableLand()
+                    && hexes.get(neighbour).isBuildableSea())
+            {
+                return false;
+            }
+        }
+        return true;
     }
 }

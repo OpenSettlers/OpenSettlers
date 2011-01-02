@@ -34,9 +34,9 @@ public class AcceptSettings extends AbstractGameAction
     {
         // Add the player to the list of players who accepted the settings
         LobbyGamePhase lobbyPhase = (LobbyGamePhase) game.getCurrentPhase();
-        if (!lobbyPhase.playersWhoAcceptedSettings.contains(getPlayer()))
+        if (!lobbyPhase.getPlayersWhoAcceptedSettings().contains(getPlayer()))
         {
-            lobbyPhase.playersWhoAcceptedSettings.add(getPlayer());
+            lobbyPhase.getPlayersWhoAcceptedSettings().add(getPlayer());
         }
 
         super.perform(game);
@@ -45,6 +45,7 @@ public class AcceptSettings extends AbstractGameAction
     @Override
     public String getToDoMessage()
     {
-        return I18n.get().actions().acceptSettingsToDo(player.getName());
+        return I18n.get().actions().acceptSettingsToDo(
+                player.getUser().getName());
     }
 }

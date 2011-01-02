@@ -28,7 +28,7 @@ public class BuildShip extends AbstractTurnAction
     @Override
     public String getToDoMessage()
     {
-        return I18n.get().actions().buildShipToDo(player.getName());
+        return I18n.get().actions().buildShipToDo(player.getUser().getName());
     }
 
 }

@@ -6,11 +6,11 @@ import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
-public abstract class AbstractStatusPanel implements IStatusPanel
+public abstract class AbstractStatusPanel implements StatusPanel
 {
     protected DockLayoutPanel rootPanel = new DockLayoutPanel(Unit.EM);
     protected Label lblStatus = new Label(
-            "Some text here to tell the player what to do");
+            "Some text here to tell the player what's up with the status of the game");
     protected IGamePanel gamePanel;
 
     protected abstract ComplexPanel createRootPanel();

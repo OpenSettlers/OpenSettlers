@@ -3,7 +3,7 @@ package soc.gwtClient.game.widgets.standard.bitmap;
 import com.google.gwt.user.client.ui.Widget;
 
 import soc.common.game.Game;
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 import soc.gwtClient.game.Point2D;
 import soc.gwtClient.game.abstractWidgets.AbstractPlayersWidget;
 import soc.gwtClient.game.abstractWidgets.IPlayerWidget;
@@ -17,7 +17,7 @@ public class PlayersBitmapWidget extends AbstractPlayersWidget
     }
 
     @Override
-    public IPlayerWidget createPlayerWidget(Game game, Player player)
+    public IPlayerWidget createPlayerWidget(Game game, GamePlayer player)
     {
         return new PlayerBitmapWidget(game, player);
     }

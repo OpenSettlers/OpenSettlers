@@ -5,9 +5,9 @@ import com.google.gwt.event.shared.GwtEvent;
 public class TradeOfferedEvent extends GwtEvent<TradeOfferedEventHandler>
 {
     public static Type<TradeOfferedEventHandler> TYPE = new Type<TradeOfferedEventHandler>();
-    private ITradeOffer tradeOffer;
+    private TradeOffer tradeOffer;
     
-    public TradeOfferedEvent(ITradeOffer tradeOffer)
+    public TradeOfferedEvent(TradeOffer tradeOffer)
     {
         super();
         this.tradeOffer = tradeOffer;
@@ -16,7 +16,7 @@ public class TradeOfferedEvent extends GwtEvent<TradeOfferedEventHandler>
     /**
      * @return the tradeOffer
      */
-    public ITradeOffer getTradeOffer()
+    public TradeOffer getTradeOffer()
     {
         return tradeOffer;
     }

@@ -5,11 +5,12 @@ import soc.common.board.Board;
 import soc.common.board.resources.ResourceList;
 import soc.common.board.resources.Sheep;
 import soc.common.board.resources.Timber;
-import soc.common.game.Player;
+import soc.common.game.GamePlayer;
 
 @SeaFarers
-public class Ship extends PlayerPiece
+public class Ship extends AbstractPlayerPiece
 {
+    private static final long serialVersionUID = -8125317569107776067L;
     public static Ship SHIP = new Ship();
 
     /*
@@ -19,7 +20,7 @@ public class Ship extends PlayerPiece
      * soc.common.game.Player)
      */
     @Override
-    public boolean canBuild(Board board, Player player)
+    public boolean canBuild(Board board, GamePlayer player)
     {
         if (player.getStock().ofType(Ship.SHIP).size() == 0)
             return false;
@@ -47,7 +48,7 @@ public class Ship extends PlayerPiece
     }
 
     // TODO: port to java
-    public boolean canMove(Board board, Player player)
+    public boolean canMove(Board board, GamePlayer player)
     {
         // If there is no ship to move, bugger out
         // if (player.getShips().size() == 0)
@@ -67,6 +68,12 @@ public class Ship extends PlayerPiece
         // if (GetMoveableShips(game, game.Board).Count == 0)
         // return false;
 
+        return true;
+    }
+
+    @Override
+    public boolean isStockPiece()
+    {
         return true;
     }
 
