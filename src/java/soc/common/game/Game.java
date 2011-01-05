@@ -5,6 +5,7 @@ import java.util.List;
 
 import soc.common.actions.Action;
 import soc.common.actions.gameAction.GameAction;
+import soc.common.board.Board;
 import soc.common.board.HexLocation;
 import soc.common.board.pieces.LargestArmy;
 import soc.common.board.pieces.LongestRoad;
@@ -13,6 +14,7 @@ import soc.common.board.pieces.PlayerPieceList;
 import soc.common.board.pieces.Robber;
 import soc.common.board.resources.ResourceList;
 import soc.common.game.developmentCards.DevelopmentCardList;
+import soc.common.game.dices.Dice;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.LobbyGamePhase;
 import soc.common.game.logs.ActionsQueue;
@@ -21,10 +23,11 @@ import soc.common.game.logs.ChatLog;
 import soc.common.game.logs.ChatLogImpl;
 import soc.common.game.logs.GameLog;
 import soc.common.game.logs.GameLogImpl;
+import soc.common.game.logs.QueuedAction;
 import soc.common.game.statuses.GameStatus;
 import soc.common.game.statuses.WaitingForPlayers;
-import soc.common.game.statuses.WaitingForTurnActions;
 
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
 
 public class Game
@@ -48,13 +51,54 @@ public class Game
     private Robber robber = null;
     private GamePhase currentPhase = new LobbyGamePhase();
     private GameSettings gameSettings = new GameSettings();
-    private GameBoard gameBoard;
+    private Board board;
     private GamePlayer gameStarter;
     private DevelopmentCardList developmentCardStack = new DevelopmentCardList();
     private Turn currentTurn;
     private GameStatus currentStatus = new WaitingForPlayers();
     private LargestArmy largestArmy;
     private LongestRoad longestRoute;
+    private Dice currentDice;
+
+    /**
+     * @return the currentDice
+     */
+    public Dice getCurrentDice()
+    {
+        return currentDice;
+    }
+
+    /**
+     * @param currentDice
+     *            the currentDice to set
+     */
+    public Game setCurrentDice(Dice currentDice)
+    {
+        this.currentDice = currentDice;
+
+        eventBus.fireEvent(new DiceChangedEvent(currentDice));
+
+        return this;
+    }
+
+    /**
+     * @return the board
+     */
+    public Board getBoard()
+    {
+        return board;
+    }
+
+    /**
+     * @param board
+     *            the board to set
+     */
+    public Game setBoard(Board board)
+    {
+        this.board = board;
+
+        return this;
+    }
 
     /*
      * Returns a list of all PlayerPieces in the game residing on a HexPoint
@@ -73,21 +117,10 @@ public class Game
 
     public void advanceTurn()
     {
-        // Determine index of next player
-        int nextPlayerIndex = players.indexOf(currentTurn.getPlayer()) + 1;
-        if (nextPlayerIndex == players.size())
-        {
-            nextPlayerIndex = 0;
-        }
-
-        GamePlayer newPlayerOnTurn = players.get(nextPlayerIndex);
-
-        // Create a new turn
-        Turn newTurn = new TurnImpl().setID(currentTurn.getID() + 1).setPlayer(
-                newPlayerOnTurn);
+        Turn newTurn = currentPhase.nextTurn(this);
 
         currentTurn.getPlayer().setOnTurn(false);
-        newPlayerOnTurn.setOnTurn(true);
+        newTurn.getPlayer().setOnTurn(true);
 
         Turn oldTurn = currentTurn;
         this.currentTurn = newTurn;
@@ -99,7 +132,7 @@ public class Game
     public void start()
     {
         gameRules.setRules(this);
-        gameBoard.prepareForPlay(gameSettings);
+        board.prepareForPlay(gameSettings);
     }
 
     /*
@@ -123,8 +156,8 @@ public class Game
 
         if (actionsQueue.isWaitingForActions())
         {
-            newStatus = new WaitingForTurnActions()
-                    .setBlockingActions(actionsQueue.getBlockingActions());
+            // newStatus = new WaitingForTurnActions()
+            // .setBlockingActions(actionsQueue.getBlockingActions());
         }
 
         currentStatus = newStatus;
@@ -198,6 +231,12 @@ public class Game
         eventBus.addHandler(DiceChangedEvent.TYPE, handler);
     }
 
+    public HandlerRegistration addTurnchangedeventHandler(
+            TurnChangedEventHandler handler)
+    {
+        return eventBus.addHandler(TurnChangedEvent.TYPE, handler);
+    }
+
     /**
      * @return the robber
      */
@@ -251,25 +290,6 @@ public class Game
     public Game setGameStarter(GamePlayer gameStarter)
     {
         this.gameStarter = gameStarter;
-
-        return this;
-    }
-
-    /**
-     * @return the board
-     */
-    public GameBoard getBoard()
-    {
-        return gameBoard;
-    }
-
-    /**
-     * @param board
-     *            the board to set
-     */
-    public Game setBoard(GameBoard gameBoard)
-    {
-        this.gameBoard = gameBoard;
 
         return this;
     }
@@ -381,6 +401,16 @@ public class Game
 
     public Game copy()
     {
+
+        // try
+        // {
+        // return (Game) super.clone();
+        // }
+        // catch (CloneNotSupportedException e)
+        // {
+        // // TODO Auto-generated catch block
+        // e.printStackTrace();
+        // }
         return null;
     }
 
@@ -433,4 +463,18 @@ public class Game
         return this;
     }
 
+    public void performAction(GameAction action)
+    {
+        QueuedAction expectedAction = actionsQueue.findExpected(action, this);
+        if (expectedAction != null)
+        {
+            actionsQueue.dequeue(expectedAction);
+        }
+        currentPhase.performAction(action, this);
+    }
+
+    public void initialize()
+    {
+        currentTurn = new TurnImpl().setPlayer(players.get(0));
+    }
 }

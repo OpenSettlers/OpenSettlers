@@ -6,6 +6,4 @@ import soc.common.client.visuals.PieceVisual;
 public interface ISideVisual extends PieceVisual
 {
     public HexSide getHexSide();
-
-    public void addPieceVisual(PieceVisual pieceVisual);
 }

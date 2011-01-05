@@ -45,4 +45,6 @@ public interface GameAction extends Action
      *         displayed
      */
     public String getToDoMessage();
+
+    public boolean isServer();
 }

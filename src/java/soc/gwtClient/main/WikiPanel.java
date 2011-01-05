@@ -1,12 +1,12 @@
 package soc.gwtClient.main;
 
-import soc.gwtClient.game.ICenterWidget;
+import soc.gwtClient.game.CenterWidget;
 
 import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.Panel;
 
-public class WikiPanel extends LayoutPanel implements ICenterWidget
+public class WikiPanel extends LayoutPanel implements CenterWidget
 {
     private Frame frame;
 

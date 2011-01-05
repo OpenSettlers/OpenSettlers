@@ -1,5 +1,7 @@
 package soc.common.board.territories;
 
+import soc.common.board.ChitList;
+import soc.common.board.hexes.HexList;
 import soc.common.board.ports.PortList;
 
 public interface Territory
@@ -42,5 +44,9 @@ public interface Territory
     public boolean isIsland();
 
     public Territory setIsland(boolean isIsland);
+
+    public ChitList getChits();
+
+    public HexList getHexes();
 
 }

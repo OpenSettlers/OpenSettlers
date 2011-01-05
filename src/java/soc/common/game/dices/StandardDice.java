@@ -7,7 +7,7 @@ public class StandardDice implements Dice
     private int dice1;
     private int dice2;
 
-    public int getDice()
+    public int getDiceTotal()
     {
         return dice1 + dice2;
     }
@@ -65,4 +65,5 @@ public class StandardDice implements Dice
         // http://en.wikipedia.org/wiki/Fluent_interface
         return this;
     }
+
 }

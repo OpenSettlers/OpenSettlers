@@ -1,15 +1,32 @@
 package soc.common.board;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import soc.common.board.hexes.AbstractHex;
+import soc.common.board.hexes.DesertHex;
 import soc.common.board.hexes.Hex;
+import soc.common.board.hexes.NoneHex;
+import soc.common.board.hexes.RandomHex;
+import soc.common.board.hexes.ResourceHex;
 import soc.common.board.hexes.SeaHex;
 import soc.common.board.ports.Port;
 import soc.common.board.ports.PortList;
 import soc.common.board.ports.PossiblePort;
+import soc.common.board.resources.Clay;
+import soc.common.board.resources.Ore;
+import soc.common.board.resources.Sheep;
+import soc.common.board.resources.Timber;
+import soc.common.board.resources.Wheat;
 import soc.common.board.routing.BoardGraph;
+import soc.common.board.routing.GraphPoint;
+import soc.common.board.routing.GraphSide;
+import soc.common.board.territories.Territory;
 import soc.common.board.territories.TerritoryImpl;
 import soc.common.board.territories.TerritoryList;
 import soc.common.game.GameSettings;
+import soc.common.server.random.ClientRandom;
+import soc.common.server.random.Random;
 
 /// <summary>
 /// Represents the board data structure. 
@@ -53,6 +70,8 @@ public class Board
     // Specific settings for this board
     private BoardSettings boardSettings;
 
+    private Random random = new ClientRandom();
+
     /*
      * List of territories associated with this board
      */
@@ -67,6 +86,118 @@ public class Board
         for (int h = 0; h < height; h++)
             for (int w = 0; w < width; w++)
                 hexes.add(new SeaHex().setLocation(new HexLocation(w, h)));
+
+        initialize();
+    }
+
+    /*
+     * Returns a standard 3/4 player board for testing purposes as board cannot
+     * be saved yet
+     */
+    public Board()
+    {
+        this.hexes = new HexGrid(7, 7);
+
+        // Row 1
+        hexes.add(new NoneHex().setLocation(new HexLocation(0, 0)));
+        hexes.add(new SeaHex().setLocation(new HexLocation(1, 0)));
+        hexes.add(new SeaHex().setLocation(new HexLocation(2, 0)));
+        hexes.add(new SeaHex().setLocation(new HexLocation(3, 0)));
+        hexes.add(new SeaHex().setLocation(new HexLocation(4, 0)));
+        hexes.add(new NoneHex().setLocation(new HexLocation(5, 0)));
+        hexes.add(new NoneHex().setLocation(new HexLocation(6, 0)));
+
+        // Row 2
+        hexes.add(new NoneHex().setLocation(new HexLocation(0, 1)));
+        hexes.add(new SeaHex().setLocation(new HexLocation(1, 1)));
+        hexes.add(new RandomHex().setLocation(new HexLocation(2, 1)));
+        hexes.add(new RandomHex().setLocation(new HexLocation(3, 1)));
+        hexes.add(new RandomHex().setLocation(new HexLocation(4, 1)));
+        hexes.add(new SeaHex().setLocation(new HexLocation(5, 1)));
+        hexes.add(new NoneHex().setLocation(new HexLocation(6, 1)));
+
+        // Row 3
+        hexes.add(new SeaHex().setLocation(new HexLocation(0, 2)));
+        hexes.add(new RandomHex().setLocation(new HexLocation(1, 2)));
+        hexes.add(new RandomHex().setLocation(new HexLocation(2, 2)));
+        hexes.add(new RandomHex().setLocation(new HexLocation(3, 2)));
+        hexes.add(new RandomHex().setLocation(new HexLocation(4, 2)));
+        hexes.add(new SeaHex().setLocation(new HexLocation(5, 2)));
+        hexes.add(new NoneHex().setLocation(new HexLocation(6, 2)));
+
+        hexes.add(new SeaHex().setLocation(new HexLocation(0, 3)));
+        hexes.add(new RandomHex().setLocation(new HexLocation(1, 3)));
+        hexes.add(new RandomHex().setLocation(new HexLocation(2, 3)));
+        hexes.add(new RandomHex().setLocation(new HexLocation(3, 3)));
+        hexes.add(new RandomHex().setLocation(new HexLocation(4, 3)));
+        hexes.add(new RandomHex().setLocation(new HexLocation(5, 3)));
+        hexes.add(new SeaHex().setLocation(new HexLocation(6, 3)));
+
+        hexes.add(new SeaHex().setLocation(new HexLocation(0, 4)));
+        hexes.add(new RandomHex().setLocation(new HexLocation(1, 4)));
+        hexes.add(new RandomHex().setLocation(new HexLocation(2, 4)));
+        hexes.add(new RandomHex().setLocation(new HexLocation(3, 4)));
+        hexes.add(new RandomHex().setLocation(new HexLocation(4, 4)));
+        hexes.add(new SeaHex().setLocation(new HexLocation(5, 4)));
+        hexes.add(new NoneHex().setLocation(new HexLocation(6, 4)));
+
+        hexes.add(new NoneHex().setLocation(new HexLocation(0, 5)));
+        hexes.add(new SeaHex().setLocation(new HexLocation(1, 5)));
+        hexes.add(new RandomHex().setLocation(new HexLocation(2, 5)));
+        hexes.add(new RandomHex().setLocation(new HexLocation(3, 5)));
+        hexes.add(new RandomHex().setLocation(new HexLocation(4, 5)));
+        hexes.add(new SeaHex().setLocation(new HexLocation(5, 5)));
+        hexes.add(new NoneHex().setLocation(new HexLocation(6, 5)));
+
+        hexes.add(new NoneHex().setLocation(new HexLocation(0, 6)));
+        hexes.add(new SeaHex().setLocation(new HexLocation(1, 6)));
+        hexes.add(new SeaHex().setLocation(new HexLocation(2, 6)));
+        hexes.add(new SeaHex().setLocation(new HexLocation(3, 6)));
+        hexes.add(new SeaHex().setLocation(new HexLocation(4, 6)));
+        hexes.add(new NoneHex().setLocation(new HexLocation(5, 6)));
+        hexes.add(new NoneHex().setLocation(new HexLocation(6, 6)));
+
+        Territory territory = territories.get(0);
+        for (Hex hex : hexes)
+        {
+            if (hex instanceof RandomHex)
+            {
+                hex.setTerritory(territory);
+            }
+        }
+        territory.getHexes().add(new DesertHex());
+        territory.getHexes().add(new ResourceHex(new Wheat()));
+        territory.getHexes().add(new ResourceHex(new Wheat()));
+        territory.getHexes().add(new ResourceHex(new Wheat()));
+        territory.getHexes().add(new ResourceHex(new Wheat()));
+
+        territory.getHexes().add(new ResourceHex(new Timber()));
+        territory.getHexes().add(new ResourceHex(new Timber()));
+        territory.getHexes().add(new ResourceHex(new Timber()));
+        territory.getHexes().add(new ResourceHex(new Timber()));
+
+        territory.getHexes().add(new ResourceHex(new Ore()));
+        territory.getHexes().add(new ResourceHex(new Ore()));
+        territory.getHexes().add(new ResourceHex(new Ore()));
+
+        territory.getHexes().add(new ResourceHex(new Clay()));
+        territory.getHexes().add(new ResourceHex(new Clay()));
+        territory.getHexes().add(new ResourceHex(new Clay()));
+
+        territory.getHexes().add(new ResourceHex(new Sheep()));
+        territory.getHexes().add(new ResourceHex(new Sheep()));
+        territory.getHexes().add(new ResourceHex(new Sheep()));
+        territory.getHexes().add(new ResourceHex(new Sheep()));
+
+        for (Chit chit : ChitList.getStandardList())
+            territory.getChits().add(chit);
+
+        initialize();
+    }
+
+    private void initialize()
+    {
+        graph = new BoardGraph(this);
     }
 
     // / <summary>
@@ -210,10 +341,32 @@ public class Board
     // / </summary>
     public void prepareForPlay(GameSettings settings)
     {
-        graph = new BoardGraph();
-        graph.buildGraph(this);
-        // TODO: add code from JSettlers
+        Territory territory = territories.get(0);
+        List<Hex> hexesToPutChitOn = new ArrayList<Hex>();
 
+        // Replace random hexes by actual random hex from list of hexes provided
+        // by the territory
+        for (Hex hex : hexes)
+        {
+            if (hex instanceof RandomHex)
+            {
+                // Replace randomhex by a hex grabbed from territories' list of
+                // hexes
+                Hex newHex = territory.getHexes().grabRandom(random)
+                        .setLocation(hex.getLocation());
+                hexes.set(hex.getLocation(), newHex);
+                if (newHex instanceof ResourceHex)
+                    hexesToPutChitOn.add(newHex);
+            }
+        }
+        while (hexesToPutChitOn.size() > 0)
+        {
+            Chit chit = territory.getChits().grabRandom(random);
+            Hex hex = hexesToPutChitOn.get(0);
+            ResourceHex resourceHex = (ResourceHex) hex;
+            resourceHex.setChit(chit);
+            hexesToPutChitOn.remove(0);
+        }
     }
 
     /**
@@ -297,4 +450,35 @@ public class Board
         }
         return true;
     }
+
+    public boolean isTownBuildable(GraphPoint possibleCandidate)
+    {
+        for (HexLocation location : possibleCandidate.getPoint()
+                .getHexLocations())
+        {
+            Hex hex = hexes.get(location);
+            if (!hex.isPartOfGame())
+                return false;
+        }
+        Hex hex1 = hexes.get(possibleCandidate.getPoint().getHex1());
+        Hex hex2 = hexes.get(possibleCandidate.getPoint().getHex2());
+        Hex hex3 = hexes.get(possibleCandidate.getPoint().getHex3());
+        if (!hex1.isBuildableLand() && !hex2.isBuildableLand()
+                && !hex3.isBuildableLand())
+            return false;
+
+        return true;
+    }
+
+    /*
+     * Returns true when either one of the hexes of the given side is able to
+     * build for land side pieces (road)
+     */
+    public boolean isRoadBuildable(GraphSide neighbour)
+    {
+        Hex hex1 = hexes.get(neighbour.getSide().getHex1());
+        Hex hex2 = hexes.get(neighbour.getSide().getHex2());
+        return hex1.isBuildableLand() || hex2.isBuildableLand();
+    }
+
 }

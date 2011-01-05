@@ -1,9 +1,9 @@
 package soc.common.server;
 
-import soc.common.actions.gameAction.AbstractGameAction;
 import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.MessageFromServer;
 import soc.common.game.Game;
+import soc.common.game.logs.QueuedAction;
 import soc.common.server.actions.IGameServerActionFactory;
 import soc.common.server.actions.ServerAction;
 import soc.common.server.random.Random;
@@ -48,10 +48,11 @@ public abstract class AbstractGameServer implements GameServer
      * .GameAction)
      */
     @Override
-    public void sendAction(AbstractGameAction action)
+    public void sendAction(GameAction action)
     {
         if (action != null)
         {
+            QueuedAction expectedAction = null;
             if (!action.isValid(game))
             {
                 callback.receive(new MessageFromServer().setServerMessage(
@@ -61,41 +62,52 @@ public abstract class AbstractGameServer implements GameServer
             }
             if (game.getActionsQueue().size() > 0)
             {
-                GameAction expectedAction = game.getActionsQueue()
-                        .findExpected(action, game);
-                if (expectedAction != null)
+                expectedAction = game.getActionsQueue().findExpected(action,
+                        game);
+                if (expectedAction == null)
                 {
-                    game.getActionsQueue().dequeue(expectedAction);
-                }
-                else
-                {
-                    // Grab the expected action
-                    GameAction expected = game.getActionsQueue().peekAction();
-
-                    // Notify we did not expect current action
-                    callback.receive(new MessageFromServer().setServerMessage(
-                            "Invalid action! \r\n Reason: Expected "
-                                    + expected.toString()
-                                    + " from player "
-                                    + game.getPlayerByID(expected.getSender())
-                                            .getUser().getName()
-                                    + ", but instead got "
-                                    + action.toString()
-                                    + " from player "
-                                    + game.getPlayerByID(action.getSender())
-                                            .getUser().getName()).setSender(0));
+                    notifyUnexpected(action);
                     return;
                 }
             }
 
-            // Get associated serverside action if present
+            // Get associated server side action if present
             ServerAction serverAction = serverActionFactory.createServerAction(
                     action, this);
 
             serverAction.execute();
 
             // send the action to all the players
-            callback.receive(serverAction);
+            callback.receive(serverAction.getAction());
+
+            // Check if the action enqueued a server action, if so: execute it
+            // right away
+            GameAction possibleNextServerAction = game.getActionsQueue()
+                    .peekAction();
+            if (possibleNextServerAction != null
+                    && possibleNextServerAction.isServer())
+            {
+                sendAction(possibleNextServerAction);
+            }
         }
+    }
+
+    private void notifyUnexpected(GameAction action)
+    {
+        // Grab the expected action
+        GameAction expected = game.getActionsQueue().peekAction();
+
+        // Notify we did not expect current action
+        callback.receive(new MessageFromServer().setServerMessage(
+                "Invalid action! \r\n Reason: Expected "
+                        + expected.toString()
+                        + " from player "
+                        + game.getPlayerByID(expected.getSender()).getUser()
+                                .getName()
+                        + ", but instead got "
+                        + action.toString()
+                        + " from player "
+                        + game.getPlayerByID(action.getSender()).getUser()
+                                .getName()).setSender(0));
     }
 }

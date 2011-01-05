@@ -21,7 +21,7 @@ public class ActionsQueueImpl implements ActionsQueue
     @Override
     public void enqueue(GameAction inGameAction)
     {
-        QueuedAction queuedAction = new QueuedAction(inGameAction, false, false);
+        QueuedAction queuedAction = new QueuedAction(inGameAction, true, false);
         enqueue(queuedAction);
     }
 
@@ -29,7 +29,7 @@ public class ActionsQueueImpl implements ActionsQueue
     public void enqueue(QueuedAction queuedAction)
     {
         actions.add(queuedAction);
-        eventBus.fireEvent(new ActionQueueChangedEvent(queuedAction, null));
+        eventBus.fireEvent(new ActionQueueChangedEvent(null, queuedAction));
     }
 
     @Override
@@ -43,6 +43,7 @@ public class ActionsQueueImpl implements ActionsQueue
     {
         QueuedAction queuedAction = actions.get(0);
         actions.remove(0);
+        eventBus.fireEvent(new ActionQueueChangedEvent(queuedAction, null));
         return queuedAction;
     }
 
@@ -54,11 +55,17 @@ public class ActionsQueueImpl implements ActionsQueue
      * .GameAction, soc.common.game.Game)
      */
     @Override
-    public GameAction findExpected(GameAction action, Game game)
+    public QueuedAction findExpected(GameAction action, Game game)
     {
-        for (GameAction blockingAction : getBlockingActions())
+        if (actions.size() > 0 && actions.get(0).getAction().isServer())
         {
-            if (blockingAction.getPlayer().equals(action.getPlayer()))
+            return actions.get(0);
+        }
+        for (QueuedAction blockingAction : getBlockingActions())
+        {
+            if (blockingAction.getAction().getClass() == action.getClass()
+                    && blockingAction.getAction().getPlayer().equals(
+                            action.getPlayer()))
                 return blockingAction;
         }
 
@@ -74,13 +81,14 @@ public class ActionsQueueImpl implements ActionsQueue
     @Override
     public GameAction peekAction()
     {
-        return actions.get(0).getAction();
+        return actions.size() == 0 ? null : actions.get(0).getAction();
     }
 
     @Override
     public void enqueuePriority(QueuedAction queuedAction)
     {
         actions.add(0, queuedAction);
+        eventBus.fireEvent(new ActionQueueChangedEvent(null, queuedAction));
     }
 
     @Override
@@ -89,17 +97,15 @@ public class ActionsQueueImpl implements ActionsQueue
         return actions.get(0).isBlocking();
     }
 
-    public List<GameAction> getBlockingActions()
+    public List<QueuedAction> getBlockingActions()
     {
-        List<GameAction> result = new ArrayList<GameAction>();
+        List<QueuedAction> result = new ArrayList<QueuedAction>();
 
         for (int i = 0; i < actions.size(); i++)
         {
-            if (actions.get(i).isBlocking())
-            {
-                result.add(actions.get(i).getAction());
-            }
-            else
+            QueuedAction action = actions.get(i);
+            result.add(action);
+            if (action.isBlocking())
             {
                 break;
             }
@@ -116,9 +122,8 @@ public class ActionsQueueImpl implements ActionsQueue
     }
 
     @Override
-    public QueuedAction dequeue(GameAction action)
+    public QueuedAction dequeue(QueuedAction queuedAction)
     {
-        QueuedAction queuedAction = findByAction(action);
         if (queuedAction != null)
         {
             actions.remove(queuedAction);
@@ -127,6 +132,8 @@ public class ActionsQueueImpl implements ActionsQueue
         {
             throw new RuntimeException("Expected dequeued action is contained");
         }
+
+        eventBus.fireEvent(new ActionQueueChangedEvent(queuedAction, null));
 
         return queuedAction;
     }
@@ -142,5 +149,12 @@ public class ActionsQueueImpl implements ActionsQueue
         }
 
         return null;
+    }
+
+    @Override
+    public void enqueuePriority(GameAction action)
+    {
+        QueuedAction queuedAction = new QueuedAction(action);
+        enqueuePriority(queuedAction);
     }
 }

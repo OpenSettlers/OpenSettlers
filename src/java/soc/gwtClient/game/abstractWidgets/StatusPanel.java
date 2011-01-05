@@ -6,5 +6,5 @@ import com.google.gwt.user.client.ui.IsWidget;
 
 public interface StatusPanel extends IsWidget, ActionQueueChangedEventHandler
 {
-    
+
 }

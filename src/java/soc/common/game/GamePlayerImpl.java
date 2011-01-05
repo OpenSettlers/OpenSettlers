@@ -50,8 +50,6 @@ public class GamePlayerImpl implements GamePlayer
 
     // List of victory points
     private VictoryPointsList victoryPoints = new VictoryPointsList();
-    private int id = 0;
-    private String name;
 
     /**
      * @param user
@@ -62,58 +60,6 @@ public class GamePlayerImpl implements GamePlayer
         this.user = user;
 
         return this;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see soc.common.game.GamePlayer#getId()
-     */
-    public int getId()
-    {
-        return id;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see soc.common.game.GamePlayer#setId(int)
-     */
-    public GamePlayer setId(int id)
-    {
-        this.id = id;
-
-        return this;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see soc.common.game.GamePlayer#getName()
-     */
-    public String getName()
-    {
-        return name;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see soc.common.game.GamePlayer#setName(java.lang.String)
-     */
-    public GamePlayer setName(String name)
-    {
-        this.name = name;
-
-        return this;
-    }
-
-    private void safelyFireEvent(TurnChangedEvent turnChangedEvent)
-    {
-        if (eventBus != null)
-        {
-            eventBus.fireEvent(turnChangedEvent);
-        }
     }
 
     private SimpleEventBus getEventBus()
@@ -454,5 +400,41 @@ public class GamePlayerImpl implements GamePlayer
     public User getUser()
     {
         return user;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode()
+    {
+        return user.getId();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        GamePlayerImpl other = (GamePlayerImpl) obj;
+        if (user == null)
+        {
+            if (other.user != null)
+                return false;
+        }
+        else if (!user.equals(other.getUser()))
+            return false;
+        return true;
     }
 }

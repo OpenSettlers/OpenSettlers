@@ -12,13 +12,13 @@ public class PiecesChangedEvent extends GwtEvent<PiecesChangedEventHandler>
     public static Type<PiecesChangedEventHandler> TYPE = new Type<PiecesChangedEventHandler>();
     private PlayerPiece addedPiece;
     private PlayerPiece removedPiece;
-    
+
     public PiecesChangedEvent(PlayerPiece addedPiece, PlayerPiece removedPiece)
     {
-        this.addedPiece=addedPiece;
-        this.removedPiece=removedPiece;
+        this.addedPiece = addedPiece;
+        this.removedPiece = removedPiece;
     }
-    
+
     /**
      * @return the addedPiece
      */
@@ -34,13 +34,14 @@ public class PiecesChangedEvent extends GwtEvent<PiecesChangedEventHandler>
     {
         return removedPiece;
     }
-    
+
     /*
-     * Returns the either the removed of added piece depending on what piece is not null
+     * Returns the either the removed of added piece depending on what piece is
+     * not null
      */
     public PlayerPiece getChangedPiece()
     {
-        return addedPiece == null ? addedPiece : removedPiece; 
+        return addedPiece == null ? removedPiece : addedPiece;
     }
 
     @Override

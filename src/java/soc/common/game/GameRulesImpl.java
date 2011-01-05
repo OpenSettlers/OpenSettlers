@@ -269,6 +269,7 @@ public class GameRulesImpl implements GameRules
         createTradeableResources();
         createPlayerStocks();
         createStockPieces();
+        game.setCurrentDice(getDiceType());
     }
 
     private void createStockPieces()

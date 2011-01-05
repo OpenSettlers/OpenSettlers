@@ -1,5 +1,6 @@
 package soc.gwtClient.game.widgets.standard.bitmap;
 
+import soc.common.game.GamePhaseChangedEvent;
 import soc.common.game.logs.ActionQueueChangedEvent;
 import soc.common.game.logs.QueuedAction;
 import soc.gwtClient.game.abstractWidgets.AbstractStatusPanel;
@@ -23,7 +24,7 @@ public class StatusBitmapPanel extends AbstractStatusPanel
         QueuedAction enqueuedAction = event.getEnqueuedAction();
         if (enqueuedAction != null)
         {
-            lblStatus.setText(enqueuedAction.getAction().getToDoMessage());
+            lblAction.setText(enqueuedAction.getAction().getToDoMessage());
         }
     }
 
@@ -33,4 +34,9 @@ public class StatusBitmapPanel extends AbstractStatusPanel
         return new HorizontalPanel();
     }
 
+    @Override
+    public void onGamePhaseChanged(GamePhaseChangedEvent event)
+    {
+        lblPhase.setText(event.getNewPhase().getMessage());
+    }
 }

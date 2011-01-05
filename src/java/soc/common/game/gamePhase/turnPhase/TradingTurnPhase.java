@@ -6,14 +6,18 @@ import soc.common.game.Game;
 public class TradingTurnPhase extends TurnPhase
 {
     private BuildingTurnPhase buildPhase;
-    
+
     public TradingTurnPhase()
     {
-        buildPhase = new BuildingTurnPhase(this);        
+        buildPhase = new BuildingTurnPhase(this);
     }
 
-    /* (non-Javadoc)
-     * @see soc.common.game.gamePhase.turnPhase.TurnPhase#isAllowed(soc.common.actions.gameAction.GameAction)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.common.game.gamePhase.turnPhase.TurnPhase#isAllowed(soc.common.actions
+     * .gameAction.GameAction)
      */
     @Override
     public boolean isAllowed(GameAction action)
@@ -35,7 +39,9 @@ public class TradingTurnPhase extends TurnPhase
         }
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.game.gamePhase.turnPhase.TurnPhase#next()
      */
     @Override
@@ -44,8 +50,12 @@ public class TradingTurnPhase extends TurnPhase
         return buildPhase;
     }
 
-    /* (non-Javadoc)
-     * @see soc.common.game.gamePhase.turnPhase.TurnPhase#processAction(soc.common.actions.gameAction.GameAction, soc.common.game.Game)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.common.game.gamePhase.turnPhase.TurnPhase#processAction(soc.common
+     * .actions.gameAction.GameAction, soc.common.game.Game)
      */
     @Override
     public TurnPhase processAction(GameAction action, Game game)
@@ -57,7 +67,8 @@ public class TradingTurnPhase extends TurnPhase
             return this;
         }
         else
-        // If action is not allowed to execute, check if buildphase allows it. If so, move to
+        // If action is not allowed to execute, check if buildphase allows it.
+        // If so, move to
         // buildphase
         {
             if (buildPhase.isAllowed(action))
@@ -67,5 +78,12 @@ public class TradingTurnPhase extends TurnPhase
             }
             throw new RuntimeException("Should not reach this code");
         }
+    }
+
+    @Override
+    public String getMessage()
+    {
+        // TODO fix message
+        return "Trade with players";
     }
 }

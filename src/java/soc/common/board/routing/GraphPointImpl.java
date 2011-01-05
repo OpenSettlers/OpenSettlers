@@ -8,7 +8,7 @@ public class GraphPointImpl implements GraphPoint
 {
     private HexPoint pointLocation;
     private transient PlayerPiece playerPiece;
-    private boolean townBuildable;
+    private boolean townBuildable = true;
 
     @Override
     public HexPoint getPoint()
@@ -57,4 +57,39 @@ public class GraphPointImpl implements GraphPoint
         return this;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode()
+    {
+        return pointLocation.hashCode();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        GraphPointImpl other = (GraphPointImpl) obj;
+        if (other.getPoint().equals(pointLocation))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

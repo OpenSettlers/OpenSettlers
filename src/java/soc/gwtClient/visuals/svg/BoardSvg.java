@@ -4,6 +4,8 @@ import org.vaadin.gwtgraphics.client.DrawingArea;
 import org.vaadin.gwtgraphics.client.shape.Rectangle;
 
 import soc.common.board.Board;
+import soc.common.board.HexChangedEvent;
+import soc.common.board.HexChangedEventHandler;
 import soc.common.board.HexLocation;
 import soc.common.board.HexPoint;
 import soc.common.board.HexPointType;
@@ -16,7 +18,8 @@ import soc.gwtClient.game.Point2D;
 
 import com.google.gwt.user.client.ui.Widget;
 
-public class BoardSvg extends AbstractBoardVisual
+public class BoardSvg extends AbstractBoardVisual implements
+        HexChangedEventHandler
 {
     private DrawingArea drawingArea;
     private Rectangle enabledOverlay;
@@ -36,6 +39,8 @@ public class BoardSvg extends AbstractBoardVisual
         board = b;
 
         initializeBoard();
+
+        board.getHexes().addHexChangedHandler(this);
     }
 
     private void initializeBoard()
@@ -81,6 +86,7 @@ public class BoardSvg extends AbstractBoardVisual
         Point2D result = calculatePosition(location.getHighestOrLeftestHex());
         double x = result.getX();
         double y = result.getY();
+        x -= getHalfWidth();
 
         switch (location.getDirection())
         {
@@ -102,7 +108,7 @@ public class BoardSvg extends AbstractBoardVisual
 
     public Point2D CalculatePosition(HexPoint location)
     {
-        // get the x,y coordinate of the HexLocation
+        // get the x,y coordinate of the topmost HexLocation
         Point2D point = calculatePosition(location.getTopMost());
 
         // Point is immutable, so cache the values
@@ -111,16 +117,16 @@ public class BoardSvg extends AbstractBoardVisual
 
         if (location.getPointType() == HexPointType.UPPERROW1)
         {
-            x += getHalfWidth();
+            // x += getHalfWidth();
             y += getHeight();
         }
         else
         {
-            x += getWidth();
+            x += getHalfWidth();
             y += getPartialHeight();
         }
 
-        return point;
+        return new Point2D((int) x, (int) y);
     }
 
     @Override
@@ -175,5 +181,13 @@ public class BoardSvg extends AbstractBoardVisual
             HexSvg svgHexVisual = (HexSvg) hexVisual;
             svgHexVisual.resizeAndPosition();
         }
+    }
+
+    @Override
+    public void onHexChanged(HexChangedEvent event)
+    {
+        // Get rid of old hex
+        HexVisual hv = hexVisuals.get(event.getOldHex());
+        hv.setHex(event.getNewHex());
     }
 }

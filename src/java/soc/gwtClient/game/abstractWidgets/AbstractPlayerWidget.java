@@ -16,6 +16,7 @@ public abstract class AbstractPlayerWidget implements IPlayerWidget
     protected IResourceAmountWidget resourcesWidget;
     protected ILongestRoadWidget longestRoadWidget;
     protected IVictoryPointsWidget victoryPointWidget;
+    protected PlayerTurnStatusWidget turnStatusWidget;
 
     protected ComplexPanel rootPanel;
     protected Game game;
@@ -37,6 +38,7 @@ public abstract class AbstractPlayerWidget implements IPlayerWidget
         resourcesWidget = createResourcesWidget();
         longestRoadWidget = createLongestRoadWidget();
         victoryPointWidget = createVictoryPointWidget();
+        turnStatusWidget = createTurnStatusWidget();
 
         rootPanel.add(lblName);
         rootPanel.add(stockWidget);
@@ -46,6 +48,7 @@ public abstract class AbstractPlayerWidget implements IPlayerWidget
         rootPanel.add(largestArmyWidget);
         rootPanel.add(longestRoadWidget);
         rootPanel.add(victoryPointWidget);
+        rootPanel.add(turnStatusWidget);
 
         rootPanel.setStyleName("player-widget-" + player.getColor());
     }

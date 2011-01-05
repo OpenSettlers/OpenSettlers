@@ -34,8 +34,16 @@ import soc.common.game.GamePlayer;
  */
 public class BoardGraph
 {
+    private Board board;
     private ListenableUndirectedGraph<GraphPoint, GraphSide> graph = new ListenableUndirectedGraph<GraphPoint, GraphSide>(
             GraphSide.class);
+
+    public BoardGraph(Board board)
+    {
+        this.board = board;
+
+        buildGraph();
+    }
 
     public Set<GraphSide> getSides()
     {
@@ -58,7 +66,7 @@ public class BoardGraph
     /*
      * Create the graph containing of all the empty vertices and edges
      */
-    public void buildGraph(Board board)
+    private void buildGraph()
     {
         // Iterate over all hexes in the board
         for (Hex hex : board.getHexes())
@@ -66,17 +74,20 @@ public class BoardGraph
             // Iterate over all 6 possible HexPoint of a hex
             for (HexPoint point : hex.getLocation().getNeighbourHexPoints())
             {
-                GraphPoint graphPoint = findGraphPoint(point);
-
                 if (board.includeInGame(point))
                 {
                     GraphPoint newGraphPoint = new GraphPointImpl()
                             .setPoint(point);
 
-                    graph.addVertex(newGraphPoint);
+                    if (!graph.vertexSet().contains(newGraphPoint))
+                    {
+                        graph.addVertex(newGraphPoint);
+                    }
                 }
             }
         }
+
+        int y = graph.vertexSet().size();
 
         // Now we have all the HexPoints in place. Now add the sides.
 
@@ -87,30 +98,23 @@ public class BoardGraph
             // bounds of the board
             for (HexSide side : point.getPoint().getNeighbourSides())
             {
+                // Find existing side
+                GraphSide graphSide = new GraphSideImpl(side);
+
                 // Side should be on the inner map space
                 if (side.fallsWithinBoardBounds(board.getWidth(), board
                         .getHeight())
                         &&
                         // undirected graph, only need to add the edge once
-                        !graph.edgeSet().contains(side))
+                        !graph.edgeSet().contains(graphSide))
                 {
                     // Get the other point
                     HexPoint otherPoint = side.getOtherPoint(point.getPoint());
 
                     // get the other IGraphPoint
                     GraphPoint otherGraphPoint = findGraphPoint(otherPoint);
-
                     if (otherGraphPoint != null)
                     {
-
-                        // Find existing side
-                        GraphSide graphSide = getSideFromSet(side);
-
-                        if (graphSide == null)
-                        {
-                            graphSide = new GraphSideImpl().setSide(side);
-                        }
-
                         graph.addEdge(otherGraphPoint, point, graphSide);
                     }
                 }
@@ -148,16 +152,18 @@ public class BoardGraph
     {
         GraphPoint point = findGraphPoint(town.getPoint());
 
+        if (!point.isTownBuildable())
+        {
+            int i = 9;
+            i++;
+        }
+        // Add the town to the GraphPoint
         point.setPlayerPiece(town);
 
         // Mark all neighbour points as non-buildable
-
-        // Iterate over all possible neighbours
-        for (GraphSide side : graph.edgesOf(point))
-        {
-            GraphPoint otherPoint = getOtherPoint(point, side);
-            otherPoint.setTownBuildable(false);
-        }
+        List<GraphPoint> neighbours = Graphs.neighborListOf(graph, point);
+        for (GraphPoint neighbour : neighbours)
+            neighbour.setTownBuildable(false);
 
         // Set the originating point as non-buildable
         point.setTownBuildable(false);
@@ -385,10 +391,33 @@ public class BoardGraph
 
         for (GraphPoint possibleCandidate : graph.vertexSet())
         {
-            // TODO: implement
+            if (board.isTownBuildable(possibleCandidate)
+                    && possibleCandidate.isTownBuildable())
+            {
+                result.add(possibleCandidate);
+            }
+        }
+
+        int i = result.size();
+        if (i > 0)
+        {
+            int g = 8;
+            g++;
         }
 
         return result;
+    }
+
+    private boolean canBuildOnNeighbours(GraphPoint point)
+    {
+        List<GraphPoint> neighbours = Graphs.neighborListOf(graph, point);
+        for (GraphPoint neighbour : neighbours)
+        {
+            if (neighbour.getPiece() != null)
+                return false;
+        }
+
+        return true;
     }
 
     /*
@@ -411,11 +440,15 @@ public class BoardGraph
      */
     public Set<GraphSide> getRoadCandidatesFirstTown(GamePlayer player)
     {
-        Set<GraphSide> result = new HashSet<GraphSide>();
+        // Assuming the player has built only one piece, which is his first town
+        Town town = (Town) player.getBuildPieces().get(0);
 
-        // TODO: implement
+        // Grab the GraphPoint where the town resides
+        GraphPoint townPoint = findGraphPoint(town.getPoint());
 
-        return result;
+        // We assume it's safe to return all edges, because an opponent can't
+        // build on a neighbour, since the opponent needs two roads for that.
+        return graph.edgesOf(townPoint);
     }
 
     /*
@@ -423,18 +456,45 @@ public class BoardGraph
      */
     public Set<GraphSide> getRoadCandidatesSecondTown(GamePlayer player)
     {
-        Set<GraphSide> result = new HashSet<GraphSide>();
+        // Assuming the player has built two pieces, and the second one in the
+        // list of pieces is indeed the actual second built piece.
+        // TODO: add support for Tournament Starting Rules
+        Town town = (Town) player.getBuildPieces().get(2);
 
-        // TODO: implement
+        // Grab the GraphPoint where the town resides
+        GraphPoint townPoint = findGraphPoint(town.getPoint());
 
-        return result;
+        // We assume it's safe to return all edges, because an opponent can't
+        // build on a neighbour, since the opponent needs two roads for that.
+        return graph.edgesOf(townPoint);
     }
 
+    /*
+     * Returns a set of GraphSides where given player can build on
+     */
     public Set<GraphSide> getRoadCandidates(GamePlayer player)
     {
         Set<GraphSide> result = new HashSet<GraphSide>();
+        List<GraphSide> currentSidePieces = new ArrayList<GraphSide>();
+        for (GraphSide side : graph.edgeSet())
+        {
+            if (side.getPlayer().equals(player))
+                currentSidePieces.add(side);
+        }
 
-        // TODO: implement
+        for (GraphSide side : currentSidePieces)
+        {
+            for (GraphSide neighbour : getNeighbours(side))
+            {
+                // Only add neighbour when not yet present, and another player
+                // does not own it yet
+                if ((neighbour.getPlayer() == null || neighbour.getPlayer()
+                        .equals(player))
+                        && !result.contains(neighbour)
+                        && board.isRoadBuildable(neighbour))
+                    result.add(neighbour);
+            }
+        }
 
         return result;
     }
@@ -463,6 +523,35 @@ public class BoardGraph
 
         // TODO: implement
 
+        return result;
+    }
+
+    public Set<GraphSide> getNeighbours(GraphSide fromSide)
+    {
+        Set<GraphSide> result = new HashSet<GraphSide>();
+
+        GraphPoint source = graph.getEdgeSource(fromSide);
+        GraphPoint target = graph.getEdgeTarget(fromSide);
+
+        // Add the zero or more edges from the source
+        for (GraphPoint neighbourPoint : Graphs.neighborListOf(graph, source))
+        {
+            if (!neighbourPoint.equals(target))
+            {
+                result.add(graph.getAllEdges(source, neighbourPoint).iterator()
+                        .next());
+            }
+        }
+
+        // Add the zero or more edges from the target
+        for (GraphPoint neighbourPoint : Graphs.neighborListOf(graph, target))
+        {
+            if (!neighbourPoint.equals(source))
+            {
+                result.add(graph.getAllEdges(target, neighbourPoint).iterator()
+                        .next());
+            }
+        }
         return result;
     }
 }

@@ -2,14 +2,17 @@ package soc.common.board;
 
 import java.util.ArrayList;
 
-import soc.common.board.hexes.AbstractHex;
 import soc.common.board.hexes.Hex;
+
+import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.event.shared.SimpleEventBus;
 
 public class HexGrid extends ArrayList<Hex>
 {
     private static final long serialVersionUID = 8931931419267340946L;
     private final int width;
     private final int height;
+    protected SimpleEventBus eventBus = new SimpleEventBus();
 
     public int getHeight()
     {
@@ -55,13 +58,10 @@ public class HexGrid extends ArrayList<Hex>
         }
         else
         {
-            // TODO: implement properly
-            // Oldhex needed for obsrvable listeners
-            // Hex oldHex = get((width * h) + w);
-            // set((width * h) + w, value);
-            // get((width * h) + w).setLocation(new HexLocation(w, h));
-            // TODO: make observable
-            // OnHexChanged(temp, value);
+            Hex oldHex = get((width * h) + w);
+            set((width * h) + w, value);
+            get((width * h) + w).setLocation(new HexLocation(w, h));
+            eventBus.fireEvent(new HexChangedEvent(oldHex, value));
         }
     }
 
@@ -86,7 +86,7 @@ public class HexGrid extends ArrayList<Hex>
         return get(location.getW(), location.getH());
     }
 
-    public void set(HexLocation location, AbstractHex value)
+    public void set(HexLocation location, Hex value)
     {
         checkInput(location.getW(), location.getH());
         set(location.getW(), location.getH(), value);
@@ -122,5 +122,11 @@ public class HexGrid extends ArrayList<Hex>
             return false;
         }
         return true;
+    }
+
+    public HandlerRegistration addHexChangedHandler(
+            HexChangedEventHandler handler)
+    {
+        return eventBus.addHandler(HexChangedEvent.TYPE, handler);
     }
 }

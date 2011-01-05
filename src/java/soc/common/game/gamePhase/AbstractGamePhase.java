@@ -1,7 +1,10 @@
 package soc.common.game.gamePhase;
 
 import soc.common.actions.gameAction.GameAction;
+import soc.common.actions.gameAction.GamePhaseHasEnded;
 import soc.common.game.Game;
+import soc.common.game.Turn;
+import soc.common.game.TurnImpl;
 import soc.common.utils.ClassUtils;
 
 /*
@@ -13,6 +16,16 @@ public abstract class AbstractGamePhase implements GamePhase
     public void performAction(GameAction action, Game game)
     {
     };
+
+    public Turn nextTurn(Game game)
+    {
+        GameAction next = game.getActionsQueue().peekAction();
+        if (next != null && !(next instanceof GamePhaseHasEnded))
+        {
+            return new TurnImpl().setPlayer(next.getPlayer());
+        }
+        throw new RuntimeException("No expected action, no turn to create");
+    }
 
     /*
      * (non-Javadoc)

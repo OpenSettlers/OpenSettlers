@@ -65,6 +65,7 @@ public class HexSvg extends AbstractHexVisual implements MouseMoveHandler,
 
         // DisabledOverlay is last
         group.add(disabledOverlay);
+        group.add(darkenedOverlay);
 
         group.addMouseMoveHandler(this);
         group.addMouseOutHandler(this);
@@ -155,7 +156,7 @@ public class HexSvg extends AbstractHexVisual implements MouseMoveHandler,
         Path result = createPath();
 
         result.setFillColor("Black");
-        result.setFillOpacity(0.5);
+        result.setFillOpacity(0.3);
         result.setVisible(false);
 
         return result;
@@ -243,19 +244,19 @@ public class HexSvg extends AbstractHexVisual implements MouseMoveHandler,
     @Override
     public void onMouseMove(MouseMoveEvent event)
     {
-        parent.getCurrentBehaviour().mouseEnter(this, parent);
+        parent.getBoardBehaviour().mouseEnter(this, parent);
     }
 
     @Override
     public void onClick(ClickEvent event)
     {
-        parent.getCurrentBehaviour().clicked(this, parent);
+        parent.getBoardBehaviour().clicked(this, parent);
     }
 
     @Override
     public void onMouseOut(MouseOutEvent event)
     {
-        parent.getCurrentBehaviour().mouseOut(this, parent);
+        parent.getBoardBehaviour().mouseOut(this, parent);
     }
 
     public void resizeAndPosition()

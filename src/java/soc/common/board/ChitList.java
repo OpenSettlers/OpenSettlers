@@ -71,13 +71,20 @@ public class ChitList extends ArrayList<Chit>
     /*
      * Returns a random instance from this list
      */
-    public Chit pickRandomChit(Random random)
+    public Chit grabRandom(Random random)
     {
         int randomIndex = random.nextInt(size());
-
-        return this.get(randomIndex);
+        // randomIndex--;
+        int s = size();
+        s++;
+        Chit chit = get(randomIndex);
+        remove(randomIndex);
+        return chit;
     }
 
+    /*
+     * broken
+     */
     public Chit pickRandomNon68Chit(Random random)
     {
         ChitList listOf68Chits = get68Chits();
@@ -86,7 +93,8 @@ public class ChitList extends ArrayList<Chit>
             throw new RuntimeException("No 6/8 chit found whil expected");
         }
 
-        return listOf68Chits.pickRandomChit(random);
+        // TODO: fix
+        return null; // listOf68Chits.pickRandomChit(random);
     }
 
     public ChitList get68Chits()

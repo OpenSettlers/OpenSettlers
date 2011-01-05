@@ -1,8 +1,8 @@
 package soc.common.client.behaviour.game;
 
+import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.turnActions.standard.RollDice;
 import soc.common.client.visuals.PieceVisual;
-import soc.common.client.visuals.board.BoardVisual;
 import soc.common.client.visuals.board.HexVisual;
 import soc.common.client.visuals.game.GameBoardVisual;
 
@@ -51,18 +51,24 @@ public class RollDiceBehaviour implements GameBehaviour
     }
 
     @Override
-    public void clicked(PieceVisual pieceVisual, BoardVisual board)
+    public void clicked(PieceVisual pieceVisual, GameBoardVisual board)
     {
     }
 
     @Override
-    public void mouseEnter(PieceVisual pieceVisual, BoardVisual board)
+    public void mouseEnter(PieceVisual pieceVisual, GameBoardVisual board)
     {
     }
 
     @Override
-    public void mouseOut(PieceVisual pieceVisual, BoardVisual board)
+    public void mouseOut(PieceVisual pieceVisual, GameBoardVisual board)
     {
+    }
+
+    @Override
+    public GameAction getGameAction()
+    {
+        return rollDice;
     }
 
 }

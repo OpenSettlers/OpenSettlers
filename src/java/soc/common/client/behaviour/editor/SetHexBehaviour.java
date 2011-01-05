@@ -1,6 +1,7 @@
 package soc.common.client.behaviour.editor;
 
 import soc.common.board.hexes.AbstractHex;
+import soc.common.board.hexes.Hex;
 import soc.common.board.hexes.ResourceHex;
 import soc.common.board.resources.Timber;
 import soc.common.client.behaviour.InteractionBehaviour;
@@ -11,6 +12,7 @@ import soc.common.client.visuals.board.HexVisual;
 public class SetHexBehaviour implements InteractionBehaviour
 {
     private AbstractHex hex = new ResourceHex(new Timber());
+
     /**
      * @return the hex
      */
@@ -20,27 +22,28 @@ public class SetHexBehaviour implements InteractionBehaviour
     }
 
     /**
-     * @param hex the hex to set
+     * @param hex
+     *            the hex to set
      */
     public SetHexBehaviour setHex(AbstractHex h)
     {
         this.hex = h;
-    
+
         // Enables fluent interface usage
         // http://en.wikipedia.org/wiki/Fluent_interface
         return this;
     }
 
-    
     @Override
     public void clicked(PieceVisual pieceVisual, BoardVisual board)
     {
         if (pieceVisual instanceof HexVisual)
         {
-            HexVisual hexVisual = (HexVisual)pieceVisual;
-            AbstractHex newHex = hex.copy();
+            HexVisual hexVisual = (HexVisual) pieceVisual;
+            Hex newHex = hex.copy();
             newHex.setLocation(hexVisual.getHex().getLocation());
-            hexVisual.setHex(newHex);
+            board.getBoard().getHexes().set(hexVisual.getHex().getLocation(),
+                    newHex);
         }
     }
 
@@ -54,6 +57,6 @@ public class SetHexBehaviour implements InteractionBehaviour
     public void mouseOut(PieceVisual pieceVisual, BoardVisual board)
     {
         pieceVisual.setSelected(false);
-        
+
     }
 }

@@ -318,10 +318,10 @@ public class HexPoint
         // hex1.toString(), hex2.toString(), hex3.toString());
     }
 
-    public int hashCode()
-    {
-        return hex1.hashCode() ^ hex2.hashCode() ^ hex3.hashCode();
-    }
+    // public int hashCode()
+    // {
+    // return hex1.hashCode() ^ hex2.hashCode() ^ hex3.hashCode();
+    // }
 
     public List<HexLocation> getHexLocations()
     {
@@ -332,6 +332,38 @@ public class HexPoint
         result.add(hex3);
 
         return result;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode()
+    {
+        return hex1.hashCode() + hex2.hashCode() + hex3.hashCode();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        HexPoint other = (HexPoint) obj;
+        List<HexLocation> hexLocations = getHexLocations();
+        return hexLocations.contains(other.getHex1())
+                && hexLocations.contains(other.getHex2())
+                && hexLocations.contains(other.getHex3());
     }
 
     public boolean fallsWithinBoardBounds(int width, int height)

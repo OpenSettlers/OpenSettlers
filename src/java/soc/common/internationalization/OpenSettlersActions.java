@@ -38,6 +38,9 @@ public interface OpenSettlersActions extends Messages
     @DefaultMessage("{0} should roll the dice")
     String rollDiceToDo(String playerName);
 
+    @DefaultMessage("{0} rolled the dice and threw {1}")
+    String rollDice(String playerName, int diceRoll);
+
     @DefaultMessage("This action dos not have a ToDo message implemented")
     String noToDo();
 

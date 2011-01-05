@@ -1,6 +1,5 @@
 package soc.gwtClient.game.abstractWidgets;
 
-import soc.common.board.resources.AbstractResource;
 import soc.common.board.resources.Resource;
 import soc.common.game.Game;
 import soc.gwtClient.game.widgets.standard.bitmap.BankStockResourceBitmapWidget;
@@ -13,20 +12,21 @@ public class AbstractBankStockWidget implements BankStockPanel
 {
     protected ComplexPanel rootPanel;
     protected Game game;
-    
+    protected IDevelopmentCardsAmountWidget devCards;
+
     public AbstractBankStockWidget(Game game)
     {
-        this.game=game;
+        this.game = game;
         rootPanel = createRootPanel();
-        
-        for (Resource playableResource : game.getGameRules().getSupportedResources())
+
+        for (Resource playableResource : game.getGameRules()
+                .getSupportedResources())
         {
-            IBankStockResourceWidget bankResourceWidget = 
-                createBankStockResourceWidget(playableResource);
+            IBankStockResourceWidget bankResourceWidget = createBankStockResourceWidget(playableResource);
             rootPanel.add(bankResourceWidget);
         }
     }
-    
+
     @Override
     public ComplexPanel createRootPanel()
     {
@@ -44,6 +44,13 @@ public class AbstractBankStockWidget implements BankStockPanel
             Resource resource)
     {
         return new BankStockResourceBitmapWidget(game.getBank(), resource);
+    }
+
+    @Override
+    public IDevelopmentCardsAmountWidget createDevelopmentCardsWidget(Game game)
+    {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

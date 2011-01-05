@@ -9,6 +9,7 @@ import soc.common.game.Game;
 
 public class InitialPlacementGamePhase extends AbstractGamePhase
 {
+    private int actionCount = 0;
 
     @Override
     public void start(Game game)
@@ -82,6 +83,14 @@ public class InitialPlacementGamePhase extends AbstractGamePhase
     public void performAction(GameAction gameAction, Game game)
     {
         gameAction.perform(game);
+        actionCount++;
+        if (actionCount < (game.getPlayers().size() * 4))
+        {
+            if (actionCount % 2 == 0)
+            {
+                game.advanceTurn();
+            }
+        }
     }
 
     @Override
@@ -90,4 +99,10 @@ public class InitialPlacementGamePhase extends AbstractGamePhase
         return new PlayTurnsGamePhase();
     }
 
+    @Override
+    public String getMessage()
+    {
+        // TODO fix message
+        return "Place initial towns and roads";
+    }
 }

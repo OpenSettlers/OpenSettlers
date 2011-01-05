@@ -1,9 +1,10 @@
 package soc.common.actions.gameAction.turnActions;
 
 import soc.common.actions.gameAction.AbstractGameAction;
+import soc.common.game.Game;
+import soc.common.game.gamePhase.DetermineFirstPlayerGamePhase;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
-import soc.common.internationalization.I18n;
 
 public class RolledSame extends AbstractGameAction
 {
@@ -34,20 +35,37 @@ public class RolledSame extends AbstractGameAction
     @Override
     public boolean isAllowed(TurnPhase turnPhase)
     {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public boolean isAllowed(GamePhase gamePhase)
     {
-        // TODO Auto-generated method stub
-        return false;
+        return gamePhase instanceof DetermineFirstPlayerGamePhase;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.common.actions.gameAction.AbstractGameAction#perform(soc.common.game
+     * .Game)
+     */
+    @Override
+    public void perform(Game game)
+    {
+        game.advanceTurn();
+
+        // TODO: fix message
+        message = "Rolled same: " + highRoll;
+
+        super.perform(game);
     }
 
     @Override
     public String getToDoMessage()
     {
-        return I18n.get().actions().noToDo();
+        // TODO: fix message
+        return "Highrollers should roll again, highroll:" + highRoll;
     }
 }

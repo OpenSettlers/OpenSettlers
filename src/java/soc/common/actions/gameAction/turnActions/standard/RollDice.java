@@ -15,6 +15,7 @@ import soc.common.board.resources.ResourceList;
 import soc.common.game.Game;
 import soc.common.game.GamePlayer;
 import soc.common.game.dices.StandardDice;
+import soc.common.game.gamePhase.DetermineFirstPlayerGamePhase;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.PlayTurnsGamePhase;
 import soc.common.game.gamePhase.turnPhase.RollDiceTurnPhase;
@@ -69,8 +70,6 @@ public class RollDice extends AbstractTurnAction
     {
         this.dice = dice;
 
-        // Enables fluent interface usage
-        // http://en.wikipedia.org/wiki/Fluent_interface
         return this;
     }
 
@@ -86,6 +85,12 @@ public class RollDice extends AbstractTurnAction
         if (!super.isValid(game))
             return false;
 
+        if (!game.getCurrentTurn().getPlayer().equals(player))
+        {
+            invalidMessage = "player not on turn";
+            return false;
+        }
+
         return true;
     }
 
@@ -98,6 +103,28 @@ public class RollDice extends AbstractTurnAction
     @Override
     public void perform(Game game)
     {
+        game.setCurrentDice(dice);
+
+        if (game.getCurrentPhase() instanceof PlayTurnsGamePhase)
+        {
+            performPlayTurns(game);
+        }
+        if (game.getCurrentPhase() instanceof DetermineFirstPlayerGamePhase)
+        {
+            performDetermineGameStarter(game);
+        }
+
+        super.perform(game);
+    }
+
+    private void performDetermineGameStarter(Game game)
+    {
+        message = I18n.get().actions().rollDice(player.getUser().getName(),
+                dice.getDiceTotal());
+    }
+
+    private void performPlayTurns(Game game)
+    {
         HashMap<GamePlayer, ResourceList> playersResources = new HashMap<GamePlayer, ResourceList>();
 
         for (GamePlayer p : game.getPlayers())
@@ -108,7 +135,7 @@ public class RollDice extends AbstractTurnAction
         GamePlayer player = game.getPlayerByID(sender);
         HexLocation robber = game.getRobber().getLocation();
 
-        if (dice.getDice() != 7)
+        if (dice.getDiceTotal() != 7)
         {
             // gather all resource hexes without the robber
             List<ResourceHex> rolledHexes = new ArrayList<ResourceHex>();
@@ -119,7 +146,8 @@ public class RollDice extends AbstractTurnAction
                     ResourceHex resourceHex = (ResourceHex) hex;
                     if (resourceHex.getChit() != null)
                     {
-                        if (resourceHex.getChit().getNumber() == dice.getDice())
+                        if (resourceHex.getChit().getNumber() == dice
+                                .getDiceTotal())
                         {
                             rolledHexes.add(resourceHex);
                         }
@@ -217,8 +245,6 @@ public class RollDice extends AbstractTurnAction
                 message += "No players lost any cards.";
             }
         }
-
-        super.perform(game);
     }
 
     @Override
@@ -230,7 +256,8 @@ public class RollDice extends AbstractTurnAction
     @Override
     public boolean isAllowed(GamePhase gamePhase)
     {
-        return gamePhase instanceof PlayTurnsGamePhase;
+        return gamePhase instanceof PlayTurnsGamePhase
+                || gamePhase instanceof DetermineFirstPlayerGamePhase;
     }
 
     @Override

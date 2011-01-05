@@ -23,6 +23,8 @@ public class ServerRollDice implements ServerAction
         StandardDice dice = new StandardDice();
         dice.roll(gameServer.getRandom());
         rollDice.setDice(dice);
+
+        gameServer.getGame().performAction(rollDice);
     }
 
     @Override

@@ -1,6 +1,6 @@
 package soc.gwtClient.main;
 
-import soc.gwtClient.game.ICenterWidget;
+import soc.gwtClient.game.CenterWidget;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -9,7 +9,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class WelcomePanel extends HorizontalPanel implements ICenterWidget
+public class WelcomePanel extends HorizontalPanel implements CenterWidget
 {
     private VerticalPanel rootPanel = new VerticalPanel();
     private Button btnMapCreator;

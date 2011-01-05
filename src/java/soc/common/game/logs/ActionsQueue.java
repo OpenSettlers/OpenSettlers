@@ -22,15 +22,18 @@ public interface ActionsQueue
     // Enqueues given queuedAction as first to process
     public void enqueuePriority(QueuedAction queuedAction);
 
+    // Enqueues given GameAction as first to process
+    public void enqueuePriority(GameAction queuedAction);
+
     // Removes and returns first item in line to process from the queue
     public QueuedAction dequeue();
 
     // Assumes given action is expected. Removes and returns first item in line
     // to process from the queue
-    public QueuedAction dequeue(GameAction action);
+    public QueuedAction dequeue(QueuedAction action);
 
     // Returns true when first item in the queue equals given GameAction
-    public GameAction findExpected(GameAction action, Game game);
+    public QueuedAction findExpected(GameAction action, Game game);
 
     // Returns GameAction on top of the queue without removing it
     public QueuedAction peek();
@@ -45,7 +48,7 @@ public interface ActionsQueue
     public boolean isWaitingForActions();
 
     // Returns a list of the actions which must be performed first
-    public List<GameAction> getBlockingActions();
+    public List<QueuedAction> getBlockingActions();
 
     public HandlerRegistration addQueueChangedEventHandler(
             ActionQueueChangedEventHandler handler);

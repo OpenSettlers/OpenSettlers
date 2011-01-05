@@ -1,6 +1,6 @@
 package soc.common.client.behaviour;
 
-import soc.common.actions.gameAction.turnActions.AbstractTurnAction;
+import soc.common.actions.gameAction.turnActions.TurnAction;
 import soc.common.client.behaviour.game.GameBehaviour;
 import soc.common.game.Game;
 
@@ -11,5 +11,5 @@ import soc.common.game.Game;
  */
 public interface GameBehaviourFactory
 {
-    public GameBehaviour createBehaviour(AbstractTurnAction turnAction, Game game);
+    public GameBehaviour createBehaviour(TurnAction turnAction, Game game);
 }

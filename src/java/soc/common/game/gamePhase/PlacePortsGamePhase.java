@@ -73,4 +73,12 @@ public class PlacePortsGamePhase extends AbstractGamePhase
     {
         return new InitialPlacementGamePhase();
     }
+
+    @Override
+    public String getMessage()
+    {
+        // TODO fix message
+        return "Place ports";
+    }
+
 }

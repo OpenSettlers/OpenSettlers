@@ -5,8 +5,10 @@ import java.util.Date;
 import soc.common.actions.AbstractAction;
 import soc.common.game.Game;
 import soc.common.game.GamePlayer;
+import soc.common.game.GamePlayerImpl;
 import soc.common.game.Turn;
 import soc.common.game.statuses.GameStatus;
+import soc.common.server.data.ServerUser;
 import soc.common.utils.ClassUtils;
 
 /*
@@ -82,8 +84,7 @@ public abstract class AbstractGameAction extends AbstractAction implements
     {
         if (sender == 0 && player == null)
         {
-            // TODO: fix
-            // player = new GamePlayerImpl().setId(0).setName("Server");
+            player = new GamePlayerImpl().setUser(new ServerUser());
         }
         return player;
     }
@@ -130,6 +131,7 @@ public abstract class AbstractGameAction extends AbstractAction implements
         return true;
     }
 
+    // TODO: implement in subclasses and return i18n constants
     public String getName()
     {
         return ClassUtils.getSimpleClassName(this.getClass().getName());
@@ -151,6 +153,17 @@ public abstract class AbstractGameAction extends AbstractAction implements
         }
 
         return true;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see soc.common.actions.gameAction.GameAction#isServer()
+     */
+    @Override
+    public boolean isServer()
+    {
+        return sender == 0;
     }
 
 }

@@ -2,7 +2,6 @@ package soc.common.actions.gameAction.turnActions.standard;
 
 import soc.common.actions.gameAction.turnActions.AbstractTurnAction;
 import soc.common.board.HexSide;
-import soc.common.board.pieces.AbstractPlayerPiece;
 import soc.common.board.pieces.Road;
 import soc.common.game.Game;
 import soc.common.game.GamePlayer;
@@ -93,10 +92,11 @@ public class BuildRoad extends AbstractTurnAction
     @Override
     public void perform(Game game)
     {
-        player = game.getPlayerByID(sender);
         boolean usedRoadbuildingToken = false;
 
-        AbstractPlayerPiece road = player.getStock().remove(sideLocation);
+        Road road = (Road) player.getStock().ofType(Road.ROAD).get(0);
+        player.getStock().remove(road);
+        road.setSide(sideLocation);
 
         // when in InGame phase, player should pay for road somehow
         if (game.getCurrentPhase() instanceof PlayTurnsGamePhase)
@@ -118,6 +118,7 @@ public class BuildRoad extends AbstractTurnAction
         }
 
         player.getBuildPieces().add(road);
+        game.getBoard().getGraph().addRoad(road);
 
         if (game.getCurrentPhase() instanceof PlayTurnsGamePhase)
         {
@@ -132,6 +133,7 @@ public class BuildRoad extends AbstractTurnAction
 
         // if (usedRoadbuildingToken)
         // _Message += ", using his roadbuilding development card.";
+        message = player.getUser().getName() + " has built a road";
 
         super.perform(game);
     }

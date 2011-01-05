@@ -10,10 +10,9 @@ import soc.common.board.HexSide;
 import soc.common.board.hexes.Hex;
 import soc.common.board.hexes.ResourceHex;
 import soc.common.board.hexes.SeaHex;
-import soc.common.board.pieces.AbstractPlayerPiece;
+import soc.common.board.pieces.Town;
 import soc.common.board.ports.Port;
 import soc.common.game.Game;
-import soc.common.game.GamePlayer;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.InitialPlacementGamePhase;
 import soc.common.game.gamePhase.PlayTurnsGamePhase;
@@ -109,11 +108,12 @@ public class BuildTown extends AbstractTurnAction
     @Override
     public void perform(Game game)
     {
-        GamePlayer player = game.getPlayerByID(sender);
-
         // update town management
-        AbstractPlayerPiece town = player.getStock().remove(pointLocation);
+        Town town = (Town) player.getStock().ofType(Town.TOWN).get(0);
+        player.getStock().remove(town);
+        town.setPoint(pointLocation);
         player.getBuildPieces().add(town);
+        game.getBoard().getGraph().addTown(town);
 
         if (game.getCurrentPhase() instanceof PlayTurnsGamePhase)
         {
@@ -128,10 +128,9 @@ public class BuildTown extends AbstractTurnAction
             // xmlGame.CalculateLongestRoad(gamePlayer);
         }
         if (game.getCurrentPhase() instanceof InitialPlacementGamePhase
-                && player.getBuildPieces().size() == 2)
+                && player.getBuildPieces().getPointPieces().size() == 2)
         {
             // player gets resources in neighbouring hexes
-
             for (HexLocation loc : pointLocation.getHexLocations())
             {
                 Hex hex = game.getBoard().getHexes().get(loc);

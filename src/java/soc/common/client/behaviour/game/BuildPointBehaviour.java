@@ -5,7 +5,7 @@ import java.util.List;
 
 import soc.common.board.HexPoint;
 import soc.common.client.visuals.PieceVisual;
-import soc.common.client.visuals.board.BoardVisual;
+import soc.common.client.visuals.game.GameBoardVisual;
 import soc.common.client.visuals.game.IPointVisual;
 
 public abstract class BuildPointBehaviour implements GameBehaviour
@@ -13,7 +13,7 @@ public abstract class BuildPointBehaviour implements GameBehaviour
     List<HexPoint> possibleLocations = new ArrayList<HexPoint>();
 
     @Override
-    public void mouseEnter(PieceVisual pieceVisual, BoardVisual board)
+    public void mouseEnter(PieceVisual pieceVisual, GameBoardVisual board)
     {
         if (pieceVisual instanceof IPointVisual)
         {
@@ -23,7 +23,7 @@ public abstract class BuildPointBehaviour implements GameBehaviour
     }
 
     @Override
-    public void mouseOut(PieceVisual pieceVisual, BoardVisual board)
+    public void mouseOut(PieceVisual pieceVisual, GameBoardVisual board)
     {
         if (pieceVisual instanceof IPointVisual)
         {
@@ -33,7 +33,7 @@ public abstract class BuildPointBehaviour implements GameBehaviour
     }
 
     @Override
-    public void clicked(PieceVisual pieceVisual, BoardVisual board)
+    public void clicked(PieceVisual pieceVisual, GameBoardVisual board)
     {
         throw new RuntimeException();
     }

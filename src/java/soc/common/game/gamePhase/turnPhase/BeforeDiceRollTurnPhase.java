@@ -30,4 +30,11 @@ public class BeforeDiceRollTurnPhase extends TurnPhase
         return super.processAction(action, game);
     }
 
+    @Override
+    public String getMessage()
+    {
+        // TODO fix message
+        return "Play soldier or victory point, or roll the dice";
+    }
+
 }

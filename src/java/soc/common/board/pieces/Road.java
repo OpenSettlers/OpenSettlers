@@ -71,4 +71,11 @@ public class Road extends AbstractPlayerPiece implements SidePiece
     {
         return true;
     }
+
+    @Override
+    public SidePiece setSide(HexSide side)
+    {
+        sideLocation = side;
+        return null;
+    }
 }

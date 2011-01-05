@@ -1,7 +1,11 @@
 package soc.common.game.gamePhase;
 
 import soc.common.actions.gameAction.GameAction;
+import soc.common.actions.gameAction.turnActions.TurnAction;
 import soc.common.game.Game;
+import soc.common.game.GamePlayer;
+import soc.common.game.Turn;
+import soc.common.game.TurnImpl;
 import soc.common.game.gamePhase.turnPhase.BeforeDiceRollTurnPhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
 
@@ -39,6 +43,13 @@ public class PlayTurnsGamePhase extends AbstractGamePhase
     @Override
     public void performAction(GameAction action, Game game)
     {
+        action.perform(game);
+
+        if (action instanceof TurnAction)
+        {
+            TurnAction turnAction = (TurnAction) action;
+            turnAction.setTurnPhase(turnPhase);
+        }
         /*
          * TODO: port to java, first implement GameAction classes
          * 
@@ -92,4 +103,30 @@ public class PlayTurnsGamePhase extends AbstractGamePhase
         return turnPhase.isAllowed(action);
     }
 
+    @Override
+    public String getMessage()
+    {
+        // TODO fix message
+        return turnPhase.getMessage();
+    }
+
+    @Override
+    public Turn nextTurn(Game game)
+    {
+        // Determine index of next player
+        int nextPlayerIndex = game.getPlayers().indexOf(
+                game.getCurrentTurn().getPlayer()) + 1;
+        if (nextPlayerIndex == game.getPlayers().size())
+        {
+            nextPlayerIndex = 0;
+        }
+
+        GamePlayer newPlayerOnTurn = game.getPlayers().get(nextPlayerIndex);
+
+        // Create a new turn
+        Turn newTurn = new TurnImpl().setPlayer(newPlayerOnTurn).setID(
+                game.getCurrentTurn().getID() + 1);
+
+        return newTurn;
+    }
 }

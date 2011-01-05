@@ -1,9 +1,13 @@
 package soc.gwtClient.visuals.svg;
 
+import java.util.HashMap;
+
+import soc.common.board.hexes.Hex;
 import soc.common.board.pieces.PiecesChangedEvent;
 import soc.common.board.routing.GraphPoint;
 import soc.common.board.routing.GraphSide;
 import soc.common.client.visuals.PieceVisual;
+import soc.common.client.visuals.board.HexVisual;
 import soc.common.client.visuals.game.AbstractGameBoardVisual;
 import soc.common.client.visuals.game.PointVisual;
 import soc.common.client.visuals.game.SideVisual;
@@ -45,6 +49,18 @@ public class GameBoardSvg extends AbstractGameBoardVisual
             boardSvg.getDrawingArea().add(
                     ((SvgVisual) pointVisual).getVectorObject());
         }
+
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see soc.common.client.visuals.board.AbstractBoardVisual#getHexVisuals()
+     */
+    @Override
+    public HashMap<Hex, HexVisual> getHexVisuals()
+    {
+        return boardSvg.getHexVisuals();
     }
 
     @Override

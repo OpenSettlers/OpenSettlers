@@ -1,6 +1,6 @@
 package soc.gwtClient.game.abstractWidgets;
 
-import soc.common.actions.gameAction.AbstractGameAction;
+import soc.common.actions.gameAction.GameAction;
 import soc.common.board.pieces.PlayerPiece;
 import soc.common.client.visuals.game.GameBoardVisual;
 import soc.common.game.Game;
@@ -12,7 +12,7 @@ public interface IGamePanel
     public Game getGame();
 
     // Called by ActionWidget to execute a TurnAction
-    public void startAction(AbstractGameAction chat);
+    public void startAction(GameAction chat);
 
     // Called by ActionWidgets to notify a BankTrade is needed
     public void requestBankTrade(PlayerPiece piece, GamePlayer player);

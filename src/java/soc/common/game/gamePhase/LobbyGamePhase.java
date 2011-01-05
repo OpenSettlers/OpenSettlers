@@ -8,6 +8,8 @@ import soc.common.game.Game;
 import soc.common.game.GamePlayer;
 import soc.common.game.PlayerList;
 import soc.common.game.PlayerListImpl;
+import soc.common.game.Turn;
+import soc.common.game.TurnImpl;
 
 public class LobbyGamePhase extends AbstractGamePhase
 {
@@ -60,5 +62,25 @@ public class LobbyGamePhase extends AbstractGamePhase
 
         // Invalidate players
         playersWhoAcceptedSettings.remove(playersToRemove);
+    }
+
+    @Override
+    public String getMessage()
+    {
+        // TODO fix message
+        return "Wait for players to join";
+    }
+
+    /*
+     * First on turn is simply the first player
+     * 
+     * @see
+     * soc.common.game.gamePhase.AbstractGamePhase#nextTurn(soc.common.game.
+     * Game)
+     */
+    @Override
+    public Turn nextTurn(Game game)
+    {
+        return new TurnImpl().setPlayer(game.getPlayers().get(0));
     }
 }

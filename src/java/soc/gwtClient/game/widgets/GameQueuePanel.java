@@ -8,13 +8,13 @@ import soc.gwtClient.game.widgets.bitmap.StringQueuedActionCell;
 
 import com.google.gwt.user.cellview.client.CellList;
 import com.google.gwt.user.client.ui.IsWidget;
-import com.google.gwt.user.client.ui.LayoutPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ListDataProvider;
 
 public class GameQueuePanel implements IsWidget, ActionQueueChangedEventHandler
 {
-    private LayoutPanel rootPanel = new LayoutPanel();
+    private ScrollPanel rootPanel = new ScrollPanel();
     private IGamePanel gamePanel;
     private StringQueuedActionCell cell = new StringQueuedActionCell();
     private CellList<QueuedAction> queuedList = new CellList<QueuedAction>(cell);
@@ -42,7 +42,12 @@ public class GameQueuePanel implements IsWidget, ActionQueueChangedEventHandler
     {
         if (event.getDequeuedAction() != null)
         {
-            dataList.getList().remove(event.getDequeuedAction());
+            boolean isremoved = dataList.getList().remove(
+                    event.getDequeuedAction());
+            if (!isremoved)
+            {
+                // throw new RuntimeException("hm, itm not removed....");
+            }
         }
         if (event.getEnqueuedAction() != null)
         {

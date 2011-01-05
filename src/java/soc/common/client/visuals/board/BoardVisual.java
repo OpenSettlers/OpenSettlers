@@ -15,9 +15,9 @@ public interface BoardVisual extends PieceVisual, IsWidget
 
     public Board getBoard();
 
-    public InteractionBehaviour getCurrentBehaviour();
+    public InteractionBehaviour getBoardBehaviour();
 
-    public BoardVisual setInteractionBehaviour(InteractionBehaviour behaviour);
+    public BoardVisual setBoardBehaviour(InteractionBehaviour behaviour);
 
     /*
      * Toggle visbility of territory to show

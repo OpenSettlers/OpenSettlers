@@ -16,7 +16,7 @@ public class Chit
         // TODO Auto-generated constructor stub
     }
 
-    public Chit Copy()
+    public Chit copy()
     {
         return new Chit(this.number);
     }

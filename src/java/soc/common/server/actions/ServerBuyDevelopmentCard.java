@@ -24,6 +24,8 @@ public class ServerBuyDevelopmentCard implements ServerAction
     public void execute()
     {
         buyDevCard.setDevCard(game.getDevelopmentCardStack().drawTop());
+
+        gameServer.getGame().performAction(buyDevCard);
     }
 
     @Override

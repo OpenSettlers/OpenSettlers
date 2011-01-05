@@ -1,23 +1,28 @@
 package soc.gwtClient.game.abstractWidgets;
 
-import soc.common.actions.gameAction.AbstractGameAction;
 import soc.common.actions.gameAction.GameAction;
-import soc.common.actions.gameAction.turnActions.AbstractTurnAction;
+import soc.common.actions.gameAction.MessageFromServer;
+import soc.common.actions.gameAction.turnActions.TurnAction;
 import soc.common.board.pieces.PlayerPiece;
 import soc.common.client.behaviour.GameBehaviourFactory;
 import soc.common.client.behaviour.StandardGameBehaviourFactory;
+import soc.common.client.behaviour.game.DisabledMap;
 import soc.common.client.behaviour.game.GameBehaviour;
 import soc.common.client.visuals.game.GameBoardVisual;
 import soc.common.game.Game;
 import soc.common.game.GamePlayer;
 import soc.common.server.GameServer;
 import soc.common.server.IGameServerCallback;
-import soc.gwtClient.game.ICenterWidget;
+import soc.gwtClient.game.CenterWidget;
 import soc.gwtClient.game.Point2D;
 import soc.gwtClient.game.dialogs.NewGameDialog;
 import soc.gwtClient.game.dialogs.TradePlayersDialog;
+import soc.gwtClient.game.widgets.ChatPanel;
+import soc.gwtClient.game.widgets.DebugPanel;
+import soc.gwtClient.game.widgets.GameQueuePanel;
+import soc.gwtClient.game.widgets.abstractWidgets.DebugWidget;
 
-public abstract class AbstractGamePanel implements IGamePanel, ICenterWidget,
+public abstract class AbstractGamePanel implements IGamePanel, CenterWidget,
         IGameServerCallback
 {
     protected GameServer server;
@@ -28,17 +33,23 @@ public abstract class AbstractGamePanel implements IGamePanel, ICenterWidget,
     protected BankTradeUI bankTradeUI;
     protected GameBehaviourFactory gameBehaviourFactory;
     protected GameBoardVisual gameBoardVisual;
-    protected AbstractGameAction performingAction;
+    protected GameAction performingAction;
     protected IPlayersWidget playersWidget;
     protected GamePlayer player;
     protected HandCardsWidget handCards;
     protected StatusPanel statusPanel;
     protected TradePlayersDialog tradePlayers;
     protected GameHistoryWidget historyWidget;
+    protected ChatPanel chatPanel;
+    protected GameQueuePanel gameQueuePanel;
+    protected DebugWidget debugPanel;
 
-    public AbstractGamePanel(Game game)
+    public AbstractGamePanel()
     {
-        this.game = game;
+    }
+
+    protected void initialize()
+    {
         player = game.getPlayers().get(0);
 
         gameBehaviourFactory = new StandardGameBehaviourFactory();
@@ -46,12 +57,18 @@ public abstract class AbstractGamePanel implements IGamePanel, ICenterWidget,
         bankStockPanel = createBankStockPanel();
         buildPallette = createActionsWidget();
         playersWidget = createPlayersWidget();
-        gameBoardVisual = createGameBoard(500, 500, game);
+        gameBoardVisual = createGameBoard(800, 500, game);
         handCards = createHandCardsWidget(player);
         statusPanel = createStatusDicePanel(this);
         tradePlayers = new TradePlayersDialog(this);
         historyWidget = createHistoryWidget(this);
         bankTradeUI = createBankTradeUI(this);
+
+        gameBoardVisual.setBehaviour(new DisabledMap());
+
+        chatPanel = new ChatPanel(this);
+        gameQueuePanel = new GameQueuePanel(this);
+        debugPanel = new DebugPanel(this);
     }
 
     /**
@@ -70,20 +87,6 @@ public abstract class AbstractGamePanel implements IGamePanel, ICenterWidget,
         return tradePlayers;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * soc.common.server.IGameServerCallback#receive(soc.common.actions.gameAction
-     * .GameAction)
-     */
-    @Override
-    public void receive(GameAction action)
-    {
-        // perform the action
-        game.getCurrentPhase().performAction(action, game);
-    }
-
     @Override
     public Game getGame()
     {
@@ -91,14 +94,15 @@ public abstract class AbstractGamePanel implements IGamePanel, ICenterWidget,
     }
 
     @Override
-    public void startAction(AbstractGameAction action)
+    public void startAction(GameAction action)
     {
-        if (action instanceof AbstractTurnAction)
+        action.setPlayer(player);
+        if (action instanceof TurnAction)
         {
-            AbstractTurnAction turnAction = (AbstractTurnAction) action;
+            TurnAction turnAction = (TurnAction) action;
             // Create a behaviour based on our action
-            GameBehaviour gameBehaviour = gameBehaviourFactory
-                    .createBehaviour(turnAction, game);
+            GameBehaviour gameBehaviour = gameBehaviourFactory.createBehaviour(
+                    turnAction, game);
 
             if (gameBehaviour == null)
             {
@@ -161,5 +165,22 @@ public abstract class AbstractGamePanel implements IGamePanel, ICenterWidget,
     public void hideTradeBankPanel()
     {
         bankTradeUI.hide();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.common.server.IGameServerCallback#receive(soc.common.actions.gameAction
+     * .GameAction)
+     */
+    @Override
+    public void receive(GameAction gameAction)
+    {
+        if (gameAction instanceof MessageFromServer)
+        {
+            MessageFromServer messageFromServer = (MessageFromServer) gameAction;
+            debugPanel.addError(messageFromServer);
+        }
     }
 }

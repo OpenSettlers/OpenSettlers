@@ -1,6 +1,6 @@
 package soc.common.client.behaviour;
 
-import soc.common.actions.gameAction.turnActions.AbstractTurnAction;
+import soc.common.actions.gameAction.turnActions.TurnAction;
 import soc.common.actions.gameAction.turnActions.standard.BuildCity;
 import soc.common.actions.gameAction.turnActions.standard.BuildRoad;
 import soc.common.actions.gameAction.turnActions.standard.BuildTown;
@@ -18,8 +18,7 @@ import soc.common.game.Game;
 public class StandardGameBehaviourFactory implements GameBehaviourFactory
 {
     @Override
-    public GameBehaviour createBehaviour(AbstractTurnAction turnAction,
-            Game game)
+    public GameBehaviour createBehaviour(TurnAction turnAction, Game game)
     {
         if (turnAction instanceof BuildRoad)
         {

@@ -8,7 +8,7 @@ import soc.common.game.Game;
 import soc.common.game.logs.ChatLog;
 import soc.common.server.Lobby;
 import soc.common.server.data.Player;
-import soc.gwtClient.game.ICenterWidget;
+import soc.gwtClient.game.CenterWidget;
 
 import com.google.gwt.user.cellview.client.CellList;
 import com.google.gwt.user.client.ui.Composite;
@@ -21,7 +21,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ListDataProvider;
 
 public class GameLobby extends Composite implements Lobby, CometListener,
-        ICenterWidget
+        CenterWidget
 {
     private PlayerCell playerCell = new PlayerCell();
     private CellList<Player> playersList = new CellList<Player>(playerCell);

@@ -1,14 +1,13 @@
 package soc.common.client.behaviour.game;
 
 import soc.common.client.visuals.PieceVisual;
-import soc.common.client.visuals.board.BoardVisual;
 import soc.common.client.visuals.game.GameBoardVisual;
 import soc.common.client.visuals.game.ISideVisual;
 
 /*
  * Shows all possible sides for the user to select a side. 
  */
-public class BuildSideBehaviour implements GameBehaviour
+public abstract class BuildSideBehaviour implements GameBehaviour
 {
 
     @Override
@@ -24,13 +23,13 @@ public class BuildSideBehaviour implements GameBehaviour
     }
 
     @Override
-    public void clicked(PieceVisual pieceVisual, BoardVisual board)
+    public void clicked(PieceVisual pieceVisual, GameBoardVisual board)
     {
         throw new RuntimeException();
     }
 
     @Override
-    public void mouseEnter(PieceVisual pieceVisual, BoardVisual board)
+    public void mouseEnter(PieceVisual pieceVisual, GameBoardVisual board)
     {
         if (pieceVisual instanceof ISideVisual)
         {
@@ -39,12 +38,11 @@ public class BuildSideBehaviour implements GameBehaviour
     }
 
     @Override
-    public void mouseOut(PieceVisual pieceVisual, BoardVisual board)
+    public void mouseOut(PieceVisual pieceVisual, GameBoardVisual board)
     {
         if (pieceVisual instanceof ISideVisual)
         {
             pieceVisual.setSelected(false);
         }
     }
-
 }

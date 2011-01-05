@@ -9,14 +9,19 @@ import soc.common.board.hexes.Hex;
 import soc.common.board.pieces.PlayerPiece;
 import soc.common.board.routing.GraphPoint;
 import soc.common.board.routing.GraphSide;
+import soc.common.client.behaviour.BehaviourDoneEventHandler;
 import soc.common.client.behaviour.game.GameBehaviour;
 import soc.common.client.visuals.PieceVisual;
 import soc.common.client.visuals.board.BoardVisual;
 import soc.common.game.Game;
 
+import com.google.gwt.event.shared.HandlerRegistration;
+
 public interface GameBoardVisual extends BoardVisual
 {
     public Game getGame();
+
+    public GameBehaviour getBehaviour();
 
     public void setBehaviour(GameBehaviour gameBehaviour);
 
@@ -39,4 +44,9 @@ public interface GameBoardVisual extends BoardVisual
     public Map<GraphPoint, PointVisual> getPointVisuals();
 
     public Map<GraphSide, SideVisual> getSideVisuals();
+
+    public void onBehaviourDone();
+
+    public HandlerRegistration addBehaviourDoneEventHandler(
+            BehaviourDoneEventHandler handler);
 }

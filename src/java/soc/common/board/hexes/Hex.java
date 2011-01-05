@@ -22,6 +22,8 @@ public interface Hex
      */
     public HexLocation getLocation();
 
+    public Hex setLocation(HexLocation location);
+
     /*
      * Null of no territory associated, a reference to a territory when this hex
      * is part of a territory

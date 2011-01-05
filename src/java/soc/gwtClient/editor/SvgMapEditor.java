@@ -13,11 +13,11 @@ import soc.common.client.behaviour.SetPortBehaviour;
 import soc.common.client.behaviour.editor.SetChitBehaviour;
 import soc.common.client.behaviour.editor.SetHexBehaviour;
 import soc.common.client.behaviour.editor.SetTerritoryBehaviour;
-import soc.gwtClient.game.ICenterWidget;
+import soc.gwtClient.game.CenterWidget;
 import soc.gwtClient.visuals.svg.BoardSvg;
 
 public class SvgMapEditor extends MapEditor 
-    implements IBehaviourChangedHandler, ICenterWidget
+    implements IBehaviourChangedHandler, CenterWidget
 {
     Label lblStatus = new Label();
     LayoutPanel rootPanel = new LayoutPanel();

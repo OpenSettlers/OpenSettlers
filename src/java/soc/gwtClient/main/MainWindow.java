@@ -1,25 +1,9 @@
 package soc.gwtClient.main;
 
-import soc.common.board.ports.ThreeToOnePort;
-import soc.common.board.ports.TwoToOneResourcePort;
-import soc.common.board.resources.Clay;
-import soc.common.board.resources.Ore;
-import soc.common.board.resources.Sheep;
-import soc.common.board.resources.Timber;
-import soc.common.board.resources.Wheat;
-import soc.common.game.Game;
-import soc.common.game.GameBoard;
-import soc.common.game.GamePlayerImpl;
-import soc.common.game.developmentCards.standard.Monopoly;
-import soc.common.game.developmentCards.standard.RoadBuilding;
-import soc.common.game.developmentCards.standard.Soldier;
-import soc.common.game.developmentCards.standard.VictoryPoint;
-import soc.common.game.developmentCards.standard.YearOfPlenty;
 import soc.common.internationalization.ClientInternationalization;
 import soc.common.internationalization.I18n;
-import soc.common.server.data.UnregisteredUser;
 import soc.gwtClient.editor.SvgMapEditor;
-import soc.gwtClient.game.ICenterWidget;
+import soc.gwtClient.game.CenterWidget;
 import soc.gwtClient.game.widgets.HotSeatGamePanel;
 import soc.gwtClient.lobby.GameLobby;
 
@@ -41,13 +25,13 @@ public class MainWindow implements EntryPoint
     DockLayoutPanel rootPanel = new DockLayoutPanel(Unit.EM);
     HorizontalPanel menu = new HorizontalPanel();
     LayoutPanel centerWidget = new LayoutPanel();
-    ICenterWidget mapEditor;
-    ICenterWidget welcomePanel;
-    ICenterWidget currentWidget;
-    ICenterWidget hotseatGame;
-    ICenterWidget wikiPage;
-    ICenterWidget lobby;
-    ICenterWidget javadoc;
+    CenterWidget mapEditor;
+    CenterWidget welcomePanel;
+    CenterWidget currentWidget;
+    CenterWidget hotseatGame;
+    CenterWidget wikiPage;
+    CenterWidget lobby;
+    CenterWidget javadoc;
 
     private final MenuBar rootMenuBar = new MenuBar(true);
     private MenuItem editorMenutItem;
@@ -57,7 +41,7 @@ public class MainWindow implements EntryPoint
     /**
      * @return the hotseatGame
      */
-    public ICenterWidget getHotseatGame()
+    public CenterWidget getHotseatGame()
     {
         return hotseatGame;
     }
@@ -69,7 +53,7 @@ public class MainWindow implements EntryPoint
         createMenu();
         mapEditor = new SvgMapEditor();
         welcomePanel = new WelcomePanel(this);
-        hotseatGame = new HotSeatGamePanel(createGame());
+        hotseatGame = new HotSeatGamePanel();
         wikiPage = new WikiPanel();
         lobby = new GameLobby();
         javadoc = new JavadocPanel();
@@ -111,7 +95,7 @@ public class MainWindow implements EntryPoint
     /**
      * @return the javadoc
      */
-    public ICenterWidget getJavadoc()
+    public CenterWidget getJavadoc()
     {
         return javadoc;
     }
@@ -119,7 +103,7 @@ public class MainWindow implements EntryPoint
     /**
      * @return the mapEditor
      */
-    public ICenterWidget getMapEditor()
+    public CenterWidget getMapEditor()
     {
         return mapEditor;
     }
@@ -127,7 +111,7 @@ public class MainWindow implements EntryPoint
     /**
      * @return the lobby
      */
-    public ICenterWidget getLobby()
+    public CenterWidget getLobby()
     {
         return lobby;
     }
@@ -140,81 +124,17 @@ public class MainWindow implements EntryPoint
     /**
      * @return the wikiPage
      */
-    public ICenterWidget getWikiPage()
+    public CenterWidget getWikiPage()
     {
         return wikiPage;
     }
 
-    public void setCurrentWidget(ICenterWidget newCenterWidget)
+    public void setCurrentWidget(CenterWidget newCenterWidget)
     {
         centerWidget.remove(currentWidget.getRootWidget());
 
         currentWidget = newCenterWidget;
 
         centerWidget.add(currentWidget.getRootWidget());
-    }
-
-    private Game createGame()
-    {
-        Game result = new Game();
-        result.getPlayers().add(
-                (GamePlayerImpl) new GamePlayerImpl().setUser(
-                        new UnregisteredUser().setId(1).setName("Piet"))
-                        .setColor("yellow"));
-        result.getPlayers().add(
-                (GamePlayerImpl) new GamePlayerImpl().setUser(
-                        new UnregisteredUser().setId(1).setName("Kees"))
-                        .setColor("white"));
-        result.getPlayers().add(
-                (GamePlayerImpl) new GamePlayerImpl().setUser(
-                        new UnregisteredUser().setId(1).setName("Truus"))
-                        .setColor("green"));
-        result.getPlayers().add(
-                (GamePlayerImpl) new GamePlayerImpl().setUser(
-                        new UnregisteredUser().setId(1).setName("Klaas"))
-                        .setColor("red"));
-        result.getPlayers().add(
-                (GamePlayerImpl) new GamePlayerImpl().setUser(
-                        new UnregisteredUser().setId(1).setName("Henk"))
-                        .setColor("blue"));
-
-        result.setBoard(new GameBoard(8, 8));
-
-        result.getPlayers().get(0).getDevelopmentCards().add(new Soldier());
-        result.getPlayers().get(0).getDevelopmentCards().add(new Monopoly());
-        result.getPlayers().get(0).getDevelopmentCards()
-                .add(new YearOfPlenty());
-        result.getPlayers().get(0).getDevelopmentCards()
-                .add(new RoadBuilding());
-        result.getPlayers().get(0).getDevelopmentCards()
-                .add(new VictoryPoint());
-
-        result.getPlayers().get(0).getResources().add(new Wheat());
-        result.getPlayers().get(0).getResources().add(new Wheat());
-        result.getPlayers().get(0).getResources().add(new Wheat());
-        result.getPlayers().get(0).getResources().add(new Wheat());
-
-        result.getPlayers().get(0).getResources().add(new Ore());
-        result.getPlayers().get(0).getResources().add(new Ore());
-        result.getPlayers().get(0).getResources().add(new Ore());
-
-        result.getPlayers().get(0).getResources().add(new Clay());
-        result.getPlayers().get(0).getResources().add(new Clay());
-        result.getPlayers().get(0).getResources().add(new Clay());
-        result.getPlayers().get(0).getResources().add(new Clay());
-        result.getPlayers().get(0).getResources().add(new Clay());
-        result.getPlayers().get(0).getResources().add(new Clay());
-
-        result.getPlayers().get(0).getResources().add(new Sheep());
-        result.getPlayers().get(0).getResources().add(new Sheep());
-
-        result.getPlayers().get(0).getPorts().add(
-                new TwoToOneResourcePort(new Clay()));
-        result.getPlayers().get(0).getPorts().add(
-                new TwoToOneResourcePort(new Timber()));
-        result.getPlayers().get(0).getPorts().add(new ThreeToOnePort());
-
-        result.start();
-        return result;
     }
 }

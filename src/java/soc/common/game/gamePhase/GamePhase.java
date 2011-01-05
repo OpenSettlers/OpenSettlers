@@ -2,6 +2,7 @@ package soc.common.game.gamePhase;
 
 import soc.common.actions.gameAction.GameAction;
 import soc.common.game.Game;
+import soc.common.game.Turn;
 
 public interface GamePhase
 {
@@ -11,8 +12,12 @@ public interface GamePhase
 
     public GamePhase next(Game game);
 
+    public Turn nextTurn(Game game);
+
     public boolean isAllowed(GameAction action);
 
     public String getName();
+
+    public String getMessage();
 
 }

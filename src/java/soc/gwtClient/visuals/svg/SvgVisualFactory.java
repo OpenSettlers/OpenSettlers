@@ -54,13 +54,13 @@ public class SvgVisualFactory extends AbstractVisualFactory
     @Override
     public RoadVisual createRoadVisual(Road road)
     {
-        return new RoadSvg(road);
+        return new RoadSvg(road, parent);
     }
 
     @Override
     public TownVisual createTownVisual(Town town)
     {
-        return new TownSvg(town);
+        return new TownSvg(town, parent);
     }
 
     @Override
@@ -73,8 +73,7 @@ public class SvgVisualFactory extends AbstractVisualFactory
     @Override
     public SideVisual createSideVisual(GraphSide side)
     {
-        return new SvgSideVisual(parent, side.getSide(), parent.getBoardSvg()
-                .CalculatePosition(side.getSide()));
+        return new SvgSideVisual(parent, side.getSide());
     }
 
 }

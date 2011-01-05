@@ -40,7 +40,7 @@ public class PlayerPieceList implements Iterable<AbstractPlayerPiece>
     {
         PlayerPieceList result = new PlayerPieceList();
 
-        for (AbstractPlayerPiece piece : this)
+        for (AbstractPlayerPiece piece : playerPieces)
         {
             if (piece.getClass() == type.getClass())
                 result.add(piece);
@@ -53,7 +53,7 @@ public class PlayerPieceList implements Iterable<AbstractPlayerPiece>
     {
         PlayerPieceList result = new PlayerPieceList();
 
-        for (AbstractPlayerPiece piece : this)
+        for (AbstractPlayerPiece piece : playerPieces)
         {
             if (piece instanceof SidePiece)
                 result.add(piece);
@@ -66,7 +66,7 @@ public class PlayerPieceList implements Iterable<AbstractPlayerPiece>
     {
         PlayerPieceList result = new PlayerPieceList();
 
-        for (AbstractPlayerPiece piece : this)
+        for (AbstractPlayerPiece piece : playerPieces)
         {
             if (piece instanceof PointPiece)
                 result.add(piece);
@@ -163,7 +163,7 @@ public class PlayerPieceList implements Iterable<AbstractPlayerPiece>
         }
         if (playerPieceToRemove != null)
         {
-            playerPieces.remove(playerPieceToRemove);
+            remove(playerPieceToRemove);
         }
         else
         {
@@ -190,7 +190,7 @@ public class PlayerPieceList implements Iterable<AbstractPlayerPiece>
         }
         if (playerPieceToRemove != null)
         {
-            playerPieces.remove(playerPieceToRemove);
+            remove(playerPieceToRemove);
         }
         else
         {
@@ -214,8 +214,8 @@ public class PlayerPieceList implements Iterable<AbstractPlayerPiece>
                 "Tried to get a piece which is not contained in the list");
     }
 
-    public static void move(AbstractPlayerPiece pieceToMove, PlayerPieceList from,
-            PlayerPieceList to)
+    public static void move(AbstractPlayerPiece pieceToMove,
+            PlayerPieceList from, PlayerPieceList to)
     {
         from.remove(pieceToMove);
         to.add(pieceToMove);

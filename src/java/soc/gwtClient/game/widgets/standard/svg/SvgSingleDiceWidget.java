@@ -6,10 +6,18 @@ import org.vaadin.gwtgraphics.client.shape.Circle;
 import org.vaadin.gwtgraphics.client.shape.Rectangle;
 
 import soc.gwtClient.game.abstractWidgets.ISingleDiceWidget;
+import soc.gwtClient.game.abstractWidgets.IStandardDiceWidget;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseMoveEvent;
+import com.google.gwt.event.dom.client.MouseMoveHandler;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.user.client.ui.Widget;
 
-public class SvgSingleDiceWidget implements ISingleDiceWidget
+public class SvgSingleDiceWidget implements ISingleDiceWidget, ClickHandler,
+        MouseMoveHandler, MouseOutHandler
 {
     private int offset = 3;
     private int diceOffset = 7;
@@ -23,9 +31,11 @@ public class SvgSingleDiceWidget implements ISingleDiceWidget
     private Circle dot7;
     private Group group;
     private Rectangle rectangle;
+    IStandardDiceWidget parent;
 
-    public SvgSingleDiceWidget()
+    public SvgSingleDiceWidget(IStandardDiceWidget parent)
     {
+        this.parent = parent;
         canvas = new DrawingArea(38, 38);
         group = new Group();
         rectangle = new Rectangle(offset, offset, 32, 32);
@@ -47,6 +57,9 @@ public class SvgSingleDiceWidget implements ISingleDiceWidget
         group.add(dot6);
         group.add(dot7);
         canvas.add(group);
+        canvas.addMouseMoveHandler(this);
+        canvas.addMouseOutHandler(this);
+        canvas.addClickHandler(this);
     }
 
     private Circle createCircle(int x, int y)
@@ -122,5 +135,23 @@ public class SvgSingleDiceWidget implements ISingleDiceWidget
     public Widget asWidget()
     {
         return canvas;
+    }
+
+    @Override
+    public void onClick(ClickEvent event)
+    {
+        parent.clicked();
+    }
+
+    @Override
+    public void onMouseMove(MouseMoveEvent event)
+    {
+        rectangle.setStrokeWidth(4);
+    }
+
+    @Override
+    public void onMouseOut(MouseOutEvent event)
+    {
+        rectangle.setStrokeWidth(2);
     }
 }

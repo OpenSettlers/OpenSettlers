@@ -42,6 +42,7 @@ public class ResourceHex extends AbstractHex
         ResourceHex rh = new ResourceHex().setChit(new Chit(5)).setResource(
                 getResource());
         rh.setTerritory(territory);
+        rh.setChit(chit.copy());
         return rh;
     }
 

@@ -85,3 +85,13 @@ h1 {
 	font-weight: bolder;
 	font-size: 1.5em;
 }
+.diceLabel{
+	font-weight: bolder;
+	font-size: 2.5em;
+	width: 3em;
+	height: 3em;
+}
+.playerStatusWidget{
+	width: 3em;
+	height: 3em;
+}

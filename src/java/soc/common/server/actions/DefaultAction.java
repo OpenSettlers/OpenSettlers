@@ -31,7 +31,7 @@ public class DefaultAction extends AbstractServerAction
     @Override
     public void execute()
     {
-        action.perform(gameServer.getGame());
+        gameServer.getGame().performAction(action);
     }
 
     @Override

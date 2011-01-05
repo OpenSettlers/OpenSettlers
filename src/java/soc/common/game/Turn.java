@@ -11,6 +11,8 @@ public interface Turn
 
     public int getID();
 
+    public Turn setID(int id);
+
     public TurnPhase getTurnPhase();
 
     /**

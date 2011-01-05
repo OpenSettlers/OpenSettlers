@@ -33,13 +33,17 @@ public class GamePhaseHasEnded extends AbstractGameAction
     {
         endedGamePhase = game.getCurrentPhase();
 
-        // Advance the phase to next phase
-        game.setCurrentPhase(game.getCurrentPhase().next(game));
+        newPhase = endedGamePhase.next(game);
 
         // Start the next phase
-        game.getCurrentPhase().start(game);
+        newPhase.start(game);
 
-        newPhase = game.getCurrentPhase();
+        // Advance the phase to next phase
+        game.setCurrentPhase(newPhase);
+
+        // TODO: fix message
+        message = endedGamePhase.getName() + " has ended, entering"
+                + newPhase.getName();
 
         super.perform(game);
     }

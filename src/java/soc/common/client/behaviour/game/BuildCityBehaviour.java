@@ -1,8 +1,8 @@
 package soc.common.client.behaviour.game;
 
+import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.turnActions.standard.BuildCity;
 import soc.common.client.visuals.PieceVisual;
-import soc.common.client.visuals.board.BoardVisual;
 import soc.common.client.visuals.game.GameBoardVisual;
 
 public class BuildCityBehaviour extends BuildPointBehaviour
@@ -24,7 +24,7 @@ public class BuildCityBehaviour extends BuildPointBehaviour
      * soc.common.client.visuals.board.IBoardVisual)
      */
     @Override
-    public void clicked(PieceVisual pieceVisual, BoardVisual board)
+    public void clicked(PieceVisual pieceVisual, GameBoardVisual board)
     {
         super.clicked(pieceVisual, board);
     }
@@ -41,5 +41,11 @@ public class BuildCityBehaviour extends BuildPointBehaviour
     {
         // TODO Auto-generated method stub
 
+    }
+
+    @Override
+    public GameAction getGameAction()
+    {
+        return buildCity;
     }
 }

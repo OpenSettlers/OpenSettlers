@@ -27,6 +27,8 @@ public class ServerRobPlayer implements ServerAction
     {
         GamePlayer victim = game.getPlayerByID(robPlayer.getVictimID());
         robPlayer.setStolenResource(victim.getResources().getRandom(random));
+
+        gameServer.getGame().performAction(robPlayer);
     }
 
     @Override

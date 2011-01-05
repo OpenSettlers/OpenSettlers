@@ -1,8 +1,5 @@
 package soc.gwtClient.game.widgets.standard.bitmap.player;
 
-import com.google.gwt.user.client.ui.ComplexPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-
 import soc.common.game.Game;
 import soc.common.game.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.AbstractPlayerWidget;
@@ -12,9 +9,14 @@ import soc.gwtClient.game.abstractWidgets.ILongestRoadWidget;
 import soc.gwtClient.game.abstractWidgets.IResourceAmountWidget;
 import soc.gwtClient.game.abstractWidgets.IStockWidget;
 import soc.gwtClient.game.abstractWidgets.IVictoryPointsWidget;
+import soc.gwtClient.game.abstractWidgets.PlayerTurnStatusWidget;
+import soc.gwtClient.game.widgets.bitmap.PlayerTurnStatusBitmapWidget;
 import soc.gwtClient.game.widgets.standard.bitmap.LargestArmyBitmapWidget;
 import soc.gwtClient.game.widgets.standard.bitmap.LongestRoadBitmapWidget;
 import soc.gwtClient.game.widgets.standard.bitmap.ResourceAmountBitmapWidget;
+
+import com.google.gwt.user.client.ui.ComplexPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 
 public class PlayerBitmapWidget extends AbstractPlayerWidget
 {
@@ -34,6 +36,7 @@ public class PlayerBitmapWidget extends AbstractPlayerWidget
     {
         return new HorizontalPanel();
     }
+
     @Override
     public IDevelopmentCardsAmountWidget createDevcardsWidget()
     {
@@ -62,6 +65,12 @@ public class PlayerBitmapWidget extends AbstractPlayerWidget
     public IVictoryPointsWidget createVictoryPointWidget()
     {
         return new VictoryPointsBitmapWidget(player);
+    }
+
+    @Override
+    public PlayerTurnStatusWidget createTurnStatusWidget()
+    {
+        return new PlayerTurnStatusBitmapWidget(player, game);
     }
 
 }

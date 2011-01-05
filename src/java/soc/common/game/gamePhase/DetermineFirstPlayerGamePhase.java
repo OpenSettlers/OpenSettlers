@@ -1,16 +1,16 @@
 package soc.common.game.gamePhase;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import soc.common.actions.gameAction.GameAction;
+import soc.common.actions.gameAction.GamePhaseHasEnded;
 import soc.common.actions.gameAction.StartingPlayerDetermined;
 import soc.common.actions.gameAction.turnActions.RolledSame;
 import soc.common.actions.gameAction.turnActions.standard.RollDice;
-import soc.common.board.ports.Port;
-import soc.common.board.territories.Territory;
 import soc.common.game.Game;
 import soc.common.game.GamePlayer;
+import soc.common.game.Turn;
+import soc.common.game.TurnImpl;
 
 public class DetermineFirstPlayerGamePhase extends AbstractGamePhase
 {
@@ -19,10 +19,11 @@ public class DetermineFirstPlayerGamePhase extends AbstractGamePhase
     {
         // expect each player to roll at least once (first phase: everyone rolls
         // once)
-        for (GamePlayer p : game.getPlayers())
+        for (GamePlayer player : game.getPlayers())
         {
-            game.getActionsQueue().enqueue(new RollDice().setPlayer(p));
+            game.getActionsQueue().enqueue(new RollDice().setPlayer(player));
         }
+        game.getActionsQueue().enqueue(new GamePhaseHasEnded().setSender(0));
     }
 
     private int getHighRoll(List<RollDice> rolledDices)
@@ -31,8 +32,8 @@ public class DetermineFirstPlayerGamePhase extends AbstractGamePhase
 
         for (RollDice rollDice : rolledDices)
         {
-            if (rollDice.getDice().getDice() > result)
-                result = rollDice.getDice().getDice();
+            if (rollDice.getDice().getDiceTotal() > result)
+                result = rollDice.getDice().getDiceTotal();
         }
 
         return result;
@@ -48,7 +49,7 @@ public class DetermineFirstPlayerGamePhase extends AbstractGamePhase
             RollDice rollDice = (RollDice) action;
             // Check if a phase has ended. If the queue is empty, every player
             // has rolled the dice.
-            if (game.getActionsQueue().size() == 0)
+            if (game.getActionsQueue().size() == 1)
             {
                 // Make a list of rolls in this round
                 List<RollDice> rolledDices = game.getGameLog()
@@ -65,52 +66,42 @@ public class DetermineFirstPlayerGamePhase extends AbstractGamePhase
                 if (gameStarter != null)
                 {
                     // We have a starting player
-                    game.getActionsQueue().enqueue(
+                    game.getActionsQueue().enqueuePriority(
                             (GameAction) new StartingPlayerDetermined()
                             // winning dice
                                     .setDiceRoll(highRoll)
                                     // The starter of the
                                     // placement/portplacement/turnactionsgamephase
-                                    .setPlayer(gameStarter)
+                                    .setGameStarter(gameStarter)
                                     // Server will send this message
                                     .setSender(0));
-                    return;
                 }
                 else
                 {
-                    // Starting player is not determined. Notify players and
-                    // update Game object
-                    game.getActionsQueue().enqueue(new RolledSame()
-                    // Pass on the highest diceroll
-                            .setHighRoll(highRoll)
-                            // Server says dice rolled the same
-                            .setSender(0));
-
-                    // Enqueue each highroller
+                    // Enqueue each high roller
                     for (RollDice sameRoll : rolledDices)
                     {
-                        if (sameRoll.getDice().getDice() == highRoll)
+                        if (sameRoll.getDice().getDiceTotal() == highRoll)
                         {
-                            game.getActionsQueue().enqueue(
+                            game.getActionsQueue().enqueuePriority(
                                     new RollDice().setPlayer(sameRoll
                                             .getPlayer()));
                         }
                     }
-
-                    // First player is on turn
-                    // TODO: set current player on turn using game.GetTurn
-                    // game.setPlayerOnTurn(game.getActionsQueue().peek().getAction().getPlayer());
-                    return;
+                    // Starting player is not determined. Notify players and
+                    // update Game object
+                    game.getActionsQueue().enqueuePriority(new RolledSame()
+                    // Pass on the highest diceroll
+                            .setHighRoll(highRoll)
+                            // Server says dice rolled the same
+                            .setSender(0));
                 }
             }
 
-            // Next player should be the player next on the queue
-            /*
-             * TODO: port to java game.setPlayerOnTurn =
-             * game.GetPlayer(game.ActionsQueue .OfType<RollDiceAction>()
-             * .First() .Sender);
-             */
-
+        }
+        if (!(game.getActionsQueue().peekAction() instanceof GamePhaseHasEnded))
+        {
+            game.advanceTurn();
         }
     }
 
@@ -122,28 +113,54 @@ public class DetermineFirstPlayerGamePhase extends AbstractGamePhase
     @Override
     public GamePhase next(Game game)
     {
-        // Determine if we should skip placing ports
-        // randomports are assigned at start using the port lists on each
-        // territory.
-        // The remaining ports are placed in the placement phase
-        List<Port> allPorts = new ArrayList<Port>();
-        for (Territory t : game.getBoard().getTerritories())
+        return new InitialPlacementGamePhase();
+        //
+        // // Determine if we should skip placing ports
+        // // randomports are assigned at start using the port lists on each
+        // // territory.
+        // // The remaining ports are placed in the placement phase
+        // List<Port> allPorts = new ArrayList<Port>();
+        // for (Territory t : game.getBoard().getTerritories())
+        // {
+        // for (Port p : t.getPorts())
+        // {
+        // allPorts.add(p);
+        // }
+        // }
+        // if (allPorts.size() == 0)
+        // {
+        // // We do not have any ports to set, skip to placement phase
+        // return new InitialPlacementGamePhase();
+        // }
+        // else
+        // {
+        // // players should place ports
+        // return new InitialPlacementGamePhase();
+        // }
+    }
+
+    @Override
+    public String getMessage()
+    {
+        // TODO: fix message
+        return "Determine game starter";
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.common.game.gamePhase.AbstractGamePhase#nextTurn(soc.common.game.
+     * Game)
+     */
+    @Override
+    public Turn nextTurn(Game game)
+    {
+        if (game.getGameStarter() != null)
         {
-            for (Port p : t.getPorts())
-            {
-                allPorts.add(p);
-            }
+            return new TurnImpl().setPlayer(game.getGameStarter());
         }
-        if (allPorts.size() == 0)
-        {
-            // We do not have any ports to set, skip to placement phase
-            return new InitialPlacementGamePhase();
-        }
-        else
-        {
-            // players should place ports
-            return new InitialPlacementGamePhase();
-        }
+        return super.nextTurn(game);
     }
 
 }

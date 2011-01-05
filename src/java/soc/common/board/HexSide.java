@@ -198,19 +198,6 @@ public class HexSide
         hexPoint2 = new HexPoint(hex1, hex2, loc2);
     }
 
-    @Override
-    public int hashCode()
-    {
-        return hex1.hashCode() ^ hex2.hashCode();
-    }
-
-    private boolean isEqual(HexSide other)
-    {
-        return (hex1.equals(other.getHex1()) && hex2.equals(other.getHex2()))
-                || (hex1.equals(other.getHex2()) && hex2
-                        .equals(other.getHex1()));
-    }
-
     public HexPoint getOtherPoint(HexPoint first)
     {
         if (first.equals(hexPoint1))
@@ -239,12 +226,13 @@ public class HexSide
     {
         if (other instanceof HexSide)
         {
-            return isEqual((HexSide) other);
+            HexSide otherSide = (HexSide) other;
+            return (hex1.equals(otherSide.getHex1()) && hex2.equals(otherSide
+                    .getHex2()))
+                    || (hex1.equals(otherSide.getHex2()) && hex2
+                            .equals(otherSide.getHex1()));
         }
-        else
-        {
-            return false;
-        }
+        return false;
     }
 
     public boolean fallsWithinBoardBounds(int width, int height)
@@ -256,5 +244,20 @@ public class HexSide
         }
 
         return true;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode()
+    {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((hex1 == null) ? 0 : hex1.hashCode());
+        result = prime * result + ((hex2 == null) ? 0 : hex2.hashCode());
+        return result;
     }
 }

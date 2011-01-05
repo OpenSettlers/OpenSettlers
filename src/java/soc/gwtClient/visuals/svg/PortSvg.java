@@ -187,19 +187,19 @@ public class PortSvg extends AbstractPortVisual implements MouseMoveHandler,
     @Override
     public void onMouseMove(MouseMoveEvent event)
     {
-        parent.getCurrentBehaviour().mouseEnter(this, parent);
+        parent.getBoardBehaviour().mouseEnter(this, parent);
     }
 
     @Override
     public void onClick(ClickEvent event)
     {
-        parent.getCurrentBehaviour().clicked(this, parent);
+        parent.getBoardBehaviour().clicked(this, parent);
     }
 
     @Override
     public void onMouseOut(MouseOutEvent event)
     {
-        parent.getCurrentBehaviour().mouseOut(this, parent);
+        parent.getBoardBehaviour().mouseOut(this, parent);
     }
 
     /*

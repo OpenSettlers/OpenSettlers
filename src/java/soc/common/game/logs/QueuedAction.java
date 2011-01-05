@@ -20,7 +20,7 @@ import soc.common.actions.gameAction.GameAction;
 public class QueuedAction
 {
     private GameAction action;
-    private boolean isBlocking = false;
+    private boolean isBlocking = true;
     private boolean isOptional = false;
 
     public QueuedAction()

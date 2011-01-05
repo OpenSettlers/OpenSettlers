@@ -11,7 +11,8 @@ import soc.common.board.pieces.PiecesChangedEventHandler;
 import soc.common.board.pieces.PlayerPiece;
 import soc.common.board.routing.GraphPoint;
 import soc.common.board.routing.GraphSide;
-import soc.common.client.behaviour.InteractionBehaviour;
+import soc.common.client.behaviour.BehaviourDoneEvent;
+import soc.common.client.behaviour.BehaviourDoneEventHandler;
 import soc.common.client.behaviour.game.GameBehaviour;
 import soc.common.client.visuals.PieceVisual;
 import soc.common.client.visuals.board.AbstractBoardVisual;
@@ -19,6 +20,8 @@ import soc.common.client.visuals.board.BoardVisual;
 import soc.common.game.Game;
 import soc.common.game.GamePlayer;
 
+import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.user.client.ui.Widget;
 
 public abstract class AbstractGameBoardVisual extends AbstractBoardVisual
@@ -32,7 +35,8 @@ public abstract class AbstractGameBoardVisual extends AbstractBoardVisual
     protected Map<PlayerPiece, PieceVisual> playerPieceVisuals = new HashMap<PlayerPiece, PieceVisual>();
     protected Map<GraphPoint, PointVisual> pointVisuals = new HashMap<GraphPoint, PointVisual>();
     protected Map<GraphSide, SideVisual> sideVisuals = new HashMap<GraphSide, SideVisual>();
-    protected GameBehaviour interactionBehaviour;
+    protected GameBehaviour gameBehaviour;
+    protected SimpleEventBus eventBus = new SimpleEventBus();
 
     public AbstractGameBoardVisual(Game game)
     {
@@ -195,21 +199,53 @@ public abstract class AbstractGameBoardVisual extends AbstractBoardVisual
     @Override
     public void setBehaviour(GameBehaviour gameBehaviour)
     {
-        interactionBehaviour = gameBehaviour;
-        interactionBehaviour.start(this);
+        // Get rid of visual state from old behaviour
+        if (this.gameBehaviour != null)
+        {
+            this.gameBehaviour.setNeutral(this);
+        }
+
+        // Change th behaviour
+        this.gameBehaviour = gameBehaviour;
+
+        // Set start visual state of new behaviour
+        gameBehaviour.start(this);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see soc.common.client.visuals.game.GameBoardVisual#getBehaviour()
+     */
     @Override
-    public InteractionBehaviour getCurrentBehaviour()
+    public GameBehaviour getBehaviour()
     {
-        return interactionBehaviour;
+        return gameBehaviour;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.common.client.visuals.game.GameBoardVisual#addBehaviourDoneEventHandler
+     * (soc.common.client.behaviour.BehaviourDoneEventHandler)
+     */
     @Override
-    public BoardVisual setInteractionBehaviour(InteractionBehaviour behaviour)
+    public HandlerRegistration addBehaviourDoneEventHandler(
+            BehaviourDoneEventHandler handler)
     {
-        // TODO Auto-generated method stub
-        return null;
+        return eventBus.addHandler(BehaviourDoneEvent.TYPE, handler);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see soc.common.client.visuals.game.GameBoardVisual#onBehaviourDone()
+     */
+    @Override
+    public void onBehaviourDone()
+    {
+        gameBehaviour.setNeutral(this);
+        eventBus.fireEvent(new BehaviourDoneEvent(gameBehaviour, true));
+    }
 }

@@ -20,7 +20,7 @@ public abstract class AbstractBoardVisual extends AbstractPieceVisual implements
     protected double sideLength = 35;
     private double h;
     private double halfWidth;
-    private double b;
+    private double height;
     private double width;
 
     /**
@@ -43,13 +43,13 @@ public abstract class AbstractBoardVisual extends AbstractPieceVisual implements
     }
 
     @Override
-    public InteractionBehaviour getCurrentBehaviour()
+    public InteractionBehaviour getBoardBehaviour()
     {
         return editBehaviour;
     }
 
     @Override
-    public BoardVisual setInteractionBehaviour(InteractionBehaviour behaviour)
+    public BoardVisual setBoardBehaviour(InteractionBehaviour behaviour)
     {
         editBehaviour = behaviour;
 
@@ -66,7 +66,7 @@ public abstract class AbstractBoardVisual extends AbstractPieceVisual implements
     @Override
     public void onBehaviourChanged(BehaviourChanged behaviourChanged)
     {
-        setInteractionBehaviour(behaviourChanged.getBehaviour());
+        setBoardBehaviour(behaviourChanged.getBehaviour());
     }
 
     @Override
@@ -106,7 +106,7 @@ public abstract class AbstractBoardVisual extends AbstractPieceVisual implements
     @Override
     public double getHalfHeight()
     {
-        return b / 2;
+        return height / 2;
     }
 
     /*
@@ -128,7 +128,7 @@ public abstract class AbstractBoardVisual extends AbstractPieceVisual implements
     @Override
     public double getHeight()
     {
-        return b;
+        return height;
     }
 
     /*
@@ -178,7 +178,7 @@ public abstract class AbstractBoardVisual extends AbstractPieceVisual implements
         // TODO: come up with descriptive names for h and b
         h = Math.sin(DegreesToRadians(30)) * sideLength;
         halfWidth = Math.cos(DegreesToRadians(30)) * sideLength;
-        b = sideLength + 2 * h;
+        height = sideLength + (2 * h);
         width = 2 * halfWidth;
     }
 }
