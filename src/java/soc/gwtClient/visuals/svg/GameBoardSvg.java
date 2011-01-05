@@ -6,6 +6,7 @@ import soc.common.board.hexes.Hex;
 import soc.common.board.pieces.PiecesChangedEvent;
 import soc.common.board.routing.GraphPoint;
 import soc.common.board.routing.GraphSide;
+import soc.common.client.behaviour.NoBehaviour;
 import soc.common.client.visuals.PieceVisual;
 import soc.common.client.visuals.board.HexVisual;
 import soc.common.client.visuals.game.AbstractGameBoardVisual;
@@ -33,6 +34,7 @@ public class GameBoardSvg extends AbstractGameBoardVisual
         super(game);
 
         boardSvg = new BoardSvg(width, height, game.getBoard());
+        boardSvg.setBoardBehaviour(new NoBehaviour());
 
         for (GraphSide side : board.getGraph().getSides())
         {

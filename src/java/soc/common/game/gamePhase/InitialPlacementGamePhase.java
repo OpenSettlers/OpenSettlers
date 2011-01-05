@@ -29,7 +29,6 @@ public class InitialPlacementGamePhase extends AbstractGamePhase
                 // Tournament starting rules, add a city
                 game.getActionsQueue().enqueue(
                         new BuildCity().setPlayer(game.getPlayers().get(i)));
-
             }
             else
             {
