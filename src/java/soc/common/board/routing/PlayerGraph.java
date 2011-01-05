@@ -8,7 +8,7 @@ import java.util.Set;
 import org.jgrapht.UndirectedGraph;
 import org.jgrapht.graph.SimpleGraph;
 
-import soc.common.game.GamePlayer;
+import soc.common.game.player.GamePlayer;
 
 public class PlayerGraph
 {

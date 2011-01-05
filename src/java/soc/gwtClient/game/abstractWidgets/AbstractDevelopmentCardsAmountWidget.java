@@ -1,8 +1,8 @@
 package soc.gwtClient.game.abstractWidgets;
 
-import soc.common.game.GamePlayer;
 import soc.common.game.developmentCards.DevelopmentCardsChangedEvent;
 import soc.common.game.developmentCards.DevelopmentCardsChangedEventHandler;
+import soc.common.game.player.GamePlayer;
 
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;

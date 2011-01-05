@@ -1,7 +1,7 @@
 package soc.gwtClient.game.abstractWidgets;
 
 import soc.common.board.resources.ResourcesChangedEvent;
-import soc.common.game.GamePlayer;
+import soc.common.game.player.GamePlayer;
 
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;

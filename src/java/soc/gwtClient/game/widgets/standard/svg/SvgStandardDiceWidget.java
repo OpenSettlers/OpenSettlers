@@ -2,9 +2,9 @@ package soc.gwtClient.game.widgets.standard.svg;
 
 import soc.common.actions.gameAction.turnActions.standard.RollDice;
 import soc.common.game.DiceChangedEvent;
-import soc.common.game.GamePlayer;
 import soc.common.game.dices.Dice;
 import soc.common.game.dices.StandardDice;
+import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.AbstractStandardDiceWidget;
 import soc.gwtClient.game.abstractWidgets.IActionWidget;
 import soc.gwtClient.game.abstractWidgets.IGamePanel;

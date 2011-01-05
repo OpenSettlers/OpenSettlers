@@ -7,7 +7,7 @@ import soc.common.board.pieces.PlayerPiece;
 import soc.common.board.pieces.Road;
 import soc.common.board.pieces.Town;
 import soc.common.game.Game;
-import soc.common.game.GamePlayer;
+import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.AbstractStockWidget;
 import soc.gwtClient.game.abstractWidgets.IStockItemWidget;
 

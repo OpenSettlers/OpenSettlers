@@ -5,9 +5,9 @@ import soc.common.actions.gameAction.HostStartsGame;
 import soc.common.board.Board;
 import soc.common.board.hexes.Hex;
 import soc.common.game.Game;
-import soc.common.game.GamePlayer;
-import soc.common.game.GamePlayerImpl;
 import soc.common.game.developmentCards.DevelopmentCardList;
+import soc.common.game.player.GamePlayer;
+import soc.common.game.player.GamePlayerImpl;
 import soc.common.server.GameServer;
 import soc.common.server.data.Player;
 import soc.common.server.data.UnregisteredUser;
@@ -47,19 +47,19 @@ public class ServerStartGame implements ServerAction
                         .setColor("yellow"));
         gameServer.getGame().getPlayers().add(
                 (GamePlayerImpl) new GamePlayerImpl().setUser(
-                        new UnregisteredUser().setId(1).setName("Kees"))
+                        new UnregisteredUser().setId(2).setName("Kees"))
                         .setColor("white"));
         gameServer.getGame().getPlayers().add(
                 (GamePlayerImpl) new GamePlayerImpl().setUser(
-                        new UnregisteredUser().setId(1).setName("Truus"))
+                        new UnregisteredUser().setId(3).setName("Truus"))
                         .setColor("green"));
         gameServer.getGame().getPlayers().add(
                 (GamePlayerImpl) new GamePlayerImpl().setUser(
-                        new UnregisteredUser().setId(1).setName("Klaas"))
+                        new UnregisteredUser().setId(4).setName("Klaas"))
                         .setColor("red"));
         gameServer.getGame().getPlayers().add(
                 (GamePlayerImpl) new GamePlayerImpl().setUser(
-                        new UnregisteredUser().setId(1).setName("Henk"))
+                        new UnregisteredUser().setId(5).setName("Henk"))
                         .setColor("blue"));
 
         gameServer.getGame().setBoard(new Board());

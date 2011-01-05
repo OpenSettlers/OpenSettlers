@@ -3,7 +3,7 @@ package soc.common.actions;
 import java.io.Serializable;
 import java.util.Date;
 
-import soc.common.game.GamePlayer;
+import soc.common.game.player.GamePlayer;
 
 public interface Action extends Serializable
 {

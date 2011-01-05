@@ -4,7 +4,7 @@ import soc.common.board.pieces.City;
 import soc.common.board.pieces.PiecesChangedEvent;
 import soc.common.board.pieces.PiecesChangedEventHandler;
 import soc.common.board.pieces.PlayerPiece;
-import soc.common.game.GamePlayer;
+import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.AbstractStockItemWidget;
 import soc.gwtClient.images.Resources;
 

@@ -6,7 +6,7 @@ import java.util.Set;
 import org.jgrapht.Graph;
 import org.jgrapht.UndirectedGraph;
 
-import soc.common.game.GamePlayer;
+import soc.common.game.player.GamePlayer;
 
 public class RouteImpl implements Route
 {

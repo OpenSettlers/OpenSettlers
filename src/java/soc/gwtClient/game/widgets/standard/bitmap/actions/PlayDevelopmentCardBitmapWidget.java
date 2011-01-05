@@ -1,9 +1,9 @@
 package soc.gwtClient.game.widgets.standard.bitmap.actions;
 
-import soc.common.game.GamePlayer;
 import soc.common.game.developmentCards.DevelopmentCard;
 import soc.common.game.developmentCards.DevelopmentCardsChangedEvent;
 import soc.common.game.developmentCards.DevelopmentCardsChangedEventHandler;
+import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.IActionWidget;
 import soc.gwtClient.game.abstractWidgets.IGamePanel;
 import soc.gwtClient.game.abstractWidgets.IPlayDevelopmentCardWidget;

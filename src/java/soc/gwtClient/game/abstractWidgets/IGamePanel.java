@@ -4,7 +4,7 @@ import soc.common.actions.gameAction.GameAction;
 import soc.common.board.pieces.PlayerPiece;
 import soc.common.client.visuals.game.GameBoardVisual;
 import soc.common.game.Game;
-import soc.common.game.GamePlayer;
+import soc.common.game.player.GamePlayer;
 
 public interface IGamePanel
 {

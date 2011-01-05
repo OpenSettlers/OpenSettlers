@@ -5,7 +5,7 @@ import java.util.List;
 import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.turnActions.standard.RollDice;
 import soc.common.game.Game;
-import soc.common.game.GamePlayer;
+import soc.common.game.player.GamePlayer;
 
 /*
  * List of GameActions which occurred during a game

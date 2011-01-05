@@ -4,8 +4,8 @@ import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import soc.common.game.GamePlayer;
 import soc.common.game.developmentCards.DevelopmentCardsChangedEventHandler;
+import soc.common.game.player.GamePlayer;
 
 public abstract class AbstractLargestArmyWidget 
     implements ILargestArmyWidget, DevelopmentCardsChangedEventHandler

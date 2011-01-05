@@ -24,6 +24,8 @@ import soc.common.game.logs.ChatLogImpl;
 import soc.common.game.logs.GameLog;
 import soc.common.game.logs.GameLogImpl;
 import soc.common.game.logs.QueuedAction;
+import soc.common.game.player.GamePlayer;
+import soc.common.game.player.GamePlayerList;
 import soc.common.game.statuses.GameStatus;
 import soc.common.game.statuses.WaitingForPlayers;
 
@@ -45,7 +47,7 @@ public class Game
 
     private ResourceList bank = new ResourceList();
 
-    private List<GamePlayer> players = new ArrayList<GamePlayer>();
+    private GamePlayerList players = new GamePlayerList();
     private List<GamePlayer> spectators = new ArrayList<GamePlayer>();
     private Pirate pirate = new Pirate(new HexLocation(0, 0));
     private Robber robber = null;
@@ -291,6 +293,8 @@ public class Game
     {
         this.gameStarter = gameStarter;
 
+        players.setStartPlayer(gameStarter);
+
         return this;
     }
 
@@ -350,7 +354,7 @@ public class Game
         this.actionsQueue = actionsQueue;
     }
 
-    public List<GamePlayer> getPlayers()
+    public GamePlayerList getPlayers()
     {
         return players;
     }

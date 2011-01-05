@@ -2,7 +2,7 @@ package soc.common.board.pieces;
 
 import soc.common.board.Board;
 import soc.common.board.resources.ResourceList;
-import soc.common.game.GamePlayer;
+import soc.common.game.player.GamePlayer;
 import soc.common.utils.ClassUtils;
 
 public abstract class AbstractPlayerPiece extends AbstractPiece implements

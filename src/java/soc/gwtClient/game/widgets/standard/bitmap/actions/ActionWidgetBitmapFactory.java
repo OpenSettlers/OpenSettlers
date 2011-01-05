@@ -11,7 +11,7 @@ import soc.common.actions.gameAction.turnActions.standard.PlayDevelopmentCard;
 import soc.common.actions.gameAction.turnActions.standard.RollDice;
 import soc.common.actions.gameAction.turnActions.standard.TradeBank;
 import soc.common.actions.gameAction.turnActions.standard.TradePlayer;
-import soc.common.game.GamePlayer;
+import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.IActionWidget;
 import soc.gwtClient.game.abstractWidgets.IGamePanel;
 import soc.gwtClient.game.abstractWidgets.factories.IActionWidgetFactory;

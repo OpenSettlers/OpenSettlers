@@ -5,8 +5,8 @@ import soc.common.board.HexPoint;
 import soc.common.board.resources.Ore;
 import soc.common.board.resources.ResourceList;
 import soc.common.board.resources.Wheat;
-import soc.common.game.GamePlayer;
 import soc.common.game.VictoryPointItem;
+import soc.common.game.player.GamePlayer;
 
 public class City extends AbstractPlayerPiece implements VictoryPointItem,
         PointPiece

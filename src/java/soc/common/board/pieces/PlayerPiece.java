@@ -1,7 +1,7 @@
 package soc.common.board.pieces;
 
 import soc.common.board.resources.ResourceList;
-import soc.common.game.GamePlayer;
+import soc.common.game.player.GamePlayer;
 
 public interface PlayerPiece
 {

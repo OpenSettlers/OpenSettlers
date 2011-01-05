@@ -3,7 +3,7 @@ package soc.common.server.actions;
 import soc.common.actions.gameAction.AbstractGameAction;
 import soc.common.actions.gameAction.turnActions.standard.RobPlayer;
 import soc.common.game.Game;
-import soc.common.game.GamePlayer;
+import soc.common.game.player.GamePlayer;
 import soc.common.server.GameServer;
 
 import com.google.gwt.user.client.Random;

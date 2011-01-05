@@ -1,4 +1,4 @@
-package soc.common.game;
+package soc.common.game.player;
 
 import soc.common.board.resources.ResourceList;
 import soc.common.game.developmentCards.DevelopmentCard;

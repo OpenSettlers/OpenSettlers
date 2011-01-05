@@ -1,8 +1,8 @@
 package soc.gwtClient.game.widgets.standard.bitmap;
 
-import soc.common.game.GamePlayer;
 import soc.common.game.developmentCards.DevelopmentCardsChangedEvent;
 import soc.common.game.developmentCards.standard.Soldier;
+import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.AbstractLargestArmyWidget;
 import soc.gwtClient.images.Resources;
 

@@ -1,8 +1,11 @@
-package soc.common.game;
+package soc.common.game.player;
 
 import soc.common.board.pieces.PlayerPieceList;
 import soc.common.board.ports.PortList;
 import soc.common.board.resources.ResourceList;
+import soc.common.game.RoadTokensChangedEventHandler;
+import soc.common.game.TurnChangedEventHandler;
+import soc.common.game.VictoryPointsList;
 import soc.common.game.developmentCards.DevelopmentCard;
 import soc.common.game.developmentCards.DevelopmentCardList;
 import soc.common.server.data.User;

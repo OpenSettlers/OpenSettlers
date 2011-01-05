@@ -2,9 +2,9 @@ package soc.common.game.developmentCards.standard;
 
 import soc.common.actions.gameAction.turnActions.standard.PlaceRobber;
 import soc.common.game.Game;
-import soc.common.game.GamePlayer;
 import soc.common.game.developmentCards.DevelopmentCard;
 import soc.common.game.logs.QueuedAction;
+import soc.common.game.player.GamePlayer;
 
 public class Soldier extends DevelopmentCard
 {

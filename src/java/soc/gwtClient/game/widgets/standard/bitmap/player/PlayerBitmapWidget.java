@@ -1,7 +1,7 @@
 package soc.gwtClient.game.widgets.standard.bitmap.player;
 
 import soc.common.game.Game;
-import soc.common.game.GamePlayer;
+import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.AbstractPlayerWidget;
 import soc.gwtClient.game.abstractWidgets.IDevelopmentCardsAmountWidget;
 import soc.gwtClient.game.abstractWidgets.ILargestArmyWidget;

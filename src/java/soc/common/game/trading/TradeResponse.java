@@ -1,6 +1,6 @@
 package soc.common.game.trading;
 
-import soc.common.game.GamePlayer;
+import soc.common.game.player.GamePlayer;
 
 public interface TradeResponse
 {

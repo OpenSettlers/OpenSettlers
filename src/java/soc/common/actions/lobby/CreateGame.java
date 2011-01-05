@@ -1,6 +1,6 @@
 package soc.common.actions.lobby;
 
-import soc.common.game.GamePlayer;
+import soc.common.game.player.GamePlayer;
 import soc.common.server.Lobby;
 
 public class CreateGame extends AbstractLobbyAction

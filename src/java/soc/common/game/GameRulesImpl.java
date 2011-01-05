@@ -16,6 +16,7 @@ import soc.common.board.pieces.Town;
 import soc.common.board.resources.Resource;
 import soc.common.game.developmentCards.DevelopmentCardList;
 import soc.common.game.dices.Dice;
+import soc.common.game.player.GamePlayer;
 import soc.common.game.variants.Standard;
 import soc.common.game.variants.Variant;
 

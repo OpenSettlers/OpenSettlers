@@ -1,8 +1,8 @@
 package soc.gwtClient.game.widgets.standard.bitmap.actions;
 
-import soc.common.game.GamePlayer;
 import soc.common.game.VictoryPointsChangedEvent;
 import soc.common.game.VictoryPointsChangedEventHandler;
+import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.AbstractActionWidget;
 import soc.gwtClient.game.abstractWidgets.IGamePanel;
 import soc.gwtClient.images.Resources;

@@ -10,7 +10,7 @@ import soc.common.client.behaviour.game.DisabledMap;
 import soc.common.client.behaviour.game.GameBehaviour;
 import soc.common.client.visuals.game.GameBoardVisual;
 import soc.common.game.Game;
-import soc.common.game.GamePlayer;
+import soc.common.game.player.GamePlayer;
 import soc.common.server.GameServer;
 import soc.common.server.IGameServerCallback;
 import soc.gwtClient.game.CenterWidget;

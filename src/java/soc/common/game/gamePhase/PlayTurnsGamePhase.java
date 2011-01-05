@@ -3,11 +3,11 @@ package soc.common.game.gamePhase;
 import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.turnActions.TurnAction;
 import soc.common.game.Game;
-import soc.common.game.GamePlayer;
 import soc.common.game.Turn;
 import soc.common.game.TurnImpl;
 import soc.common.game.gamePhase.turnPhase.BeforeDiceRollTurnPhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
+import soc.common.game.player.GamePlayer;
 
 public class PlayTurnsGamePhase extends AbstractGamePhase
 {

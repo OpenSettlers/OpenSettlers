@@ -1,6 +1,6 @@
 package soc.gwtClient.game.widgets.bitmap;
 
-import soc.common.game.GamePlayer;
+import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.IGamePanel;
 import soc.gwtClient.game.widgets.abstractWidgets.AbstractTradePlayerStatusWidget;
 

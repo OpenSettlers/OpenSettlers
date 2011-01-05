@@ -5,11 +5,11 @@ import java.util.List;
 
 import soc.common.actions.gameAction.GameAction;
 import soc.common.game.Game;
-import soc.common.game.GamePlayer;
 import soc.common.game.PlayerList;
 import soc.common.game.PlayerListImpl;
 import soc.common.game.Turn;
 import soc.common.game.TurnImpl;
+import soc.common.game.player.GamePlayer;
 
 public class LobbyGamePhase extends AbstractGamePhase
 {

@@ -5,7 +5,7 @@ import soc.common.board.HexSide;
 import soc.common.board.resources.Clay;
 import soc.common.board.resources.ResourceList;
 import soc.common.board.resources.Timber;
-import soc.common.game.GamePlayer;
+import soc.common.game.player.GamePlayer;
 
 public class Road extends AbstractPlayerPiece implements SidePiece
 {

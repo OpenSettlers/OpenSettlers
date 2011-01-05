@@ -3,7 +3,7 @@ package soc.common.game.statuses;
 import java.util.ArrayList;
 import java.util.List;
 
-import soc.common.game.GamePlayer;
+import soc.common.game.player.GamePlayer;
 
 /*
  * Status where the game is waiting for a replacement player because a player left the game 

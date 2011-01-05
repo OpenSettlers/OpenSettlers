@@ -1,6 +1,6 @@
 package soc.gwtClient.game.widgets.standard.bitmap.actions;
 
-import soc.common.game.GamePlayer;
+import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.AbstractActionsWidget;
 import soc.gwtClient.game.abstractWidgets.IGamePanel;
 import soc.gwtClient.game.abstractWidgets.factories.IActionWidgetFactory;

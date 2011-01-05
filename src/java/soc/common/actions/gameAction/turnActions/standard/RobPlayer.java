@@ -6,13 +6,13 @@ import soc.common.actions.gameAction.turnActions.AbstractTurnAction;
 import soc.common.board.HexPoint;
 import soc.common.board.resources.Resource;
 import soc.common.game.Game;
-import soc.common.game.GamePlayer;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.PlayTurnsGamePhase;
 import soc.common.game.gamePhase.turnPhase.BeforeDiceRollTurnPhase;
 import soc.common.game.gamePhase.turnPhase.BuildingTurnPhase;
 import soc.common.game.gamePhase.turnPhase.RollDiceTurnPhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
+import soc.common.game.player.GamePlayer;
 import soc.common.internationalization.I18n;
 
 /*

@@ -9,7 +9,7 @@ import soc.common.board.resources.ResourcesChangedEvent;
 import soc.common.board.resources.ResourcesChangedEventHandler;
 import soc.common.game.Game;
 import soc.common.game.GamePhaseChangedEventHandler;
-import soc.common.game.GamePlayer;
+import soc.common.game.player.GamePlayer;
 
 public abstract class AbstractActionWidget implements 
         IActionWidget

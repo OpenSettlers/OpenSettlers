@@ -5,7 +5,7 @@ import java.util.List;
 
 import soc.common.board.ports.PortList;
 import soc.common.board.resources.ResourceList;
-import soc.common.game.GamePlayer;
+import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.IGamePanel;
 import soc.gwtClient.game.widgets.abstractWidgets.IResourceListWidget;
 import soc.gwtClient.game.widgets.abstractWidgets.IResourcePickerWidget;

@@ -2,7 +2,7 @@ package soc.common.board.routing;
 
 import soc.common.board.HexPoint;
 import soc.common.board.pieces.PlayerPiece;
-import soc.common.game.GamePlayer;
+import soc.common.game.player.GamePlayer;
 
 public class GraphPointImpl implements GraphPoint
 {

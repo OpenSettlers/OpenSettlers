@@ -2,7 +2,7 @@ package soc.gwtClient.game.widgets.standard.bitmap;
 
 import soc.common.board.resources.Resource;
 import soc.common.board.resources.ResourcesChangedEvent;
-import soc.common.game.GamePlayer;
+import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.AbstractHandCardsWidget;
 
 import com.google.gwt.user.client.ui.ComplexPanel;

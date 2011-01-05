@@ -4,9 +4,9 @@ import java.util.Date;
 
 import soc.common.actions.AbstractAction;
 import soc.common.game.Game;
-import soc.common.game.GamePlayer;
-import soc.common.game.GamePlayerImpl;
 import soc.common.game.Turn;
+import soc.common.game.player.GamePlayer;
+import soc.common.game.player.GamePlayerImpl;
 import soc.common.game.statuses.GameStatus;
 import soc.common.server.data.ServerUser;
 import soc.common.utils.ClassUtils;

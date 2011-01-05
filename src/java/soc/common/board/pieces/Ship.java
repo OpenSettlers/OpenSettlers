@@ -5,7 +5,7 @@ import soc.common.board.Board;
 import soc.common.board.resources.ResourceList;
 import soc.common.board.resources.Sheep;
 import soc.common.board.resources.Timber;
-import soc.common.game.GamePlayer;
+import soc.common.game.player.GamePlayer;
 
 @SeaFarers
 public class Ship extends AbstractPlayerPiece

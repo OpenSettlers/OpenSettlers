@@ -1,10 +1,10 @@
 package soc.common.actions.gameAction;
 
 import soc.common.game.Game;
-import soc.common.game.GamePlayer;
 import soc.common.game.gamePhase.DetermineFirstPlayerGamePhase;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
+import soc.common.game.player.GamePlayer;
 import soc.common.internationalization.I18n;
 
 public class StartingPlayerDetermined extends AbstractGameAction

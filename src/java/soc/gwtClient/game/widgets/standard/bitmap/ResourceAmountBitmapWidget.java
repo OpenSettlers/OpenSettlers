@@ -1,7 +1,7 @@
 package soc.gwtClient.game.widgets.standard.bitmap;
 
 import soc.common.board.resources.ResourcesChangedEvent;
-import soc.common.game.GamePlayer;
+import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.AbstractResourceAmountWidget;
 import soc.gwtClient.images.Resources;
 

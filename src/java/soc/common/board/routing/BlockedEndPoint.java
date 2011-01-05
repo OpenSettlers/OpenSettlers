@@ -4,7 +4,7 @@ import com.google.gwt.user.client.Random;
 
 import soc.common.board.HexPoint;
 import soc.common.board.pieces.PlayerPiece;
-import soc.common.game.GamePlayer;
+import soc.common.game.player.GamePlayer;
 
 /*
  * Represents a splitted end point of a subgraph. When a town is built on an existing 

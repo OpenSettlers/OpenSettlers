@@ -1,14 +1,16 @@
 package soc.gwtClient.game.abstractWidgets;
 
 import soc.common.game.Game;
-import soc.common.game.GamePlayer;
+import soc.common.game.player.GamePlayer;
 
 import com.google.gwt.user.client.ui.ComplexPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public abstract class AbstractPlayerWidget implements IPlayerWidget
+public abstract class AbstractPlayerWidget extends HorizontalPanel implements
+        IPlayerWidget
 {
     protected IStockWidget stockWidget;
     protected IDevelopmentCardsAmountWidget devcardsWidget;
@@ -18,7 +20,6 @@ public abstract class AbstractPlayerWidget implements IPlayerWidget
     protected IVictoryPointsWidget victoryPointWidget;
     protected PlayerTurnStatusWidget turnStatusWidget;
 
-    protected ComplexPanel rootPanel;
     protected Game game;
     protected GamePlayer player;
     protected Label lblName = new Label();
@@ -27,8 +28,6 @@ public abstract class AbstractPlayerWidget implements IPlayerWidget
     {
         this.game = game;
         this.player = player;
-
-        rootPanel = createRootPanel();
 
         stockWidget = createStockWidget();
         lblName.setText(player.getUser().getName());
@@ -40,17 +39,17 @@ public abstract class AbstractPlayerWidget implements IPlayerWidget
         victoryPointWidget = createVictoryPointWidget();
         turnStatusWidget = createTurnStatusWidget();
 
-        rootPanel.add(lblName);
-        rootPanel.add(stockWidget);
+        add(lblName);
+        add(stockWidget);
 
-        rootPanel.add(devcardsWidget);
-        rootPanel.add(resourcesWidget);
-        rootPanel.add(largestArmyWidget);
-        rootPanel.add(longestRoadWidget);
-        rootPanel.add(victoryPointWidget);
-        rootPanel.add(turnStatusWidget);
+        add(devcardsWidget);
+        add(resourcesWidget);
+        add(largestArmyWidget);
+        add(longestRoadWidget);
+        add(victoryPointWidget);
+        add(turnStatusWidget);
 
-        rootPanel.setStyleName("player-widget-" + player.getColor());
+        this.setStyleName("player-widget-" + player.getColor());
     }
 
     /*
@@ -61,7 +60,7 @@ public abstract class AbstractPlayerWidget implements IPlayerWidget
     @Override
     public Widget asWidget()
     {
-        return rootPanel;
+        return this;
     }
 
     /*
@@ -73,5 +72,16 @@ public abstract class AbstractPlayerWidget implements IPlayerWidget
     public ComplexPanel createRootPanel()
     {
         return new VerticalPanel();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see soc.gwtClient.game.abstractWidgets.IPlayerWidget#getPlayer()
+     */
+    @Override
+    public GamePlayer getPlayer()
+    {
+        return player;
     }
 }

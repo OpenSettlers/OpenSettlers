@@ -3,7 +3,7 @@ package soc.gwtClient.game.widgets.abstractWidgets;
 import soc.common.board.resources.Ore;
 import soc.common.board.resources.ResourceList;
 import soc.common.board.resources.Wheat;
-import soc.common.game.GamePlayer;
+import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.IGamePanel;
 import soc.gwtClient.game.widgets.bitmap.BitmapTradeListWidget;
 import soc.gwtClient.images.Resources;

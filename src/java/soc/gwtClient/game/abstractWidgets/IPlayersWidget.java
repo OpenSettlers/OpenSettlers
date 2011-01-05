@@ -1,7 +1,7 @@
 package soc.gwtClient.game.abstractWidgets;
 
 import soc.common.game.Game;
-import soc.common.game.GamePlayer;
+import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.Point2D;
 
 import com.google.gwt.user.client.ui.ComplexPanel;

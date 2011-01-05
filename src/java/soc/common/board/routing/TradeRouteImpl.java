@@ -5,7 +5,7 @@ import java.util.List;
 import org.jgrapht.Graph;
 
 import soc.common.board.territories.Territory;
-import soc.common.game.GamePlayer;
+import soc.common.game.player.GamePlayer;
 
 /*
  * Represents a route from Territory A to Territory B. 

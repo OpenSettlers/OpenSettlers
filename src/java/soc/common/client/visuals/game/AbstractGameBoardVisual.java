@@ -18,7 +18,7 @@ import soc.common.client.visuals.PieceVisual;
 import soc.common.client.visuals.board.AbstractBoardVisual;
 import soc.common.client.visuals.board.BoardVisual;
 import soc.common.game.Game;
-import soc.common.game.GamePlayer;
+import soc.common.game.player.GamePlayer;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;

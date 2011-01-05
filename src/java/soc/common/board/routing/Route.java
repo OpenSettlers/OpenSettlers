@@ -2,7 +2,7 @@ package soc.common.board.routing;
 
 import org.jgrapht.GraphPath;
 
-import soc.common.game.GamePlayer;
+import soc.common.game.player.GamePlayer;
 
 public interface Route extends GraphPath<GraphPoint, GraphSide>
 {

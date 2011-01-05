@@ -1,6 +1,6 @@
 package soc.common.board.pieces;
 
-import soc.common.game.GamePlayer;
+import soc.common.game.player.GamePlayer;
 
 import com.google.gwt.event.shared.GwtEvent;
 

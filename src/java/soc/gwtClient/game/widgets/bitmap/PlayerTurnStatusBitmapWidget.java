@@ -1,8 +1,8 @@
 package soc.gwtClient.game.widgets.bitmap;
 
 import soc.common.game.Game;
-import soc.common.game.GamePlayer;
 import soc.common.game.TurnChangedEvent;
+import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.PlayerTurnStatusWidget;
 import soc.gwtClient.images.Resources;
 

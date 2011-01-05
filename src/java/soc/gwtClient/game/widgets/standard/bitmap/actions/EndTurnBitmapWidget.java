@@ -4,7 +4,7 @@ import soc.common.actions.gameAction.turnActions.AbstractTurnAction;
 import soc.common.actions.gameAction.turnActions.EndTurn;
 import soc.common.game.GamePhaseChangedEvent;
 import soc.common.game.GamePhaseChangedEventHandler;
-import soc.common.game.GamePlayer;
+import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.AbstractActionWidget;
 import soc.gwtClient.game.abstractWidgets.IGamePanel;
 import soc.gwtClient.images.Resources;

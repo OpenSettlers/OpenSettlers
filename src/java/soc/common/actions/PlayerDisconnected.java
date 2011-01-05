@@ -2,7 +2,7 @@ package soc.common.actions;
 
 import java.util.Date;
 
-import soc.common.game.GamePlayer;
+import soc.common.game.player.GamePlayer;
 
 public class PlayerDisconnected extends AbstractAction
 {

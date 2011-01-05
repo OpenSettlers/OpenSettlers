@@ -5,9 +5,9 @@ import soc.common.board.resources.ResourceList;
 import soc.common.board.resources.Sheep;
 import soc.common.board.resources.Wheat;
 import soc.common.game.Game;
-import soc.common.game.GamePlayer;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
+import soc.common.game.player.GamePlayer;
 import soc.common.utils.ClassUtils;
 
 public class DevelopmentCard

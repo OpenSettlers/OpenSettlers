@@ -13,13 +13,13 @@ import soc.common.board.pieces.PlayerPiece;
 import soc.common.board.pieces.Town;
 import soc.common.board.resources.ResourceList;
 import soc.common.game.Game;
-import soc.common.game.GamePlayer;
 import soc.common.game.dices.StandardDice;
 import soc.common.game.gamePhase.DetermineFirstPlayerGamePhase;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.PlayTurnsGamePhase;
 import soc.common.game.gamePhase.turnPhase.RollDiceTurnPhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
+import soc.common.game.player.GamePlayer;
 import soc.common.internationalization.I18n;
 
 public class RollDice extends AbstractTurnAction

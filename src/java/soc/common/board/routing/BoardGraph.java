@@ -18,7 +18,7 @@ import soc.common.board.hexes.Hex;
 import soc.common.board.pieces.City;
 import soc.common.board.pieces.Road;
 import soc.common.board.pieces.Town;
-import soc.common.game.GamePlayer;
+import soc.common.game.player.GamePlayer;
 
 /*
  * Implementation of a board graph to support longest route calculation and bots

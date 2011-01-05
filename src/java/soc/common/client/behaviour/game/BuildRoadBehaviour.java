@@ -8,8 +8,8 @@ import soc.common.board.routing.GraphSide;
 import soc.common.client.visuals.PieceVisual;
 import soc.common.client.visuals.game.GameBoardVisual;
 import soc.common.client.visuals.game.SideVisual;
-import soc.common.game.GamePlayer;
 import soc.common.game.gamePhase.InitialPlacementGamePhase;
+import soc.common.game.player.GamePlayer;
 
 public class BuildRoadBehaviour extends BuildSideBehaviour
 {

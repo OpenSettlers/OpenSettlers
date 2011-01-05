@@ -1,5 +1,7 @@
 package soc.gwtClient.game.abstractWidgets;
 
+import soc.common.game.player.GamePlayer;
+
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.IsWidget;
 
@@ -20,4 +22,6 @@ public interface IPlayerWidget extends IsWidget
     public IVictoryPointsWidget createVictoryPointWidget();
 
     public PlayerTurnStatusWidget createTurnStatusWidget();
+
+    public GamePlayer getPlayer();
 }

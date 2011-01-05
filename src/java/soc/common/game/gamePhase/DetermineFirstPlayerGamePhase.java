@@ -8,9 +8,9 @@ import soc.common.actions.gameAction.StartingPlayerDetermined;
 import soc.common.actions.gameAction.turnActions.RolledSame;
 import soc.common.actions.gameAction.turnActions.standard.RollDice;
 import soc.common.game.Game;
-import soc.common.game.GamePlayer;
 import soc.common.game.Turn;
 import soc.common.game.TurnImpl;
+import soc.common.game.player.GamePlayer;
 
 public class DetermineFirstPlayerGamePhase extends AbstractGamePhase
 {
