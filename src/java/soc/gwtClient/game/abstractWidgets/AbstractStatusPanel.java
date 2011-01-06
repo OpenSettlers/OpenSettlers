@@ -24,7 +24,10 @@ public abstract class AbstractStatusPanel implements StatusPanel,
         super();
         this.gamePanel = gamePanel;
 
+        rootPanel.addSouth(lblPhase, 1);
         rootPanel.add(lblStatus);
+        lblPhase.setStyleName("gamePhaseLabel");
+        lblStatus.setStyleName("gameStatusLabel");
 
         gamePanel.getGame().getActionsQueue().addQueueChangedEventHandler(this);
         gamePanel.getGame().addGamePhaseChangedEventHandler(this);

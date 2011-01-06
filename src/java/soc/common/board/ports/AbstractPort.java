@@ -94,6 +94,19 @@ public abstract class AbstractPort implements Port
     /*
      * (non-Javadoc)
      * 
+     * @seesoc.common.board.ports.Port#setRotationPosition(soc.common.board.
+     * RotationPosition)
+     */
+    @Override
+    public Port setRotationPosition(RotationPosition position)
+    {
+        this.rotationPosition = position;
+        return this;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.board.ports.Port#getInAmount()
      */
     public int getInAmount()

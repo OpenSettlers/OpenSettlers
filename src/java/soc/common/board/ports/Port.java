@@ -42,6 +42,8 @@ public interface Port extends Serializable
      */
     public abstract RotationPosition getRotationPosition();
 
+    public abstract Port setRotationPosition(RotationPosition position);
+
     public abstract int getInAmount();
 
     public abstract int getOutAmount();

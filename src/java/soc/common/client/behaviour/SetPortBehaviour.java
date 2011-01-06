@@ -40,13 +40,11 @@ public class SetPortBehaviour implements InteractionBehaviour
         {
             PortVisual portVisual = (PortVisual) pieceVisual;
             SeaHex seaHex = (SeaHex) currentHexVisual.getHex();
-            /*
-             * TODO: fix Port p = port.copy()
-             * .setHexLocation(seaHex.getLocation()) .set
-             * .(seaHex.getLocation(), portVisual
-             * .getPort().getRotationPosition());
-             */
-            // seaHex.setPort(p);
+
+            Port p = port.copy();
+            p.setRotationPosition(portVisual.getPort().getRotationPosition());
+            p.setHexLocation(seaHex.getLocation());
+            seaHex.setPort(p);
         }
     }
 
