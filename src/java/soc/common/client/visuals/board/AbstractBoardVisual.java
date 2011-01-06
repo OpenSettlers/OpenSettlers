@@ -159,7 +159,7 @@ public abstract class AbstractBoardVisual extends AbstractPieceVisual implements
      * @see soc.common.client.visuals.board.IBoardVisual#getWidth()
      */
     @Override
-    public double getWidth()
+    public double getHexagonWidth()
     {
         return width;
     }

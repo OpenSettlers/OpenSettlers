@@ -10,7 +10,7 @@ public class Sheep extends AbstractResource
     @Override
     public String getColor()
     {
-        return "Green";
+        return "LightGreen";
     }
 
     /*

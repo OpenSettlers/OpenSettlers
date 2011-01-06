@@ -6,8 +6,8 @@ import org.vaadin.gwtgraphics.client.shape.Circle;
 import org.vaadin.gwtgraphics.client.shape.Path;
 
 import soc.common.board.ports.Port;
-import soc.common.client.visuals.board.BoardVisual;
 import soc.common.client.visuals.board.AbstractPortVisual;
+import soc.common.client.visuals.board.BoardVisual;
 import soc.gwtClient.game.Point2D;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -72,8 +72,9 @@ public class PortSvg extends AbstractPortVisual implements MouseMoveHandler,
         circle = new Circle(point.getX(), point.getY(), parent.getSize() / 3);
 
         circle.setFillColor(color);
-        circle.setFillOpacity(fillOpacity);
-        circle.setStrokeWidth(0);
+        circle.setFillOpacity(1);
+        circle.setStrokeWidth(2);
+        circle.setStrokeColor("White");
 
         group.addMouseMoveHandler(this);
         group.addMouseOutHandler(this);
@@ -97,6 +98,8 @@ public class PortSvg extends AbstractPortVisual implements MouseMoveHandler,
             territoryPath = new Path(point.getX(), point.getY());
             territoryPath.setStrokeOpacity(0.2);
             territoryPath.setFillOpacity(fillOpacity);
+
+            circle.setFillColor(port.getColor());
 
             // Update the path to reflect current port position
             createPath();

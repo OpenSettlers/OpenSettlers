@@ -59,7 +59,7 @@ public interface BoardVisual extends PieceVisual, IsWidget
     // / \ /
     // / --
     // / </summary>
-    public double getWidth();
+    public double getHexagonWidth();
 
     // / <summary>
     // / Total height of the hex

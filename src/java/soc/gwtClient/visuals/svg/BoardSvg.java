@@ -64,7 +64,7 @@ public class BoardSvg extends AbstractBoardVisual implements
     {
         double margin = 5;
         double marginLeft = getHalfWidth();
-        double x = location.getW() * (getWidth() + margin);
+        double x = location.getW() * (getHexagonWidth() + margin);
         double y = location.getH() * (getPartialHeight() + margin);
 
         x += marginLeft;
@@ -91,15 +91,15 @@ public class BoardSvg extends AbstractBoardVisual implements
         switch (location.getDirection())
         {
         case SLOPEDOWN:
-            x += getWidth() * 0.25;
+            x += getHexagonWidth() * 0.25;
             y += (getBottomHeight() * 0.5) + getPartialHeight();
             break;
         case SLOPEUP:
-            x += getWidth() * 0.75;
+            x += getHexagonWidth() * 0.75;
             y += (getBottomHeight() * 0.5) + getPartialHeight();
             break;
         case UPDOWN:
-            x += getWidth();
+            x += getHexagonWidth();
             y += getHeight() * 0.5;
             break;
         }
@@ -159,7 +159,7 @@ public class BoardSvg extends AbstractBoardVisual implements
         drawingArea.setSize(width + "px", height + "px");
 
         // First, calculate the projected width & height from the old values
-        double projectedWidth = (board.getWidth() + 1) * getWidth();
+        double projectedWidth = (board.getWidth() + 1) * getHexagonWidth();
         double projectedHeight = (board.getHeight() + 1) * getBottomHeight();
 
         // Then, calculate for width and height a scale factor
@@ -186,8 +186,14 @@ public class BoardSvg extends AbstractBoardVisual implements
     @Override
     public void onHexChanged(HexChangedEvent event)
     {
-        // Get rid of old hex
+        // Grab corresponding hex visual
         HexVisual hv = hexVisuals.get(event.getOldHex());
+
+        // update the hex visual
         hv.setHex(event.getNewHex());
+
+        // Add new hex/hexvisual combo and remove old one
+        hexVisuals.put(event.getNewHex(), hv);
+        hexVisuals.remove(event.getOldHex());
     }
 }
