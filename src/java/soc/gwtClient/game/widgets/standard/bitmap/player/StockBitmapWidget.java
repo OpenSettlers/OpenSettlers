@@ -9,7 +9,7 @@ import soc.common.board.pieces.Town;
 import soc.common.game.Game;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.AbstractStockWidget;
-import soc.gwtClient.game.abstractWidgets.IStockItemWidget;
+import soc.gwtClient.game.abstractWidgets.StockItemWidget;
 
 public class StockBitmapWidget extends AbstractStockWidget
 {
@@ -19,7 +19,7 @@ public class StockBitmapWidget extends AbstractStockWidget
     }
 
     @Override
-    public IStockItemWidget createStockItemWidget(PlayerPiece playerPiece)
+    public StockItemWidget createStockItemWidget(PlayerPiece playerPiece)
     {
         if (playerPiece instanceof Road)
         {

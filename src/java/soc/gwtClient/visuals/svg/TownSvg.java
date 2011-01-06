@@ -4,8 +4,8 @@ import org.vaadin.gwtgraphics.client.VectorObject;
 import org.vaadin.gwtgraphics.client.shape.Path;
 
 import soc.common.board.pieces.Town;
-import soc.common.client.visuals.game.AbstractTownVisual;
 import soc.gwtClient.game.Point2D;
+import soc.gwtClient.visuals.abstractVisuals.AbstractTownVisual;
 
 public class TownSvg extends AbstractTownVisual implements SvgVisual
 {

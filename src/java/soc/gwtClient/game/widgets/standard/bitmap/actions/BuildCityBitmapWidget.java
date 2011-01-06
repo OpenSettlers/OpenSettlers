@@ -11,7 +11,7 @@ import soc.common.game.GamePhaseChangedEvent;
 import soc.common.game.GamePhaseChangedEventHandler;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.AbstractActionWidget;
-import soc.gwtClient.game.abstractWidgets.IGamePanel;
+import soc.gwtClient.game.abstractWidgets.GamePanel;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.user.client.ui.AbsolutePanel;
@@ -37,7 +37,7 @@ public class BuildCityBitmapWidget extends AbstractActionWidget implements
     private Image trade5 = new Image(Resources.icons().trade());
     private BuildCity buildCity = new BuildCity();
 
-    public BuildCityBitmapWidget(IGamePanel gamePanel, GamePlayer player)
+    public BuildCityBitmapWidget(GamePanel gamePanel, GamePlayer player)
     {
         super(gamePanel, player);
 

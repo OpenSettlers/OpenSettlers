@@ -7,7 +7,7 @@ import soc.common.game.developmentCards.standard.Soldier;
 import soc.common.game.developmentCards.standard.VictoryPoint;
 import soc.common.game.developmentCards.standard.YearOfPlenty;
 import soc.gwtClient.game.abstractWidgets.DevelopmentCardWidget;
-import soc.gwtClient.game.abstractWidgets.IGamePanel;
+import soc.gwtClient.game.abstractWidgets.GamePanel;
 import soc.gwtClient.game.abstractWidgets.factories.DevelopmentCardWidgetFactory;
 
 public class DevelopmentCardBitmapWidgetFactory implements
@@ -16,7 +16,7 @@ public class DevelopmentCardBitmapWidgetFactory implements
 
     @Override
     public DevelopmentCardWidget createWidget(DevelopmentCard devCard,
-            IGamePanel gamePanel)
+            GamePanel gamePanel)
     {
         if (devCard instanceof Soldier)
         {

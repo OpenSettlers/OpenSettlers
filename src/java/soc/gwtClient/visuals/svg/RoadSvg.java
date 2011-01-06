@@ -4,8 +4,8 @@ import org.vaadin.gwtgraphics.client.VectorObject;
 import org.vaadin.gwtgraphics.client.shape.Rectangle;
 
 import soc.common.board.pieces.Road;
-import soc.common.client.visuals.game.AbstractRoadVisual;
 import soc.gwtClient.game.Point2D;
+import soc.gwtClient.visuals.abstractVisuals.AbstractRoadVisual;
 
 public class RoadSvg extends AbstractRoadVisual implements SvgVisual
 {

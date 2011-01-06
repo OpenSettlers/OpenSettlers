@@ -11,7 +11,7 @@ public class CreateGame extends AbstractLobbyAction
     @Override
     public String getMessage()
     {
-        // TODO Auto-generated method stub
+        // TODO fix message
         return null;
     }
 

@@ -2,7 +2,7 @@ package soc.gwtClient.game.abstractWidgets.factories;
 
 import soc.common.game.developmentCards.DevelopmentCard;
 import soc.gwtClient.game.abstractWidgets.DevelopmentCardWidget;
-import soc.gwtClient.game.abstractWidgets.IGamePanel;
+import soc.gwtClient.game.abstractWidgets.GamePanel;
 
 /*
  * Creates a Development card widget from a development card instance
@@ -10,5 +10,5 @@ import soc.gwtClient.game.abstractWidgets.IGamePanel;
 public interface DevelopmentCardWidgetFactory
 {
     public DevelopmentCardWidget createWidget(DevelopmentCard devCard,
-            IGamePanel gamePanel);
+            GamePanel gamePanel);
 }

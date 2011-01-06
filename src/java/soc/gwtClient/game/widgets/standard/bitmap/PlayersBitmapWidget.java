@@ -7,7 +7,7 @@ import soc.common.game.player.GamePlayer;
 import soc.common.game.player.OrderChangedEvent;
 import soc.gwtClient.game.Point2D;
 import soc.gwtClient.game.abstractWidgets.AbstractPlayersWidget;
-import soc.gwtClient.game.abstractWidgets.IPlayerWidget;
+import soc.gwtClient.game.abstractWidgets.PlayerWidget;
 import soc.gwtClient.game.widgets.standard.bitmap.player.PlayerBitmapWidget;
 
 import com.google.gwt.user.client.ui.Widget;
@@ -20,7 +20,7 @@ public class PlayersBitmapWidget extends AbstractPlayersWidget
     }
 
     @Override
-    public IPlayerWidget createPlayerWidget(Game game, GamePlayer player)
+    public PlayerWidget createPlayerWidget(Game game, GamePlayer player)
     {
         return new PlayerBitmapWidget(game, player);
     }
@@ -42,10 +42,10 @@ public class PlayersBitmapWidget extends AbstractPlayersWidget
     @Override
     public void onOrderChanged(OrderChangedEvent event)
     {
-        HashMap<GamePlayer, IPlayerWidget> playersWidgets = new HashMap<GamePlayer, IPlayerWidget>();
+        HashMap<GamePlayer, PlayerWidget> playersWidgets = new HashMap<GamePlayer, PlayerWidget>();
         for (int i = 0; i < rootPanel.getWidgetCount(); i++)
         {
-            IPlayerWidget widget = (IPlayerWidget) rootPanel.getWidget(i);
+            PlayerWidget widget = (PlayerWidget) rootPanel.getWidget(i);
             playersWidgets.put(widget.getPlayer(), widget);
         }
 

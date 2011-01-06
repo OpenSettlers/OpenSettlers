@@ -5,11 +5,11 @@ import com.google.gwt.user.client.ui.Widget;
 import soc.common.game.developmentCards.DevelopmentCardsChangedEvent;
 import soc.common.game.developmentCards.DevelopmentCardsChangedEventHandler;
 import soc.common.game.player.GamePlayer;
-import soc.gwtClient.game.abstractWidgets.IActionWidget;
-import soc.gwtClient.game.abstractWidgets.IPlayDevelopmentCardWidget;
+import soc.gwtClient.game.abstractWidgets.ActionWidget;
+import soc.gwtClient.game.abstractWidgets.PlayDevelopmentCardWidget;
 
-public class PlayDevelopmentCardWidget2 implements IActionWidget,
-        IPlayDevelopmentCardWidget, DevelopmentCardsChangedEventHandler
+public class PlayDevelopmentCardWidget2 implements ActionWidget,
+        PlayDevelopmentCardWidget, DevelopmentCardsChangedEventHandler
 {
 
     @Override
@@ -20,7 +20,7 @@ public class PlayDevelopmentCardWidget2 implements IActionWidget,
     }
 
     @Override
-    public IActionWidget setEnabled(boolean enabled)
+    public ActionWidget setEnabled(boolean enabled)
     {
         // TODO Auto-generated method stub
         return null;

@@ -3,7 +3,7 @@ package soc.gwtClient.game.widgets;
 import soc.common.actions.gameAction.GameChat;
 import soc.common.game.logs.SaidEvent;
 import soc.common.game.logs.SaidEventHandler;
-import soc.gwtClient.game.abstractWidgets.IGamePanel;
+import soc.gwtClient.game.abstractWidgets.GamePanel;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.KeyUpEvent;
@@ -20,7 +20,7 @@ public class ChatPanel implements IsWidget, SaidEventHandler
     TextArea chats = new TextArea();
     TextBox saySomething = new TextBox();
     LayoutPanel rootPanel = new LayoutPanel();
-    IGamePanel gamePanel;
+    GamePanel gamePanel;
 
     public ChatPanel()
     {
@@ -47,7 +47,7 @@ public class ChatPanel implements IsWidget, SaidEventHandler
 
     }
 
-    public ChatPanel(IGamePanel gamePanel)
+    public ChatPanel(GamePanel gamePanel)
     {
         this();
 

@@ -8,7 +8,7 @@ import soc.common.game.TurnChangedEventHandler;
 import soc.common.game.developmentCards.DevelopmentCard;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.AbstractActionWidget;
-import soc.gwtClient.game.abstractWidgets.IGamePanel;
+import soc.gwtClient.game.abstractWidgets.GamePanel;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.user.client.ui.AbsolutePanel;
@@ -29,7 +29,7 @@ public class BuyDevelopmentCardBitmapWidget extends AbstractActionWidget
             .icons().buyDvelopmentCard()));
     BuyDevelopmentCard buyDevelopmentCard = new BuyDevelopmentCard();
 
-    public BuyDevelopmentCardBitmapWidget(IGamePanel gamePanel, GamePlayer player)
+    public BuyDevelopmentCardBitmapWidget(GamePanel gamePanel, GamePlayer player)
     {
         super(gamePanel, player);
 

@@ -11,14 +11,13 @@ public class GameStatusChanged extends AbstractLobbyAction
     @Override
     public String getMessage()
     {
-        // TODO Auto-generated method stub
+        // TODO fix message
         return null;
     }
 
     @Override
     public void perform(Lobby lobby)
     {
-        // TODO Auto-generated method stub
 
     }
 

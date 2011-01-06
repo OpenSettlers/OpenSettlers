@@ -4,9 +4,9 @@ import org.vaadin.gwtgraphics.client.Image;
 import org.vaadin.gwtgraphics.client.VectorObject;
 
 import soc.common.board.territories.Territory;
-import soc.common.client.visuals.board.BoardVisual;
-import soc.common.client.visuals.board.AbstractTerritoryVisual;
 import soc.gwtClient.game.Point2D;
+import soc.gwtClient.visuals.abstractVisuals.AbstractTerritoryVisual;
+import soc.gwtClient.visuals.abstractVisuals.BoardVisual;
 
 public class TerritorySvg extends AbstractTerritoryVisual implements SvgVisual
 {

@@ -6,14 +6,14 @@ import soc.common.board.hexes.Hex;
 import soc.common.board.pieces.PiecesChangedEvent;
 import soc.common.board.routing.GraphPoint;
 import soc.common.board.routing.GraphSide;
-import soc.common.client.behaviour.NoBehaviour;
-import soc.common.client.visuals.PieceVisual;
-import soc.common.client.visuals.board.HexVisual;
-import soc.common.client.visuals.game.AbstractGameBoardVisual;
-import soc.common.client.visuals.game.PointVisual;
-import soc.common.client.visuals.game.SideVisual;
-import soc.common.client.visuals.game.VisualFactory;
 import soc.common.game.Game;
+import soc.gwtClient.visuals.abstractVisuals.AbstractGameBoardVisual;
+import soc.gwtClient.visuals.abstractVisuals.HexVisual;
+import soc.gwtClient.visuals.abstractVisuals.PieceVisual;
+import soc.gwtClient.visuals.abstractVisuals.PointVisual;
+import soc.gwtClient.visuals.abstractVisuals.SideVisual;
+import soc.gwtClient.visuals.abstractVisuals.VisualFactory;
+import soc.gwtClient.visuals.behaviour.NoBehaviour;
 
 import com.google.gwt.user.client.ui.Widget;
 

@@ -4,7 +4,7 @@ import soc.common.actions.gameAction.turnActions.standard.PlayDevelopmentCard;
 import soc.common.game.developmentCards.standard.Monopoly;
 import soc.common.internationalization.I18n;
 import soc.gwtClient.game.abstractWidgets.DevelopmentCardWidget;
-import soc.gwtClient.game.abstractWidgets.IGamePanel;
+import soc.gwtClient.game.abstractWidgets.GamePanel;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -18,12 +18,12 @@ import com.google.gwt.user.client.ui.Widget;
 public class PlayMonopolyWidget implements DevelopmentCardWidget
 {
     private Monopoly monopoly;
-    private IGamePanel gamePanel;
+    private GamePanel gamePanel;
     private PlayDevelopmentCard playDevelopmentCard = new PlayDevelopmentCard();
     private HorizontalPanel rootPanel = new HorizontalPanel();
     private Button btnPlay = new Button(I18n.get().constants().play());
 
-    public PlayMonopolyWidget(Monopoly monopoly, final IGamePanel gamePanel)
+    public PlayMonopolyWidget(Monopoly monopoly, final GamePanel gamePanel)
     {
         this.monopoly = monopoly;
         this.gamePanel = gamePanel;

@@ -7,7 +7,7 @@
  * @see soc.common.internationalization
  *      The Internationalization package adds support for translation of
  *      constants and messages. As GWT does not natively support server-side
- *      usage of i18n, gwt_i18n_server is used to allow serverside
- *      internationalization support.
+ *      usage of i18n, gwt_i18n_server is used to support serverside
+ *      internationalization.
  */
 package soc.common;

@@ -6,7 +6,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 import soc.common.game.player.GamePlayer;
 
-public abstract class AbstractStockItemWidget implements IStockItemWidget
+public abstract class AbstractStockItemWidget implements StockItemWidget
 {
     protected GamePlayer player;
     protected ComplexPanel rootPanel;

@@ -4,15 +4,10 @@ import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.MessageFromServer;
 import soc.common.actions.gameAction.turnActions.TurnAction;
 import soc.common.board.pieces.PlayerPiece;
-import soc.common.client.behaviour.GameBehaviourFactory;
-import soc.common.client.behaviour.StandardGameBehaviourFactory;
-import soc.common.client.behaviour.game.DisabledMap;
-import soc.common.client.behaviour.game.GameBehaviour;
-import soc.common.client.visuals.game.GameBoardVisual;
 import soc.common.game.Game;
 import soc.common.game.player.GamePlayer;
 import soc.common.server.GameServer;
-import soc.common.server.IGameServerCallback;
+import soc.common.server.GameServerCallback;
 import soc.gwtClient.game.CenterWidget;
 import soc.gwtClient.game.Point2D;
 import soc.gwtClient.game.dialogs.NewGameDialog;
@@ -21,20 +16,25 @@ import soc.gwtClient.game.widgets.ChatPanel;
 import soc.gwtClient.game.widgets.DebugPanel;
 import soc.gwtClient.game.widgets.GameQueuePanel;
 import soc.gwtClient.game.widgets.abstractWidgets.DebugWidget;
+import soc.gwtClient.visuals.abstractVisuals.GameBoardVisual;
+import soc.gwtClient.visuals.behaviour.GameBehaviourFactory;
+import soc.gwtClient.visuals.behaviour.StandardGameBehaviourFactory;
+import soc.gwtClient.visuals.behaviour.game.DisabledMap;
+import soc.gwtClient.visuals.behaviour.game.GameBehaviour;
 
-public abstract class AbstractGamePanel implements IGamePanel, CenterWidget,
-        IGameServerCallback
+public abstract class AbstractGamePanel implements GamePanel, CenterWidget,
+        GameServerCallback
 {
     protected GameServer server;
     protected Game game;
     protected NewGameDialog newGameWindow;
-    protected IActionsWidget buildPallette;
+    protected ActionsWidget buildPallette;
     protected BankStockPanel bankStockPanel;
     protected BankTradeUI bankTradeUI;
     protected GameBehaviourFactory gameBehaviourFactory;
     protected GameBoardVisual gameBoardVisual;
     protected GameAction performingAction;
-    protected IPlayersWidget playersWidget;
+    protected PlayersWidget playersWidget;
     protected GamePlayer player;
     protected HandCardsWidget handCards;
     protected StatusPanel statusPanel;
@@ -74,7 +74,7 @@ public abstract class AbstractGamePanel implements IGamePanel, CenterWidget,
     /**
      * @return the playersWidget
      */
-    public IPlayersWidget getPlayersWidget()
+    public PlayersWidget getPlayersWidget()
     {
         return playersWidget;
     }

@@ -9,7 +9,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public abstract class AbstractDevelopmentCardsAmountWidget implements
-        IDevelopmentCardsAmountWidget, DevelopmentCardsChangedEventHandler
+        DevelopmentCardsAmountWidget, DevelopmentCardsChangedEventHandler
 {
     protected GamePlayer player;
     protected ComplexPanel rootPanel;

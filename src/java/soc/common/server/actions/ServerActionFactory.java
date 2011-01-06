@@ -7,7 +7,7 @@ import soc.common.actions.gameAction.turnActions.standard.RobPlayer;
 import soc.common.actions.gameAction.turnActions.standard.RollDice;
 import soc.common.server.GameServer;
 
-public class ServerActionFactory implements IGameServerActionFactory
+public class ServerActionFactory implements GameServerActionFactory
 {
     public ServerAction createServerAction(GameAction action,
             GameServer gameServer)

@@ -8,7 +8,7 @@ import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public abstract class AbstractPlayersWidget implements IPlayersWidget,
+public abstract class AbstractPlayersWidget implements PlayersWidget,
         OrderChangedEventHandler
 {
     protected ComplexPanel rootPanel;

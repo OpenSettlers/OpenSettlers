@@ -4,14 +4,14 @@ import soc.common.game.GamePhaseChangedEvent;
 import soc.common.game.logs.ActionQueueChangedEvent;
 import soc.common.game.logs.QueuedAction;
 import soc.gwtClient.game.abstractWidgets.AbstractStatusPanel;
-import soc.gwtClient.game.abstractWidgets.IGamePanel;
+import soc.gwtClient.game.abstractWidgets.GamePanel;
 
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 
 public class StatusBitmapPanel extends AbstractStatusPanel
 {
-    public StatusBitmapPanel(IGamePanel gamePanel)
+    public StatusBitmapPanel(GamePanel gamePanel)
     {
         super(gamePanel);
 

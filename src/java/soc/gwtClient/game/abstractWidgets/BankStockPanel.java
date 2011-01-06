@@ -10,8 +10,8 @@ public interface BankStockPanel extends IsWidget
 {
     public ComplexPanel createRootPanel();
 
-    public IBankStockResourceWidget createBankStockResourceWidget(
+    public BankStockResourceWidget createBankStockResourceWidget(
             Resource resource);
 
-    public IDevelopmentCardsAmountWidget createDevelopmentCardsWidget(Game game);
+    public DevelopmentCardsAmountWidget createDevelopmentCardsWidget(Game game);
 }

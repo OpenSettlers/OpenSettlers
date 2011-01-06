@@ -6,7 +6,7 @@ import soc.common.server.random.ClientRandom;
 
 public class HotSeatServer extends AbstractGameServer
 {
-    public HotSeatServer(IGameServerCallback callback)
+    public HotSeatServer(GameServerCallback callback)
     {
         this.callback = callback;
         game = new Game();

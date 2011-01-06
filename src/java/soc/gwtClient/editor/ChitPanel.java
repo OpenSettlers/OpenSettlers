@@ -1,8 +1,8 @@
 package soc.gwtClient.editor;
 
 import soc.common.board.Chit;
-import soc.common.client.behaviour.editor.SetChitBehaviour;
 import soc.gwtClient.images.Resources;
+import soc.gwtClient.visuals.behaviour.editor.SetChitBehaviour;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -44,7 +44,7 @@ public class ChitPanel extends HorizontalPanel implements HasHandlers
 
     @SuppressWarnings("deprecation")
     public HandlerRegistration addBehaviourChangedEventHandler(
-            IBehaviourChangedHandler handler)
+            BehaviourChangedHandler handler)
     {
         return handlerManager.addHandler(BehaviourChanged.TYPE, handler);
     }

@@ -6,13 +6,13 @@ import java.util.List;
 import soc.common.board.ports.PortList;
 import soc.common.board.resources.ResourceList;
 import soc.common.game.player.GamePlayer;
-import soc.gwtClient.game.abstractWidgets.IGamePanel;
-import soc.gwtClient.game.widgets.abstractWidgets.IResourceListWidget;
-import soc.gwtClient.game.widgets.abstractWidgets.IResourcePickerWidget;
-import soc.gwtClient.game.widgets.abstractWidgets.ITradePlayerStatusWidget;
-import soc.gwtClient.game.widgets.bitmap.BitmapResourceListWidget;
-import soc.gwtClient.game.widgets.bitmap.BitmapResourcePickerWidget;
-import soc.gwtClient.game.widgets.bitmap.BitmapTradePlayerStatusWidget;
+import soc.gwtClient.game.abstractWidgets.GamePanel;
+import soc.gwtClient.game.widgets.abstractWidgets.ResourceListWidget;
+import soc.gwtClient.game.widgets.abstractWidgets.ResourcePickerWidget;
+import soc.gwtClient.game.widgets.abstractWidgets.TradePlayerStatusWidget;
+import soc.gwtClient.game.widgets.bitmap.ResourceListBitmapWidget;
+import soc.gwtClient.game.widgets.bitmap.ResourcePickerBitmapWidget;
+import soc.gwtClient.game.widgets.bitmap.TradePlayerStatusBitmapWidget;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -32,17 +32,17 @@ public class TradePlayersDialog extends PopupPanel
     private ResourceList wantResources = new ResourceList();
     private ResourceList giveResources = new ResourceList();
     private ResourceList playerHand;
-    private IResourcePickerWidget giveResourcePickerWidget;
-    private IResourcePickerWidget wantedResourcePickerWidget;
-    private IResourceListWidget giveResourcesListWidget;
-    private IResourceListWidget wantedResourceListWidget;
-    private IGamePanel gamePanel;
+    private ResourcePickerWidget giveResourcePickerWidget;
+    private ResourcePickerWidget wantedResourcePickerWidget;
+    private ResourceListWidget giveResourcesListWidget;
+    private ResourceListWidget wantedResourceListWidget;
+    private GamePanel gamePanel;
     private VerticalPanel pnlGiveResources;
     private VerticalPanel pnlWantResources;
-    private List<ITradePlayerStatusWidget> playerStatuses = new ArrayList<ITradePlayerStatusWidget>();
+    private List<TradePlayerStatusWidget> playerStatuses = new ArrayList<TradePlayerStatusWidget>();
     private VerticalPanel pnlTradeStatuses;
 
-    public TradePlayersDialog(IGamePanel gamePanel)
+    public TradePlayersDialog(GamePanel gamePanel)
     {
         this();
 
@@ -63,7 +63,7 @@ public class TradePlayersDialog extends PopupPanel
 
         for (GamePlayer opponent : gamePanel.getGame().getPlayers())
         {
-            ITradePlayerStatusWidget tradeStatus = new BitmapTradePlayerStatusWidget(
+            TradePlayerStatusWidget tradeStatus = new TradePlayerStatusBitmapWidget(
                     gamePanel, opponent, gamePanel.getPlayingPlayer());
             playerStatuses.add(tradeStatus);
             pnlTradeStatuses.add(tradeStatus);
@@ -76,17 +76,17 @@ public class TradePlayersDialog extends PopupPanel
         pnlWantResources.add(wantedResourceListWidget);
     }
 
-    private IResourceListWidget createResourceListWidget(
+    private ResourceListWidget createResourceListWidget(
             ResourceList resources, ResourceList bankResources, PortList ports)
     {
-        return new BitmapResourceListWidget(resources, bankResources, ports);
+        return new ResourceListBitmapWidget(resources, bankResources, ports);
     }
 
-    private IResourcePickerWidget createResourcePickerWidget(
+    private ResourcePickerWidget createResourcePickerWidget(
             ResourceList resources, PortList ports, ResourceList bankResources,
-            IGamePanel gamePanel)
+            GamePanel gamePanel)
     {
-        return new BitmapResourcePickerWidget(resources, ports, bankResources,
+        return new ResourcePickerBitmapWidget(resources, ports, bankResources,
                 gamePanel);
     }
 

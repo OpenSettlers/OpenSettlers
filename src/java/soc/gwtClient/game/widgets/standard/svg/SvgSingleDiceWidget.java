@@ -5,8 +5,8 @@ import org.vaadin.gwtgraphics.client.Group;
 import org.vaadin.gwtgraphics.client.shape.Circle;
 import org.vaadin.gwtgraphics.client.shape.Rectangle;
 
-import soc.gwtClient.game.abstractWidgets.ISingleDiceWidget;
-import soc.gwtClient.game.abstractWidgets.IStandardDiceWidget;
+import soc.gwtClient.game.abstractWidgets.SingleDiceWidget;
+import soc.gwtClient.game.abstractWidgets.StandardDiceWidget;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -16,7 +16,7 @@ import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.user.client.ui.Widget;
 
-public class SvgSingleDiceWidget implements ISingleDiceWidget, ClickHandler,
+public class SvgSingleDiceWidget implements SingleDiceWidget, ClickHandler,
         MouseMoveHandler, MouseOutHandler
 {
     private int offset = 3;
@@ -31,9 +31,9 @@ public class SvgSingleDiceWidget implements ISingleDiceWidget, ClickHandler,
     private Circle dot7;
     private Group group;
     private Rectangle rectangle;
-    IStandardDiceWidget parent;
+    StandardDiceWidget parent;
 
-    public SvgSingleDiceWidget(IStandardDiceWidget parent)
+    public SvgSingleDiceWidget(StandardDiceWidget parent)
     {
         this.parent = parent;
         canvas = new DrawingArea(38, 38);

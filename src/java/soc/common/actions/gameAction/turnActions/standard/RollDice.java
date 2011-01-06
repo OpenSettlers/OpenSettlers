@@ -29,6 +29,15 @@ public class RollDice extends AbstractTurnAction
     private List<Integer> looserPlayers = new ArrayList<Integer>();
     private List<HexLocation> hexesAffected = new ArrayList<HexLocation>();
     private boolean robberBlockingProduction;
+    private HashMap<GamePlayer, ResourceList> playersResources = new HashMap<GamePlayer, ResourceList>();
+
+    /**
+     * @return the playersResources
+     */
+    public HashMap<GamePlayer, ResourceList> getPlayersResources()
+    {
+        return playersResources;
+    }
 
     /**
      * @return the robberBlockingProduction
@@ -125,7 +134,6 @@ public class RollDice extends AbstractTurnAction
 
     private void performPlayTurns(Game game)
     {
-        HashMap<GamePlayer, ResourceList> playersResources = new HashMap<GamePlayer, ResourceList>();
 
         for (GamePlayer p : game.getPlayers())
         {

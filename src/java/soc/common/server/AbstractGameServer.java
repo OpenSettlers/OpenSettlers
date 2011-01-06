@@ -4,7 +4,7 @@ import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.MessageFromServer;
 import soc.common.game.Game;
 import soc.common.game.logs.QueuedAction;
-import soc.common.server.actions.IGameServerActionFactory;
+import soc.common.server.actions.GameServerActionFactory;
 import soc.common.server.actions.ServerAction;
 import soc.common.server.random.Random;
 
@@ -14,9 +14,9 @@ import soc.common.server.random.Random;
  */
 public abstract class AbstractGameServer implements GameServer
 {
-    protected IGameServerCallback callback;
+    protected GameServerCallback callback;
     protected Game game;
-    protected IGameServerActionFactory serverActionFactory;
+    protected GameServerActionFactory serverActionFactory;
     protected Random random;
 
     public AbstractGameServer()

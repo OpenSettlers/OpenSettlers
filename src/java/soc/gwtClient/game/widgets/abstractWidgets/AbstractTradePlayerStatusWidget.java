@@ -4,8 +4,8 @@ import soc.common.board.resources.Ore;
 import soc.common.board.resources.ResourceList;
 import soc.common.board.resources.Wheat;
 import soc.common.game.player.GamePlayer;
-import soc.gwtClient.game.abstractWidgets.IGamePanel;
-import soc.gwtClient.game.widgets.bitmap.BitmapTradeListWidget;
+import soc.gwtClient.game.abstractWidgets.GamePanel;
+import soc.gwtClient.game.widgets.bitmap.TradeListBitmapWidget;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.user.client.ui.ComplexPanel;
@@ -16,17 +16,17 @@ import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.Widget;
 
 public class AbstractTradePlayerStatusWidget implements
-        ITradePlayerStatusWidget
+        TradePlayerStatusWidget
 {
     private GamePlayer opponent;
     private GamePlayer playingPlayer;
-    private IGamePanel gamePanel;
+    private GamePanel gamePanel;
     private ComplexPanel rootPanel = new HorizontalPanel();
     private Image imgStatus = new Image();
     private PushButton btnAccept = new PushButton("Accept");
-    private ITradeListWidget tradeResources;
+    private TradeListWidget tradeResources;
 
-    public AbstractTradePlayerStatusWidget(IGamePanel gamePanel,
+    public AbstractTradePlayerStatusWidget(GamePanel gamePanel,
             GamePlayer opponent, GamePlayer playingPlayer)
     {
         this.gamePanel = gamePanel;
@@ -44,7 +44,7 @@ public class AbstractTradePlayerStatusWidget implements
 
         if (opponent != playingPlayer)
         {
-            tradeResources = new BitmapTradeListWidget(wantResources,
+            tradeResources = new TradeListBitmapWidget(wantResources,
                     giveResources);
             imgStatus = new Image(Resources.icons().tradeDisabled());
             rootPanel.add(imgStatus);

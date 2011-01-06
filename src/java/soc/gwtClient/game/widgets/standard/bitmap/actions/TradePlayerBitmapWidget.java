@@ -7,7 +7,7 @@ import soc.common.game.GamePhaseChangedEvent;
 import soc.common.game.GamePhaseChangedEventHandler;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.AbstractActionWidget;
-import soc.gwtClient.game.abstractWidgets.IGamePanel;
+import soc.gwtClient.game.abstractWidgets.GamePanel;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -24,7 +24,7 @@ public class TradePlayerBitmapWidget extends AbstractActionWidget implements
             .tradePlayer()));
     TradePlayer tradePlayer = new TradePlayer();
 
-    public TradePlayerBitmapWidget(IGamePanel gamePanel, GamePlayer player)
+    public TradePlayerBitmapWidget(GamePanel gamePanel, GamePlayer player)
     {
         super(gamePanel, player);
 

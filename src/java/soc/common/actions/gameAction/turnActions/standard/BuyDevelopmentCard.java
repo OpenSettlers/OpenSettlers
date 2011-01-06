@@ -80,10 +80,12 @@ public class BuyDevelopmentCard extends AbstractTurnAction
 
         // we need just three resources
         if (resources.size() != 3)
+        {
+            invalidMessage = "Player needs three resources to buy a development card";
             return false;
+        }
 
-        // three discoveries is OK
-        // TODO: fix ResourceList.ofType
+        // TODO: check if resources are valid
         // if (resources.ofType(Diamond.class) > 2) return true;
 
         GamePlayer player = game.getPlayerByID(sender);

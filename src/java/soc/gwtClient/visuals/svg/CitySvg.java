@@ -4,7 +4,7 @@ import org.vaadin.gwtgraphics.client.VectorObject;
 import org.vaadin.gwtgraphics.client.shape.Path;
 
 import soc.common.board.pieces.City;
-import soc.common.client.visuals.game.AbstractCityVisual;
+import soc.gwtClient.visuals.abstractVisuals.AbstractCityVisual;
 
 public class CitySvg extends AbstractCityVisual implements SvgVisual
 {

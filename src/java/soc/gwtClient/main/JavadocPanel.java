@@ -16,7 +16,6 @@ public class JavadocPanel extends LayoutPanel implements CenterWidget
         frame = new Frame("documentation/javadoc/index.html");
         frame.setWidth("100%");
         frame.setHeight("100%");
-        // initWidget(frame);
         this.add(frame);
     }
 

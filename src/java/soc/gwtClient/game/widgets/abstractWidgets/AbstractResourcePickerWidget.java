@@ -4,20 +4,20 @@ import soc.common.board.ports.PortList;
 import soc.common.board.resources.AbstractResource;
 import soc.common.board.resources.Resource;
 import soc.common.board.resources.ResourceList;
-import soc.gwtClient.game.abstractWidgets.IGamePanel;
+import soc.gwtClient.game.abstractWidgets.GamePanel;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public abstract class AbstractResourcePickerWidget implements IResourcePickerWidget
+public abstract class AbstractResourcePickerWidget implements ResourcePickerWidget
 {
     protected HorizontalPanel rootPanel = new HorizontalPanel();
     protected ResourceList resources;
     protected ResourceList bankResources;
     protected PortList ports;
-    protected IGamePanel gamePanel;
+    protected GamePanel gamePanel;
     
-    public AbstractResourcePickerWidget(ResourceList resources, PortList ports, ResourceList bankResources, IGamePanel gamePanel)
+    public AbstractResourcePickerWidget(ResourceList resources, PortList ports, ResourceList bankResources, GamePanel gamePanel)
     {
         this.resources = resources;
         this.gamePanel = gamePanel;
@@ -26,7 +26,7 @@ public abstract class AbstractResourcePickerWidget implements IResourcePickerWid
         
         for (Resource resource : gamePanel.getGame().getGameRules().getSupportedResources())
         {
-            IResourceSelectorWidget resourceSelector = createResourceSelectorWidget(resource, bankResources, ports);
+            ResourceSelectorWidget resourceSelector = createResourceSelectorWidget(resource, bankResources, ports);
             resourceSelector.addClickHandler(this);
             rootPanel.add(resourceSelector);
         }
@@ -36,11 +36,11 @@ public abstract class AbstractResourcePickerWidget implements IResourcePickerWid
      * @see soc.gwtClient.game.widgets.abstractWidgets.IResourcePickerWidget#setEnabled(boolean)
      */
     @Override
-    public IResourcePickerWidget setEnabled(boolean enabled)
+    public ResourcePickerWidget setEnabled(boolean enabled)
     {
         for (int i=0; i<rootPanel.getWidgetCount(); i++)
         {
-            IResourceSelectorWidget selectorWidget = (IResourceSelectorWidget)rootPanel.getWidget(i);
+            ResourceSelectorWidget selectorWidget = (ResourceSelectorWidget)rootPanel.getWidget(i);
             selectorWidget.setEnabled(enabled);
         }
         
@@ -94,7 +94,7 @@ public abstract class AbstractResourcePickerWidget implements IResourcePickerWid
      * @param When set, adds amount of resources to the resource list based on the best
      * trade a player can make using his ports
      */
-    public IResourcePickerWidget setPorts(PortList ports)
+    public ResourcePickerWidget setPorts(PortList ports)
     {
         this.ports = ports;
     
@@ -108,7 +108,7 @@ public abstract class AbstractResourcePickerWidget implements IResourcePickerWid
     }
 
     @Override
-    public IResourcePickerWidget setResources(ResourceList resources)
+    public ResourcePickerWidget setResources(ResourceList resources)
     {
         this.resources=resources;
 

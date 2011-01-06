@@ -25,24 +25,29 @@ import soc.game.Player;
 import soc.server.genericServer.StringConnection;
 
 /**
- * This class holds data the server needs, related to a
- * "board reset" of a game being played.
+ * This class holds data the server needs, related to a "board reset" of a game
+ * being played.
  *<P>
- * If the Game is in state {@link Game#READY_RESET_WAIT_ROBOT_DISMISS},
- * this object is referenced within the newly created game object.
- *
+ * If the Game is in state {@link Game#READY_RESET_WAIT_ROBOT_DISMISS}, this
+ * object is referenced within the newly created game object.
+ * 
  * @see soc.server.GameListAtServer#resetBoard(String)
  * @see soc.game.Game#resetAsCopy()
  * @see soc.game.Game#boardResetOngoingInfo
- *
+ * 
  * @author Jeremy D. Monin <jeremy@nand.net>
  */
 public class GameBoardReset
 {
-    /** The new game, created from an old game by {@link soc.game.Game#resetAsCopy()} */ 
+    /**
+     * The new game, created from an old game by
+     * {@link soc.game.Game#resetAsCopy()}
+     */
     public Game newGame;
 
-    /** gamestate of old game at reset time
+    /**
+     * gamestate of old game at reset time
+     * 
      * @since 1.1.06
      */
     final public int oldGameState;
@@ -50,34 +55,39 @@ public class GameBoardReset
     /** Were there robots in the old game? */
     public boolean hadRobots;
 
-    /** Are we still waiting for robots to leave the old game?
+    /**
+     * Are we still waiting for robots to leave the old game?
+     * 
      * @since 1.1.07
      */
     public int oldRobotCount;
 
     /**
      * Human and robot connections; both arrays null at vacant seats.
-     * {@link soc.game.Game#resetAsCopy()} will duplicate human players
-     * in the new game, but not robot players. 
-     * Indexed 0 to Game.MAXPLAYERS-1
+     * {@link soc.game.Game#resetAsCopy()} will duplicate human players in the
+     * new game, but not robot players. Indexed 0 to Game.MAXPLAYERS-1
      */
     public StringConnection[] humanConns, robotConns;
 
     /** Was this player position a robot? Indexed 0 to Game.MAXPLAYERS-1 */
     public boolean[] wasRobot;
 
-    /** Create a SOCGameReset: Extract data, reset the old game, and gather new data.
-     *  Adjust game member list to remove robots.
-     *  If there were robots, the <b>new</b> game's state is set to
-     *  {@link Game#READY_RESET_WAIT_ROBOT_DISMISS}.
-     *
-     * @param oldGame Game to reset - {@link soc.game.Game#resetAsCopy()}
-     *   will be called.  The old game's state will be changed to RESET_OLD.
-     * @param memberConns Game members (StringConnections),
-     *   as retrieved by {@link soc.server.GameListAtServer#getMembers(String)}.
-     *   Contents of this vector will be changed to remove any robot members.
+    /**
+     * Create a SOCGameReset: Extract data, reset the old game, and gather new
+     * data. Adjust game member list to remove robots. If there were robots, the
+     * <b>new</b> game's state is set to
+     * {@link Game#READY_RESET_WAIT_ROBOT_DISMISS}.
+     * 
+     * @param oldGame
+     *            Game to reset - {@link soc.game.Game#resetAsCopy()} will be
+     *            called. The old game's state will be changed to RESET_OLD.
+     * @param memberConns
+     *            Game members (StringConnections), as retrieved by
+     *            {@link soc.server.GameListAtServer#getMembers(String)}.
+     *            Contents of this vector will be changed to remove any robot
+     *            members.
      */
-    public GameBoardReset (Game oldGame, Vector memberConns)
+    public GameBoardReset(Game oldGame, Vector memberConns)
     {
         oldGameState = oldGame.getGameState();
         hadRobots = false;
@@ -86,7 +96,7 @@ public class GameBoardReset
         for (int i = 0; i < oldGame.maxPlayers; ++i)
         {
             Player pl = oldGame.getPlayer(i);
-            boolean isRobot = pl.isRobot() && ! oldGame.isSeatVacant(i);
+            boolean isRobot = pl.isRobot() && !oldGame.isSeatVacant(i);
             wasRobot[i] = isRobot;
             if (isRobot)
             {
@@ -98,7 +108,8 @@ public class GameBoardReset
         /**
          * Reset the game
          */
-        newGame = oldGame.resetAsCopy();   // TODO assert: verify maxPlayers is same for old,new
+        newGame = oldGame.resetAsCopy(); // TO-DO assert: verify maxPlayers is
+                                         // same for old,new
 
         /**
          * Gather connection information, cleanup member list
@@ -110,7 +121,8 @@ public class GameBoardReset
             // Grab connection information for humans and robots.
             // memberConns is from _old_ game, so robots are included.
             // Robots aren't copied to the new game, and must re-join.
-            sortPlayerConnections(newGame, oldGame, memberConns, humanConns, robotConns);
+            sortPlayerConnections(newGame, oldGame, memberConns, humanConns,
+                    robotConns);
 
             // Remove robots from list of game members
             for (int pn = 0; pn < oldGame.maxPlayers; ++pn)
@@ -129,28 +141,40 @@ public class GameBoardReset
 
     /**
      * Grab connection information for this game's humans and robots.
-     * memberConns is from _old_ game, so robots are included.
-     * Robots aren't copied to the new game, and must re-join.
+     * memberConns is from _old_ game, so robots are included. Robots aren't
+     * copied to the new game, and must re-join.
      *<P>
      * Two modes:
      *<P>
-     * If currently copying a game, assumes newGame is from oldGame via {@link Game#resetAsCopy()},
-     * and newGame contains only the human players, oldGame contains all human and robot players.
+     * If currently copying a game, assumes newGame is from oldGame via
+     * {@link Game#resetAsCopy()}, and newGame contains only the human players,
+     * oldGame contains all human and robot players.
      *<P>
-     * If not copying a game, only inspecting one, then oldGame is null, and assumes newGame has all
-     * players (both human and robot).
-     *
-     * @param newGame New game (if resetting), or only game
-     * @param oldGame Old game (if resetting), or null
-     * @param memberConns Members of old game, from {@link soc.server.GameListAtServer#getMembers(String)}; a Vector of StringConnections
-     * @param humanConns New array to fill with human players; indexed 0 to Game.MAXPLAYERS-1.
-     *                   humanConns[pn] will be the human player at position pn, or null.
-     * @param robotConns New array to fill with robot players; indexed 0 to Game.MAXPLAYERS-1.
-     *                   robotConns[pn] will be the robot player at position pn, or null.
-     *
+     * If not copying a game, only inspecting one, then oldGame is null, and
+     * assumes newGame has all players (both human and robot).
+     * 
+     * @param newGame
+     *            New game (if resetting), or only game
+     * @param oldGame
+     *            Old game (if resetting), or null
+     * @param memberConns
+     *            Members of old game, from
+     *            {@link soc.server.GameListAtServer#getMembers(String)}; a
+     *            Vector of StringConnections
+     * @param humanConns
+     *            New array to fill with human players; indexed 0 to
+     *            Game.MAXPLAYERS-1. humanConns[pn] will be the human player at
+     *            position pn, or null.
+     * @param robotConns
+     *            New array to fill with robot players; indexed 0 to
+     *            Game.MAXPLAYERS-1. robotConns[pn] will be the robot player at
+     *            position pn, or null.
+     * 
      * @return The number of human players in newGame
      */
-    public static int sortPlayerConnections (Game newGame, Game oldGame, Vector memberConns, StringConnection[] humanConns, StringConnection[] robotConns)
+    public static int sortPlayerConnections(Game newGame, Game oldGame,
+            Vector memberConns, StringConnection[] humanConns,
+            StringConnection[] robotConns)
     {
         // This enum is easier than enumerating all connected clients;
         // there is no server-wide mapping of clientname -> connection.
@@ -159,7 +183,8 @@ public class GameBoardReset
         Enumeration playersEnum = memberConns.elements();
         while (playersEnum.hasMoreElements())
         {
-            StringConnection pCon = (StringConnection) playersEnum.nextElement();
+            StringConnection pCon = (StringConnection) playersEnum
+                    .nextElement();
             String pname = (String) pCon.getData();
             Player p = newGame.getPlayer(pname);
             if (p != null)
@@ -185,7 +210,9 @@ public class GameBoardReset
                         robotConns[pn] = pCon;
                     else
                         // should not happen
-                        D.ebugPrintln("findPlayerConnections assert failed: human player not copied: " + pn);
+                        D
+                                .ebugPrintln("findPlayerConnections assert failed: human player not copied: "
+                                        + pn);
                 }
             }
         }
@@ -193,20 +220,25 @@ public class GameBoardReset
         // Check all player positions after enum
         for (int pn = 0; pn < newGame.maxPlayers; ++pn)
         {
-            if (! newGame.isSeatVacant(pn))
+            if (!newGame.isSeatVacant(pn))
             {
                 if ((humanConns[pn] == null) && (robotConns[pn] == null))
-                    D.ebugPrintln("findPlayerConnections assert failed: did not find player " + pn);
+                    D
+                            .ebugPrintln("findPlayerConnections assert failed: did not find player "
+                                    + pn);
             }
             else
             {
-                if ((humanConns[pn] != null) ||
-                    ((robotConns[pn] != null) && ((oldGame == null) || oldGame.isSeatVacant(pn))))
-                    D.ebugPrintln("findPlayerConnections assert failed: memberlist had vacant player " + pn);
+                if ((humanConns[pn] != null)
+                        || ((robotConns[pn] != null) && ((oldGame == null) || oldGame
+                                .isSeatVacant(pn))))
+                    D
+                            .ebugPrintln("findPlayerConnections assert failed: memberlist had vacant player "
+                                    + pn);
             }
         }
 
         return numHuman;
     }
-  
-}  // public class GameBoardReset
+
+} // public class GameBoardReset

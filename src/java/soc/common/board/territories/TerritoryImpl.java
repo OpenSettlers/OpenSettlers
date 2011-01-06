@@ -10,7 +10,6 @@ import soc.common.board.ports.PortList;
  * - Trade routes
  * - Chit swapping
  * - Bonus island VPs
- * 
  */
 @SeaFarers
 public class TerritoryImpl implements Territory
@@ -28,7 +27,16 @@ public class TerritoryImpl implements Territory
     // or before start by the server, to replace randomports with.
     private PortList ports;
 
+    /*
+     * List of chits for this territory, used at board generation time
+     */
     private ChitList chits = new ChitList();
+
+    /*
+     * List of hexes belonging to this territory. Used for: - Board generation
+     * time to replace RandomHexes with - DiscoveryHexes to replace
+     * DiscoveryHexes with
+     */
     private HexList hexes = new HexList();
 
     /*
@@ -49,9 +57,6 @@ public class TerritoryImpl implements Territory
     public Territory setBonus(boolean isBonus)
     {
         this.isBonus = isBonus;
-
-        // Enables fluent interface usage
-        // http://en.wikipedia.org/wiki/Fluent_interface
         return this;
     }
 
@@ -85,7 +90,6 @@ public class TerritoryImpl implements Territory
     public Territory setPorts(PortList ports)
     {
         this.ports = ports;
-
         return this;
     }
 
@@ -117,7 +121,6 @@ public class TerritoryImpl implements Territory
     public Territory setID(int iD)
     {
         ID = iD;
-
         return this;
     }
 
@@ -139,9 +142,7 @@ public class TerritoryImpl implements Territory
     public TerritoryImpl setMainland(boolean isMainland)
     {
         this.isMainland = isMainland;
-
         isIsland = !isMainland();
-
         return this;
     }
 
@@ -163,9 +164,7 @@ public class TerritoryImpl implements Territory
     public Territory setIsland(boolean isIsland)
     {
         this.isIsland = isIsland;
-
         isIsland = !isMainland();
-
         return this;
     }
 

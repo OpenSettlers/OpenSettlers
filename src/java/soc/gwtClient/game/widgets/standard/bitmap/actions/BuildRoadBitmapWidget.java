@@ -14,7 +14,7 @@ import soc.common.game.RoadTokensChangedEvent;
 import soc.common.game.RoadTokensChangedEventHandler;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.AbstractActionWidget;
-import soc.gwtClient.game.abstractWidgets.IGamePanel;
+import soc.gwtClient.game.abstractWidgets.GamePanel;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -41,7 +41,7 @@ public class BuildRoadBitmapWidget extends AbstractActionWidget implements
     Image roadToken2 = new Image(Resources.icons().roadToken());
     BuildRoad buildRoad;
 
-    public BuildRoadBitmapWidget(final IGamePanel gamePanel, final GamePlayer player)
+    public BuildRoadBitmapWidget(final GamePanel gamePanel, final GamePlayer player)
     {
         super(gamePanel, player);
 

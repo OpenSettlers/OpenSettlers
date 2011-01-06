@@ -9,7 +9,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
-public abstract class AbstractTradeListWidget implements ITradeListWidget
+public abstract class AbstractTradeListWidget implements TradeListWidget
 {
     private ResourceList wantResources = new ResourceList();
     private ResourceList giveResources = new ResourceList();

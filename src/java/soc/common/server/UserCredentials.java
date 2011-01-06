@@ -4,12 +4,13 @@ public class UserCredentials
 {
     private String name;
     private String password;
-    
+
     public UserCredentials(String name, String password)
     {
         this.name = name;
         this.password = password;
     }
+
     /**
      * @return the name
      */
@@ -17,6 +18,7 @@ public class UserCredentials
     {
         return name;
     }
+
     /**
      * @return the password
      */

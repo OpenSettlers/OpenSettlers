@@ -5,7 +5,7 @@ import soc.common.game.Game;
 import soc.common.server.actions.ServerActionFactory;
 import soc.common.server.random.Random;
 
-public interface GameServer extends IServer
+public interface GameServer extends Server
 {
     public JoinResult join(UserCredentials credentials);
 

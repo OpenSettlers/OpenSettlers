@@ -403,21 +403,6 @@ public class Game
         return this;
     }
 
-    public Game copy()
-    {
-
-        // try
-        // {
-        // return (Game) super.clone();
-        // }
-        // catch (CloneNotSupportedException e)
-        // {
-        // // TODO Auto-generated catch block
-        // e.printStackTrace();
-        // }
-        return null;
-    }
-
     /**
      * @return the largestArmy
      */

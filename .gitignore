@@ -11,3 +11,4 @@ war/WEB-INF/*
 .gwt/*
 .svn
 .svn/*
+*.log

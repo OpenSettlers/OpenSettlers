@@ -42,13 +42,25 @@
  */
 package org.jgrapht.alg;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-import org.jgrapht.*;
-import org.jgrapht.event.*;
-import org.jgrapht.graph.*;
-import org.jgrapht.traverse.*;
-
+import org.jgrapht.DirectedGraph;
+import org.jgrapht.Graph;
+import org.jgrapht.UndirectedGraph;
+import org.jgrapht.event.ConnectedComponentTraversalEvent;
+import org.jgrapht.event.GraphEdgeChangeEvent;
+import org.jgrapht.event.GraphListener;
+import org.jgrapht.event.GraphVertexChangeEvent;
+import org.jgrapht.event.TraversalListenerAdapter;
+import org.jgrapht.event.VertexSetListener;
+import org.jgrapht.event.VertexTraversalEvent;
+import org.jgrapht.graph.AsUndirectedGraph;
+import org.jgrapht.traverse.BreadthFirstIterator;
 
 /**
  * Allows obtaining various connectivity aspects of a graph. The <i>inspected
@@ -56,38 +68,44 @@ import org.jgrapht.traverse.*;
  * Currently, the inspector supports connected components for an undirected
  * graph and weakly connected components for a directed graph. To find strongly
  * connected components, use {@link StrongConnectivityInspector} instead.
- *
- * <p>The inspector methods work in a lazy fashion: no computation is performed
+ * 
+ * <p>
+ * The inspector methods work in a lazy fashion: no computation is performed
  * unless immediately necessary. Computation are done once and results and
- * cached within this class for future need.</p>
- *
- * <p>The inspector is also a {@link org.jgrapht.event.GraphListener}. If added
- * as a listener to the inspected graph, the inspector will amend internal
- * cached results instead of recomputing them. It is efficient when a few
- * modifications are applied to a large graph. If many modifications are
- * expected it will not be efficient due to added overhead on graph update
- * operations. If inspector is added as listener to a graph other than the one
- * it inspects, results are undefined.</p>
- *
+ * cached within this class for future need.
+ * </p>
+ * 
+ * <p>
+ * The inspector is also a {@link org.jgrapht.event.GraphListener}. If added as
+ * a listener to the inspected graph, the inspector will amend internal cached
+ * results instead of recomputing them. It is efficient when a few modifications
+ * are applied to a large graph. If many modifications are expected it will not
+ * be efficient due to added overhead on graph update operations. If inspector
+ * is added as listener to a graph other than the one it inspects, results are
+ * undefined.
+ * </p>
+ * 
  * @author Barak Naveh
  * @author John V. Sichi
  * @since Aug 6, 2003
  */
-public class ConnectivityInspector<V, E>
-    implements GraphListener<V, E>
+public class ConnectivityInspector<V, E> implements GraphListener<V, E>
 {
-    //~ Instance fields --------------------------------------------------------
+    // ~ Instance fields
+    // --------------------------------------------------------
 
     List<Set<V>> connectedSets;
     Map<V, Set<V>> vertexToConnectedSet;
     private Graph<V, E> graph;
 
-    //~ Constructors -----------------------------------------------------------
+    // ~ Constructors
+    // -----------------------------------------------------------
 
     /**
      * Creates a connectivity inspector for the specified undirected graph.
-     *
-     * @param g the graph for which a connectivity inspector to be created.
+     * 
+     * @param g
+     *            the graph for which a connectivity inspector to be created.
      */
     public ConnectivityInspector(UndirectedGraph<V, E> g)
     {
@@ -97,8 +115,9 @@ public class ConnectivityInspector<V, E>
 
     /**
      * Creates a connectivity inspector for the specified directed graph.
-     *
-     * @param g the graph for which a connectivity inspector to be created.
+     * 
+     * @param g
+     *            the graph for which a connectivity inspector to be created.
      */
     public ConnectivityInspector(DirectedGraph<V, E> g)
     {
@@ -106,12 +125,13 @@ public class ConnectivityInspector<V, E>
         this.graph = new AsUndirectedGraph<V, E>(g);
     }
 
-    //~ Methods ----------------------------------------------------------------
+    // ~ Methods
+    // ----------------------------------------------------------------
 
     /**
      * Test if the inspected graph is connected. An empty graph is <i>not</i>
      * considered connected.
-     *
+     * 
      * @return <code>true</code> if and only if inspected graph is connected.
      */
     public boolean isGraphConnected()
@@ -125,23 +145,26 @@ public class ConnectivityInspector<V, E>
      * connected component, see <a
      * href="http://www.nist.gov/dads/HTML/maximallyConnectedComponent.html">
      * http://www.nist.gov/dads/HTML/maximallyConnectedComponent.html</a>.
-     *
-     * @param vertex the vertex for which the connected set to be returned.
-     *
+     * 
+     * @param vertex
+     *            the vertex for which the connected set to be returned.
+     * 
      * @return a set of all vertices that are in the maximally connected
-     * component together with the specified vertex.
+     *         component together with the specified vertex.
      */
     public Set<V> connectedSetOf(V vertex)
     {
         Set<V> connectedSet = vertexToConnectedSet.get(vertex);
 
-        if (connectedSet == null) {
+        if (connectedSet == null)
+        {
             connectedSet = new HashSet<V>();
 
-            BreadthFirstIterator<V, E> i =
-                new BreadthFirstIterator<V, E>(graph, vertex);
+            BreadthFirstIterator<V, E> i = new BreadthFirstIterator<V, E>(
+                    graph, vertex);
 
-            while (i.hasNext()) {
+            while (i.hasNext())
+            {
                 connectedSet.add(i.next());
             }
 
@@ -158,9 +181,9 @@ public class ConnectivityInspector<V, E>
      * component, see <a
      * href="http://www.nist.gov/dads/HTML/maximallyConnectedComponent.html">
      * http://www.nist.gov/dads/HTML/maximallyConnectedComponent.html</a>.
-     *
+     * 
      * @return Returns a list of <code>Set</code> s, where each set contains all
-     * vertices that are in the same maximally connected component.
+     *         vertices that are in the same maximally connected component.
      */
     public List<Set<V>> connectedSets()
     {
@@ -173,7 +196,7 @@ public class ConnectivityInspector<V, E>
     public void edgeAdded(GraphEdgeChangeEvent<V, E> e)
     {
         init(); // for now invalidate cached results, in the future need to
-                // amend them.
+        // amend them.
     }
 
     /**
@@ -182,28 +205,32 @@ public class ConnectivityInspector<V, E>
     public void edgeRemoved(GraphEdgeChangeEvent<V, E> e)
     {
         init(); // for now invalidate cached results, in the future need to
-                // amend them.
+        // amend them.
     }
 
     /**
      * Tests if there is a path from the specified source vertex to the
      * specified target vertices. For a directed graph, direction is ignored for
      * this interpretation of path.
-     *
-     * <p>Note: Future versions of this method might not ignore edge directions
-     * for directed graphs.</p>
-     *
-     * @param sourceVertex one end of the path.
-     * @param targetVertex another end of the path.
-     *
+     * 
+     * <p>
+     * Note: Future versions of this method might not ignore edge directions for
+     * directed graphs.
+     * </p>
+     * 
+     * @param sourceVertex
+     *            one end of the path.
+     * @param targetVertex
+     *            another end of the path.
+     * 
      * @return <code>true</code> if and only if there is a path from the source
-     * vertex to the target vertex.
+     *         vertex to the target vertex.
      */
     public boolean pathExists(V sourceVertex, V targetVertex)
     {
         /*
-         * TODO: Ignoring edge direction for directed graph may be
-         * confusing. For directed graphs, consider Dijkstra's algorithm.
+         * TO-DO: Ignoring edge direction for directed graph may be confusing.
+         * For directed graphs, consider Dijkstra's algorithm.
          */
         Set sourceSet = connectedSetOf(sourceVertex);
 
@@ -216,7 +243,7 @@ public class ConnectivityInspector<V, E>
     public void vertexAdded(GraphVertexChangeEvent<V> e)
     {
         init(); // for now invalidate cached results, in the future need to
-                // amend them.
+        // amend them.
     }
 
     /**
@@ -225,7 +252,7 @@ public class ConnectivityInspector<V, E>
     public void vertexRemoved(GraphVertexChangeEvent<V> e)
     {
         init(); // for now invalidate cached results, in the future need to
-                // amend them.
+        // amend them.
     }
 
     private void init()
@@ -236,17 +263,20 @@ public class ConnectivityInspector<V, E>
 
     private List<Set<V>> lazyFindConnectedSets()
     {
-        if (connectedSets == null) {
+        if (connectedSets == null)
+        {
             connectedSets = new ArrayList<Set<V>>();
 
             Set vertexSet = graph.vertexSet();
 
-            if (vertexSet.size() > 0) {
-                BreadthFirstIterator<V, E> i =
-                    new BreadthFirstIterator<V, E>(graph, null);
+            if (vertexSet.size() > 0)
+            {
+                BreadthFirstIterator<V, E> i = new BreadthFirstIterator<V, E>(
+                        graph, null);
                 i.addTraversalListener(new MyTraversalListener());
 
-                while (i.hasNext()) {
+                while (i.hasNext())
+                {
                     i.next();
                 }
             }
@@ -255,17 +285,17 @@ public class ConnectivityInspector<V, E>
         return connectedSets;
     }
 
-    //~ Inner Classes ----------------------------------------------------------
+    // ~ Inner Classes
+    // ----------------------------------------------------------
 
     /**
      * A traversal listener that groups all vertices according to to their
      * containing connected set.
-     *
+     * 
      * @author Barak Naveh
      * @since Aug 6, 2003
      */
-    private class MyTraversalListener
-        extends TraversalListenerAdapter<V, E>
+    private class MyTraversalListener extends TraversalListenerAdapter<V, E>
     {
         private Set<V> currentConnectedSet;
 
@@ -273,7 +303,7 @@ public class ConnectivityInspector<V, E>
          * @see TraversalListenerAdapter#connectedComponentFinished(ConnectedComponentTraversalEvent)
          */
         public void connectedComponentFinished(
-            ConnectedComponentTraversalEvent e)
+                ConnectedComponentTraversalEvent e)
         {
             connectedSets.add(currentConnectedSet);
         }
@@ -281,8 +311,7 @@ public class ConnectivityInspector<V, E>
         /**
          * @see TraversalListenerAdapter#connectedComponentStarted(ConnectedComponentTraversalEvent)
          */
-        public void connectedComponentStarted(
-            ConnectedComponentTraversalEvent e)
+        public void connectedComponentStarted(ConnectedComponentTraversalEvent e)
         {
             currentConnectedSet = new HashSet<V>();
         }

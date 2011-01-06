@@ -2,7 +2,7 @@ package soc.gwtClient.game.dialogs;
 
 import soc.common.actions.gameAction.turnActions.standard.PlayDevelopmentCard;
 import soc.common.game.developmentCards.standard.Soldier;
-import soc.gwtClient.game.abstractWidgets.IGamePanel;
+import soc.gwtClient.game.abstractWidgets.GamePanel;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -19,10 +19,10 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class PlaySoldierDialog extends DialogBox
 {
     private Soldier soldier;
-    private IGamePanel gamePanel;
+    private GamePanel gamePanel;
     private PlayDevelopmentCard playDevelopmentCard = new PlayDevelopmentCard();
 
-    public PlaySoldierDialog(Soldier soldier, IGamePanel gamePanel)
+    public PlaySoldierDialog(Soldier soldier, GamePanel gamePanel)
     {
         this();
         this.soldier = soldier;

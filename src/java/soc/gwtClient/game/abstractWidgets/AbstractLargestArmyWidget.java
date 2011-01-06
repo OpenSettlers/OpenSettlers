@@ -8,7 +8,7 @@ import soc.common.game.developmentCards.DevelopmentCardsChangedEventHandler;
 import soc.common.game.player.GamePlayer;
 
 public abstract class AbstractLargestArmyWidget 
-    implements ILargestArmyWidget, DevelopmentCardsChangedEventHandler
+    implements LargestArmyWidget, DevelopmentCardsChangedEventHandler
 {
     protected ComplexPanel rootPanel;
     protected GamePlayer player; 

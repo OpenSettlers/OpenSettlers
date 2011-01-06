@@ -1,7 +1,7 @@
 package soc.gwtClient.editor;
 
 import soc.common.board.territories.Territory;
-import soc.common.client.behaviour.InteractionBehaviour;
+import soc.gwtClient.visuals.behaviour.InteractionBehaviour;
 
 public class MapEditor implements IMapEditor
 {

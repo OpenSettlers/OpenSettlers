@@ -2,7 +2,7 @@ package soc.gwtClient.game.dialogs;
 
 import soc.common.actions.gameAction.turnActions.standard.PlayDevelopmentCard;
 import soc.common.game.developmentCards.standard.VictoryPoint;
-import soc.gwtClient.game.abstractWidgets.IGamePanel;
+import soc.gwtClient.game.abstractWidgets.GamePanel;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -19,11 +19,11 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class PlayVictoryPointDialog extends DialogBox
 {
     private VictoryPoint victoryPoint;
-    private IGamePanel gamePanel;
+    private GamePanel gamePanel;
     private PlayDevelopmentCard playDevelopmentCard = new PlayDevelopmentCard();
 
     public PlayVictoryPointDialog(VictoryPoint victoryPoint,
-            IGamePanel gamePanel)
+            GamePanel gamePanel)
     {
         this();
         this.victoryPoint = victoryPoint;

@@ -6,7 +6,7 @@ import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public abstract class AbstractVictoryPointsWidget implements IVictoryPointsWidget
+public abstract class AbstractVictoryPointsWidget implements VictoryPointsWidget
 {
     protected ComplexPanel rootPanel;
     protected GamePlayer player;

@@ -5,7 +5,7 @@ import soc.common.game.DiceChangedEventHandler;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public abstract class AbstractDiceWidget implements IDiceWidget, DiceChangedEventHandler
+public abstract class AbstractDiceWidget implements DiceWidget, DiceChangedEventHandler
 {
     protected ComplexPanel rootPanel;
     

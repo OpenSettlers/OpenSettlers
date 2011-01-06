@@ -33,18 +33,30 @@ public class MessageFromServer extends AbstractGameAction
         return this;
     }
 
+    /*
+     * Returns true: message from server is always allowed
+     * 
+     * @see
+     * soc.common.actions.gameAction.GameAction#isAllowed(soc.common.game.gamePhase
+     * .turnPhase.TurnPhase)
+     */
     @Override
     public boolean isAllowed(TurnPhase turnPhase)
     {
-        // TODO Auto-generated method stub
-        return false;
+        return true;
     }
 
+    /*
+     * Returns true: message from server is always allowed
+     * 
+     * @see
+     * soc.common.actions.gameAction.GameAction#isAllowed(soc.common.game.gamePhase
+     * .GamePhase)
+     */
     @Override
     public boolean isAllowed(GamePhase gamePhase)
     {
-        // TODO Auto-generated method stub
-        return false;
+        return true;
     }
 
     @Override

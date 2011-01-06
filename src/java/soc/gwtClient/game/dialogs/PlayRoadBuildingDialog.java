@@ -2,7 +2,7 @@ package soc.gwtClient.game.dialogs;
 
 import soc.common.actions.gameAction.turnActions.standard.PlayDevelopmentCard;
 import soc.common.game.developmentCards.standard.RoadBuilding;
-import soc.gwtClient.game.abstractWidgets.IGamePanel;
+import soc.gwtClient.game.abstractWidgets.GamePanel;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -19,11 +19,11 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class PlayRoadBuildingDialog extends DialogBox
 {
     private RoadBuilding roadBuilding;
-    private IGamePanel gamePanel;
+    private GamePanel gamePanel;
     private PlayDevelopmentCard playDevelopmentCard = new PlayDevelopmentCard();
 
     public PlayRoadBuildingDialog(RoadBuilding roadBuilding,
-            IGamePanel gamePanel)
+            GamePanel gamePanel)
     {
         this();
         this.roadBuilding = roadBuilding;

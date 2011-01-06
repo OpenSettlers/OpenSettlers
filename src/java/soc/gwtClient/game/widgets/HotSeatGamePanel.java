@@ -4,10 +4,6 @@ import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.HostStartsGame;
 import soc.common.actions.gameAction.turnActions.EndTurn;
 import soc.common.actions.gameAction.turnActions.TurnAction;
-import soc.common.client.behaviour.BehaviourDoneEvent;
-import soc.common.client.behaviour.BehaviourDoneEventHandler;
-import soc.common.client.behaviour.game.GameBehaviour;
-import soc.common.client.visuals.game.GameBoardVisual;
 import soc.common.game.Game;
 import soc.common.game.GamePhaseChangedEvent;
 import soc.common.game.GamePhaseChangedEventHandler;
@@ -26,17 +22,21 @@ import soc.gwtClient.game.abstractWidgets.BankStockPanel;
 import soc.gwtClient.game.abstractWidgets.BankTradeUI;
 import soc.gwtClient.game.abstractWidgets.GameHistoryWidget;
 import soc.gwtClient.game.abstractWidgets.HandCardsWidget;
-import soc.gwtClient.game.abstractWidgets.IActionsWidget;
-import soc.gwtClient.game.abstractWidgets.IGamePanel;
-import soc.gwtClient.game.abstractWidgets.IPlayersWidget;
+import soc.gwtClient.game.abstractWidgets.ActionsWidget;
+import soc.gwtClient.game.abstractWidgets.GamePanel;
+import soc.gwtClient.game.abstractWidgets.PlayersWidget;
 import soc.gwtClient.game.abstractWidgets.StatusPanel;
 import soc.gwtClient.game.dialogs.TradeBankDialog;
-import soc.gwtClient.game.widgets.bitmap.BitmapHistoryWidget;
+import soc.gwtClient.game.widgets.bitmap.HistoryBitmapWidget;
 import soc.gwtClient.game.widgets.bitmap.BoardLayoutPanel;
 import soc.gwtClient.game.widgets.standard.bitmap.HandCardsBitmapWidget;
 import soc.gwtClient.game.widgets.standard.bitmap.PlayersBitmapWidget;
 import soc.gwtClient.game.widgets.standard.bitmap.StatusBitmapPanel;
 import soc.gwtClient.game.widgets.standard.bitmap.actions.ActionsBitmapWidget;
+import soc.gwtClient.visuals.abstractVisuals.GameBoardVisual;
+import soc.gwtClient.visuals.behaviour.BehaviourDoneEvent;
+import soc.gwtClient.visuals.behaviour.BehaviourDoneEventHandler;
+import soc.gwtClient.visuals.behaviour.game.GameBehaviour;
 import soc.gwtClient.visuals.svg.GameBoardSvg;
 
 import com.google.gwt.dom.client.Style.Unit;
@@ -107,13 +107,13 @@ public class HotSeatGamePanel extends AbstractGamePanel implements
     }
 
     @Override
-    public IActionsWidget createActionsWidget()
+    public ActionsWidget createActionsWidget()
     {
         return new ActionsBitmapWidget(this, game.getPlayers().get(0));
     }
 
     @Override
-    public IPlayersWidget createPlayersWidget()
+    public PlayersWidget createPlayersWidget()
     {
         return new PlayersBitmapWidget(game);
     }
@@ -137,19 +137,19 @@ public class HotSeatGamePanel extends AbstractGamePanel implements
     }
 
     @Override
-    public StatusPanel createStatusDicePanel(IGamePanel gamePanel)
+    public StatusPanel createStatusDicePanel(GamePanel gamePanel)
     {
         return new StatusBitmapPanel(gamePanel);
     }
 
     @Override
-    public GameHistoryWidget createHistoryWidget(IGamePanel gamePanel)
+    public GameHistoryWidget createHistoryWidget(GamePanel gamePanel)
     {
-        return new BitmapHistoryWidget(gamePanel);
+        return new HistoryBitmapWidget(gamePanel);
     }
 
     @Override
-    public BankTradeUI createBankTradeUI(IGamePanel gamePanel)
+    public BankTradeUI createBankTradeUI(GamePanel gamePanel)
     {
         return new TradeBankDialog(gamePanel);
     }

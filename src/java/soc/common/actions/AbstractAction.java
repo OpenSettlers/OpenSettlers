@@ -37,7 +37,7 @@ public abstract class AbstractAction implements Action
     @Override
     public String getName()
     {
-        // TODO Auto-generated method stub
+        // TODO implement in all actions using i18n
         return null;
     }
 

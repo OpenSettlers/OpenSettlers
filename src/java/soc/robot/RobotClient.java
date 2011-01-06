@@ -591,7 +591,7 @@ public class RobotClient extends DisplaylessPlayerClient
                 break;
 
             /**
-             * handle the reject connection message - JM TODO: placement within
+             * handle the reject connection message - JM TO-DO: placement within
              * switch? (vs displaylesscli, playercli)
              */
             case Message.REJECTCONNECTION:

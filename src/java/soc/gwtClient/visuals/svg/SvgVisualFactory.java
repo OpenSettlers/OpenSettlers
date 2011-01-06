@@ -8,15 +8,15 @@ import soc.common.board.pieces.Robber;
 import soc.common.board.pieces.Town;
 import soc.common.board.routing.GraphPoint;
 import soc.common.board.routing.GraphSide;
-import soc.common.client.visuals.board.BoardVisual;
-import soc.common.client.visuals.game.AbstractVisualFactory;
-import soc.common.client.visuals.game.CityVisual;
-import soc.common.client.visuals.game.PirateVisual;
-import soc.common.client.visuals.game.PointVisual;
-import soc.common.client.visuals.game.RoadVisual;
-import soc.common.client.visuals.game.RobberVisual;
-import soc.common.client.visuals.game.SideVisual;
-import soc.common.client.visuals.game.TownVisual;
+import soc.gwtClient.visuals.abstractVisuals.AbstractVisualFactory;
+import soc.gwtClient.visuals.abstractVisuals.BoardVisual;
+import soc.gwtClient.visuals.abstractVisuals.CityVisual;
+import soc.gwtClient.visuals.abstractVisuals.PirateVisual;
+import soc.gwtClient.visuals.abstractVisuals.PointVisual;
+import soc.gwtClient.visuals.abstractVisuals.RoadVisual;
+import soc.gwtClient.visuals.abstractVisuals.RobberVisual;
+import soc.gwtClient.visuals.abstractVisuals.SideVisual;
+import soc.gwtClient.visuals.abstractVisuals.TownVisual;
 
 public class SvgVisualFactory extends AbstractVisualFactory
 {
@@ -66,14 +66,14 @@ public class SvgVisualFactory extends AbstractVisualFactory
     @Override
     public PointVisual createPointVisual(GraphPoint point)
     {
-        return new SvgPointVisual(parent, point.getPoint(), parent
+        return new PointSvg(parent, point.getPoint(), parent
                 .getBoardSvg().CalculatePosition(point.getPoint()));
     }
 
     @Override
     public SideVisual createSideVisual(GraphSide side)
     {
-        return new SvgSideVisual(parent, side.getSide());
+        return new SideSvg(parent, side.getSide());
     }
 
 }

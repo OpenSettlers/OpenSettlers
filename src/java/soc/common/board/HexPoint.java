@@ -3,6 +3,14 @@ package soc.common.board;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+ * Represents an intersection between 3 HexLocations. The HexLocations may be 
+ * outside the board when the intersection itself is located on a board edge. 
+ * In that case, a HexLocation would have a negative value or a value outside 
+ * the bounds of the HexGrid class keeping a list of Hexes.
+ * 
+ * TODO: cache values of neighbours either at construction time or lazy loading
+ */
 public class HexPoint
 {
     private HexLocation hex1;
@@ -24,6 +32,9 @@ public class HexPoint
         return hex3;
     }
 
+    /*
+     * Returns the type of the hex: one or two Hexes on the upper row
+     */
     public HexPointType getPointType()
     {
         List<HexLocation> points = new ArrayList<HexLocation>();
@@ -61,12 +72,18 @@ public class HexPoint
         }
     }
 
+    /*
+     * Returns position on of this point on the top or top left most HexLocation
+     */
     public PointPositionOnHex getHexPositionOnTopLeftMost()
     {
         return getPointType() == HexPointType.UPPERROW1 ? PointPositionOnHex.BOTTOMMIDDLE
                 : PointPositionOnHex.BOTTOMRIGHT;
     }
 
+    /*
+     * Returns a list of HexSides with given hexside excluded
+     */
     public List<HexSide> getOtherSides(HexSide side)
     {
         List<HexSide> result = new ArrayList<HexSide>();
@@ -137,7 +154,7 @@ public class HexPoint
     }
 
     /*
-     * TODO: cache value
+     * Returns a list of neighbour points
      */
     public List<HexPoint> getNeighbours()
     {
@@ -207,7 +224,6 @@ public class HexPoint
             }
             else
             {
-                // OK
                 HexPoint p1 = new HexPoint(topmost, new HexLocation(topmost
                         .getW(), topmost.getH() - 1), new HexLocation(topmost
                         .getW() + 1, topmost.getH()));
@@ -228,6 +244,9 @@ public class HexPoint
         return result;
     }
 
+    /*
+     * Returns a list of neighbours, with the given neighbour excluded
+     */
     public List<HexPoint> getOtherNeighbours(HexPoint ignore)
     {
         List<HexPoint> result = getNeighbours();
@@ -237,6 +256,9 @@ public class HexPoint
         return result;
     }
 
+    /*
+     * Creates a HexPoint using given three HexLocations
+     */
     public HexPoint(HexLocation hex1, HexLocation hex2, HexLocation hex3)
     {
         this.hex1 = hex1;
@@ -246,12 +268,19 @@ public class HexPoint
             throw new RuntimeException("Impossible hexpoint detected");
     }
 
+    /*
+     * Returns true if given HexLocation is equal to one of the three hexes
+     */
     public boolean hasLocation(HexLocation location)
     {
         return hex1.equals(location) || hex2.equals(location)
                 || hex3.equals(location);
     }
 
+    /*
+     * Creates a HexPoint using one HexLocation and a position on that
+     * HexLocation
+     */
     public HexPoint(HexLocation hex, PointPositionOnHex relativePosition)
             throws Exception
     {
@@ -318,11 +347,9 @@ public class HexPoint
         // hex1.toString(), hex2.toString(), hex3.toString());
     }
 
-    // public int hashCode()
-    // {
-    // return hex1.hashCode() ^ hex2.hashCode() ^ hex3.hashCode();
-    // }
-
+    /*
+     * Returns containing three HexLocations in a list
+     */
     public List<HexLocation> getHexLocations()
     {
         List<HexLocation> result = new ArrayList<HexLocation>();
@@ -366,6 +393,10 @@ public class HexPoint
                 && hexLocations.contains(other.getHex3());
     }
 
+    /*
+     * Returns true when this HexPoint falls within the bounds of given width
+     * and height
+     */
     public boolean fallsWithinBoardBounds(int width, int height)
     {
         if ((!hex1.fallsInsideBoardBounds(width, height))

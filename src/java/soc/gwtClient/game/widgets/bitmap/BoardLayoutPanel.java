@@ -1,6 +1,6 @@
 package soc.gwtClient.game.widgets.bitmap;
 
-import soc.common.client.visuals.board.BoardVisual;
+import soc.gwtClient.visuals.abstractVisuals.BoardVisual;
 
 import com.google.gwt.user.client.ui.LayoutPanel;
 

@@ -12,16 +12,16 @@ import soc.common.game.GamePhaseChangedEventHandler;
 import soc.common.game.player.GamePlayer;
 
 public abstract class AbstractActionWidget implements 
-        IActionWidget
+        ActionWidget
 {
     protected GamePlayer player;
-    protected IGamePanel gamePanel;
+    protected GamePanel gamePanel;
     protected ComplexPanel rootPanel;
     protected boolean onTurn;
     protected boolean enabled;
     protected abstract void updateEnabled();
 
-    public AbstractActionWidget(IGamePanel gamePanel, GamePlayer player)
+    public AbstractActionWidget(GamePanel gamePanel, GamePlayer player)
     {
         this.player=player;
         this.gamePanel = gamePanel;
@@ -34,7 +34,7 @@ public abstract class AbstractActionWidget implements
     }
     
     @Override
-    public IActionWidget setEnabled(boolean enabled)
+    public ActionWidget setEnabled(boolean enabled)
     {
         this.enabled=enabled;
         

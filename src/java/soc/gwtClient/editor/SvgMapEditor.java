@@ -9,15 +9,15 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import soc.common.board.Board;
-import soc.common.client.behaviour.SetPortBehaviour;
-import soc.common.client.behaviour.editor.SetChitBehaviour;
-import soc.common.client.behaviour.editor.SetHexBehaviour;
-import soc.common.client.behaviour.editor.SetTerritoryBehaviour;
 import soc.gwtClient.game.CenterWidget;
+import soc.gwtClient.visuals.behaviour.SetPortBehaviour;
+import soc.gwtClient.visuals.behaviour.editor.SetChitBehaviour;
+import soc.gwtClient.visuals.behaviour.editor.SetHexBehaviour;
+import soc.gwtClient.visuals.behaviour.editor.SetTerritoryBehaviour;
 import soc.gwtClient.visuals.svg.BoardSvg;
 
 public class SvgMapEditor extends MapEditor 
-    implements IBehaviourChangedHandler, CenterWidget
+    implements BehaviourChangedHandler, CenterWidget
 {
     Label lblStatus = new Label();
     LayoutPanel rootPanel = new LayoutPanel();

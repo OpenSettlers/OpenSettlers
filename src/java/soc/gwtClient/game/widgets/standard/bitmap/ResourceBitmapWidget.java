@@ -1,7 +1,7 @@
 package soc.gwtClient.game.widgets.standard.bitmap;
 
 import soc.common.board.resources.Resource;
-import soc.gwtClient.game.widgets.abstractWidgets.IResourceWidget;
+import soc.gwtClient.game.widgets.abstractWidgets.ResourceWidget;
 import soc.gwtClient.game.widgets.abstractWidgets.ResourceClickedEvent;
 import soc.gwtClient.game.widgets.abstractWidgets.ResourceClickedEventHandler;
 import soc.gwtClient.images.Resources;
@@ -15,7 +15,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
 public class ResourceBitmapWidget extends AbsolutePanel implements
-        IResourceWidget
+        ResourceWidget
 {
     private Image image;
     private Resource resource;
@@ -56,7 +56,7 @@ public class ResourceBitmapWidget extends AbsolutePanel implements
      * (boolean)
      */
     @Override
-    public IResourceWidget setEnabled(boolean enabled)
+    public ResourceWidget setEnabled(boolean enabled)
     {
         this.enabled = enabled;
 

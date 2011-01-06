@@ -19,7 +19,7 @@ public class LongestRoadBitmapWidget extends AbstractLongestRoadWidget
 
         longestRoadImage.setSize("16px", "16px");
 
-        // TODO: add player.getLongestRoad()
+        // TODO: visualize if player has longest road
         lblLongestRoadLength.setText("0");
 
         rootPanel.add(longestRoadImage);

@@ -6,7 +6,7 @@ import soc.common.game.developmentCards.standard.RoadBuilding;
 import soc.common.game.developmentCards.standard.Soldier;
 import soc.common.game.developmentCards.standard.VictoryPoint;
 import soc.common.game.developmentCards.standard.YearOfPlenty;
-import soc.gwtClient.game.abstractWidgets.IGamePanel;
+import soc.gwtClient.game.abstractWidgets.GamePanel;
 import soc.gwtClient.game.dialogs.PlayMonopolyDialog;
 import soc.gwtClient.game.dialogs.PlayRoadBuildingDialog;
 import soc.gwtClient.game.dialogs.PlaySoldierDialog;
@@ -23,9 +23,9 @@ public class DevelopmentCardBitmapMenuItem extends MenuItem
 {
     DevelopmentCard developmentCard;
     MenuBar menuBar;
-    IGamePanel gamePanel;
+    GamePanel gamePanel;
     
-    public DevelopmentCardBitmapMenuItem(DevelopmentCard devCard, IGamePanel gamePanel)
+    public DevelopmentCardBitmapMenuItem(DevelopmentCard devCard, GamePanel gamePanel)
     {
         super("", (Command) null);
         

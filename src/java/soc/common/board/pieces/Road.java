@@ -42,9 +42,6 @@ public class Road extends AbstractPlayerPiece implements SidePiece
         if (player.getStock().ofType(Road.ROAD).size() == 0)
             return false;
 
-        // TODO: port to java
-        // if (GetRoadBuildPlaces(game, board).Count == 0) return false;
-
         return true;
     }
 

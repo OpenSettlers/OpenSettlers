@@ -6,6 +6,9 @@ import soc.common.board.Board;
 import soc.common.server.data.BoardProvider;
 import soc.common.server.data.User;
 
+/*
+ * Provides boards from an object database
+ */
 public class OdbBoardProvider implements BoardProvider
 {
 

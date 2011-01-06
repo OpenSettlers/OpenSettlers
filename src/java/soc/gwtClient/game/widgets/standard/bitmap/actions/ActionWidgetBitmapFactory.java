@@ -12,22 +12,22 @@ import soc.common.actions.gameAction.turnActions.standard.RollDice;
 import soc.common.actions.gameAction.turnActions.standard.TradeBank;
 import soc.common.actions.gameAction.turnActions.standard.TradePlayer;
 import soc.common.game.player.GamePlayer;
-import soc.gwtClient.game.abstractWidgets.IActionWidget;
-import soc.gwtClient.game.abstractWidgets.IGamePanel;
-import soc.gwtClient.game.abstractWidgets.factories.IActionWidgetFactory;
-import soc.gwtClient.game.abstractWidgets.factories.IDiceWidgetFactory;
+import soc.gwtClient.game.abstractWidgets.ActionWidget;
+import soc.gwtClient.game.abstractWidgets.GamePanel;
+import soc.gwtClient.game.abstractWidgets.factories.ActionWidgetFactory;
+import soc.gwtClient.game.abstractWidgets.factories.DiceWidgetFactory;
 import soc.gwtClient.game.widgets.standard.bitmap.DiceWidgetBitmapFactory;
 
 /*
  * Constructs game UI using bitmap UI elements like png icons
  */
-public class ActionWidgetBitmapFactory implements IActionWidgetFactory
+public class ActionWidgetBitmapFactory implements ActionWidgetFactory
 {
-    private IDiceWidgetFactory diceWidgetFactory = new DiceWidgetBitmapFactory();
+    private DiceWidgetFactory diceWidgetFactory = new DiceWidgetBitmapFactory();
 
     @Override
-    public IActionWidget createActionWidget(TurnAction action, GamePlayer player,
-            IGamePanel gamePanel)
+    public ActionWidget createActionWidget(TurnAction action, GamePlayer player,
+            GamePanel gamePanel)
     {
         if (action instanceof BuildRoad)
         {

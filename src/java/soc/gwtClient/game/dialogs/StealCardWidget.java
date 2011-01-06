@@ -3,7 +3,7 @@ package soc.gwtClient.game.dialogs;
 import soc.common.actions.gameAction.turnActions.standard.RobPlayer;
 import soc.common.game.Game;
 import soc.common.game.player.GamePlayer;
-import soc.gwtClient.game.abstractWidgets.IGamePanel;
+import soc.gwtClient.game.abstractWidgets.GamePanel;
 import soc.gwtClient.game.widgets.standard.bitmap.StealPlayerCardBitmapWidget;
 
 import com.google.gwt.user.client.ui.DialogBox;
@@ -19,12 +19,12 @@ import com.google.gwt.user.client.ui.Button;
  */
 public class StealCardWidget extends DialogBox
 {
-    private IGamePanel gamePanel;
+    private GamePanel gamePanel;
     private GamePlayer player;
     HorizontalPanel playersCards = new HorizontalPanel();
     private RobPlayer robPlayer;
 
-    public StealCardWidget(IGamePanel gamePanel, GamePlayer player)
+    public StealCardWidget(GamePanel gamePanel, GamePlayer player)
     {
         this();
         this.gamePanel = gamePanel;

@@ -8,14 +8,14 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 public abstract class AbstractPlayerWidget extends HorizontalPanel implements
-        IPlayerWidget
+        PlayerWidget
 {
-    protected IStockWidget stockWidget;
-    protected IDevelopmentCardsAmountWidget devcardsWidget;
-    protected ILargestArmyWidget largestArmyWidget;
-    protected IResourceAmountWidget resourcesWidget;
-    protected ILongestRoadWidget longestRoadWidget;
-    protected IVictoryPointsWidget victoryPointWidget;
+    protected StockWidget stockWidget;
+    protected DevelopmentCardsAmountWidget devcardsWidget;
+    protected LargestArmyWidget largestArmyWidget;
+    protected ResourceAmountWidget resourcesWidget;
+    protected LongestRoadWidget longestRoadWidget;
+    protected VictoryPointsWidget victoryPointWidget;
     protected PlayerTurnStatusWidget turnStatusWidget;
 
     protected Game game;

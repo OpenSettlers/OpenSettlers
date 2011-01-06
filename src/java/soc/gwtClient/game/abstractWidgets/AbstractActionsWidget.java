@@ -2,31 +2,31 @@ package soc.gwtClient.game.abstractWidgets;
 
 import soc.common.actions.gameAction.turnActions.TurnAction;
 import soc.common.game.player.GamePlayer;
-import soc.gwtClient.game.abstractWidgets.factories.IActionWidgetFactory;
+import soc.gwtClient.game.abstractWidgets.factories.ActionWidgetFactory;
 
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public abstract class AbstractActionsWidget implements IActionsWidget
+public abstract class AbstractActionsWidget implements ActionsWidget
 {
     protected ComplexPanel rootPanel;
     protected GamePlayer player;
-    protected IGamePanel gamePanel;
+    protected GamePanel gamePanel;
 
-    public AbstractActionsWidget(IGamePanel gamePanel, GamePlayer player)
+    public AbstractActionsWidget(GamePanel gamePanel, GamePlayer player)
     {
         this.player = player;
         this.gamePanel = gamePanel;
 
         rootPanel = createRootPanel();
 
-        IActionWidgetFactory widgetFactory = getActionWidgetFactory();
+        ActionWidgetFactory widgetFactory = getActionWidgetFactory();
 
         for (TurnAction turnAction : gamePanel.getGame().getGameRules()
                 .getPossibleActions())
         {
-            IActionWidget w = widgetFactory.createActionWidget(turnAction,
+            ActionWidget w = widgetFactory.createActionWidget(turnAction,
                     player, gamePanel);
             if (w != null)
                 rootPanel.add(w);

@@ -87,6 +87,7 @@ public class PlayTurnsGamePhase extends AbstractGamePhase
     @Override
     public void start(Game game)
     {
+        game.advanceTurn();
         super.start(game);
     }
 

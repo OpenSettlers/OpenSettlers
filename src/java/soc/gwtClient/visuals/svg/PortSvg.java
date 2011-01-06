@@ -6,9 +6,9 @@ import org.vaadin.gwtgraphics.client.shape.Circle;
 import org.vaadin.gwtgraphics.client.shape.Path;
 
 import soc.common.board.ports.Port;
-import soc.common.client.visuals.board.AbstractPortVisual;
-import soc.common.client.visuals.board.BoardVisual;
 import soc.gwtClient.game.Point2D;
+import soc.gwtClient.visuals.abstractVisuals.AbstractPortVisual;
+import soc.gwtClient.visuals.abstractVisuals.BoardVisual;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

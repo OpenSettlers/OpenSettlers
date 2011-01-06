@@ -5,7 +5,7 @@ import org.vaadin.gwtgraphics.client.VectorObject;
 import org.vaadin.gwtgraphics.client.shape.Circle;
 
 import soc.common.board.pieces.Robber;
-import soc.common.client.visuals.game.AbstractRobberVisual;
+import soc.gwtClient.visuals.abstractVisuals.AbstractRobberVisual;
 
 public class RobberSvg extends AbstractRobberVisual implements SvgVisual
 {

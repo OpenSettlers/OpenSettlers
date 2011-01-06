@@ -6,11 +6,11 @@ import soc.common.board.resources.ResourceList;
 import soc.common.board.resources.ResourcesChangedEvent;
 import soc.common.board.resources.ResourcesChangedEventHandler;
 import soc.gwtClient.game.abstractWidgets.BankTradeUI;
-import soc.gwtClient.game.abstractWidgets.IGamePanel;
-import soc.gwtClient.game.widgets.abstractWidgets.IResourceListWidget;
-import soc.gwtClient.game.widgets.abstractWidgets.IResourcePickerWidget;
-import soc.gwtClient.game.widgets.bitmap.BitmapResourceListWidget;
-import soc.gwtClient.game.widgets.bitmap.BitmapResourcePickerWidget;
+import soc.gwtClient.game.abstractWidgets.GamePanel;
+import soc.gwtClient.game.widgets.abstractWidgets.ResourceListWidget;
+import soc.gwtClient.game.widgets.abstractWidgets.ResourcePickerWidget;
+import soc.gwtClient.game.widgets.bitmap.ResourceListBitmapWidget;
+import soc.gwtClient.game.widgets.bitmap.ResourcePickerBitmapWidget;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -32,17 +32,17 @@ public class TradeBankDialog extends PopupPanel implements BankTradeUI
     private ResourceList bankResources;
     private ResourceList playerHand;
     private PlayerPiece pieceToTradeFor;
-    private IGamePanel gamePanel;
+    private GamePanel gamePanel;
     private VerticalPanel needPanel;
     private VerticalPanel givePanel;
-    private IResourceListWidget giveResourcesListWidget;
-    private IResourceListWidget wantedResourcesListWidget;
-    private IResourcePickerWidget giveResourcesPickerWidget;
-    private IResourcePickerWidget wantedResourcesPickerWidget;
+    private ResourceListWidget giveResourcesListWidget;
+    private ResourceListWidget wantedResourcesListWidget;
+    private ResourcePickerWidget giveResourcesPickerWidget;
+    private ResourcePickerWidget wantedResourcesPickerWidget;
     private Button btnTrade;
     private Image imgPiece;
 
-    public TradeBankDialog(IGamePanel gamePanel)
+    public TradeBankDialog(GamePanel gamePanel)
     {
         this();
         this.gamePanel = gamePanel;
@@ -99,17 +99,17 @@ public class TradeBankDialog extends PopupPanel implements BankTradeUI
                 && wantResources.size() > 0);
     }
 
-    private IResourceListWidget createResourceListWidget(
+    private ResourceListWidget createResourceListWidget(
             ResourceList resources, ResourceList bankResources, PortList ports)
     {
-        return new BitmapResourceListWidget(resources, bankResources, ports);
+        return new ResourceListBitmapWidget(resources, bankResources, ports);
     }
 
-    private IResourcePickerWidget createResourcePickerWidget(
+    private ResourcePickerWidget createResourcePickerWidget(
             ResourceList resources, PortList ports, ResourceList bankResources,
-            IGamePanel gamePanel)
+            GamePanel gamePanel)
     {
-        return new BitmapResourcePickerWidget(resources, ports, bankResources,
+        return new ResourcePickerBitmapWidget(resources, ports, bankResources,
                 gamePanel);
     }
 

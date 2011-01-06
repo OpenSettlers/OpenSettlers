@@ -1,13 +1,13 @@
 package soc.gwtClient.editor;
 
-import soc.common.client.behaviour.InteractionBehaviour;
+import soc.gwtClient.visuals.behaviour.InteractionBehaviour;
 
 import com.google.gwt.event.shared.GwtEvent;
 
 
-public class BehaviourChanged extends GwtEvent<IBehaviourChangedHandler>
+public class BehaviourChanged extends GwtEvent<BehaviourChangedHandler>
 {
-    public static Type<IBehaviourChangedHandler> TYPE = new Type<IBehaviourChangedHandler>();
+    public static Type<BehaviourChangedHandler> TYPE = new Type<BehaviourChangedHandler>();
     InteractionBehaviour behaviour;
     
     public BehaviourChanged(InteractionBehaviour behaviour)
@@ -23,14 +23,14 @@ public class BehaviourChanged extends GwtEvent<IBehaviourChangedHandler>
     }
 
     @Override
-    protected void dispatch(IBehaviourChangedHandler handler)
+    protected void dispatch(BehaviourChangedHandler handler)
     {
         handler.onBehaviourChanged(this);
         
     }
 
     @Override
-    public com.google.gwt.event.shared.GwtEvent.Type<IBehaviourChangedHandler> getAssociatedType()
+    public com.google.gwt.event.shared.GwtEvent.Type<BehaviourChangedHandler> getAssociatedType()
     {
         return TYPE;
     }

@@ -8,7 +8,7 @@ import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class AbstractResourceAmountWidget implements IResourceAmountWidget, ResourcesChangedEventHandler
+public class AbstractResourceAmountWidget implements ResourceAmountWidget, ResourcesChangedEventHandler
 {
     protected GamePlayer player;
     protected ComplexPanel rootPanel;

@@ -3,9 +3,9 @@ package soc.gwtClient.editor;
 import soc.common.board.territories.TerritoriesChangedEvent;
 import soc.common.board.territories.TerritoriesChangedEventHandler;
 import soc.common.board.territories.Territory;
-import soc.common.client.behaviour.editor.SetTerritoryBehaviour;
-import soc.common.client.visuals.board.BoardVisual;
 import soc.gwtClient.images.Resources;
+import soc.gwtClient.visuals.abstractVisuals.BoardVisual;
+import soc.gwtClient.visuals.behaviour.editor.SetTerritoryBehaviour;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -39,7 +39,7 @@ public class TerritoryPanel extends VerticalPanel implements
     }
 
     public HandlerRegistration addBehaviourChangedEventHandler(
-            IBehaviourChangedHandler handler)
+            BehaviourChangedHandler handler)
     {
         return handlerManager.addHandler(BehaviourChanged.TYPE, handler);
     }

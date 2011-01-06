@@ -4,9 +4,9 @@ import soc.common.game.developmentCards.DevelopmentCard;
 import soc.common.game.developmentCards.DevelopmentCardsChangedEvent;
 import soc.common.game.developmentCards.DevelopmentCardsChangedEventHandler;
 import soc.common.game.player.GamePlayer;
-import soc.gwtClient.game.abstractWidgets.IActionWidget;
-import soc.gwtClient.game.abstractWidgets.IGamePanel;
-import soc.gwtClient.game.abstractWidgets.IPlayDevelopmentCardWidget;
+import soc.gwtClient.game.abstractWidgets.ActionWidget;
+import soc.gwtClient.game.abstractWidgets.GamePanel;
+import soc.gwtClient.game.abstractWidgets.PlayDevelopmentCardWidget;
 import soc.gwtClient.game.abstractWidgets.factories.DevelopmentCardWidgetFactory;
 import soc.gwtClient.game.widgets.standard.bitmap.developmentCards.DevelopmentCardBitmapWidgetFactory;
 import soc.gwtClient.images.Resources;
@@ -22,21 +22,21 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class PlayDevelopmentCardBitmapWidget implements
-        IPlayDevelopmentCardWidget, DevelopmentCardsChangedEventHandler,
-        IActionWidget
+        PlayDevelopmentCardWidget, DevelopmentCardsChangedEventHandler,
+        ActionWidget
 {
     protected AbsolutePanel rootPanel = new AbsolutePanel();
     protected PopupPanel menuBar = new PopupPanel();
     protected VerticalPanel verticalPanel = new VerticalPanel();
     protected GamePlayer player;
-    protected IGamePanel gamePanel;
+    protected GamePanel gamePanel;
     protected PushButton btnPlayDevelopmentCard = new PushButton(new Image(
             Resources.icons().developmentCardBack()));
     protected Label lblAmountDvelopmentCards = new Label();
     protected boolean isMenubarShown = false;
     protected DevelopmentCardWidgetFactory devCardWidgetFactory = new DevelopmentCardBitmapWidgetFactory();
 
-    public PlayDevelopmentCardBitmapWidget(GamePlayer player, IGamePanel gamePanel)
+    public PlayDevelopmentCardBitmapWidget(GamePlayer player, GamePanel gamePanel)
     {
         this.player = player;
         this.gamePanel = gamePanel;
@@ -103,7 +103,7 @@ public class PlayDevelopmentCardBitmapWidget implements
     }
 
     @Override
-    public IActionWidget setEnabled(boolean enabled)
+    public ActionWidget setEnabled(boolean enabled)
     {
         return null;
     }

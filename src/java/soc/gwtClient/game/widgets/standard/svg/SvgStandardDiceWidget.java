@@ -6,8 +6,8 @@ import soc.common.game.dices.Dice;
 import soc.common.game.dices.StandardDice;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.AbstractStandardDiceWidget;
-import soc.gwtClient.game.abstractWidgets.IActionWidget;
-import soc.gwtClient.game.abstractWidgets.IGamePanel;
+import soc.gwtClient.game.abstractWidgets.ActionWidget;
+import soc.gwtClient.game.abstractWidgets.GamePanel;
 
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.ComplexPanel;
@@ -21,7 +21,7 @@ public class SvgStandardDiceWidget extends AbstractStandardDiceWidget
     AbsolutePanel totalNumber = new AbsolutePanel();
     Label lblTotalNumber = new Label();
 
-    public SvgStandardDiceWidget(IGamePanel gamePanel)
+    public SvgStandardDiceWidget(GamePanel gamePanel)
     {
         super(gamePanel);
 
@@ -75,7 +75,7 @@ public class SvgStandardDiceWidget extends AbstractStandardDiceWidget
     }
 
     @Override
-    public IActionWidget setEnabled(boolean enabled)
+    public ActionWidget setEnabled(boolean enabled)
     {
         return this;
     }

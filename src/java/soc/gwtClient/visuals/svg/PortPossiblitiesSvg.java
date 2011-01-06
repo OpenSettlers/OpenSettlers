@@ -5,8 +5,8 @@ import org.vaadin.gwtgraphics.client.VectorObject;
 
 import soc.common.board.HexLocation;
 import soc.common.board.ports.Port;
-import soc.common.client.visuals.board.AbstractPortPossibilitiesVisual;
 import soc.gwtClient.game.Point2D;
+import soc.gwtClient.visuals.abstractVisuals.AbstractPortPossibilitiesVisual;
 
 public class PortPossiblitiesSvg extends AbstractPortPossibilitiesVisual
         implements SvgVisual

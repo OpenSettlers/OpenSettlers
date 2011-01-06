@@ -51,15 +51,7 @@ public class GraphSideImpl implements GraphSide
     @Override
     public boolean isBuildable()
     {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public GraphPoint setBuildable(boolean townBuildable)
-    {
-        // TODO Auto-generated method stub
-        return null;
+        return playerPiece == null;
     }
 
     /*

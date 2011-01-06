@@ -3,12 +3,12 @@ package soc.gwtClient.game.widgets.standard.bitmap.player;
 import soc.common.game.Game;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.AbstractPlayerWidget;
-import soc.gwtClient.game.abstractWidgets.IDevelopmentCardsAmountWidget;
-import soc.gwtClient.game.abstractWidgets.ILargestArmyWidget;
-import soc.gwtClient.game.abstractWidgets.ILongestRoadWidget;
-import soc.gwtClient.game.abstractWidgets.IResourceAmountWidget;
-import soc.gwtClient.game.abstractWidgets.IStockWidget;
-import soc.gwtClient.game.abstractWidgets.IVictoryPointsWidget;
+import soc.gwtClient.game.abstractWidgets.DevelopmentCardsAmountWidget;
+import soc.gwtClient.game.abstractWidgets.LargestArmyWidget;
+import soc.gwtClient.game.abstractWidgets.LongestRoadWidget;
+import soc.gwtClient.game.abstractWidgets.ResourceAmountWidget;
+import soc.gwtClient.game.abstractWidgets.StockWidget;
+import soc.gwtClient.game.abstractWidgets.VictoryPointsWidget;
 import soc.gwtClient.game.abstractWidgets.PlayerTurnStatusWidget;
 import soc.gwtClient.game.widgets.bitmap.PlayerTurnStatusBitmapWidget;
 import soc.gwtClient.game.widgets.standard.bitmap.LargestArmyBitmapWidget;
@@ -26,7 +26,7 @@ public class PlayerBitmapWidget extends AbstractPlayerWidget
     }
 
     @Override
-    public IStockWidget createStockWidget()
+    public StockWidget createStockWidget()
     {
         return new StockBitmapWidget(game, player);
     }
@@ -38,31 +38,31 @@ public class PlayerBitmapWidget extends AbstractPlayerWidget
     }
 
     @Override
-    public IDevelopmentCardsAmountWidget createDevcardsWidget()
+    public DevelopmentCardsAmountWidget createDevcardsWidget()
     {
         return new DevelopmentCardsAmountBitmapWidget(player);
     }
 
     @Override
-    public ILargestArmyWidget createLargestArmyWidget()
+    public LargestArmyWidget createLargestArmyWidget()
     {
         return new LargestArmyBitmapWidget(player);
     }
 
     @Override
-    public ILongestRoadWidget createLongestRoadWidget()
+    public LongestRoadWidget createLongestRoadWidget()
     {
         return new LongestRoadBitmapWidget(player);
     }
 
     @Override
-    public IResourceAmountWidget createResourcesWidget()
+    public ResourceAmountWidget createResourcesWidget()
     {
         return new ResourceAmountBitmapWidget(player);
     }
 
     @Override
-    public IVictoryPointsWidget createVictoryPointWidget()
+    public VictoryPointsWidget createVictoryPointWidget()
     {
         return new VictoryPointsBitmapWidget(player);
     }

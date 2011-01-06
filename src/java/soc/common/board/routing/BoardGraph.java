@@ -184,7 +184,6 @@ public class BoardGraph
         GraphSide side = getSideFromSet(road.getSide());
 
         side.setPlayerPiece(road);
-        side.setBuildable(false);
     }
 
     /*

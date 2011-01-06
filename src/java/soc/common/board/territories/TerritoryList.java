@@ -8,6 +8,9 @@ import soc.common.annotations.SeaFarers;
 
 import com.google.gwt.event.shared.SimpleEventBus;
 
+/*
+ * List of territories. Defaults on having a Mainland, but a mainland is not required.
+ */
 @SeaFarers
 public class TerritoryList implements Iterable<TerritoryImpl>
 {

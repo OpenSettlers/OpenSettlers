@@ -14,7 +14,7 @@ import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public abstract class AbstractResourceListWidget implements IResourceListWidget
+public abstract class AbstractResourceListWidget implements ResourceListWidget
 {
     protected ComplexPanel rootPanel;
     protected int maximumResources;
@@ -45,11 +45,11 @@ public abstract class AbstractResourceListWidget implements IResourceListWidget
      * @see soc.gwtClient.game.widgets.abstractWidgets.IResourceListWidget#setEnabled(boolean)
      */
     @Override
-    public IResourceListWidget setEnabled(boolean enabled)
+    public ResourceListWidget setEnabled(boolean enabled)
     {
         for (int i=0; i< rootPanel.getWidgetCount(); i++)
         {
-            IResourceWidget resourceWidget = (IResourceWidget)rootPanel.getWidget(i);
+            ResourceWidget resourceWidget = (ResourceWidget)rootPanel.getWidget(i);
             resourceWidget.setEnabled(enabled);
         }
         
@@ -59,7 +59,7 @@ public abstract class AbstractResourceListWidget implements IResourceListWidget
      * @param resources the resources to set
      */
     @Override
-    public IResourceListWidget setResources(ResourceList resources)
+    public ResourceListWidget setResources(ResourceList resources)
     {
         //TODO: Remove old event handler
         this.resources = resources;
@@ -70,7 +70,7 @@ public abstract class AbstractResourceListWidget implements IResourceListWidget
         // Add new widgets if any
         for (Resource resource : resources)
         {
-            IResourceWidget resourceWidget = createResourceWidget(resource);
+            ResourceWidget resourceWidget = createResourceWidget(resource);
             resourceWidget.addClickHandler(this);
             rootPanel.add(resourceWidget);
         }
@@ -101,7 +101,7 @@ public abstract class AbstractResourceListWidget implements IResourceListWidget
     {
         for (Resource resource : resourcesToAdd)
         {
-            IResourceWidget resourceWidget = createResourceWidget(resource);
+            ResourceWidget resourceWidget = createResourceWidget(resource);
             resourceWidget.addClickHandler(this);
             rootPanel.add(resourceWidget);
         }
@@ -109,7 +109,7 @@ public abstract class AbstractResourceListWidget implements IResourceListWidget
 
     private void removeResources(ResourceList resourcesToRemove)
     {
-        ArrayList<IResourceWidget> widgetsToRemove = new ArrayList<IResourceWidget>();
+        ArrayList<ResourceWidget> widgetsToRemove = new ArrayList<ResourceWidget>();
         ResourceList resToRemove = resourcesToRemove.copy();
         
         for (Resource resourceToRemove : resToRemove)
@@ -117,7 +117,7 @@ public abstract class AbstractResourceListWidget implements IResourceListWidget
             for (int i=0; i< rootPanel.getWidgetCount(); i++)
             {
                 Object o = rootPanel.getWidget(i);
-                IResourceWidget resourceWidget = (IResourceWidget)rootPanel.getWidget(i);
+                ResourceWidget resourceWidget = (ResourceWidget)rootPanel.getWidget(i);
                 if (resourceWidget.getResource().getClass() == resourceToRemove.getClass())
                 {
                     rootPanel.remove(i);

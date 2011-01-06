@@ -1,7 +1,7 @@
 package soc.gwtClient.game.widgets;
 
 import soc.common.actions.gameAction.MessageFromServer;
-import soc.gwtClient.game.abstractWidgets.IGamePanel;
+import soc.gwtClient.game.abstractWidgets.GamePanel;
 import soc.gwtClient.game.widgets.abstractWidgets.DebugWidget;
 import soc.gwtClient.game.widgets.bitmap.StringErrorCell;
 
@@ -16,10 +16,10 @@ public class DebugPanel implements DebugWidget
     ScrollPanel rootPanel = new ScrollPanel();
     CellList<MessageFromServer> actionsList = new CellList<MessageFromServer>(
             cell);
-    IGamePanel gamePanel;
+    GamePanel gamePanel;
     ListDataProvider<MessageFromServer> dataProvider = new ListDataProvider<MessageFromServer>();
 
-    public DebugPanel(IGamePanel gamePanel)
+    public DebugPanel(GamePanel gamePanel)
     {
         super();
         this.gamePanel = gamePanel;

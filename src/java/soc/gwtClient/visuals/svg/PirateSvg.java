@@ -4,7 +4,7 @@ import org.vaadin.gwtgraphics.client.Group;
 import org.vaadin.gwtgraphics.client.VectorObject;
 
 import soc.common.board.pieces.Pirate;
-import soc.common.client.visuals.game.AbstractPirateVisual;
+import soc.gwtClient.visuals.abstractVisuals.AbstractPirateVisual;
 
 public class PirateSvg extends AbstractPirateVisual implements SvgVisual
 {

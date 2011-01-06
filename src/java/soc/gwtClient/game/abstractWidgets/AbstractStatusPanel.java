@@ -15,11 +15,11 @@ public abstract class AbstractStatusPanel implements StatusPanel,
     protected Label lblAction = new Label("Action todo");
     protected Label lblPhase = new Label("Current Game phase goes here");
     protected Label lblStatus = new Label("Status of the game");
-    protected IGamePanel gamePanel;
+    protected GamePanel gamePanel;
 
     protected abstract ComplexPanel createRootPanel();
 
-    public AbstractStatusPanel(IGamePanel gamePanel)
+    public AbstractStatusPanel(GamePanel gamePanel)
     {
         super();
         this.gamePanel = gamePanel;

@@ -12,7 +12,7 @@ public class AbstractBankStockWidget implements BankStockPanel
 {
     protected ComplexPanel rootPanel;
     protected Game game;
-    protected IDevelopmentCardsAmountWidget devCards;
+    protected DevelopmentCardsAmountWidget devCards;
 
     public AbstractBankStockWidget(Game game)
     {
@@ -22,7 +22,7 @@ public class AbstractBankStockWidget implements BankStockPanel
         for (Resource playableResource : game.getGameRules()
                 .getSupportedResources())
         {
-            IBankStockResourceWidget bankResourceWidget = createBankStockResourceWidget(playableResource);
+            BankStockResourceWidget bankResourceWidget = createBankStockResourceWidget(playableResource);
             rootPanel.add(bankResourceWidget);
         }
     }
@@ -40,14 +40,14 @@ public class AbstractBankStockWidget implements BankStockPanel
     }
 
     @Override
-    public IBankStockResourceWidget createBankStockResourceWidget(
+    public BankStockResourceWidget createBankStockResourceWidget(
             Resource resource)
     {
         return new BankStockResourceBitmapWidget(game.getBank(), resource);
     }
 
     @Override
-    public IDevelopmentCardsAmountWidget createDevelopmentCardsWidget(Game game)
+    public DevelopmentCardsAmountWidget createDevelopmentCardsWidget(Game game)
     {
         // TODO Auto-generated method stub
         return null;
