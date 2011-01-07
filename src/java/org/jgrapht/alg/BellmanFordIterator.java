@@ -42,7 +42,9 @@ package org.jgrapht.alg;
 
 import java.util.*;
 
+import com.google.gwt.core.client.GWT;
 import org.jgrapht.*;
+import soc.common.internationalization.OpenSettlersConstants;
 
 
 /**
@@ -54,12 +56,14 @@ class BellmanFordIterator<V, E>
 {
     //~ Static fields/initializers ---------------------------------------------
 
-    /**
+    public static final String EDGE_WEIGHTS_ARE_NOT_ALLOWED_IN_AN_UNIDRECTED_GRAPH = ((OpenSettlersConstants) GWT.create(OpenSettlersConstants.class)).edgeWeightsAreNotAllowedInAnUnidrectedGraph();
+  public static final String NEGATIVE = ((OpenSettlersConstants) GWT.create(OpenSettlersConstants.class)).negative();
+  /**
      * Error message.
      */
     protected final static String NEGATIVE_UNDIRECTED_EDGE =
-        "Negative"
-        + "edge-weights are not allowed in an unidrected graph!";
+        NEGATIVE
+        + EDGE_WEIGHTS_ARE_NOT_ALLOWED_IN_AN_UNIDRECTED_GRAPH;
 
     //~ Instance fields --------------------------------------------------------
 

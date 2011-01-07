@@ -77,7 +77,7 @@ import java.util.*;
  * @author Nathan Fiedler
  */
 public class FibonacciHeap<T>
-{
+{ public static final String FIBONACCI_HEAP1 = "FibonacciHeap=["; public static final String FIBONACCI_HEAP0 = "FibonacciHeap=[]";
     //~ Instance fields --------------------------------------------------------
 
     /**
@@ -354,7 +354,7 @@ public class FibonacciHeap<T>
     public String toString()
     {
         if (minNode == null) {
-            return "FibonacciHeap=[]";
+            return FIBONACCI_HEAP0;
         }
 
         // create a new stack and put root on it
@@ -362,7 +362,7 @@ public class FibonacciHeap<T>
         stack.push(minNode);
 
         StringBuffer buf = new StringBuffer(512);
-        buf.append("FibonacciHeap=[");
+        buf.append(FIBONACCI_HEAP1);
 
         // do a simple breadth-first traversal on the tree
         while (!stack.empty()) {

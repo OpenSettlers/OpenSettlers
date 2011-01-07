@@ -72,7 +72,7 @@ public class RingGraphGenerator<V, E>
     public RingGraphGenerator(int size)
     {
         if (size < 0) {
-            throw new IllegalArgumentException("must be non-negative");
+            throw new IllegalArgumentException(EmptyGraphGenerator.MUST_BE_NON_NEGATIVE);
         }
 
         this.size = size;

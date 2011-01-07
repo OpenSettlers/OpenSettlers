@@ -63,4 +63,44 @@ public interface OpenSettlersConstants extends Constants
 
     @DefaultStringValue("Play")
     String play();
+
+  String maxSizeIsNegativeOr0();
+
+  String negative();
+
+  String edgeWeightsAreNotAllowedInAnUnidrectedGraph();
+
+  String noSuchVertexInTheGraph();
+
+  String graphMustContainTheEndVertex();
+
+  String theEndVertexIsTheSameAsTheStartVertex();
+
+  String startVertexIsNull();
+
+  String graphIsNull();
+
+  String mustBeNonNegative();
+
+  String endVertex();
+
+  String startVertex();
+
+  String hubVertex();
+
+  String thisGraphOnlySupportsUndirectedOperations();
+
+  String thisGraphDoesNotSupportEdgeAddition();
+
+  String thisGraphIsUnmodifiable();
+
+  String noSuchOperationInADirectedGraph();
+
+  String noSuchOperationInAnUndirectedGraph();
+
+  String loopsNotAllowed();
+
+  String noSuchEdgeInBaseGraph();
+
+  String noSuchVertexInBaseGraph();
 }

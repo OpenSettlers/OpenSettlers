@@ -51,8 +51,10 @@ import java.io.*;
 
 import java.util.*;
 
+import com.google.gwt.core.client.GWT;
 import org.jgrapht.*;
 import org.jgrapht.util.*;
+import soc.common.internationalization.OpenSettlersConstants;
 
 
 /**
@@ -75,7 +77,7 @@ public abstract class AbstractBaseGraph<V, E>
 {
     //~ Static fields/initializers ---------------------------------------------
 
-    private static final String LOOPS_NOT_ALLOWED = "loops not allowed";
+    private static final String LOOPS_NOT_ALLOWED = ((OpenSettlersConstants) GWT.create(OpenSettlersConstants.class)).loopsNotAllowed();
 
     //~ Instance fields --------------------------------------------------------
 
@@ -729,7 +731,7 @@ public abstract class AbstractBaseGraph<V, E>
     {
         private static final long serialVersionUID = 8971725103718958232L;
         private static final String NOT_IN_DIRECTED_GRAPH =
-            "no such operation in a directed graph";
+            ((OpenSettlersConstants) GWT.create(OpenSettlersConstants.class)).noSuchOperationInADirectedGraph();
 
         private Map<V, DirectedEdgeContainer<V, E>> vertexMapDirected =
             new LinkedHashMap<V, DirectedEdgeContainer<V, E>>();
@@ -991,7 +993,7 @@ public abstract class AbstractBaseGraph<V, E>
     {
         private static final long serialVersionUID = 6494588405178655873L;
         private static final String NOT_IN_UNDIRECTED_GRAPH =
-            "no such operation in an undirected graph";
+            ((OpenSettlersConstants) GWT.create(OpenSettlersConstants.class)).noSuchOperationInAnUndirectedGraph();
 
         private Map<V, UndirectedEdgeContainer<V, E>> vertexMapUndirected =
             new LinkedHashMap<V, UndirectedEdgeContainer<V, E>>();

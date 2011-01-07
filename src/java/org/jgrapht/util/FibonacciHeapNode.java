@@ -60,7 +60,7 @@ package org.jgrapht.util;
  */
 public class FibonacciHeapNode<T>
 {
-    //~ Instance fields --------------------------------------------------------
+  //~ Instance fields --------------------------------------------------------
 
     /**
      * Node data.
@@ -145,6 +145,7 @@ public class FibonacciHeapNode<T>
      *
      * @return string representing this object
      */
+    @SuppressWarnings({"HardCodedStringLiteral"})
     public String toString()
     {
         if (true) {

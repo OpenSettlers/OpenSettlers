@@ -42,8 +42,10 @@ package org.jgrapht.alg;
 
 import java.util.*;
 
+import com.google.gwt.core.client.GWT;
 import org.jgrapht.*;
 import org.jgrapht.graph.*;
+import soc.common.internationalization.OpenSettlersConstants;
 
 
 /**
@@ -77,8 +79,9 @@ public class BlockCutpointGraph<V, E>
     /**
      */
     private static final long serialVersionUID = -9101341117013163934L;
+  public static final String NO_SUCH_VERTEX_IN_THE_GRAPH = ((OpenSettlersConstants) GWT.create(OpenSettlersConstants.class)).noSuchVertexInTheGraph();
 
-    //~ Instance fields --------------------------------------------------------
+  //~ Instance fields --------------------------------------------------------
 
     private Set<V> cutpoints = new HashSet<V>();
 
@@ -156,7 +159,7 @@ public class BlockCutpointGraph<V, E>
     public UndirectedGraph<V, E> getBlock(V vertex)
     {
         if (!this.graph.vertexSet().contains(vertex)) {
-            throw new IllegalArgumentException("No such vertex in the graph!");
+            throw new IllegalArgumentException(NO_SUCH_VERTEX_IN_THE_GRAPH);
         }
 
         return this.vertex2block.get(vertex);
@@ -179,7 +182,7 @@ public class BlockCutpointGraph<V, E>
     public boolean isCutpoint(V vertex)
     {
         if (!this.graph.vertexSet().contains(vertex)) {
-            throw new IllegalArgumentException("No such vertex in the graph!");
+            throw new IllegalArgumentException(NO_SUCH_VERTEX_IN_THE_GRAPH);
         }
 
         return this.cutpoints.contains(vertex);

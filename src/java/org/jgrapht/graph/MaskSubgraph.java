@@ -59,7 +59,7 @@ public class MaskSubgraph<V, E>
 {
     //~ Static fields/initializers ---------------------------------------------
 
-    private static final String UNMODIFIABLE = "this graph is unmodifiable";
+    private static final String UNMODIFIABLE = UnmodifiableGraph.THIS_GRAPH_IS_UNMODIFIABLE;
 
     //~ Instance fields --------------------------------------------------------
 

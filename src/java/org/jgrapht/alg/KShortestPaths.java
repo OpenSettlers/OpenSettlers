@@ -42,7 +42,9 @@ package org.jgrapht.alg;
 
 import java.util.*;
 
+import com.google.gwt.core.client.GWT;
 import org.jgrapht.*;
+import soc.common.internationalization.OpenSettlersConstants;
 
 
 /**
@@ -55,7 +57,11 @@ import org.jgrapht.*;
  */
 public class KShortestPaths<V, E>
 {
-    // ~ Instance fields
+  public static final String GRAPH_IS_NULL = ((OpenSettlersConstants) GWT.create(OpenSettlersConstants.class)).graphIsNull();
+  public static final String START_VERTEX_IS_NULL = ((OpenSettlersConstants) GWT.create(OpenSettlersConstants.class)).startVertexIsNull();
+  public static final String THE_END_VERTEX_IS_THE_SAME_AS_THE_START_VERTEX = ((OpenSettlersConstants) GWT.create(OpenSettlersConstants.class)).theEndVertexIsTheSameAsTheStartVertex();
+  public static final String GRAPH_MUST_CONTAIN_THE_END_VERTEX = ((OpenSettlersConstants) GWT.create(OpenSettlersConstants.class)).graphMustContainTheEndVertex();
+  // ~ Instance fields
     // --------------------------------------------------------
 
     //~ Instance fields --------------------------------------------------------
@@ -176,11 +182,11 @@ public class KShortestPaths<V, E>
         }
         if (endVertex.equals(this.startVertex)) {
             throw new IllegalArgumentException(
-                "The end vertex is the same as the start vertex!");
+                                                  THE_END_VERTEX_IS_THE_SAME_AS_THE_START_VERTEX);
         }
         if (!this.graph.vertexSet().contains(endVertex)) {
             throw new IllegalArgumentException(
-                "Graph must contain the end vertex!");
+                                                  GRAPH_MUST_CONTAIN_THE_END_VERTEX);
         }
     }
 
@@ -191,10 +197,10 @@ public class KShortestPaths<V, E>
         int nMaxHops)
     {
         if (graph == null) {
-            throw new NullPointerException("graph is null");
+            throw new NullPointerException(GRAPH_IS_NULL);
         }
         if (startVertex == null) {
-            throw new NullPointerException("startVertex is null");
+            throw new NullPointerException(START_VERTEX_IS_NULL);
         }
         if (nPaths <= 0) {
             throw new NullPointerException("nPaths is negative or 0");

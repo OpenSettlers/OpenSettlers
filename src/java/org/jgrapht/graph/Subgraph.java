@@ -53,9 +53,11 @@ import java.io.*;
 
 import java.util.*;
 
+import com.google.gwt.core.client.GWT;
 import org.jgrapht.*;
 import org.jgrapht.event.*;
 import org.jgrapht.util.*;
+import soc.common.internationalization.OpenSettlersConstants;
 
 
 /**
@@ -113,9 +115,9 @@ public class Subgraph<V, E, G extends Graph<V, E>>
 
     private static final long serialVersionUID = 3208313055169665387L;
     private static final String NO_SUCH_EDGE_IN_BASE =
-        "no such edge in base graph";
+        ((OpenSettlersConstants) GWT.create(OpenSettlersConstants.class)).noSuchEdgeInBaseGraph();
     private static final String NO_SUCH_VERTEX_IN_BASE =
-        "no such vertex in base graph";
+        ((OpenSettlersConstants) GWT.create(OpenSettlersConstants.class)).noSuchVertexInBaseGraph();
 
     //~ Instance fields --------------------------------------------------------
 

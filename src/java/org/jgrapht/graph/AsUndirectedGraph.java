@@ -46,8 +46,10 @@ import java.io.*;
 
 import java.util.*;
 
+import com.google.gwt.core.client.GWT;
 import org.jgrapht.*;
 import org.jgrapht.util.*;
+import soc.common.internationalization.OpenSettlersConstants;
 
 
 /**
@@ -84,9 +86,9 @@ public class AsUndirectedGraph<V, E>
 
     private static final long serialVersionUID = 3257845485078065462L; // @todo renew
     private static final String NO_EDGE_ADD =
-        "this graph does not support edge addition";
+        ((OpenSettlersConstants) GWT.create(OpenSettlersConstants.class)).thisGraphDoesNotSupportEdgeAddition();
     private static final String UNDIRECTED =
-        "this graph only supports undirected operations";
+        ((OpenSettlersConstants) GWT.create(OpenSettlersConstants.class)).thisGraphOnlySupportsUndirectedOperations();
 
     //~ Constructors -----------------------------------------------------------
 

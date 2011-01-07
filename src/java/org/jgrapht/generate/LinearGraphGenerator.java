@@ -41,7 +41,9 @@ package org.jgrapht.generate;
 
 import java.util.*;
 
+import com.google.gwt.core.client.GWT;
 import org.jgrapht.*;
+import soc.common.internationalization.OpenSettlersConstants;
 
 
 /**
@@ -59,12 +61,12 @@ public class LinearGraphGenerator<V, E>
     /**
      * Role for the first vertex generated.
      */
-    public static final String START_VERTEX = "Start Vertex";
+    public static final String START_VERTEX = ((OpenSettlersConstants) GWT.create(OpenSettlersConstants.class)).startVertex();
 
     /**
      * Role for the last vertex generated.
      */
-    public static final String END_VERTEX = "End Vertex";
+    public static final String END_VERTEX = ((OpenSettlersConstants) GWT.create(OpenSettlersConstants.class)).endVertex();
 
     //~ Instance fields --------------------------------------------------------
 
@@ -82,7 +84,7 @@ public class LinearGraphGenerator<V, E>
     public LinearGraphGenerator(int size)
     {
         if (size < 0) {
-            throw new IllegalArgumentException("must be non-negative");
+            throw new IllegalArgumentException(EmptyGraphGenerator.MUST_BE_NON_NEGATIVE);
         }
 
         this.size = size;

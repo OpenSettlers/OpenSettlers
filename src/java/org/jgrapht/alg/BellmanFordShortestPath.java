@@ -181,12 +181,12 @@ public class BellmanFordShortestPath<V, E>
     {
         if (endVertex.equals(this.startVertex)) {
             throw new IllegalArgumentException(
-                "The end vertex is the same as the start vertex!");
+                                                  KShortestPaths.THE_END_VERTEX_IS_THE_SAME_AS_THE_START_VERTEX);
         }
 
         if (!this.graph.containsVertex(endVertex)) {
             throw new IllegalArgumentException(
-                "Graph must contain the end vertex!");
+                                                  KShortestPaths.GRAPH_MUST_CONTAIN_THE_END_VERTEX);
         }
     }
 

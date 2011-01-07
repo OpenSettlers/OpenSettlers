@@ -42,7 +42,9 @@ package org.jgrapht.alg;
 
 import java.util.*;
 
+import com.google.gwt.core.client.GWT;
 import org.jgrapht.*;
+import soc.common.internationalization.OpenSettlersConstants;
 
 
 /**
@@ -56,7 +58,8 @@ abstract class AbstractPathElementList<V,
     extends AbstractList<T>
     implements Cloneable
 {
-    //~ Instance fields --------------------------------------------------------
+  public static final String MAX_SIZE_IS_NEGATIVE_OR_0 = ((OpenSettlersConstants) GWT.create(OpenSettlersConstants.class)).maxSizeIsNegativeOr0();
+  //~ Instance fields --------------------------------------------------------
 
     protected Graph<V, E> graph;
 
@@ -93,7 +96,7 @@ abstract class AbstractPathElementList<V,
         T pathElement)
     {
         if (maxSize <= 0) {
-            throw new IllegalArgumentException("maxSize is negative or 0");
+            throw new IllegalArgumentException(MAX_SIZE_IS_NEGATIVE_OR_0);
         }
         if (pathElement == null) {
             throw new NullPointerException("pathElement is null");
@@ -126,7 +129,7 @@ abstract class AbstractPathElementList<V,
         E edge)
     {
         if (maxSize <= 0) {
-            throw new IllegalArgumentException("maxSize is negative or 0");
+            throw new IllegalArgumentException(MAX_SIZE_IS_NEGATIVE_OR_0);
         }
         if (elementList == null) {
             throw new NullPointerException("elementList is null");

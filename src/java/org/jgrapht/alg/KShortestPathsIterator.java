@@ -222,10 +222,10 @@ class KShortestPathsIterator<V, E>
     private void assertKShortestPathsIterator(Graph<V, E> graph, V startVertex)
     {
         if (graph == null) {
-            throw new NullPointerException("graph is null");
+            throw new NullPointerException(KShortestPaths.GRAPH_IS_NULL);
         }
         if (startVertex == null) {
-            throw new NullPointerException("startVertex is null");
+            throw new NullPointerException(KShortestPaths.START_VERTEX_IS_NULL);
         }
     }
 

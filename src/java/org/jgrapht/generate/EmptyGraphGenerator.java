@@ -41,7 +41,9 @@ package org.jgrapht.generate;
 
 import java.util.*;
 
+import com.google.gwt.core.client.GWT;
 import org.jgrapht.*;
+import soc.common.internationalization.OpenSettlersConstants;
 
 
 /**
@@ -54,7 +56,8 @@ import org.jgrapht.*;
 public class EmptyGraphGenerator<V, E>
     implements GraphGenerator<V, E, V>
 {
-    //~ Instance fields --------------------------------------------------------
+  public static final String MUST_BE_NON_NEGATIVE = ((OpenSettlersConstants) GWT.create(OpenSettlersConstants.class)).mustBeNonNegative();
+  //~ Instance fields --------------------------------------------------------
 
     private int size;
 
@@ -70,7 +73,7 @@ public class EmptyGraphGenerator<V, E>
     public EmptyGraphGenerator(int size)
     {
         if (size < 0) {
-            throw new IllegalArgumentException("must be non-negative");
+            throw new IllegalArgumentException(MUST_BE_NON_NEGATIVE);
         }
 
         this.size = size;

@@ -46,7 +46,9 @@ import java.io.*;
 
 import java.util.*;
 
+import com.google.gwt.core.client.GWT;
 import org.jgrapht.*;
+import soc.common.internationalization.OpenSettlersConstants;
 
 
 /**
@@ -71,9 +73,10 @@ public class UnmodifiableGraph<V, E>
     //~ Static fields/initializers ---------------------------------------------
 
     private static final long serialVersionUID = 3544957670722713913L;
-    private static final String UNMODIFIABLE = "this graph is unmodifiable";
+    private static final String UNMODIFIABLE = THIS_GRAPH_IS_UNMODIFIABLE;
+  public static final String THIS_GRAPH_IS_UNMODIFIABLE = ((OpenSettlersConstants) GWT.create(OpenSettlersConstants.class)).thisGraphIsUnmodifiable();
 
-    //~ Constructors -----------------------------------------------------------
+  //~ Constructors -----------------------------------------------------------
 
     /**
      * Creates a new unmodifiable graph based on the specified backing graph.

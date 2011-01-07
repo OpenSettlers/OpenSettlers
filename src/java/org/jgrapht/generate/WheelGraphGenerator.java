@@ -41,7 +41,9 @@ package org.jgrapht.generate;
 
 import java.util.*;
 
+import com.google.gwt.core.client.GWT;
 import org.jgrapht.*;
+import soc.common.internationalization.OpenSettlersConstants;
 
 
 /**
@@ -62,7 +64,7 @@ public class WheelGraphGenerator<V, E>
     /**
      * Role for the hub vertex.
      */
-    public static final String HUB_VERTEX = "Hub Vertex";
+    public static final String HUB_VERTEX = ((OpenSettlersConstants) GWT.create(OpenSettlersConstants.class)).hubVertex();
 
     //~ Instance fields --------------------------------------------------------
 
@@ -95,7 +97,7 @@ public class WheelGraphGenerator<V, E>
     public WheelGraphGenerator(int size, boolean inwardSpokes)
     {
         if (size < 0) {
-            throw new IllegalArgumentException("must be non-negative");
+            throw new IllegalArgumentException(EmptyGraphGenerator.MUST_BE_NON_NEGATIVE);
         }
 
         this.size = size;
