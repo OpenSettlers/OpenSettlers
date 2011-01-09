@@ -62,11 +62,7 @@ public class GraphSideImpl implements GraphSide
     @Override
     public int hashCode()
     {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + ((sideLocation == null) ? 0 : sideLocation.hashCode());
-        return result;
+        return sideLocation.hashCode();
     }
 
     /*
@@ -81,6 +77,10 @@ public class GraphSideImpl implements GraphSide
             return true;
         if (obj == null)
             return false;
+        if (obj instanceof HexSide)
+        {
+            return sideLocation.equals(((HexSide) obj));
+        }
         if (getClass() != obj.getClass())
             return false;
         GraphSideImpl other = (GraphSideImpl) obj;
@@ -93,5 +93,4 @@ public class GraphSideImpl implements GraphSide
             return false;
         return true;
     }
-
 }

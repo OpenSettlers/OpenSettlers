@@ -13,6 +13,9 @@ import soc.common.board.hexes.SeaHex;
 import soc.common.board.ports.Port;
 import soc.common.board.ports.PortList;
 import soc.common.board.ports.PossiblePort;
+import soc.common.board.ports.RandomPort;
+import soc.common.board.ports.ThreeToOnePort;
+import soc.common.board.ports.TwoToOneResourcePort;
 import soc.common.board.resources.Clay;
 import soc.common.board.resources.Ore;
 import soc.common.board.resources.Sheep;
@@ -189,8 +192,53 @@ public class Board
         territory.getHexes().add(new ResourceHex(new Sheep()));
         territory.getHexes().add(new ResourceHex(new Sheep()));
 
+        for (Hex hex : hexes)
+            hex.setTerritory(territories.get(0));
+
+        for (Hex hex : hexes)
+        {
+            if (hex.getTerritory() == null)
+            {
+                if (!(hex instanceof SeaHex))
+                {
+                    int y = 0;
+                    y++;
+                }
+            }
+        }
+
         for (Chit chit : ChitList.getStandardList())
             territory.getChits().add(chit);
+
+        Territory mainlaind = territories.get(0);
+        mainlaind.getPorts().add(new ThreeToOnePort());
+        mainlaind.getPorts().add(new ThreeToOnePort());
+        mainlaind.getPorts().add(new ThreeToOnePort());
+        mainlaind.getPorts().add(new ThreeToOnePort());
+        mainlaind.getPorts().add(new TwoToOneResourcePort(new Timber()));
+        mainlaind.getPorts().add(new TwoToOneResourcePort(new Wheat()));
+        mainlaind.getPorts().add(new TwoToOneResourcePort(new Ore()));
+        mainlaind.getPorts().add(new TwoToOneResourcePort(new Clay()));
+        mainlaind.getPorts().add(new TwoToOneResourcePort(new Sheep()));
+
+        ((SeaHex) hexes.get(1, 0)).setPort(new RandomPort(hexes.get(1, 0)
+                .getLocation(), RotationPosition.DEG120));
+        ((SeaHex) hexes.get(3, 0)).setPort(new RandomPort(hexes.get(3, 0)
+                .getLocation(), RotationPosition.DEG120));
+        ((SeaHex) hexes.get(0, 2)).setPort(new RandomPort(hexes.get(0, 2)
+                .getLocation(), RotationPosition.DEG60));
+        ((SeaHex) hexes.get(6, 3)).setPort(new RandomPort(hexes.get(6, 3)
+                .getLocation(), RotationPosition.DEG240));
+        ((SeaHex) hexes.get(0, 4)).setPort(new RandomPort(hexes.get(0, 4)
+                .getLocation(), RotationPosition.DEG60));
+        ((SeaHex) hexes.get(5, 5)).setPort(new RandomPort(hexes.get(5, 5)
+                .getLocation(), RotationPosition.DEG300));
+        ((SeaHex) hexes.get(5, 1)).setPort(new RandomPort(hexes.get(5, 1)
+                .getLocation(), RotationPosition.DEG180));
+        ((SeaHex) hexes.get(1, 6)).setPort(new RandomPort(hexes.get(1, 6)
+                .getLocation(), RotationPosition.DEG0));
+        ((SeaHex) hexes.get(3, 6)).setPort(new RandomPort(hexes.get(3, 6)
+                .getLocation(), RotationPosition.DEG300));
 
         initialize();
     }
@@ -343,6 +391,13 @@ public class Board
     {
         Territory territory = territories.get(0);
         List<Hex> hexesToPutChitOn = new ArrayList<Hex>();
+        List<Port> supportedPorts = new ArrayList<Port>();
+        supportedPorts.add(new TwoToOneResourcePort(new Timber()));
+        supportedPorts.add(new TwoToOneResourcePort(new Wheat()));
+        supportedPorts.add(new TwoToOneResourcePort(new Ore()));
+        supportedPorts.add(new TwoToOneResourcePort(new Clay()));
+        supportedPorts.add(new TwoToOneResourcePort(new Sheep()));
+        supportedPorts.add(new ThreeToOnePort());
 
         // Replace random hexes by actual random hex from list of hexes provided
         // by the territory
@@ -353,7 +408,8 @@ public class Board
                 // Replace randomhex by a hex grabbed from territories' list of
                 // hexes
                 Hex newHex = territory.getHexes().grabRandom(random)
-                        .setLocation(hex.getLocation());
+                        .setTerritory(hex.getTerritory()).setLocation(
+                                hex.getLocation());
                 hexes.set(hex.getLocation(), newHex);
                 if (newHex instanceof ResourceHex)
                     hexesToPutChitOn.add(newHex);
@@ -366,6 +422,29 @@ public class Board
             ResourceHex resourceHex = (ResourceHex) hex;
             resourceHex.setChit(chit);
             hexesToPutChitOn.remove(0);
+        }
+
+        // Replace all random port placeholders by actual ports
+        for (Hex hex : hexes)
+        {
+            if (hex instanceof SeaHex)
+            {
+                SeaHex seaHex = (SeaHex) hex;
+                if (seaHex.getPort() != null)
+                {
+                    if (seaHex.getPort() instanceof RandomPort)
+                    {
+                        HexLocation land = seaHex.getPort().getLandLocation();
+                        Hex landHex = hexes.get(land);
+                        Territory t = landHex.getTerritory();
+                        Port newPort = t.grabPort(random, supportedPorts);
+                        newPort.setRotationPosition(seaHex.getPort()
+                                .getRotationPosition());
+                        newPort.setHexLocation(seaHex.getLocation());
+                        seaHex.setPort(newPort);
+                    }
+                }
+            }
         }
     }
 

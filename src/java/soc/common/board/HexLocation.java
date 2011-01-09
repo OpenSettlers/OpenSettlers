@@ -117,15 +117,17 @@ public class HexLocation
         switch (position)
         {
         case DEG0:
-            return new HexSide(neighbours.get(3), neighbours.get(4));
+            return new HexSide(neighbours.get(5), neighbours.get(0));
         case DEG60:
-            return new HexSide(neighbours.get(2), neighbours.get(3));
+            return new HexSide(neighbours.get(0), neighbours.get(1));
+            //
         case DEG120:
             return new HexSide(neighbours.get(1), neighbours.get(2));
         case DEG180:
-            return new HexSide(neighbours.get(0), neighbours.get(1));
+            return new HexSide(neighbours.get(2), neighbours.get(3));
         case DEG240:
-            return new HexSide(neighbours.get(5), neighbours.get(0));
+            return new HexSide(neighbours.get(3), neighbours.get(4));
+            //
         case DEG300:
             return new HexSide(neighbours.get(4), neighbours.get(5));
         }

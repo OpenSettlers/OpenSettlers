@@ -254,10 +254,6 @@ public class HexSide
     @Override
     public int hashCode()
     {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((hex1 == null) ? 0 : hex1.hashCode());
-        result = prime * result + ((hex2 == null) ? 0 : hex2.hashCode());
-        return result;
+        return hex1.hashCode() * hex2.hashCode();
     }
 }

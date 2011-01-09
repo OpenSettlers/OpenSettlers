@@ -122,7 +122,7 @@ public class BoardGraph
         }
     }
 
-    private GraphSide getSideFromSet(HexSide side)
+    public GraphSide findGraphSide(HexSide side)
     {
         for (GraphSide graphSide : graph.edgeSet())
         {
@@ -181,7 +181,7 @@ public class BoardGraph
 
     public void addRoad(Road road)
     {
-        GraphSide side = getSideFromSet(road.getSide());
+        GraphSide side = findGraphSide(road.getSide());
 
         side.setPlayerPiece(road);
     }

@@ -149,4 +149,14 @@ public class PortList implements Iterable<Port>
 
         return result;
     }
+
+    public int size()
+    {
+        return ports.size();
+    }
+
+    public Port get(int index)
+    {
+        return ports.get(index);
+    }
 }

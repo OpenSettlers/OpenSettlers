@@ -21,6 +21,7 @@ import soc.gwtClient.game.behaviour.GameBehaviour;
 import soc.gwtClient.game.widgets.bitmap.BoardLayoutPanel;
 import soc.gwtClient.visuals.behaviour.BehaviourDoneEvent;
 import soc.gwtClient.visuals.behaviour.BehaviourDoneEventHandler;
+import soc.gwtClient.visuals.behaviour.gameBoard.DisabledMap;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
@@ -73,6 +74,7 @@ public class HotSeatGamePanel extends AbstractGamePanel implements
         game.addTurnchangedeventHandler(this);
         game.addGamePhaseChangedEventHandler(this);
         gameBoardVisual.addBehaviourDoneEventHandler(this);
+        gameBoardVisual.setBehaviour(new DisabledMap());
     }
 
     private void createChatHistoryDebugPanel()

@@ -1,9 +1,13 @@
 package soc.common.board.territories;
 
+import java.util.List;
+
 import soc.common.annotations.SeaFarers;
 import soc.common.board.ChitList;
 import soc.common.board.hexes.HexList;
+import soc.common.board.ports.Port;
 import soc.common.board.ports.PortList;
+import soc.common.server.random.Random;
 
 /*
  * Represents a group of LandHexes. A territory is useful for:
@@ -25,7 +29,7 @@ public class TerritoryImpl implements Territory
     // A territory may have a list of ports associated with them.
     // These may be placed by players in a PlacePortGamePhase,
     // or before start by the server, to replace randomports with.
-    private PortList ports;
+    private PortList ports = new PortList();
 
     /*
      * List of chits for this territory, used at board generation time
@@ -178,5 +182,26 @@ public class TerritoryImpl implements Territory
     public HexList getHexes()
     {
         return hexes;
+    }
+
+    /*
+     * Returns and removes a port from the internal list of ports. When no ports
+     * are available, picks a random port chosen from a list of supported port
+     * types
+     */
+    @Override
+    public Port grabPort(Random random, List<Port> supportedPorts)
+    {
+        if (ports.size() > 0)
+        {
+            Port p = ports.get(random.nextInt(ports.size()));
+            ports.remove(p);
+            return p;
+        }
+        else
+        {
+            return supportedPorts.get(random.nextInt(supportedPorts.size()))
+                    .copy();
+        }
     }
 }

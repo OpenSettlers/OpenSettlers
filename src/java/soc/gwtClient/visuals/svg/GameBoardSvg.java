@@ -13,7 +13,7 @@ import soc.gwtClient.visuals.abstractVisuals.PieceVisual;
 import soc.gwtClient.visuals.abstractVisuals.PointVisual;
 import soc.gwtClient.visuals.abstractVisuals.SideVisual;
 import soc.gwtClient.visuals.abstractVisuals.VisualFactory;
-import soc.gwtClient.visuals.behaviour.NoBehaviour;
+import soc.gwtClient.visuals.behaviour.ProxyBehaviour;
 
 import com.google.gwt.user.client.ui.Widget;
 
@@ -34,7 +34,7 @@ public class GameBoardSvg extends AbstractGameBoardVisual
         super(game);
 
         boardSvg = new BoardSvg(width, height, game.getBoard());
-        boardSvg.setBoardBehaviour(new NoBehaviour());
+        boardSvg.setBoardBehaviour(new ProxyBehaviour(this));
 
         for (GraphSide side : board.getGraph().getSides())
         {

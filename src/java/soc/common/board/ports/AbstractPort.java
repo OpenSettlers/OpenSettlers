@@ -84,9 +84,10 @@ public abstract class AbstractPort implements Port
      */
     public Port setHexLocation(HexLocation hexLocation)
     {
-        this.seaLocation = hexLocation;
+        seaLocation = hexLocation;
 
         hexSide = hexLocation.getSideLocation(rotationPosition);
+        landLocation = hexSide.getOtherLocation(seaLocation);
 
         return this;
     }
@@ -143,7 +144,6 @@ public abstract class AbstractPort implements Port
 
         this.rotationPosition = rotationPosition;
         this.setHexLocation(hexLocation);
-        this.landLocation = hexSide.getOtherLocation(seaLocation);
     }
 
     /*
