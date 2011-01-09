@@ -1,4 +1,4 @@
-package soc.gwtClient.visuals.behaviour.game;
+package soc.gwtClient.visuals.behaviour.gameBoard;
 
 import soc.gwtClient.visuals.abstractVisuals.GameBoardVisual;
 import soc.gwtClient.visuals.abstractVisuals.ISideVisual;
@@ -7,7 +7,7 @@ import soc.gwtClient.visuals.abstractVisuals.PieceVisual;
 /*
  * Shows all possible sides for the user to select a side. 
  */
-public abstract class BuildSideBehaviour implements GameBehaviour
+public abstract class BuildSideBehaviour implements GameBoardBehaviour
 {
 
     @Override

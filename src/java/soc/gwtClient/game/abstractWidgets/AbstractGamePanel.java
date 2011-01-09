@@ -10,61 +10,97 @@ import soc.common.server.GameServer;
 import soc.common.server.GameServerCallback;
 import soc.gwtClient.game.CenterWidget;
 import soc.gwtClient.game.Point2D;
-import soc.gwtClient.game.dialogs.NewGameDialog;
+import soc.gwtClient.game.abstractWidgets.factories.GameWidgetFactory;
+import soc.gwtClient.game.behaviour.GameBehaviour;
+import soc.gwtClient.game.behaviour.GameBehaviourFactory;
+import soc.gwtClient.game.behaviour.StandardGameBoardBehaviourFactory;
 import soc.gwtClient.game.dialogs.TradePlayersDialog;
 import soc.gwtClient.game.widgets.ChatPanel;
 import soc.gwtClient.game.widgets.DebugPanel;
 import soc.gwtClient.game.widgets.GameQueuePanel;
 import soc.gwtClient.game.widgets.abstractWidgets.DebugWidget;
+import soc.gwtClient.game.widgets.abstractWidgets.ResourcesGainedWidget;
+import soc.gwtClient.game.widgets.abstractWidgets.StealCardWidget;
 import soc.gwtClient.visuals.abstractVisuals.GameBoardVisual;
-import soc.gwtClient.visuals.behaviour.GameBehaviourFactory;
-import soc.gwtClient.visuals.behaviour.StandardGameBehaviourFactory;
-import soc.gwtClient.visuals.behaviour.game.DisabledMap;
-import soc.gwtClient.visuals.behaviour.game.GameBehaviour;
 
 public abstract class AbstractGamePanel implements GamePanel, CenterWidget,
         GameServerCallback
 {
+    // Variables for the game panel
     protected GameServer server;
     protected Game game;
-    protected NewGameDialog newGameWindow;
-    protected ActionsWidget buildPallette;
-    protected BankStockPanel bankStockPanel;
-    protected BankTradeUI bankTradeUI;
-    protected GameBehaviourFactory gameBehaviourFactory;
-    protected GameBoardVisual gameBoardVisual;
-    protected GameAction performingAction;
-    protected PlayersWidget playersWidget;
+    protected GameBehaviour gameBehaviour;
     protected GamePlayer player;
-    protected HandCardsWidget handCards;
-    protected StatusPanel statusPanel;
-    protected TradePlayersDialog tradePlayers;
+    protected GameAction performingAction;
+
+    // Factories
+    protected GameBehaviourFactory gameBehaviourFactory;
+    protected GameWidgetFactory gameWidgetFactory;
+
+    // Left-bottom tab panel
     protected GameHistoryWidget historyWidget;
     protected ChatPanel chatPanel;
     protected GameQueuePanel gameQueuePanel;
     protected DebugWidget debugPanel;
 
+    // Generic info boxes
+    protected PlayersWidget playersWidget;
+    protected StatusPanel statusPanel;
+    protected GameBoardVisual gameBoardVisual;
+    protected BankStockPanel bankStockPanel;
+
+    // In-game panels to provide turns funtionality
+    protected ResourcesGainedWidget resourcesGainedWidget;
+    protected StealCardWidget stealCardWidget;
+    protected TradePlayersDialog tradePlayers;
+    protected BankTradeUI bankTradeUI;
+    protected HandCardsWidget handCards;
+    protected ActionsWidget buildPallette;
+
     public AbstractGamePanel()
     {
+    }
+
+    @Override
+    public ResourcesGainedWidget getResourcesGainedWidget()
+    {
+        return resourcesGainedWidget;
+    }
+
+    /**
+     * @return the stealCardWidget
+     */
+    public StealCardWidget getStealCardWidget()
+    {
+        return stealCardWidget;
+    }
+
+    /**
+     * @return the gameBoardVisual
+     */
+    @Override
+    public GameBoardVisual getGameBoardVisual()
+    {
+        return gameBoardVisual;
     }
 
     protected void initialize()
     {
         player = game.getPlayers().get(0);
 
-        gameBehaviourFactory = new StandardGameBehaviourFactory();
+        gameBehaviourFactory = new StandardGameBoardBehaviourFactory(this);
+        gameWidgetFactory = createGameWidgetFactory();
 
-        bankStockPanel = createBankStockPanel();
-        buildPallette = createActionsWidget();
-        playersWidget = createPlayersWidget();
-        gameBoardVisual = createGameBoard(800, 500, game);
-        handCards = createHandCardsWidget(player);
-        statusPanel = createStatusDicePanel(this);
-        tradePlayers = new TradePlayersDialog(this);
-        historyWidget = createHistoryWidget(this);
-        bankTradeUI = createBankTradeUI(this);
-
-        gameBoardVisual.setBehaviour(new DisabledMap());
+        bankStockPanel = gameWidgetFactory.createBankStockPanel();
+        buildPallette = gameWidgetFactory.createActionsWidget();
+        playersWidget = gameWidgetFactory.createPlayersWidget();
+        gameBoardVisual = gameWidgetFactory.createGameBoard(800, 500);
+        handCards = gameWidgetFactory.createHandCardsWidget();
+        statusPanel = gameWidgetFactory.createStatusDicePanel();
+        tradePlayers = new TradePlayersDialog();
+        historyWidget = gameWidgetFactory.createHistoryWidget();
+        bankTradeUI = gameWidgetFactory.createBankTradeUI();
+        resourcesGainedWidget = gameWidgetFactory.createResourcesGainedWidget();
 
         chatPanel = new ChatPanel(this);
         gameQueuePanel = new GameQueuePanel(this);
@@ -93,6 +129,11 @@ public abstract class AbstractGamePanel implements GamePanel, CenterWidget,
         return game;
     }
 
+    public void sendAction(GameAction gameAction)
+    {
+        server.sendAction(gameAction);
+    }
+
     @Override
     public void startAction(GameAction action)
     {
@@ -101,8 +142,8 @@ public abstract class AbstractGamePanel implements GamePanel, CenterWidget,
         {
             TurnAction turnAction = (TurnAction) action;
             // Create a behaviour based on our action
-            GameBehaviour gameBehaviour = gameBehaviourFactory.createBehaviour(
-                    turnAction, game);
+            GameBehaviour gameBehaviour = gameBehaviourFactory
+                    .createBehaviour(turnAction);
 
             if (gameBehaviour == null)
             {
@@ -112,7 +153,7 @@ public abstract class AbstractGamePanel implements GamePanel, CenterWidget,
             else
             {
                 // Tell our GameVisual it needs to display the behaviour
-                gameBoardVisual.setBehaviour(gameBehaviour);
+                gameBehaviour.start(this);
 
                 // Keep a reference to the action we are currently performing
                 performingAction = turnAction;
@@ -182,5 +223,15 @@ public abstract class AbstractGamePanel implements GamePanel, CenterWidget,
             MessageFromServer messageFromServer = (MessageFromServer) gameAction;
             debugPanel.addError(messageFromServer);
         }
+    }
+
+    protected void setNewGameBehaviour(GameBehaviour newGameBehaviour)
+    {
+        if (gameBehaviour != null)
+        {
+            gameBehaviour.finish();
+        }
+        gameBehaviour = newGameBehaviour;
+        gameBehaviour.start(this);
     }
 }

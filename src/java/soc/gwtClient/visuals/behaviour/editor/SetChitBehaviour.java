@@ -6,9 +6,9 @@ import soc.common.board.hexes.ResourceHex;
 import soc.gwtClient.visuals.abstractVisuals.BoardVisual;
 import soc.gwtClient.visuals.abstractVisuals.HexVisual;
 import soc.gwtClient.visuals.abstractVisuals.PieceVisual;
-import soc.gwtClient.visuals.behaviour.InteractionBehaviour;
+import soc.gwtClient.visuals.behaviour.BoardBehaviour;
 
-public class SetChitBehaviour implements InteractionBehaviour
+public class SetChitBehaviour implements BoardBehaviour
 {
     private Chit currentChit = new Chit(2);
 

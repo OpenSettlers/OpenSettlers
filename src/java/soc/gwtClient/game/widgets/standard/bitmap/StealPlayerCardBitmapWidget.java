@@ -1,6 +1,7 @@
 package soc.gwtClient.game.widgets.standard.bitmap;
 
 import soc.common.game.player.GamePlayer;
+import soc.gwtClient.game.widgets.abstractWidgets.StealPlayerCardWidget;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -11,7 +12,8 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PushButton;
 
-public class StealPlayerCardBitmapWidget extends HorizontalPanel
+public class StealPlayerCardBitmapWidget extends HorizontalPanel implements
+        StealPlayerCardWidget
 {
     private GamePlayer player;
     Label lblPlayerName = new Label("playername");
@@ -60,6 +62,13 @@ public class StealPlayerCardBitmapWidget extends HorizontalPanel
             cardsPanel.add(new Label(player.getUser().getName()
                     + " has no cards"));
         }
+    }
+
+    @Override
+    public void update(GamePlayer player)
+    {
+        // TODO Auto-generated method stub
+
     }
 
 }

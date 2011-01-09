@@ -19,14 +19,14 @@ package soc.client;
 
 import java.awt.Frame;
 
-// TODO consider callback option; ActionListener
+// TO-DO consider callback option; ActionListener
 
 /**
  * This is a generic dialog to popup a message to the player, with one button.
  * Asynchronously returns, and then the dialog sticks around not affecting
- * anything, until the user dismisses it.  At that point it only disappears.
- * A callback can be added later if needed.
- *
+ * anything, until the user dismisses it. At that point it only disappears. A
+ * callback can be added later if needed.
+ * 
  * @author Jeremy D Monin <jeremy@nand.net>
  * @since 1.1.06
  */
@@ -36,44 +36,54 @@ class NotifyDialog extends AskDialog
 
     /**
      * Creates and shows a new NotifyDialog.
-     *
-     * @param cli      Player client interface
-     * @param gamePI   Current game's player interface, or another Frame for our parent window,
-     *                 or null to look for cli's Frame as parent
-     * @param promptText  Prompt text appearing above button
-     * @param btnText  Button text, or null for "OK"
-     * @param hasDefault  Button is default (responds to Enter)
-     * @throws IllegalArgumentException If cli, promptText, or btnText is null
+     * 
+     * @param cli
+     *            Player client interface
+     * @param gamePI
+     *            Current game's player interface, or another Frame for our
+     *            parent window, or null to look for cli's Frame as parent
+     * @param promptText
+     *            Prompt text appearing above button
+     * @param btnText
+     *            Button text, or null for "OK"
+     * @param hasDefault
+     *            Button is default (responds to Enter)
+     * @throws IllegalArgumentException
+     *             If cli, promptText, or btnText is null
      */
-    public static void createAndShow(PlayerClient cli, Frame gamePI, String promptText, String btnText, boolean hasDefault)
-        throws IllegalArgumentException
+    public static void createAndShow(PlayerClient cli, Frame gamePI,
+            String promptText, String btnText, boolean hasDefault)
+            throws IllegalArgumentException
     {
         if (btnText == null)
             btnText = "OK";
-        NotifyDialog nd = new NotifyDialog
-	    (cli, gamePI, promptText, btnText, hasDefault);
-        nd.setVisible(true);      
+        NotifyDialog nd = new NotifyDialog(cli, gamePI, promptText, btnText,
+                hasDefault);
+        nd.setVisible(true);
     }
 
     /**
      * Creates a new NotifyDialog.
-     *
-     * @param cli      Player client interface
-     * @param gamePI   Current game's player interface, or another Frame for our parent window,
-     *                 or null to look for cli's Frame as parent
-     * @param promptText  Prompt text appearing above button
-     * @param btnText  Button text
-     * @param hasDefault  Button is default (responds to Enter)
-     * @throws IllegalArgumentException If cli or btnText is null
+     * 
+     * @param cli
+     *            Player client interface
+     * @param gamePI
+     *            Current game's player interface, or another Frame for our
+     *            parent window, or null to look for cli's Frame as parent
+     * @param promptText
+     *            Prompt text appearing above button
+     * @param btnText
+     *            Button text
+     * @param hasDefault
+     *            Button is default (responds to Enter)
+     * @throws IllegalArgumentException
+     *             If cli or btnText is null
      */
-    protected NotifyDialog(PlayerClient cli, Frame gamePI, String promptText, String btnText, boolean hasDefault)
+    protected NotifyDialog(PlayerClient cli, Frame gamePI, String promptText,
+            String btnText, boolean hasDefault)
     {
-        super(cli,
-       	     ((gamePI != null)
-       	          ? gamePI
-       	          : getParentFrame(cli)),
-        	promptText, promptText,
-            btnText, hasDefault);
+        super(cli, ((gamePI != null) ? gamePI : getParentFrame(cli)),
+                promptText, promptText, btnText, hasDefault);
     }
 
     /**
@@ -87,11 +97,15 @@ class NotifyDialog extends AskDialog
     /**
      * Required stub; there is no button 2 in this dialog.
      */
-    public void button2Chosen() { }
+    public void button2Chosen()
+    {
+    }
 
     /**
      * React to the dialog window closed by user. (Nothing to do)
      */
-    public void windowCloseChosen() { }
+    public void windowCloseChosen()
+    {
+    }
 
 }

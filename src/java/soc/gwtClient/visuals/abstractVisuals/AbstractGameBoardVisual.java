@@ -1,12 +1,8 @@
 package soc.gwtClient.visuals.abstractVisuals;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import soc.common.board.HexPoint;
-import soc.common.board.HexSide;
-import soc.common.board.hexes.Hex;
 import soc.common.board.pieces.PiecesChangedEventHandler;
 import soc.common.board.pieces.PlayerPiece;
 import soc.common.board.routing.GraphPoint;
@@ -15,7 +11,7 @@ import soc.common.game.Game;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.visuals.behaviour.BehaviourDoneEvent;
 import soc.gwtClient.visuals.behaviour.BehaviourDoneEventHandler;
-import soc.gwtClient.visuals.behaviour.game.GameBehaviour;
+import soc.gwtClient.visuals.behaviour.gameBoard.GameBoardBehaviour;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
@@ -32,7 +28,7 @@ public abstract class AbstractGameBoardVisual extends AbstractBoardVisual
     protected Map<PlayerPiece, PieceVisual> playerPieceVisuals = new HashMap<PlayerPiece, PieceVisual>();
     protected Map<GraphPoint, PointVisual> pointVisuals = new HashMap<GraphPoint, PointVisual>();
     protected Map<GraphSide, SideVisual> sideVisuals = new HashMap<GraphSide, SideVisual>();
-    protected GameBehaviour gameBehaviour;
+    protected GameBoardBehaviour gameBehaviour;
     protected SimpleEventBus eventBus = new SimpleEventBus();
 
     public AbstractGameBoardVisual(Game game)
@@ -96,84 +92,6 @@ public abstract class AbstractGameBoardVisual extends AbstractBoardVisual
     /*
      * (non-Javadoc)
      * 
-     * @see soc.common.client.visuals.game.IGameBoardVisual#disableHexes()
-     */
-    @Override
-    public void disableHexes()
-    {
-        // TODO Auto-generated method stub
-
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see soc.common.client.visuals.game.IGameBoardVisual#disablePoints()
-     */
-    @Override
-    public void disablePoints()
-    {
-        // TODO Auto-generated method stub
-
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see soc.common.client.visuals.game.IGameBoardVisual#disableSides()
-     */
-    @Override
-    public void disableSides()
-    {
-        // TODO Auto-generated method stub
-
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * soc.common.client.visuals.game.IGameBoardVisual#setSelectableHexes(java
-     * .util.List)
-     */
-    @Override
-    public void setSelectableHexes(List<Hex> hexes)
-    {
-        // TODO Auto-generated method stub
-
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * soc.common.client.visuals.game.IGameBoardVisual#setSelectablePoints(java
-     * .util.List)
-     */
-    @Override
-    public void setSelectablePoints(List<HexPoint> points)
-    {
-        // TODO Auto-generated method stub
-
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * soc.common.client.visuals.game.IGameBoardVisual#setSelectableSides(java
-     * .util.List)
-     */
-    @Override
-    public void setSelectableSides(List<HexSide> sides)
-    {
-        // TODO Auto-generated method stub
-
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
      * @see com.google.gwt.user.client.ui.IsWidget#asWidget()
      */
     @Override
@@ -194,7 +112,7 @@ public abstract class AbstractGameBoardVisual extends AbstractBoardVisual
     }
 
     @Override
-    public void setBehaviour(GameBehaviour gameBehaviour)
+    public void setBehaviour(GameBoardBehaviour gameBehaviour)
     {
         // Get rid of visual state from old behaviour
         if (this.gameBehaviour != null)
@@ -215,7 +133,7 @@ public abstract class AbstractGameBoardVisual extends AbstractBoardVisual
      * @see soc.common.client.visuals.game.GameBoardVisual#getBehaviour()
      */
     @Override
-    public GameBehaviour getBehaviour()
+    public GameBoardBehaviour getBehaviour()
     {
         return gameBehaviour;
     }

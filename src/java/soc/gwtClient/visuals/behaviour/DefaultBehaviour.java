@@ -7,7 +7,7 @@ import soc.gwtClient.visuals.abstractVisuals.PieceVisual;
  * Default behaviour of an IBoardVisual, shows information of clicked item
  * and highlights hovered PieceVisual
  */
-public class DefaultBehaviour implements InteractionBehaviour
+public class DefaultBehaviour implements BoardBehaviour
 {
     @Override
     public void clicked(PieceVisual pieceVisual, BoardVisual board)

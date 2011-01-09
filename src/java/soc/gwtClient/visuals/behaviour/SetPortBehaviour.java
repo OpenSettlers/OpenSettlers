@@ -7,7 +7,7 @@ import soc.gwtClient.visuals.abstractVisuals.HexVisual;
 import soc.gwtClient.visuals.abstractVisuals.PieceVisual;
 import soc.gwtClient.visuals.abstractVisuals.PortVisual;
 
-public class SetPortBehaviour implements InteractionBehaviour
+public class SetPortBehaviour implements BoardBehaviour
 {
     private Port port;
     private HexVisual currentHexVisual;

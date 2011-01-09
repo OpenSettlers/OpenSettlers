@@ -34,7 +34,7 @@ public class BuyDevelopmentCardBitmapWidget extends AbstractActionWidget
         super(gamePanel, player);
 
         player.getResources().addResourcesChangedEventHandler(this);
-        player.addOnTurnChangedEventHandler(this);
+        gamePanel.getGame().addTurnchangedeventHandler(this);
 
         tradePanel.add(trade1);
         tradePanel.add(trade2);

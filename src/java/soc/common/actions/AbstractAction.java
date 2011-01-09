@@ -2,13 +2,14 @@ package soc.common.actions;
 
 import java.util.Date;
 
-import soc.common.game.player.GamePlayer;
+import soc.common.utils.ClassUtils;
 
 public abstract class AbstractAction implements Action
 {
-    private static final long serialVersionUID = -6754147108114150267L;
-    private String message;
-    private Date dateTimeExecuted;
+    protected static final long serialVersionUID = -6754147108114150267L;
+    protected String message = "No message implemented yet for " + getName();
+    protected Date dateTimeExecuted;
+    protected int sender;
 
     /**
      * @return the dateTimeExecuted
@@ -37,56 +38,26 @@ public abstract class AbstractAction implements Action
     @Override
     public String getName()
     {
-        // TODO implement in all actions using i18n
-        return null;
+        return ClassUtils.getSimpleClassName(this.getClass().toString());
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see soc.common.actions.Action#getPlayer()
+    /**
+     * @return ID of the player initiating this action ID of 0 means the server
+     *         initiated this action
      */
-    @Override
-    public GamePlayer getPlayer()
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see soc.common.actions.Action#getSender()
-     */
-    @Override
     public int getSender()
     {
-        // TODO Auto-generated method stub
-        return 0;
+        return sender;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see soc.common.actions.Action#setPlayer(soc.common.game.Player)
+    /**
+     * @param sender
+     *            the sender to set
      */
-    @Override
-    public Action setPlayer(GamePlayer player)
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see soc.common.actions.Action#setSender(int)
-     */
-    @Override
     public Action setSender(int sender)
     {
-        // TODO Auto-generated method stub
-        return null;
-    }
+        this.sender = sender;
 
+        return this;
+    }
 }

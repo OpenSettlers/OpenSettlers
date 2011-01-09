@@ -23,7 +23,8 @@ public class DetermineFirstPlayerGamePhase extends AbstractGamePhase
         {
             game.getActionsQueue().enqueue(new RollDice().setPlayer(player));
         }
-        game.getActionsQueue().enqueue(new GamePhaseHasEnded().setSender(0));
+        game.getActionsQueue().enqueue(
+                (GameAction) new GamePhaseHasEnded().setSender(0));
     }
 
     private int getHighRoll(List<RollDice> rolledDices)
@@ -90,11 +91,12 @@ public class DetermineFirstPlayerGamePhase extends AbstractGamePhase
                     }
                     // Starting player is not determined. Notify players and
                     // update Game object
-                    game.getActionsQueue().enqueuePriority(new RolledSame()
-                    // Pass on the highest diceroll
-                            .setHighRoll(highRoll)
-                            // Server says dice rolled the same
-                            .setSender(0));
+                    game.getActionsQueue().enqueuePriority(
+                            (GameAction) new RolledSame()
+                            // Pass on the highest diceroll
+                                    .setHighRoll(highRoll)
+                                    // Server says dice rolled the same
+                                    .setSender(0));
                 }
             }
 

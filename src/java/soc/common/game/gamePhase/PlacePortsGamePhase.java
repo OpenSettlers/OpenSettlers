@@ -62,7 +62,8 @@ public class PlacePortsGamePhase extends AbstractGamePhase
             }
         }
 
-        game.getActionsQueue().enqueue(new GamePhaseHasEnded().setSender(0));
+        game.getActionsQueue().enqueue(
+                (GameAction) new GamePhaseHasEnded().setSender(0));
     }
 
     /*

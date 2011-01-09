@@ -2,8 +2,6 @@ package soc.common.actions;
 
 import java.util.Date;
 
-import soc.common.game.player.GamePlayer;
-
 public class PlayerDisconnected extends AbstractAction
 {
     private static final long serialVersionUID = 5028931118703442188L;
@@ -30,13 +28,6 @@ public class PlayerDisconnected extends AbstractAction
     }
 
     @Override
-    public GamePlayer getPlayer()
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
     public int getSender()
     {
         // TODO Auto-generated method stub
@@ -45,13 +36,6 @@ public class PlayerDisconnected extends AbstractAction
 
     @Override
     public String getToDoMessage()
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public Action setPlayer(GamePlayer player)
     {
         // TODO Auto-generated method stub
         return null;

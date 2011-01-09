@@ -1,4 +1,4 @@
-package soc.gwtClient.visuals.behaviour.game;
+package soc.gwtClient.visuals.behaviour.gameBoard;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,7 @@ import soc.gwtClient.visuals.abstractVisuals.GameBoardVisual;
 import soc.gwtClient.visuals.abstractVisuals.IPointVisual;
 import soc.gwtClient.visuals.abstractVisuals.PieceVisual;
 
-public abstract class BuildPointBehaviour implements GameBehaviour
+public abstract class BuildPointBehaviour implements GameBoardBehaviour
 {
     List<HexPoint> possibleLocations = new ArrayList<HexPoint>();
 

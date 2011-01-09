@@ -6,7 +6,6 @@ import java.util.List;
 import soc.common.actions.Action;
 import soc.common.actions.gameAction.GameAction;
 import soc.common.board.Board;
-import soc.common.board.HexLocation;
 import soc.common.board.pieces.LargestArmy;
 import soc.common.board.pieces.LongestRoad;
 import soc.common.board.pieces.Pirate;
@@ -49,7 +48,7 @@ public class Game
 
     private GamePlayerList players = new GamePlayerList();
     private List<GamePlayer> spectators = new ArrayList<GamePlayer>();
-    private Pirate pirate = new Pirate(new HexLocation(0, 0));
+    private Pirate pirate = null;
     private Robber robber = null;
     private GamePhase currentPhase = new LobbyGamePhase();
     private GameSettings gameSettings = new GameSettings();
@@ -392,15 +391,18 @@ public class Game
         return currentPhase;
     }
 
-    public Game setCurrentPhase(GamePhase currentPhase)
+    public void advanceGamePhase()
     {
-        GamePhaseChangedEvent event = new GamePhaseChangedEvent(
-                this.currentPhase, currentPhase);
+        GamePhase newGamePhase = currentPhase.next(this);
+        GamePhaseChangedEvent event = new GamePhaseChangedEvent(currentPhase,
+                newGamePhase);
 
-        this.currentPhase = currentPhase;
+        currentPhase = newGamePhase;
+
+        // Start the next phase
+        currentPhase.start(this);
+
         eventBus.fireEvent(event);
-
-        return this;
     }
 
     /**
@@ -465,5 +467,26 @@ public class Game
     public void initialize()
     {
         currentTurn = new TurnImpl().setPlayer(players.get(0));
+    }
+
+    public void switchLargestArmy(GamePlayer player)
+    {
+        LargestArmy armyToSwitch = null;
+        for (GamePlayer opponent : players)
+        {
+            VictoryPointsList largestArmy = opponent.getVictoryPoints().ofType(
+                    LargestArmy.LARGESTARMY);
+            if (largestArmy.size() == 1)
+            {
+                armyToSwitch = (LargestArmy) largestArmy.get(0);
+                opponent.getVictoryPoints().remove(armyToSwitch);
+            }
+        }
+        if (largestArmy == null)
+        {
+            armyToSwitch = this.largestArmy;
+            this.largestArmy = null;
+        }
+        player.getVictoryPoints().add(armyToSwitch);
     }
 }

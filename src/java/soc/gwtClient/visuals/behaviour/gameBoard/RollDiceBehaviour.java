@@ -1,4 +1,4 @@
-package soc.gwtClient.visuals.behaviour.game;
+package soc.gwtClient.visuals.behaviour.gameBoard;
 
 import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.turnActions.standard.RollDice;
@@ -6,7 +6,7 @@ import soc.gwtClient.visuals.abstractVisuals.GameBoardVisual;
 import soc.gwtClient.visuals.abstractVisuals.HexVisual;
 import soc.gwtClient.visuals.abstractVisuals.PieceVisual;
 
-public class RollDiceBehaviour implements GameBehaviour
+public class RollDiceBehaviour implements GameBoardBehaviour
 {
     private RollDice rollDice;
 
@@ -19,6 +19,7 @@ public class RollDiceBehaviour implements GameBehaviour
     @Override
     public void setNeutral(GameBoardVisual visual)
     {
+        // Sets all hexes back to not darkened and enabled
         for (HexVisual hexVisual : visual.getHexVisuals().values())
         {
             hexVisual.setDarkened(false);
@@ -29,11 +30,14 @@ public class RollDiceBehaviour implements GameBehaviour
     @Override
     public void start(GameBoardVisual gameVisual)
     {
+        // Shows affected hexes lit up, robber hex red (disabled) and
+        // unaffected hexes darkened
         for (HexVisual hexVisual : gameVisual.getHexVisuals().values())
         {
             if (rollDice.getHexesAffected().contains(
                     hexVisual.getHex().getLocation()))
             {
+                // If the hex is affected by the dice roll, light it up
                 hexVisual.setDarkened(false);
             }
             else
@@ -41,9 +45,12 @@ public class RollDiceBehaviour implements GameBehaviour
                 if (hexVisual.getHex().getLocation().equals(
                         gameVisual.getGame().getRobber().getLocation()))
                 {
-                    hexVisual.setEnabled(false);
+                    // Robber location, make it look disabled
+                    hexVisual.setDarkened(false);
                 }
+                else
                 {
+                    // No robber, not affected: set it dark and enabled
                     hexVisual.setDarkened(true);
                 }
             }

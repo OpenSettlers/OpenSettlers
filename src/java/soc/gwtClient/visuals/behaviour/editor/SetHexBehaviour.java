@@ -7,9 +7,9 @@ import soc.common.board.resources.Timber;
 import soc.gwtClient.visuals.abstractVisuals.BoardVisual;
 import soc.gwtClient.visuals.abstractVisuals.HexVisual;
 import soc.gwtClient.visuals.abstractVisuals.PieceVisual;
-import soc.gwtClient.visuals.behaviour.InteractionBehaviour;
+import soc.gwtClient.visuals.behaviour.BoardBehaviour;
 
-public class SetHexBehaviour implements InteractionBehaviour
+public class SetHexBehaviour implements BoardBehaviour
 {
     private AbstractHex hex = new ResourceHex(new Timber());
 

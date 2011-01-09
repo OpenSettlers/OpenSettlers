@@ -55,9 +55,11 @@ public abstract class AbstractGameServer implements GameServer
             QueuedAction expectedAction = null;
             if (!action.isValid(game))
             {
-                callback.receive(new MessageFromServer().setServerMessage(
-                        "Invalid action! \r\n Reason: "
-                                + action.getInvalidMessage()).setSender(0));
+                callback.receive((GameAction) new MessageFromServer()
+                        .setServerMessage(
+                                "Invalid action! \r\n Reason: "
+                                        + action.getInvalidMessage())
+                        .setSender(0));
                 return;
             }
             if (game.getActionsQueue().size() > 0)
@@ -98,7 +100,8 @@ public abstract class AbstractGameServer implements GameServer
         GameAction expected = game.getActionsQueue().peekAction();
 
         // Notify we did not expect current action
-        callback.receive(new MessageFromServer().setServerMessage(
+        // TODO 200 fix message
+        callback.receive((GameAction) new MessageFromServer().setServerMessage(
                 "Invalid action! \r\n Reason: Expected "
                         + expected.toString()
                         + " from player "

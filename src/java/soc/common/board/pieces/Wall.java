@@ -9,19 +9,19 @@ import soc.common.board.HexPoint;
 public class Wall extends AbstractPlayerPiece implements PointPiece
 {
     private static final long serialVersionUID = 5417867350330920841L;
+    private HexPoint pointLocation;
 
     @Override
     public HexPoint getPoint()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return pointLocation;
     }
 
     @Override
     public PointPiece setPoint(HexPoint point)
     {
-        // TODO Auto-generated method stub
-        return null;
+        this.pointLocation = point;
+        return this;
     }
 
     @Override

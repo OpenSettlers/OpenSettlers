@@ -36,16 +36,15 @@ import java.net.SocketTimeoutException;
 
 import soc.util.Version;
 
-
 /**
- * This is the dialog for standalone client startup (JAR or otherwise)
- * if no command-line arguments.  Give choice of connect to server, start local server,
- * or create practice game.  Prompt for parameters for connect or start-server.
- *
+ * This is the dialog for standalone client startup (JAR or otherwise) if no
+ * command-line arguments. Give choice of connect to server, start local server,
+ * or create practice game. Prompt for parameters for connect or start-server.
+ * 
  * @author Jeremy D Monin <jeremy@nand.net>
  */
-public class ConnectOrPracticePanel extends Panel
-    implements ActionListener, KeyListener
+public class ConnectOrPracticePanel extends Panel implements ActionListener,
+        KeyListener
 {
     private static final long serialVersionUID = 778766065257211528L;
 
@@ -63,24 +62,28 @@ public class ConnectOrPracticePanel extends Panel
 
     /** "Start a server" */
     private Button runserv;
-    /** Contains GUI elements for details in {@link #runserv}, or null if can't run. */
+    /**
+     * Contains GUI elements for details in {@link #runserv}, or null if can't
+     * run.
+     */
     private Panel panel_run;
     private TextField run_servport;
     private Button run_startserv, run_cancel;
 
     /**
-     * Do we have security to run a TCP server?
-     * Determined by calling {@link #checkCanLaunchServer()}.
+     * Do we have security to run a TCP server? Determined by calling
+     * {@link #checkCanLaunchServer()}.
      */
     private boolean canLaunchServer;
 
-    private static final Color HEADER_LABEL_BG = new Color(220,255,220);
-    private static final Color HEADER_LABEL_FG = new Color( 50, 80, 50);
+    private static final Color HEADER_LABEL_BG = new Color(220, 255, 220);
+    private static final Color HEADER_LABEL_FG = new Color(50, 80, 50);
 
     /**
      * Creates a new ConnectOrPracticePanel.
-     *
-     * @param cli      Player client interface
+     * 
+     * @param cli
+     *            Player client interface
      */
     public ConnectOrPracticePanel(PlayerClient cli)
     {
@@ -90,7 +93,7 @@ public class ConnectOrPracticePanel extends Panel
         canLaunchServer = checkCanLaunchServer();
 
         // same Frame setup as in PlayerClient.main
-        setBackground(new Color(Integer.parseInt("61AF71",16)));
+        setBackground(new Color(Integer.parseInt("61AF71", 16)));
         setForeground(Color.black);
 
         addKeyListener(this);
@@ -98,8 +101,10 @@ public class ConnectOrPracticePanel extends Panel
     }
 
     /**
-     * Check with the {@link java.lang.SecurityManager} about being a tcp server.
-     * Port {@link PlayerClient#SOC_PORT_DEFAULT} and some subsequent ports are checked (to be above 1024).
+     * Check with the {@link java.lang.SecurityManager} about being a tcp
+     * server. Port {@link PlayerClient#SOC_PORT_DEFAULT} and some subsequent
+     * ports are checked (to be above 1024).
+     * 
      * @return True if we have perms to start a server and listen on a port
      */
     public static boolean checkCanLaunchServer()
@@ -130,8 +135,8 @@ public class ConnectOrPracticePanel extends Panel
                 {
                     ss = new ServerSocket(i + port);
                     ss.setReuseAddress(true);
-                    ss.setSoTimeout(11);  // very short (11 ms)
-                    ss.accept();  // will time out soon
+                    ss.setSoTimeout(11); // very short (11 ms)
+                    ss.accept(); // will time out soon
                     ss.close();
                 }
                 catch (SocketTimeoutException ste)
@@ -141,7 +146,9 @@ public class ConnectOrPracticePanel extends Panel
                     {
                         ss.close();
                     }
-                    catch (IOException ie) {}
+                    catch (IOException ie)
+                    {
+                    }
                     return true;
                 }
                 catch (IOException ie)
@@ -150,7 +157,7 @@ public class ConnectOrPracticePanel extends Panel
                 }
                 catch (SecurityException se2)
                 {
-                    return false;  // Not allowed to have a server socket
+                    return false; // Not allowed to have a server socket
                 }
             }
         }
@@ -158,20 +165,21 @@ public class ConnectOrPracticePanel extends Panel
     }
 
     /**
-     * Interface setup for constructor.
-     * Most elements are part of a sub-panel occupying most of this Panel, and using FlowLayout.
-     * The exception is a Label at bottom with the version and build number.
+     * Interface setup for constructor. Most elements are part of a sub-panel
+     * occupying most of this Panel, and using FlowLayout. The exception is a
+     * Label at bottom with the version and build number.
      */
     private void initInterfaceElements()
     {
         GridBagLayout gbl = new GridBagLayout();
         GridBagConstraints gbc = new GridBagConstraints();
-        Panel bp = new Panel(gbl);  // Actual button panel
+        Panel bp = new Panel(gbl); // Actual button panel
 
         gbc.fill = GridBagConstraints.BOTH;
         gbc.gridwidth = GridBagConstraints.REMAINDER;
 
-        Label L = new Label("Welcome to OpenSettlers!  Please choose an option.");
+        Label L = new Label(
+                "Welcome to OpenSettlers!  Please choose an option.");
         L.setAlignment(Label.CENTER);
         gbl.setConstraints(L, gbc);
         bp.add(L);
@@ -198,32 +206,35 @@ public class ConnectOrPracticePanel extends Panel
          */
         runserv = new Button("Start a Server...");
         gbl.setConstraints(runserv, gbc);
-        if (! canLaunchServer)
+        if (!canLaunchServer)
             runserv.setEnabled(false);
         bp.add(runserv);
 
         /**
          * Interface setup: sub-panels (not initially visible)
          */
-        panel_conn = initInterface_conn();  // panel_conn setup
+        panel_conn = initInterface_conn(); // panel_conn setup
         panel_conn.setVisible(false);
         gbl.setConstraints(panel_conn, gbc);
-        bp.add (panel_conn);
+        bp.add(panel_conn);
 
         if (canLaunchServer)
         {
             runserv.addActionListener(this);
-            panel_run = initInterface_run();  // panel_run setup
+            panel_run = initInterface_run(); // panel_run setup
             panel_run.setVisible(false);
             gbl.setConstraints(panel_run, gbc);
-            bp.add (panel_run);
-        } else {
+            bp.add(panel_run);
+        }
+        else
+        {
             panel_run = null;
         }
 
         // Final assembly setup
         add(bp, BorderLayout.CENTER);
-        Label verl = new Label("OpenSettlers " + Version.version() + " build " + Version.buildnum());       
+        Label verl = new Label("OpenSettlers " + Version.version() + " build "
+                + Version.buildnum());
         verl.setAlignment(Label.CENTER);
         verl.setForeground(new Color(252, 251, 243)); // off-white
         add(verl, BorderLayout.SOUTH);
@@ -248,7 +259,7 @@ public class ConnectOrPracticePanel extends Panel
         gbc.gridwidth = 4;
         gbl.setConstraints(L, gbc);
         pconn.add(L);
-        L = new Label(" ");  // Spacing for rest of form's rows
+        L = new Label(" "); // Spacing for rest of form's rows
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         gbl.setConstraints(L, gbc);
         pconn.add(L);
@@ -266,8 +277,8 @@ public class ConnectOrPracticePanel extends Panel
         conn_servhost = new TextField(20);
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         gbl.setConstraints(conn_servhost, gbc);
-        conn_servhost.addKeyListener(this);   // for ESC/ENTER
-        pconn.add(conn_servhost);        
+        conn_servhost.addKeyListener(this); // for ESC/ENTER
+        pconn.add(conn_servhost);
 
         L = new Label("Port");
         gbc.gridwidth = 1;
@@ -282,7 +293,7 @@ public class ConnectOrPracticePanel extends Panel
         }
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         gbl.setConstraints(conn_servport, gbc);
-        conn_servport.addKeyListener(this);   // for ESC/ENTER
+        conn_servport.addKeyListener(this); // for ESC/ENTER
         pconn.add(conn_servport);
 
         L = new Label("Nickname");
@@ -301,7 +312,7 @@ public class ConnectOrPracticePanel extends Panel
         pconn.add(L);
         conn_pass = new TextField(20);
         if (PlayerClient.isJavaOnOSX)
-            conn_pass.setEchoChar('\u2022');  // round bullet (option-8)
+            conn_pass.setEchoChar('\u2022'); // round bullet (option-8)
         else
             conn_pass.setEchoChar('*');
         gbc.gridwidth = GridBagConstraints.REMAINDER;
@@ -315,7 +326,7 @@ public class ConnectOrPracticePanel extends Panel
         pconn.add(L);
         conn_connect = new Button("Connect...");
         conn_connect.addActionListener(this);
-        conn_connect.addKeyListener(this);  // for win32 keyboard-focus
+        conn_connect.addKeyListener(this); // for win32 keyboard-focus
         gbl.setConstraints(conn_connect, gbc);
         pconn.add(conn_connect);
 
@@ -325,7 +336,7 @@ public class ConnectOrPracticePanel extends Panel
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         gbl.setConstraints(conn_cancel, gbc);
         pconn.add(conn_cancel);
-        
+
         return pconn;
     }
 
@@ -348,7 +359,7 @@ public class ConnectOrPracticePanel extends Panel
         gbc.gridwidth = 4;
         gbl.setConstraints(L, gbc);
         prun.add(L);
-        L = new Label(" ");  // Spacing for rest of form's rows
+        L = new Label(" "); // Spacing for rest of form's rows
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         gbl.setConstraints(L, gbc);
         prun.add(L);
@@ -373,9 +384,9 @@ public class ConnectOrPracticePanel extends Panel
         }
         gbc.gridwidth = 2;
         gbl.setConstraints(run_servport, gbc);
-        run_servport.addKeyListener(this);  // for ESC/ENTER
+        run_servport.addKeyListener(this); // for ESC/ENTER
         prun.add(run_servport);
-        L = new Label(" ");  // Spacing for rest of form's rows
+        L = new Label(" "); // Spacing for rest of form's rows
         gbc.gridwidth = GridBagConstraints.REMAINDER;
         gbl.setConstraints(L, gbc);
         prun.add(L);
@@ -386,7 +397,7 @@ public class ConnectOrPracticePanel extends Panel
         prun.add(L);
         run_startserv = new Button(" Start ");
         run_startserv.addActionListener(this);
-        run_startserv.addKeyListener(this);  // for win32 keyboard-focus
+        run_startserv.addKeyListener(this); // for win32 keyboard-focus
         gbl.setConstraints(run_startserv, gbc);
         prun.add(run_startserv);
 
@@ -395,13 +406,13 @@ public class ConnectOrPracticePanel extends Panel
         run_cancel.addKeyListener(this);
         gbl.setConstraints(run_cancel, gbc);
         prun.add(run_cancel);
-        
+
         return prun;
     }
 
     /**
-     * A local server has been started; disable other options ("Connect", etc) but
-     * not Practice.  Called from client, once the server is started in
+     * A local server has been started; disable other options ("Connect", etc)
+     * but not Practice. Called from client, once the server is started in
      * {@link PlayerClient#startLocalTCPServer(int)}.
      */
     public void startedLocalServer()
@@ -415,87 +426,89 @@ public class ConnectOrPracticePanel extends Panel
     /** React to button clicks */
     public void actionPerformed(ActionEvent ae)
     {
-        try {
-            
-        Object src = ae.getSource();
-        if (src == prac)
+        try
         {
-            // Ask client to set up and start a practice game
-            cl.clickPracticeButton();
-            return;
-        }
-        
-        if (src == connserv)
-        {
-            // Show fields to get details to connect to server later
-            panel_conn.setVisible(true);
-            if ((panel_run != null) && panel_run.isVisible())
+
+            Object src = ae.getSource();
+            if (src == prac)
             {
-                panel_run.setVisible(false);
-                runserv.setVisible(true);
+                // Ask client to set up and start a practice game
+                cl.clickPracticeButton();
+                return;
             }
-            connserv.setVisible(false);
-            conn_servhost.requestFocus();
-            validate();
-            return;
-        }
 
-        if (src == conn_connect)
-        {
-            // After clicking connserv, actually connect to server
-            clickConnConnect();
-            return;
-        }
-
-        if (src == conn_cancel)
-        {
-            // Hide fields used to connect to server
-            clickConnCancel();
-            return;
-        }
-
-        if (src == runserv)
-        {
-            // Show fields to get details to start a TCP server
-            panel_run.setVisible(true);
-            if ((panel_conn != null) && panel_conn.isVisible())
+            if (src == connserv)
             {
-                panel_conn.setVisible(false);
-                connserv.setVisible(true);
-            }
-            runserv.setVisible(false);
-            run_servport.requestFocus();
-            {
-                // Convenience: type-to-replace port value
-                String svpText = run_servport.getText();
-                if ((svpText != null) && (svpText.trim().length() > 0))
+                // Show fields to get details to connect to server later
+                panel_conn.setVisible(true);
+                if ((panel_run != null) && panel_run.isVisible())
                 {
-                    run_servport.setSelectionStart(0);
-                    run_servport.setSelectionEnd(svpText.length());
+                    panel_run.setVisible(false);
+                    runserv.setVisible(true);
                 }
+                connserv.setVisible(false);
+                conn_servhost.requestFocus();
+                validate();
+                return;
             }
-            validate();
-            return;
-        }
-        
-        if (src == run_startserv)
-        {
-            // After clicking runserv, actually start a server
-            clickRunStartserv();
-            return;
-        }
 
-        if (src == run_cancel)
-        {
-            // Hide fields used to start a server
-            clickRunCancel();
-            return;
-        }
+            if (src == conn_connect)
+            {
+                // After clicking connserv, actually connect to server
+                clickConnConnect();
+                return;
+            }
 
-        }  // try
-        catch(Throwable thr)
+            if (src == conn_cancel)
+            {
+                // Hide fields used to connect to server
+                clickConnCancel();
+                return;
+            }
+
+            if (src == runserv)
+            {
+                // Show fields to get details to start a TCP server
+                panel_run.setVisible(true);
+                if ((panel_conn != null) && panel_conn.isVisible())
+                {
+                    panel_conn.setVisible(false);
+                    connserv.setVisible(true);
+                }
+                runserv.setVisible(false);
+                run_servport.requestFocus();
+                {
+                    // Convenience: type-to-replace port value
+                    String svpText = run_servport.getText();
+                    if ((svpText != null) && (svpText.trim().length() > 0))
+                    {
+                        run_servport.setSelectionStart(0);
+                        run_servport.setSelectionEnd(svpText.length());
+                    }
+                }
+                validate();
+                return;
+            }
+
+            if (src == run_startserv)
+            {
+                // After clicking runserv, actually start a server
+                clickRunStartserv();
+                return;
+            }
+
+            if (src == run_cancel)
+            {
+                // Hide fields used to start a server
+                clickRunCancel();
+                return;
+            }
+
+        } // try
+        catch (Throwable thr)
         {
-            System.err.println("-- Error caught in AWT event thread: " + thr + " --");
+            System.err.println("-- Error caught in AWT event thread: " + thr
+                    + " --");
             thr.printStackTrace();
             while (thr.getCause() != null)
             {
@@ -509,20 +522,24 @@ public class ConnectOrPracticePanel extends Panel
 
     }
 
-    /** "Connect..." from connect setup; check fields, set WAIT_CURSOR, ask cli to connect  */
+    /**
+     * "Connect..." from connect setup; check fields, set WAIT_CURSOR, ask cli
+     * to connect
+     */
     private void clickConnConnect()
     {
-        // TODO Check contents of fields
+        // TO-DO Check contents of fields
         String cserv = conn_servhost.getText().trim();
         if (cserv.length() == 0)
-            cserv = null;  // localhost
+            cserv = null; // localhost
         int cport = 0;
-        try {
+        try
+        {
             cport = Integer.parseInt(conn_servport.getText());
         }
         catch (NumberFormatException e)
         {
-            // TODO show error?
+            // TO-DO show error?
             return;
         }
 
@@ -544,15 +561,16 @@ public class ConnectOrPracticePanel extends Panel
     {
         // After clicking runserv, actually start a server
         int srport = 0;
-        try {
+        try
+        {
             srport = Integer.parseInt(run_servport.getText());
         }
         catch (NumberFormatException e)
         {
-            // TODO show error?
+            // TO-DO show error?
             return;
         }
-        cl.startLocalTCPServer(srport);        
+        cl.startLocalTCPServer(srport);
     }
 
     /** Hide fields used to start a server */
@@ -569,33 +587,37 @@ public class ConnectOrPracticePanel extends Panel
         if (e.isConsumed())
             return;
 
-        try {
-
-        boolean panelConnShowing = (panel_conn != null) && (panel_conn.isVisible());
-        boolean panelRunShowing  = (panel_run != null)  && (panel_run.isVisible());
-
-        switch (e.getKeyCode())
+        try
         {
-        case KeyEvent.VK_ENTER:
-            if (panelConnShowing)
-                clickConnConnect();
-            else if (panelRunShowing)
-                clickRunStartserv();
-            break;
 
-        case KeyEvent.VK_CANCEL:
-        case KeyEvent.VK_ESCAPE:
-            if (panelConnShowing)
-                clickConnCancel();
-            else if (panelRunShowing)
-                clickRunCancel();
-            break;
-        }  // switch(e)
+            boolean panelConnShowing = (panel_conn != null)
+                    && (panel_conn.isVisible());
+            boolean panelRunShowing = (panel_run != null)
+                    && (panel_run.isVisible());
 
-        }  // try
-        catch(Throwable thr)
+            switch (e.getKeyCode())
+            {
+            case KeyEvent.VK_ENTER:
+                if (panelConnShowing)
+                    clickConnConnect();
+                else if (panelRunShowing)
+                    clickRunStartserv();
+                break;
+
+            case KeyEvent.VK_CANCEL:
+            case KeyEvent.VK_ESCAPE:
+                if (panelConnShowing)
+                    clickConnCancel();
+                else if (panelRunShowing)
+                    clickRunCancel();
+                break;
+            } // switch(e)
+
+        } // try
+        catch (Throwable thr)
         {
-            System.err.println("-- Error caught in AWT event thread: " + thr + " --");
+            System.err.println("-- Error caught in AWT event thread: " + thr
+                    + " --");
             thr.printStackTrace();
             while (thr.getCause() != null)
             {
@@ -609,9 +631,13 @@ public class ConnectOrPracticePanel extends Panel
     }
 
     /** Stub required by KeyListener */
-    public void keyReleased(KeyEvent arg0) { }
+    public void keyReleased(KeyEvent arg0)
+    {
+    }
 
     /** Stub required by KeyListener */
-    public void keyTyped(KeyEvent arg0) { }
+    public void keyTyped(KeyEvent arg0)
+    {
+    }
 
 }

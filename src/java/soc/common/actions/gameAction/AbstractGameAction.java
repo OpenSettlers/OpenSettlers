@@ -18,13 +18,10 @@ public abstract class AbstractGameAction extends AbstractAction implements
         GameAction
 {
     private static final long serialVersionUID = -2161422971683389585L;
-
-    protected int sender;
     protected transient GamePlayer player;
     protected transient String invalidMessage;
     protected transient String toDoMessage;
-    protected transient String message = "No message implemented yet";
-    protected transient Turn turnExecuted;
+    protected Turn turnExecuted;
 
     /*
      * Should be omitted at hashCode calculation, since values differ at server
@@ -39,26 +36,6 @@ public abstract class AbstractGameAction extends AbstractAction implements
     public Date getDateTimeExecuted()
     {
         return dateTimeExecuted;
-    }
-
-    /**
-     * @return ID of the player initiating this action ID of 0 means the server
-     *         initiated this action
-     */
-    public int getSender()
-    {
-        return sender;
-    }
-
-    /**
-     * @param sender
-     *            the sender to set
-     */
-    public AbstractGameAction setSender(int sender)
-    {
-        this.sender = sender;
-
-        return this;
     }
 
     /**

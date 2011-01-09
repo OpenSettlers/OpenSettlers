@@ -2,11 +2,7 @@ package soc.common.actions.gameAction.turnActions.standard;
 
 import soc.common.actions.gameAction.turnActions.AbstractTurnAction;
 import soc.common.board.HexLocation;
-import soc.common.board.hexes.DiscoveryHex;
 import soc.common.board.hexes.Hex;
-import soc.common.board.hexes.NoneHex;
-import soc.common.board.hexes.RandomHex;
-import soc.common.board.hexes.SeaHex;
 import soc.common.game.Game;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.PlayTurnsGamePhase;
@@ -82,22 +78,9 @@ public class PlaceRobber extends AbstractTurnAction
             return false;
         }
 
-        // valid hexes include:
-        // -seahexes for pirate
-        // -ordinary resource hexes
-        // -volcano's
-        // -jungle's
-        // 
-        // invalid places include:
-        // -Randomhex
-        // -Nonehex
-        // -DiscoveryHex
-        // -
-
         Hex hex = game.getBoard().getHexes().get(newLocation);
 
-        if (hex instanceof NoneHex || hex instanceof DiscoveryHex
-                || hex instanceof RandomHex || hex instanceof SeaHex)
+        if (!hex.isRobberPlaceable())
         {
             invalidMessage = "Can't place robber or pirate on a "
                     + hex.getName();

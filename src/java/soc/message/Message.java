@@ -19,10 +19,11 @@
 package soc.message;
 
 import java.io.Serializable;
-
 import java.util.Enumeration;
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
+
+import soc.server.genericServer.StringConnection;
 
 /**
  * Messages used for game data, events, and chatting on a channel.
@@ -59,7 +60,7 @@ import java.util.StringTokenizer;
  * above 10000. The intention is that other kinds of games can be played
  * eventually within this server framework.
  * <LI>Add it to the switch in {@link #toMsg(String)}. Again, note the version.
- * Do not add if (TODO what instead??) extends MessageTemplateMs or
+ * Do not add if (TO-DO what instead??) extends MessageTemplateMs or
  * MessageTemplateMi
  * <LI>Extend the Message class, including the required parseDataStr method. (
  * {@link DiceResult} and {@link SetTurn} are good example subclasses.) Template
@@ -89,12 +90,12 @@ public abstract class Message implements Serializable, Cloneable
 {
     private static final long serialVersionUID = 8292403866682412441L;
 
-    /////////////////////////////////////////
+    // ///////////////////////////////////////
     // message type IDs.
     // This list of constants does not provide javadocs, instead please see
     // the Message subclass for the message type.
     // Ex: For {@link #DELETEGAME}, see javadocs for {@link DeleteGame}.
-    /////////////////////////////////////////
+    // ///////////////////////////////////////
 
     public static final int NULLMESSAGE = 1000;
     public static final int NEWCHANNEL = 1001;
@@ -182,24 +183,26 @@ public abstract class Message implements Serializable, Cloneable
     public static final int PLAYERSTATS = 1085;
     public static final int PLAYERELEMENTS = 1086;
 
-    /////////////////////////////////////////
+    // ///////////////////////////////////////
     // REQUEST FOR FUTURE MESSAGE NUMBERS: //
-    /////////////////////////////////////////
+    // ///////////////////////////////////////
     // Gametype-specific messages (opensettlers) above 10000;
-    // messages applicable to any game (game options, etc) in current low-1000s range.
+    // messages applicable to any game (game options, etc) in current low-1000s
+    // range.
     // Please see class javadoc.
-    /////////////////////////////////////////
+    // ///////////////////////////////////////
 
     public static final int VERSION = 9998;
     public static final int GETSTATISTICS = 10001;
     public static final int SHOWSTATS = 10002;
     public static final int RESETSTATS = 10003;
     public static final int SERVERPING = 9999;
-    
-    /////////////////////////////////////////
-    // Token separators. At most one SEP per message; multiple SEP2 are allowed after SEP.
+
+    // ///////////////////////////////////////
+    // Token separators. At most one SEP per message; multiple SEP2 are allowed
+    // after SEP.
     // For multi-messages, multiple SEP are allowed; see {@link MessageMulti}.
-    /////////////////////////////////////////
+    // ///////////////////////////////////////
 
     /** main separator token SEP, as string. SEP is '|'. */
     public static final String sep = "|";
@@ -273,7 +276,7 @@ public abstract class Message implements Serializable, Cloneable
      *             if <tt>ia</tt> or <tt>sb</tt> is null
      */
     protected static void arrayIntoStringBuf(final int[] ia, StringBuffer sb)
-        throws NullPointerException
+            throws NullPointerException
     {
         sb.append("{");
         for (int i = 0; i < ia.length; ++i)
@@ -299,14 +302,14 @@ public abstract class Message implements Serializable, Cloneable
      * @throws NullPointerException
      *             if <tt>se</tt> or <tt>sb</tt> is null
      */
-    protected static void enumIntoStringBuf(final Enumeration se, StringBuffer sb)
-        throws ClassCastException, NullPointerException
+    protected static void enumIntoStringBuf(final Enumeration se,
+            StringBuffer sb) throws ClassCastException, NullPointerException
     {
-        if (! se.hasMoreElements())
+        if (!se.hasMoreElements())
             return;
         try
         {
-            sb.append ((String) se.nextElement());
+            sb.append((String) se.nextElement());
 
             while (se.hasMoreElements())
             {
@@ -314,12 +317,19 @@ public abstract class Message implements Serializable, Cloneable
                 sb.append((String) se.nextElement());
             }
         }
-        catch (ClassCastException cce) { throw cce; }
-        catch (Exception e) {}
+        catch (ClassCastException cce)
+        {
+            throw cce;
+        }
+        catch (Exception e)
+        {
+        }
     }
 
     /**
-     * Utility, get the short simple name of the class: ResetBoardVote, not soc.message.ResetBoardVote 
+     * Utility, get the short simple name of the class: ResetBoardVote, not
+     * soc.message.ResetBoardVote
+     * 
      * @return Short name of class, without package name
      */
     public String getClassNameShort()
@@ -348,18 +358,17 @@ public abstract class Message implements Serializable, Cloneable
     {
         if (s == null)
             return false;
-        if ((-1 != s.indexOf(sep_char))
-            || (-1 != s.indexOf(sep2_char)))
+        if ((-1 != s.indexOf(sep_char)) || (-1 != s.indexOf(sep2_char)))
             return false;
         int i = s.length();
         if (i == 0)
             return false;
         --i;
-        for (; i>=0; --i)
+        for (; i >= 0; --i)
         {
             final char c = s.charAt(i);
-            if (Character.isISOControl(c) || 
-                (Character.isSpaceChar(c) && (Character.getType(c) != Character.SPACE_SEPARATOR)))
+            if (Character.isISOControl(c)
+                    || (Character.isSpaceChar(c) && (Character.getType(c) != Character.SPACE_SEPARATOR)))
                 return false;
         }
         return true;
@@ -427,7 +436,7 @@ public abstract class Message implements Serializable, Cloneable
                 if (st.hasMoreTokens()) // MessageMulti
                 {
                     // remaining (== number of parameters after "data")
-                    int n = st.countTokens(); 
+                    int n = st.countTokens();
                     multiData = new String[n + 1];
                     multiData[0] = data;
                     for (int i = 1; st.hasMoreTokens(); ++i)
@@ -451,98 +460,189 @@ public abstract class Message implements Serializable, Cloneable
             // convert the data part and create the message
             switch (msgId)
             {
-            case NULLMESSAGE:               return null;
-            case NEWCHANNEL:                return NewChannel.parseDataStr(data);
-            case MEMBERS:                   return Members.parseDataStr(data);
-            case CHANNELS:                  return Channels.parseDataStr(data);
-            case JOIN:                      return Join.parseDataStr(data);
-            case TEXTMSG:                   return TextMsg.parseDataStr(data);
-            case LEAVE:                     return Leave.parseDataStr(data);
-            case DELETECHANNEL:             return DeleteChannel.parseDataStr(data);
-            case LEAVEALL:                  return LeaveAll.parseDataStr(data);
-            case PUTPIECE:                  return PutPiece.parseDataStr(data);
-            case GAMETEXTMSG:               return GameTextMsg.parseDataStr(data);
-            case LEAVEGAME:                 return LeaveGame.parseDataStr(data);
-            case SITDOWN:                   return SitDown.parseDataStr(data);
-            case JOINGAME:                  return JoinGame.parseDataStr(data);
-            case BOARDLAYOUT:               return BoardLayout.parseDataStr(data);
-            case GAMES:                     return Games.parseDataStr(data);
-            case DELETEGAME:                return DeleteGame.parseDataStr(data);
-            case NEWGAME:                   return NewGame.parseDataStr(data);
-            case GAMEMEMBERS:               return GameMembers.parseDataStr(data);
-            case STARTGAME:                 return StartGame.parseDataStr(data);
-            case JOINAUTH:                  return JoinAuth.parseDataStr(data);
-            case JOINGAMEAUTH:              return JoinGameAuth.parseDataStr(data);
-            case IMAROBOT:                  return ImARobot.parseDataStr(data);
-            case JOINGAMEREQUEST:           return JoinGameRequest.parseDataStr(data);
-            case PLAYERELEMENT:             return PlayerElement.parseDataStr(data);
-            case GAMESTATE:                 return GameState.parseDataStr(data);
-            case TURN:                      return Turn.parseDataStr(data);
-            case SETUPDONE:                 return SetupDone.parseDataStr(data);
-            case DICERESULT:                return DiceResult.parseDataStr(data);
-            case DISCARDREQUEST:            return DiscardRequest.parseDataStr(data);
-            case ROLLDICEREQUEST:           return RollDiceRequest.parseDataStr(data);
-            case ROLLDICE:                  return RollDice.parseDataStr(data);
-            case ENDTURN:                   return EndTurn.parseDataStr(data);
-            case DISCARD:                   return Discard.parseDataStr(data);
-            case MOVEROBBER:                return MoveRobber.parseDataStr(data);
-            case CHOOSEPLAYER:              return ChoosePlayer.parseDataStr(data);
-            case CHOOSEPLAYERREQUEST:       return ChoosePlayerRequest.parseDataStr(data);
-            case REJECTOFFER:               return RejectOffer.parseDataStr(data);
-            case CLEAROFFER:                return ClearOffer.parseDataStr(data);
-            case ACCEPTOFFER:               return AcceptOffer.parseDataStr(data);
-            case BANKTRADE:                 return BankTrade.parseDataStr(data);
-            case MAKEOFFER:                 return MakeOffer.parseDataStr(data);
-            case CLEARTRADEMSG:             return ClearTradeMsg.parseDataStr(data);
-            case BUILDREQUEST:              return BuildRequest.parseDataStr(data);
-            case CANCELBUILDREQUEST:        return CancelBuildRequest.parseDataStr(data);
-            case BUYCARDREQUEST:            return BuyCardRequest.parseDataStr(data);
-            case DEVCARD:                   return DevCard.parseDataStr(data);
-            case DEVCARDCOUNT:              return DevCardCount.parseDataStr(data);
-            case SETPLAYEDDEVCARD:          return SetPlayedDevCard.parseDataStr(data);
-            case PLAYDEVCARDREQUEST:        return PlayDevCardRequest.parseDataStr(data);
-            case DISCOVERYPICK:             return DiscoveryPick.parseDataStr(data);
-            case MONOPOLYPICK:              return MonopolyPick.parseDataStr(data);
-            case FIRSTPLAYER:               return FirstPlayer.parseDataStr(data);
-            case SETTURN:                   return SetTurn.parseDataStr(data);
-            case ROBOTDISMISS:              return RobotDismiss.parseDataStr(data);
-            case POTENTIALSETTLEMENTS:      return PotentialSettlements.parseDataStr(data);
-            case CHANGEFACE:                return ChangeFace.parseDataStr(data);
-            case REJECTCONNECTION:          return RejectConnection.parseDataStr(data);
-            case LASTSETTLEMENT:            return LastSettlement.parseDataStr(data);
-            case GAMESTATS:                 return GameStats.parseDataStr(data);
-            case BCASTTEXTMSG:              return BCastTextMsg.parseDataStr(data);
-            case RESOURCECOUNT:             return ResourceCount.parseDataStr(data);
-            case ADMINPING:                 return AdminPing.parseDataStr(data);
-            case ADMINRESET:                return AdminReset.parseDataStr(data);
-            case LONGESTROAD:               return LongestRoad.parseDataStr(data);
-            case LARGESTARMY:               return LargestArmy.parseDataStr(data);
-            case SETSEATLOCK:               return SetSeatLock.parseDataStr(data);
-            case STATUSMESSAGE:             return StatusMessage.parseDataStr(data);
-            case CREATEACCOUNT:             return CreateAccount.parseDataStr(data);
-            case GETSTATISTICS:             return GetStatistics.parseDataStr(data);
-            case RESETSTATS:                return ResetStatistics.parseDataStr(data);
-            case SHOWSTATS:                 return ShowStatistics.parseDataStr(data);
-            case UPDATEROBOTPARAMS:         return UpdateRobotParams.parseDataStr(data);
-            case SERVERPING:                return ServerPing.parseDataStr(data);
-            case ROLLDICEPROMPT:            return RollDicePrompt.parseDataStr(data);
-            case RESETBOARDREQUEST:         return ResetBoardRequest.parseDataStr(data);
-            case RESETBOARDAUTH:            return ResetBoardAuth.parseDataStr(data);
-            case RESETBOARDVOTEREQUEST:     return ResetBoardVoteRequest.parseDataStr(data);
-            case RESETBOARDVOTE:            return ResetBoardVote.parseDataStr(data);
-            case RESETBOARDREJECT:          return ResetBoardReject.parseDataStr(data);
-            case VERSION:                   return SOCVersion.parseDataStr(data);
-            case NEWGAMEWITHOPTIONS:        return NewGameWithOptions.parseDataStr(data);
-            case NEWGAMEWITHOPTIONSREQUEST: return NewGameWithOptionsRequest.parseDataStr(data);
-            case GAMEOPTIONGETDEFAULTS:     return GameOptionGetDefaults.parseDataStr(data);
-            case GAMEOPTIONGETINFOS:        return GameOptionGetInfos.parseDataStr(data);
-            case GAMEOPTIONINFO:            return GameOptionInfo.parseDataStr(multiData);
-            case GAMESWITHOPTIONS:          return GamesWithOptions.parseDataStr(multiData);
-            case BOARDLAYOUT2:              return BoardLayout2.parseDataStr(data);
-            case PLAYERSTATS:               return PlayerStats.parseDataStr(multiData);
-            case PLAYERELEMENTS:            return PlayerElements.parseDataStr(multiData);
+            case NULLMESSAGE:
+                return null;
+            case NEWCHANNEL:
+                return NewChannel.parseDataStr(data);
+            case MEMBERS:
+                return Members.parseDataStr(data);
+            case CHANNELS:
+                return Channels.parseDataStr(data);
+            case JOIN:
+                return Join.parseDataStr(data);
+            case TEXTMSG:
+                return TextMsg.parseDataStr(data);
+            case LEAVE:
+                return Leave.parseDataStr(data);
+            case DELETECHANNEL:
+                return DeleteChannel.parseDataStr(data);
+            case LEAVEALL:
+                return LeaveAll.parseDataStr(data);
+            case PUTPIECE:
+                return PutPiece.parseDataStr(data);
+            case GAMETEXTMSG:
+                return GameTextMsg.parseDataStr(data);
+            case LEAVEGAME:
+                return LeaveGame.parseDataStr(data);
+            case SITDOWN:
+                return SitDown.parseDataStr(data);
+            case JOINGAME:
+                return JoinGame.parseDataStr(data);
+            case BOARDLAYOUT:
+                return BoardLayout.parseDataStr(data);
+            case GAMES:
+                return Games.parseDataStr(data);
+            case DELETEGAME:
+                return DeleteGame.parseDataStr(data);
+            case NEWGAME:
+                return NewGame.parseDataStr(data);
+            case GAMEMEMBERS:
+                return GameMembers.parseDataStr(data);
+            case STARTGAME:
+                return StartGame.parseDataStr(data);
+            case JOINAUTH:
+                return JoinAuth.parseDataStr(data);
+            case JOINGAMEAUTH:
+                return JoinGameAuth.parseDataStr(data);
+            case IMAROBOT:
+                return ImARobot.parseDataStr(data);
+            case JOINGAMEREQUEST:
+                return JoinGameRequest.parseDataStr(data);
+            case PLAYERELEMENT:
+                return PlayerElement.parseDataStr(data);
+            case GAMESTATE:
+                return GameState.parseDataStr(data);
+            case TURN:
+                return Turn.parseDataStr(data);
+            case SETUPDONE:
+                return SetupDone.parseDataStr(data);
+            case DICERESULT:
+                return DiceResult.parseDataStr(data);
+            case DISCARDREQUEST:
+                return DiscardRequest.parseDataStr(data);
+            case ROLLDICEREQUEST:
+                return RollDiceRequest.parseDataStr(data);
+            case ROLLDICE:
+                return RollDice.parseDataStr(data);
+            case ENDTURN:
+                return EndTurn.parseDataStr(data);
+            case DISCARD:
+                return Discard.parseDataStr(data);
+            case MOVEROBBER:
+                return MoveRobber.parseDataStr(data);
+            case CHOOSEPLAYER:
+                return ChoosePlayer.parseDataStr(data);
+            case CHOOSEPLAYERREQUEST:
+                return ChoosePlayerRequest.parseDataStr(data);
+            case REJECTOFFER:
+                return RejectOffer.parseDataStr(data);
+            case CLEAROFFER:
+                return ClearOffer.parseDataStr(data);
+            case ACCEPTOFFER:
+                return AcceptOffer.parseDataStr(data);
+            case BANKTRADE:
+                return BankTrade.parseDataStr(data);
+            case MAKEOFFER:
+                return MakeOffer.parseDataStr(data);
+            case CLEARTRADEMSG:
+                return ClearTradeMsg.parseDataStr(data);
+            case BUILDREQUEST:
+                return BuildRequest.parseDataStr(data);
+            case CANCELBUILDREQUEST:
+                return CancelBuildRequest.parseDataStr(data);
+            case BUYCARDREQUEST:
+                return BuyCardRequest.parseDataStr(data);
+            case DEVCARD:
+                return DevCard.parseDataStr(data);
+            case DEVCARDCOUNT:
+                return DevCardCount.parseDataStr(data);
+            case SETPLAYEDDEVCARD:
+                return SetPlayedDevCard.parseDataStr(data);
+            case PLAYDEVCARDREQUEST:
+                return PlayDevCardRequest.parseDataStr(data);
+            case DISCOVERYPICK:
+                return DiscoveryPick.parseDataStr(data);
+            case MONOPOLYPICK:
+                return MonopolyPick.parseDataStr(data);
+            case FIRSTPLAYER:
+                return FirstPlayer.parseDataStr(data);
+            case SETTURN:
+                return SetTurn.parseDataStr(data);
+            case ROBOTDISMISS:
+                return RobotDismiss.parseDataStr(data);
+            case POTENTIALSETTLEMENTS:
+                return PotentialSettlements.parseDataStr(data);
+            case CHANGEFACE:
+                return ChangeFace.parseDataStr(data);
+            case REJECTCONNECTION:
+                return RejectConnection.parseDataStr(data);
+            case LASTSETTLEMENT:
+                return LastSettlement.parseDataStr(data);
+            case GAMESTATS:
+                return GameStats.parseDataStr(data);
+            case BCASTTEXTMSG:
+                return BCastTextMsg.parseDataStr(data);
+            case RESOURCECOUNT:
+                return ResourceCount.parseDataStr(data);
+            case ADMINPING:
+                return AdminPing.parseDataStr(data);
+            case ADMINRESET:
+                return AdminReset.parseDataStr(data);
+            case LONGESTROAD:
+                return LongestRoad.parseDataStr(data);
+            case LARGESTARMY:
+                return LargestArmy.parseDataStr(data);
+            case SETSEATLOCK:
+                return SetSeatLock.parseDataStr(data);
+            case STATUSMESSAGE:
+                return StatusMessage.parseDataStr(data);
+            case CREATEACCOUNT:
+                return CreateAccount.parseDataStr(data);
+            case GETSTATISTICS:
+                return GetStatistics.parseDataStr(data);
+            case RESETSTATS:
+                return ResetStatistics.parseDataStr(data);
+            case SHOWSTATS:
+                return ShowStatistics.parseDataStr(data);
+            case UPDATEROBOTPARAMS:
+                return UpdateRobotParams.parseDataStr(data);
+            case SERVERPING:
+                return ServerPing.parseDataStr(data);
+            case ROLLDICEPROMPT:
+                return RollDicePrompt.parseDataStr(data);
+            case RESETBOARDREQUEST:
+                return ResetBoardRequest.parseDataStr(data);
+            case RESETBOARDAUTH:
+                return ResetBoardAuth.parseDataStr(data);
+            case RESETBOARDVOTEREQUEST:
+                return ResetBoardVoteRequest.parseDataStr(data);
+            case RESETBOARDVOTE:
+                return ResetBoardVote.parseDataStr(data);
+            case RESETBOARDREJECT:
+                return ResetBoardReject.parseDataStr(data);
+            case VERSION:
+                return SOCVersion.parseDataStr(data);
+            case NEWGAMEWITHOPTIONS:
+                return NewGameWithOptions.parseDataStr(data);
+            case NEWGAMEWITHOPTIONSREQUEST:
+                return NewGameWithOptionsRequest.parseDataStr(data);
+            case GAMEOPTIONGETDEFAULTS:
+                return GameOptionGetDefaults.parseDataStr(data);
+            case GAMEOPTIONGETINFOS:
+                return GameOptionGetInfos.parseDataStr(data);
+            case GAMEOPTIONINFO:
+                return GameOptionInfo.parseDataStr(multiData);
+            case GAMESWITHOPTIONS:
+                return GamesWithOptions.parseDataStr(multiData);
+            case BOARDLAYOUT2:
+                return BoardLayout2.parseDataStr(data);
+            case PLAYERSTATS:
+                return PlayerStats.parseDataStr(multiData);
+            case PLAYERELEMENTS:
+                return PlayerElements.parseDataStr(multiData);
             default:
-                System.err.println("Unhandled message type in Message.toMsg: " + msgId);
+                System.err.println("Unhandled message type in Message.toMsg: "
+                        + msgId);
                 return null;
             }
         }
@@ -555,7 +655,7 @@ public abstract class Message implements Serializable, Cloneable
             return null;
         }
     }
-    
+
     /** @return the name of the game */
     public String getGame()
     {

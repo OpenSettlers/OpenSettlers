@@ -114,20 +114,29 @@ public class PlayTurnsGamePhase extends AbstractGamePhase
     @Override
     public Turn nextTurn(Game game)
     {
-        // Determine index of next player
-        int nextPlayerIndex = game.getPlayers().indexOf(
-                game.getCurrentTurn().getPlayer()) + 1;
-        if (nextPlayerIndex == game.getPlayers().size())
+        Turn newTurn = null;
+        if (game.getCurrentTurn().getID() == 0)
         {
-            nextPlayerIndex = 0;
+            newTurn = new TurnImpl().setPlayer(game.getPlayers().get(0)).setID(
+                    1);
         }
+        else
+        {
+            // Determine index of next player
+            int nextPlayerIndex = game.getPlayers().indexOf(
+                    game.getCurrentTurn().getPlayer()) + 1;
+            if (nextPlayerIndex == game.getPlayers().size())
+            {
+                nextPlayerIndex = 0;
+            }
 
-        GamePlayer newPlayerOnTurn = game.getPlayers().get(nextPlayerIndex);
+            GamePlayer newPlayerOnTurn = game.getPlayers().get(nextPlayerIndex);
 
-        // Create a new turn
-        Turn newTurn = new TurnImpl().setPlayer(newPlayerOnTurn).setID(
-                game.getCurrentTurn().getID() + 1);
+            // Create a new turn
+            newTurn = new TurnImpl().setPlayer(newPlayerOnTurn).setID(
+                    game.getCurrentTurn().getID() + 1);
 
+        }
         return newTurn;
     }
 }

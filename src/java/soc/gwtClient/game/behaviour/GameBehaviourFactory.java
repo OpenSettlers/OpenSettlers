@@ -1,8 +1,6 @@
-package soc.gwtClient.visuals.behaviour;
+package soc.gwtClient.game.behaviour;
 
 import soc.common.actions.gameAction.turnActions.TurnAction;
-import soc.common.game.Game;
-import soc.gwtClient.visuals.behaviour.game.GameBehaviour;
 
 /*
  * Relates a TurnAction to a viewport GameBehaviour. 
@@ -11,5 +9,5 @@ import soc.gwtClient.visuals.behaviour.game.GameBehaviour;
  */
 public interface GameBehaviourFactory
 {
-    public GameBehaviour createBehaviour(TurnAction turnAction, Game game);
+    public GameBehaviour createBehaviour(TurnAction turnAction);
 }

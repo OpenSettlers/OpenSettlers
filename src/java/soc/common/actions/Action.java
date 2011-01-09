@@ -3,8 +3,6 @@ package soc.common.actions;
 import java.io.Serializable;
 import java.util.Date;
 
-import soc.common.game.player.GamePlayer;
-
 public interface Action extends Serializable
 {
     /**
@@ -35,17 +33,5 @@ public interface Action extends Serializable
      */
     public String getMessage();
 
-    /**
-     * @return the player
-     */
-    public GamePlayer getPlayer();
-
-    /**
-     * @param player
-     *            the player to set
-     */
-    public Action setPlayer(GamePlayer player);
-
     public String getName();
-
 }

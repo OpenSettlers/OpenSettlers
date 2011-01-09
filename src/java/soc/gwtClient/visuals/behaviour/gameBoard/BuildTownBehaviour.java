@@ -1,8 +1,9 @@
-package soc.gwtClient.visuals.behaviour.game;
+package soc.gwtClient.visuals.behaviour.gameBoard;
 
 import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.turnActions.standard.BuildTown;
 import soc.common.board.routing.GraphPoint;
+import soc.gwtClient.game.behaviour.GameBehaviourCallback;
 import soc.gwtClient.visuals.abstractVisuals.GameBoardVisual;
 import soc.gwtClient.visuals.abstractVisuals.PieceVisual;
 import soc.gwtClient.visuals.abstractVisuals.PointVisual;
@@ -10,11 +11,14 @@ import soc.gwtClient.visuals.abstractVisuals.PointVisual;
 public class BuildTownBehaviour extends BuildPointBehaviour
 {
     BuildTown buildTown;
+    GameBehaviourCallback callback;
 
-    public BuildTownBehaviour(BuildTown buildTown)
+    public BuildTownBehaviour(BuildTown buildTown,
+            GameBehaviourCallback callback)
     {
         super();
         this.buildTown = buildTown;
+        this.callback = callback;
     }
 
     @Override
@@ -24,7 +28,7 @@ public class BuildTownBehaviour extends BuildPointBehaviour
         {
             PointVisual point = (PointVisual) pieceVisual;
             buildTown.setPointLocation(point.getHexPoint());
-            board.onBehaviourDone();
+            callback.done();
         }
     }
 

@@ -75,7 +75,8 @@ public class InitialPlacementGamePhase extends AbstractGamePhase
         }
 
         // Set end of phase
-        game.getActionsQueue().enqueue(new GamePhaseHasEnded().setSender(0));
+        game.getActionsQueue().enqueue(
+                (GameAction) new GamePhaseHasEnded().setSender(0));
     }
 
     @Override

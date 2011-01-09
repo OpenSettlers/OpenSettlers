@@ -5,11 +5,10 @@ import java.util.List;
 
 import soc.common.actions.gameAction.GameAction;
 import soc.common.game.Game;
-import soc.common.game.PlayerList;
-import soc.common.game.PlayerListImpl;
 import soc.common.game.Turn;
 import soc.common.game.TurnImpl;
 import soc.common.game.player.GamePlayer;
+import soc.common.game.player.GamePlayerList;
 
 public class LobbyGamePhase extends AbstractGamePhase
 {
@@ -51,7 +50,7 @@ public class LobbyGamePhase extends AbstractGamePhase
             GamePlayer playerChangingSettings)
     {
         // Create a list of players to remove
-        PlayerList playersToRemove = new PlayerListImpl();
+        GamePlayerList playersToRemove = new GamePlayerList();
         for (GamePlayer player : playersWhoAcceptedSettings)
         {
             if (player != playerChangingSettings)

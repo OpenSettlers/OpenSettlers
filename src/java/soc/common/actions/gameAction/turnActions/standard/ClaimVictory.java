@@ -1,5 +1,7 @@
 package soc.common.actions.gameAction.turnActions.standard;
 
+import soc.common.actions.gameAction.GameAction;
+import soc.common.actions.gameAction.GamePhaseHasEnded;
 import soc.common.actions.gameAction.turnActions.AbstractTurnAction;
 import soc.common.game.Game;
 import soc.common.game.gamePhase.GamePhase;
@@ -58,7 +60,8 @@ public class ClaimVictory extends AbstractTurnAction
     @Override
     public void perform(Game game)
     {
-        // TODO: implement
+        game.getActionsQueue().enqueue(
+                (GameAction) new GamePhaseHasEnded().setSender(0));
 
         super.perform(game);
     }

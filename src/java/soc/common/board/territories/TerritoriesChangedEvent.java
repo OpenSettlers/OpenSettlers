@@ -2,13 +2,13 @@ package soc.common.board.territories;
 
 import com.google.gwt.event.shared.GwtEvent;
 
-public class TerritoriesChangedEvent extends GwtEvent<TerritoriesChangedEventHandler>
+public class TerritoriesChangedEvent extends
+        GwtEvent<TerritoriesChangedEventHandler>
 {
-    private static Type<TerritoriesChangedEventHandler> TYPE = new Type<TerritoriesChangedEventHandler>();
+    public static Type<TerritoriesChangedEventHandler> TYPE = new Type<TerritoriesChangedEventHandler>();
     private Territory addedTerritory;
     private Territory removedTerritory;
-    
-    
+
     public TerritoriesChangedEvent(Territory addedTerritory,
             Territory removedTerritory)
     {

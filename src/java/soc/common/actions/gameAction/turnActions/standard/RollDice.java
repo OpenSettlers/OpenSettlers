@@ -63,6 +63,11 @@ public class RollDice extends AbstractTurnAction
         return dice;
     }
 
+    public boolean isRobberRolled()
+    {
+        return dice.getDiceTotal() == 7;
+    }
+
     /**
      * @return the hexesAffected
      */

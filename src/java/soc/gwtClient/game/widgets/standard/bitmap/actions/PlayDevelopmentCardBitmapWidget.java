@@ -1,10 +1,13 @@
 package soc.gwtClient.game.widgets.standard.bitmap.actions;
 
+import java.util.HashMap;
+
 import soc.common.game.developmentCards.DevelopmentCard;
 import soc.common.game.developmentCards.DevelopmentCardsChangedEvent;
 import soc.common.game.developmentCards.DevelopmentCardsChangedEventHandler;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.ActionWidget;
+import soc.gwtClient.game.abstractWidgets.DevelopmentCardWidget;
 import soc.gwtClient.game.abstractWidgets.GamePanel;
 import soc.gwtClient.game.abstractWidgets.PlayDevelopmentCardWidget;
 import soc.gwtClient.game.abstractWidgets.factories.DevelopmentCardWidgetFactory;
@@ -35,8 +38,10 @@ public class PlayDevelopmentCardBitmapWidget implements
     protected Label lblAmountDvelopmentCards = new Label();
     protected boolean isMenubarShown = false;
     protected DevelopmentCardWidgetFactory devCardWidgetFactory = new DevelopmentCardBitmapWidgetFactory();
+    protected HashMap<DevelopmentCard, DevelopmentCardWidget> devCardsWidgets = new HashMap<DevelopmentCard, DevelopmentCardWidget>();
 
-    public PlayDevelopmentCardBitmapWidget(GamePlayer player, GamePanel gamePanel)
+    public PlayDevelopmentCardBitmapWidget(GamePlayer player,
+            GamePanel gamePanel)
     {
         this.player = player;
         this.gamePanel = gamePanel;
@@ -48,8 +53,10 @@ public class PlayDevelopmentCardBitmapWidget implements
 
         for (DevelopmentCard devCard : player.getDevelopmentCards())
         {
-            verticalPanel.add(devCardWidgetFactory.createWidget(devCard,
-                    gamePanel));
+            DevelopmentCardWidget devCardWidget = devCardWidgetFactory
+                    .createWidget(devCard, gamePanel);
+            verticalPanel.add(devCardWidget);
+            devCardsWidgets.put(devCard, devCardWidget);
         }
         player.getDevelopmentCards().addDevelopmentCardsChangedEventHandler(
                 this);
@@ -90,10 +97,17 @@ public class PlayDevelopmentCardBitmapWidget implements
                 .getDevelopmentCardsCount()));
         if (event.getAddedCard() != null)
         {
-            verticalPanel.add(devCardWidgetFactory.createWidget(event
-                    .getAddedCard(), gamePanel));
+            DevelopmentCardWidget devCardWidget = devCardWidgetFactory
+                    .createWidget(event.getAddedCard(), gamePanel);
+            verticalPanel.add(devCardWidget);
+            devCardsWidgets.put(event.getAddedCard(), devCardWidget);
         }
-        // TODO:implement remove
+        if (event.getRemovedCard() != null)
+        {
+            DevelopmentCardWidget widget = devCardsWidgets.get(event
+                    .getRemovedCard());
+            verticalPanel.remove(widget);
+        }
     }
 
     @Override

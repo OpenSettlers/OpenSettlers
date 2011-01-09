@@ -2,24 +2,30 @@ package soc.gwtClient.game.widgets.bitmap;
 
 import java.util.HashMap;
 
-import soc.common.actions.gameAction.turnActions.standard.RollDice;
 import soc.common.board.ports.PortList;
 import soc.common.board.resources.ResourceList;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.GamePanel;
+import soc.gwtClient.game.behaviour.RollDiceResult;
 import soc.gwtClient.game.widgets.abstractWidgets.ResourceListWidget;
+import soc.gwtClient.game.widgets.abstractWidgets.ResourcesGainedWidget;
 
-import com.google.gwt.user.client.ui.IsWidget;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class ResourcesGainedBitmapWidget implements IsWidget
+public class ResourcesGainedBitmapWidget implements ResourcesGainedWidget,
+        ClickHandler
 {
     PopupPanel popup = new PopupPanel();
     private VerticalPanel rootPanel = new VerticalPanel();
     private HashMap<GamePlayer, ResourceListWidget> playerResources = new HashMap<GamePlayer, ResourceListWidget>();
     private GamePanel gamePanel;
+    private Button btnClose = new Button("Close");
+    private RollDiceResult rollDiceResult;
 
     public ResourcesGainedBitmapWidget(GamePanel gamePanel)
     {
@@ -31,22 +37,28 @@ public class ResourcesGainedBitmapWidget implements IsWidget
             playerResources.put(player, resourceList);
             rootPanel.add(resourceList);
         }
+        rootPanel.add(btnClose);
+        btnClose.addClickHandler(this);
         popup.add(rootPanel);
     }
 
-    private ResourceListWidget createResourceListWidget(
-            ResourceList resources, ResourceList bankResources, PortList ports)
+    private ResourceListWidget createResourceListWidget(ResourceList resources,
+            ResourceList bankResources, PortList ports)
     {
         return new ResourceListBitmapWidget(resources, bankResources, ports);
     }
 
-    public void update(RollDice rollDice)
+    public void update(RollDiceResult rollDiceResult)
     {
-        for (GamePlayer player : rollDice.getPlayersResources().keySet())
+        this.rollDiceResult = rollDiceResult;
+        for (GamePlayer player : rollDiceResult.getRolledDice()
+                .getPlayersResources().keySet())
         {
             playerResources.get(player).setResources(
-                    rollDice.getPlayersResources().get(player));
+                    rollDiceResult.getRolledDice().getPlayersResources().get(
+                            player));
         }
+        popup.show();
     }
 
     @Override
@@ -55,4 +67,10 @@ public class ResourcesGainedBitmapWidget implements IsWidget
         return popup;
     }
 
+    @Override
+    public void onClick(ClickEvent event)
+    {
+        popup.hide();
+        rollDiceResult.doneResources();
+    }
 }

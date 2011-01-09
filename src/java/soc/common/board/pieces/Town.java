@@ -49,11 +49,6 @@ public class Town extends AbstractPlayerPiece implements VictoryPointItem,
         if (player.getStock().ofType(Town.TOWN).size() == 0)
             return false;
 
-        // And we need a place to put it onto
-
-        // TODO: port to java
-        // if (GetTownBuildPlaces(game, board).Count == 0) return false;
-
         return true;
     }
 

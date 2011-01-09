@@ -1,11 +1,9 @@
 package soc.gwtClient.game.widgets.abstractWidgets;
 
-import soc.common.board.resources.AbstractResource;
 import soc.common.board.resources.Resource;
 import soc.common.board.resources.ResourceList;
 import soc.common.board.resources.ResourcesChangedEventHandler;
 
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.IsWidget;
 
@@ -15,16 +13,18 @@ import com.google.gwt.user.client.ui.IsWidget;
  * 
  * If a bank is set, it displays amount of resources available in the bank
  */
-public interface ResourceListWidget extends IsWidget, ResourcesChangedEventHandler, ResourceClickedEventHandler
+public interface ResourceListWidget extends IsWidget,
+        ResourcesChangedEventHandler, ResourceClickedEventHandler
 {
-    // Returns a new base panel where widgets are put into 
+    // Returns a new base panel where widgets are put into
     public ComplexPanel createRootPanel();
-    
-    // Create a Resourcewidget using a resource type
+
+    // Create a resource widget using given resource type
     public ResourceWidget createResourceWidget(Resource resourceType);
-    
+
     public ResourceListWidget setResources(ResourceList resources);
+
     public ResourceList getResources();
-    
+
     public ResourceListWidget setEnabled(boolean enabled);
 }

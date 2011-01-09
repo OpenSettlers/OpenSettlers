@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import soc.common.board.Board;
 import soc.common.board.hexes.Hex;
-import soc.gwtClient.visuals.behaviour.InteractionBehaviour;
+import soc.gwtClient.visuals.behaviour.BoardBehaviour;
 
 import com.google.gwt.user.client.ui.IsWidget;
 
@@ -14,9 +14,9 @@ public interface BoardVisual extends PieceVisual, IsWidget
 
     public Board getBoard();
 
-    public InteractionBehaviour getBoardBehaviour();
+    public BoardBehaviour getBoardBehaviour();
 
-    public BoardVisual setBoardBehaviour(InteractionBehaviour behaviour);
+    public BoardVisual setBoardBehaviour(BoardBehaviour behaviour);
 
     /*
      * Toggle visbility of territory to show

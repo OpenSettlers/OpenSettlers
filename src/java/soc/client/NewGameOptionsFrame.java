@@ -108,7 +108,7 @@ public class NewGameOptionsFrame extends Frame implements ActionListener,
     /** msgText is null if readOnly */
     private TextField msgText;
 
-    // // TODO refactor; these are from connectorprac panel
+    // // TO-DO refactor; these are from connectorprac panel
     private static final Color NGOF_BG = new Color(Integer.parseInt("61AF71",
             16));
     private static final Color HEADER_LABEL_BG = new Color(220, 255, 220);
@@ -217,7 +217,7 @@ public class NewGameOptionsFrame extends Frame implements ActionListener,
         Panel bp = new Panel(gbl); // Actual button panel
         bp.setForeground(getForeground());
         bp.setBackground(NGOF_BG); // If this is omitted, firefox 3.5+ applet
-                                   // uses themed bg-color (seen OS X)
+        // uses themed bg-color (seen OS X)
 
         gbc.fill = GridBagConstraints.BOTH;
         gbc.gridwidth = GridBagConstraints.REMAINDER;
@@ -255,7 +255,7 @@ public class NewGameOptionsFrame extends Frame implements ActionListener,
         else
         {
             gameName.addTextListener(this); // Will enable buttons when field is
-                                            // not empty
+            // not empty
             gameName.addKeyListener(this); // for ESC/ENTER
         }
         gbc.gridwidth = GridBagConstraints.REMAINDER;
@@ -384,7 +384,7 @@ public class NewGameOptionsFrame extends Frame implements ActionListener,
                     {
                         if (PlayerClient.isJavaOnOSX)
                             txtc.setEchoChar('\u2022'); // round bullet
-                                                        // (option-8)
+                        // (option-8)
                         else
                             txtc.setEchoChar('*');
                     }
@@ -489,7 +489,7 @@ public class NewGameOptionsFrame extends Frame implements ActionListener,
                 if (oc instanceof TextField)
                 {
                     ((TextField) oc).addTextListener(this); // for
-                                                            // enable/disable
+                    // enable/disable
                     ((TextField) oc).addKeyListener(this); // for ESC/ENTER
                 }
                 else if (oc instanceof Choice)
@@ -671,22 +671,22 @@ public class NewGameOptionsFrame extends Frame implements ActionListener,
             if (readOptsValuesFromControls(checkOptionsMinVers))
             {
                 setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR)); // Immediate
-                                                                           // feedback
-                                                                           // in
-                                                                           // this
-                                                                           // frame
+                // feedback
+                // in
+                // this
+                // frame
                 cl.askStartGameWithOptions(gmName, forPractice, opts); // Also
-                                                                       // sets
-                                                                       // WAIT_CURSOR,
-                                                                       // in
-                                                                       // main
-                                                                       // client
-                                                                       // frame
+                // sets
+                // WAIT_CURSOR,
+                // in
+                // main
+                // client
+                // frame
             }
             else
             {
                 return; // readOptsValues will put the err msg in dia's status
-                        // line
+                // line
             }
         }
         else
@@ -888,7 +888,7 @@ public class NewGameOptionsFrame extends Frame implements ActionListener,
         {
             if (notEmpty != create.isEnabled())
                 create.setEnabled(notEmpty); // enable "create" btn only if game
-                                             // name filled in
+            // name filled in
         }
         else
         {
@@ -1022,7 +1022,7 @@ public class NewGameOptionsFrame extends Frame implements ActionListener,
                 {
                     final char c = e.getKeyChar();
                     if (c == KeyEvent.CHAR_UNDEFINED) // ctrl characters,
-                                                      // arrows, etc
+                        // arrows, etc
                         return;
                     if (!Character.isDigit(c))
                         e.consume(); // ignore non-digits

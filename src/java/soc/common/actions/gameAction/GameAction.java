@@ -4,6 +4,7 @@ import soc.common.actions.Action;
 import soc.common.game.Game;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
+import soc.common.game.player.GamePlayer;
 import soc.common.game.statuses.GameStatus;
 
 public interface GameAction extends Action
@@ -45,6 +46,10 @@ public interface GameAction extends Action
      *         displayed
      */
     public String getToDoMessage();
+
+    public GamePlayer getPlayer();
+
+    public GameAction setPlayer(GamePlayer player);
 
     public boolean isServer();
 }

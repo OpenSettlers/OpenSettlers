@@ -85,7 +85,7 @@ public class SvgStandardDiceWidget extends AbstractStandardDiceWidget
     {
         RollDice rollDice = new RollDice();
         rollDice.setPlayer(gamePanel.getPlayingPlayer());
-        gamePanel.startAction(rollDice);
+        gamePanel.sendAction(rollDice);
     }
 
 }

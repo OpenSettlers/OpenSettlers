@@ -5,6 +5,7 @@ import java.util.List;
 
 import soc.common.actions.gameAction.turnActions.AbstractTurnAction;
 import soc.common.actions.gameAction.turnActions.TurnAction;
+import soc.common.board.HexLocation;
 import soc.common.board.hexes.Hex;
 import soc.common.board.pieces.City;
 import soc.common.board.pieces.LargestArmy;
@@ -12,6 +13,7 @@ import soc.common.board.pieces.Piece;
 import soc.common.board.pieces.PlayerPiece;
 import soc.common.board.pieces.PlayerPieceList;
 import soc.common.board.pieces.Road;
+import soc.common.board.pieces.Robber;
 import soc.common.board.pieces.Town;
 import soc.common.board.resources.Resource;
 import soc.common.game.developmentCards.DevelopmentCardList;
@@ -238,7 +240,7 @@ public class GameRulesImpl implements GameRules
     }
 
     @Override
-    public LargestArmy getLArgestArmy()
+    public LargestArmy getLargestArmy()
     {
         return largestArmy;
     }
@@ -271,6 +273,9 @@ public class GameRulesImpl implements GameRules
         createPlayerStocks();
         createStockPieces();
         game.setCurrentDice(getDiceType());
+
+        // Robber is hardcoded, not yet any variant known not using it.
+        game.setRobber(new Robber(new HexLocation(0, 0)));
     }
 
     private void createStockPieces()

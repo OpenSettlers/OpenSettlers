@@ -1,11 +1,11 @@
-package soc.gwtClient.visuals.behaviour.game;
+package soc.gwtClient.visuals.behaviour.gameBoard;
 
 import soc.common.actions.gameAction.GameAction;
 import soc.gwtClient.visuals.abstractVisuals.GameBoardVisual;
 import soc.gwtClient.visuals.abstractVisuals.HexVisual;
 import soc.gwtClient.visuals.abstractVisuals.PieceVisual;
 
-public class DisabledMap implements GameBehaviour
+public class DisabledMap implements GameBoardBehaviour
 {
 
     @Override

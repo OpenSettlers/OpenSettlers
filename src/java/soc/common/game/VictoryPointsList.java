@@ -10,17 +10,17 @@ public class VictoryPointsList implements Iterable<VictoryPointItem>
 {
     private List<VictoryPointItem> points = new ArrayList<VictoryPointItem>();
     private SimpleEventBus eventBus;
-    
+
     private SimpleEventBus getEventBus()
     {
         if (eventBus == null)
         {
             eventBus = new SimpleEventBus();
         }
-        
+
         return eventBus;
     }
-    
+
     private void safelyFireEvent(VictoryPointsChangedEvent event)
     {
         if (eventBus != null)
@@ -28,33 +28,33 @@ public class VictoryPointsList implements Iterable<VictoryPointItem>
             eventBus.fireEvent(event);
         }
     }
-    
+
     public void add(VictoryPointItem item)
     {
         points.add(item);
-        
+
         safelyFireEvent(new VictoryPointsChangedEvent(item, null));
     }
-    
+
     public void remove(VictoryPointItem item)
     {
         points.remove(item);
-        
+
         safelyFireEvent(new VictoryPointsChangedEvent(null, item));
     }
-    
+
     /*
-     * Returns total amount of victory points in this list 
+     * Returns total amount of victory points in this list
      */
     public int getTotalPoints()
     {
-        int result=0;
-        
+        int result = 0;
+
         for (VictoryPointItem vp : points)
         {
             result += vp.getVictoryPoints();
         }
-        
+
         return result;
     }
 
@@ -63,9 +63,33 @@ public class VictoryPointsList implements Iterable<VictoryPointItem>
     {
         return points.iterator();
     }
-    
-    public void addVictoryPointsChangedListener(VictoryPointsChangedEventHandler handler)
+
+    public void addVictoryPointsChangedListener(
+            VictoryPointsChangedEventHandler handler)
     {
         getEventBus().addHandler(VictoryPointsChangedEvent.TYPE, handler);
+    }
+
+    public VictoryPointsList ofType(VictoryPointItem type)
+    {
+        VictoryPointsList result = new VictoryPointsList();
+
+        for (VictoryPointItem point : points)
+        {
+            if (point.getClass() == type.getClass())
+                result.add(point);
+        }
+
+        return result;
+    }
+
+    public int size()
+    {
+        return points.size();
+    }
+
+    public VictoryPointItem get(int index)
+    {
+        return points.get(index);
     }
 }

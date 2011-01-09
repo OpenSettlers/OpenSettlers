@@ -18,7 +18,6 @@ public class UseBridges implements GameRule
     public void set(GameRules rules)
     {
         rules.setStockBridgeAmount(3);
-        // TODO: implement bridge
         // rules.getPlayablePieces().add(new Bridge());
     }
 

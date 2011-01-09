@@ -13,7 +13,6 @@ public class Chit
 
     public Chit()
     {
-        // TODO Auto-generated constructor stub
     }
 
     public Chit copy()

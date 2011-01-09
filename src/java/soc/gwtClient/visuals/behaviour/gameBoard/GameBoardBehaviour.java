@@ -1,10 +1,10 @@
-package soc.gwtClient.visuals.behaviour.game;
+package soc.gwtClient.visuals.behaviour.gameBoard;
 
 import soc.common.actions.gameAction.GameAction;
 import soc.gwtClient.visuals.abstractVisuals.GameBoardVisual;
 import soc.gwtClient.visuals.abstractVisuals.PieceVisual;
 
-public interface GameBehaviour
+public interface GameBoardBehaviour
 {
     public void start(GameBoardVisual gameVisual);
 

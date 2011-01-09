@@ -1,5 +1,7 @@
 package soc.gwtClient.editor;
 
+import java.util.HashMap;
+
 import soc.common.board.territories.TerritoriesChangedEvent;
 import soc.common.board.territories.TerritoriesChangedEventHandler;
 import soc.common.board.territories.Territory;
@@ -29,6 +31,7 @@ public class TerritoryPanel extends VerticalPanel implements
     SetTerritoryBehaviour behaviour;
     BoardVisual board;
     final DialogBox dialogBox = new DialogBox();
+    private HashMap<Territory, PushButton> territoryButtons = new HashMap<Territory, PushButton>();
 
     private HandlerManager handlerManager = new HandlerManager(this);
 
@@ -53,6 +56,9 @@ public class TerritoryPanel extends VerticalPanel implements
 
         createAddTerritoryWindow();
         createPanel();
+
+        board.getBoard().getTerritories().addTerritoriesChangedEventHandler(
+                this);
     }
 
     private void createPanel()
@@ -158,6 +164,7 @@ public class TerritoryPanel extends VerticalPanel implements
             }
         });
         this.add(btnTerritory);
+        territoryButtons.put(territory, btnTerritory);
     }
 
     private void createAddTerritoryWindow()
@@ -209,17 +216,18 @@ public class TerritoryPanel extends VerticalPanel implements
     {
         if (event.getAddedTerritory() != null)
         {
-            this.addTerritoryButton(event.getAddedTerritory());
+            addTerritoryButton(event.getAddedTerritory());
         }
         if (event.getRemovedTerritory() != null)
         {
-            this.removeTerritoryButton(event.getRemovedTerritory());
+            removeTerritoryButton(event.getRemovedTerritory());
         }
     }
 
     private void removeTerritoryButton(Territory removedTerritory)
     {
-        // TODO Auto-generated method stub
-
+        PushButton territoryButton = territoryButtons.get(removedTerritory);
+        this.remove(territoryButton);
+        territoryButtons.remove(removedTerritory);
     }
 }

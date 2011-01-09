@@ -1,4 +1,4 @@
-package soc.gwtClient.visuals.behaviour.game;
+package soc.gwtClient.visuals.behaviour.gameBoard;
 
 import java.util.Set;
 
@@ -7,6 +7,7 @@ import soc.common.actions.gameAction.turnActions.standard.BuildRoad;
 import soc.common.board.routing.GraphSide;
 import soc.common.game.gamePhase.InitialPlacementGamePhase;
 import soc.common.game.player.GamePlayer;
+import soc.gwtClient.game.behaviour.GameBehaviourCallback;
 import soc.gwtClient.visuals.abstractVisuals.GameBoardVisual;
 import soc.gwtClient.visuals.abstractVisuals.PieceVisual;
 import soc.gwtClient.visuals.abstractVisuals.SideVisual;
@@ -15,6 +16,7 @@ public class BuildRoadBehaviour extends BuildSideBehaviour
 {
     BuildRoad buildRoad;
     Set<GraphSide> sides;
+    GameBehaviourCallback callback;
 
     /*
      * (non-Javadoc)
@@ -74,9 +76,11 @@ public class BuildRoadBehaviour extends BuildSideBehaviour
         return buildRoad;
     }
 
-    public BuildRoadBehaviour(BuildRoad buildRoad)
+    public BuildRoadBehaviour(BuildRoad buildRoad,
+            GameBehaviourCallback callback)
     {
         this.buildRoad = buildRoad;
+        this.callback = callback;
     }
 
     /*
@@ -94,7 +98,7 @@ public class BuildRoadBehaviour extends BuildSideBehaviour
         {
             SideVisual sideVisual = (SideVisual) pieceVisual;
             buildRoad.setSideLocation(sideVisual.getHexSide());
-            board.onBehaviourDone();
+            callback.done();
         }
     }
 

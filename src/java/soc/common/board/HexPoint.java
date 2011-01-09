@@ -341,10 +341,8 @@ public class HexPoint
 
     public String toString()
     {
-        // TODO: fix using external library
-        return "omg";
-        // return String.format("hex1: %s, hex2: %s, hex3: %s",
-        // hex1.toString(), hex2.toString(), hex3.toString());
+        return "hex1: " + hex1.toString() + "hex2: " + hex2.toString()
+                + "hex3: " + hex3.toString();
     }
 
     /*

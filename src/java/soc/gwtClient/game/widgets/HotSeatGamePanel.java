@@ -4,40 +4,23 @@ import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.HostStartsGame;
 import soc.common.actions.gameAction.turnActions.EndTurn;
 import soc.common.actions.gameAction.turnActions.TurnAction;
-import soc.common.game.Game;
 import soc.common.game.GamePhaseChangedEvent;
 import soc.common.game.GamePhaseChangedEventHandler;
 import soc.common.game.TurnChangedEvent;
 import soc.common.game.TurnChangedEventHandler;
+import soc.common.game.gamePhase.DetermineFirstPlayerGamePhase;
 import soc.common.game.gamePhase.InitialPlacementGamePhase;
 import soc.common.game.gamePhase.PlayTurnsGamePhase;
-import soc.common.game.player.GamePlayer;
 import soc.common.game.player.GamePlayerImpl;
 import soc.common.server.HotSeatServer;
 import soc.common.server.data.Player;
 import soc.gwtClient.game.CenterWidget;
-import soc.gwtClient.game.abstractWidgets.AbstractBankStockWidget;
 import soc.gwtClient.game.abstractWidgets.AbstractGamePanel;
-import soc.gwtClient.game.abstractWidgets.BankStockPanel;
-import soc.gwtClient.game.abstractWidgets.BankTradeUI;
-import soc.gwtClient.game.abstractWidgets.GameHistoryWidget;
-import soc.gwtClient.game.abstractWidgets.HandCardsWidget;
-import soc.gwtClient.game.abstractWidgets.ActionsWidget;
-import soc.gwtClient.game.abstractWidgets.GamePanel;
-import soc.gwtClient.game.abstractWidgets.PlayersWidget;
-import soc.gwtClient.game.abstractWidgets.StatusPanel;
-import soc.gwtClient.game.dialogs.TradeBankDialog;
-import soc.gwtClient.game.widgets.bitmap.HistoryBitmapWidget;
+import soc.gwtClient.game.abstractWidgets.factories.GameWidgetFactory;
+import soc.gwtClient.game.behaviour.GameBehaviour;
 import soc.gwtClient.game.widgets.bitmap.BoardLayoutPanel;
-import soc.gwtClient.game.widgets.standard.bitmap.HandCardsBitmapWidget;
-import soc.gwtClient.game.widgets.standard.bitmap.PlayersBitmapWidget;
-import soc.gwtClient.game.widgets.standard.bitmap.StatusBitmapPanel;
-import soc.gwtClient.game.widgets.standard.bitmap.actions.ActionsBitmapWidget;
-import soc.gwtClient.visuals.abstractVisuals.GameBoardVisual;
 import soc.gwtClient.visuals.behaviour.BehaviourDoneEvent;
 import soc.gwtClient.visuals.behaviour.BehaviourDoneEventHandler;
-import soc.gwtClient.visuals.behaviour.game.GameBehaviour;
-import soc.gwtClient.visuals.svg.GameBoardSvg;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
@@ -107,54 +90,6 @@ public class HotSeatGamePanel extends AbstractGamePanel implements
     }
 
     @Override
-    public ActionsWidget createActionsWidget()
-    {
-        return new ActionsBitmapWidget(this, game.getPlayers().get(0));
-    }
-
-    @Override
-    public PlayersWidget createPlayersWidget()
-    {
-        return new PlayersBitmapWidget(game);
-    }
-
-    @Override
-    public BankStockPanel createBankStockPanel()
-    {
-        return new AbstractBankStockWidget(game);
-    }
-
-    @Override
-    public GameBoardVisual createGameBoard(int width, int height, Game game)
-    {
-        return new GameBoardSvg(game, width, height);
-    }
-
-    @Override
-    public HandCardsWidget createHandCardsWidget(GamePlayer player)
-    {
-        return new HandCardsBitmapWidget(player);
-    }
-
-    @Override
-    public StatusPanel createStatusDicePanel(GamePanel gamePanel)
-    {
-        return new StatusBitmapPanel(gamePanel);
-    }
-
-    @Override
-    public GameHistoryWidget createHistoryWidget(GamePanel gamePanel)
-    {
-        return new HistoryBitmapWidget(gamePanel);
-    }
-
-    @Override
-    public BankTradeUI createBankTradeUI(GamePanel gamePanel)
-    {
-        return new TradeBankDialog(gamePanel);
-    }
-
-    @Override
     public void receive(GameAction gameAction)
     {
         // Only initialize the rest of the ui when host started the game
@@ -175,9 +110,17 @@ public class HotSeatGamePanel extends AbstractGamePanel implements
 
         super.receive(gameAction);
 
+        if (game.getCurrentPhase() instanceof DetermineFirstPlayerGamePhase)
+        {
+            updateBehaviour();
+        }
         if (game.getCurrentPhase() instanceof InitialPlacementGamePhase)
         {
             updateBehaviour();
+        }
+        if (game.getCurrentPhase() instanceof PlayTurnsGamePhase)
+        {
+            receivedActionBehaviour(gameAction);
         }
     }
 
@@ -196,16 +139,29 @@ public class HotSeatGamePanel extends AbstractGamePanel implements
         }
     }
 
+    private void receivedActionBehaviour(GameAction action)
+    {
+        if (action instanceof TurnAction)
+        {
+            GameBehaviour newBehaviour = gameBehaviourFactory
+                    .createBehaviour((TurnAction) action);
+            if (newBehaviour != null)
+            {
+                setNewGameBehaviour(newBehaviour);
+            }
+        }
+    }
+
     private void updateBehaviour()
     {
         GameAction next = game.getActionsQueue().peekAction();
         if (next != null && next instanceof TurnAction)
         {
-            GameBehaviour newBehaviour = gameBehaviourFactory.createBehaviour(
-                    (TurnAction) next, game);
+            GameBehaviour newBehaviour = gameBehaviourFactory
+                    .createBehaviour((TurnAction) next);
             if (newBehaviour != null)
             {
-                gameBoardVisual.setBehaviour(newBehaviour);
+                setNewGameBehaviour(newBehaviour);
             }
         }
     }
@@ -216,5 +172,18 @@ public class HotSeatGamePanel extends AbstractGamePanel implements
         GameAction action = gameBoardVisual.getBehaviour().getGameAction();
         action.setPlayer(player);
         server.sendAction(action);
+    }
+
+    @Override
+    public void doneBehaviour(GameBehaviour behaviour)
+    {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public GameWidgetFactory createGameWidgetFactory()
+    {
+        return new GameBitmapWidgetFactory(this);
     }
 }

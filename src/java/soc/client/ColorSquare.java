@@ -142,9 +142,10 @@ public class ColorSquare extends Canvas implements MouseListener
     protected boolean isWarnLow;
     /** At high-level warning. */
     protected boolean isWarnHigh;
-    protected int warnLowBound; // TODO rename any warn-thing from "bound" incl
+    protected int warnLowBound; // TO-DO rename any warn-thing from "bound" incl
     // comments
-    protected int warnHighBound; // TODO rename any warn-thing from "bound" incl
+    protected int warnHighBound; // TO-DO rename any warn-thing from "bound"
+                                 // incl
     // comments
 
     /** Size per instance, for ColorSquareLarger */
@@ -348,7 +349,7 @@ public class ColorSquare extends Canvas implements MouseListener
      * Overrides standard to allow special warning behavior for {@link #GREY}.
      * Only grey squares change background color when a warning-level threshold
      * is reached ({@link #setHighWarningLevel(int)} or
-     * {@link #setLowWarningLevel(int)}). TODO DOCU - what do other squares do?
+     * {@link #setLowWarningLevel(int)}). TO-DO DOCU - what do other squares do?
      * 
      * @param c
      *            New background color

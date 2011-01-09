@@ -217,7 +217,7 @@ public class HexSide
     /*
      * Returns true when given location is contained by this HexSide
      */
-    public boolean HasLocation(HexLocation check)
+    public boolean hasLocation(HexLocation check)
     {
         return hex1.equals(check) || hex2.equals(check);
     }

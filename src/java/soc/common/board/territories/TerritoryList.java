@@ -6,6 +6,7 @@ import java.util.List;
 
 import soc.common.annotations.SeaFarers;
 
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
 
 /*
@@ -87,5 +88,11 @@ public class TerritoryList implements Iterable<TerritoryImpl>
     public Territory get(int index)
     {
         return territories.get(index);
+    }
+
+    public HandlerRegistration addTerritoriesChangedEventHandler(
+            TerritoriesChangedEventHandler handler)
+    {
+        return eventBus.addHandler(TerritoriesChangedEvent.TYPE, handler);
     }
 }

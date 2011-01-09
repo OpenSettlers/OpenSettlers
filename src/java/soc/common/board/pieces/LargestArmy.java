@@ -6,6 +6,7 @@ public class LargestArmy extends AbstractPlayerPiece implements
         VictoryPointItem
 {
     private static final long serialVersionUID = 8037446795922927966L;
+    public static LargestArmy LARGESTARMY = new LargestArmy();
 
     private int amountSoldiers;
 

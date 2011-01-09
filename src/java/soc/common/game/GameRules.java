@@ -87,7 +87,7 @@ public interface GameRules
 
     public List<Piece> getPlayablePieces();
 
-    public LargestArmy getLArgestArmy();
+    public LargestArmy getLargestArmy();
 
     public GameRules setLargestArmy(LargestArmy largestArmy);
 

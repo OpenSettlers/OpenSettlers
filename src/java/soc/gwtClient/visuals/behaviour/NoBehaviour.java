@@ -7,7 +7,7 @@ import soc.gwtClient.visuals.abstractVisuals.PieceVisual;
  * Represents a null behaviour, where a board does not have any 
  * behaviour attached
  */
-public class NoBehaviour implements InteractionBehaviour
+public class NoBehaviour implements BoardBehaviour
 {
     @Override
     public void clicked(PieceVisual pieceVisual, BoardVisual board)

@@ -7,12 +7,12 @@ import soc.common.board.hexes.Hex;
 import soc.gwtClient.editor.BehaviourChanged;
 import soc.gwtClient.editor.BehaviourChangedHandler;
 import soc.gwtClient.visuals.behaviour.DefaultBehaviour;
-import soc.gwtClient.visuals.behaviour.InteractionBehaviour;
+import soc.gwtClient.visuals.behaviour.BoardBehaviour;
 
 public abstract class AbstractBoardVisual extends AbstractPieceVisual implements
         BoardVisual, BehaviourChangedHandler
 {
-    protected InteractionBehaviour editBehaviour = new DefaultBehaviour();
+    protected BoardBehaviour editBehaviour = new DefaultBehaviour();
     protected Board board;
     protected HashMap<Hex, HexVisual> hexVisuals = new HashMap<Hex, HexVisual>();
 
@@ -42,13 +42,13 @@ public abstract class AbstractBoardVisual extends AbstractPieceVisual implements
     }
 
     @Override
-    public InteractionBehaviour getBoardBehaviour()
+    public BoardBehaviour getBoardBehaviour()
     {
         return editBehaviour;
     }
 
     @Override
-    public BoardVisual setBoardBehaviour(InteractionBehaviour behaviour)
+    public BoardVisual setBoardBehaviour(BoardBehaviour behaviour)
     {
         editBehaviour = behaviour;
 

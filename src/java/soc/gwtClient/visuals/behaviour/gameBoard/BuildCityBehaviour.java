@@ -1,4 +1,4 @@
-package soc.gwtClient.visuals.behaviour.game;
+package soc.gwtClient.visuals.behaviour.gameBoard;
 
 import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.turnActions.standard.BuildCity;

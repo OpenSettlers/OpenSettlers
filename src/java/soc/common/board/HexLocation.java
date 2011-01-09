@@ -135,10 +135,7 @@ public class HexLocation
 
     public String toString()
     {
-        // TODO: fix using external library
-        return "oh noes";
-        // return String.format("w: %s, h: %s",
-        // Integer.toString(w), Integer.toString(h));
+        return "w: " + w + "h: " + h;
     }
 
     public boolean fallsInsideBoardBounds(int width, int height)

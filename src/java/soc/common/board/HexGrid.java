@@ -109,10 +109,7 @@ public class HexGrid extends ArrayList<Hex>
     }
 
     /*
-     * Returns true if given location is at the edge of the board TODO: support
-     * NoneHexes NoneHexes are not-existing in the game, therefore must be
-     * treated as out of map. Thus, the hex neighbouring the NoneHex is located
-     * at the edge. Then below function will not suit.
+     * Returns true if given location is at the edge of the board.
      */
     public boolean isAtEdge(HexLocation location)
     {

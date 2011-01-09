@@ -4,6 +4,8 @@ import soc.common.actions.gameAction.turnActions.AbstractTurnAction;
 import soc.common.actions.gameAction.turnActions.EndTurn;
 import soc.common.game.GamePhaseChangedEvent;
 import soc.common.game.GamePhaseChangedEventHandler;
+import soc.common.game.TurnChangedEvent;
+import soc.common.game.TurnChangedEventHandler;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.AbstractActionWidget;
 import soc.gwtClient.game.abstractWidgets.GamePanel;
@@ -16,20 +18,20 @@ import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.Widget;
 
 public class EndTurnBitmapWidget extends AbstractActionWidget implements
-        GamePhaseChangedEventHandler
+        GamePhaseChangedEventHandler, TurnChangedEventHandler
 {
     public PushButton btnEndTurn = new PushButton(new Image(Resources.icons()
             .endTurn()));
     private EndTurn endTurn = new EndTurn();
 
-    public EndTurnBitmapWidget(final GamePanel gamePanel, final GamePlayer player)
+    public EndTurnBitmapWidget(final GamePanel gamePanel,
+            final GamePlayer player)
     {
         super(gamePanel, player);
 
         endTurn.setPlayer(player);
 
-        // TODO: switch to game.getTurn
-        // gamePanel.getGame().addPlayerOnTurnChangedEventHandler(this);
+        gamePanel.getGame().addTurnchangedeventHandler(this);
         gamePanel.getGame().addGamePhaseChangedEventHandler(this);
 
         btnEndTurn.addClickHandler(new ClickHandler()
@@ -78,5 +80,11 @@ public class EndTurnBitmapWidget extends AbstractActionWidget implements
         }
 
         setEnabled(false);
+    }
+
+    @Override
+    public void onTurnChanged(TurnChangedEvent event)
+    {
+        checkEnabled();
     }
 }

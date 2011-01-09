@@ -4,7 +4,6 @@ import soc.common.board.pieces.PlayerPieceList;
 import soc.common.board.ports.PortList;
 import soc.common.board.resources.ResourceList;
 import soc.common.game.RoadTokensChangedEventHandler;
-import soc.common.game.TurnChangedEventHandler;
 import soc.common.game.VictoryPointsList;
 import soc.common.game.developmentCards.DevelopmentCard;
 import soc.common.game.developmentCards.DevelopmentCardList;
@@ -108,8 +107,6 @@ public interface GamePlayer
     public GamePlayer setColor(String color);
 
     public String getColor();
-
-    public void addOnTurnChangedEventHandler(TurnChangedEventHandler handler);
 
     public void addRoadTokenChangedEventHandler(
             RoadTokensChangedEventHandler handler);

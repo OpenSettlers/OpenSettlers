@@ -38,45 +38,59 @@
  */
 package org.jgrapht.alg;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-import org.jgrapht.*;
-import org.jgrapht.event.*;
-import org.jgrapht.util.*;
-
+import org.jgrapht.Graph;
+import org.jgrapht.Graphs;
+import org.jgrapht.event.GraphEdgeChangeEvent;
+import org.jgrapht.event.GraphListener;
+import org.jgrapht.event.GraphVertexChangeEvent;
+import org.jgrapht.event.VertexSetListener;
+import org.jgrapht.util.ModifiableInteger;
 
 /**
  * Maintains a cache of each vertex's neighbors. While lists of neighbors can be
  * obtained from {@link Graphs}, they are re-calculated at each invocation by
  * walking a vertex's incident edges, Which becomes inordinately expensive when
  * performed often.
- *
- * <p>Edge direction is ignored when evaluating neighbors; to take edge
- * direction into account when indexing neighbors, use {@link
- * DirectedNeighborIndex}.
- *
- * <p>A vertex's neighbors are cached the first time they are asked for (i.e.
- * the index is built on demand). The index will only be updated automatically
- * if it is added to the associated graph as a listener. If it is added as a
- * listener to a graph other than the one it indexes, results are undefined.</p>
- *
+ * 
+ * <p>
+ * Edge direction is ignored when evaluating neighbors; to take edge direction
+ * into account when indexing neighbors, use {@link DirectedNeighborIndex}.
+ * 
+ * <p>
+ * A vertex's neighbors are cached the first time they are asked for (i.e. the
+ * index is built on demand). The index will only be updated automatically if it
+ * is added to the associated graph as a listener. If it is added as a listener
+ * to a graph other than the one it indexes, results are undefined.
+ * </p>
+ * 
  * @author Charles Fry
  * @since Dec 13, 2005
  */
-public class NeighborIndex<V, E>
-    implements GraphListener<V, E>
+public class NeighborIndex<V, E> implements GraphListener<V, E>
 {
-    //~ Instance fields --------------------------------------------------------
+    // ~ Instance fields
+    // --------------------------------------------------------
 
     Map<V, Neighbors<V, E>> neighborMap = new HashMap<V, Neighbors<V, E>>();
     private Graph<V, E> graph;
 
-    //~ Constructors -----------------------------------------------------------
+    // ~ Constructors
+    // -----------------------------------------------------------
 
     /**
      * Creates a neighbor index for the specified undirected graph.
-     *
-     * @param g the graph for which a neighbor index is to be created.
+     * 
+     * @param g
+     *            the graph for which a neighbor index is to be created.
      */
     public NeighborIndex(Graph<V, E> g)
     {
@@ -84,15 +98,17 @@ public class NeighborIndex<V, E>
         graph = g;
     }
 
-    //~ Methods ----------------------------------------------------------------
+    // ~ Methods
+    // ----------------------------------------------------------------
 
     /**
      * Returns the set of vertices which are adjacent to a specified vertex. The
      * returned set is backed by the index, and will be updated when the graph
      * changes as long as the index has been added as a listener to the graph.
-     *
-     * @param v the vertex whose neighbors are desired
-     *
+     * 
+     * @param v
+     *            the vertex whose neighbors are desired
+     * 
      * @return all unique neighbors of the specified vertex
      */
     public Set<V> neighborsOf(V v)
@@ -105,11 +121,12 @@ public class NeighborIndex<V, E>
      * the graph is a multigraph, vertices may appear more than once in the
      * returned list. Because a list of neighbors can not be efficiently
      * maintained, it is reconstructed on every invocation, by duplicating
-     * entries in the neighbor set. It is thus more effecient to use {@link
-     * #neighborsOf(Object)} unless dupliate neighbors are important.
-     *
-     * @param v the vertex whose neighbors are desired
-     *
+     * entries in the neighbor set. It is thus more effecient to use
+     * {@link #neighborsOf(Object)} unless dupliate neighbors are important.
+     * 
+     * @param v
+     *            the vertex whose neighbors are desired
+     * 
      * @return all neighbors of the specified vertex
      */
     public List<V> neighborListOf(V v)
@@ -131,14 +148,20 @@ public class NeighborIndex<V, E>
         // will take care of processing the edge (which has already
         // been added)
 
-        if (neighborMap.containsKey(source)) {
+        if (neighborMap.containsKey(source))
+        {
             getNeighbors(source).addNeighbor(target);
-        } else {
+        }
+        else
+        {
             getNeighbors(source);
         }
-        if (neighborMap.containsKey(target)) {
+        if (neighborMap.containsKey(target))
+        {
             getNeighbors(target).addNeighbor(source);
-        } else {
+        }
+        else
+        {
             getNeighbors(target);
         }
     }
@@ -151,10 +174,12 @@ public class NeighborIndex<V, E>
         E edge = e.getEdge();
         V source = graph.getEdgeSource(edge);
         V target = graph.getEdgeTarget(edge);
-        if (neighborMap.containsKey(source)) {
+        if (neighborMap.containsKey(source))
+        {
             neighborMap.get(source).removeNeighbor(target);
         }
-        if (neighborMap.containsKey(target)) {
+        if (neighborMap.containsKey(target))
+        {
             neighborMap.get(target).removeNeighbor(source);
         }
     }
@@ -178,15 +203,16 @@ public class NeighborIndex<V, E>
     private Neighbors<V, E> getNeighbors(V v)
     {
         Neighbors<V, E> neighbors = neighborMap.get(v);
-        if (neighbors == null) {
-            neighbors = new Neighbors<V, E>(v,
-                Graphs.neighborListOf(graph, v));
+        if (neighbors == null)
+        {
+            neighbors = new Neighbors<V, E>(v, Graphs.neighborListOf(graph, v));
             neighborMap.put(v, neighbors);
         }
         return neighbors;
     }
 
-    //~ Inner Classes ----------------------------------------------------------
+    // ~ Inner Classes
+    // ----------------------------------------------------------
 
     /**
      * Stores cached neighbors for a single vertex. Includes support for live
@@ -194,19 +220,18 @@ public class NeighborIndex<V, E>
      */
     static class Neighbors<V, E>
     {
-        private Map<V, ModifiableInteger> neighborCounts =
-            new LinkedHashMap<V, ModifiableInteger>();
+        private Map<V, ModifiableInteger> neighborCounts = new LinkedHashMap<V, ModifiableInteger>();
 
-        // TODO could eventually make neighborSet modifiable, resulting
+        // TO-DO could eventually make neighborSet modifiable, resulting
         // in edge removals from the graph
-        private Set<V> neighborSet =
-            Collections.unmodifiableSet(
-                neighborCounts.keySet());
+        private Set<V> neighborSet = Collections.unmodifiableSet(neighborCounts
+                .keySet());
 
         public Neighbors(V v, Collection<V> neighbors)
         {
             // add all current neighbors
-            for (V neighbor : neighbors) {
+            for (V neighbor : neighbors)
+            {
                 addNeighbor(neighbor);
             }
         }
@@ -214,10 +239,13 @@ public class NeighborIndex<V, E>
         public void addNeighbor(V v)
         {
             ModifiableInteger count = neighborCounts.get(v);
-            if (count == null) {
+            if (count == null)
+            {
                 count = new ModifiableInteger(1);
                 neighborCounts.put(v, count);
-            } else {
+            }
+            else
+            {
                 count.increment();
             }
         }
@@ -225,13 +253,15 @@ public class NeighborIndex<V, E>
         public void removeNeighbor(V v)
         {
             ModifiableInteger count = neighborCounts.get(v);
-            if (count == null) {
+            if (count == null)
+            {
                 throw new IllegalArgumentException(
-                    "Attempting to remove a neighbor that wasn't present");
+                        "Attempting to remove a neighbor that wasn't present");
             }
 
             count.decrement();
-            if (count.getValue() == 0) {
+            if (count.getValue() == 0)
+            {
                 neighborCounts.remove(v);
             }
         }
@@ -244,13 +274,13 @@ public class NeighborIndex<V, E>
         public List<V> getNeighborList()
         {
             List<V> neighbors = new ArrayList<V>();
-            for (
-                Map.Entry<V, ModifiableInteger> entry
-                : neighborCounts.entrySet())
+            for (Map.Entry<V, ModifiableInteger> entry : neighborCounts
+                    .entrySet())
             {
                 V v = entry.getKey();
                 int count = entry.getValue().intValue();
-                for (int i = 0; i < count; i++) {
+                for (int i = 0; i < count; i++)
+                {
                     neighbors.add(v);
                 }
             }

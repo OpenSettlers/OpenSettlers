@@ -4,9 +4,9 @@ import soc.common.board.territories.Territory;
 import soc.gwtClient.visuals.abstractVisuals.BoardVisual;
 import soc.gwtClient.visuals.abstractVisuals.HexVisual;
 import soc.gwtClient.visuals.abstractVisuals.PieceVisual;
-import soc.gwtClient.visuals.behaviour.InteractionBehaviour;
+import soc.gwtClient.visuals.behaviour.BoardBehaviour;
 
-public class SetTerritoryBehaviour implements InteractionBehaviour
+public class SetTerritoryBehaviour implements BoardBehaviour
 {
     private Territory territory;
 

@@ -1,16 +1,16 @@
 package soc.gwtClient.visuals.behaviour;
 
-import soc.gwtClient.visuals.behaviour.game.GameBehaviour;
+import soc.gwtClient.visuals.behaviour.gameBoard.GameBoardBehaviour;
 
 import com.google.gwt.event.shared.GwtEvent;
 
 public class BehaviourDoneEvent extends GwtEvent<BehaviourDoneEventHandler>
 {
     public static Type<BehaviourDoneEventHandler> TYPE = new Type<BehaviourDoneEventHandler>();
-    private GameBehaviour gameBehaviour;
+    private GameBoardBehaviour gameBehaviour;
     private boolean success = true;
 
-    public BehaviourDoneEvent(GameBehaviour gameBehaviour, boolean success)
+    public BehaviourDoneEvent(GameBoardBehaviour gameBehaviour, boolean success)
     {
         super();
         this.gameBehaviour = gameBehaviour;
@@ -20,7 +20,7 @@ public class BehaviourDoneEvent extends GwtEvent<BehaviourDoneEventHandler>
     /**
      * @return the gameBehaviour
      */
-    public GameBehaviour getGameBehaviour()
+    public GameBoardBehaviour getGameBehaviour()
     {
         return gameBehaviour;
     }

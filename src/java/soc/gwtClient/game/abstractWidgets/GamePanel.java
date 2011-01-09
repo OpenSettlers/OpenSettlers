@@ -4,6 +4,10 @@ import soc.common.actions.gameAction.GameAction;
 import soc.common.board.pieces.PlayerPiece;
 import soc.common.game.Game;
 import soc.common.game.player.GamePlayer;
+import soc.gwtClient.game.abstractWidgets.factories.GameWidgetFactory;
+import soc.gwtClient.game.behaviour.GameBehaviour;
+import soc.gwtClient.game.widgets.abstractWidgets.ResourcesGainedWidget;
+import soc.gwtClient.game.widgets.abstractWidgets.StealCardWidget;
 import soc.gwtClient.visuals.abstractVisuals.GameBoardVisual;
 
 public interface GamePanel
@@ -17,21 +21,7 @@ public interface GamePanel
     // Called by ActionWidgets to notify a BankTrade is needed
     public void requestBankTrade(PlayerPiece piece, GamePlayer player);
 
-    public ActionsWidget createActionsWidget();
-
-    public PlayersWidget createPlayersWidget();
-
-    public BankStockPanel createBankStockPanel();
-
-    public GameBoardVisual createGameBoard(int width, int height, Game game);
-
-    public HandCardsWidget createHandCardsWidget(GamePlayer player);
-
-    public StatusPanel createStatusDicePanel(GamePanel gamePanel);
-
-    public GameHistoryWidget createHistoryWidget(GamePanel gamePanel);
-
-    public BankTradeUI createBankTradeUI(GamePanel gamePanel);
+    public StealCardWidget getStealCardWidget();
 
     // Returns the player currrently playing.
     // This may change in a hotseat game
@@ -41,9 +31,19 @@ public interface GamePanel
 
     public PlayersWidget getPlayersWidget();
 
+    public ResourcesGainedWidget getResourcesGainedWidget();
+
     public void showTradeBankPanel();
 
     public void hideTradePlayersPanel();
 
     public void hideTradeBankPanel();
+
+    public GameBoardVisual getGameBoardVisual();
+
+    public void doneBehaviour(GameBehaviour behaviour);
+
+    public GameWidgetFactory createGameWidgetFactory();
+
+    public void sendAction(GameAction gameAction);
 }

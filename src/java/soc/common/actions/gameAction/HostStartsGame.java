@@ -24,8 +24,9 @@ public class HostStartsGame extends AbstractGameAction
     {
         game.initialize();
         game.getActionsQueue().enqueue(
-                new QueuedAction().setAction(new GamePhaseHasEnded()
-                        .setSender(0)));
+                new QueuedAction()
+                        .setAction((GameAction) new GamePhaseHasEnded()
+                                .setSender(0)));
 
         super.perform(game);
     }
