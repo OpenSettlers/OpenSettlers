@@ -36,13 +36,13 @@ public class SvgVisualFactory extends AbstractVisualFactory
 
     public PirateVisual createPirateVisual(Pirate pirate)
     {
-        return new PirateSvg(pirate);
+        return new PirateSvg(pirate, parent);
     }
 
     @Override
     public RobberVisual createRobberVisual(Robber robber)
     {
-        return new RobberSvg(robber);
+        return new RobberSvg(robber, parent);
     }
 
     @Override
@@ -66,8 +66,8 @@ public class SvgVisualFactory extends AbstractVisualFactory
     @Override
     public PointVisual createPointVisual(GraphPoint point)
     {
-        return new PointSvg(parent, point.getPoint(), parent
-                .getBoardSvg().CalculatePosition(point.getPoint()));
+        return new PointSvg(parent, point.getPoint(), parent.getBoardSvg()
+                .CalculatePosition(point.getPoint()));
     }
 
     @Override

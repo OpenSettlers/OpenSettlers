@@ -73,7 +73,7 @@ public class ChitList extends ArrayList<Chit>
      */
     public Chit grabRandom(Random random)
     {
-        int randomIndex = random.nextInt(size());
+        int randomIndex = random.nextInt(size(), false);
         // randomIndex--;
         int s = size();
         s++;

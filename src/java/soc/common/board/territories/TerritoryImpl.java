@@ -194,14 +194,14 @@ public class TerritoryImpl implements Territory
     {
         if (ports.size() > 0)
         {
-            Port p = ports.get(random.nextInt(ports.size()));
+            Port p = ports.get(random.nextInt(ports.size(), false));
             ports.remove(p);
             return p;
         }
         else
         {
-            return supportedPorts.get(random.nextInt(supportedPorts.size()))
-                    .copy();
+            return supportedPorts.get(
+                    random.nextInt(supportedPorts.size(), false)).copy();
         }
     }
 }

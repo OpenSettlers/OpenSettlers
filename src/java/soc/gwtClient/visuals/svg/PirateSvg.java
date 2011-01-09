@@ -9,10 +9,12 @@ import soc.gwtClient.visuals.abstractVisuals.AbstractPirateVisual;
 public class PirateSvg extends AbstractPirateVisual implements SvgVisual
 {
     Group group = new Group();
+    GameBoardSvg parent;
 
-    public PirateSvg(Pirate pirate)
+    public PirateSvg(Pirate pirate, GameBoardSvg parent)
     {
         super(pirate);
+        this.parent = parent;
 
     }
 

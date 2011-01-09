@@ -14,7 +14,7 @@ public class BeforeDiceRollTurnPhase extends TurnPhase
     @Override
     public TurnPhase next()
     {
-        return super.next();
+        return new RollDiceTurnPhase();
     }
 
     /*

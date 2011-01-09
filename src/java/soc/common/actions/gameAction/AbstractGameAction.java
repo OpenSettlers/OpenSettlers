@@ -22,6 +22,7 @@ public abstract class AbstractGameAction extends AbstractAction implements
     protected transient String invalidMessage;
     protected transient String toDoMessage;
     protected Turn turnExecuted;
+    protected int id;
 
     /*
      * Should be omitted at hashCode calculation, since values differ at server
@@ -36,6 +37,29 @@ public abstract class AbstractGameAction extends AbstractAction implements
     public Date getDateTimeExecuted()
     {
         return dateTimeExecuted;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see soc.common.actions.gameAction.GameAction#getID()
+     */
+    @Override
+    public int getID()
+    {
+        return id;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see soc.common.actions.gameAction.GameAction#setID(int)
+     */
+    @Override
+    public GameAction setID(int ID)
+    {
+        this.id = ID;
+        return null;
     }
 
     /**

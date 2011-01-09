@@ -6,6 +6,8 @@ import java.util.List;
 import soc.common.actions.Action;
 import soc.common.actions.gameAction.GameAction;
 import soc.common.board.Board;
+import soc.common.board.hexes.DesertHex;
+import soc.common.board.hexes.Hex;
 import soc.common.board.pieces.LargestArmy;
 import soc.common.board.pieces.LongestRoad;
 import soc.common.board.pieces.Pirate;
@@ -466,7 +468,21 @@ public class Game
 
     public void initialize()
     {
+        // Set first player on turn
         currentTurn = new TurnImpl().setPlayer(players.get(0));
+
+        // Move robber to desert hex, if exists
+        Hex desertHex = null;
+        for (Hex hex : board.getHexes())
+        {
+            if (hex instanceof DesertHex)
+                desertHex = hex;
+        }
+
+        if (desertHex != null)
+        {
+            robber.setLocation(desertHex.getLocation());
+        }
     }
 
     public void switchLargestArmy(GamePlayer player)

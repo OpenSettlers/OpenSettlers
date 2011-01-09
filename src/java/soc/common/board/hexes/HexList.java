@@ -17,7 +17,7 @@ public class HexList implements Iterable<Hex>
 
     public Hex grabRandom(Random random)
     {
-        int index = random.nextInt(hexes.size() - 1);
+        int index = random.nextInt(hexes.size() - 1, false);
         Hex result = hexes.get(index);
         hexes.remove(result);
         return result;

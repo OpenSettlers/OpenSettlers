@@ -41,7 +41,8 @@ public class BuildRoadBitmapWidget extends AbstractActionWidget implements
     Image roadToken2 = new Image(Resources.icons().roadToken());
     BuildRoad buildRoad;
 
-    public BuildRoadBitmapWidget(final GamePanel gamePanel, final GamePlayer player)
+    public BuildRoadBitmapWidget(final GamePanel gamePanel,
+            final GamePlayer player)
     {
         super(gamePanel, player);
 
@@ -116,7 +117,8 @@ public class BuildRoadBitmapWidget extends AbstractActionWidget implements
             if (game.getCurrentPhase().isAllowed(buildRoad) && // current phase
                     // must be OK
                     road.canBuild(game.getBoard(), player) && // we need space
-                    road.canPay(player)) // we need resources
+                    road.canPay(player) && // we need resources
+                    game.getBoard().getGraph().getRoadCandidates(player).size() > 0)
             {
                 setEnabled(true);
                 if (player.getRoadBuildingTokens() > 0)

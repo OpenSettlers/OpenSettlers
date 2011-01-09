@@ -41,8 +41,8 @@ public class StandardDice implements Dice
     @Override
     public void roll(Random random)
     {
-        dice1 = random.nextInt(6);
-        dice2 = random.nextInt(6);
+        dice1 = random.nextInt(6, true);
+        dice2 = random.nextInt(6, true);
     }
 
     /**

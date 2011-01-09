@@ -51,6 +51,16 @@ public class GameBoardSvg extends AbstractGameBoardVisual
             boardSvg.getDrawingArea().add(
                     ((SvgVisual) pointVisual).getVectorObject());
         }
+        if (game.getRobber() != null)
+        {
+            robber = visualFactory.createRobberVisual(game.getRobber());
+            boardSvg.getDrawingArea().add(
+                    ((SvgVisual) robber).getVectorObject());
+        }
+        if (game.getPirate() != null)
+        {
+            pirate = visualFactory.createPirateVisual(game.getPirate());
+        }
 
     }
 

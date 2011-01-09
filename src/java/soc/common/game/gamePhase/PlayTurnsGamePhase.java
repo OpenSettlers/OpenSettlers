@@ -1,11 +1,13 @@
 package soc.common.game.gamePhase;
 
 import soc.common.actions.gameAction.GameAction;
-import soc.common.actions.gameAction.turnActions.TurnAction;
+import soc.common.actions.gameAction.TradeAction;
+import soc.common.actions.gameAction.TurnPhaseEnded;
 import soc.common.game.Game;
 import soc.common.game.Turn;
 import soc.common.game.TurnImpl;
 import soc.common.game.gamePhase.turnPhase.BeforeDiceRollTurnPhase;
+import soc.common.game.gamePhase.turnPhase.TradingTurnPhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
 import soc.common.game.player.GamePlayer;
 
@@ -43,40 +45,16 @@ public class PlayTurnsGamePhase extends AbstractGamePhase
     @Override
     public void performAction(GameAction action, Game game)
     {
-        action.perform(game);
-
-        if (action instanceof TurnAction)
+        if (turnPhase instanceof TradingTurnPhase
+                && !(action instanceof TradeAction))
         {
-            TurnAction turnAction = (TurnAction) action;
-            turnAction.setTurnPhase(turnPhase);
+            // Non-trading action detected in trading turn phase, advance phase
+            TurnPhaseEnded endedTradePhase = (TurnPhaseEnded) new TurnPhaseEnded()
+                    .setSender(0);
+            game.performAction(endedTradePhase);
         }
-        /*
-         * TODO: port to java, first implement GameAction classes
-         * 
-         * ClaimVictoryAction claimVictory = inGameAction as ClaimVictoryAction;
-         * if (claimVictory != null) { _TurnPhase.ProcessAction(inGameAction,
-         * game); return; }
-         * 
-         * PlacementDoneAction placementDone = inGameAction as
-         * PlacementDoneAction; if (placementDone != null) {
-         * _TurnPhase.ProcessAction(inGameAction, game); return; } EndTurnAction
-         * endTurn = inGameAction as EndTurnAction; if (endTurn != null) {
-         * _TurnPhase = new BeforeDiceRollTurnPhase();
-         * endTurn.PerformTurnAction(game); return; } // Process the actual in
-         * the current turnphase TurnPhase next =
-         * _TurnPhase.ProcessAction(inGameAction, game);
-         * 
-         * // If return phase does not match current phase, we have to switch
-         * phases and process the action // again if (_TurnPhase != next) {
-         * _TurnPhase = next; _TurnPhase =
-         * _TurnPhase.ProcessAction(inGameAction, game); }
-         * 
-         * // When the incoming action is not valid, check if it's valid in the
-         * next phase. // If so, switch phases if
-         * (!_TurnPhase.AllowedAction(inGameAction, game)) { if
-         * (_TurnPhase.Next().AllowedAction(inGameAction, game)) { _TurnPhase =
-         * _TurnPhase.Next(); } }
-         */
+
+        action.perform(game);
     }
 
     /*
@@ -111,12 +89,19 @@ public class PlayTurnsGamePhase extends AbstractGamePhase
         return turnPhase.getMessage();
     }
 
+    public void advanceTurnPhase()
+    {
+        turnPhase = turnPhase.next();
+    }
+
     @Override
     public Turn nextTurn(Game game)
     {
         Turn newTurn = null;
+
         if (game.getCurrentTurn().getID() == 0)
         {
+            // First turn in PlayTurnsGamePhase has always ID=1
             newTurn = new TurnImpl().setPlayer(game.getPlayers().get(0)).setID(
                     1);
         }
@@ -130,13 +115,14 @@ public class PlayTurnsGamePhase extends AbstractGamePhase
                 nextPlayerIndex = 0;
             }
 
+            // Grab the player next on turn
             GamePlayer newPlayerOnTurn = game.getPlayers().get(nextPlayerIndex);
 
-            // Create a new turn
+            // Create a new turn with increased ID numer
             newTurn = new TurnImpl().setPlayer(newPlayerOnTurn).setID(
                     game.getCurrentTurn().getID() + 1);
-
         }
+
         return newTurn;
     }
 }

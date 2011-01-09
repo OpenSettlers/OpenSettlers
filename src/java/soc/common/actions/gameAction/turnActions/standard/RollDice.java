@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import soc.common.actions.gameAction.GameAction;
+import soc.common.actions.gameAction.TurnPhaseEnded;
 import soc.common.actions.gameAction.turnActions.AbstractTurnAction;
 import soc.common.board.HexLocation;
 import soc.common.board.hexes.Hex;
@@ -139,6 +141,11 @@ public class RollDice extends AbstractTurnAction
 
     private void performPlayTurns(Game game)
     {
+        // Switch to new DiceRollGamePhase, end current BeforeDiceRoll
+        // turn phase
+        TurnPhaseEnded beforeDiceRollEnded = (TurnPhaseEnded) new TurnPhaseEnded()
+                .setSender(0);
+        game.performAction(beforeDiceRollEnded);
 
         for (GamePlayer p : game.getPlayers())
         {
@@ -177,28 +184,34 @@ public class RollDice extends AbstractTurnAction
                     for (GamePlayer player1 : game.getPlayers())
                     {
                         List<City> cities = new ArrayList<City>();
-                        for (PlayerPiece piece : player1.getBuildPieces()
+                        for (PlayerPiece city : player1.getBuildPieces()
                                 .ofType(City.CITY))
                         {
-                            cities.add((City) piece);
+                            cities.add((City) city);
                         }
 
                         List<Town> towns = new ArrayList<Town>();
-                        for (PlayerPiece piece1 : player1.getBuildPieces()
+                        for (PlayerPiece town : player1.getBuildPieces()
                                 .ofType(Town.TOWN))
                         {
-                            towns.add((Town) piece1);
+                            towns.add((Town) town);
                         }
 
                         ResourceList gainedResources = new ResourceList();
                         for (Town town : towns)
                         {
-                            gainedResources.add(hex.getResource().copy());
+                            if (town.getPoint().hasLocation(hex.getLocation()))
+                            {
+                                gainedResources.add(hex.getResource().copy());
+                            }
                         }
-                        for (City zity : cities)
+                        for (City city : cities)
                         {
-                            gainedResources.add(hex.getResource().copy());
-                            gainedResources.add(hex.getResource().copy());
+                            if (city.getPoint().hasLocation(hex.getLocation()))
+                            {
+                                gainedResources.add(hex.getResource().copy());
+                                gainedResources.add(hex.getResource().copy());
+                            }
                         }
 
                         if (gainedResources.size() > 0)
@@ -258,6 +271,11 @@ public class RollDice extends AbstractTurnAction
                 message += "No players lost any cards.";
             }
         }
+
+        // After rolling the dice and all intermediate actions such as move
+        // robber, pick gold, etc we switch to the next turn phase
+        game.getActionsQueue().enqueue(
+                (GameAction) new TurnPhaseEnded().setSender(0));
     }
 
     @Override

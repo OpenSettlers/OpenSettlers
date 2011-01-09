@@ -5,7 +5,7 @@ import soc.common.board.pieces.Robber;
 public class AbstractRobberVisual extends AbstractPieceVisual implements
         RobberVisual
 {
-    private Robber robber;
+    protected Robber robber;
 
     public AbstractRobberVisual(Robber robber)
     {

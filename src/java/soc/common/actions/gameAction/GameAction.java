@@ -52,4 +52,14 @@ public interface GameAction extends Action
     public GameAction setPlayer(GamePlayer player);
 
     public boolean isServer();
+
+    /*
+     * Returns consecutive number of the game action
+     */
+    public int getID();
+
+    /*
+     * Sets the consecutive number of the game action
+     */
+    public GameAction setID(int ID);
 }

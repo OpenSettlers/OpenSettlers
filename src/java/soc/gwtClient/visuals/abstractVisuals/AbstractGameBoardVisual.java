@@ -39,15 +39,6 @@ public abstract class AbstractGameBoardVisual extends AbstractBoardVisual
 
         boardVisual = visualFactory.createBoardVisual(board);
 
-        if (game.getRobber() != null)
-        {
-            robber = visualFactory.createRobberVisual(game.getRobber());
-        }
-        if (game.getPirate() != null)
-        {
-            pirate = visualFactory.createPirateVisual(game.getPirate());
-        }
-
         for (GamePlayer player : game.getPlayers())
         {
             player.getBuildPieces().addPiecesChangedEventHandler(this);

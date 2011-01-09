@@ -6,5 +6,5 @@ package soc.common.server.random;
  */
 public interface Random
 {
-    public int nextInt(int max);
+    public int nextInt(int max, boolean base1);
 }

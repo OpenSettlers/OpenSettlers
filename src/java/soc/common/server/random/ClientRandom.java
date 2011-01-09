@@ -6,9 +6,10 @@ package soc.common.server.random;
 public class ClientRandom implements Random
 {
     @Override
-    public int nextInt(int max)
+    public int nextInt(int max, boolean base1)
     {
-        return com.google.gwt.user.client.Random.nextInt(max);
+        int rnd = com.google.gwt.user.client.Random.nextInt(max);
+        return base1 ? rnd + 1 : rnd;
     }
 
 }

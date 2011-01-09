@@ -90,7 +90,9 @@ public class BuildTownBitmapWidget extends AbstractActionWidget implements
             if (game.getCurrentPhase().isAllowed(buildTown) && // current phase
                     // must be OK
                     town.canBuild(game.getBoard(), player) && // we need space
-                    town.canPay(player)) // we need resources
+                    town.canPay(player) && // we need resources
+                    game.getBoard().getGraph().getTownCandidatesTurnPhase(
+                            player).size() > 0)
             {
                 setEnabled(true);
                 setTradesPanelsVisible(true);

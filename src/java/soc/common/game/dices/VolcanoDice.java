@@ -36,7 +36,7 @@ public class VolcanoDice implements Dice
     @Override
     public void roll(Random random)
     {
-        dice = random.nextInt(6);
+        dice = random.nextInt(6, true);
     }
 
     /**

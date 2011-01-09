@@ -2,10 +2,14 @@ package soc.common.board.pieces;
 
 import soc.common.board.HexLocation;
 
+import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.event.shared.SimpleEventBus;
+
 public class Robber extends AbstractPiece
 {
     private static final long serialVersionUID = 2162591486291994070L;
     private HexLocation location;
+    private SimpleEventBus eventBus = new SimpleEventBus();
 
     public Robber(HexLocation hexLocation)
     {
@@ -26,10 +30,18 @@ public class Robber extends AbstractPiece
      */
     public Robber setLocation(HexLocation location)
     {
-        this.location = location;
+        if (!this.location.equals(location))
+        {
+            HexLocation oldLocation = this.location;
+            this.location = location;
+            eventBus.fireEvent(new MovedEvent(location, oldLocation));
+        }
 
-        // Enables fluent interface usage
-        // http://en.wikipedia.org/wiki/Fluent_interface
         return this;
+    }
+
+    public HandlerRegistration addMoveEventHandler(MovedEventHandler handler)
+    {
+        return eventBus.addHandler(MovedEvent.TYPE, handler);
     }
 }
