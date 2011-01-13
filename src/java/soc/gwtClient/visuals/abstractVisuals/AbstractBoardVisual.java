@@ -6,8 +6,8 @@ import soc.common.board.Board;
 import soc.common.board.hexes.Hex;
 import soc.gwtClient.editor.BehaviourChanged;
 import soc.gwtClient.editor.BehaviourChangedHandler;
-import soc.gwtClient.visuals.behaviour.DefaultBehaviour;
 import soc.gwtClient.visuals.behaviour.BoardBehaviour;
+import soc.gwtClient.visuals.behaviour.DefaultBehaviour;
 
 public abstract class AbstractBoardVisual extends AbstractPieceVisual implements
         BoardVisual, BehaviourChangedHandler
@@ -21,6 +21,24 @@ public abstract class AbstractBoardVisual extends AbstractPieceVisual implements
     private double halfWidth;
     private double height;
     private double width;
+
+    @Override
+    public void clicked(PieceVisual pieceVisual, BoardVisual board)
+    {
+        editBehaviour.clicked(pieceVisual, board);
+    }
+
+    @Override
+    public void mouseEnter(PieceVisual pieceVisual, BoardVisual board)
+    {
+        editBehaviour.mouseEnter(pieceVisual, board);
+    }
+
+    @Override
+    public void mouseOut(PieceVisual pieceVisual, BoardVisual board)
+    {
+        editBehaviour.mouseOut(pieceVisual, board);
+    }
 
     /**
      * @return the hexVisuals

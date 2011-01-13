@@ -1,10 +1,7 @@
 package soc.gwtClient.game.widgets.standard.bitmap;
 
-import java.util.HashMap;
-
 import soc.common.game.Game;
 import soc.common.game.player.GamePlayer;
-import soc.common.game.player.OrderChangedEvent;
 import soc.gwtClient.game.Point2D;
 import soc.gwtClient.game.abstractWidgets.AbstractPlayersWidget;
 import soc.gwtClient.game.abstractWidgets.PlayerWidget;
@@ -40,20 +37,8 @@ public class PlayersBitmapWidget extends AbstractPlayersWidget
     }
 
     @Override
-    public void onOrderChanged(OrderChangedEvent event)
+    public Point2D getTopRightLocation(GamePlayer player)
     {
-        HashMap<GamePlayer, PlayerWidget> playersWidgets = new HashMap<GamePlayer, PlayerWidget>();
-        for (int i = 0; i < rootPanel.getWidgetCount(); i++)
-        {
-            PlayerWidget widget = (PlayerWidget) rootPanel.getWidget(i);
-            playersWidgets.put(widget.getPlayer(), widget);
-        }
-
-        rootPanel.clear();
-
-        for (GamePlayer player : game.getPlayers())
-        {
-            rootPanel.add(playersWidgets.get(player));
-        }
+        return playersWidgets.get(player).getTopRightLocation();
     }
 }

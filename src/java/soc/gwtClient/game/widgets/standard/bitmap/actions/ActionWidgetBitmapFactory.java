@@ -23,11 +23,20 @@ import soc.gwtClient.game.widgets.standard.bitmap.DiceWidgetBitmapFactory;
  */
 public class ActionWidgetBitmapFactory implements ActionWidgetFactory
 {
-    private DiceWidgetFactory diceWidgetFactory = new DiceWidgetBitmapFactory();
+    private GamePlayer player;
+    private DiceWidgetFactory diceWidgetFactory;
+
+    public ActionWidgetBitmapFactory(GamePlayer player)
+    {
+        super();
+        this.player = player;
+
+        diceWidgetFactory = new DiceWidgetBitmapFactory(player);
+    }
 
     @Override
-    public ActionWidget createActionWidget(TurnAction action, GamePlayer player,
-            GamePanel gamePanel)
+    public ActionWidget createActionWidget(TurnAction action,
+            GamePlayer player, GamePanel gamePanel)
     {
         if (action instanceof BuildRoad)
         {

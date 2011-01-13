@@ -23,6 +23,8 @@ public class VictoryPointsBitmapWidget extends AbstractVictoryPointsWidget
 
         rootPanel.add(victoryPointsImage);
         rootPanel.add(lblVictoryPointsAmount);
+
+        player.getVictoryPoints().addVictoryPointsChangedListener(this);
     }
 
     @Override

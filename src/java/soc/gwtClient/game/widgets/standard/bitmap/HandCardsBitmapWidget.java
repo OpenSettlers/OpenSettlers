@@ -4,10 +4,10 @@ import soc.common.board.resources.Resource;
 import soc.common.board.resources.ResourcesChangedEvent;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.AbstractHandCardsWidget;
+import soc.gwtClient.game.widgets.abstractWidgets.ResourceWidget;
 
 import com.google.gwt.user.client.ui.ComplexPanel;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class HandCardsBitmapWidget extends AbstractHandCardsWidget
@@ -18,8 +18,19 @@ public class HandCardsBitmapWidget extends AbstractHandCardsWidget
 
         for (Resource resource : player.getResources())
         {
-            rootPanel.add(new ResourceBitmapWidget(resource));
+            addWidget(resource);
         }
+
+        rootPanel.setWidth("5em");
+
+        player.getResources().addResourcesChangedEventHandler(this);
+    }
+
+    private void addWidget(Resource resource)
+    {
+        ResourceWidget widget = new ResourceBitmapWidget(resource);
+        rootPanel.add(widget);
+        resourcesWidgets.put(resource, widget);
     }
 
     @Override
@@ -31,9 +42,7 @@ public class HandCardsBitmapWidget extends AbstractHandCardsWidget
     @Override
     protected ComplexPanel createRootPanel()
     {
-        HorizontalPanel result = new HorizontalPanel();
-        // TODO: set alignment
-        return new FlowPanel();
+        return new VerticalPanel();
     }
 
     @Override
@@ -43,12 +52,24 @@ public class HandCardsBitmapWidget extends AbstractHandCardsWidget
         {
             for (Resource resource : resourcesChanged.getAddedResources())
             {
-                rootPanel.add(new ResourceBitmapWidget(resource));
+                addWidget(resource);
             }
         }
         if (resourcesChanged.getRemovedResources() != null)
         {
-            // TODO: Remove widgets
+            for (Resource resource : resourcesChanged.getRemovedResources())
+            {
+                for (int i = 0; i < rootPanel.getWidgetCount(); i++)
+                {
+                    ResourceWidget widget = (ResourceWidget) rootPanel
+                            .getWidget(i);
+                    if (widget.getResource().equals(resource))
+                    {
+                        rootPanel.remove(widget);
+                        break;
+                    }
+                }
+            }
         }
     }
 

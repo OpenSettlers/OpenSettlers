@@ -3,6 +3,7 @@ package soc.common.board.pieces;
 import soc.common.annotations.CitiesKnights;
 import soc.common.annotations.Pioneers;
 import soc.common.board.HexPoint;
+import soc.common.game.player.GamePlayer;
 
 @CitiesKnights
 @Pioneers
@@ -28,6 +29,19 @@ public class Wall extends AbstractPlayerPiece implements PointPiece
     public boolean isStockPiece()
     {
         return true;
+    }
+
+    @Override
+    public void addToPlayer(GamePlayer player)
+    {
+        player.getBuildPieces().add(this);
+    }
+
+    @Override
+    public void removeFromPlayer(GamePlayer player)
+    {
+        // TODO Auto-generated method stub
+
     }
 
 }

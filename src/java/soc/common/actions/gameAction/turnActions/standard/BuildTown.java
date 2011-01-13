@@ -6,12 +6,12 @@ import java.util.List;
 import soc.common.actions.gameAction.turnActions.AbstractTurnAction;
 import soc.common.board.HexLocation;
 import soc.common.board.HexPoint;
-import soc.common.board.HexSide;
 import soc.common.board.hexes.Hex;
 import soc.common.board.hexes.ResourceHex;
 import soc.common.board.hexes.SeaHex;
 import soc.common.board.pieces.Town;
 import soc.common.board.ports.Port;
+import soc.common.board.resources.ResourceList;
 import soc.common.game.Game;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.InitialPlacementGamePhase;
@@ -71,23 +71,23 @@ public class BuildTown extends AbstractTurnAction
         }
 
         // player should have a ship or road at some neighbour
-        if (!(game.getCurrentPhase() instanceof InitialPlacementGamePhase))
-        {
-            boolean contains = true;
-            for (HexSide neighbour : pointLocation.getNeighbourSides())
-            {
-                if (player.getBuildPieces().getSidePieces().contains(neighbour))
-                {
-                    contains = false;
-                    break;
-                }
-            }
-            if (!contains)
-            {
-                invalidMessage = "No neighbouring ship or road found";
-                return false;
-            }
-        }
+        // if (!(game.getCurrentPhase() instanceof InitialPlacementGamePhase))
+        // {
+        // boolean contains = true;
+        // for (HexSide neighbour : pointLocation.getNeighbourSides())
+        // {
+        // if (player.getBuildPieces().getSidePieces().contains(neighbour))
+        // {
+        // contains = false;
+        // break;
+        // }
+        // }
+        // if (!contains)
+        // {
+        // invalidMessage = "No neighbouring ship or road found";
+        // return false;
+        // }
+        // }
 
         // check if location is suitable (hexpoint neighbours can't be
         // already built on)
@@ -110,18 +110,14 @@ public class BuildTown extends AbstractTurnAction
     {
         // update town management
         Town town = (Town) player.getStock().ofType(Town.TOWN).get(0);
-        player.getStock().remove(town);
         town.setPoint(pointLocation);
-        player.getBuildPieces().add(town);
+        town.addToPlayer(player);
         game.getBoard().getGraph().addTown(town);
 
         if (game.getCurrentPhase() instanceof PlayTurnsGamePhase)
         {
-            // remove players' resources
-            player.getResources().subtractResources(town.getCost());
-
-            // put resources back to bank
-            game.getBank().add(town.getCost());
+            // remove players' resources and put them in the bank
+            player.getResources().moveTo(town.getCost(), game.getBank());
 
             // Check if the LR should be updated
             // TODO: implement LR
@@ -131,15 +127,18 @@ public class BuildTown extends AbstractTurnAction
                 && player.getBuildPieces().getPointPieces().size() == 2)
         {
             // player gets resources in neighbouring hexes
+            ResourceList resourcesFromPlacement = new ResourceList();
             for (HexLocation loc : pointLocation.getHexLocations())
             {
                 Hex hex = game.getBoard().getHexes().get(loc);
                 if (hex instanceof ResourceHex)
                 {
-                    player.getResources()
-                            .add(((ResourceHex) hex).getResource());
+                    resourcesFromPlacement.add(((ResourceHex) hex)
+                            .getResource());
                 }
             }
+            player.getResources().swapResourcesFrom(resourcesFromPlacement,
+                    game.getBank());
         }
 
         // Check if the town is built on a port, if so, add port

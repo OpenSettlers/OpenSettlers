@@ -5,6 +5,7 @@ import org.vaadin.gwtgraphics.client.VectorObject;
 
 import soc.common.board.territories.Territory;
 import soc.gwtClient.game.Point2D;
+import soc.gwtClient.images.Resources;
 import soc.gwtClient.visuals.abstractVisuals.AbstractTerritoryVisual;
 import soc.gwtClient.visuals.abstractVisuals.BoardVisual;
 
@@ -42,11 +43,11 @@ public class TerritorySvg extends AbstractTerritoryVisual implements SvgVisual
         {
             if (territory.isMainland())
             {
-                img = "images/mainland.png";
+                img = Resources.icons().mainland().getURL();
             }
             else
             {
-                img = "images/island" + territory.getID() + ".png";
+                img = Resources.island(territory.getID()).getURL();
             }
         }
         image.setHref(img);

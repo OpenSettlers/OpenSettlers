@@ -4,7 +4,7 @@ import java.util.List;
 
 import soc.common.actions.gameAction.turnActions.TurnAction;
 import soc.common.board.hexes.Hex;
-import soc.common.board.pieces.LargestArmy;
+import soc.common.board.pieces.Army;
 import soc.common.board.pieces.Piece;
 import soc.common.board.pieces.PlayerPiece;
 import soc.common.board.resources.Resource;
@@ -87,9 +87,9 @@ public interface GameRules
 
     public List<Piece> getPlayablePieces();
 
-    public LargestArmy getLargestArmy();
+    public Army getLargestArmy();
 
-    public GameRules setLargestArmy(LargestArmy largestArmy);
+    public GameRules setLargestArmy(Army largestArmy);
 
     public void setRules(Game game);
 

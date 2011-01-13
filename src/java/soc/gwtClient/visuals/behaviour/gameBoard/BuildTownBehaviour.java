@@ -1,8 +1,12 @@
 package soc.gwtClient.visuals.behaviour.gameBoard;
 
+import java.util.Set;
+
 import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.turnActions.standard.BuildTown;
 import soc.common.board.routing.GraphPoint;
+import soc.common.game.gamePhase.InitialPlacementGamePhase;
+import soc.common.game.gamePhase.PlayTurnsGamePhase;
 import soc.gwtClient.game.behaviour.GameBehaviourCallback;
 import soc.gwtClient.visuals.abstractVisuals.GameBoardVisual;
 import soc.gwtClient.visuals.abstractVisuals.PieceVisual;
@@ -12,6 +16,7 @@ public class BuildTownBehaviour extends BuildPointBehaviour
 {
     BuildTown buildTown;
     GameBehaviourCallback callback;
+    Set<GraphPoint> townCandidates;
 
     public BuildTownBehaviour(BuildTown buildTown,
             GameBehaviourCallback callback)
@@ -44,12 +49,21 @@ public class BuildTownBehaviour extends BuildPointBehaviour
     @Override
     public void start(GameBoardVisual gameVisual)
     {
-        for (GraphPoint point : gameVisual.getBoard().getGraph()
-                .getTownCandidatesFirstTown(null))
+        if (gameVisual.getGame().getCurrentPhase() instanceof InitialPlacementGamePhase)
+        {
+            townCandidates = gameVisual.getBoard().getGraph()
+                    .getTownCandidatesFirstTown(null);
+        }
+        if (gameVisual.getGame().getCurrentPhase() instanceof PlayTurnsGamePhase)
+        {
+            townCandidates = gameVisual.getBoard().getGraph()
+                    .getTownCandidatesTurnPhase(
+                            gameVisual.getGame().getCurrentTurn().getPlayer());
+        }
+        for (GraphPoint point : townCandidates)
         {
             gameVisual.getPointVisuals().get(point).setVisible(true);
         }
-
     }
 
     @Override

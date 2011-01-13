@@ -92,4 +92,9 @@ public class VictoryPointsList implements Iterable<VictoryPointItem>
     {
         return points.get(index);
     }
+
+    public boolean contains(VictoryPointItem item)
+    {
+        return points.contains(item);
+    }
 }

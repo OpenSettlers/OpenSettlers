@@ -14,7 +14,7 @@ public class ResourceList implements Iterable<Resource>
     SimpleEventBus eventBus;
 
     // Encapsulated list of resources
-    List<Resource> resources = new ArrayList<Resource>();
+    private final List<Resource> resources = new ArrayList<Resource>();
 
     private SimpleEventBus getEventBus()
     {
@@ -35,7 +35,7 @@ public class ResourceList implements Iterable<Resource>
 
     public void moveTo(ResourceList toMove, ResourceList destination)
     {
-        resources.remove(toMove);
+        remove(toMove, false);
         destination.add(toMove);
     }
 
@@ -44,6 +44,10 @@ public class ResourceList implements Iterable<Resource>
      */
     public void add(ResourceList resourcesToAdd)
     {
+        if (resourcesToAdd == this)
+        {
+            throw new AssertionError();
+        }
         for (Resource resource : resourcesToAdd)
         {
             resources.add(resource);
@@ -94,7 +98,7 @@ public class ResourceList implements Iterable<Resource>
             // First check if this list contains all resources in given list
             if (hasAtLeast(resourcesToRemove))
             {
-                remove(resourcesToRemove, checkIfPossible);
+                removeAll(resourcesToRemove);
             }
             else
             {
@@ -212,12 +216,16 @@ public class ResourceList implements Iterable<Resource>
     public ResourceList getNeededResources(ResourceList neededResources)
     {
         ResourceList result = new ResourceList();
+        ResourceList copy = this.copy();
 
         result.add(neededResources);
         for (Resource resource : neededResources)
         {
-            if (this.contains(resource))
+            if (copy.contains(resource))
+            {
                 result.remove(resource);
+                copy.remove(resource);
+            }
         }
 
         return result;
@@ -230,7 +238,7 @@ public class ResourceList implements Iterable<Resource>
     {
         for (Resource resource : resourcesToSubtract)
         {
-            if (this.contains(resource))
+            if (resources.contains(resource))
                 this.remove(resource);
         }
     }
@@ -253,7 +261,7 @@ public class ResourceList implements Iterable<Resource>
      */
     public void clear()
     {
-        removeAll(this);
+        removeAll(this.copy());
     }
 
     @Override

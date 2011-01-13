@@ -3,6 +3,7 @@ package soc.gwtClient.visuals.abstractVisuals;
 import java.util.HashMap;
 import java.util.Map;
 
+import soc.common.board.pieces.PiecesChangedEvent;
 import soc.common.board.pieces.PiecesChangedEventHandler;
 import soc.common.board.pieces.PlayerPiece;
 import soc.common.board.routing.GraphPoint;
@@ -11,6 +12,7 @@ import soc.common.game.Game;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.visuals.behaviour.BehaviourDoneEvent;
 import soc.gwtClient.visuals.behaviour.BehaviourDoneEventHandler;
+import soc.gwtClient.visuals.behaviour.ProxyBehaviour;
 import soc.gwtClient.visuals.behaviour.gameBoard.GameBoardBehaviour;
 
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -30,6 +32,76 @@ public abstract class AbstractGameBoardVisual extends AbstractBoardVisual
     protected Map<GraphSide, SideVisual> sideVisuals = new HashMap<GraphSide, SideVisual>();
     protected GameBoardBehaviour gameBehaviour;
     protected SimpleEventBus eventBus = new SimpleEventBus();
+    protected ProxyBehaviour proxyBehaviour;
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.gwtClient.visuals.abstractVisuals.GameBoardVisual#createVisualFactory
+     * ()
+     */
+    @Override
+    public VisualFactory createVisualFactory()
+    {
+        return null;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.common.board.pieces.PiecesChangedEventHandler#onPiecesChanged(soc
+     * .common.board.pieces.PiecesChangedEvent)
+     */
+    @Override
+    public void onPiecesChanged(PiecesChangedEvent list)
+    {
+        // TODO Auto-generated method stub
+
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.gwtClient.visuals.abstractVisuals.AbstractBoardVisual#clicked(soc
+     * .gwtClient.visuals.abstractVisuals.PieceVisual,
+     * soc.gwtClient.visuals.abstractVisuals.BoardVisual)
+     */
+    @Override
+    public void clicked(PieceVisual pieceVisual, BoardVisual board)
+    {
+        gameBehaviour.clicked(pieceVisual, this);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.gwtClient.visuals.abstractVisuals.AbstractBoardVisual#mouseEnter(
+     * soc.gwtClient.visuals.abstractVisuals.PieceVisual,
+     * soc.gwtClient.visuals.abstractVisuals.BoardVisual)
+     */
+    @Override
+    public void mouseEnter(PieceVisual pieceVisual, BoardVisual board)
+    {
+        gameBehaviour.mouseEnter(pieceVisual, this);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.gwtClient.visuals.abstractVisuals.AbstractBoardVisual#mouseOut(soc
+     * .gwtClient.visuals.abstractVisuals.PieceVisual,
+     * soc.gwtClient.visuals.abstractVisuals.BoardVisual)
+     */
+    @Override
+    public void mouseOut(PieceVisual pieceVisual, BoardVisual board)
+    {
+        gameBehaviour.mouseOut(pieceVisual, this);
+    }
 
     public AbstractGameBoardVisual(Game game)
     {
@@ -37,6 +109,7 @@ public abstract class AbstractGameBoardVisual extends AbstractBoardVisual
         this.board = game.getBoard();
         visualFactory = createVisualFactory();
 
+        proxyBehaviour = new ProxyBehaviour(this);
         boardVisual = visualFactory.createBoardVisual(board);
 
         for (GamePlayer player : game.getPlayers())
@@ -141,6 +214,34 @@ public abstract class AbstractGameBoardVisual extends AbstractBoardVisual
             BehaviourDoneEventHandler handler)
     {
         return eventBus.addHandler(BehaviourDoneEvent.TYPE, handler);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.gwtClient.visuals.abstractVisuals.AbstractBoardVisual#hideTerritories
+     * ()
+     */
+    @Override
+    public void hideTerritories()
+    {
+        for (HexVisual hexVisual : boardVisual.getHexVisuals().values())
+            hexVisual.getTerritory().setVisible(false);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.gwtClient.visuals.abstractVisuals.AbstractBoardVisual#showTerritories
+     * ()
+     */
+    @Override
+    public void showTerritories()
+    {
+        for (HexVisual hexVisual : boardVisual.getHexVisuals().values())
+            hexVisual.getTerritory().setVisible(true);
     }
 
     /*

@@ -80,6 +80,11 @@ public class GraphPointImpl implements GraphPoint
             return true;
         if (obj == null)
             return false;
+        if (obj instanceof HexPoint)
+        {
+            HexPoint hexPoint = (HexPoint) obj;
+            return hexPoint.equals(pointLocation);
+        }
         if (getClass() != obj.getClass())
             return false;
         GraphPointImpl other = (GraphPointImpl) obj;

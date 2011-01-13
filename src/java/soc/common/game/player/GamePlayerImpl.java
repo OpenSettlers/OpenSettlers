@@ -1,5 +1,6 @@
 package soc.common.game.player;
 
+import soc.common.board.pieces.Army;
 import soc.common.board.pieces.City;
 import soc.common.board.pieces.PlayerPieceList;
 import soc.common.board.pieces.Town;
@@ -32,7 +33,7 @@ public class GamePlayerImpl implements GamePlayer
 
     // Maximum cards the player may have in his hand
     // This is player specific, as a wall may increase this number
-    private int maximumCardsInHandWhenSeven;
+    private int maximumCardsInHandWhenSeven = 7;
 
     // Stock of the player: list of roads, ships, towns, cities, knights etc a
     // player has in stock
@@ -55,6 +56,9 @@ public class GamePlayerImpl implements GamePlayer
 
     // List of victory points
     private VictoryPointsList victoryPoints = new VictoryPointsList();
+
+    // Largest army
+    private Army army = new Army();
 
     /**
      * @param user
@@ -156,7 +160,7 @@ public class GamePlayerImpl implements GamePlayer
      */
     public void addResources(ResourceList resources)
     {
-        resources.add(resources);
+        this.resources.add(resources);
     }
 
     /*
@@ -441,5 +445,11 @@ public class GamePlayerImpl implements GamePlayer
         else if (!user.equals(other.getUser()))
             return false;
         return true;
+    }
+
+    @Override
+    public Army getArmy()
+    {
+        return army;
     }
 }

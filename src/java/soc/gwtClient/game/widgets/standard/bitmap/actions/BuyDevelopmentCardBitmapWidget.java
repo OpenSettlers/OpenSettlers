@@ -3,14 +3,21 @@ package soc.gwtClient.game.widgets.standard.bitmap.actions;
 import soc.common.actions.gameAction.turnActions.standard.BuyDevelopmentCard;
 import soc.common.board.resources.ResourcesChangedEvent;
 import soc.common.board.resources.ResourcesChangedEventHandler;
+import soc.common.game.GamePhaseChangedEvent;
+import soc.common.game.GamePhaseChangedEventHandler;
 import soc.common.game.TurnChangedEvent;
 import soc.common.game.TurnChangedEventHandler;
 import soc.common.game.developmentCards.DevelopmentCard;
+import soc.common.game.developmentCards.standard.VictoryPoint;
+import soc.common.game.gamePhase.turnPhase.TurnPhaseChangedEvent;
+import soc.common.game.gamePhase.turnPhase.TurnPhaseChangedHandler;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.AbstractActionWidget;
 import soc.gwtClient.game.abstractWidgets.GamePanel;
 import soc.gwtClient.images.Resources;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PushButton;
@@ -18,7 +25,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class BuyDevelopmentCardBitmapWidget extends AbstractActionWidget
-        implements ResourcesChangedEventHandler, TurnChangedEventHandler
+        implements ResourcesChangedEventHandler, TurnChangedEventHandler,
+        TurnPhaseChangedHandler, GamePhaseChangedEventHandler
 {
     AbsolutePanel rootPanel = new AbsolutePanel();
     VerticalPanel tradePanel = new VerticalPanel();
@@ -29,28 +37,56 @@ public class BuyDevelopmentCardBitmapWidget extends AbstractActionWidget
             .icons().buyDvelopmentCard()));
     BuyDevelopmentCard buyDevelopmentCard = new BuyDevelopmentCard();
 
-    public BuyDevelopmentCardBitmapWidget(GamePanel gamePanel, GamePlayer player)
+    public BuyDevelopmentCardBitmapWidget(final GamePanel gamePanel,
+            final GamePlayer player)
     {
         super(gamePanel, player);
 
         player.getResources().addResourcesChangedEventHandler(this);
         gamePanel.getGame().addTurnchangedeventHandler(this);
+        gamePanel.getGame().addTurnPhaseChangedHandler(this);
+        gamePanel.getGame().addGamePhaseChangedEventHandler(this);
 
         tradePanel.add(trade1);
         tradePanel.add(trade2);
         tradePanel.add(trade3);
+
+        rootPanel.setSize("4em", "4em");
+        rootPanel.add(btnbuyDvelopmentcard);
+        rootPanel.add(tradePanel);
+
+        btnbuyDvelopmentcard.addClickHandler(new ClickHandler()
+        {
+            @Override
+            public void onClick(ClickEvent event)
+            {
+                VictoryPoint vp = new VictoryPoint();
+                gamePanel.startAction(new BuyDevelopmentCard().setResources(
+                        vp.getCost()).setPlayer(player));
+            }
+        });
     }
 
     @Override
     protected void updateEnabled()
     {
-        btnbuyDvelopmentcard.setEnabled(enabled);
+        checkEnabled();
     }
 
     @Override
     public Widget asWidget()
     {
         return rootPanel;
+    }
+
+    private void enableUI()
+    {
+        btnbuyDvelopmentcard.setEnabled(true);
+    }
+
+    private void disableUI()
+    {
+        btnbuyDvelopmentcard.setEnabled(false);
     }
 
     @Override
@@ -71,13 +107,26 @@ public class BuyDevelopmentCardBitmapWidget extends AbstractActionWidget
     private void checkEnabled()
     {
         // TODO: make logic accurate for diamonds & trades
-        if (player.isOnTurn())
+        if (enabled && player.isOnTurn())
         {
             if (DevelopmentCard.canPay(player))
             {
-                setEnabled(true);
+                enableUI();
+                return;
             }
         }
-        setEnabled(false);
+        disableUI();
+    }
+
+    @Override
+    public void onTurnPhaseChanged(TurnPhaseChangedEvent event)
+    {
+        checkEnabled();
+    }
+
+    @Override
+    public void onGamePhaseChanged(GamePhaseChangedEvent event)
+    {
+        checkEnabled();
     }
 }

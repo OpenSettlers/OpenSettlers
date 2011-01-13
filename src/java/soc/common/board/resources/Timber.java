@@ -30,4 +30,10 @@ public class Timber extends AbstractResource
     {
         return new Timber();
     }
+
+    @Override
+    public int hashCode()
+    {
+        return 6;
+    }
 }

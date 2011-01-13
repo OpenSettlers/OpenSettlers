@@ -9,11 +9,15 @@ import soc.common.board.resources.ResourcesChangedEventHandler;
 import soc.common.game.Game;
 import soc.common.game.GamePhaseChangedEvent;
 import soc.common.game.GamePhaseChangedEventHandler;
+import soc.common.game.gamePhase.turnPhase.TurnPhaseChangedEvent;
+import soc.common.game.gamePhase.turnPhase.TurnPhaseChangedHandler;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.AbstractActionWidget;
 import soc.gwtClient.game.abstractWidgets.GamePanel;
 import soc.gwtClient.images.Resources;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PushButton;
@@ -22,7 +26,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class BuildCityBitmapWidget extends AbstractActionWidget implements
         ResourcesChangedEventHandler, PiecesChangedEventHandler,
-        GamePhaseChangedEventHandler
+        GamePhaseChangedEventHandler, TurnPhaseChangedHandler
 {
     private AbsolutePanel absolutePanel = new AbsolutePanel();
     private VerticalPanel tradesPanel1 = new VerticalPanel();
@@ -37,7 +41,8 @@ public class BuildCityBitmapWidget extends AbstractActionWidget implements
     private Image trade5 = new Image(Resources.icons().trade());
     private BuildCity buildCity = new BuildCity();
 
-    public BuildCityBitmapWidget(GamePanel gamePanel, GamePlayer player)
+    public BuildCityBitmapWidget(final GamePanel gamePanel,
+            final GamePlayer player)
     {
         super(gamePanel, player);
 
@@ -47,6 +52,7 @@ public class BuildCityBitmapWidget extends AbstractActionWidget implements
         player.getResources().addResourcesChangedEventHandler(this);
         player.getStock().addPiecesChangedEventHandler(this);
         gamePanel.getGame().addGamePhaseChangedEventHandler(this);
+        gamePanel.getGame().addTurnPhaseChangedHandler(this);
 
         tradesPanel1.add(trade1);
         tradesPanel1.add(trade2);
@@ -57,6 +63,15 @@ public class BuildCityBitmapWidget extends AbstractActionWidget implements
         absolutePanel.add(btnCity, 0, 0);
         absolutePanel.add(tradesPanel1, 3, 3);
         absolutePanel.add(tradesPanel2, 19, 3);
+
+        btnCity.addClickHandler(new ClickHandler()
+        {
+            @Override
+            public void onClick(ClickEvent event)
+            {
+                gamePanel.startAction(new BuildCity().setPlayer(player));
+            }
+        });
     }
 
     @Override
@@ -84,14 +99,32 @@ public class BuildCityBitmapWidget extends AbstractActionWidget implements
     }
 
     @Override
+    public void onTurnPhaseChanged(TurnPhaseChangedEvent event)
+    {
+        checkEnabled();
+    }
+
+    @Override
     protected void updateEnabled()
     {
-        btnCity.setEnabled(enabled);
+        checkEnabled();
+    }
+
+    private void enableUI()
+    {
+        btnCity.setEnabled(true);
+        setTradesPanelsVisible(true);
+    }
+
+    private void disableUI()
+    {
+        btnCity.setEnabled(false);
+        setTradesPanelsVisible(false);
     }
 
     private void checkEnabled()
     {
-        if (onTurn)
+        if (enabled && player.isOnTurn())
         {
             Game game = gamePanel.getGame();
 
@@ -100,14 +133,12 @@ public class BuildCityBitmapWidget extends AbstractActionWidget implements
                     city.canBuild(game.getBoard(), player) && // we need space
                     city.canPay(player)) // we need resources
             {
-                setEnabled(true);
-                setTradesPanelsVisible(true);
+                enableUI();
                 setTradesNeededToBuild();
                 return;
             }
         }
-        setTradesPanelsVisible(false);
-        setEnabled(false);
+        disableUI();
     }
 
     private void setTradesPanelsVisible(boolean visible)

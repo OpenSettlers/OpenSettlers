@@ -5,7 +5,6 @@ import soc.common.board.HexLocation;
 import soc.common.board.HexPoint;
 import soc.common.board.hexes.Hex;
 import soc.common.board.hexes.ResourceHex;
-import soc.common.board.pieces.AbstractPlayerPiece;
 import soc.common.board.pieces.City;
 import soc.common.board.pieces.PlayerPieceList;
 import soc.common.board.pieces.Town;
@@ -102,29 +101,23 @@ public class BuildCity extends AbstractTurnAction
 
         if (game.getCurrentPhase() instanceof PlayTurnsGamePhase)
         {
-            // Get first town from stock
-            AbstractPlayerPiece town = player.getBuildPieces()
-                    .ofType(Town.TOWN).get(0);
-
             // Pay for the city
             player.getResources().moveTo(city.getCost(), game.getBank());
 
-            // Move town to stock
-            PlayerPieceList.move(town, player.getBuildPieces(), player
-                    .getStock());
-
-            // Put City on board
-            PlayerPieceList.move(city, player.getStock(), player
-                    .getBuildPieces());
+            // Add city to player
+            city.addToPlayer(player);
         }
         if (game.getCurrentPhase() instanceof InitialPlacementGamePhase)
         {
+            // Move city from stock to board
             PlayerPieceList.move(city, player.getStock(), player
                     .getBuildPieces());
 
-            ResourceList resourcesFromCity = new ResourceList();
+            // add it t players' victory points
+            player.getVictoryPoints().add(city);
 
             // Add resources to player
+            ResourceList resourcesFromCity = new ResourceList();
             for (HexLocation hexLocation : pointLocation.getHexLocations())
             {
                 Hex hex = game.getBoard().getHexes().get(hexLocation);

@@ -116,9 +116,9 @@ public class HexGrid extends ArrayList<Hex>
         if (location.getH() == 0 || location.getW() == 0
                 || location.getH() >= height || location.getW() >= width)
         {
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
     public HandlerRegistration addHexChangedHandler(

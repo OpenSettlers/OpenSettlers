@@ -4,6 +4,7 @@ import soc.common.annotations.SeaFarers;
 import soc.common.board.HexPoint;
 import soc.common.board.territories.Territory;
 import soc.common.game.VictoryPointItem;
+import soc.common.game.player.GamePlayer;
 
 @SeaFarers
 public class IslandBonus extends AbstractPlayerPiece implements
@@ -50,6 +51,18 @@ public class IslandBonus extends AbstractPlayerPiece implements
     public boolean isStockPiece()
     {
         return false;
+    }
+
+    @Override
+    public void addToPlayer(GamePlayer player)
+    {
+        player.getVictoryPoints().add(this);
+    }
+
+    @Override
+    public void removeFromPlayer(GamePlayer player)
+    {
+        player.getVictoryPoints().remove(this);
     }
 
 }

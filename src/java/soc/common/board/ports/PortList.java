@@ -104,7 +104,7 @@ public class PortList implements Iterable<Port>
      */
     public int amountNeededToTrade(Resource resourceType)
     {
-        return getPort(resourceType, false).getInAmount();
+        return getBestPortForResource(resourceType, false).getInAmount();
     }
 
     @Override
@@ -123,7 +123,7 @@ public class PortList implements Iterable<Port>
      * Returns best port to trade with given the resource type. When this port
      * is a 4:1 port, it ignores this port and returns null
      */
-    public Port getPort(Resource resourceType, boolean ignoreFourToOne)
+    public Port getBestPortForResource(Resource resourceType, boolean ignoreFourToOne)
     {
         Port result = null;
         int amountNeeded = 6;

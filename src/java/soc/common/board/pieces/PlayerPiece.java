@@ -24,4 +24,8 @@ public interface PlayerPiece
     public abstract String getName();
 
     public boolean isStockPiece();
+
+    public void addToPlayer(GamePlayer player);
+
+    public void removeFromPlayer(GamePlayer player);
 }

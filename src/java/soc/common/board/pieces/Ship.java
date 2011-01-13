@@ -77,4 +77,17 @@ public class Ship extends AbstractPlayerPiece
         return true;
     }
 
+    @Override
+    public void addToPlayer(GamePlayer player)
+    {
+        player.getBuildPieces().add(this);
+    }
+
+    @Override
+    public void removeFromPlayer(GamePlayer player)
+    {
+        // TODO Auto-generated method stub
+
+    }
+
 }

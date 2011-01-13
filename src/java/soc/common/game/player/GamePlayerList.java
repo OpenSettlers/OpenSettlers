@@ -64,9 +64,29 @@ public class GamePlayerList implements Iterable<GamePlayer>
         }
     }
 
+    public GamePlayerList getOpponents(GamePlayer ofPlayer)
+    {
+        GamePlayerList opponents = new GamePlayerList();
+
+        for (GamePlayer opponent : players)
+        {
+            if (!opponent.equals(ofPlayer))
+            {
+                opponents.add(opponent);
+            }
+        }
+
+        return opponents;
+    }
+
     public HandlerRegistration addOrderChangedEventHandler(
             OrderChangedEventHandler handler)
     {
         return eventBus.addHandler(OrderChangedEvent.TYPE, handler);
+    }
+
+    public boolean contains(GamePlayer player)
+    {
+        return players.contains(player);
     }
 }

@@ -39,4 +39,5 @@ public abstract class AbstractResource implements Resource
     {
         return obj.getClass() == this.getClass();
     }
+
 }

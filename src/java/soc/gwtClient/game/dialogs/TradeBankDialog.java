@@ -1,12 +1,16 @@
 package soc.gwtClient.game.dialogs;
 
+import soc.common.actions.gameAction.turnActions.standard.TradeBank;
 import soc.common.board.pieces.PlayerPiece;
 import soc.common.board.ports.PortList;
 import soc.common.board.resources.ResourceList;
 import soc.common.board.resources.ResourcesChangedEvent;
 import soc.common.board.resources.ResourcesChangedEventHandler;
+import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.BankTradeUI;
 import soc.gwtClient.game.abstractWidgets.GamePanel;
+import soc.gwtClient.game.behaviour.GameBehaviourCallback;
+import soc.gwtClient.game.behaviour.TradeFirst;
 import soc.gwtClient.game.widgets.abstractWidgets.ResourceListWidget;
 import soc.gwtClient.game.widgets.abstractWidgets.ResourcePickerWidget;
 import soc.gwtClient.game.widgets.bitmap.ResourceListBitmapWidget;
@@ -25,7 +29,8 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class TradeBankDialog extends PopupPanel implements BankTradeUI
+public class TradeBankDialog extends PopupPanel implements BankTradeUI,
+        ResourcesChangedEventHandler
 {
     private ResourceList giveResources = new ResourceList();
     private ResourceList wantResources = new ResourceList();
@@ -41,6 +46,9 @@ public class TradeBankDialog extends PopupPanel implements BankTradeUI
     private ResourcePickerWidget wantedResourcesPickerWidget;
     private Button btnTrade;
     private Image imgPiece;
+    private GameBehaviourCallback callback;
+    private GamePlayer player;
+    private TradeFirst tradeFirst;
 
     public TradeBankDialog(GamePanel gamePanel)
     {
@@ -48,15 +56,16 @@ public class TradeBankDialog extends PopupPanel implements BankTradeUI
         this.gamePanel = gamePanel;
         this.playerHand = gamePanel.getPlayingPlayer().getResources().copy();
         this.bankResources = gamePanel.getGame().getBank().copy();
+        this.player = gamePanel.getPlayingPlayer();
 
         giveResourcesListWidget = createResourceListWidget(giveResources,
-                playerHand, gamePanel.getPlayingPlayer().getPorts());
+                playerHand, player.getPorts());
 
         wantedResourcesListWidget = createResourceListWidget(wantResources,
                 bankResources, null);
 
         giveResourcesPickerWidget = createResourcePickerWidget(giveResources,
-                gamePanel.getPlayingPlayer().getPorts(), playerHand, gamePanel);
+                player.getPorts(), playerHand, gamePanel);
 
         wantedResourcesPickerWidget = createResourcePickerWidget(wantResources,
                 null, bankResources, gamePanel);
@@ -67,27 +76,8 @@ public class TradeBankDialog extends PopupPanel implements BankTradeUI
         needPanel.add(wantedResourcesPickerWidget);
         needPanel.add(wantedResourcesListWidget);
 
-        giveResources
-                .addResourcesChangedEventHandler(new ResourcesChangedEventHandler()
-                {
-                    @Override
-                    public void onResourcesChanged(
-                            ResourcesChangedEvent resourcesChanged)
-                    {
-                        checkResources();
-                    }
-                });
-
-        wantResources
-                .addResourcesChangedEventHandler(new ResourcesChangedEventHandler()
-                {
-                    @Override
-                    public void onResourcesChanged(
-                            ResourcesChangedEvent resourcesChanged)
-                    {
-                        checkResources();
-                    }
-                });
+        giveResources.addResourcesChangedEventHandler(this);
+        wantResources.addResourcesChangedEventHandler(this);
     }
 
     private void checkResources()
@@ -99,8 +89,8 @@ public class TradeBankDialog extends PopupPanel implements BankTradeUI
                 && wantResources.size() > 0);
     }
 
-    private ResourceListWidget createResourceListWidget(
-            ResourceList resources, ResourceList bankResources, PortList ports)
+    private ResourceListWidget createResourceListWidget(ResourceList resources,
+            ResourceList bankResources, PortList ports)
     {
         return new ResourceListBitmapWidget(resources, bankResources, ports);
     }
@@ -125,34 +115,46 @@ public class TradeBankDialog extends PopupPanel implements BankTradeUI
      * @param pieceToTradeFor
      *            the pieceToTradeFor to set
      */
-    public void setPieceToTradeFor(PlayerPiece pieceToTradeFor)
+    public void setPieceToTradeFor(PlayerPiece pieceToTradeFor,
+            TradeFirst tradeFirst)
     {
         this.pieceToTradeFor = pieceToTradeFor;
+        this.tradeFirst = tradeFirst;
+        this.setPlayer(gamePanel.getPlayingPlayer());
+
+        // Get rid of any old resources
+        giveResources.clear();
+        wantResources.clear();
+
+        this.bankResources = gamePanel.getGame().getBank().copy();
+
+        wantedResourcesPickerWidget.setBankResources(bankResources);
+        wantedResourcesListWidget.setBankResources(bankResources);
 
         // When trading for a particular piece, the player cannot choose
         // resources to trade for.
         // Instead, they are automatically determined
         if (pieceToTradeFor != null)
         {
-            // Disable the ui
+            // Disable the wanted cards picker/list ui
             wantedResourcesListWidget.setEnabled(false);
             wantedResourcesPickerWidget.setEnabled(false);
-
-            // Get rid of any remaining resources
-            giveResources.clear();
 
             // Add needed resources
             wantResources.add(playerHand.getNeededResources(pieceToTradeFor
                     .getCost()));
 
-            // Update image location
+            // Update image
             imgPiece = new Image(Resources.piece(pieceToTradeFor));
             imgPiece.setVisible(true);
         }
         else
         {
+            wantedResourcesListWidget.setEnabled(true);
+            wantedResourcesPickerWidget.setEnabled(true);
             imgPiece.setVisible(false);
         }
+        show();
     }
 
     /**
@@ -209,7 +211,13 @@ public class TradeBankDialog extends PopupPanel implements BankTradeUI
         {
             public void onClick(ClickEvent arg0)
             {
-
+                gamePanel.sendAction(new TradeBank().setOfferedResources(
+                        giveResources).setWantedResources(wantResources)
+                        .setPlayer(player));
+                if (tradeFirst != null)
+                {
+                    tradeFirst.onTraded();
+                }
             }
         });
         btnTrade.setText("Trade!");
@@ -240,15 +248,32 @@ public class TradeBankDialog extends PopupPanel implements BankTradeUI
         horizontalPanel_3.add(lblTradeForA);
     }
 
-    /*
-     * @see
-     * soc.gwtClient.game.abstractWidgets.IBankTradeUI#setPiece(soc.common.board
-     * .pieces.PlayerPiece)
-     */
     @Override
-    public void setPiece(PlayerPiece piece)
+    public void onResourcesChanged(ResourcesChangedEvent resourcesChanged)
     {
-        // TODO Auto-generated method stub
+        checkResources();
+    }
 
+    /**
+     * @return the player
+     */
+    public GamePlayer getPlayer()
+    {
+        return player;
+    }
+
+    /**
+     * @param player
+     *            the player to set
+     */
+    public BankTradeUI setPlayer(GamePlayer player)
+    {
+        this.player = player;
+
+        this.playerHand = player.getResources().copy();
+        giveResourcesPickerWidget.setBankResources(playerHand);
+        giveResourcesPickerWidget.setPorts(player.getPorts());
+
+        return this;
     }
 }

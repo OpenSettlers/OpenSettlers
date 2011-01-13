@@ -1,23 +1,25 @@
 package soc.gwtClient.game.widgets;
 
+import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.AbstractBankStockWidget;
-import soc.gwtClient.game.abstractWidgets.ActionsWidget;
 import soc.gwtClient.game.abstractWidgets.BankStockPanel;
 import soc.gwtClient.game.abstractWidgets.BankTradeUI;
 import soc.gwtClient.game.abstractWidgets.GameHistoryWidget;
 import soc.gwtClient.game.abstractWidgets.GamePanel;
-import soc.gwtClient.game.abstractWidgets.HandCardsWidget;
 import soc.gwtClient.game.abstractWidgets.PlayersWidget;
 import soc.gwtClient.game.abstractWidgets.StatusPanel;
 import soc.gwtClient.game.abstractWidgets.factories.GameWidgetFactory;
+import soc.gwtClient.game.dialogs.HotseatLooseCards;
+import soc.gwtClient.game.dialogs.StealCardDialog;
 import soc.gwtClient.game.dialogs.TradeBankDialog;
+import soc.gwtClient.game.widgets.abstractWidgets.LooseCardsDialog;
+import soc.gwtClient.game.widgets.abstractWidgets.PlayerStuffWidget;
 import soc.gwtClient.game.widgets.abstractWidgets.ResourcesGainedWidget;
+import soc.gwtClient.game.widgets.abstractWidgets.StealCardWidget;
 import soc.gwtClient.game.widgets.bitmap.HistoryBitmapWidget;
 import soc.gwtClient.game.widgets.bitmap.ResourcesGainedBitmapWidget;
-import soc.gwtClient.game.widgets.standard.bitmap.HandCardsBitmapWidget;
 import soc.gwtClient.game.widgets.standard.bitmap.PlayersBitmapWidget;
 import soc.gwtClient.game.widgets.standard.bitmap.StatusBitmapPanel;
-import soc.gwtClient.game.widgets.standard.bitmap.actions.ActionsBitmapWidget;
 import soc.gwtClient.visuals.abstractVisuals.GameBoardVisual;
 import soc.gwtClient.visuals.svg.GameBoardSvg;
 
@@ -29,13 +31,6 @@ public class GameBitmapWidgetFactory implements GameWidgetFactory
     {
         super();
         this.gamePanel = gamePanel;
-    }
-
-    @Override
-    public ActionsWidget createActionsWidget()
-    {
-        return new ActionsBitmapWidget(gamePanel, gamePanel.getGame()
-                .getPlayers().get(0));
     }
 
     @Override
@@ -54,12 +49,6 @@ public class GameBitmapWidgetFactory implements GameWidgetFactory
     public GameBoardVisual createGameBoard(int width, int height)
     {
         return new GameBoardSvg(gamePanel.getGame(), width, height);
-    }
-
-    @Override
-    public HandCardsWidget createHandCardsWidget()
-    {
-        return new HandCardsBitmapWidget(gamePanel.getPlayingPlayer());
     }
 
     @Override
@@ -84,5 +73,23 @@ public class GameBitmapWidgetFactory implements GameWidgetFactory
     public ResourcesGainedWidget createResourcesGainedWidget()
     {
         return new ResourcesGainedBitmapWidget(gamePanel);
+    }
+
+    @Override
+    public PlayerStuffWidget createPlayerStuffWidget(GamePlayer player)
+    {
+        return new PlayerStuffBitmapWidget(gamePanel, player);
+    }
+
+    @Override
+    public StealCardWidget createStealCardWidget(GamePlayer player)
+    {
+        return new StealCardDialog(gamePanel, player);
+    }
+
+    @Override
+    public LooseCardsDialog createLooseCardsDialog()
+    {
+        return new HotseatLooseCards(gamePanel);
     }
 }

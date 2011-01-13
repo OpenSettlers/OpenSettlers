@@ -3,7 +3,6 @@ package soc.gwtClient.game.abstractWidgets;
 import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.MessageFromServer;
 import soc.common.actions.gameAction.turnActions.TurnAction;
-import soc.common.board.pieces.PlayerPiece;
 import soc.common.game.Game;
 import soc.common.game.player.GamePlayer;
 import soc.common.server.GameServer;
@@ -17,8 +16,11 @@ import soc.gwtClient.game.behaviour.StandardGameBoardBehaviourFactory;
 import soc.gwtClient.game.dialogs.TradePlayersDialog;
 import soc.gwtClient.game.widgets.ChatPanel;
 import soc.gwtClient.game.widgets.DebugPanel;
+import soc.gwtClient.game.widgets.DetailContainerManager;
 import soc.gwtClient.game.widgets.GameQueuePanel;
 import soc.gwtClient.game.widgets.abstractWidgets.DebugWidget;
+import soc.gwtClient.game.widgets.abstractWidgets.LooseCardsDialog;
+import soc.gwtClient.game.widgets.abstractWidgets.PlayerStuffWidget;
 import soc.gwtClient.game.widgets.abstractWidgets.ResourcesGainedWidget;
 import soc.gwtClient.game.widgets.abstractWidgets.StealCardWidget;
 import soc.gwtClient.visuals.abstractVisuals.GameBoardVisual;
@@ -54,34 +56,13 @@ public abstract class AbstractGamePanel implements GamePanel, CenterWidget,
     protected StealCardWidget stealCardWidget;
     protected TradePlayersDialog tradePlayers;
     protected BankTradeUI bankTradeUI;
-    protected HandCardsWidget handCards;
-    protected ActionsWidget buildPallette;
+    protected LooseCardsDialog looseCardsDialog;
+
+    protected PlayerStuffWidget playerStuff;
+    protected DetailContainerManager detailContainerManager;
 
     public AbstractGamePanel()
     {
-    }
-
-    @Override
-    public ResourcesGainedWidget getResourcesGainedWidget()
-    {
-        return resourcesGainedWidget;
-    }
-
-    /**
-     * @return the stealCardWidget
-     */
-    public StealCardWidget getStealCardWidget()
-    {
-        return stealCardWidget;
-    }
-
-    /**
-     * @return the gameBoardVisual
-     */
-    @Override
-    public GameBoardVisual getGameBoardVisual()
-    {
-        return gameBoardVisual;
     }
 
     protected void initialize()
@@ -92,32 +73,57 @@ public abstract class AbstractGamePanel implements GamePanel, CenterWidget,
         gameWidgetFactory = createGameWidgetFactory();
 
         bankStockPanel = gameWidgetFactory.createBankStockPanel();
-        buildPallette = gameWidgetFactory.createActionsWidget();
         playersWidget = gameWidgetFactory.createPlayersWidget();
         gameBoardVisual = gameWidgetFactory.createGameBoard(800, 500);
-        handCards = gameWidgetFactory.createHandCardsWidget();
         statusPanel = gameWidgetFactory.createStatusDicePanel();
         tradePlayers = new TradePlayersDialog();
         historyWidget = gameWidgetFactory.createHistoryWidget();
         bankTradeUI = gameWidgetFactory.createBankTradeUI();
+        stealCardWidget = gameWidgetFactory.createStealCardWidget(player);
         resourcesGainedWidget = gameWidgetFactory.createResourcesGainedWidget();
+        looseCardsDialog = gameWidgetFactory.createLooseCardsDialog();
 
         chatPanel = new ChatPanel(this);
         gameQueuePanel = new GameQueuePanel(this);
         debugPanel = new DebugPanel(this);
     }
 
-    /**
-     * @return the playersWidget
-     */
+    @Override
+    public DetailContainerManager getDetailContainerManager()
+    {
+        return detailContainerManager;
+    }
+
+    @Override
+    public ResourcesGainedWidget getResourcesGainedWidget()
+    {
+        return resourcesGainedWidget;
+    }
+
+    @Override
+    public StealCardWidget getStealCardWidget()
+    {
+        return stealCardWidget;
+    }
+
+    @Override
+    public BankTradeUI getBankTradeUI()
+    {
+        return bankTradeUI;
+    }
+
+    @Override
+    public GameBoardVisual getGameBoardVisual()
+    {
+        return gameBoardVisual;
+    }
+
+    @Override
     public PlayersWidget getPlayersWidget()
     {
         return playersWidget;
     }
 
-    /**
-     * @return the tradePlayers
-     */
     public TradePlayersDialog getTradePlayers()
     {
         return tradePlayers;
@@ -132,6 +138,12 @@ public abstract class AbstractGamePanel implements GamePanel, CenterWidget,
     public void sendAction(GameAction gameAction)
     {
         server.sendAction(gameAction);
+    }
+
+    @Override
+    public GamePlayer getPlayingPlayer()
+    {
+        return player;
     }
 
     @Override
@@ -166,34 +178,11 @@ public abstract class AbstractGamePanel implements GamePanel, CenterWidget,
         }
     }
 
-    @Override
-    public void requestBankTrade(PlayerPiece piece, GamePlayer player)
-    {
-        bankTradeUI.setPiece(piece);
-        bankTradeUI.show();
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see soc.gwtClient.game.abstractWidgets.IGamePanel#getPlayingPlayer()
-     */
-    @Override
-    public GamePlayer getPlayingPlayer()
-    {
-        return player;
-    }
-
     public void showTradePlayersPanel()
     {
         Point2D location = playersWidget.getTopRightLocation();
         tradePlayers.setPopupPosition(location.getX(), location.getY());
         tradePlayers.show();
-    }
-
-    public void hideTradePlayersPanel()
-    {
-        tradePlayers.hide();
     }
 
     public void showTradeBankPanel()
@@ -203,13 +192,8 @@ public abstract class AbstractGamePanel implements GamePanel, CenterWidget,
         bankTradeUI.show();
     }
 
-    public void hideTradeBankPanel()
-    {
-        bankTradeUI.hide();
-    }
-
     /*
-     * (non-Javadoc)
+     * Receive an action from the game server
      * 
      * @see
      * soc.common.server.IGameServerCallback#receive(soc.common.actions.gameAction
@@ -228,10 +212,15 @@ public abstract class AbstractGamePanel implements GamePanel, CenterWidget,
     protected void setNewGameBehaviour(GameBehaviour newGameBehaviour)
     {
         if (gameBehaviour != null)
-        {
             gameBehaviour.finish();
-        }
+
         gameBehaviour = newGameBehaviour;
         gameBehaviour.start(this);
+    }
+
+    @Override
+    public Point2D getTopRightPlayerInfoBoxPosition(GamePlayer player)
+    {
+        return playersWidget.getTopRightLocation(player);
     }
 }

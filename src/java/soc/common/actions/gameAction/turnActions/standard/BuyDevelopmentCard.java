@@ -69,7 +69,10 @@ public class BuyDevelopmentCard extends AbstractTurnAction
 
         // we need resources
         if (resources == null)
+        {
+            invalidMessage = "Resources cannot be null";
             return false;
+        }
 
         // ...and a devcard too.
         if (game.getDevelopmentCardStack().size() == 0)

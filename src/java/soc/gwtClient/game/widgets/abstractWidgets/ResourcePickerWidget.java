@@ -20,4 +20,14 @@ public interface ResourcePickerWidget extends IsWidget, ResourceClickedEventHand
     public ResourcePickerWidget setPorts(PortList ports);
     
     public ResourcePickerWidget setEnabled(boolean enabled);
+
+    /**
+     * @param bankResources the bankResources to set
+     */
+    public ResourcePickerWidget setBankResources(ResourceList bankResources);
+
+    /**
+     * @return the bankResources
+     */
+    public ResourceList getBankResources();
 }

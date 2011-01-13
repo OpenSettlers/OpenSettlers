@@ -9,11 +9,15 @@ import soc.common.board.resources.ResourcesChangedEventHandler;
 import soc.common.game.Game;
 import soc.common.game.GamePhaseChangedEvent;
 import soc.common.game.GamePhaseChangedEventHandler;
+import soc.common.game.gamePhase.turnPhase.TurnPhaseChangedEvent;
+import soc.common.game.gamePhase.turnPhase.TurnPhaseChangedHandler;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.AbstractActionWidget;
 import soc.gwtClient.game.abstractWidgets.GamePanel;
 import soc.gwtClient.images.Resources;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PushButton;
@@ -22,7 +26,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class BuildTownBitmapWidget extends AbstractActionWidget implements
         ResourcesChangedEventHandler, PiecesChangedEventHandler,
-        GamePhaseChangedEventHandler
+        GamePhaseChangedEventHandler, TurnPhaseChangedHandler
 {
     private AbsolutePanel absolutePanel = new AbsolutePanel();
     private VerticalPanel tradesPanel1 = new VerticalPanel();
@@ -36,7 +40,8 @@ public class BuildTownBitmapWidget extends AbstractActionWidget implements
     private Image trade4 = new Image(Resources.icons().trade());
     private BuildTown buildTown = new BuildTown();
 
-    public BuildTownBitmapWidget(GamePanel gamePanel, GamePlayer player)
+    public BuildTownBitmapWidget(final GamePanel gamePanel,
+            final GamePlayer player)
     {
         super(gamePanel, player);
         absolutePanel.setSize("60px", "60px");
@@ -46,6 +51,7 @@ public class BuildTownBitmapWidget extends AbstractActionWidget implements
         player.getResources().addResourcesChangedEventHandler(this);
         player.getStock().addPiecesChangedEventHandler(this);
         gamePanel.getGame().addGamePhaseChangedEventHandler(this);
+        gamePanel.getGame().addTurnPhaseChangedHandler(this);
 
         tradesPanel1.add(trade1);
         tradesPanel1.add(trade2);
@@ -55,6 +61,15 @@ public class BuildTownBitmapWidget extends AbstractActionWidget implements
         absolutePanel.add(btnBuildTown, 0, 0);
         absolutePanel.add(tradesPanel1, 3, 3);
         absolutePanel.add(tradesPanel2, 19, 3);
+
+        btnBuildTown.addClickHandler(new ClickHandler()
+        {
+            @Override
+            public void onClick(ClickEvent event)
+            {
+                gamePanel.startAction(new BuildTown().setPlayer(player));
+            }
+        });
     }
 
     @Override
@@ -81,27 +96,31 @@ public class BuildTownBitmapWidget extends AbstractActionWidget implements
         checkEnabled();
     }
 
+    @Override
+    public void onTurnPhaseChanged(TurnPhaseChangedEvent event)
+    {
+        checkEnabled();
+    }
+
     private void checkEnabled()
     {
-        if (onTurn)
+        setTradesNeededToBuild();
+        if (enabled && player.isOnTurn())
         {
             Game game = gamePanel.getGame();
 
-            if (game.getCurrentPhase().isAllowed(buildTown) && // current phase
+            if (game.isAllowed(buildTown) && // current phase
                     // must be OK
                     town.canBuild(game.getBoard(), player) && // we need space
                     town.canPay(player) && // we need resources
                     game.getBoard().getGraph().getTownCandidatesTurnPhase(
                             player).size() > 0)
             {
-                setEnabled(true);
-                setTradesPanelsVisible(true);
-                setTradesNeededToBuild();
+                enableUI();
                 return;
             }
         }
-        setEnabled(false);
-        setTradesPanelsVisible(false);
+        disableUI();
     }
 
     private void setTradesPanelsVisible(boolean visible)
@@ -113,7 +132,19 @@ public class BuildTownBitmapWidget extends AbstractActionWidget implements
     @Override
     protected void updateEnabled()
     {
-        btnBuildTown.setEnabled(enabled);
+        checkEnabled();
+    }
+
+    private void enableUI()
+    {
+        btnBuildTown.setEnabled(true);
+        setTradesPanelsVisible(true);
+    }
+
+    private void disableUI()
+    {
+        btnBuildTown.setEnabled(false);
+        setTradesPanelsVisible(false);
     }
 
     private void setTradesNeededToBuild()

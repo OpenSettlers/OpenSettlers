@@ -103,5 +103,13 @@ public class GameBoardSvg extends AbstractGameBoardVisual
             boardSvg.getDrawingArea().add(
                     ((SvgVisual) newPieceVisual).getVectorObject());
         }
+        if (list.getRemovedPiece() != null)
+        {
+            PieceVisual pieceVisual = playerPieceVisuals.get(list
+                    .getRemovedPiece());
+            playerPieceVisuals.remove(list.getRemovedPiece());
+            boardSvg.getDrawingArea().remove(
+                    ((SvgVisual) pieceVisual).getVectorObject());
+        }
     }
 }

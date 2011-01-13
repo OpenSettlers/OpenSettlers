@@ -1,6 +1,7 @@
 package soc.gwtClient.game.widgets.standard.bitmap;
 
 import soc.common.game.player.GamePlayer;
+import soc.gwtClient.game.widgets.abstractWidgets.StealCardWidget;
 import soc.gwtClient.game.widgets.abstractWidgets.StealPlayerCardWidget;
 import soc.gwtClient.images.Resources;
 
@@ -16,14 +17,16 @@ public class StealPlayerCardBitmapWidget extends HorizontalPanel implements
         StealPlayerCardWidget
 {
     private GamePlayer player;
-    Label lblPlayerName = new Label("playername");
-    HorizontalPanel cardsPanel = new HorizontalPanel();
+    private Label lblPlayerName = new Label("playername");
+    private HorizontalPanel cardsPanel = new HorizontalPanel();
+    private StealCardWidget parent;
 
     /**
      * @wbp.parser.constructor
      */
-    public StealPlayerCardBitmapWidget()
+    public StealPlayerCardBitmapWidget(StealCardWidget parent)
     {
+        this.parent = parent;
         setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
         setWidth("400px");
 
@@ -37,38 +40,45 @@ public class StealPlayerCardBitmapWidget extends HorizontalPanel implements
         add(cardsPanel);
     }
 
-    public StealPlayerCardBitmapWidget(GamePlayer player)
+    public StealPlayerCardBitmapWidget(final GamePlayer player,
+            final StealCardWidget parent)
     {
-        this();
+        this(parent);
         this.player = player;
 
-        lblPlayerName.setText(player.getUser().getName());
-        for (int i = 0; i < player.getResourcesCount(); i++)
-        {
-            PushButton btn = new PushButton(new Image(
-                    "icons/48/BlankCard48.png"));
-            btn.addClickHandler(new ClickHandler()
-            {
-                @Override
-                public void onClick(ClickEvent arg0)
-                {
-                    // TODO: add logic
-                }
-            });
-            cardsPanel.add(btn);
-        }
-        if (player.getResourcesCount() == 0)
-        {
-            cardsPanel.add(new Label(player.getUser().getName()
-                    + " has no cards"));
-        }
+        fillWithDummyCards();
     }
 
     @Override
     public void update(GamePlayer player)
     {
-        // TODO Auto-generated method stub
+        fillWithDummyCards();
+    }
 
+    private void fillWithDummyCards()
+    {
+        cardsPanel.clear();
+
+        lblPlayerName.setText(player.getUser().getName());
+        for (int i = 0; i < player.getResources().size(); i++)
+        {
+            PushButton btn = new PushButton(new Image(Resources.icons()
+                    .blankCardSmall()));
+            btn.addClickHandler(new ClickHandler()
+            {
+                @Override
+                public void onClick(ClickEvent arg0)
+                {
+                    parent.cardPicked(player);
+                }
+            });
+            cardsPanel.add(btn);
+        }
+        if (player.getResources().size() == 0)
+        {
+            cardsPanel.add(new Label(player.getUser().getName()
+                    + " has no cards"));
+        }
     }
 
 }

@@ -33,19 +33,37 @@ public class ClaimVictoryBitmapWidget extends AbstractActionWidget implements
     @Override
     protected void updateEnabled()
     {
-        btnClaimVictory.setEnabled(enabled);
+        checkEnabled();
+    }
+
+    private void enableUI()
+    {
+        btnClaimVictory.setEnabled(true);
+    }
+
+    private void disableUI()
+    {
+        btnClaimVictory.setEnabled(false);
+    }
+
+    private void checkEnabled()
+    {
+        if (enabled
+                && player.isOnTurn()
+                && gamePanel.getGame().getGameSettings().getBoardSettings()
+                        .getVpToWin() >= player.getVictoryPoints()
+                        .getTotalPoints())
+        {
+            enableUI();
+            return;
+        }
+
+        disableUI();
     }
 
     @Override
     public void onVictoryPointsChanged(VictoryPointsChangedEvent event)
     {
-        if (gamePanel.getGame().getGameSettings().getBoardSettings()
-                .getVpToWin() >= player.getVictoryPoints().getTotalPoints())
-        {
-            setEnabled(true);
-            return;
-        }
-
-        setEnabled(false);
+        checkEnabled();
     }
 }

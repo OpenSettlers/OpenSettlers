@@ -48,7 +48,7 @@ public class SvgVisualFactory extends AbstractVisualFactory
     @Override
     public CityVisual createCityVisual(City city)
     {
-        return new CitySvg(city);
+        return new CitySvg(city, parent);
     }
 
     @Override

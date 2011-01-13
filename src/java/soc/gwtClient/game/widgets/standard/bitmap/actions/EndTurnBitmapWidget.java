@@ -6,6 +6,8 @@ import soc.common.game.GamePhaseChangedEvent;
 import soc.common.game.GamePhaseChangedEventHandler;
 import soc.common.game.TurnChangedEvent;
 import soc.common.game.TurnChangedEventHandler;
+import soc.common.game.gamePhase.turnPhase.TurnPhaseChangedEvent;
+import soc.common.game.gamePhase.turnPhase.TurnPhaseChangedHandler;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.AbstractActionWidget;
 import soc.gwtClient.game.abstractWidgets.GamePanel;
@@ -18,7 +20,8 @@ import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.Widget;
 
 public class EndTurnBitmapWidget extends AbstractActionWidget implements
-        GamePhaseChangedEventHandler, TurnChangedEventHandler
+        GamePhaseChangedEventHandler, TurnChangedEventHandler,
+        TurnPhaseChangedHandler
 {
     public PushButton btnEndTurn = new PushButton(new Image(Resources.icons()
             .endTurn()));
@@ -33,6 +36,7 @@ public class EndTurnBitmapWidget extends AbstractActionWidget implements
 
         gamePanel.getGame().addTurnchangedeventHandler(this);
         gamePanel.getGame().addGamePhaseChangedEventHandler(this);
+        gamePanel.getGame().addTurnPhaseChangedHandler(this);
 
         btnEndTurn.addClickHandler(new ClickHandler()
         {
@@ -54,13 +58,32 @@ public class EndTurnBitmapWidget extends AbstractActionWidget implements
     @Override
     protected void updateEnabled()
     {
-        btnEndTurn.setEnabled(enabled);
+        checkEnabled();
     }
 
-    /*
-     * @Override public void onPlayerOnTurnChanged(PlayerOnTurnChangedEvent
-     * event) { checkEnabled(); }
-     */
+    private void enableUI()
+    {
+        btnEndTurn.setEnabled(true);
+    }
+
+    private void disableUI()
+    {
+        btnEndTurn.setEnabled(false);
+    }
+
+    private void checkEnabled()
+    {
+        if (enabled && player.isOnTurn())
+        {
+            if (gamePanel.getGame().getCurrentPhase().isAllowed(endTurn))
+            {
+                enableUI();
+                return;
+            }
+        }
+
+        disableUI();
+    }
 
     @Override
     public void onGamePhaseChanged(GamePhaseChangedEvent event)
@@ -68,22 +91,14 @@ public class EndTurnBitmapWidget extends AbstractActionWidget implements
         checkEnabled();
     }
 
-    private void checkEnabled()
+    @Override
+    public void onTurnChanged(TurnChangedEvent event)
     {
-        if (onTurn)
-        {
-            if (gamePanel.getGame().getCurrentPhase().isAllowed(endTurn))
-            {
-                setEnabled(true);
-                return;
-            }
-        }
-
-        setEnabled(false);
+        checkEnabled();
     }
 
     @Override
-    public void onTurnChanged(TurnChangedEvent event)
+    public void onTurnPhaseChanged(TurnPhaseChangedEvent event)
     {
         checkEnabled();
     }

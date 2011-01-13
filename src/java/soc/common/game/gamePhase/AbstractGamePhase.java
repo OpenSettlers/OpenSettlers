@@ -5,6 +5,7 @@ import soc.common.actions.gameAction.GamePhaseHasEnded;
 import soc.common.game.Game;
 import soc.common.game.Turn;
 import soc.common.game.TurnImpl;
+import soc.common.game.player.GamePlayer;
 import soc.common.utils.ClassUtils;
 
 /*
@@ -22,7 +23,16 @@ public abstract class AbstractGamePhase implements GamePhase
         GameAction next = game.getActionsQueue().peekAction();
         if (next != null && !(next instanceof GamePhaseHasEnded))
         {
-            return new TurnImpl().setPlayer(next.getPlayer());
+            GamePlayer player = null;
+            if (next.getPlayer().getUser().getId() == 0)
+            {
+                player = game.getGameStarter();
+            }
+            else
+            {
+                player = next.getPlayer();
+            }
+            return new TurnImpl().setPlayer(player);
         }
         throw new RuntimeException("No expected action, no turn to create");
     }

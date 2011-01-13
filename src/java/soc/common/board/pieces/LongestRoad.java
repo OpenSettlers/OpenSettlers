@@ -2,6 +2,7 @@ package soc.common.board.pieces;
 
 import soc.common.board.routing.Route;
 import soc.common.game.VictoryPointItem;
+import soc.common.game.player.GamePlayer;
 
 public class LongestRoad extends AbstractPlayerPiece implements
         VictoryPointItem
@@ -27,6 +28,18 @@ public class LongestRoad extends AbstractPlayerPiece implements
     public boolean isStockPiece()
     {
         return false;
+    }
+
+    @Override
+    public void addToPlayer(GamePlayer player)
+    {
+        player.getVictoryPoints().add(this);
+    }
+
+    @Override
+    public void removeFromPlayer(GamePlayer player)
+    {
+        player.getVictoryPoints().remove(this);
     }
 
 }

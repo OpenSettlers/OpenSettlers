@@ -7,8 +7,8 @@ import soc.common.actions.gameAction.turnActions.AbstractTurnAction;
 import soc.common.actions.gameAction.turnActions.TurnAction;
 import soc.common.board.HexLocation;
 import soc.common.board.hexes.Hex;
+import soc.common.board.pieces.Army;
 import soc.common.board.pieces.City;
-import soc.common.board.pieces.LargestArmy;
 import soc.common.board.pieces.Piece;
 import soc.common.board.pieces.PlayerPiece;
 import soc.common.board.pieces.PlayerPieceList;
@@ -49,7 +49,7 @@ public class GameRulesImpl implements GameRules
     private boolean isExtended = false;
     private boolean isPioneers = false;
     private boolean isTeamGame = false;
-    private LargestArmy largestArmy;
+    private Army largestArmy;
 
     // State of last rolled dice
     private Dice diceType;
@@ -240,7 +240,7 @@ public class GameRulesImpl implements GameRules
     }
 
     @Override
-    public LargestArmy getLargestArmy()
+    public Army getLargestArmy()
     {
         return largestArmy;
     }
@@ -252,7 +252,7 @@ public class GameRulesImpl implements GameRules
     }
 
     @Override
-    public GameRules setLargestArmy(LargestArmy largestArmy)
+    public GameRules setLargestArmy(Army largestArmy)
     {
         this.largestArmy = largestArmy;
 
@@ -264,15 +264,14 @@ public class GameRulesImpl implements GameRules
     {
         // Assuming standard is always present and always first
         for (Variant variant : variants)
-        {
             variant.setRules(this);
-        }
 
         createBank();
         createTradeableResources();
         createPlayerStocks();
         createStockPieces();
         game.setCurrentDice(getDiceType());
+        game.setDevelopmentCards(devCards);
 
         // Robber is hardcoded, not yet any variant known not using it.
         game.setRobber(new Robber(new HexLocation(0, 0)));

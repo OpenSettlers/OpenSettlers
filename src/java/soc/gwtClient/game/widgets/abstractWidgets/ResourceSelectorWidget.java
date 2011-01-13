@@ -1,6 +1,8 @@
 package soc.gwtClient.game.widgets.abstractWidgets;
 
+import soc.common.board.ports.PortList;
 import soc.common.board.resources.Resource;
+import soc.common.board.resources.ResourceList;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.IsWidget;
@@ -14,4 +16,18 @@ public interface ResourceSelectorWidget extends IsWidget
     public Resource getResource();
     public HandlerRegistration addClickHandler(ResourceClickedEventHandler handler);
     public ResourceSelectorWidget setEnabled(boolean enabled);
+    /**
+     * @return the ports
+     */
+    public PortList getPorts();
+    /**
+     * @param ports
+     *            the ports to set
+     */
+    public ResourceSelectorWidget setPorts(PortList ports);
+    /**
+     * @param bankResources
+     *            the bankResources to set
+     */
+    public ResourceSelectorWidget setBankResources(ResourceList bankResources);
 }

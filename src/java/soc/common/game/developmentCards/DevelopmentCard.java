@@ -18,18 +18,19 @@ public class DevelopmentCard
     private int id = 0;
     private boolean isPlayable = false;
     private static ResourceList cost = new ResourceList();
-    
+
     static
     {
         cost.add(new Wheat());
         cost.add(new Ore());
         cost.add(new Sheep());
     }
-    
+
     public boolean isLimitOnePerTurn()
     {
         return true;
     }
+
     /**
      * @return the hasSummoningSickness
      */
@@ -40,25 +41,26 @@ public class DevelopmentCard
 
     public static boolean canPay(GamePlayer player)
     {
-        //TODO: implement
-        return true;
+        return player.getResources().hasAtLeast(cost);
     }
-    
-    public ResourceList getCost()
+
+    public static ResourceList getCost()
     {
         return cost;
     }
-    
+
     public void play(Game game, GamePlayer player)
     {
         isPlayable = false;
+        player.getPlayedDevelopmentCards().add(this);
+        player.getDevelopmentCards().remove(this);
     }
-    
+
     public boolean isValid(Game game)
     {
         return true;
     }
-    
+
     /*
      * Default is not to keep the DevelopmentCard in stock
      */
@@ -66,65 +68,76 @@ public class DevelopmentCard
     {
         return false;
     }
-    
-    /* 
+
+    /*
      * Returns true if player is allowed to play this card in given TurnPhase
      */
     public boolean isAllowed(TurnPhase turnPhase)
     {
         throw new RuntimeException();
     }
-    
-    /* 
+
+    /*
      * Returns true if player is allowed to play this card in given GamePhase
      */
     public boolean isAllowed(GamePhase turnPhase)
     {
         throw new RuntimeException();
     }
-    
+
     public String getInvalidMessage()
     {
         return invalidMessage;
     }
+
     public void setInvalidMessage(String invalidMessage)
     {
         this.invalidMessage = invalidMessage;
     }
+
     public String getMessage()
     {
         return message;
     }
+
     public void setMessage(String message)
     {
         this.message = message;
     }
+
     public int getTurnBought()
     {
         return turnBought;
     }
+
     public void setTurnBought(int turnBought)
     {
         this.turnBought = turnBought;
     }
+
     public int getId()
     {
         return id;
     }
+
     public void setId(int id)
     {
         this.id = id;
     }
+
     public boolean isPlayable()
     {
         return isPlayable;
     }
+
     public void setPlayable(boolean isPlayable)
     {
         this.isPlayable = isPlayable;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#toString()
      */
     @Override
@@ -132,18 +145,22 @@ public class DevelopmentCard
     {
         return ClassUtils.getSimpleClassName(this.getClass().getName());
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#hashCode()
      */
-    
+
     @Override
     public int hashCode()
     {
         return id;
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -160,9 +177,10 @@ public class DevelopmentCard
             return false;
         return true;
     }
+
     public String getName()
     {
         return ClassUtils.getSimpleClassName(this.getClass().getName());
     }
-    
+
 }

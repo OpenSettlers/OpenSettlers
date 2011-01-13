@@ -8,7 +8,7 @@ import soc.gwtClient.visuals.behaviour.BoardBehaviour;
 
 import com.google.gwt.user.client.ui.IsWidget;
 
-public interface BoardVisual extends PieceVisual, IsWidget
+public interface BoardVisual extends PieceVisual, IsWidget, BoardBehaviour
 {
     public boolean isEnabled();
 

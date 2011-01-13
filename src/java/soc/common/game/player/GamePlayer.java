@@ -1,5 +1,6 @@
 package soc.common.game.player;
 
+import soc.common.board.pieces.Army;
 import soc.common.board.pieces.PlayerPieceList;
 import soc.common.board.ports.PortList;
 import soc.common.board.resources.ResourceList;
@@ -111,4 +112,5 @@ public interface GamePlayer
     public void addRoadTokenChangedEventHandler(
             RoadTokensChangedEventHandler handler);
 
+    public Army getArmy();
 }

@@ -30,4 +30,10 @@ public class Wheat extends AbstractResource
     {
         return new Wheat();
     }
+
+    @Override
+    public int hashCode()
+    {
+        return 7;
+    }
 }

@@ -2,6 +2,7 @@ package soc.gwtClient.game.behaviour;
 
 import soc.common.actions.gameAction.HostStartsGame;
 import soc.common.actions.gameAction.turnActions.TurnAction;
+import soc.common.actions.gameAction.turnActions.standard.BuildCity;
 import soc.common.actions.gameAction.turnActions.standard.BuildRoad;
 import soc.common.actions.gameAction.turnActions.standard.BuildTown;
 import soc.common.actions.gameAction.turnActions.standard.RollDice;
@@ -40,6 +41,10 @@ public class StandardGameBoardBehaviourFactory implements GameBehaviourFactory
         if (turnAction instanceof BuildRoad)
         {
             return new BuildRoadGameBehaviour((BuildRoad) turnAction, gamePanel);
+        }
+        if (turnAction instanceof BuildCity)
+        {
+            return new BuildCityGameBehaviour((BuildCity) turnAction, gamePanel);
         }
         if (turnAction instanceof HostStartsGame)
         {

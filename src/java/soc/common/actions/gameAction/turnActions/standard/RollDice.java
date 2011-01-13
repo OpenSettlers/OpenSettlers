@@ -3,6 +3,7 @@ package soc.common.actions.gameAction.turnActions.standard;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.TurnPhaseEnded;
@@ -21,6 +22,7 @@ import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.PlayTurnsGamePhase;
 import soc.common.game.gamePhase.turnPhase.RollDiceTurnPhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
+import soc.common.game.logs.QueuedAction;
 import soc.common.game.player.GamePlayer;
 import soc.common.internationalization.I18n;
 
@@ -151,8 +153,6 @@ public class RollDice extends AbstractTurnAction
         {
             playersResources.put(p, new ResourceList());
         }
-
-        GamePlayer player = game.getPlayerByID(sender);
         HexLocation robber = game.getRobber().getLocation();
 
         if (dice.getDiceTotal() != 7)
@@ -197,28 +197,29 @@ public class RollDice extends AbstractTurnAction
                             towns.add((Town) town);
                         }
 
-                        ResourceList gainedResources = new ResourceList();
+                        ResourceList ggainedResources = playersResources
+                                .get(player1);
+
                         for (Town town : towns)
                         {
                             if (town.getPoint().hasLocation(hex.getLocation()))
                             {
-                                gainedResources.add(hex.getResource().copy());
+                                ggainedResources.add(hex.getResource().copy());
                             }
                         }
                         for (City city : cities)
                         {
                             if (city.getPoint().hasLocation(hex.getLocation()))
                             {
-                                gainedResources.add(hex.getResource().copy());
-                                gainedResources.add(hex.getResource().copy());
+                                ggainedResources.add(hex.getResource().copy());
+                                ggainedResources.add(hex.getResource().copy());
                             }
                         }
 
-                        if (gainedResources.size() > 0)
+                        if (ggainedResources.size() > 0)
                         {
                             hexIsAffected = true;
                         }
-                        playersResources.get(player1).add(gainedResources);
                     } // For players
                 } // If robber
 
@@ -228,19 +229,19 @@ public class RollDice extends AbstractTurnAction
             message = player.getUser().getName() + " rolled " + dice.toString();
 
             // Add th resources to each player and remove them from the bank
-            for (GamePlayer resourcePlayer : playersResources.keySet())
+            for (Entry<GamePlayer, ResourceList> entry : playersResources
+                    .entrySet())
             {
-                ResourceList gainedResources = playersResources
-                        .get(resourcePlayer);
+                ResourceList gainedResources = entry.getValue();
                 if (gainedResources.size() > 0)
                 {
-                    resourcePlayer.addResources(gainedResources);
+                    GamePlayer playerr = entry.getKey();
+                    playerr.addResources(gainedResources);
                     game.getBank().remove(gainedResources, false);
-                    message += resourcePlayer.getUser().getName() + " gained "
+                    message += entry.getKey().getUser().getName() + " gained "
                             + gainedResources.toString();
                 }
             }
-
         }
         else
         {
@@ -258,6 +259,21 @@ public class RollDice extends AbstractTurnAction
                             + p1.getUser().getName() : p1.getUser().getName();
                 }
             }
+
+            // Enqueue all looserplayers
+            for (int playerID : looserPlayers)
+            {
+                GamePlayer player = game.getPlayerByID(playerID);
+                game.getActionsQueue().enqueue(
+                        new QueuedAction(new LooseCards().setPlayer(player),
+                                false, false));
+            }
+
+            // Enqueue moving the robber
+            game.getActionsQueue().enqueue(new PlaceRobber().setPlayer(player));
+
+            // Enqueue robbing a player
+            game.getActionsQueue().enqueue(new RobPlayer().setPlayer(player));
 
             message = player.getUser().getName() + " rolled a 7. ";
 

@@ -156,7 +156,7 @@ public class HexSvg extends AbstractHexVisual implements MouseMoveHandler,
         Path result = createPath();
 
         result.setFillColor("Black");
-        result.setFillOpacity(0.3);
+        result.setFillOpacity(0.6);
         result.setVisible(false);
 
         return result;
@@ -244,19 +244,19 @@ public class HexSvg extends AbstractHexVisual implements MouseMoveHandler,
     @Override
     public void onMouseMove(MouseMoveEvent event)
     {
-        parent.getBoardBehaviour().mouseEnter(this, parent);
+        parent.mouseEnter(this, parent);
     }
 
     @Override
     public void onClick(ClickEvent event)
     {
-        parent.getBoardBehaviour().clicked(this, parent);
+        parent.clicked(this, parent);
     }
 
     @Override
     public void onMouseOut(MouseOutEvent event)
     {
-        parent.getBoardBehaviour().mouseOut(this, parent);
+        parent.mouseOut(this, parent);
     }
 
     public void resizeAndPosition()

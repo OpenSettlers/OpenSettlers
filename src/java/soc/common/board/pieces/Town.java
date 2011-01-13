@@ -77,4 +77,18 @@ public class Town extends AbstractPlayerPiece implements VictoryPointItem,
     {
         return true;
     }
+
+    @Override
+    public void addToPlayer(GamePlayer player)
+    {
+        PlayerPieceList.move(this, player.getStock(), player.getBuildPieces());
+        player.getVictoryPoints().add(this);
+    }
+
+    @Override
+    public void removeFromPlayer(GamePlayer player)
+    {
+        PlayerPieceList.move(this, player.getBuildPieces(), player.getStock());
+        player.getVictoryPoints().remove(this);
+    }
 }

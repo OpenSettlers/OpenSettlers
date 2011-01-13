@@ -29,4 +29,10 @@ public class Clay extends AbstractResource
     {
         return new Clay();
     }
+
+    @Override
+    public int hashCode()
+    {
+        return 1;
+    }
 }

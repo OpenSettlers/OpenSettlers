@@ -23,7 +23,8 @@ public class ServerBuyDevelopmentCard implements ServerAction
     @Override
     public void execute()
     {
-        buyDevCard.setDevCard(game.getDevelopmentCardStack().drawTop());
+        buyDevCard.setDevCard(gameServer.getGame().getDevelopmentCardStack()
+                .drawTop());
 
         gameServer.getGame().performAction(buyDevCard);
     }

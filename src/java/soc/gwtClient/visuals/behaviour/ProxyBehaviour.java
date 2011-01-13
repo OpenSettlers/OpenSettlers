@@ -20,18 +20,18 @@ public class ProxyBehaviour implements BoardBehaviour
     @Override
     public void clicked(PieceVisual pieceVisual, BoardVisual board)
     {
-        gameBoardVisual.getBehaviour().clicked(pieceVisual, gameBoardVisual);
+        gameBoardVisual.clicked(pieceVisual, gameBoardVisual);
     }
 
     @Override
     public void mouseEnter(PieceVisual pieceVisual, BoardVisual board)
     {
-        gameBoardVisual.getBehaviour().mouseEnter(pieceVisual, gameBoardVisual);
+        gameBoardVisual.mouseEnter(pieceVisual, gameBoardVisual);
     }
 
     @Override
     public void mouseOut(PieceVisual pieceVisual, BoardVisual board)
     {
-        gameBoardVisual.getBehaviour().mouseOut(pieceVisual, gameBoardVisual);
+        gameBoardVisual.mouseOut(pieceVisual, gameBoardVisual);
     }
 }

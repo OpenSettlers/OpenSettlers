@@ -1,5 +1,6 @@
 package soc.common.actions.gameAction.turnActions.standard;
 
+import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.turnActions.AbstractTurnAction;
 import soc.common.board.resources.ResourceList;
 import soc.common.game.Game;
@@ -7,6 +8,7 @@ import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.PlayTurnsGamePhase;
 import soc.common.game.gamePhase.turnPhase.RollDiceTurnPhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
+import soc.common.game.player.GamePlayer;
 import soc.common.internationalization.I18n;
 
 public class LooseCards extends AbstractTurnAction
@@ -14,6 +16,23 @@ public class LooseCards extends AbstractTurnAction
     private static final long serialVersionUID = -959183979765053849L;
     private ResourceList lostCards;
     private int amountCardsToLoose = 4;
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.common.actions.gameAction.AbstractGameAction#setPlayer(soc.common
+     * .game.player.GamePlayer)
+     */
+    @Override
+    public GameAction setPlayer(GamePlayer player)
+    {
+        this.player = player;
+        this.sender = player.getUser().getId();
+        amountCardsToLoose = player.getResources().halfCount();
+
+        return this;
+    }
 
     /**
      * @return the lostCards

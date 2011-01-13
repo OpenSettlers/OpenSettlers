@@ -135,7 +135,7 @@ public class BoardGraph
         return null;
     }
 
-    private GraphPoint findGraphPoint(HexPoint point)
+    public GraphPoint findGraphPoint(HexPoint point)
     {
         for (GraphPoint graphPoint : graph.vertexSet())
         {
@@ -376,6 +376,32 @@ public class BoardGraph
     public Set<GraphPoint> getTownCandidatesTurnPhase(GamePlayer forPlayer)
     {
         Set<GraphPoint> result = new HashSet<GraphPoint>();
+        List<GraphSide> sides = new ArrayList<GraphSide>();
+        for (GraphSide side : graph.edgeSet())
+        {
+            if (forPlayer.equals(side.getPlayer()))
+            {
+                sides.add(side);
+            }
+        }
+        List<GraphPoint> points = new ArrayList<GraphPoint>();
+        for (GraphSide side : sides)
+        {
+            if (!points.contains(graph.getEdgeSource(side)))
+            {
+                points.add(graph.getEdgeSource(side));
+            }
+            if (!points.contains(graph.getEdgeTarget(side)))
+            {
+                points.add(graph.getEdgeTarget(side));
+            }
+        }
+
+        for (GraphPoint point : points)
+        {
+            if (point.isTownBuildable())
+                result.add(point);
+        }
 
         return result;
     }
@@ -477,7 +503,7 @@ public class BoardGraph
         List<GraphSide> currentSidePieces = new ArrayList<GraphSide>();
         for (GraphSide side : graph.edgeSet())
         {
-            if (side.getPlayer().equals(player))
+            if (side.getPlayer() != null && side.getPlayer().equals(player))
                 currentSidePieces.add(side);
         }
 

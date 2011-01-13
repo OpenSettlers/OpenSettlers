@@ -75,4 +75,16 @@ public class Road extends AbstractPlayerPiece implements SidePiece
         sideLocation = side;
         return null;
     }
+
+    @Override
+    public void addToPlayer(GamePlayer player)
+    {
+        player.getBuildPieces().add(this);
+        player.getStock().remove(this);
+    }
+
+    @Override
+    public void removeFromPlayer(GamePlayer player)
+    {
+    }
 }

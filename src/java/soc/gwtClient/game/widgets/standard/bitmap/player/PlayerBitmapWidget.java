@@ -2,14 +2,15 @@ package soc.gwtClient.game.widgets.standard.bitmap.player;
 
 import soc.common.game.Game;
 import soc.common.game.player.GamePlayer;
+import soc.gwtClient.game.Point2D;
 import soc.gwtClient.game.abstractWidgets.AbstractPlayerWidget;
 import soc.gwtClient.game.abstractWidgets.DevelopmentCardsAmountWidget;
 import soc.gwtClient.game.abstractWidgets.LargestArmyWidget;
 import soc.gwtClient.game.abstractWidgets.LongestRoadWidget;
+import soc.gwtClient.game.abstractWidgets.PlayerTurnStatusWidget;
 import soc.gwtClient.game.abstractWidgets.ResourceAmountWidget;
 import soc.gwtClient.game.abstractWidgets.StockWidget;
 import soc.gwtClient.game.abstractWidgets.VictoryPointsWidget;
-import soc.gwtClient.game.abstractWidgets.PlayerTurnStatusWidget;
 import soc.gwtClient.game.widgets.bitmap.PlayerTurnStatusBitmapWidget;
 import soc.gwtClient.game.widgets.standard.bitmap.LargestArmyBitmapWidget;
 import soc.gwtClient.game.widgets.standard.bitmap.LongestRoadBitmapWidget;
@@ -71,6 +72,13 @@ public class PlayerBitmapWidget extends AbstractPlayerWidget
     public PlayerTurnStatusWidget createTurnStatusWidget()
     {
         return new PlayerTurnStatusBitmapWidget(player, game);
+    }
+
+    @Override
+    public Point2D getTopRightLocation()
+    {
+        return new Point2D(getOffsetWidth() + getAbsoluteLeft(),
+                getAbsoluteTop());
     }
 
 }

@@ -25,8 +25,13 @@ public class ServerRobPlayer implements ServerAction
     @Override
     public void execute()
     {
-        GamePlayer victim = game.getPlayerByID(robPlayer.getVictimID());
-        robPlayer.setStolenResource(victim.getResources().getRandom(random));
+        GamePlayer victim = gameServer.getGame().getPlayerByID(
+                robPlayer.getVictimID());
+        if (victim != null)
+        {
+            robPlayer
+                    .setStolenResource(victim.getResources().getRandom(random));
+        }
 
         gameServer.getGame().performAction(robPlayer);
     }

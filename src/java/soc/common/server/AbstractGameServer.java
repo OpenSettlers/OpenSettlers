@@ -3,6 +3,7 @@ package soc.common.server;
 import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.MessageFromServer;
 import soc.common.game.Game;
+import soc.common.game.logs.ActionsQueue;
 import soc.common.game.logs.QueuedAction;
 import soc.common.server.actions.GameServerActionFactory;
 import soc.common.server.actions.ServerAction;
@@ -64,8 +65,8 @@ public abstract class AbstractGameServer implements GameServer
             }
             if (game.getActionsQueue().size() > 0)
             {
-                expectedAction = game.getActionsQueue().findExpected(action,
-                        game);
+                ActionsQueue ac = game.getActionsQueue();
+                expectedAction = ac.findExpected(action, game);
                 if (expectedAction == null)
                 {
                     notifyUnexpected(action);

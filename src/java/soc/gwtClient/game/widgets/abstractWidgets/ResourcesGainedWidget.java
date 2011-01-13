@@ -11,4 +11,6 @@ import com.google.gwt.user.client.ui.IsWidget;
 public interface ResourcesGainedWidget extends IsWidget
 {
     public void update(RollDiceResult rollDiceResult);
+
+    public void show();
 }

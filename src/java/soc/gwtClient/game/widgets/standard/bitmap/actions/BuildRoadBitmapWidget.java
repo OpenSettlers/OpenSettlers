@@ -1,6 +1,5 @@
 package soc.gwtClient.game.widgets.standard.bitmap.actions;
 
-import soc.common.actions.gameAction.turnActions.AbstractTurnAction;
 import soc.common.actions.gameAction.turnActions.standard.BuildRoad;
 import soc.common.board.pieces.PiecesChangedEvent;
 import soc.common.board.pieces.PiecesChangedEventHandler;
@@ -46,7 +45,7 @@ public class BuildRoadBitmapWidget extends AbstractActionWidget implements
     {
         super(gamePanel, player);
 
-        absolutePanel.setSize("60px", "60px");
+        absolutePanel.setSize("4em", "4em");
 
         buildRoad = new BuildRoad();
         buildRoad.setPlayer(player);
@@ -60,11 +59,7 @@ public class BuildRoadBitmapWidget extends AbstractActionWidget implements
             @Override
             public void onClick(ClickEvent event)
             {
-                if (player.getResources().hasAtLeast(road.getCost()))
-                {
-                    gamePanel.startAction((AbstractTurnAction) new BuildRoad()
-                            .setPlayer(player));
-                }
+                gamePanel.startAction(new BuildRoad().setPlayer(player));
             }
         });
 
@@ -87,7 +82,17 @@ public class BuildRoadBitmapWidget extends AbstractActionWidget implements
     @Override
     protected void updateEnabled()
     {
-        btnBuildRoad.setEnabled(enabled);
+        checkEnabled();
+    }
+
+    private void enableUI()
+    {
+        btnBuildRoad.setEnabled(true);
+    }
+
+    private void disableUI()
+    {
+        btnBuildRoad.setEnabled(false);
     }
 
     @Override
@@ -110,29 +115,23 @@ public class BuildRoadBitmapWidget extends AbstractActionWidget implements
 
     private void checkEnabled()
     {
-        if (onTurn)
+        setRoadTokens();
+        setTradesNeededToBuild();
+        if (enabled && player.isOnTurn())
         {
             Game game = gamePanel.getGame();
 
-            if (game.getCurrentPhase().isAllowed(buildRoad) && // current phase
+            if (game.isAllowed(buildRoad) && // current phase
                     // must be OK
                     road.canBuild(game.getBoard(), player) && // we need space
                     road.canPay(player) && // we need resources
                     game.getBoard().getGraph().getRoadCandidates(player).size() > 0)
             {
-                setEnabled(true);
-                if (player.getRoadBuildingTokens() > 0)
-                {
-                    setRoadTokens();
-                }
-                else
-                {
-                    setTradesNeededToBuild();
-                }
+                enableUI();
                 return;
             }
         }
-        setEnabled(false);
+        disableUI();
     }
 
     private void setRoadTokens()

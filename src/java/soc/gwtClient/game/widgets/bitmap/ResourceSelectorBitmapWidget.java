@@ -6,9 +6,9 @@ import soc.common.board.resources.Resource;
 import soc.common.board.resources.ResourceList;
 import soc.common.board.resources.ResourcesChangedEvent;
 import soc.common.board.resources.ResourcesChangedEventHandler;
-import soc.gwtClient.game.widgets.abstractWidgets.ResourceSelectorWidget;
 import soc.gwtClient.game.widgets.abstractWidgets.ResourceClickedEvent;
 import soc.gwtClient.game.widgets.abstractWidgets.ResourceClickedEventHandler;
+import soc.gwtClient.game.widgets.abstractWidgets.ResourceSelectorWidget;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -25,14 +25,15 @@ import com.google.gwt.user.client.ui.Widget;
 public class ResourceSelectorBitmapWidget implements ResourceSelectorWidget,
         ClickHandler, ResourcesChangedEventHandler
 {
-    protected Resource resource;
-    protected ResourceList bankResources;
-    protected PortList ports;
+    private Resource resource;
+    private ResourceList bankResources;
+    private PortList ports;
     private VerticalPanel rootPanel = new VerticalPanel();
     private Label lblAmountResources = new Label();
     private PushButton btnResource;
     private Image imgPort;
     private SimpleEventBus eventBus = new SimpleEventBus();
+    private HandlerRegistration bankResourcesHandlerRegistration;
 
     public ResourceSelectorBitmapWidget(Resource resource,
             ResourceList bankResources, PortList ports)
@@ -43,22 +44,15 @@ public class ResourceSelectorBitmapWidget implements ResourceSelectorWidget,
 
         btnResource = new PushButton(new Image(Resources.card(resource)));
         btnResource.addClickHandler(this);
+        imgPort = new Image();
 
         setBankResources(bankResources);
+        setPorts(ports);
 
         rootPanel.add(btnResource);
         rootPanel.add(lblAmountResources);
+        rootPanel.add(imgPort);
 
-        // Add port when available
-        if (ports != null)
-        {
-            Port port = ports.getPort(resource, true);
-            if (port != null)
-            {
-                imgPort = new Image(Resources.port(port));
-                rootPanel.add(imgPort);
-            }
-        }
         rootPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
     }
 
@@ -78,6 +72,35 @@ public class ResourceSelectorBitmapWidget implements ResourceSelectorWidget,
     }
 
     /**
+     * @return the ports
+     */
+    public PortList getPorts()
+    {
+        return ports;
+    }
+
+    /**
+     * @param ports
+     *            the ports to set
+     */
+    public ResourceSelectorWidget setPorts(PortList ports)
+    {
+        this.ports = ports;
+
+        // Add port when available
+        if (ports != null)
+        {
+            Port port = ports.getBestPortForResource(resource, true);
+            if (port != null)
+            {
+                imgPort.setUrl(Resources.port(port).getURL());
+            }
+        }
+
+        return this;
+    }
+
+    /**
      * @return the bankResources
      */
     public ResourceList getBankResources()
@@ -91,15 +114,18 @@ public class ResourceSelectorBitmapWidget implements ResourceSelectorWidget,
      */
     public ResourceSelectorWidget setBankResources(ResourceList bankResources)
     {
-        // TODO: remove old handler when present
         this.bankResources = bankResources;
+
+        if (bankResourcesHandlerRegistration != null)
+            bankResourcesHandlerRegistration.removeHandler();
 
         if (bankResources != null)
         {
             // Add a handler to resources changed event
-            bankResources.addResourcesChangedEventHandler(this);
+            bankResourcesHandlerRegistration = bankResources
+                    .addResourcesChangedEventHandler(this);
 
-            // update the amount of rsources label
+            // update the amount of resources label
             lblAmountResources.setText(Integer.toString(bankResources.ofType(
                     resource).size()));
 
@@ -113,7 +139,7 @@ public class ResourceSelectorBitmapWidget implements ResourceSelectorWidget,
                     .setEnabled(bankResources.ofType(resource).size() >= neededAmount);
         }
 
-        // Only show bankresources when they are available
+        // Only show bank resources when they are available
         lblAmountResources.setVisible(bankResources != null);
 
         return this;

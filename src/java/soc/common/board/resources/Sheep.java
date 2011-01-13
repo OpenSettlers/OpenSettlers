@@ -29,4 +29,10 @@ public class Sheep extends AbstractResource
     {
         return new Sheep();
     }
+
+    @Override
+    public int hashCode()
+    {
+        return 5;
+    }
 }

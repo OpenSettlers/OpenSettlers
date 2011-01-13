@@ -32,4 +32,10 @@ public class Gold extends AbstractResource
     {
         return new Gold();
     }
+
+    @Override
+    public int hashCode()
+    {
+        return 3;
+    }
 }

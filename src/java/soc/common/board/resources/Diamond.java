@@ -34,4 +34,10 @@ public class Diamond extends AbstractResource
         return new Diamond();
     }
 
+    @Override
+    public int hashCode()
+    {
+        return 2;
+    }
+
 }

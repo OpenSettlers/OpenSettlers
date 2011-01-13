@@ -29,4 +29,10 @@ public class Ore extends AbstractResource
     {
         return new Ore();
     }
+
+    @Override
+    public int hashCode()
+    {
+        return 4;
+    }
 }

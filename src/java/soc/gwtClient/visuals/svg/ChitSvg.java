@@ -74,19 +74,19 @@ public class ChitSvg extends AbstractChitVisual implements MouseMoveHandler,
     @Override
     public void onMouseMove(MouseMoveEvent event)
     {
-        parent.getBoardBehaviour().mouseEnter(this, parent);
+        parent.mouseEnter(this, parent);
     }
 
     @Override
     public void onMouseOut(MouseOutEvent event)
     {
-        parent.getBoardBehaviour().mouseOut(this, parent);
+        parent.mouseOut(this, parent);
     }
 
     @Override
     public void onClick(ClickEvent event)
     {
-        parent.getBoardBehaviour().clicked(this, parent);
+        parent.clicked(this, parent);
     }
 
     public void resizeAndReposition(Point2D newPoint)

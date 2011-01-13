@@ -6,18 +6,25 @@ import java.util.List;
 import soc.common.actions.Action;
 import soc.common.actions.gameAction.GameAction;
 import soc.common.board.Board;
+import soc.common.board.HexLocation;
 import soc.common.board.hexes.DesertHex;
 import soc.common.board.hexes.Hex;
-import soc.common.board.pieces.LargestArmy;
+import soc.common.board.pieces.Army;
 import soc.common.board.pieces.LongestRoad;
 import soc.common.board.pieces.Pirate;
+import soc.common.board.pieces.PlayerPiece;
 import soc.common.board.pieces.PlayerPieceList;
+import soc.common.board.pieces.PointPiece;
 import soc.common.board.pieces.Robber;
 import soc.common.board.resources.ResourceList;
 import soc.common.game.developmentCards.DevelopmentCardList;
 import soc.common.game.dices.Dice;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.LobbyGamePhase;
+import soc.common.game.gamePhase.PlayTurnsGamePhase;
+import soc.common.game.gamePhase.turnPhase.TurnPhase;
+import soc.common.game.gamePhase.turnPhase.TurnPhaseChangedEvent;
+import soc.common.game.gamePhase.turnPhase.TurnPhaseChangedHandler;
 import soc.common.game.logs.ActionsQueue;
 import soc.common.game.logs.ActionsQueueImpl;
 import soc.common.game.logs.ChatLog;
@@ -28,6 +35,7 @@ import soc.common.game.logs.QueuedAction;
 import soc.common.game.player.GamePlayer;
 import soc.common.game.player.GamePlayerList;
 import soc.common.game.statuses.GameStatus;
+import soc.common.game.statuses.Playing;
 import soc.common.game.statuses.WaitingForPlayers;
 
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -59,7 +67,7 @@ public class Game
     private DevelopmentCardList developmentCardStack = new DevelopmentCardList();
     private Turn currentTurn;
     private GameStatus currentStatus = new WaitingForPlayers();
-    private LargestArmy largestArmy;
+    private Army largestArmy;
     private LongestRoad longestRoute;
     private Dice currentDice;
 
@@ -116,6 +124,18 @@ public class Game
         }
 
         return result;
+    }
+
+    public void advanceTurnPhase()
+    {
+        PlayTurnsGamePhase playTurns = (PlayTurnsGamePhase) currentPhase;
+        TurnPhase oldPhase = playTurns.getTurnPhase();
+        if (oldPhase != null)
+        {
+            TurnPhase newPhase = playTurns.getTurnPhase().next();
+            playTurns.setTurnPhase(newPhase);
+            eventBus.fireEvent(new TurnPhaseChangedEvent(newPhase, oldPhase));
+        }
     }
 
     public void advanceTurn()
@@ -176,7 +196,7 @@ public class Game
             GameAction gameAction = (GameAction) action;
 
             // Check if the status allows the action
-            if (!gameAction.isAllowed(currentStatus))
+            if (currentStatus.isGameBlocking())
             {
                 return false;
             }
@@ -238,6 +258,12 @@ public class Game
             TurnChangedEventHandler handler)
     {
         return eventBus.addHandler(TurnChangedEvent.TYPE, handler);
+    }
+
+    public HandlerRegistration addTurnPhaseChangedHandler(
+            TurnPhaseChangedHandler handler)
+    {
+        return eventBus.addHandler(TurnPhaseChangedEvent.TYPE, handler);
     }
 
     /**
@@ -306,8 +332,35 @@ public class Game
             if (p.getUser().getId() == id)
                 return p;
         }
-        throw new RuntimeException("Trying to get non-existing player. ID "
-                + id + " is unknown");
+
+        return null;
+    }
+
+    /*
+     * Returns a list of GamePlayers having a town or city at given HexLocation
+     */
+    public GamePlayerList getPlayersAtHex(HexLocation hexLocation,
+            GamePlayer skipPlayer)
+    {
+        GamePlayerList playersAtHex = new GamePlayerList();
+
+        // Check all opponents
+        for (GamePlayer player : players.getOpponents(skipPlayer))
+        {
+            // If a PointPiece has given HexLocation contained, add the player
+            // to the list of players having a town or city at given HexLocation
+            for (PlayerPiece playerPiece : player.getBuildPieces()
+                    .getPointPieces())
+            {
+                PointPiece pointPiece = (PointPiece) playerPiece;
+                if (pointPiece.getPoint().hasLocation(hexLocation))
+                {
+                    playersAtHex.add(player);
+                }
+            }
+        }
+
+        return playersAtHex;
     }
 
     /**
@@ -401,6 +454,14 @@ public class Game
 
         currentPhase = newGamePhase;
 
+        // Fire a TurnPhaseChangedEvent when setting new phase to
+        // PlayTurnsGamePhase
+        if (currentPhase instanceof PlayTurnsGamePhase)
+        {
+            eventBus.fireEvent(new TurnPhaseChangedEvent(
+                    ((PlayTurnsGamePhase) currentPhase).getTurnPhase(), null));
+        }
+
         // Start the next phase
         currentPhase.start(this);
 
@@ -410,7 +471,7 @@ public class Game
     /**
      * @return the largestArmy
      */
-    public LargestArmy getLargestArmy()
+    public Army getLargestArmy()
     {
         return largestArmy;
     }
@@ -419,7 +480,7 @@ public class Game
      * @param largestArmy
      *            the largestArmy to set
      */
-    public Game setLargestArmy(LargestArmy largestArmy)
+    public Game setLargestArmy(Army largestArmy)
     {
         this.largestArmy = largestArmy;
 
@@ -483,26 +544,40 @@ public class Game
         {
             robber.setLocation(desertHex.getLocation());
         }
+
+        currentStatus = new Playing();
     }
 
-    public void switchLargestArmy(GamePlayer player)
+    /*
+     * Switches largest army to specified player
+     */
+    public void switchLargestArmyIfNeeded(GamePlayer player)
     {
-        LargestArmy armyToSwitch = null;
-        for (GamePlayer opponent : players)
+        // Only check largest army update when player has more then 2
+        // soldiers
+        if (player.getArmy().getSoldiersAmount() > 2)
         {
-            VictoryPointsList largestArmy = opponent.getVictoryPoints().ofType(
-                    LargestArmy.LARGESTARMY);
-            if (largestArmy.size() == 1)
+            // Remove largest army from current player, if player holds one
+            GamePlayer opponent = largestArmy.getPlayer();
+            if (opponent == null)
             {
-                armyToSwitch = (LargestArmy) largestArmy.get(0);
-                opponent.getVictoryPoints().remove(armyToSwitch);
+                // No one owns LA yet, set it to given player
+                player.getArmy().addToPlayer(player);
+                largestArmy.setPlayer(player);
+            }
+            else
+            {
+                // There is an opponent with a bigger army
+                if (!opponent.equals(player)
+                        && opponent.getArmy().getSoldiersAmount() < player
+                                .getArmy().getSoldiersAmount())
+                {
+                    // Player wins LA from previous player
+                    opponent.getArmy().removeFromPlayer(opponent);
+                    player.getArmy().addToPlayer(player);
+                    largestArmy.setPlayer(player);
+                }
             }
         }
-        if (largestArmy == null)
-        {
-            armyToSwitch = this.largestArmy;
-            this.largestArmy = null;
-        }
-        player.getVictoryPoints().add(armyToSwitch);
     }
 }

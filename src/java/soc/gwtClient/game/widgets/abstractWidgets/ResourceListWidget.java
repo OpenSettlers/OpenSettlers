@@ -27,4 +27,8 @@ public interface ResourceListWidget extends IsWidget,
     public ResourceList getResources();
 
     public ResourceListWidget setEnabled(boolean enabled);
+
+    public void setHeight(String height);
+
+    public ResourceListWidget setBankResources(ResourceList bankResources);
 }

@@ -45,22 +45,37 @@ public class RollDiceResult implements GameBehaviour
         this.gamePanel = gamePanel;
         if (rolledDice.isRobberRolled())
         {
-            // Create a new PlaceRobber action
-            placeRobber = new PlaceRobber();
-            placeRobber.setPlayer(gamePanel.getPlayingPlayer());
-
-            // Create a new place robber behaviour and start it
-            placeRobberBehaviour = new PlaceRobberBehaviour(this);
-            placeRobberBehaviour.start(gamePanel.getGameBoardVisual());
+            if (rolledDice.getLooserPlayers().size() > 0)
+            {
+                gamePanel.getLooseCardsDialog().update(rolledDice, this);
+            }
+            else
+            {
+                startRobbing();
+            }
         }
         else
         {
             // Show the hexes which have been rolled
-            rollDiceBehaviour.start(gamePanel.getGameBoardVisual());
+            gamePanel.getGameBoardVisual().setBehaviour(rollDiceBehaviour);
 
-            // Ensure the resources gained widget shows current results
+            gamePanel.getDetailContainerManager().showResourcesGained(
+                    rolledDice);
+
             gamePanel.getResourcesGainedWidget().update(this);
+            gamePanel.getActionsWidget().setEnabled(false);
         }
+    }
+
+    private void startRobbing()
+    {
+        // Create a new PlaceRobber action
+        placeRobber = new PlaceRobber();
+        placeRobber.setPlayer(gamePanel.getPlayingPlayer());
+
+        // Create a new place robber behaviour and start it
+        placeRobberBehaviour = new PlaceRobberBehaviour(this);
+        gamePanel.getGameBoardVisual().setBehaviour(placeRobberBehaviour);
     }
 
     @Override
@@ -71,18 +86,28 @@ public class RollDiceResult implements GameBehaviour
 
     public void robbedPlayer(RobPlayer robplayer)
     {
-        gamePanel.startAction(robplayer);
+        gamePanel.sendAction(robplayer);
+        gamePanel.getActionsWidget().setEnabled(true);
     }
 
     public void doneResources()
     {
         rollDiceBehaviour.setNeutral(gamePanel.getGameBoardVisual());
+        gamePanel.getDetailContainerManager().hideAll();
+        gamePanel.getActionsWidget().setEnabled(true);
     }
 
     public void pickedRobberSpot(PlaceRobberBehaviour placeRobberBehaviour)
     {
         placeRobberBehaviour.setNeutral(gamePanel.getGameBoardVisual());
         gamePanel.startAction(placeRobberBehaviour.getPlaceRobber());
-        gamePanel.getStealCardWidget().update(this);
+        gamePanel.getStealCardWidget().update(this,
+                placeRobberBehaviour.getPlaceRobber(),
+                gamePanel.getPlayingPlayer());
+    }
+
+    public void doneLoosingCards()
+    {
+        startRobbing();
     }
 }

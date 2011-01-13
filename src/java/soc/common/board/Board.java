@@ -560,5 +560,4 @@ public class Board
         Hex hex2 = hexes.get(neighbour.getSide().getHex2());
         return hex1.isBuildableLand() || hex2.isBuildableLand();
     }
-
 }

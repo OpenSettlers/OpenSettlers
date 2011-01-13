@@ -153,7 +153,7 @@ public class RobPlayer extends AbstractTurnAction
             robbedPlayer = game.getPlayerByID(victimID);
         }
 
-        if (robbedPlayer == null)
+        if (robbedPlayer != null)
         {
             player.getResources().add(stolenResource);
             robbedPlayer.getResources().remove(stolenResource);

@@ -24,6 +24,11 @@ public class PlayTurnsGamePhase extends AbstractGamePhase
         return turnPhase;
     }
 
+    public void setTurnPhase(TurnPhase newPhase)
+    {
+        turnPhase = newPhase;
+    }
+
     /*
      * (non-Javadoc)
      * 
@@ -32,7 +37,7 @@ public class PlayTurnsGamePhase extends AbstractGamePhase
     @Override
     public GamePhase next(Game game)
     {
-        return new EndedGamePhase();
+        return new PlayTurnsGamePhase();
     }
 
     /*
@@ -46,7 +51,8 @@ public class PlayTurnsGamePhase extends AbstractGamePhase
     public void performAction(GameAction action, Game game)
     {
         if (turnPhase instanceof TradingTurnPhase
-                && !(action instanceof TradeAction))
+                && !(action instanceof TradeAction)
+                && !(action instanceof TurnPhaseEnded))
         {
             // Non-trading action detected in trading turn phase, advance phase
             TurnPhaseEnded endedTradePhase = (TurnPhaseEnded) new TurnPhaseEnded()
@@ -87,11 +93,6 @@ public class PlayTurnsGamePhase extends AbstractGamePhase
     {
         // TODO fix message
         return turnPhase.getMessage();
-    }
-
-    public void advanceTurnPhase()
-    {
-        turnPhase = turnPhase.next();
     }
 
     @Override

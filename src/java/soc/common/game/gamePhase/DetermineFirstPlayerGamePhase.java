@@ -101,7 +101,7 @@ public class DetermineFirstPlayerGamePhase extends AbstractGamePhase
             }
 
         }
-        if (!(game.getActionsQueue().peekAction() instanceof GamePhaseHasEnded))
+        if (game.getActionsQueue().peekAction() instanceof RollDice)
         {
             game.advanceTurn();
         }

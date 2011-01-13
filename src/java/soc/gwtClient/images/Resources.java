@@ -9,7 +9,9 @@ import soc.common.board.hexes.RandomHex;
 import soc.common.board.hexes.ResourceHex;
 import soc.common.board.hexes.SeaHex;
 import soc.common.board.hexes.VolcanoHex;
+import soc.common.board.pieces.Army;
 import soc.common.board.pieces.City;
+import soc.common.board.pieces.LongestRoad;
 import soc.common.board.pieces.PlayerPiece;
 import soc.common.board.pieces.Road;
 import soc.common.board.pieces.Town;
@@ -24,6 +26,8 @@ import soc.common.board.resources.Resource;
 import soc.common.board.resources.Sheep;
 import soc.common.board.resources.Timber;
 import soc.common.board.resources.Wheat;
+import soc.common.game.VictoryPointItem;
+import soc.common.game.developmentCards.standard.VictoryPoint;
 import soc.gwtClient.images.defaultTheme.Icons;
 import soc.gwtClient.images.defaultTheme.Images;
 
@@ -43,6 +47,26 @@ public class Resources
     public static Icons icons()
     {
         return icons;
+    }
+
+    public static ImageResource island(int id)
+    {
+        switch (id)
+        {
+        case 1:
+            return icons.island1();
+        case 2:
+            return icons.island2();
+        case 3:
+            return icons.island3();
+        case 4:
+            return icons.island4();
+        case 5:
+            return icons.island5();
+        case 6:
+            return icons.island6();
+        }
+        return null;
     }
 
     public static ImageResource chit(Chit chit)
@@ -153,6 +177,31 @@ public class Resources
             }
         }
 
+        return null;
+    }
+
+    public static ImageResource victoryPointItem(VictoryPointItem vp)
+    {
+        if (vp instanceof Town)
+        {
+            return icons.town();
+        }
+        if (vp instanceof City)
+        {
+            return icons.city();
+        }
+        if (vp instanceof VictoryPoint)
+        {
+            return icons.victoryPoint();
+        }
+        if (vp instanceof Army)
+        {
+            return icons.soldier();
+        }
+        if (vp instanceof LongestRoad)
+        {
+            return icons.road();
+        }
         return null;
     }
 

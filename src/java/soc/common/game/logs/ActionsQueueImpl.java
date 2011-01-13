@@ -12,6 +12,12 @@ import com.google.gwt.event.shared.SimpleEventBus;
 /*
  * A list of queued actions. This aids the user in what to expect from them, they
  * can actually see a list of things they must do.
+ * 
+ * The actions blocking gameplay from advancing can be of three types:
+ * 1. The first action in the queue where isServer=true. This action
+ *    will be executed immediately after the current executing action
+ * 2. First encountered action where isBlocking=true
+ * 3. All actions of which isBlocking=false
  */
 public class ActionsQueueImpl implements ActionsQueue
 {
@@ -48,7 +54,8 @@ public class ActionsQueueImpl implements ActionsQueue
     }
 
     /*
-     * Returns true when given action is expected with relation to the gamestate
+     * Returns true when given action is expected with relation to the
+     * gamestate.
      * 
      * @see
      * soc.common.game.logs.IActionsQueue#isExpected(soc.common.actions.gameAction
@@ -57,10 +64,12 @@ public class ActionsQueueImpl implements ActionsQueue
     @Override
     public QueuedAction findExpected(GameAction action, Game game)
     {
+        // First action which is a server action is always expected
         if (actions.size() > 0 && actions.get(0).getAction().isServer())
         {
             return actions.get(0);
         }
+
         for (QueuedAction blockingAction : getBlockingActions())
         {
             if (blockingAction.getAction().getClass() == action.getClass()
@@ -97,6 +106,12 @@ public class ActionsQueueImpl implements ActionsQueue
         return actions.get(0).isBlocking();
     }
 
+    /*
+     * Returns the first encountered blocking action or all the encountered
+     * non-blocking actions
+     * 
+     * @see soc.common.game.logs.ActionsQueue#getBlockingActions()
+     */
     public List<QueuedAction> getBlockingActions()
     {
         List<QueuedAction> result = new ArrayList<QueuedAction>();
@@ -104,6 +119,14 @@ public class ActionsQueueImpl implements ActionsQueue
         for (int i = 0; i < actions.size(); i++)
         {
             QueuedAction action = actions.get(i);
+
+            // Break out when there are non-blocking actions
+            if (action.isBlocking() && result.size() > 0)
+            {
+                break;
+            }
+
+            // Add either blocking or non-blocking action
             result.add(action);
             if (action.isBlocking())
             {

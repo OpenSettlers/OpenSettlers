@@ -1,11 +1,14 @@
 package soc.gwtClient.game.widgets.standard.bitmap.actions;
 
+import soc.common.actions.gameAction.turnActions.standard.TradeBank;
 import soc.common.board.ports.PortListChangedEvent;
 import soc.common.board.ports.PortListChangedEventHandler;
 import soc.common.board.resources.ResourcesChangedEvent;
 import soc.common.board.resources.ResourcesChangedEventHandler;
 import soc.common.game.GamePhaseChangedEvent;
 import soc.common.game.GamePhaseChangedEventHandler;
+import soc.common.game.gamePhase.turnPhase.TurnPhaseChangedEvent;
+import soc.common.game.gamePhase.turnPhase.TurnPhaseChangedHandler;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.AbstractActionWidget;
 import soc.gwtClient.game.abstractWidgets.GamePanel;
@@ -19,10 +22,11 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class TradeBankBitmapWidget extends AbstractActionWidget implements
         ResourcesChangedEventHandler, PortListChangedEventHandler,
-        GamePhaseChangedEventHandler, ClickHandler
+        GamePhaseChangedEventHandler, ClickHandler, TurnPhaseChangedHandler
 {
     PushButton btnTradeBank;
     boolean isTradeBankShown = false;
+    TradeBank tradeBank = new TradeBank();
 
     public TradeBankBitmapWidget(GamePanel gamePanel, GamePlayer player)
     {
@@ -32,6 +36,7 @@ public class TradeBankBitmapWidget extends AbstractActionWidget implements
         player.getResources().addResourcesChangedEventHandler(this);
         player.getPorts().addPortListChangedEventHandler(this);
         gamePanel.getGame().addGamePhaseChangedEventHandler(this);
+        gamePanel.getGame().addTurnPhaseChangedHandler(this);
 
         btnTradeBank.addClickHandler(this);
     }
@@ -45,7 +50,17 @@ public class TradeBankBitmapWidget extends AbstractActionWidget implements
     @Override
     protected void updateEnabled()
     {
-        btnTradeBank.setEnabled(enabled);
+        checkEnabled();
+    }
+
+    private void enableUI()
+    {
+        btnTradeBank.setEnabled(true);
+    }
+
+    private void disableUI()
+    {
+        btnTradeBank.setEnabled(false);
     }
 
     @Override
@@ -66,32 +81,31 @@ public class TradeBankBitmapWidget extends AbstractActionWidget implements
         checkEnabled();
     }
 
+    @Override
+    public void onTurnPhaseChanged(TurnPhaseChangedEvent event)
+    {
+        checkEnabled();
+    }
+
     private void checkEnabled()
     {
-        if (onTurn)
+        if (enabled && player.isOnTurn())
         {
-            if (player.getPorts().amountGold(player.getResources()) == 0)
+            if (gamePanel.getGame().isAllowed(tradeBank)
+                    && player.getPorts().amountGold(player.getResources()) > 0)
             {
-                setEnabled(true);
+                enableUI();
                 return;
             }
         }
 
-        setEnabled(false);
+        disableUI();
     }
 
     @Override
     public void onClick(ClickEvent arg0)
     {
-        if (isTradeBankShown)
-        {
-            gamePanel.hideTradeBankPanel();
-        }
-        else
-        {
-            gamePanel.showTradeBankPanel();
-        }
-        isTradeBankShown = !isTradeBankShown;
+        gamePanel.getBankTradeUI().setPieceToTradeFor(null, null);
     }
 
 }

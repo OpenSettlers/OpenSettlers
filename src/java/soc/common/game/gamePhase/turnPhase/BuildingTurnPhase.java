@@ -21,7 +21,7 @@ public class BuildingTurnPhase extends TurnPhase
     @Override
     public TurnPhase next()
     {
-        return super.next();
+        return this;
     }
 
     /*

@@ -6,6 +6,7 @@ import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.turnActions.standard.BuildRoad;
 import soc.common.board.routing.GraphSide;
 import soc.common.game.gamePhase.InitialPlacementGamePhase;
+import soc.common.game.gamePhase.PlayTurnsGamePhase;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.behaviour.GameBehaviourCallback;
 import soc.gwtClient.visuals.abstractVisuals.GameBoardVisual;
@@ -61,6 +62,16 @@ public class BuildRoadBehaviour extends BuildSideBehaviour
                 sides = gameVisual.getBoard().getGraph()
                         .getRoadCandidatesSecondTown(player);
             }
+            for (GraphSide side : sides)
+            {
+                gameVisual.getSideVisuals().get(side).setVisible(true);
+            }
+        }
+        if (gameVisual.getGame().getCurrentPhase() instanceof PlayTurnsGamePhase)
+        {
+            GamePlayer player = gameVisual.getGame().getCurrentTurn()
+                    .getPlayer();
+            sides = gameVisual.getBoard().getGraph().getRoadCandidates(player);
             for (GraphSide side : sides)
             {
                 gameVisual.getSideVisuals().get(side).setVisible(true);
