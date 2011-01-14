@@ -34,13 +34,14 @@ public class PlaySoldierWidget implements DevelopmentCardWidget
         rootPanel.add(btnPlay);
 
         playDevelopmentCard.setDevelopmentcard(soldier);
+        playDevelopmentCard.setPlayer(gamePanel.getPlayingPlayer());
 
         btnPlay.addClickHandler(new ClickHandler()
         {
             @Override
             public void onClick(ClickEvent event)
             {
-                gamePanel.startAction(playDevelopmentCard);
+                gamePanel.sendAction(playDevelopmentCard);
             }
         });
     }

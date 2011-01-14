@@ -8,7 +8,7 @@ public class VictoryPointsChangedEvent extends
     public static Type<VictoryPointsChangedEventHandler> TYPE = new Type<VictoryPointsChangedEventHandler>();
     private VictoryPointItem addedPoint;
     private VictoryPointItem removedPoint;
-    
+
     public VictoryPointsChangedEvent(VictoryPointItem addedPoint,
             VictoryPointItem removedPoint)
     {
@@ -36,15 +36,13 @@ public class VictoryPointsChangedEvent extends
     @Override
     protected void dispatch(VictoryPointsChangedEventHandler handler)
     {
-        // TODO Auto-generated method stub
-
+        handler.onVictoryPointsChanged(this);
     }
 
     @Override
     public com.google.gwt.event.shared.GwtEvent.Type<VictoryPointsChangedEventHandler> getAssociatedType()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return TYPE;
     }
 
 }

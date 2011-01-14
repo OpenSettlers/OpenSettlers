@@ -1,8 +1,8 @@
 package soc.common.game.developmentCards.standard;
 
-import soc.common.board.resources.AbstractResource;
 import soc.common.board.resources.Clay;
 import soc.common.board.resources.Ore;
+import soc.common.board.resources.Resource;
 import soc.common.board.resources.ResourceList;
 import soc.common.board.resources.Sheep;
 import soc.common.board.resources.Timber;
@@ -18,7 +18,7 @@ import soc.common.game.player.GamePlayer;
 public class Monopoly extends DevelopmentCard
 {
     public static ResourceList staticMonoPolyableResources = new ResourceList();
-    private AbstractResource resource;
+    private Resource resource;
 
     static
     {
@@ -32,7 +32,7 @@ public class Monopoly extends DevelopmentCard
     /**
      * @return the resource
      */
-    public AbstractResource getResource()
+    public Resource getResource()
     {
         return resource;
     }
@@ -41,10 +41,9 @@ public class Monopoly extends DevelopmentCard
      * @param resource
      *            the resource type to steal all opponents' resources
      */
-    public Monopoly setResource(AbstractResource resource)
+    public Monopoly setResource(Resource resource)
     {
         this.resource = resource;
-
         return this;
     }
 
@@ -96,28 +95,22 @@ public class Monopoly extends DevelopmentCard
         // TODO: fix message
         // msg.append(String.format("%s stole ", player.getName()));
 
-        for (GamePlayer opponent : game.getPlayers())
+        for (GamePlayer opponent : game.getPlayers().getOpponents(player))
         {
-            // steal only form opponents
-            if (!opponent.equals(player))
+            // Get the list of resources to steal
+            ResourceList opponentResources = opponent.getResources().ofType(
+                    resource);
+
+            // steal only if there are resources to steal
+            if (opponentResources.size() > 0)
             {
-                // Get the list of resources to steal
-                ResourceList opponentResources = opponent.getResources()
-                        .ofType(resource);
+                // msg.append(String.format("%s %s from %s, ",
+                // opponentResources.size(), resource.toString(),
+                // player.getName()));
 
-                // steal only if there are resources to steal anyways
-                if (opponentResources.size() > 0)
-                {
-                    // add resources to the development card owner
-                    player.getResources().add(opponentResources);
-
-                    // msg.append(String.format("%s %s from %s, ",
-                    // opponentResources.size(), resource.toString(),
-                    // player.getName()));
-
-                    // remove resources at victims
-                    opponent.removeResources(opponentResources);
-                }
+                // Move resources from victims to player
+                opponent.getResources().moveTo(opponentResources,
+                        player.getResources());
             }
         }
 

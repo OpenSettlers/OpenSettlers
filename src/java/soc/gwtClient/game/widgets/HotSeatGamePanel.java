@@ -78,7 +78,6 @@ public class HotSeatGamePanel extends AbstractGamePanel implements
         game.addGamePhaseChangedEventHandler(this);
         gameBoardVisual.setBehaviour(new DisabledMap());
         gameBoardVisual.hideTerritories();
-
     }
 
     private void createChatHistoryDebugPanel()
@@ -107,14 +106,6 @@ public class HotSeatGamePanel extends AbstractGamePanel implements
             initialize();
         }
 
-        // // Hotseat, so when the turn changes, the current player is set to
-        // the
-        // // new player on turn
-        // if (gameAction instanceof EndTurn)
-        // {
-        // player = game.getCurrentTurn().getPlayer();
-        // }
-
         super.receive(gameAction);
 
         if (game.getCurrentPhase() instanceof DetermineFirstPlayerGamePhase)
@@ -134,6 +125,8 @@ public class HotSeatGamePanel extends AbstractGamePanel implements
     @Override
     public void onTurnChanged(TurnChangedEvent event)
     {
+        // Hotseat, so when the turn changes, the current player is set to the
+        // new player on turn
         player = event.getNewTurn().getPlayer();
         playersActionsWidget.setPlayer(player);
     }

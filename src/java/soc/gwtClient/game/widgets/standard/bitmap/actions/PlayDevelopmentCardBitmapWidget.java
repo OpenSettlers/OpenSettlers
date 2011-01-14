@@ -119,7 +119,8 @@ public class PlayDevelopmentCardBitmapWidget implements
     @Override
     public ActionWidget setEnabled(boolean enabled)
     {
-        return null;
+        btnPlayDevelopmentCard.setEnabled(enabled);
+        return this;
     }
 
 }

@@ -5,7 +5,9 @@ import soc.common.actions.gameAction.turnActions.TurnAction;
 import soc.common.actions.gameAction.turnActions.standard.BuildCity;
 import soc.common.actions.gameAction.turnActions.standard.BuildRoad;
 import soc.common.actions.gameAction.turnActions.standard.BuildTown;
+import soc.common.actions.gameAction.turnActions.standard.PlayDevelopmentCard;
 import soc.common.actions.gameAction.turnActions.standard.RollDice;
+import soc.common.game.developmentCards.standard.Soldier;
 import soc.common.game.gamePhase.DetermineFirstPlayerGamePhase;
 import soc.common.game.gamePhase.PlayTurnsGamePhase;
 import soc.gwtClient.game.abstractWidgets.GamePanel;
@@ -49,6 +51,14 @@ public class StandardGameBoardBehaviourFactory implements GameBehaviourFactory
         if (turnAction instanceof HostStartsGame)
         {
             return new StartGameGameBehaviour(gamePanel);
+        }
+        if (turnAction instanceof PlayDevelopmentCard)
+        {
+            PlayDevelopmentCard playDev = (PlayDevelopmentCard) turnAction;
+            if (playDev.getDevelopmentcard() instanceof Soldier)
+            {
+                return new PlaySoldierGameBehaviour(gamePanel);
+            }
         }
 
         return null;

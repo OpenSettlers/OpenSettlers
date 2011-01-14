@@ -42,7 +42,7 @@ public abstract class AbstractGameServer implements GameServer
     }
 
     /*
-     * (non-Javadoc)
+     * Receives an action from a player
      * 
      * @see
      * soc.common.server.IGameServer#sendAction(soc.common.actions.gameAction
@@ -54,13 +54,14 @@ public abstract class AbstractGameServer implements GameServer
         if (action != null)
         {
             QueuedAction expectedAction = null;
+            if (!game.isAllowed(action))
+            {
+                notifyNotAllowed(action);
+                return;
+            }
             if (!action.isValid(game))
             {
-                callback.receive((GameAction) new MessageFromServer()
-                        .setServerMessage(
-                                "Invalid action! \r\n Reason: "
-                                        + action.getInvalidMessage())
-                        .setSender(0));
+                notifyInvalid(action);
                 return;
             }
             if (game.getActionsQueue().size() > 0)
@@ -74,7 +75,7 @@ public abstract class AbstractGameServer implements GameServer
                 }
             }
 
-            // Get associated server side action if present
+            // Get associated server side action
             ServerAction serverAction = serverActionFactory.createServerAction(
                     action, this);
 
@@ -93,6 +94,19 @@ public abstract class AbstractGameServer implements GameServer
                 sendAction(possibleNextServerAction);
             }
         }
+    }
+
+    private void notifyNotAllowed(GameAction action)
+    {
+        callback.receive((GameAction) new MessageFromServer()
+                .setServerMessage("Action not allowed!"));
+    }
+
+    private void notifyInvalid(GameAction action)
+    {
+        callback.receive((GameAction) new MessageFromServer().setServerMessage(
+                "Invalid action! \r\n Reason: " + action.getInvalidMessage())
+                .setSender(0));
     }
 
     private void notifyUnexpected(GameAction action)

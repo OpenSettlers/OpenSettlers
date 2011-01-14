@@ -226,8 +226,7 @@ public abstract class AbstractGameBoardVisual extends AbstractBoardVisual
     @Override
     public void hideTerritories()
     {
-        for (HexVisual hexVisual : boardVisual.getHexVisuals().values())
-            hexVisual.getTerritory().setVisible(false);
+        boardVisual.hideTerritories();
     }
 
     /*

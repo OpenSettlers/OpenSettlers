@@ -9,38 +9,20 @@ import com.google.gwt.event.shared.SimpleEventBus;
 public class VictoryPointsList implements Iterable<VictoryPointItem>
 {
     private List<VictoryPointItem> points = new ArrayList<VictoryPointItem>();
-    private SimpleEventBus eventBus;
-
-    private SimpleEventBus getEventBus()
-    {
-        if (eventBus == null)
-        {
-            eventBus = new SimpleEventBus();
-        }
-
-        return eventBus;
-    }
-
-    private void safelyFireEvent(VictoryPointsChangedEvent event)
-    {
-        if (eventBus != null)
-        {
-            eventBus.fireEvent(event);
-        }
-    }
+    private SimpleEventBus eventBus = new SimpleEventBus();
 
     public void add(VictoryPointItem item)
     {
         points.add(item);
 
-        safelyFireEvent(new VictoryPointsChangedEvent(item, null));
+        eventBus.fireEvent(new VictoryPointsChangedEvent(item, null));
     }
 
     public void remove(VictoryPointItem item)
     {
         points.remove(item);
 
-        safelyFireEvent(new VictoryPointsChangedEvent(null, item));
+        eventBus.fireEvent(new VictoryPointsChangedEvent(null, item));
     }
 
     /*
@@ -67,7 +49,7 @@ public class VictoryPointsList implements Iterable<VictoryPointItem>
     public void addVictoryPointsChangedListener(
             VictoryPointsChangedEventHandler handler)
     {
-        getEventBus().addHandler(VictoryPointsChangedEvent.TYPE, handler);
+        eventBus.addHandler(VictoryPointsChangedEvent.TYPE, handler);
     }
 
     public VictoryPointsList ofType(VictoryPointItem type)

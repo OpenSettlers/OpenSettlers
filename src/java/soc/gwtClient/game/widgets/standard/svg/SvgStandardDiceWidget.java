@@ -43,7 +43,7 @@ public class SvgStandardDiceWidget extends AbstractStandardDiceWidget implements
 
         rootPanel.add(totalNumber, 0, 0);
         rootPanel.add(dice1.asWidget(), 32, 0);
-        rootPanel.add(dice2.asWidget(), 80, 0);
+        rootPanel.add(dice2.asWidget(), 72, 0);
 
         gamePanel.getGame().addDiceChangedEventHandler(this);
         gamePanel.getGame().addGamePhaseChangedEventHandler(this);

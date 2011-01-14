@@ -53,7 +53,7 @@ public class BuyDevelopmentCardBitmapWidget extends AbstractActionWidget
 
         rootPanel.setSize("4em", "4em");
         rootPanel.add(btnbuyDvelopmentcard);
-        rootPanel.add(tradePanel);
+        rootPanel.add(tradePanel, 3, 3);
 
         btnbuyDvelopmentcard.addClickHandler(new ClickHandler()
         {
@@ -107,9 +107,12 @@ public class BuyDevelopmentCardBitmapWidget extends AbstractActionWidget
     private void checkEnabled()
     {
         // TODO: make logic accurate for diamonds & trades
+
+        setTradesNeededToBuild();
         if (enabled && player.isOnTurn())
         {
-            if (DevelopmentCard.canPay(player))
+            if (gamePanel.getGame().isAllowed(buyDevelopmentCard)
+                    && DevelopmentCard.canPay(player))
             {
                 enableUI();
                 return;
@@ -128,5 +131,14 @@ public class BuyDevelopmentCardBitmapWidget extends AbstractActionWidget
     public void onGamePhaseChanged(GamePhaseChangedEvent event)
     {
         checkEnabled();
+    }
+
+    private void setTradesNeededToBuild()
+    {
+        int amountTradesNeeded = player.getResources().getNeededResources(
+                DevelopmentCard.getCost()).size();
+        trade1.setVisible(amountTradesNeeded >= 1);
+        trade2.setVisible(amountTradesNeeded >= 2);
+        trade3.setVisible(amountTradesNeeded >= 3);
     }
 }

@@ -115,8 +115,8 @@ public class GamePlayerImpl implements GamePlayer
     {
         this.roadBuildingTokens = roadBuildingTokens;
 
-        // Enables fluent interface usage
-        // http://en.wikipedia.org/wiki/Fluent_interface
+        eventBus.fireEvent(new RoadTokensChangedEvent(roadBuildingTokens));
+
         return this;
     }
 

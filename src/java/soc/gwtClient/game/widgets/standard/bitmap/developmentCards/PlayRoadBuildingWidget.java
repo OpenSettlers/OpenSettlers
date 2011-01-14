@@ -35,13 +35,14 @@ public class PlayRoadBuildingWidget implements DevelopmentCardWidget
         rootPanel.add(btnPlay);
 
         playDevelopmentCard.setDevelopmentcard(roadBuilding);
+        playDevelopmentCard.setPlayer(gamePanel.getPlayingPlayer());
 
         btnPlay.addClickHandler(new ClickHandler()
         {
             @Override
             public void onClick(ClickEvent event)
             {
-                gamePanel.startAction(playDevelopmentCard);
+                gamePanel.sendAction(playDevelopmentCard);
             }
         });
     }

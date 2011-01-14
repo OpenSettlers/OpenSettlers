@@ -7,7 +7,7 @@ import soc.gwtClient.game.abstractWidgets.GamePanel;
 import soc.gwtClient.visuals.behaviour.gameBoard.PlaceRobberBehaviour;
 import soc.gwtClient.visuals.behaviour.gameBoard.RollDiceBehaviour;
 
-public class RollDiceResult implements GameBehaviour
+public class RollDiceResult implements GameBehaviour, SoldierPlayBehaviour
 {
     private RollDice rolledDice;
     private RollDiceBehaviour rollDiceBehaviour;
@@ -99,6 +99,7 @@ public class RollDiceResult implements GameBehaviour
 
     public void pickedRobberSpot(PlaceRobberBehaviour placeRobberBehaviour)
     {
+        // gamePanel.getGameBoardVisual().setBehaviour(null);
         placeRobberBehaviour.setNeutral(gamePanel.getGameBoardVisual());
         gamePanel.startAction(placeRobberBehaviour.getPlaceRobber());
         gamePanel.getStealCardWidget().update(this,

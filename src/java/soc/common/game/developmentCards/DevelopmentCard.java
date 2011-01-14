@@ -13,7 +13,8 @@ import soc.common.utils.ClassUtils;
 public class DevelopmentCard
 {
     protected String invalidMessage;
-    protected String message;
+    protected String message = "No message implemented yet for Devcard"
+            + toString();
     protected int turnBought = 0;
     private int id = 0;
     private boolean isPlayable = false;
@@ -41,7 +42,23 @@ public class DevelopmentCard
 
     public static boolean canPay(GamePlayer player)
     {
-        return player.getResources().hasAtLeast(cost);
+        // TODO: add diamonds support
+        // First, create a copy so we can safely remove resources from it
+        ResourceList copy = player.getResources().copy();
+
+        // Pay resources player can simply pay for
+        copy.subtractResources(getCost());
+
+        // Calculate amount of gold we need
+        int neededGold =
+        // amount of resources this piece needs, minus...
+        getCost().size() -
+        // the resources the player can simply pay for
+                (player.getResources().size() - copy.size());
+
+        // Player can pay given piece if he can trade exactly or more gold as
+        // needed
+        return player.amountGold(copy) >= neededGold;
     }
 
     public static ResourceList getCost()

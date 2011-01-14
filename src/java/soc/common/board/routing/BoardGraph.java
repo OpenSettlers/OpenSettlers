@@ -495,12 +495,14 @@ public class BoardGraph
     }
 
     /*
-     * Returns a set of GraphSides where given player can build on
+     * Returns a set of GraphSides where given player can a road build on
      */
     public Set<GraphSide> getRoadCandidates(GamePlayer player)
     {
         Set<GraphSide> result = new HashSet<GraphSide>();
         List<GraphSide> currentSidePieces = new ArrayList<GraphSide>();
+
+        // Compile a list of GraphSides owned by the player
         for (GraphSide side : graph.edgeSet())
         {
             if (side.getPlayer() != null && side.getPlayer().equals(player))
@@ -509,7 +511,7 @@ public class BoardGraph
 
         for (GraphSide side : currentSidePieces)
         {
-            for (GraphSide neighbour : getNeighbours(side))
+            for (GraphSide neighbour : getNeighbours(side, player))
             {
                 // Only add neighbour when not yet present, and another player
                 // does not own it yet
@@ -551,7 +553,7 @@ public class BoardGraph
         return result;
     }
 
-    public Set<GraphSide> getNeighbours(GraphSide fromSide)
+    public Set<GraphSide> getNeighbours(GraphSide fromSide, GamePlayer player)
     {
         Set<GraphSide> result = new HashSet<GraphSide>();
 
@@ -559,22 +561,34 @@ public class BoardGraph
         GraphPoint target = graph.getEdgeTarget(fromSide);
 
         // Add the zero or more edges from the source
-        for (GraphPoint neighbourPoint : Graphs.neighborListOf(graph, source))
+
+        // GraphPoint must either be owned by no one, or owned by given player
+        if (source.getPlayer() == null || source.getPlayer().equals(player))
         {
-            if (!neighbourPoint.equals(target))
+            for (GraphPoint neighbourPoint : Graphs.neighborListOf(graph,
+                    source))
             {
-                result.add(graph.getAllEdges(source, neighbourPoint).iterator()
-                        .next());
+                if (!neighbourPoint.equals(target))
+                {
+                    result.add(graph.getAllEdges(source, neighbourPoint)
+                            .iterator().next());
+                }
             }
         }
 
         // Add the zero or more edges from the target
-        for (GraphPoint neighbourPoint : Graphs.neighborListOf(graph, target))
+
+        // GraphPoint must either be owned by no one, or owned by given player
+        if (source.getPlayer() == null || source.getPlayer().equals(player))
         {
-            if (!neighbourPoint.equals(source))
+            for (GraphPoint neighbourPoint : Graphs.neighborListOf(graph,
+                    target))
             {
-                result.add(graph.getAllEdges(target, neighbourPoint).iterator()
-                        .next());
+                if (!neighbourPoint.equals(source))
+                {
+                    result.add(graph.getAllEdges(target, neighbourPoint)
+                            .iterator().next());
+                }
             }
         }
         return result;

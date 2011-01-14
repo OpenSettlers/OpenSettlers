@@ -7,7 +7,7 @@ import soc.common.actions.gameAction.turnActions.standard.RobPlayer;
 import soc.common.game.player.GamePlayer;
 import soc.common.game.player.GamePlayerList;
 import soc.gwtClient.game.abstractWidgets.GamePanel;
-import soc.gwtClient.game.behaviour.RollDiceResult;
+import soc.gwtClient.game.behaviour.SoldierPlayBehaviour;
 import soc.gwtClient.game.widgets.abstractWidgets.StealCardWidget;
 import soc.gwtClient.game.widgets.abstractWidgets.StealPlayerCardWidget;
 import soc.gwtClient.game.widgets.standard.bitmap.StealPlayerCardBitmapWidget;
@@ -30,8 +30,8 @@ public class StealCardDialog extends DialogBox implements StealCardWidget
     private GamePanel gamePanel;
     private GamePlayer player;
     private VerticalPanel playersCards = new VerticalPanel();
-    private RollDiceResult rollDiceResult;
     private HashMap<GamePlayer, StealPlayerCardWidget> playerWidgets = new HashMap<GamePlayer, StealPlayerCardWidget>();
+    private SoldierPlayBehaviour soldierPlayBehaviour;
 
     public StealCardDialog(GamePanel gamePanel, GamePlayer player)
     {
@@ -39,12 +39,13 @@ public class StealCardDialog extends DialogBox implements StealCardWidget
         this.gamePanel = gamePanel;
         this.player = player;
 
-        for (GamePlayer opponent : gamePanel.getGame().getPlayers())
+        // Add a widget for all players to the rootpanel
+        for (GamePlayer playerr : gamePanel.getGame().getPlayers())
         {
             StealPlayerCardWidget widget = new StealPlayerCardBitmapWidget(
-                    opponent, this);
+                    playerr, this);
             playersCards.add(widget);
-            playerWidgets.put(opponent, widget);
+            playerWidgets.put(playerr, widget);
         }
     }
 
@@ -93,20 +94,21 @@ public class StealCardDialog extends DialogBox implements StealCardWidget
     {
         RobPlayer robPlayer = (RobPlayer) new RobPlayer().setRobbedPlayer(
                 opponent).setPlayer(player);
-        rollDiceResult.robbedPlayer(robPlayer);
+        soldierPlayBehaviour.robbedPlayer(robPlayer);
         hide();
     }
 
     @Override
-    public void update(RollDiceResult result, PlaceRobber placeRobber,
-            GamePlayer player)
+    public void update(SoldierPlayBehaviour soldierPlayBehaviour,
+            PlaceRobber placeRobber, GamePlayer player)
     {
-        this.rollDiceResult = result;
+        this.soldierPlayBehaviour = soldierPlayBehaviour;
         this.player = player;
 
         GamePlayerList robCandidates = gamePanel.getGame().getPlayersAtHex(
                 placeRobber.getNewLocation(), placeRobber.getPlayer());
 
+        // Only make the players' visible who can be robbed.
         for (GamePlayer playerr : playerWidgets.keySet())
         {
             if (robCandidates.contains(playerr))

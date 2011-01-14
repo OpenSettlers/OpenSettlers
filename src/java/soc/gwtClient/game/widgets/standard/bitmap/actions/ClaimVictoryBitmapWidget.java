@@ -51,7 +51,7 @@ public class ClaimVictoryBitmapWidget extends AbstractActionWidget implements
         if (enabled
                 && player.isOnTurn()
                 && gamePanel.getGame().getGameSettings().getBoardSettings()
-                        .getVpToWin() >= player.getVictoryPoints()
+                        .getVpToWin() <= player.getVictoryPoints()
                         .getTotalPoints())
         {
             enableUI();

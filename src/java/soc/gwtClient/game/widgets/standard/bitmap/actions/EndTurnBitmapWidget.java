@@ -75,7 +75,7 @@ public class EndTurnBitmapWidget extends AbstractActionWidget implements
     {
         if (enabled && player.isOnTurn())
         {
-            if (gamePanel.getGame().getCurrentPhase().isAllowed(endTurn))
+            if (gamePanel.getGame().isAllowed(endTurn))
             {
                 enableUI();
                 return;

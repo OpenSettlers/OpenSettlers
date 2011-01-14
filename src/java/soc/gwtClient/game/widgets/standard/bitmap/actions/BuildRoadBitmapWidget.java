@@ -53,6 +53,7 @@ public class BuildRoadBitmapWidget extends AbstractActionWidget implements
         player.getResources().addResourcesChangedEventHandler(this);
         player.getStock().addPiecesChangedEventHandler(this);
         gamePanel.getGame().addGamePhaseChangedEventHandler(this);
+        player.addRoadTokenChangedEventHandler(this);
 
         btnBuildRoad.addClickHandler(new ClickHandler()
         {
@@ -113,6 +114,12 @@ public class BuildRoadBitmapWidget extends AbstractActionWidget implements
         checkEnabled();
     }
 
+    @Override
+    public void onRoadTokensChanged(RoadTokensChangedEvent event)
+    {
+        checkEnabled();
+    }
+
     private void checkEnabled()
     {
         setRoadTokens();
@@ -142,15 +149,19 @@ public class BuildRoadBitmapWidget extends AbstractActionWidget implements
 
     private void setTradesNeededToBuild()
     {
-        int amountTradesNeeded = player.getResources().getNeededResources(
-                road.getCost()).size();
-        trade1.setVisible(amountTradesNeeded >= 1);
-        trade1.setVisible(amountTradesNeeded >= 2);
+        if (road.canPay(player) && player.getRoadBuildingTokens() == 0)
+        {
+            int amountTradesNeeded = player.getResources().getNeededResources(
+                    road.getCost()).size();
+            trade1.setVisible(amountTradesNeeded >= 1);
+            trade2.setVisible(amountTradesNeeded >= 2);
+        }
+        else
+        {
+            trade1.setVisible(false);
+            trade2.setVisible(false);
+        }
+
     }
 
-    @Override
-    public void onRoadTokensChanged(RoadTokensChangedEvent event)
-    {
-        checkEnabled();
-    }
 }

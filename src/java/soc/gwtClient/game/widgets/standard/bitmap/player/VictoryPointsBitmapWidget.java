@@ -1,6 +1,7 @@
 package soc.gwtClient.game.widgets.standard.bitmap.player;
 
 import soc.common.game.VictoryPointsChangedEvent;
+import soc.common.game.VictoryPointsChangedEventHandler;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.AbstractVictoryPointsWidget;
 import soc.gwtClient.images.Resources;
@@ -9,6 +10,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 
 public class VictoryPointsBitmapWidget extends AbstractVictoryPointsWidget
+        implements VictoryPointsChangedEventHandler
 {
     Image victoryPointsImage = new Image(Resources.icons().victoryPointsSmall());
     Label lblVictoryPointsAmount = new Label();
@@ -33,5 +35,4 @@ public class VictoryPointsBitmapWidget extends AbstractVictoryPointsWidget
         lblVictoryPointsAmount.setText(Integer.toString(player
                 .getVictoryPoints().getTotalPoints()));
     }
-
 }

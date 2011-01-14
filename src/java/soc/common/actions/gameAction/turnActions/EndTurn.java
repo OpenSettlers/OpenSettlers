@@ -1,6 +1,7 @@
 package soc.common.actions.gameAction.turnActions;
 
 import soc.common.game.Game;
+import soc.common.game.developmentCards.DevelopmentCard;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.PlayTurnsGamePhase;
 import soc.common.game.gamePhase.turnPhase.BuildingTurnPhase;
@@ -21,6 +22,9 @@ public class EndTurn extends AbstractTurnAction
     @Override
     public void perform(Game game)
     {
+        for (DevelopmentCard devCard : player.getDevelopmentCards())
+            devCard.setPlayable(true);
+
         game.advanceTurn();
 
         super.perform(game);

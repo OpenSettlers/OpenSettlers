@@ -6,7 +6,7 @@ import java.util.List;
 import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.turnActions.standard.PlaceRobber;
 import soc.common.board.hexes.Hex;
-import soc.gwtClient.game.behaviour.RollDiceResult;
+import soc.gwtClient.game.behaviour.SoldierPlayBehaviour;
 import soc.gwtClient.visuals.abstractVisuals.GameBoardVisual;
 import soc.gwtClient.visuals.abstractVisuals.HexVisual;
 import soc.gwtClient.visuals.abstractVisuals.PieceVisual;
@@ -15,7 +15,7 @@ public class PlaceRobberBehaviour implements GameBoardBehaviour
 {
     PlaceRobber placeRobber;
     List<HexVisual> possibleNewLocations = new ArrayList<HexVisual>();
-    RollDiceResult rollDiceResult;
+    private SoldierPlayBehaviour soldierPlayBehaviour;
 
     /**
      * @return the placeRobber
@@ -25,11 +25,11 @@ public class PlaceRobberBehaviour implements GameBoardBehaviour
         return placeRobber;
     }
 
-    public PlaceRobberBehaviour(RollDiceResult rollDiceResult)
+    public PlaceRobberBehaviour(SoldierPlayBehaviour soldierPlaybehaviour)
     {
         super();
-        this.rollDiceResult = rollDiceResult;
-        this.placeRobber = rollDiceResult.getPlaceRobber();
+        this.soldierPlayBehaviour = soldierPlaybehaviour;
+        this.placeRobber = soldierPlaybehaviour.getPlaceRobber();
     }
 
     @Override
@@ -78,7 +78,7 @@ public class PlaceRobberBehaviour implements GameBoardBehaviour
         {
             placeRobber.setNewLocation(((HexVisual) pieceVisual).getHex()
                     .getLocation());
-            rollDiceResult.pickedRobberSpot(this);
+            soldierPlayBehaviour.pickedRobberSpot(this);
         }
     }
 
