@@ -35,6 +35,7 @@ public class MoveRobberGameBehaviour implements GameBehaviour
     {
         gamePanel.unBlockUI();
         placeRobberBehaviour.setNeutral(gamePanel.getGameBoardVisual());
+        gamePanel.getGameBoardVisual().stopBehaviour();
         gamePanel.sendAction(placeRobber);
     }
 

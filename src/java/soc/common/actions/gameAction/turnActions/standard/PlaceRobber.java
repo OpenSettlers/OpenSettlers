@@ -128,4 +128,10 @@ public class PlaceRobber extends AbstractTurnAction
         return I18n.get().actions().placeRobberToDo(player.getUser().getName());
     }
 
+    @Override
+    public boolean mustExpected()
+    {
+        return true;
+    }
+
 }

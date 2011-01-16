@@ -6,10 +6,7 @@ import soc.common.board.pieces.PlayerPiece;
 import soc.common.board.routing.GraphPoint;
 import soc.common.board.routing.GraphSide;
 import soc.common.game.Game;
-import soc.gwtClient.visuals.behaviour.BehaviourDoneEventHandler;
 import soc.gwtClient.visuals.behaviour.gameBoard.GameBoardBehaviour;
-
-import com.google.gwt.event.shared.HandlerRegistration;
 
 public interface GameBoardVisual extends BoardVisual
 {
@@ -27,8 +24,5 @@ public interface GameBoardVisual extends BoardVisual
 
     public Map<GraphSide, SideVisual> getSideVisuals();
 
-    public void onBehaviourDone();
-
-    public HandlerRegistration addBehaviourDoneEventHandler(
-            BehaviourDoneEventHandler handler);
+    public void stopBehaviour();
 }

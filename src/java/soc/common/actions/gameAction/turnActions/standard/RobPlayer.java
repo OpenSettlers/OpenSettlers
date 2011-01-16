@@ -190,4 +190,10 @@ public class RobPlayer extends AbstractTurnAction
     {
         return I18n.get().actions().robPlayerToDo(player.getUser().getName());
     }
+
+    @Override
+    public boolean mustExpected()
+    {
+        return true;
+    }
 }

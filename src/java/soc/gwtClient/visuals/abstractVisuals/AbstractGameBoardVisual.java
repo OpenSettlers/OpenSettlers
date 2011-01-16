@@ -10,12 +10,10 @@ import soc.common.board.routing.GraphPoint;
 import soc.common.board.routing.GraphSide;
 import soc.common.game.Game;
 import soc.common.game.player.GamePlayer;
-import soc.gwtClient.visuals.behaviour.BehaviourDoneEvent;
-import soc.gwtClient.visuals.behaviour.BehaviourDoneEventHandler;
 import soc.gwtClient.visuals.behaviour.ProxyBehaviour;
 import soc.gwtClient.visuals.behaviour.gameBoard.GameBoardBehaviour;
+import soc.gwtClient.visuals.behaviour.gameBoard.NoBehaviour;
 
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -33,6 +31,7 @@ public abstract class AbstractGameBoardVisual extends AbstractBoardVisual
     protected GameBoardBehaviour gameBehaviour;
     protected SimpleEventBus eventBus = new SimpleEventBus();
     protected ProxyBehaviour proxyBehaviour;
+    protected NoBehaviour noBehaviour = new NoBehaviour();
 
     /*
      * (non-Javadoc)
@@ -206,20 +205,6 @@ public abstract class AbstractGameBoardVisual extends AbstractBoardVisual
      * (non-Javadoc)
      * 
      * @see
-     * soc.common.client.visuals.game.GameBoardVisual#addBehaviourDoneEventHandler
-     * (soc.common.client.behaviour.BehaviourDoneEventHandler)
-     */
-    @Override
-    public HandlerRegistration addBehaviourDoneEventHandler(
-            BehaviourDoneEventHandler handler)
-    {
-        return eventBus.addHandler(BehaviourDoneEvent.TYPE, handler);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
      * soc.gwtClient.visuals.abstractVisuals.AbstractBoardVisual#hideTerritories
      * ()
      */
@@ -246,12 +231,12 @@ public abstract class AbstractGameBoardVisual extends AbstractBoardVisual
     /*
      * (non-Javadoc)
      * 
-     * @see soc.common.client.visuals.game.GameBoardVisual#onBehaviourDone()
+     * @see
+     * soc.gwtClient.visuals.abstractVisuals.GameBoardVisual#quitbehaviour()
      */
     @Override
-    public void onBehaviourDone()
+    public void stopBehaviour()
     {
-        gameBehaviour.setNeutral(this);
-        eventBus.fireEvent(new BehaviourDoneEvent(gameBehaviour, true));
+        setBehaviour(noBehaviour);
     }
 }
