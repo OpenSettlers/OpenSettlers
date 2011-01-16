@@ -34,5 +34,4 @@ public interface GameLog extends Iterable<GameAction>
      */
     public void addActionPerformedEventHandler(
             ActionPerformedEventHandler handler);
-
 }

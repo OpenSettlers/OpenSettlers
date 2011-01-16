@@ -38,5 +38,4 @@ public class ServerRollDice implements ServerAction
     {
         return rollDice;
     }
-
 }

@@ -6,7 +6,7 @@ import soc.common.server.GameServer;
 /*
  * Any action not requiring any special server side logic
  */
-public class DefaultAction extends AbstractServerAction
+public class DefaultAction implements ServerAction
 {
     protected GameAction action;
     protected GameServer gameServer;

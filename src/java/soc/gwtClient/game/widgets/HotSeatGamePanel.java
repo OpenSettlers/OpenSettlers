@@ -2,14 +2,8 @@ package soc.gwtClient.game.widgets;
 
 import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.HostStartsGame;
-import soc.common.actions.gameAction.turnActions.TurnAction;
-import soc.common.game.GamePhaseChangedEvent;
-import soc.common.game.GamePhaseChangedEventHandler;
 import soc.common.game.TurnChangedEvent;
 import soc.common.game.TurnChangedEventHandler;
-import soc.common.game.gamePhase.DetermineFirstPlayerGamePhase;
-import soc.common.game.gamePhase.InitialPlacementGamePhase;
-import soc.common.game.gamePhase.PlayTurnsGamePhase;
 import soc.common.game.player.GamePlayerImpl;
 import soc.common.server.HotSeatServer;
 import soc.common.server.data.Player;
@@ -18,7 +12,7 @@ import soc.gwtClient.game.Point2D;
 import soc.gwtClient.game.abstractWidgets.AbstractGamePanel;
 import soc.gwtClient.game.abstractWidgets.ActionsWidget;
 import soc.gwtClient.game.abstractWidgets.factories.GameWidgetFactory;
-import soc.gwtClient.game.behaviour.GameBehaviour;
+import soc.gwtClient.game.widgets.abstractWidgets.DebugWidget;
 import soc.gwtClient.game.widgets.abstractWidgets.LooseCardsDialog;
 import soc.gwtClient.game.widgets.bitmap.BoardLayoutPanel;
 import soc.gwtClient.visuals.behaviour.gameBoard.DisabledMap;
@@ -29,7 +23,7 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 
 public class HotSeatGamePanel extends AbstractGamePanel implements
-        CenterWidget, TurnChangedEventHandler, GamePhaseChangedEventHandler
+        CenterWidget, TurnChangedEventHandler
 {
     DockLayoutPanel rootPanel = new DockLayoutPanel(Unit.EM);
     DockLayoutPanel playersBankChatPanel = new DockLayoutPanel(Unit.EM);
@@ -75,7 +69,6 @@ public class HotSeatGamePanel extends AbstractGamePanel implements
         detailContainerManager = new DetailContainerManager(this);
 
         game.addTurnchangedeventHandler(this);
-        game.addGamePhaseChangedEventHandler(this);
         gameBoardVisual.setBehaviour(new DisabledMap());
         gameBoardVisual.hideTerritories();
     }
@@ -107,19 +100,6 @@ public class HotSeatGamePanel extends AbstractGamePanel implements
         }
 
         super.receive(gameAction);
-
-        if (game.getCurrentPhase() instanceof DetermineFirstPlayerGamePhase)
-        {
-            updateBehaviour();
-        }
-        if (game.getCurrentPhase() instanceof InitialPlacementGamePhase)
-        {
-            updateBehaviour();
-        }
-        if (game.getCurrentPhase() instanceof PlayTurnsGamePhase)
-        {
-            receivedActionBehaviour(gameAction);
-        }
     }
 
     @Override
@@ -129,42 +109,6 @@ public class HotSeatGamePanel extends AbstractGamePanel implements
         // new player on turn
         player = event.getNewTurn().getPlayer();
         playersActionsWidget.setPlayer(player);
-    }
-
-    @Override
-    public void onGamePhaseChanged(GamePhaseChangedEvent event)
-    {
-        if (!(event.getNewPhase() instanceof PlayTurnsGamePhase))
-        {
-            updateBehaviour();
-        }
-    }
-
-    private void receivedActionBehaviour(GameAction action)
-    {
-        if (action instanceof TurnAction)
-        {
-            GameBehaviour newBehaviour = gameBehaviourFactory
-                    .createBehaviour((TurnAction) action);
-            if (newBehaviour != null)
-            {
-                setNewGameBehaviour(newBehaviour);
-            }
-        }
-    }
-
-    private void updateBehaviour()
-    {
-        GameAction next = game.getActionsQueue().peekAction();
-        if (next != null && next instanceof TurnAction)
-        {
-            GameBehaviour newBehaviour = gameBehaviourFactory
-                    .createBehaviour((TurnAction) next);
-            if (newBehaviour != null)
-            {
-                setNewGameBehaviour(newBehaviour);
-            }
-        }
     }
 
     @Override
@@ -179,6 +123,11 @@ public class HotSeatGamePanel extends AbstractGamePanel implements
         return playersActionsWidget.getTopLeftDiceWidgetPosition(player);
     }
 
+    /*
+     * Returns the ActionWidget of the player currently on turn
+     * 
+     * @see soc.gwtClient.game.abstractWidgets.GamePanel#getActionsWidget()
+     */
     @Override
     public ActionsWidget getActionsWidget()
     {
@@ -189,5 +138,11 @@ public class HotSeatGamePanel extends AbstractGamePanel implements
     public LooseCardsDialog getLooseCardsDialog()
     {
         return looseCardsDialog;
+    }
+
+    @Override
+    public DebugWidget getDebugPanel()
+    {
+        return debugPanel;
     }
 }

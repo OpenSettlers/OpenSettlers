@@ -28,7 +28,7 @@ public abstract class AbstractResourcePickerWidget implements
         this.bankResources = bankResources;
         this.ports = ports;
 
-        for (Resource resource : gamePanel.getGame().getGameRules()
+        for (Resource resource : gamePanel.getGame().getRules()
                 .getSupportedResources())
         {
             ResourceSelectorWidget resourceSelector = createResourceSelectorWidget(

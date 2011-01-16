@@ -47,6 +47,7 @@ public class HotseatLooseCards extends DialogBox implements LooseCardsDialog
             @Override
             public void onClick(ClickEvent event)
             {
+                hide();
                 for (LooseCardsWidget widget : lostCards.keySet())
                 {
                     LooseCards looseCards = (LooseCards) new LooseCards()
@@ -54,7 +55,6 @@ public class HotseatLooseCards extends DialogBox implements LooseCardsDialog
                                     widget.getPlayer());
                     gamePanel.sendAction(looseCards);
                 }
-                hide();
                 rollDiceResult.doneLoosingCards();
             }
         });

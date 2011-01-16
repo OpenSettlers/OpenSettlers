@@ -20,7 +20,7 @@ import soc.common.game.dices.StandardDice;
 import soc.common.game.gamePhase.DetermineFirstPlayerGamePhase;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.PlayTurnsGamePhase;
-import soc.common.game.gamePhase.turnPhase.RollDiceTurnPhase;
+import soc.common.game.gamePhase.turnPhase.BeforeDiceRollTurnPhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
 import soc.common.game.logs.QueuedAction;
 import soc.common.game.player.GamePlayer;
@@ -297,7 +297,7 @@ public class RollDice extends AbstractTurnAction
     @Override
     public boolean isAllowed(TurnPhase turnPhase)
     {
-        return turnPhase instanceof RollDiceTurnPhase;
+        return turnPhase instanceof BeforeDiceRollTurnPhase;
     }
 
     @Override

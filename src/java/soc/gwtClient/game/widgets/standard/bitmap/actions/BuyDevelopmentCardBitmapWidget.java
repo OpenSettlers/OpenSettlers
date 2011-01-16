@@ -135,10 +135,19 @@ public class BuyDevelopmentCardBitmapWidget extends AbstractActionWidget
 
     private void setTradesNeededToBuild()
     {
-        int amountTradesNeeded = player.getResources().getNeededResources(
-                DevelopmentCard.getCost()).size();
-        trade1.setVisible(amountTradesNeeded >= 1);
-        trade2.setVisible(amountTradesNeeded >= 2);
-        trade3.setVisible(amountTradesNeeded >= 3);
+        if (DevelopmentCard.canPay(player))
+        {
+            int amountTradesNeeded = player.getResources().getNeededResources(
+                    DevelopmentCard.getCost()).size();
+            trade1.setVisible(amountTradesNeeded >= 1);
+            trade2.setVisible(amountTradesNeeded >= 2);
+            trade3.setVisible(amountTradesNeeded >= 3);
+        }
+        else
+        {
+            trade1.setVisible(false);
+            trade2.setVisible(false);
+            trade3.setVisible(false);
+        }
     }
 }

@@ -25,7 +25,7 @@ public abstract class AbstractStockWidget implements StockWidget
 
     private void createStockItemWidgetsList()
     {
-        for (PlayerPiece piece : game.getGameRules().getStockPieces())
+        for (PlayerPiece piece : game.getRules().getStockPieces())
         {
             rootPanel.add(createStockItemWidget(piece));
         }

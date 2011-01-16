@@ -6,10 +6,10 @@ import soc.common.board.ports.PortList;
 import soc.common.board.resources.ResourceList;
 import soc.common.board.resources.ResourcesChangedEvent;
 import soc.common.board.resources.ResourcesChangedEventHandler;
+import soc.common.game.developmentCards.DevelopmentCard;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.BankTradeUI;
 import soc.gwtClient.game.abstractWidgets.GamePanel;
-import soc.gwtClient.game.behaviour.GameBehaviourCallback;
 import soc.gwtClient.game.behaviour.TradeFirst;
 import soc.gwtClient.game.widgets.abstractWidgets.ResourceListWidget;
 import soc.gwtClient.game.widgets.abstractWidgets.ResourcePickerWidget;
@@ -19,7 +19,6 @@ import soc.gwtClient.images.Resources;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
@@ -46,7 +45,6 @@ public class TradeBankDialog extends PopupPanel implements BankTradeUI,
     private ResourcePickerWidget wantedResourcesPickerWidget;
     private Button btnTrade;
     private Image imgPiece;
-    private GameBehaviourCallback callback;
     private GamePlayer player;
     private TradeFirst tradeFirst;
 
@@ -145,7 +143,7 @@ public class TradeBankDialog extends PopupPanel implements BankTradeUI,
                     .getCost()));
 
             // Update image
-            imgPiece = new Image(Resources.piece(pieceToTradeFor));
+            imgPiece.setUrl(Resources.piece(pieceToTradeFor).getURL());
             imgPiece.setVisible(true);
         }
         else
@@ -218,31 +216,31 @@ public class TradeBankDialog extends PopupPanel implements BankTradeUI,
                 {
                     tradeFirst.onTraded();
                 }
+                hide();
             }
         });
         btnTrade.setText("Trade!");
         horizontalPanel_4.add(btnTrade);
 
         HorizontalPanel horizontalPanel_1 = new HorizontalPanel();
+        horizontalPanel_1
+                .setVerticalAlignment(HasVerticalAlignment.ALIGN_BOTTOM);
         horizontalPanel_1.setSpacing(10);
         verticalPanel.add(horizontalPanel_1);
+        horizontalPanel_1.setSize("262px", "115px");
 
-        AbsolutePanel absolutePanel = new AbsolutePanel();
-        horizontalPanel_1.add(absolutePanel);
-
-        Image imgBank = new Image(Resources.icons().bankTrade());
-        absolutePanel.add(imgBank);
-        imgBank.setSize("96", "96");
-
-        imgPiece = new Image(Resources.icons().city());
-        absolutePanel.add(imgPiece, 48, 48);
-        imgPiece.setSize("48", "48");
+        Image image = new Image(Resources.icons().bankTrade());
+        horizontalPanel_1.add(image);
+        image.setSize("140", "140");
 
         HorizontalPanel horizontalPanel_3 = new HorizontalPanel();
-        horizontalPanel_3.setSpacing(5);
         horizontalPanel_3
                 .setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
         horizontalPanel_1.add(horizontalPanel_3);
+
+        imgPiece = new Image(Resources.icons().city());
+        horizontalPanel_3.add(imgPiece);
+        imgPiece.setSize("48", "48");
 
         Label lblTradeForA = new Label("Trade for a city");
         horizontalPanel_3.add(lblTradeForA);
@@ -275,5 +273,43 @@ public class TradeBankDialog extends PopupPanel implements BankTradeUI,
         giveResourcesPickerWidget.setPorts(player.getPorts());
 
         return this;
+    }
+
+    /*
+     * TODO: ugly duplicate code. Consider using Buyable interface for
+     * playerpiece & devcard
+     * 
+     * @see
+     * soc.gwtClient.game.abstractWidgets.BankTradeUI#setDevcardTrade(soc.gwtClient
+     * .game.behaviour.TradeFirst)
+     */
+    @Override
+    public void setDevcardTrade(TradeFirst tradeFirst)
+    {
+        this.tradeFirst = tradeFirst;
+        this.setPlayer(gamePanel.getPlayingPlayer());
+
+        // Get rid of any old resources
+        giveResources.clear();
+        wantResources.clear();
+
+        this.bankResources = gamePanel.getGame().getBank().copy();
+
+        wantedResourcesPickerWidget.setBankResources(bankResources);
+        wantedResourcesListWidget.setBankResources(bankResources);
+
+        // Disable the wanted cards picker/list ui
+        wantedResourcesListWidget.setEnabled(false);
+        wantedResourcesPickerWidget.setEnabled(false);
+
+        // Add needed resources
+        wantResources.add(playerHand.getNeededResources(DevelopmentCard
+                .getCost()));
+
+        // Update image
+        imgPiece = new Image(Resources.icons().developmentCardBack());
+        imgPiece.setVisible(true);
+
+        show();
     }
 }

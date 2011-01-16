@@ -6,6 +6,7 @@ import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.Point2D;
 import soc.gwtClient.game.abstractWidgets.factories.GameWidgetFactory;
 import soc.gwtClient.game.widgets.DetailContainerManager;
+import soc.gwtClient.game.widgets.abstractWidgets.DebugWidget;
 import soc.gwtClient.game.widgets.abstractWidgets.LooseCardsDialog;
 import soc.gwtClient.game.widgets.abstractWidgets.ResourcesGainedWidget;
 import soc.gwtClient.game.widgets.abstractWidgets.StealCardWidget;
@@ -54,4 +55,12 @@ public interface GamePanel
     public void showTradeBankPanel();
 
     public void showTradePlayersPanel();
+
+    public DebugWidget getDebugPanel();
+
+    public void doneReceiveBehaviour();
+
+    public void blockUI();
+
+    public void unBlockUI();
 }

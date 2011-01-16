@@ -104,7 +104,7 @@ public class TradeBank extends AbstractTurnAction
             return false;
         }
 
-        for (Resource resource : game.getGameRules().getSupportedResources())
+        for (Resource resource : game.getRules().getSupportedResources())
         {
             int amountOfType = offeredResources.ofType(resource).size();
             if (amountOfType > 0)

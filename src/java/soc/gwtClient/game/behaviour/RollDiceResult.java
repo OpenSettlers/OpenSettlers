@@ -1,48 +1,28 @@
 package soc.gwtClient.game.behaviour;
 
-import soc.common.actions.gameAction.turnActions.standard.PlaceRobber;
-import soc.common.actions.gameAction.turnActions.standard.RobPlayer;
 import soc.common.actions.gameAction.turnActions.standard.RollDice;
 import soc.gwtClient.game.abstractWidgets.GamePanel;
-import soc.gwtClient.visuals.behaviour.gameBoard.PlaceRobberBehaviour;
+import soc.gwtClient.game.behaviour.received.ReceiveGameBehaviour;
 import soc.gwtClient.visuals.behaviour.gameBoard.RollDiceBehaviour;
 
-public class RollDiceResult implements GameBehaviour, SoldierPlayBehaviour
+public class RollDiceResult implements ReceiveGameBehaviour
 {
     private RollDice rolledDice;
     private RollDiceBehaviour rollDiceBehaviour;
-    private PlaceRobberBehaviour placeRobberBehaviour;
-    private PlaceRobber placeRobber;
     private GamePanel gamePanel;
 
-    public RollDiceResult(RollDice rolledDice)
+    public RollDiceResult(GamePanel gamePanel, RollDice rolledDice)
     {
         super();
+        this.gamePanel = gamePanel;
         this.rolledDice = rolledDice;
 
         rollDiceBehaviour = new RollDiceBehaviour(rolledDice);
     }
 
-    /**
-     * @return the rolledDice
-     */
-    public RollDice getRolledDice()
-    {
-        return rolledDice;
-    }
-
-    /**
-     * @return the placeRobber
-     */
-    public PlaceRobber getPlaceRobber()
-    {
-        return placeRobber;
-    }
-
     @Override
     public void start(GamePanel gamePanel)
     {
-        this.gamePanel = gamePanel;
         if (rolledDice.isRobberRolled())
         {
             if (rolledDice.getLooserPlayers().size() > 0)
@@ -51,7 +31,8 @@ public class RollDiceResult implements GameBehaviour, SoldierPlayBehaviour
             }
             else
             {
-                startRobbing();
+                // Rolled 7, nothing to see here, move along.
+                gamePanel.doneReceiveBehaviour();
             }
         }
         else
@@ -67,27 +48,14 @@ public class RollDiceResult implements GameBehaviour, SoldierPlayBehaviour
         }
     }
 
-    private void startRobbing()
-    {
-        // Create a new PlaceRobber action
-        placeRobber = new PlaceRobber();
-        placeRobber.setPlayer(gamePanel.getPlayingPlayer());
-
-        // Create a new place robber behaviour and start it
-        placeRobberBehaviour = new PlaceRobberBehaviour(this);
-        gamePanel.getGameBoardVisual().setBehaviour(placeRobberBehaviour);
-    }
-
     @Override
     public void finish()
     {
-
     }
 
-    public void robbedPlayer(RobPlayer robplayer)
+    public void doneLoosingCards()
     {
-        gamePanel.sendAction(robplayer);
-        gamePanel.getActionsWidget().setEnabled(true);
+        gamePanel.doneReceiveBehaviour();
     }
 
     public void doneResources()
@@ -95,20 +63,12 @@ public class RollDiceResult implements GameBehaviour, SoldierPlayBehaviour
         rollDiceBehaviour.setNeutral(gamePanel.getGameBoardVisual());
         gamePanel.getDetailContainerManager().hideAll();
         gamePanel.getActionsWidget().setEnabled(true);
+        gamePanel.doneReceiveBehaviour();
     }
 
-    public void pickedRobberSpot(PlaceRobberBehaviour placeRobberBehaviour)
+    @Override
+    public boolean endsManually()
     {
-        // gamePanel.getGameBoardVisual().setBehaviour(null);
-        placeRobberBehaviour.setNeutral(gamePanel.getGameBoardVisual());
-        gamePanel.startAction(placeRobberBehaviour.getPlaceRobber());
-        gamePanel.getStealCardWidget().update(this,
-                placeRobberBehaviour.getPlaceRobber(),
-                gamePanel.getPlayingPlayer());
-    }
-
-    public void doneLoosingCards()
-    {
-        startRobbing();
+        return true;
     }
 }

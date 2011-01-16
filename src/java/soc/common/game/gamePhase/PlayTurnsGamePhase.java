@@ -37,7 +37,7 @@ public class PlayTurnsGamePhase extends AbstractGamePhase
     @Override
     public GamePhase next(Game game)
     {
-        return new PlayTurnsGamePhase();
+        return new EndedGamePhase();
     }
 
     /*

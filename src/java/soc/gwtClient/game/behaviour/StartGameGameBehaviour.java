@@ -1,9 +1,10 @@
 package soc.gwtClient.game.behaviour;
 
 import soc.gwtClient.game.abstractWidgets.GamePanel;
+import soc.gwtClient.game.behaviour.received.ReceiveGameBehaviour;
 import soc.gwtClient.visuals.behaviour.gameBoard.DisabledMap;
 
-public class StartGameGameBehaviour implements GameBehaviour
+public class StartGameGameBehaviour implements ReceiveGameBehaviour
 {
     DisabledMap disabledMap = new DisabledMap();
     GamePanel gamePanel;
@@ -24,6 +25,12 @@ public class StartGameGameBehaviour implements GameBehaviour
     public void start(GamePanel gamePanel)
     {
         disabledMap.start(gamePanel.getGameBoardVisual());
+    }
+
+    @Override
+    public boolean endsManually()
+    {
+        return false;
     }
 
 }

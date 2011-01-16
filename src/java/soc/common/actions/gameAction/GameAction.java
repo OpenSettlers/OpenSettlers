@@ -62,4 +62,10 @@ public interface GameAction extends Action
      * Sets the consecutive number of the game action
      */
     public GameAction setID(int ID);
+
+    /*
+     * Returns true when the GameAction must be expected only, such as RobPlayer
+     * or PlaceRobber
+     */
+    public boolean mustExpected();
 }

@@ -6,30 +6,22 @@ import java.util.List;
 import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.turnActions.standard.PlaceRobber;
 import soc.common.board.hexes.Hex;
-import soc.gwtClient.game.behaviour.SoldierPlayBehaviour;
+import soc.gwtClient.game.behaviour.MoveRobberGameBehaviour;
 import soc.gwtClient.visuals.abstractVisuals.GameBoardVisual;
 import soc.gwtClient.visuals.abstractVisuals.HexVisual;
 import soc.gwtClient.visuals.abstractVisuals.PieceVisual;
 
 public class PlaceRobberBehaviour implements GameBoardBehaviour
 {
-    PlaceRobber placeRobber;
-    List<HexVisual> possibleNewLocations = new ArrayList<HexVisual>();
-    private SoldierPlayBehaviour soldierPlayBehaviour;
+    private PlaceRobber placeRobber;
+    private List<HexVisual> possibleNewLocations = new ArrayList<HexVisual>();
+    private MoveRobberGameBehaviour moveRobberGameBehaviour;
 
-    /**
-     * @return the placeRobber
-     */
-    public PlaceRobber getPlaceRobber()
-    {
-        return placeRobber;
-    }
-
-    public PlaceRobberBehaviour(SoldierPlayBehaviour soldierPlaybehaviour)
+    public PlaceRobberBehaviour(MoveRobberGameBehaviour moveRobberGameBehaviour)
     {
         super();
-        this.soldierPlayBehaviour = soldierPlaybehaviour;
-        this.placeRobber = soldierPlaybehaviour.getPlaceRobber();
+        this.moveRobberGameBehaviour = moveRobberGameBehaviour;
+        this.placeRobber = moveRobberGameBehaviour.getPlaceRobber();
     }
 
     @Override
@@ -78,7 +70,7 @@ public class PlaceRobberBehaviour implements GameBoardBehaviour
         {
             placeRobber.setNewLocation(((HexVisual) pieceVisual).getHex()
                     .getLocation());
-            soldierPlayBehaviour.pickedRobberSpot(this);
+            moveRobberGameBehaviour.pickedRobberSpot(this);
         }
     }
 

@@ -26,7 +26,7 @@ public abstract class AbstractGamePhase implements GamePhase
             GamePlayer player = null;
             if (next.getPlayer().getUser().getId() == 0)
             {
-                player = game.getGameStarter();
+                player = game.getStartPlayer();
             }
             else
             {

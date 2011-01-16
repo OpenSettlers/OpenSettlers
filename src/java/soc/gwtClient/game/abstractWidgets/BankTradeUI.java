@@ -19,8 +19,11 @@ public interface BankTradeUI
     public void setPieceToTradeFor(PlayerPiece pieceToTradeFor,
             TradeFirst tradeFirst);
 
+    public void setDevcardTrade(TradeFirst tradeFirst);
+
     /**
-     * @param player the player to set
+     * @param player
+     *            the player to set
      */
     public BankTradeUI setPlayer(GamePlayer player);
 

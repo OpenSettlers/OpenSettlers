@@ -26,6 +26,7 @@ public class EndTurn extends AbstractTurnAction
             devCard.setPlayable(true);
 
         game.advanceTurn();
+        game.advanceTurnPhase();
 
         super.perform(game);
     }

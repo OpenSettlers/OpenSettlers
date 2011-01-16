@@ -16,7 +16,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class ResourcesGainedBitmapWidget implements ResourcesGainedWidget,
         ClickHandler
 {
-    PopupPanel popup = new PopupPanel();
+    private PopupPanel popup = new PopupPanel();
     private HorizontalPanel rootPanel = new HorizontalPanel();
     private GamePanel gamePanel;
     private Button btnClose = new Button("Close");
@@ -45,7 +45,6 @@ public class ResourcesGainedBitmapWidget implements ResourcesGainedWidget,
     {
         popup.show();
         Point2D location = gamePanel.getTopLeftDiceWidgetPosition();
-        int woi = rootPanel.getOffsetWidth();
         popup.setPopupPosition(location.getX() - popup.getOffsetWidth(),
                 location.getY());
     }

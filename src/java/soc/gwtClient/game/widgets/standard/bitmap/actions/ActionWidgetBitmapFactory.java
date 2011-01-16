@@ -83,7 +83,7 @@ public class ActionWidgetBitmapFactory implements ActionWidgetFactory
         if (action instanceof RollDice)
         {
             return diceWidgetFactory.createDiceWidget(gamePanel.getGame()
-                    .getGameRules().getDiceType(), gamePanel);
+                    .getRules().getDiceType(), gamePanel);
         }
 
         return null;

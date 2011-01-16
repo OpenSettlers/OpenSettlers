@@ -339,6 +339,6 @@ public class ResourceList implements Iterable<Resource>
 
     public Resource get(int i)
     {
-        return resources.get(0);
+        return resources.get(i);
     }
 }

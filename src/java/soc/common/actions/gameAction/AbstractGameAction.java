@@ -167,4 +167,15 @@ public abstract class AbstractGameAction extends AbstractAction implements
         return sender == 0;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see soc.common.actions.gameAction.GameAction#mustExpected()
+     */
+    @Override
+    public boolean mustExpected()
+    {
+        return false;
+    }
+
 }

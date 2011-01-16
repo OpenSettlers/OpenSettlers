@@ -55,38 +55,14 @@ public class TurnPhaseEnded extends AbstractGameAction
                 .getCurrentPhase();
 
         TurnPhase oldPhase = playTurns.getTurnPhase();
-        game.advanceTurnPhase();
-        TurnPhase newPhase = playTurns.getTurnPhase();
+        if (game.advanceTurnPhase())
+        {
+            TurnPhase newPhase = playTurns.getTurnPhase();
 
-        String newPhaseName = "";
-        String oldPhaseName = "";
-        if (newPhase == null)
-        {
-            newPhaseName = "ended turn";
-            oldPhaseName = "null";
-        }
-        else
-        {
-            newPhaseName = newPhase.getName();
-        }
-        if (oldPhase == null)
-        {
-            oldPhaseName = "null";
-        }
-        else
-        {
-            oldPhaseName = newPhase.getName();
-        }
-        // TODO: fix message
-        try
-        {
-            message = "Ended " + oldPhaseName + ", started " + newPhaseName;
-        }
-        catch (Exception e)
-        {
-            throw new AssertionError();
-        }
+            message = "Ended " + oldPhase.getName() + ", started "
+                    + newPhase.getName();
 
-        super.perform(game);
+            super.perform(game);
+        }
     }
 }

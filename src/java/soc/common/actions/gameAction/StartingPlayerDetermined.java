@@ -81,10 +81,10 @@ public class StartingPlayerDetermined extends AbstractGameAction
         // TODO: It would be nice if players are re-ordered such that the
         // highroller starts, and the player after the highroller comes second,
         // etc.
-        game.setGameStarter(gameStarter);
+        game.setStartPlayer(gameStarter);
         game.advanceTurn();
         message = "Starting player determined: "
-                + game.getGameStarter().getUser().getName();
+                + game.getStartPlayer().getUser().getName();
         super.perform(game);
     }
 

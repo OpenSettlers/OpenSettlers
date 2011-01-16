@@ -1,7 +1,6 @@
 package soc.gwtClient.game.abstractWidgets;
 
 import soc.common.actions.gameAction.GameAction;
-import soc.common.actions.gameAction.MessageFromServer;
 import soc.common.actions.gameAction.turnActions.TurnAction;
 import soc.common.game.Game;
 import soc.common.game.player.GamePlayer;
@@ -11,8 +10,12 @@ import soc.gwtClient.game.CenterWidget;
 import soc.gwtClient.game.Point2D;
 import soc.gwtClient.game.abstractWidgets.factories.GameWidgetFactory;
 import soc.gwtClient.game.behaviour.GameBehaviour;
-import soc.gwtClient.game.behaviour.GameBehaviourFactory;
-import soc.gwtClient.game.behaviour.StandardGameBoardBehaviourFactory;
+import soc.gwtClient.game.behaviour.factories.GameBehaviourFactory;
+import soc.gwtClient.game.behaviour.factories.NextActionGameBehaviourFactory;
+import soc.gwtClient.game.behaviour.factories.ReceiveGameBehaviourFactory;
+import soc.gwtClient.game.behaviour.factories.ReceivedActionGameBehaviourFactory;
+import soc.gwtClient.game.behaviour.factories.SendGameBehaviourFactory;
+import soc.gwtClient.game.behaviour.received.ReceiveGameBehaviour;
 import soc.gwtClient.game.dialogs.TradePlayersDialog;
 import soc.gwtClient.game.widgets.ChatPanel;
 import soc.gwtClient.game.widgets.DebugPanel;
@@ -33,10 +36,11 @@ public abstract class AbstractGamePanel implements GamePanel, CenterWidget,
     protected Game game;
     protected GameBehaviour gameBehaviour;
     protected GamePlayer player;
-    protected GameAction performingAction;
 
     // Factories
-    protected GameBehaviourFactory gameBehaviourFactory;
+    protected ReceiveGameBehaviourFactory receiveBehaviourFactory;
+    protected GameBehaviourFactory sendBehaviourFactory;
+    protected GameBehaviourFactory nextActionBehaviourFactory;
     protected GameWidgetFactory gameWidgetFactory;
 
     // Left-bottom tab panel
@@ -69,7 +73,9 @@ public abstract class AbstractGamePanel implements GamePanel, CenterWidget,
     {
         player = game.getPlayers().get(0);
 
-        gameBehaviourFactory = new StandardGameBoardBehaviourFactory(this);
+        receiveBehaviourFactory = new ReceivedActionGameBehaviourFactory(this);
+        sendBehaviourFactory = new SendGameBehaviourFactory(this);
+        nextActionBehaviourFactory = new NextActionGameBehaviourFactory(this);
         gameWidgetFactory = createGameWidgetFactory();
 
         bankStockPanel = gameWidgetFactory.createBankStockPanel();
@@ -149,33 +155,26 @@ public abstract class AbstractGamePanel implements GamePanel, CenterWidget,
     @Override
     public void startAction(GameAction action)
     {
-        action.setPlayer(player);
-        if (action instanceof TurnAction)
+        // Check if there is code forgetting to set the player in the spawned
+        // GameAction
+        if (action.getPlayer() == null)
         {
-            TurnAction turnAction = (TurnAction) action;
-            // Create a behaviour based on our action
-            GameBehaviour gameBehaviour = gameBehaviourFactory
-                    .createBehaviour(turnAction);
-
-            if (gameBehaviour == null)
-            {
-                // no behaviour found for the action, send the action right away
-                server.sendAction(turnAction);
-            }
-            else
-            {
-                // Tell our GameVisual it needs to display the behaviour
-                gameBehaviour.start(this);
-
-                // Keep a reference to the action we are currently performing
-                performingAction = turnAction;
-            }
+            action.setPlayer(player);
         }
-        else
+
+        // Create a behaviour based on our action
+        GameBehaviour gameBehaviour = sendBehaviourFactory
+                .createBehaviour((TurnAction) action);
+
+        if (gameBehaviour != null)
         {
-            // Simply send the action
-            server.sendAction(action);
+            // Tell our GameVisual it should display the behaviour
+            gameBehaviour.start(this);
+            return;
         }
+
+        // Simply send the action
+        sendAction(action);
     }
 
     public void showTradePlayersPanel()
@@ -202,13 +201,61 @@ public abstract class AbstractGamePanel implements GamePanel, CenterWidget,
     @Override
     public void receive(GameAction gameAction)
     {
-        if (gameAction instanceof MessageFromServer)
+        ReceiveGameBehaviour newBehaviour = receiveBehaviourFactory
+                .createBehaviour(gameAction);
+        if (newBehaviour != null)
         {
-            MessageFromServer messageFromServer = (MessageFromServer) gameAction;
-            debugPanel.addError(messageFromServer);
+            setNewGameBehaviour(newBehaviour);
+
+            if (!newBehaviour.endsManually())
+            {
+                setBehaviourForNextAction();
+            }
+        }
+        else
+        {
+            setBehaviourForNextAction();
         }
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see soc.gwtClient.game.abstractWidgets.GamePanel#doneReceiveBehaviour()
+     */
+    @Override
+    public void doneReceiveBehaviour()
+    {
+        setBehaviourForNextAction();
+    }
+
+    /*
+     * Checks if another GameAction resides on the queue. If so, it looks for
+     * associated behaviour and sets it accordingly.
+     */
+    protected void setBehaviourForNextAction()
+    {
+        // Grab the next action on the queue
+        GameAction next = game.getActionsQueue().peekAction();
+
+        // Make sure the next action is meant to be played with the player
+        // playing in this GamePanel
+        if (next != null && next instanceof TurnAction
+                && next.getPlayer().equals(player))
+        {
+            // Create new behaviour and set it when available
+            GameBehaviour newBehaviour = nextActionBehaviourFactory
+                    .createBehaviour(next);
+            if (newBehaviour != null)
+            {
+                setNewGameBehaviour(newBehaviour);
+            }
+        }
+    }
+
+    /*
+     * Updates the current behaviour to given behaviour
+     */
     protected void setNewGameBehaviour(GameBehaviour newGameBehaviour)
     {
         if (gameBehaviour != null)
@@ -223,4 +270,27 @@ public abstract class AbstractGamePanel implements GamePanel, CenterWidget,
     {
         return playersWidget.getTopRightLocation(player);
     }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see soc.gwtClient.game.abstractWidgets.GamePanel#blockUI()
+     */
+    @Override
+    public void blockUI()
+    {
+        getActionsWidget().setEnabled(false);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see soc.gwtClient.game.abstractWidgets.GamePanel#unBlockUI()
+     */
+    @Override
+    public void unBlockUI()
+    {
+        getActionsWidget().setEnabled(true);
+    }
+
 }

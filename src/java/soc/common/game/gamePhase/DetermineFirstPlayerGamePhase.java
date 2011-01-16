@@ -158,9 +158,9 @@ public class DetermineFirstPlayerGamePhase extends AbstractGamePhase
     @Override
     public Turn nextTurn(Game game)
     {
-        if (game.getGameStarter() != null)
+        if (game.getStartPlayer() != null)
         {
-            return new TurnImpl().setPlayer(game.getGameStarter());
+            return new TurnImpl().setPlayer(game.getStartPlayer());
         }
         return super.nextTurn(game);
     }

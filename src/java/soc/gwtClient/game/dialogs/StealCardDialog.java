@@ -2,12 +2,12 @@ package soc.gwtClient.game.dialogs;
 
 import java.util.HashMap;
 
-import soc.common.actions.gameAction.turnActions.standard.PlaceRobber;
 import soc.common.actions.gameAction.turnActions.standard.RobPlayer;
+import soc.common.game.Game;
 import soc.common.game.player.GamePlayer;
 import soc.common.game.player.GamePlayerList;
 import soc.gwtClient.game.abstractWidgets.GamePanel;
-import soc.gwtClient.game.behaviour.SoldierPlayBehaviour;
+import soc.gwtClient.game.behaviour.RobPlayerGameBehaviour;
 import soc.gwtClient.game.widgets.abstractWidgets.StealCardWidget;
 import soc.gwtClient.game.widgets.abstractWidgets.StealPlayerCardWidget;
 import soc.gwtClient.game.widgets.standard.bitmap.StealPlayerCardBitmapWidget;
@@ -31,7 +31,7 @@ public class StealCardDialog extends DialogBox implements StealCardWidget
     private GamePlayer player;
     private VerticalPanel playersCards = new VerticalPanel();
     private HashMap<GamePlayer, StealPlayerCardWidget> playerWidgets = new HashMap<GamePlayer, StealPlayerCardWidget>();
-    private SoldierPlayBehaviour soldierPlayBehaviour;
+    private RobPlayerGameBehaviour robPlayerGameBehaviour;
 
     public StealCardDialog(GamePanel gamePanel, GamePlayer player)
     {
@@ -94,19 +94,19 @@ public class StealCardDialog extends DialogBox implements StealCardWidget
     {
         RobPlayer robPlayer = (RobPlayer) new RobPlayer().setRobbedPlayer(
                 opponent).setPlayer(player);
-        soldierPlayBehaviour.robbedPlayer(robPlayer);
+        robPlayerGameBehaviour.robbedPlayer(robPlayer);
         hide();
     }
 
     @Override
-    public void update(SoldierPlayBehaviour soldierPlayBehaviour,
-            PlaceRobber placeRobber, GamePlayer player)
+    public void update(RobPlayerGameBehaviour robPlayerGameBehaviour)
     {
-        this.soldierPlayBehaviour = soldierPlayBehaviour;
-        this.player = player;
+        this.robPlayerGameBehaviour = robPlayerGameBehaviour;
+        this.player = gamePanel.getPlayingPlayer();
+        Game game = gamePanel.getGame();
 
-        GamePlayerList robCandidates = gamePanel.getGame().getPlayersAtHex(
-                placeRobber.getNewLocation(), placeRobber.getPlayer());
+        GamePlayerList robCandidates = game.getPlayersAtHex(game.getRobber()
+                .getLocation(), gamePanel.getPlayingPlayer());
 
         // Only make the players' visible who can be robbed.
         for (GamePlayer playerr : playerWidgets.keySet())

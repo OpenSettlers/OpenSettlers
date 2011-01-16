@@ -36,7 +36,6 @@ import soc.common.game.player.GamePlayer;
 import soc.common.game.player.GamePlayerList;
 import soc.common.game.statuses.GameStatus;
 import soc.common.game.statuses.Playing;
-import soc.common.game.statuses.WaitingForPlayers;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
@@ -54,61 +53,29 @@ public class Game
     // Abstracted rules
     private GameRules gameRules;
 
-    private ResourceList bank = new ResourceList();
-
     private GamePlayerList players = new GamePlayerList();
     private List<GamePlayer> spectators = new ArrayList<GamePlayer>();
-    private Pirate pirate = null;
-    private Robber robber = null;
-    private GamePhase currentPhase = new LobbyGamePhase();
+
+    // Game rules specific stuff
     private GameSettings gameSettings = new GameSettings();
     private Board board;
-    private GamePlayer gameStarter;
+    private ResourceList bank = new ResourceList();
     private DevelopmentCardList developmentCardStack = new DevelopmentCardList();
-    private Turn currentTurn;
-    private GameStatus currentStatus = new WaitingForPlayers();
+    private Pirate pirate = null;
+    private Robber robber = null;
     private Army largestArmy;
     private LongestRoad longestRoute;
     private Dice currentDice;
+    private GamePlayer gameStarter;
 
-    /**
-     * @return the currentDice
-     */
-    public Dice getCurrentDice()
+    // State
+    private GamePhase currentPhase = new LobbyGamePhase();
+    private Turn currentTurn;
+    private GameStatus currentStatus = new Playing();
+
+    public Game()
     {
-        return currentDice;
-    }
-
-    /**
-     * @param currentDice
-     *            the currentDice to set
-     */
-    public Game setCurrentDice(Dice currentDice)
-    {
-        this.currentDice = currentDice;
-
-        eventBus.fireEvent(new DiceChangedEvent(currentDice));
-
-        return this;
-    }
-
-    /**
-     * @return the board
-     */
-    public Board getBoard()
-    {
-        return board;
-    }
-
-    /**
-     * @param board
-     *            the board to set
-     */
-    public Game setBoard(Board board)
-    {
-        this.board = board;
-
-        return this;
+        gameRules = new GameRulesImpl(this);
     }
 
     /*
@@ -126,15 +93,20 @@ public class Game
         return result;
     }
 
-    public void advanceTurnPhase()
+    public boolean advanceTurnPhase()
     {
         PlayTurnsGamePhase playTurns = (PlayTurnsGamePhase) currentPhase;
         TurnPhase oldPhase = playTurns.getTurnPhase();
-        if (oldPhase != null)
+        TurnPhase newPhase = playTurns.getTurnPhase().next();
+        if (!oldPhase.equals(newPhase))
         {
-            TurnPhase newPhase = playTurns.getTurnPhase().next();
             playTurns.setTurnPhase(newPhase);
             eventBus.fireEvent(new TurnPhaseChangedEvent(newPhase, oldPhase));
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 
@@ -166,9 +138,7 @@ public class Game
         PlayerPieceList result = new PlayerPieceList();
 
         for (GamePlayer player : players)
-        {
             result.add(player.getBuildPieces().getSidePieces());
-        }
 
         return result;
     }
@@ -211,120 +181,6 @@ public class Game
         return true;
     }
 
-    /**
-     * @return the gameStatus
-     */
-    public GameStatus getGameStatus()
-    {
-        return currentStatus;
-    }
-
-    /**
-     * @return the currentTurn
-     */
-    public Turn getCurrentTurn()
-    {
-        return currentTurn;
-    }
-
-    /**
-     * @return the gameRules
-     */
-    public GameRules getGameRules()
-    {
-        return gameRules;
-    }
-
-    /**
-     * @return the chatLog
-     */
-    public ChatLog getChatLog()
-    {
-        return chatLog;
-    }
-
-    public void addGamePhaseChangedEventHandler(
-            GamePhaseChangedEventHandler handler)
-    {
-        eventBus.addHandler(GamePhaseChangedEvent.TYPE, handler);
-    }
-
-    public void addDiceChangedEventHandler(DiceChangedEventHandler handler)
-    {
-        eventBus.addHandler(DiceChangedEvent.TYPE, handler);
-    }
-
-    public HandlerRegistration addTurnchangedeventHandler(
-            TurnChangedEventHandler handler)
-    {
-        return eventBus.addHandler(TurnChangedEvent.TYPE, handler);
-    }
-
-    public HandlerRegistration addTurnPhaseChangedHandler(
-            TurnPhaseChangedHandler handler)
-    {
-        return eventBus.addHandler(TurnPhaseChangedEvent.TYPE, handler);
-    }
-
-    /**
-     * @return the robber
-     */
-    public Robber getRobber()
-    {
-        return robber;
-    }
-
-    /**
-     * @param robber
-     *            the robber to set
-     */
-    public Game setRobber(Robber robber)
-    {
-        this.robber = robber;
-
-        return this;
-    }
-
-    /**
-     * @return the developmentCards
-     */
-    public DevelopmentCardList getDevelopmentCardStack()
-    {
-        return developmentCardStack;
-    }
-
-    /**
-     * @param developmentCards
-     *            the developmentCards to set
-     */
-    public Game setDevelopmentCards(DevelopmentCardList developmentCards)
-    {
-        this.developmentCardStack = developmentCards;
-
-        return this;
-    }
-
-    /**
-     * @return the gameStarter
-     */
-    public GamePlayer getGameStarter()
-    {
-        return gameStarter;
-    }
-
-    /**
-     * @param gameStarter
-     *            the gameStarter to set
-     */
-    public Game setGameStarter(GamePlayer gameStarter)
-    {
-        this.gameStarter = gameStarter;
-
-        players.setStartPlayer(gameStarter);
-
-        return this;
-    }
-
     public GamePlayer getPlayerByID(int id)
     {
         for (GamePlayer p : players)
@@ -363,89 +219,6 @@ public class Game
         return playersAtHex;
     }
 
-    /**
-     * @return the gameSettings
-     */
-    public GameSettings getGameSettings()
-    {
-        return gameSettings;
-    }
-
-    /**
-     * @param gameSettings
-     *            the gameSettings to set
-     */
-    public void setGameSettings(GameSettings gameSettings)
-    {
-        this.gameSettings = gameSettings;
-    }
-
-    /*
-     * Parameterless deserialization constructor
-     */
-    public Game()
-    {
-        gameRules = new GameRulesImpl(this);
-    }
-
-    public ResourceList getBank()
-    {
-        return bank;
-    }
-
-    public void setBank(ResourceList bank)
-    {
-        this.bank = bank;
-    }
-
-    public ActionsQueue getActionsQueue()
-    {
-        return actionsQueue;
-    }
-
-    public void setActionsQueue(ActionsQueue actionsQueue)
-    {
-        this.actionsQueue = actionsQueue;
-    }
-
-    public GamePlayerList getPlayers()
-    {
-        return players;
-    }
-
-    /**
-     * @return the spectators
-     */
-    public List<GamePlayer> getSpectators()
-    {
-        return spectators;
-    }
-
-    public GameLog getGameLog()
-    {
-        return gameLog;
-    }
-
-    public void setGameLog(GameLogImpl gameLog)
-    {
-        this.gameLog = gameLog;
-    }
-
-    public Pirate getPirate()
-    {
-        return pirate;
-    }
-
-    public void setPirate(Pirate pirate)
-    {
-        this.pirate = pirate;
-    }
-
-    public GamePhase getCurrentPhase()
-    {
-        return currentPhase;
-    }
-
     public void advanceGamePhase()
     {
         GamePhase newGamePhase = currentPhase.next(this);
@@ -468,62 +241,13 @@ public class Game
         eventBus.fireEvent(event);
     }
 
-    /**
-     * @return the largestArmy
-     */
-    public Army getLargestArmy()
-    {
-        return largestArmy;
-    }
-
-    /**
-     * @param largestArmy
-     *            the largestArmy to set
-     */
-    public Game setLargestArmy(Army largestArmy)
-    {
-        this.largestArmy = largestArmy;
-
-        return this;
-    }
-
-    /**
-     * @return the longestRoute
-     */
-    public LongestRoad getLongestRoute()
-    {
-        return longestRoute;
-    }
-
-    /**
-     * @param longestRoute
-     *            the longestRoute to set
-     */
-    public Game setLongestRoute(LongestRoad longestRoute)
-    {
-        this.longestRoute = longestRoute;
-
-        return this;
-    }
-
-    /**
-     * @param developmentCardStack
-     *            the developmentCardStack to set
-     */
-    public Game setDevelopmentCardStack(DevelopmentCardList developmentCardStack)
-    {
-        this.developmentCardStack = developmentCardStack;
-
-        return this;
-    }
-
     public void performAction(GameAction action)
     {
         QueuedAction expectedAction = actionsQueue.findExpected(action, this);
+
         if (expectedAction != null)
-        {
             actionsQueue.dequeue(expectedAction);
-        }
+
         currentPhase.performAction(action, this);
     }
 
@@ -579,5 +303,223 @@ public class Game
                 }
             }
         }
+    }
+
+    public HandlerRegistration addGamePhaseChangedEventHandler(
+            GamePhaseChangedEventHandler handler)
+    {
+        return eventBus.addHandler(GamePhaseChangedEvent.TYPE, handler);
+    }
+
+    public HandlerRegistration addDiceChangedEventHandler(
+            DiceChangedEventHandler handler)
+    {
+        return eventBus.addHandler(DiceChangedEvent.TYPE, handler);
+    }
+
+    public HandlerRegistration addTurnchangedeventHandler(
+            TurnChangedEventHandler handler)
+    {
+        return eventBus.addHandler(TurnChangedEvent.TYPE, handler);
+    }
+
+    public HandlerRegistration addTurnPhaseChangedHandler(
+            TurnPhaseChangedHandler handler)
+    {
+        return eventBus.addHandler(TurnPhaseChangedEvent.TYPE, handler);
+    }
+
+    public HandlerRegistration addStatusChangedEventHandler(
+            StatusChangedEventHandler handler)
+    {
+        return eventBus.addHandler(StatusChangedEvent.TYPE, handler);
+    }
+
+    public Dice getCurrentDice()
+    {
+        return currentDice;
+    }
+
+    public Game setCurrentDice(Dice currentDice)
+    {
+        this.currentDice = currentDice;
+
+        eventBus.fireEvent(new DiceChangedEvent(currentDice));
+
+        return this;
+    }
+
+    public Board getBoard()
+    {
+        return board;
+    }
+
+    public Game setBoard(Board board)
+    {
+        this.board = board;
+
+        return this;
+    }
+
+    public GameStatus getStatus()
+    {
+        return currentStatus;
+    }
+
+    public void setStatus(GameStatus newStatus)
+    {
+        GameStatus oldStatus = currentStatus;
+        currentStatus = newStatus;
+
+        eventBus.fireEvent(new StatusChangedEvent(newStatus, oldStatus));
+    }
+
+    public Turn getCurrentTurn()
+    {
+        return currentTurn;
+    }
+
+    public GameRules getRules()
+    {
+        return gameRules;
+    }
+
+    public ChatLog getChatLog()
+    {
+        return chatLog;
+    }
+
+    public Robber getRobber()
+    {
+        return robber;
+    }
+
+    public Game setRobber(Robber robber)
+    {
+        this.robber = robber;
+
+        return this;
+    }
+
+    public DevelopmentCardList getDevelopmentCardStack()
+    {
+        return developmentCardStack;
+    }
+
+    public Game setDevelopmentCards(DevelopmentCardList developmentCards)
+    {
+        this.developmentCardStack = developmentCards;
+
+        return this;
+    }
+
+    public GamePlayer getStartPlayer()
+    {
+        return gameStarter;
+    }
+
+    public Game setStartPlayer(GamePlayer gameStarter)
+    {
+        this.gameStarter = gameStarter;
+
+        players.setStartPlayer(gameStarter);
+
+        return this;
+    }
+
+    public Game setDevelopmentCardStack(DevelopmentCardList developmentCardStack)
+    {
+        this.developmentCardStack = developmentCardStack;
+
+        return this;
+    }
+
+    public Army getLargestArmy()
+    {
+        return largestArmy;
+    }
+
+    public Game setLargestArmy(Army largestArmy)
+    {
+        this.largestArmy = largestArmy;
+
+        return this;
+    }
+
+    public LongestRoad getLongestRoute()
+    {
+        return longestRoute;
+    }
+
+    public Game setLongestRoute(LongestRoad longestRoute)
+    {
+        this.longestRoute = longestRoute;
+
+        return this;
+    }
+
+    public GameSettings getGameSettings()
+    {
+        return gameSettings;
+    }
+
+    public void setGameSettings(GameSettings gameSettings)
+    {
+        this.gameSettings = gameSettings;
+    }
+
+    public ResourceList getBank()
+    {
+        return bank;
+    }
+
+    public void setBank(ResourceList bank)
+    {
+        this.bank = bank;
+    }
+
+    public ActionsQueue getActionsQueue()
+    {
+        return actionsQueue;
+    }
+
+    public void setActionsQueue(ActionsQueue actionsQueue)
+    {
+        this.actionsQueue = actionsQueue;
+    }
+
+    public GamePlayerList getPlayers()
+    {
+        return players;
+    }
+
+    public List<GamePlayer> getSpectators()
+    {
+        return spectators;
+    }
+
+    public GameLog getGameLog()
+    {
+        return gameLog;
+    }
+
+    public void setGameLog(GameLogImpl gameLog)
+    {
+        this.gameLog = gameLog;
+    }
+
+    public Pirate getPirate()
+    {
+        return pirate;
+    }
+
+    public void setPirate(Pirate pirate)
+    {
+        this.pirate = pirate;
+    }
+
+    public GamePhase getCurrentPhase()
+    {
+        return currentPhase;
     }
 }

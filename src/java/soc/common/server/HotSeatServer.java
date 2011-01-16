@@ -9,6 +9,7 @@ public class HotSeatServer extends AbstractGameServer
     public HotSeatServer(GameServerCallback callback)
     {
         this.callback = callback;
+
         game = new Game();
         random = new ClientRandom();
     }

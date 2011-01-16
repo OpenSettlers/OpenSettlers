@@ -149,11 +149,21 @@ public class BuildTownBitmapWidget extends AbstractActionWidget implements
 
     private void setTradesNeededToBuild()
     {
-        int amountTradesNeeded = player.getResources().getNeededResources(
-                town.getCost()).size();
-        trade1.setVisible(amountTradesNeeded >= 1);
-        trade2.setVisible(amountTradesNeeded >= 2);
-        trade3.setVisible(amountTradesNeeded >= 3);
-        trade4.setVisible(amountTradesNeeded >= 4);
+        if (town.canPay(player))
+        {
+            int amountTradesNeeded = player.getResources().getNeededResources(
+                    town.getCost()).size();
+            trade1.setVisible(amountTradesNeeded >= 1);
+            trade2.setVisible(amountTradesNeeded >= 2);
+            trade3.setVisible(amountTradesNeeded >= 3);
+            trade4.setVisible(amountTradesNeeded >= 4);
+        }
+        else
+        {
+            trade1.setVisible(false);
+            trade2.setVisible(false);
+            trade3.setVisible(false);
+            trade4.setVisible(false);
+        }
     }
 }
