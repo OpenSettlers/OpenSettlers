@@ -123,7 +123,8 @@ public class PortList implements Iterable<Port>
      * Returns best port to trade with given the resource type. When this port
      * is a 4:1 port, it ignores this port and returns null
      */
-    public Port getBestPortForResource(Resource resourceType, boolean ignoreFourToOne)
+    public Port getBestPortForResource(Resource resourceType,
+            boolean ignoreFourToOne)
     {
         Port result = null;
         int amountNeeded = 6;

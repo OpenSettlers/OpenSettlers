@@ -21,6 +21,9 @@ public interface Icons extends ClientBundle
     @Source("size32/31Port.png")
     public ImageResource threeToOnePort();
 
+    @Source("size16/Port.png")
+    public ImageResource port();
+
     @Source("size48/BlankCard.png")
     public ImageResource blankCard();
 

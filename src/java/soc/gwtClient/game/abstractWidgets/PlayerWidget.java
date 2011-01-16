@@ -22,6 +22,8 @@ public interface PlayerWidget extends IsWidget
 
     public VictoryPointsWidget createVictoryPointWidget();
 
+    public PortAmountWidget createPortAmountwidget();
+
     public PlayerTurnStatusWidget createTurnStatusWidget();
 
     public GamePlayer getPlayer();

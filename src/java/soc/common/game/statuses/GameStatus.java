@@ -12,4 +12,6 @@ package soc.common.game.statuses;
 public interface GameStatus
 {
     public boolean isGameBlocking();
+
+    public String getDescription();
 }

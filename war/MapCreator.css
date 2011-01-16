@@ -83,6 +83,8 @@ h1 {
 	background-color: black;
 	color: White;
 	font-weight: bolder;
+	font-size: 1em;
+	padding: 0.25em;
 }
 .diceLabel{
 	font-weight: bolder;

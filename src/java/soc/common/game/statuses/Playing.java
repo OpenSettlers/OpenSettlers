@@ -9,4 +9,11 @@ public class Playing implements GameStatus
         return false;
     }
 
+    @Override
+    public String getDescription()
+    {
+        // TODO fix message
+        return "Playing the game";
+    }
+
 }

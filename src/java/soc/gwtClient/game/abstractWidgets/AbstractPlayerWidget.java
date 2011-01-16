@@ -17,6 +17,7 @@ public abstract class AbstractPlayerWidget extends HorizontalPanel implements
     protected LongestRoadWidget longestRoadWidget;
     protected VictoryPointsWidget victoryPointWidget;
     protected PlayerTurnStatusWidget turnStatusWidget;
+    protected PortAmountWidget portAmountWidget;
 
     protected Game game;
     protected GamePlayer player;
@@ -36,9 +37,11 @@ public abstract class AbstractPlayerWidget extends HorizontalPanel implements
         longestRoadWidget = createLongestRoadWidget();
         victoryPointWidget = createVictoryPointWidget();
         turnStatusWidget = createTurnStatusWidget();
+        portAmountWidget = createPortAmountwidget();
 
         add(lblName);
         add(stockWidget);
+        add(portAmountWidget);
 
         add(devcardsWidget);
         add(resourcesWidget);

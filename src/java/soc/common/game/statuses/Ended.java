@@ -10,4 +10,11 @@ public class Ended implements GameStatus
     {
         return false;
     }
+
+    @Override
+    public String getDescription()
+    {
+        // TODO fix message
+        return "This game has ended.";
+    }
 }

@@ -24,4 +24,11 @@ public class WaitingForReplacementPlayer implements GameStatus
         return gonePlayers;
     }
 
+    @Override
+    public String getDescription()
+    {
+        // TODO fix message
+        return "Waiting for another player to replace ...";
+    }
+
 }

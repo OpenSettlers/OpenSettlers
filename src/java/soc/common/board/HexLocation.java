@@ -60,6 +60,10 @@ public class HexLocation
         return result;
     }
 
+    /*
+     * Returns a list containing 6 HexLocations starting with deg0 and ending
+     * with deg300
+     */
     public List<HexLocation> getNeighbours()
     {
         List<HexLocation> result = new ArrayList<HexLocation>();
@@ -67,17 +71,12 @@ public class HexLocation
         // add an offset for uneven rows
         int offset = h % 2 == 0 ? 0 : -1;
 
-        // 2 hexes on the same row
-        result.add(new HexLocation(w - 1, h));
-        result.add(new HexLocation(w + 1, h));
-
-        // 2 hexes on the row above
         result.add(new HexLocation(w + 1 + offset, h - 1));
-        result.add(new HexLocation(w + offset, h - 1));
-
-        // 2 hexes on the row below
+        result.add(new HexLocation(w + 1, h));
         result.add(new HexLocation(w + 1 + offset, h + 1));
         result.add(new HexLocation(w + offset, h + 1));
+        result.add(new HexLocation(w - 1, h));
+        result.add(new HexLocation(w + offset, h - 1));
 
         return result;
     }
@@ -112,25 +111,43 @@ public class HexLocation
 
     public HexSide getSideLocation(RotationPosition position)
     {
-        List<HexPoint> neighbours = getNeighbourHexPoints();
+        List<HexLocation> neighbours = getNeighbours();
 
         switch (position)
         {
         case DEG0:
-            return new HexSide(neighbours.get(5), neighbours.get(0));
-        case DEG60:
             return new HexSide(neighbours.get(0), neighbours.get(1));
-            //
-        case DEG120:
+        case DEG60:
             return new HexSide(neighbours.get(1), neighbours.get(2));
-        case DEG180:
+        case DEG120:
             return new HexSide(neighbours.get(2), neighbours.get(3));
-        case DEG240:
+        case DEG180:
             return new HexSide(neighbours.get(3), neighbours.get(4));
-            //
-        case DEG300:
+        case DEG240:
             return new HexSide(neighbours.get(4), neighbours.get(5));
+        case DEG300:
+            return new HexSide(neighbours.get(5), neighbours.get(0));
         }
+
+        // List<HexPoint> neighbours = getNeighbourHexPoints();
+        //
+        // switch (position)
+        // {
+        // case DEG0:
+        // return new HexSide(neighbours.get(5), neighbours.get(0));
+        // case DEG60:
+        // return new HexSide(neighbours.get(0), neighbours.get(1));
+        // //
+        // case DEG120:
+        // return new HexSide(neighbours.get(1), neighbours.get(2));
+        // case DEG180:
+        // return new HexSide(neighbours.get(2), neighbours.get(3));
+        // case DEG240:
+        // return new HexSide(neighbours.get(3), neighbours.get(4));
+        // //
+        // case DEG300:
+        // return new HexSide(neighbours.get(4), neighbours.get(5));
+        // }
 
         return null;
     }

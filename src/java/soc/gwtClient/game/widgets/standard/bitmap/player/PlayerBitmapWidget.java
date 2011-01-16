@@ -8,6 +8,7 @@ import soc.gwtClient.game.abstractWidgets.DevelopmentCardsAmountWidget;
 import soc.gwtClient.game.abstractWidgets.LargestArmyWidget;
 import soc.gwtClient.game.abstractWidgets.LongestRoadWidget;
 import soc.gwtClient.game.abstractWidgets.PlayerTurnStatusWidget;
+import soc.gwtClient.game.abstractWidgets.PortAmountWidget;
 import soc.gwtClient.game.abstractWidgets.ResourceAmountWidget;
 import soc.gwtClient.game.abstractWidgets.StockWidget;
 import soc.gwtClient.game.abstractWidgets.VictoryPointsWidget;
@@ -79,6 +80,12 @@ public class PlayerBitmapWidget extends AbstractPlayerWidget
     {
         return new Point2D(getOffsetWidth() + getAbsoluteLeft(),
                 getAbsoluteTop());
+    }
+
+    @Override
+    public PortAmountWidget createPortAmountwidget()
+    {
+        return new PortAmountBitmapWidget(player);
     }
 
 }
