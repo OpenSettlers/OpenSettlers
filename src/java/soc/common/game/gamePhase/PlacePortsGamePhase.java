@@ -38,32 +38,43 @@ public class PlacePortsGamePhase extends AbstractGamePhase
             for (@SuppressWarnings("unused")
             Port port : t.getPorts())
             {
-                game.getActionsQueue().enqueue(
-                        new PlacePort()
-                        /*
-                         * Placing ports goes chronologically starting with the
-                         * winner. The first player always has the advantage: -
-                         * For example with 5 ports and 4 players, first player
-                         * may place twice while the rest only once. - First
-                         * player may place first, conveniently placing port
-                         * alongside - Since port stack is open, first player
-                         * placing last port is 100% certain known port
-                         */
+                game
+                        .getActionsQueue()
+                        .enqueue(
+                                new PlacePort()
+                                        /*
+                                         * Placing ports goes chronologically
+                                         * starting with the winner. The first
+                                         * player always has the advantage: -
+                                         * For example with 5 ports and 4
+                                         * players, first player may place twice
+                                         * while the rest only once. - First
+                                         * player may place first, conveniently
+                                         * placing port alongside - Since port
+                                         * stack is open, first player placing
+                                         * last port is 100% certain known port
+                                         */
 
-                        // pass territoryID such that player knows to expect
-                                // possible port locations
-                                .setTerritoryID(t.getID()).setPlayer(
-                                        game.getPlayers().get(
-                                                portCount
-                                                        % game.getPlayers()
-                                                                .size())));
+                                        // pass territoryID such that player
+                                        // knows to expect
+                                        // possible port locations
+                                        .setTerritoryID(t.getID())
+                                        .setPlayer(
+                                                game
+                                                        .getPlayers()
+                                                        .get(
+                                                                portCount
+                                                                        % game
+                                                                                .getPlayers()
+                                                                                .size())),
+                                true);
 
                 portCount++;
             }
         }
 
         game.getActionsQueue().enqueue(
-                (GameAction) new GamePhaseHasEnded().setSender(0));
+                (GameAction) new GamePhaseHasEnded().setSender(0), true);
     }
 
     /*

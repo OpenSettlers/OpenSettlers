@@ -20,7 +20,7 @@ public abstract class AbstractGamePhase implements GamePhase
 
     public Turn nextTurn(Game game)
     {
-        GameAction next = game.getActionsQueue().peekAction();
+        GameAction next = game.getActionsQueue().peek();
         if (next != null && !(next instanceof GamePhaseHasEnded))
         {
             GamePlayer player = null;

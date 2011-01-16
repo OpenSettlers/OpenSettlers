@@ -1,8 +1,8 @@
 package soc.gwtClient.game.widgets;
 
+import soc.common.actions.gameAction.GameAction;
 import soc.common.game.logs.ActionQueueChangedEvent;
 import soc.common.game.logs.ActionQueueChangedEventHandler;
-import soc.common.game.logs.QueuedAction;
 import soc.gwtClient.game.abstractWidgets.GamePanel;
 import soc.gwtClient.game.widgets.bitmap.StringQueuedActionCell;
 
@@ -17,8 +17,8 @@ public class GameQueuePanel implements IsWidget, ActionQueueChangedEventHandler
     private ScrollPanel rootPanel = new ScrollPanel();
     private GamePanel gamePanel;
     private StringQueuedActionCell cell = new StringQueuedActionCell();
-    private CellList<QueuedAction> queuedList = new CellList<QueuedAction>(cell);
-    private ListDataProvider<QueuedAction> dataList = new ListDataProvider<QueuedAction>();
+    private CellList<GameAction> queuedList = new CellList<GameAction>(cell);
+    private ListDataProvider<GameAction> dataList = new ListDataProvider<GameAction>();
 
     public GameQueuePanel(GamePanel gamePanel)
     {

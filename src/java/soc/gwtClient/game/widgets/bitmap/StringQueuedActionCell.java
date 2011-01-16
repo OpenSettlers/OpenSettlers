@@ -1,18 +1,18 @@
 package soc.gwtClient.game.widgets.bitmap;
 
-import soc.common.game.logs.QueuedAction;
+import soc.common.actions.gameAction.GameAction;
 
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 
-public class StringQueuedActionCell extends AbstractCell<QueuedAction>
+public class StringQueuedActionCell extends AbstractCell<GameAction>
 {
 
     @Override
-    public void render(QueuedAction value, Object key, SafeHtmlBuilder sb)
+    public void render(GameAction value, Object key, SafeHtmlBuilder sb)
     {
-        sb.append(SafeHtmlUtils.fromString(value.getAction().getToDoMessage()));
+        sb.append(SafeHtmlUtils.fromString(value.getToDoMessage()));
     }
 
 }

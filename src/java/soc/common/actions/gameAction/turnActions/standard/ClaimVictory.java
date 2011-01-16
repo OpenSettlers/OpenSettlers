@@ -61,7 +61,7 @@ public class ClaimVictory extends AbstractTurnAction
     public void perform(Game game)
     {
         game.getActionsQueue().enqueue(
-                (GameAction) new GamePhaseHasEnded().setSender(0));
+                (GameAction) new GamePhaseHasEnded().setSender(0), true);
 
         super.perform(game);
     }

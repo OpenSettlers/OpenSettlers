@@ -21,10 +21,11 @@ public class DetermineFirstPlayerGamePhase extends AbstractGamePhase
         // once)
         for (GamePlayer player : game.getPlayers())
         {
-            game.getActionsQueue().enqueue(new RollDice().setPlayer(player));
+            game.getActionsQueue().enqueue(new RollDice().setPlayer(player),
+                    true);
         }
         game.getActionsQueue().enqueue(
-                (GameAction) new GamePhaseHasEnded().setSender(0));
+                (GameAction) new GamePhaseHasEnded().setSender(0), true);
     }
 
     private int getHighRoll(List<RollDice> rolledDices)
@@ -75,7 +76,7 @@ public class DetermineFirstPlayerGamePhase extends AbstractGamePhase
                                     // placement/portplacement/turnactionsgamephase
                                     .setGameStarter(gameStarter)
                                     // Server will send this message
-                                    .setSender(0));
+                                    .setSender(0), true);
                 }
                 else
                 {
@@ -86,7 +87,7 @@ public class DetermineFirstPlayerGamePhase extends AbstractGamePhase
                         {
                             game.getActionsQueue().enqueuePriority(
                                     new RollDice().setPlayer(sameRoll
-                                            .getPlayer()));
+                                            .getPlayer()), true);
                         }
                     }
                     // Starting player is not determined. Notify players and
@@ -96,12 +97,12 @@ public class DetermineFirstPlayerGamePhase extends AbstractGamePhase
                             // Pass on the highest diceroll
                                     .setHighRoll(highRoll)
                                     // Server says dice rolled the same
-                                    .setSender(0));
+                                    .setSender(0), true);
                 }
             }
 
         }
-        if (game.getActionsQueue().peekAction() instanceof RollDice)
+        if (game.getActionsQueue().peek() instanceof RollDice)
         {
             game.advanceTurn();
         }

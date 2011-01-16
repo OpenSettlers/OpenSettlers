@@ -4,7 +4,6 @@ import soc.common.game.Game;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.LobbyGamePhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
-import soc.common.game.logs.QueuedAction;
 import soc.common.internationalization.I18n;
 
 public class HostStartsGame extends AbstractGameAction
@@ -24,9 +23,7 @@ public class HostStartsGame extends AbstractGameAction
     {
         game.initialize();
         game.getActionsQueue().enqueue(
-                new QueuedAction()
-                        .setAction((GameAction) new GamePhaseHasEnded()
-                                .setSender(0)));
+                (GameAction) new GamePhaseHasEnded().setSender(0), true);
 
         super.perform(game);
     }

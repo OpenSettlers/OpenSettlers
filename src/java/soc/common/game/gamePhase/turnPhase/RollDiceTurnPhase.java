@@ -55,7 +55,7 @@ public class RollDiceTurnPhase extends TurnPhase
                     // Add each player required to loose cards to the queue
                     for (int i : rollDice.getLooserPlayers())
                     {
-                        game.getActionsQueue().enqueue(new BuildRoad()
+                        game.getActionsQueue().enqueue(new BuildRoad(), true
                         // TODO: port to java
                                 // new LooseCardsAction()
                                 // .setPlayer(game.getPlayer(i));

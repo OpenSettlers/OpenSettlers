@@ -1,12 +1,12 @@
 package soc.gwtClient.game.widgets.standard.bitmap;
 
+import soc.common.actions.gameAction.GameAction;
 import soc.common.game.GamePhaseChangedEvent;
 import soc.common.game.StatusChangedEvent;
 import soc.common.game.Turn;
 import soc.common.game.TurnChangedEvent;
 import soc.common.game.gamePhase.turnPhase.TurnPhaseChangedEvent;
 import soc.common.game.logs.ActionQueueChangedEvent;
-import soc.common.game.logs.QueuedAction;
 import soc.gwtClient.game.abstractWidgets.AbstractStatusPanel;
 import soc.gwtClient.game.abstractWidgets.GamePanel;
 
@@ -25,10 +25,10 @@ public class StatusBitmapPanel extends AbstractStatusPanel
     @Override
     public void onQueueChanged(ActionQueueChangedEvent event)
     {
-        QueuedAction enqueuedAction = event.getEnqueuedAction();
+        GameAction enqueuedAction = event.getEnqueuedAction();
         if (enqueuedAction != null)
         {
-            lblAction.setText(enqueuedAction.getAction().getToDoMessage());
+            lblAction.setText(enqueuedAction.getToDoMessage());
         }
     }
 

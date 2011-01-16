@@ -1,7 +1,10 @@
 package soc.common.game.logs;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import soc.common.actions.gameAction.GameAction;
 import soc.common.game.Game;
@@ -21,34 +24,27 @@ import com.google.gwt.event.shared.SimpleEventBus;
  */
 public class ActionsQueueImpl implements ActionsQueue
 {
-    private List<QueuedAction> actions = new ArrayList<QueuedAction>();
+    private Map<GameAction, Boolean> actions = new HashMap<GameAction, Boolean>();
     private SimpleEventBus eventBus = new SimpleEventBus();
 
     @Override
-    public void enqueue(GameAction inGameAction)
+    public void enqueue(GameAction gameAction, boolean blocking)
     {
-        QueuedAction queuedAction = new QueuedAction(inGameAction, true, false);
-        enqueue(queuedAction);
+        actions.put(gameAction, blocking);
+        eventBus.fireEvent(new ActionQueueChangedEvent(null, gameAction));
     }
 
     @Override
-    public void enqueue(QueuedAction queuedAction)
+    public GameAction peek()
     {
-        actions.add(queuedAction);
-        eventBus.fireEvent(new ActionQueueChangedEvent(null, queuedAction));
+        return getFirst();
     }
 
     @Override
-    public QueuedAction peek()
+    public GameAction dequeue()
     {
-        return actions.get(0);
-    }
-
-    @Override
-    public QueuedAction dequeue()
-    {
-        QueuedAction queuedAction = actions.get(0);
-        actions.remove(0);
+        GameAction queuedAction = getFirst();
+        actions.remove(queuedAction);
         eventBus.fireEvent(new ActionQueueChangedEvent(queuedAction, null));
         return queuedAction;
     }
@@ -62,19 +58,17 @@ public class ActionsQueueImpl implements ActionsQueue
      * .GameAction, soc.common.game.Game)
      */
     @Override
-    public QueuedAction findExpected(GameAction action, Game game)
+    public GameAction findExpected(GameAction actionType, Game game)
     {
         // First action which is a server action is always expected
-        if (actions.size() > 0 && actions.get(0).getAction().isServer())
-        {
-            return actions.get(0);
-        }
+        if (actions.size() > 0 && getFirst().isServer())
+            return getFirst();
 
-        for (QueuedAction blockingAction : getBlockingActions())
+        for (GameAction blockingAction : getBlockingActions())
         {
-            if (blockingAction.getAction().getClass() == action.getClass()
-                    && blockingAction.getAction().getPlayer().equals(
-                            action.getPlayer()))
+            if (blockingAction.getClass() == actionType.getClass()
+                    && blockingAction.getPlayer()
+                            .equals(actionType.getPlayer()))
                 return blockingAction;
         }
 
@@ -88,22 +82,16 @@ public class ActionsQueueImpl implements ActionsQueue
     }
 
     @Override
-    public GameAction peekAction()
+    public void enqueuePriority(GameAction gameAction, boolean blocking)
     {
-        return actions.size() == 0 ? null : actions.get(0).getAction();
-    }
-
-    @Override
-    public void enqueuePriority(QueuedAction queuedAction)
-    {
-        actions.add(0, queuedAction);
-        eventBus.fireEvent(new ActionQueueChangedEvent(null, queuedAction));
+        actions.put(gameAction, blocking);
+        eventBus.fireEvent(new ActionQueueChangedEvent(null, gameAction));
     }
 
     @Override
     public boolean isWaitingForActions()
     {
-        return actions.get(0).isBlocking();
+        return actions.get(getFirst());
     }
 
     /*
@@ -112,26 +100,20 @@ public class ActionsQueueImpl implements ActionsQueue
      * 
      * @see soc.common.game.logs.ActionsQueue#getBlockingActions()
      */
-    public List<QueuedAction> getBlockingActions()
+    public List<GameAction> getBlockingActions()
     {
-        List<QueuedAction> result = new ArrayList<QueuedAction>();
+        List<GameAction> result = new ArrayList<GameAction>();
 
-        for (int i = 0; i < actions.size(); i++)
+        for (Entry<GameAction, Boolean> entry : actions.entrySet())
         {
-            QueuedAction action = actions.get(i);
-
             // Break out when there are non-blocking actions
-            if (action.isBlocking() && result.size() > 0)
-            {
+            if (entry.getValue() && result.size() > 0)
                 break;
-            }
 
             // Add either blocking or non-blocking action
-            result.add(action);
-            if (action.isBlocking())
-            {
+            result.add(entry.getKey());
+            if (entry.getValue())
                 break;
-            }
         }
 
         return result;
@@ -144,28 +126,11 @@ public class ActionsQueueImpl implements ActionsQueue
         return eventBus.addHandler(ActionQueueChangedEvent.TYPE, handler);
     }
 
-    @Override
-    public QueuedAction dequeue(QueuedAction queuedAction)
+    private GameAction findByAction(GameAction action)
     {
-        if (queuedAction != null)
+        for (GameAction queuedAction : actions.keySet())
         {
-            actions.remove(queuedAction);
-        }
-        else
-        {
-            throw new RuntimeException("Expected dequeued action is contained");
-        }
-
-        eventBus.fireEvent(new ActionQueueChangedEvent(queuedAction, null));
-
-        return queuedAction;
-    }
-
-    private QueuedAction findByAction(GameAction action)
-    {
-        for (QueuedAction queuedAction : actions)
-        {
-            if (queuedAction.getAction().equals(action))
+            if (queuedAction.equals(action))
             {
                 return queuedAction;
             }
@@ -174,11 +139,8 @@ public class ActionsQueueImpl implements ActionsQueue
         return null;
     }
 
-    @Override
-    public void enqueuePriority(GameAction action)
+    private GameAction getFirst()
     {
-        QueuedAction queuedAction = new QueuedAction(action);
-        enqueuePriority(queuedAction);
+        return actions.size() == 0 ? null : actions.keySet().iterator().next();
     }
-
 }

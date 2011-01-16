@@ -236,7 +236,7 @@ public abstract class AbstractGamePanel implements GamePanel, CenterWidget,
     protected void setBehaviourForNextAction()
     {
         // Grab the next action on the queue
-        GameAction next = game.getActionsQueue().peekAction();
+        GameAction next = game.getActionsQueue().peek();
 
         // Make sure the next action is meant to be played with the player
         // playing in this GamePanel

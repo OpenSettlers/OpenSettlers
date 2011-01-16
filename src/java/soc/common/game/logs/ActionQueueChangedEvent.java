@@ -1,16 +1,18 @@
 package soc.common.game.logs;
 
+import soc.common.actions.gameAction.GameAction;
+
 import com.google.gwt.event.shared.GwtEvent;
 
 public class ActionQueueChangedEvent extends
         GwtEvent<ActionQueueChangedEventHandler>
 {
     public static Type<ActionQueueChangedEventHandler> TYPE = new Type<ActionQueueChangedEventHandler>();
-    private QueuedAction dequeuedAction;
-    private QueuedAction enqueuedAction;
+    private GameAction dequeuedAction;
+    private GameAction enqueuedAction;
 
-    public ActionQueueChangedEvent(QueuedAction dequeuedAction,
-            QueuedAction enqueuedAction)
+    public ActionQueueChangedEvent(GameAction dequeuedAction,
+            GameAction enqueuedAction)
     {
         super();
         this.dequeuedAction = dequeuedAction;
@@ -20,7 +22,7 @@ public class ActionQueueChangedEvent extends
     /**
      * @return the dequeuedAction
      */
-    public QueuedAction getDequeuedAction()
+    public GameAction getDequeuedAction()
     {
         return dequeuedAction;
     }
@@ -28,12 +30,12 @@ public class ActionQueueChangedEvent extends
     /**
      * @return the enqueuedAction
      */
-    public QueuedAction getEnqueuedAction()
+    public GameAction getEnqueuedAction()
     {
         return enqueuedAction;
     }
 
-    public QueuedAction getChangedAction()
+    public GameAction getChangedAction()
     {
         return enqueuedAction == null ? dequeuedAction : enqueuedAction;
     }

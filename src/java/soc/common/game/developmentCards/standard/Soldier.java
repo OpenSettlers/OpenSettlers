@@ -4,7 +4,6 @@ import soc.common.actions.gameAction.turnActions.standard.PlaceRobber;
 import soc.common.actions.gameAction.turnActions.standard.RobPlayer;
 import soc.common.game.Game;
 import soc.common.game.developmentCards.DevelopmentCard;
-import soc.common.game.logs.QueuedAction;
 import soc.common.game.player.GamePlayer;
 
 /*
@@ -44,15 +43,11 @@ public class Soldier extends DevelopmentCard
         game.switchLargestArmyIfNeeded(player);
 
         // Make sure next thing the player does is moving the robber...
-        game.getActionsQueue().enqueue(
-                new QueuedAction().setAction(
-                        new PlaceRobber().setPlayer(player)).setBlocking(true)
-                        .setOptional(false));
+        game.getActionsQueue().enqueue(new PlaceRobber().setPlayer(player),
+                true);
 
         // ... and after that, rob a player
-        game.getActionsQueue().enqueue(
-                new QueuedAction().setAction(new RobPlayer().setPlayer(player))
-                        .setBlocking(true));
+        game.getActionsQueue().enqueue(new RobPlayer().setPlayer(player), true);
 
         message = player.getUser().getName() + " played a soldier";
 

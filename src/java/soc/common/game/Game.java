@@ -33,7 +33,6 @@ import soc.common.game.logs.ChatLog;
 import soc.common.game.logs.ChatLogImpl;
 import soc.common.game.logs.GameLog;
 import soc.common.game.logs.GameLogImpl;
-import soc.common.game.logs.QueuedAction;
 import soc.common.game.player.GamePlayer;
 import soc.common.game.player.GamePlayerList;
 import soc.common.game.statuses.GameStatus;
@@ -187,6 +186,32 @@ public class Game
         return true;
     }
 
+    public boolean isValid(GameAction action)
+    {
+        if (!action.isValid(this))
+        {
+            return false;
+        }
+        if (action.mustExpected())
+        {
+            if (actionsQueue.size() > 0)
+            {
+                GameAction expectedAction = actionsQueue.findExpected(action,
+                        this);
+                if (expectedAction == null)
+                    return false;
+                else
+                    return expectedAction.getClass() == action.getClass();
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public GamePlayer getPlayerByID(int id)
     {
         for (GamePlayer p : players)
@@ -249,10 +274,10 @@ public class Game
 
     public void performAction(GameAction action)
     {
-        QueuedAction expectedAction = actionsQueue.findExpected(action, this);
+        GameAction expectedAction = actionsQueue.findExpected(action, this);
 
         if (expectedAction != null)
-            actionsQueue.dequeue(expectedAction);
+            actionsQueue.dequeue();
 
         currentPhase.performAction(action, this);
     }

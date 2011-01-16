@@ -28,19 +28,21 @@ public class InitialPlacementGamePhase extends AbstractGamePhase
             {
                 // Tournament starting rules, add a city
                 game.getActionsQueue().enqueue(
-                        new BuildCity().setPlayer(game.getPlayers().get(i)));
+                        new BuildCity().setPlayer(game.getPlayers().get(i)),
+                        true);
             }
             else
             {
                 // Normal starting rules, add two towns
                 game.getActionsQueue().enqueue(
-                        new BuildTown().setPlayer(game.getPlayers().get(i)));
+                        new BuildTown().setPlayer(game.getPlayers().get(i)),
+                        true);
             }
 
             // This action actually might be a BuildShipAction too.
             // TODO: implement this somewhere
             game.getActionsQueue().enqueue(
-                    new BuildRoad().setPlayer(game.getPlayers().get(i)));
+                    new BuildRoad().setPlayer(game.getPlayers().get(i)), true);
 
             // if the "back" flag is set, we should decrease the counter
             if (back)
@@ -70,13 +72,14 @@ public class InitialPlacementGamePhase extends AbstractGamePhase
             for (int j = game.getPlayers().size(); j > 0; j++)
             {
                 game.getActionsQueue().enqueue(
-                        new BuildRoad().setPlayer(game.getPlayers().get(i)));
+                        new BuildRoad().setPlayer(game.getPlayers().get(i)),
+                        true);
             }
         }
 
         // Set end of phase
         game.getActionsQueue().enqueue(
-                (GameAction) new GamePhaseHasEnded().setSender(0));
+                (GameAction) new GamePhaseHasEnded().setSender(0), true);
     }
 
     @Override

@@ -22,7 +22,6 @@ import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.PlayTurnsGamePhase;
 import soc.common.game.gamePhase.turnPhase.BeforeDiceRollTurnPhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
-import soc.common.game.logs.QueuedAction;
 import soc.common.game.player.GamePlayer;
 import soc.common.internationalization.I18n;
 
@@ -265,15 +264,16 @@ public class RollDice extends AbstractTurnAction
             {
                 GamePlayer player = game.getPlayerByID(playerID);
                 game.getActionsQueue().enqueue(
-                        new QueuedAction(new LooseCards().setPlayer(player),
-                                false, false));
+                        new LooseCards().setPlayer(player), false);
             }
 
             // Enqueue moving the robber
-            game.getActionsQueue().enqueue(new PlaceRobber().setPlayer(player));
+            game.getActionsQueue().enqueue(new PlaceRobber().setPlayer(player),
+                    true);
 
             // Enqueue robbing a player
-            game.getActionsQueue().enqueue(new RobPlayer().setPlayer(player));
+            game.getActionsQueue().enqueue(new RobPlayer().setPlayer(player),
+                    true);
 
             message = player.getUser().getName() + " rolled a 7. ";
 
@@ -291,7 +291,7 @@ public class RollDice extends AbstractTurnAction
         // After rolling the dice and all intermediate actions such as move
         // robber, pick gold, etc we switch to the next turn phase
         game.getActionsQueue().enqueue(
-                (GameAction) new TurnPhaseEnded().setSender(0));
+                (GameAction) new TurnPhaseEnded().setSender(0), true);
     }
 
     @Override

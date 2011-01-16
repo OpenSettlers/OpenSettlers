@@ -4,7 +4,6 @@ import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.MessageFromServer;
 import soc.common.game.Game;
 import soc.common.game.logs.ActionsQueue;
-import soc.common.game.logs.QueuedAction;
 import soc.common.server.actions.GameServerActionFactory;
 import soc.common.server.actions.ServerAction;
 import soc.common.server.random.Random;
@@ -53,7 +52,7 @@ public abstract class AbstractGameServer implements GameServer
     {
         if (action != null)
         {
-            QueuedAction expectedAction = null;
+            GameAction expectedAction = null;
             if (!game.isAllowed(action))
             {
                 notifyNotAllowed(action);
@@ -86,8 +85,7 @@ public abstract class AbstractGameServer implements GameServer
 
             // Check if the action enqueued a server action, if so: execute it
             // right away
-            GameAction possibleNextServerAction = game.getActionsQueue()
-                    .peekAction();
+            GameAction possibleNextServerAction = game.getActionsQueue().peek();
             if (possibleNextServerAction != null
                     && possibleNextServerAction.isServer())
             {
@@ -112,7 +110,7 @@ public abstract class AbstractGameServer implements GameServer
     private void notifyUnexpected(GameAction action)
     {
         // Grab the expected action
-        GameAction expected = game.getActionsQueue().peekAction();
+        GameAction expected = game.getActionsQueue().peek();
 
         // Notify we did not expect current action
         // TODO 200 fix message
