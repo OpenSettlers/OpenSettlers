@@ -63,4 +63,6 @@ public interface GamePanel
     public void blockUI();
 
     public void unBlockUI();
+
+    public GameOverDialog getGameOverDialog();
 }

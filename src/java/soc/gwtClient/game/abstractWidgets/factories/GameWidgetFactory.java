@@ -4,6 +4,7 @@ import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.BankStockPanel;
 import soc.gwtClient.game.abstractWidgets.BankTradeUI;
 import soc.gwtClient.game.abstractWidgets.GameHistoryWidget;
+import soc.gwtClient.game.abstractWidgets.GameOverDialog;
 import soc.gwtClient.game.abstractWidgets.PlayersWidget;
 import soc.gwtClient.game.abstractWidgets.StatusPanel;
 import soc.gwtClient.game.widgets.abstractWidgets.LooseCardsDialog;
@@ -33,4 +34,6 @@ public interface GameWidgetFactory
     public StealCardWidget createStealCardWidget(GamePlayer player);
 
     public LooseCardsDialog createLooseCardsDialog();
+
+    public GameOverDialog createGameOverDialog();
 }

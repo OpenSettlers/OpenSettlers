@@ -5,10 +5,12 @@ import soc.gwtClient.game.abstractWidgets.AbstractBankStockWidget;
 import soc.gwtClient.game.abstractWidgets.BankStockPanel;
 import soc.gwtClient.game.abstractWidgets.BankTradeUI;
 import soc.gwtClient.game.abstractWidgets.GameHistoryWidget;
+import soc.gwtClient.game.abstractWidgets.GameOverDialog;
 import soc.gwtClient.game.abstractWidgets.GamePanel;
 import soc.gwtClient.game.abstractWidgets.PlayersWidget;
 import soc.gwtClient.game.abstractWidgets.StatusPanel;
 import soc.gwtClient.game.abstractWidgets.factories.GameWidgetFactory;
+import soc.gwtClient.game.dialogs.HotSeatGameOverDialog;
 import soc.gwtClient.game.dialogs.HotseatLooseCards;
 import soc.gwtClient.game.dialogs.StealCardDialog;
 import soc.gwtClient.game.dialogs.TradeBankDialog;
@@ -91,5 +93,11 @@ public class GameBitmapWidgetFactory implements GameWidgetFactory
     public LooseCardsDialog createLooseCardsDialog()
     {
         return new HotseatLooseCards(gamePanel);
+    }
+
+    @Override
+    public GameOverDialog createGameOverDialog()
+    {
+        return new HotSeatGameOverDialog();
     }
 }

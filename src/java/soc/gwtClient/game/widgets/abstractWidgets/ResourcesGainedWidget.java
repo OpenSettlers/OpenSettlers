@@ -1,6 +1,6 @@
 package soc.gwtClient.game.widgets.abstractWidgets;
 
-import soc.gwtClient.game.behaviour.RollDiceResult;
+import soc.gwtClient.game.behaviour.received.RollDiceResult;
 
 import com.google.gwt.user.client.ui.IsWidget;
 

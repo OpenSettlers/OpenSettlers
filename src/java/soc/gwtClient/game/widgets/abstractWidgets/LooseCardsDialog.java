@@ -1,7 +1,7 @@
 package soc.gwtClient.game.widgets.abstractWidgets;
 
 import soc.common.actions.gameAction.turnActions.standard.RollDice;
-import soc.gwtClient.game.behaviour.RollDiceResult;
+import soc.gwtClient.game.behaviour.received.RollDiceResult;
 
 import com.google.gwt.user.client.ui.IsWidget;
 

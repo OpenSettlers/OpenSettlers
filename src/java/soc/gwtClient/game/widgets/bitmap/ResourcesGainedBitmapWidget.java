@@ -2,7 +2,7 @@ package soc.gwtClient.game.widgets.bitmap;
 
 import soc.gwtClient.game.Point2D;
 import soc.gwtClient.game.abstractWidgets.GamePanel;
-import soc.gwtClient.game.behaviour.RollDiceResult;
+import soc.gwtClient.game.behaviour.received.RollDiceResult;
 import soc.gwtClient.game.widgets.abstractWidgets.ResourcesGainedWidget;
 
 import com.google.gwt.event.dom.client.ClickEvent;

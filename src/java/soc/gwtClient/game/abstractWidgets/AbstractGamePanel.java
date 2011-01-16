@@ -61,6 +61,7 @@ public abstract class AbstractGamePanel implements GamePanel, CenterWidget,
     protected TradePlayersDialog tradePlayers;
     protected BankTradeUI bankTradeUI;
     protected LooseCardsDialog looseCardsDialog;
+    protected GameOverDialog gameOverDialog;
 
     protected PlayerStuffWidget playerStuff;
     protected DetailContainerManager detailContainerManager;
@@ -133,6 +134,12 @@ public abstract class AbstractGamePanel implements GamePanel, CenterWidget,
     public TradePlayersDialog getTradePlayers()
     {
         return tradePlayers;
+    }
+
+    @Override
+    public GameOverDialog getGameOverDialog()
+    {
+        return gameOverDialog;
     }
 
     @Override

@@ -1,8 +1,7 @@
-package soc.gwtClient.game.behaviour;
+package soc.gwtClient.game.behaviour.received;
 
 import soc.common.actions.gameAction.turnActions.standard.RollDice;
 import soc.gwtClient.game.abstractWidgets.GamePanel;
-import soc.gwtClient.game.behaviour.received.ReceiveGameBehaviour;
 import soc.gwtClient.visuals.behaviour.gameBoard.RollDiceBehaviour;
 
 public class RollDiceResult implements ReceiveGameBehaviour
