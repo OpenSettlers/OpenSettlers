@@ -1,10 +1,7 @@
 package soc.common.game.logs;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import soc.common.actions.gameAction.GameAction;
 import soc.common.game.Game;
@@ -24,29 +21,30 @@ import com.google.gwt.event.shared.SimpleEventBus;
  */
 public class ActionsQueueImpl implements ActionsQueue
 {
-    private Map<GameAction, Boolean> actions = new HashMap<GameAction, Boolean>();
+    private List<QueuedAction> actions = new ArrayList<QueuedAction>();
     private SimpleEventBus eventBus = new SimpleEventBus();
 
     @Override
     public void enqueue(GameAction gameAction, boolean blocking)
     {
-        actions.put(gameAction, blocking);
+        actions.add(new QueuedAction(gameAction, blocking));
         eventBus.fireEvent(new ActionQueueChangedEvent(null, gameAction));
     }
 
     @Override
     public GameAction peek()
     {
-        return getFirst();
+        return getFirst() == null ? null : getFirst().getGameAction();
     }
 
     @Override
     public GameAction dequeue()
     {
-        GameAction queuedAction = getFirst();
+        QueuedAction queuedAction = getFirst();
         actions.remove(queuedAction);
-        eventBus.fireEvent(new ActionQueueChangedEvent(queuedAction, null));
-        return queuedAction;
+        eventBus.fireEvent(new ActionQueueChangedEvent(queuedAction
+                .getGameAction(), null));
+        return queuedAction.getGameAction();
     }
 
     /*
@@ -61,8 +59,8 @@ public class ActionsQueueImpl implements ActionsQueue
     public GameAction findExpected(GameAction actionType, Game game)
     {
         // First action which is a server action is always expected
-        if (actions.size() > 0 && getFirst().isServer())
-            return getFirst();
+        if (actions.size() > 0 && getFirst().getGameAction().isServer())
+            return getFirst().getGameAction();
 
         for (GameAction blockingAction : getBlockingActions())
         {
@@ -84,14 +82,14 @@ public class ActionsQueueImpl implements ActionsQueue
     @Override
     public void enqueuePriority(GameAction gameAction, boolean blocking)
     {
-        actions.put(gameAction, blocking);
+        actions.add(0, new QueuedAction(gameAction, blocking));
         eventBus.fireEvent(new ActionQueueChangedEvent(null, gameAction));
     }
 
     @Override
     public boolean isWaitingForActions()
     {
-        return actions.get(getFirst());
+        return getFirst() == null ? false : getFirst().isBlocking();
     }
 
     /*
@@ -104,15 +102,15 @@ public class ActionsQueueImpl implements ActionsQueue
     {
         List<GameAction> result = new ArrayList<GameAction>();
 
-        for (Entry<GameAction, Boolean> entry : actions.entrySet())
+        for (QueuedAction action : actions)
         {
             // Break out when there are non-blocking actions
-            if (entry.getValue() && result.size() > 0)
+            if (action.isBlocking() && result.size() > 0)
                 break;
 
             // Add either blocking or non-blocking action
-            result.add(entry.getKey());
-            if (entry.getValue())
+            result.add(action.getGameAction());
+            if (action.isBlocking())
                 break;
         }
 
@@ -126,21 +124,35 @@ public class ActionsQueueImpl implements ActionsQueue
         return eventBus.addHandler(ActionQueueChangedEvent.TYPE, handler);
     }
 
-    private GameAction findByAction(GameAction action)
+    private QueuedAction getFirst()
     {
-        for (GameAction queuedAction : actions.keySet())
-        {
-            if (queuedAction.equals(action))
-            {
-                return queuedAction;
-            }
-        }
-
-        return null;
+        return actions.size() == 0 ? null : actions.get(0);
     }
 
-    private GameAction getFirst()
+    /*
+     * HashMap cannot guarantee order of insertion, TreeMap is not supported by
+     * GWT, a list of encapsulated GameAction seems a good solution
+     */
+    private class QueuedAction
     {
-        return actions.size() == 0 ? null : actions.keySet().iterator().next();
+        private GameAction gameAction;
+        private boolean blocking;
+
+        public QueuedAction(GameAction gameAction, boolean blocking)
+        {
+            super();
+            this.gameAction = gameAction;
+            this.blocking = blocking;
+        }
+
+        public GameAction getGameAction()
+        {
+            return gameAction;
+        }
+
+        public boolean isBlocking()
+        {
+            return blocking;
+        }
     }
 }

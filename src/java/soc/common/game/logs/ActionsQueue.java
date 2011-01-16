@@ -10,6 +10,10 @@ import com.google.gwt.event.shared.HandlerRegistration;
 /*
  * Represents a queue of GameActions with additional information per GameAction,
  * {@see QueuedAction}.
+ *
+ * For instance, when a 7 is rolled, every player has to wait until all other 
+ * players are done loosing excess of 7 cards. In that case, a LooseCards action
+ * is added for each player having > 7 cards, with blocking set to true.
  */
 public interface ActionsQueue
 {
