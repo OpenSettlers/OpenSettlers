@@ -2,11 +2,13 @@ package soc.gwtClient.game.behaviour.factories;
 
 import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.HostStartsGame;
+import soc.common.actions.gameAction.MessageFromServer;
 import soc.common.actions.gameAction.turnActions.standard.ClaimVictory;
 import soc.common.actions.gameAction.turnActions.standard.RollDice;
 import soc.common.game.gamePhase.DetermineFirstPlayerGamePhase;
 import soc.common.game.gamePhase.PlayTurnsGamePhase;
 import soc.gwtClient.game.abstractWidgets.GamePanel;
+import soc.gwtClient.game.behaviour.ErrorReceivedGameBehaviour;
 import soc.gwtClient.game.behaviour.StartGameGameBehaviour;
 import soc.gwtClient.game.behaviour.received.GameOverGameBehaviour;
 import soc.gwtClient.game.behaviour.received.ReceiveGameBehaviour;
@@ -45,6 +47,11 @@ public class ReceivedActionGameBehaviourFactory implements
         {
             return new GameOverGameBehaviour((ClaimVictory) gameAction,
                     gamePanel);
+        }
+        if (gameAction instanceof MessageFromServer)
+        {
+            return new ErrorReceivedGameBehaviour(
+                    (MessageFromServer) gameAction);
         }
 
         return null;
