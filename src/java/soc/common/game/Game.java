@@ -9,6 +9,8 @@ import soc.common.board.Board;
 import soc.common.board.HexLocation;
 import soc.common.board.hexes.DesertHex;
 import soc.common.board.hexes.Hex;
+import soc.common.board.layoutStrategies.BruteForceLayout;
+import soc.common.board.layoutStrategies.LayoutStrategy;
 import soc.common.board.pieces.Army;
 import soc.common.board.pieces.LongestRoad;
 import soc.common.board.pieces.Pirate;
@@ -36,6 +38,8 @@ import soc.common.game.player.GamePlayer;
 import soc.common.game.player.GamePlayerList;
 import soc.common.game.statuses.GameStatus;
 import soc.common.game.statuses.Playing;
+import soc.common.server.random.ClientRandom;
+import soc.common.server.random.Random;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
@@ -44,6 +48,7 @@ public class Game
 {
     // Event subscribers/broadcasting mechanism
     private transient SimpleEventBus eventBus = new SimpleEventBus();
+    private Random random = new ClientRandom();
 
     // Lists of actions, logs & future actions
     private ActionsQueue actionsQueue = new ActionsQueueImpl();
@@ -52,6 +57,7 @@ public class Game
 
     // Abstracted rules
     private GameRules gameRules;
+    private LayoutStrategy layoutStrategy = new BruteForceLayout(30);
 
     private GamePlayerList players = new GamePlayerList();
     private List<GamePlayer> spectators = new ArrayList<GamePlayer>();
@@ -127,7 +133,7 @@ public class Game
     public void start()
     {
         gameRules.setRules(this);
-        board.prepareForPlay(gameSettings);
+        layoutStrategy.layoutBoard(this);
     }
 
     /*
@@ -521,5 +527,10 @@ public class Game
     public GamePhase getCurrentPhase()
     {
         return currentPhase;
+    }
+
+    public Random getRandom()
+    {
+        return random;
     }
 }

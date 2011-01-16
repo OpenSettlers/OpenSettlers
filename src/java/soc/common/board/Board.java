@@ -1,8 +1,5 @@
 package soc.common.board;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import soc.common.board.hexes.AbstractHex;
 import soc.common.board.hexes.DesertHex;
 import soc.common.board.hexes.Hex;
@@ -27,7 +24,6 @@ import soc.common.board.routing.GraphSide;
 import soc.common.board.territories.Territory;
 import soc.common.board.territories.TerritoryImpl;
 import soc.common.board.territories.TerritoryList;
-import soc.common.game.GameSettings;
 import soc.common.server.random.ClientRandom;
 import soc.common.server.random.Random;
 
@@ -379,74 +375,6 @@ public class Board
         }
 
         return result;
-    }
-
-    // / <summary>
-    // / Prepares a saved board definition into a playable board.
-    // / 1. Puts hexes from InitialRandomHexes list on RandomHexes
-    // / 2. Replaces random ports from those out of RandomPorts bag
-    // / 3. Replaces deserts by volcano/jungles if necessary
-    // / </summary>
-    public void prepareForPlay(GameSettings settings)
-    {
-        Territory territory = territories.get(0);
-        List<Hex> hexesToPutChitOn = new ArrayList<Hex>();
-        List<Port> supportedPorts = new ArrayList<Port>();
-        supportedPorts.add(new TwoToOneResourcePort(new Timber()));
-        supportedPorts.add(new TwoToOneResourcePort(new Wheat()));
-        supportedPorts.add(new TwoToOneResourcePort(new Ore()));
-        supportedPorts.add(new TwoToOneResourcePort(new Clay()));
-        supportedPorts.add(new TwoToOneResourcePort(new Sheep()));
-        supportedPorts.add(new ThreeToOnePort());
-
-        // Replace random hexes by actual random hex from list of hexes provided
-        // by the territory
-        for (Hex hex : hexes)
-        {
-            if (hex instanceof RandomHex)
-            {
-                // Replace randomhex by a hex grabbed from territories' list of
-                // hexes
-                Hex newHex = territory.getHexes().grabRandom(random)
-                        .setTerritory(hex.getTerritory()).setLocation(
-                                hex.getLocation());
-                hexes.set(hex.getLocation(), newHex);
-                if (newHex instanceof ResourceHex)
-                    hexesToPutChitOn.add(newHex);
-            }
-        }
-        while (hexesToPutChitOn.size() > 0)
-        {
-            Chit chit = territory.getChits().grabRandom(random);
-            Hex hex = hexesToPutChitOn.get(0);
-            ResourceHex resourceHex = (ResourceHex) hex;
-            resourceHex.setChit(chit);
-            hexesToPutChitOn.remove(0);
-        }
-
-        // Replace all random port placeholders by actual ports
-        for (Hex hex : hexes)
-        {
-            if (hex instanceof SeaHex)
-            {
-                SeaHex seaHex = (SeaHex) hex;
-                if (seaHex.getPort() != null)
-                {
-                    if (seaHex.getPort() instanceof RandomPort)
-                    {
-                        HexLocation land = seaHex.getPort().getLandLocation();
-                        Hex landHex = hexes.get(land);
-                        Territory t = landHex.getTerritory();
-                        Port newPort = t.grabPort(random, supportedPorts);
-                        newPort.setRotationPosition(seaHex.getPort()
-                                .getRotationPosition());
-                        newPort.setHexLocation(seaHex.getLocation());
-                        seaHex.setPort(newPort);
-                    }
-                }
-            }
-        }
-
     }
 
     /**

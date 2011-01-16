@@ -1,7 +1,5 @@
 package soc.common.board.territories;
 
-import java.util.List;
-
 import soc.common.annotations.SeaFarers;
 import soc.common.board.ChitList;
 import soc.common.board.hexes.HexList;
@@ -190,7 +188,7 @@ public class TerritoryImpl implements Territory
      * types
      */
     @Override
-    public Port grabPort(Random random, List<Port> supportedPorts)
+    public Port grabPort(Random random, PortList supportedPorts)
     {
         if (ports.size() > 0)
         {

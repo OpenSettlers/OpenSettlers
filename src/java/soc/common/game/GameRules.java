@@ -7,6 +7,7 @@ import soc.common.board.hexes.Hex;
 import soc.common.board.pieces.Army;
 import soc.common.board.pieces.Piece;
 import soc.common.board.pieces.PlayerPiece;
+import soc.common.board.ports.PortList;
 import soc.common.board.resources.Resource;
 import soc.common.game.developmentCards.DevelopmentCardList;
 import soc.common.game.dices.Dice;
@@ -94,4 +95,8 @@ public interface GameRules
     public void setRules(Game game);
 
     public GameRules setDevelopmentCardStack(DevelopmentCardList devCards);
+
+    public GameRules setSupportedPorts(PortList ports);
+
+    public PortList getSupportedPorts();
 }

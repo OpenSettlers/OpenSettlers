@@ -87,6 +87,13 @@ public class PortList implements Iterable<Port>
         ports.add(new FourToOnePort());
     }
 
+    /*
+     * Creates an empty PortList
+     */
+    public PortList(boolean b)
+    {
+    }
+
     public void add(Port port)
     {
         ports.add(port);

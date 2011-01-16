@@ -15,6 +15,7 @@ import soc.common.board.pieces.PlayerPieceList;
 import soc.common.board.pieces.Road;
 import soc.common.board.pieces.Robber;
 import soc.common.board.pieces.Town;
+import soc.common.board.ports.PortList;
 import soc.common.board.resources.Resource;
 import soc.common.game.developmentCards.DevelopmentCardList;
 import soc.common.game.dices.Dice;
@@ -34,6 +35,7 @@ public class GameRulesImpl implements GameRules
     private List<PlayerPiece> stockPieceTypes = new ArrayList<PlayerPiece>();
     private List<Resource> tradeableResources = new ArrayList<Resource>();
     private DevelopmentCardList devCards;
+    private PortList supportedPorts = new PortList(true);
 
     private int stockTowns;
     private int stockCities;
@@ -415,6 +417,19 @@ public class GameRulesImpl implements GameRules
     public GameRules setDevelopmentCardStack(DevelopmentCardList devCards)
     {
         this.devCards = devCards;
+        return this;
+    }
+
+    @Override
+    public PortList getSupportedPorts()
+    {
+        return supportedPorts;
+    }
+
+    @Override
+    public GameRules setSupportedPorts(PortList ports)
+    {
+        supportedPorts = ports;
         return this;
     }
 

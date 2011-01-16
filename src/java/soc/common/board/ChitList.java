@@ -127,4 +127,14 @@ public class ChitList extends ArrayList<Chit>
 
         return result;
     }
+
+    public ChitList copy()
+    {
+        ChitList copy = new ChitList();
+
+        for (Chit chit : this)
+            copy.add(chit);
+
+        return copy;
+    }
 }

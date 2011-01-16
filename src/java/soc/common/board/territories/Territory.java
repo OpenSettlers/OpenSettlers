@@ -1,7 +1,5 @@
 package soc.common.board.territories;
 
-import java.util.List;
-
 import soc.common.board.ChitList;
 import soc.common.board.hexes.HexList;
 import soc.common.board.ports.Port;
@@ -10,7 +8,6 @@ import soc.common.server.random.Random;
 
 public interface Territory
 {
-
     /**
      * @return the isBonus
      */
@@ -53,6 +50,6 @@ public interface Territory
 
     public HexList getHexes();
 
-    public Port grabPort(Random random, List<Port> supportedPorts);
+    public Port grabPort(Random random, PortList supportedPorts);
 
 }
