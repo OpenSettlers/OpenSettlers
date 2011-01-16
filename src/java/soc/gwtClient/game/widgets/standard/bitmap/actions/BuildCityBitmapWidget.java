@@ -4,6 +4,7 @@ import soc.common.actions.gameAction.turnActions.standard.BuildCity;
 import soc.common.board.pieces.City;
 import soc.common.board.pieces.PiecesChangedEvent;
 import soc.common.board.pieces.PiecesChangedEventHandler;
+import soc.common.board.pieces.Town;
 import soc.common.board.resources.ResourcesChangedEvent;
 import soc.common.board.resources.ResourcesChangedEventHandler;
 import soc.common.game.Game;
@@ -53,6 +54,16 @@ public class BuildCityBitmapWidget extends AbstractActionWidget implements
         player.getStock().addPiecesChangedEventHandler(this);
         gamePanel.getGame().addGamePhaseChangedEventHandler(this);
         gamePanel.getGame().addTurnPhaseChangedHandler(this);
+        player.getBuildPieces().addPiecesChangedEventHandler(
+                new PiecesChangedEventHandler()
+                {
+                    @Override
+                    public void onPiecesChanged(PiecesChangedEvent list)
+                    {
+                        if (list.getAddedPiece() instanceof Town)
+                            checkEnabled();
+                    }
+                });
 
         tradesPanel1.add(trade1);
         tradesPanel1.add(trade2);

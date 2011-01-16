@@ -52,6 +52,19 @@ public class BuildTownBitmapWidget extends AbstractActionWidget implements
         player.getStock().addPiecesChangedEventHandler(this);
         gamePanel.getGame().addGamePhaseChangedEventHandler(this);
         gamePanel.getGame().addTurnPhaseChangedHandler(this);
+        player.getBuildPieces().addPiecesChangedEventHandler(
+                new PiecesChangedEventHandler()
+                {
+                    @Override
+                    public void onPiecesChanged(PiecesChangedEvent list)
+                    {
+                        if (list.getAddedPiece() != null
+                                && list.getAddedPiece() instanceof Town)
+                        {
+                            checkEnabled();
+                        }
+                    }
+                });
 
         tradesPanel1.add(trade1);
         tradesPanel1.add(trade2);
