@@ -73,7 +73,7 @@ public class BruteForceLayout implements LayoutStrategy
                     .getChits().copy(), random);
             actualTries++;
         } while (maxTries > actualTries
-                || !validateChitsOnBoard(hexesToPutChitOn, board));
+                && !validateChitsOnBoard(hexesToPutChitOn, board));
 
         System.out.println("info: Chits layout took " + actualTries
                 + " iterations");

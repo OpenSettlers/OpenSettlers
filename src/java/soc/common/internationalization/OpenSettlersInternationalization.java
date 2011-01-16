@@ -11,4 +11,6 @@ public interface OpenSettlersInternationalization
     public OpenSettlersActions actions();
 
     public OpenSettlersLobby lobby();
+
+    public UserInterfaceMessages ui();
 }

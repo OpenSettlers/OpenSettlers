@@ -12,6 +12,7 @@ public class ClientInternationalization implements
     public OpenSettlersStatuses statuses = GWT
             .create(OpenSettlersStatuses.class);
     public OpenSettlersLobby lobby = GWT.create(OpenSettlersLobby.class);
+    public UserInterfaceMessages ui = GWT.create(UserInterfaceMessages.class);
 
     @Override
     public OpenSettlersActions actions()
@@ -43,4 +44,9 @@ public class ClientInternationalization implements
         return lobby;
     }
 
+    @Override
+    public UserInterfaceMessages ui()
+    {
+        return ui;
+    }
 }

@@ -8,6 +8,7 @@ import soc.common.board.resources.ResourcesChangedEvent;
 import soc.common.board.resources.ResourcesChangedEventHandler;
 import soc.common.game.developmentCards.DevelopmentCard;
 import soc.common.game.player.GamePlayer;
+import soc.common.internationalization.I18n;
 import soc.gwtClient.game.abstractWidgets.BankTradeUI;
 import soc.gwtClient.game.abstractWidgets.GamePanel;
 import soc.gwtClient.game.behaviour.TradeFirst;
@@ -47,6 +48,8 @@ public class TradeBankDialog extends PopupPanel implements BankTradeUI,
     private Image imgPiece;
     private GamePlayer player;
     private TradeFirst tradeFirst;
+    private HorizontalPanel panelPieceTrade;
+    private Label lblTradeForA;
 
     public TradeBankDialog(GamePanel gamePanel)
     {
@@ -144,13 +147,15 @@ public class TradeBankDialog extends PopupPanel implements BankTradeUI,
 
             // Update image
             imgPiece.setUrl(Resources.piece(pieceToTradeFor).getURL());
-            imgPiece.setVisible(true);
+            lblTradeForA.setText(I18n.get().ui().bankTradeForA()
+                    + I18n.piece(pieceToTradeFor));
+            panelPieceTrade.setVisible(true);
         }
         else
         {
             wantedResourcesListWidget.setEnabled(true);
             wantedResourcesPickerWidget.setEnabled(true);
-            imgPiece.setVisible(false);
+            panelPieceTrade.setVisible(false);
         }
         show();
     }
@@ -164,14 +169,30 @@ public class TradeBankDialog extends PopupPanel implements BankTradeUI,
         verticalPanel
                 .setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
         setWidget(verticalPanel);
-        verticalPanel.setSize("525px", "423px");
 
         HorizontalPanel horizontalPanel_2 = new HorizontalPanel();
+        horizontalPanel_2
+                .setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
         horizontalPanel_2.setSpacing(10);
         verticalPanel.add(horizontalPanel_2);
 
+        Image image = new Image(Resources.icons().bankTrade());
+        horizontalPanel_2.add(image);
+        image.setSize("140", "140");
+
         Label lblTradeWithThe = new Label("Trade with the bank");
         horizontalPanel_2.add(lblTradeWithThe);
+
+        panelPieceTrade = new HorizontalPanel();
+        horizontalPanel_2.add(panelPieceTrade);
+        panelPieceTrade.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+
+        imgPiece = new Image(Resources.icons().city());
+        panelPieceTrade.add(imgPiece);
+        imgPiece.setSize("48", "48");
+
+        lblTradeForA = new Label("Trade for a city");
+        panelPieceTrade.add(lblTradeForA);
 
         HorizontalPanel horizontalPanel = new HorizontalPanel();
         horizontalPanel.setSpacing(10);
@@ -221,29 +242,6 @@ public class TradeBankDialog extends PopupPanel implements BankTradeUI,
         });
         btnTrade.setText("Trade!");
         horizontalPanel_4.add(btnTrade);
-
-        HorizontalPanel horizontalPanel_1 = new HorizontalPanel();
-        horizontalPanel_1
-                .setVerticalAlignment(HasVerticalAlignment.ALIGN_BOTTOM);
-        horizontalPanel_1.setSpacing(10);
-        verticalPanel.add(horizontalPanel_1);
-        horizontalPanel_1.setSize("262px", "115px");
-
-        Image image = new Image(Resources.icons().bankTrade());
-        horizontalPanel_1.add(image);
-        image.setSize("140", "140");
-
-        HorizontalPanel horizontalPanel_3 = new HorizontalPanel();
-        horizontalPanel_3
-                .setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-        horizontalPanel_1.add(horizontalPanel_3);
-
-        imgPiece = new Image(Resources.icons().city());
-        horizontalPanel_3.add(imgPiece);
-        imgPiece.setSize("48", "48");
-
-        Label lblTradeForA = new Label("Trade for a city");
-        horizontalPanel_3.add(lblTradeForA);
     }
 
     @Override
@@ -308,7 +306,9 @@ public class TradeBankDialog extends PopupPanel implements BankTradeUI,
 
         // Update image
         imgPiece = new Image(Resources.icons().developmentCardBack());
-        imgPiece.setVisible(true);
+        lblTradeForA.setText(I18n.get().ui().bankTradeForA()
+                + I18n.get().constants().developmentCard());
+        panelPieceTrade.setVisible(true);
 
         show();
     }
