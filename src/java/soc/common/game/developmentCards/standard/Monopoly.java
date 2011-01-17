@@ -107,8 +107,8 @@ public class Monopoly extends DevelopmentCard
                 // player.getName()));
 
                 // Move resources from victims to player
-                opponent.getResources().moveTo(opponentResources,
-                        player.getResources());
+                opponent.getResources().moveTo(player.getResources(),
+                        opponentResources);
             }
         }
 

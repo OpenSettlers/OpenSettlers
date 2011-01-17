@@ -6,7 +6,7 @@ public class TradeRespondedEvent extends GwtEvent<TradeRespondedEventHandler>
 {
     public static Type<TradeRespondedEventHandler> TYPE = new Type<TradeRespondedEventHandler>();
     private TradeResponse tradeResponse;
-    
+
     public TradeRespondedEvent(TradeResponse tradeResponse)
     {
         super();
@@ -22,13 +22,13 @@ public class TradeRespondedEvent extends GwtEvent<TradeRespondedEventHandler>
     }
 
     @Override
-    protected void dispatch(TradeRespondedEventHandler arg0)
+    protected void dispatch(TradeRespondedEventHandler handler)
     {
-        arg0.onTradeResponded(this);
+        handler.onTradeResponded(this);
     }
 
     @Override
-    public com.google.gwt.event.shared.GwtEvent.Type<TradeRespondedEventHandler> getAssociatedType()
+    public Type<TradeRespondedEventHandler> getAssociatedType()
     {
         return TYPE;
     }

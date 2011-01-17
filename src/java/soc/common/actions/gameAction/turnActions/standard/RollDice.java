@@ -147,9 +147,8 @@ public class RollDice extends AbstractTurnAction
         game.performAction(beforeDiceRollEnded);
 
         for (GamePlayer p : game.getPlayers())
-        {
             playersResources.put(p, new ResourceList());
-        }
+
         HexLocation robber = game.getRobber().getLocation();
 
         if (dice.getDiceTotal() != 7)
@@ -201,15 +200,15 @@ public class RollDice extends AbstractTurnAction
 
             message = player.getUser().getName() + " rolled " + dice.toString();
 
-            // Add th resources to each player and remove them from the bank
+            // Add the resources to each player and remove them from the bank
             for (Entry<GamePlayer, ResourceList> entry : playersResources
                     .entrySet())
             {
                 ResourceList gainedResources = entry.getValue();
                 if (gainedResources.size() > 0)
                 {
-                    game.getBank().moveTo(gainedResources,
-                            player.getResources());
+                    game.getBank().moveTo(entry.getKey().getResources(),
+                            gainedResources);
                     message += entry.getKey().getUser().getName() + " gained "
                             + gainedResources.toString();
                 }

@@ -117,7 +117,7 @@ public class BuildTown extends AbstractTurnAction
         if (game.getCurrentPhase() instanceof PlayTurnsGamePhase)
         {
             // remove players' resources and put them in the bank
-            player.getResources().moveTo(town.getCost(), game.getBank());
+            player.getResources().moveTo(game.getBank(), town.getCost());
 
             // Check if the LR should be updated
             // TODO: implement LR

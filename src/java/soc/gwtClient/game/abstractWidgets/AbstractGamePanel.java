@@ -83,7 +83,7 @@ public abstract class AbstractGamePanel implements GamePanel, CenterWidget,
         playersWidget = gameWidgetFactory.createPlayersWidget();
         gameBoardVisual = gameWidgetFactory.createGameBoard(800, 500);
         statusPanel = gameWidgetFactory.createStatusDicePanel();
-        tradePlayers = new TradePlayersDialog();
+        tradePlayers = new TradePlayersDialog(this);
         historyWidget = gameWidgetFactory.createHistoryWidget();
         bankTradeUI = gameWidgetFactory.createBankTradeUI();
         stealCardWidget = gameWidgetFactory.createStealCardWidget(player);

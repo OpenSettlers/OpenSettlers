@@ -41,6 +41,7 @@ public class TradePlayersDialog extends PopupPanel
     private VerticalPanel pnlWantResources;
     private List<TradePlayerStatusWidget> playerStatuses = new ArrayList<TradePlayerStatusWidget>();
     private VerticalPanel pnlTradeStatuses;
+    private GamePlayer player;
 
     public TradePlayersDialog(GamePanel gamePanel)
     {
@@ -76,8 +77,8 @@ public class TradePlayersDialog extends PopupPanel
         pnlWantResources.add(wantedResourceListWidget);
     }
 
-    private ResourceListWidget createResourceListWidget(
-            ResourceList resources, ResourceList bankResources, PortList ports)
+    private ResourceListWidget createResourceListWidget(ResourceList resources,
+            ResourceList bankResources, PortList ports)
     {
         return new ResourceListBitmapWidget(resources, bankResources, ports);
     }
@@ -88,6 +89,15 @@ public class TradePlayersDialog extends PopupPanel
     {
         return new ResourcePickerBitmapWidget(resources, ports, bankResources,
                 gamePanel);
+    }
+
+    public void setPlayer(GamePlayer player)
+    {
+        this.player = player;
+
+        this.playerHand = player.getResources().copy();
+        giveResourcePickerWidget.setBankResources(playerHand);
+        giveResourcePickerWidget.setPorts(player.getPorts());
     }
 
     /**
@@ -133,9 +143,11 @@ public class TradePlayersDialog extends PopupPanel
         horizontalPanel_2.add(lblTradeWithOpponents);
 
         HorizontalPanel horizontalPanel_1 = new HorizontalPanel();
+        horizontalPanel_1.setHeight("156px");
         pnlTradeOptions.add(horizontalPanel_1);
 
         pnlWantResources = new VerticalPanel();
+        pnlWantResources.setHeight("145px");
         pnlWantResources.setSpacing(10);
         horizontalPanel_1.add(pnlWantResources);
 
@@ -144,6 +156,7 @@ public class TradePlayersDialog extends PopupPanel
         pnlWantResources.add(lblResourcesYouHave);
 
         pnlGiveResources = new VerticalPanel();
+        pnlGiveResources.setHeight("145px");
         pnlGiveResources.setSpacing(10);
         horizontalPanel_1.add(pnlGiveResources);
 

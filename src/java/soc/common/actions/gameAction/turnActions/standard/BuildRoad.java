@@ -110,7 +110,7 @@ public class BuildRoad extends AbstractTurnAction
             }
             else
             {
-                player.getResources().moveTo(road.getCost(), game.getBank());
+                player.getResources().moveTo(game.getBank(), road.getCost());
             }
 
         }

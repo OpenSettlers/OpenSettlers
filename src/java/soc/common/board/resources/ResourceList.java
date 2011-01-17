@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import soc.common.server.random.Random;
+
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
-import com.google.gwt.user.client.Random;
 
 public class ResourceList implements Iterable<Resource>
 {
@@ -33,7 +34,7 @@ public class ResourceList implements Iterable<Resource>
         }
     }
 
-    public void moveTo(ResourceList toMove, ResourceList destination)
+    public void moveTo(ResourceList destination, ResourceList toMove)
     {
         remove(toMove, false);
         destination.add(toMove);
@@ -288,8 +289,8 @@ public class ResourceList implements Iterable<Resource>
 
     public Resource getRandom(Random random)
     {
-        int randomResource = random.nextInt(resources.size());
-        return resources.get(randomResource);
+        int randomResource = random.nextInt(resources.size(), false);
+        return resources.get(randomResource - 1);
     }
 
     /*

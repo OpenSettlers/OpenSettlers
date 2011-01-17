@@ -1,12 +1,14 @@
 package soc.common.game.trading;
 
+import soc.common.actions.gameAction.turnActions.standard.TradeOffer;
+
 import com.google.gwt.event.shared.GwtEvent;
 
 public class TradeOfferedEvent extends GwtEvent<TradeOfferedEventHandler>
 {
     public static Type<TradeOfferedEventHandler> TYPE = new Type<TradeOfferedEventHandler>();
     private TradeOffer tradeOffer;
-    
+
     public TradeOfferedEvent(TradeOffer tradeOffer)
     {
         super();
@@ -22,9 +24,9 @@ public class TradeOfferedEvent extends GwtEvent<TradeOfferedEventHandler>
     }
 
     @Override
-    protected void dispatch(TradeOfferedEventHandler arg0)
+    protected void dispatch(TradeOfferedEventHandler handler)
     {
-        arg0.onTradeOffered(this);
+        handler.onTradeOffered(this);
     }
 
     @Override

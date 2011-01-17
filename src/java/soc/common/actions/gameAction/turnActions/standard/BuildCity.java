@@ -101,7 +101,7 @@ public class BuildCity extends AbstractTurnAction
         if (game.getCurrentPhase() instanceof PlayTurnsGamePhase)
         {
             // Pay for the city
-            player.getResources().moveTo(city.getCost(), game.getBank());
+            player.getResources().moveTo(game.getBank(), city.getCost());
 
             // Remove the town from the board
             Town town = player.getTowns().get(pointLocation);

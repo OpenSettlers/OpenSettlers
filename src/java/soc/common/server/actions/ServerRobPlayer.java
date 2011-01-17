@@ -5,12 +5,9 @@ import soc.common.actions.gameAction.turnActions.standard.RobPlayer;
 import soc.common.game.player.GamePlayer;
 import soc.common.server.GameServer;
 
-import com.google.gwt.user.client.Random;
-
 public class ServerRobPlayer implements ServerAction
 {
     private RobPlayer robPlayer;
-    private Random random;
     private GameServer gameServer;
 
     public ServerRobPlayer(RobPlayer robPlayer, GameServer gameServer)
@@ -27,8 +24,8 @@ public class ServerRobPlayer implements ServerAction
                 robPlayer.getVictimID());
         if (victim != null)
         {
-            robPlayer
-                    .setStolenResource(victim.getResources().getRandom(random));
+            robPlayer.setStolenResource(victim.getResources().getRandom(
+                    gameServer.getRandom()));
         }
 
         gameServer.getGame().performAction(robPlayer);
