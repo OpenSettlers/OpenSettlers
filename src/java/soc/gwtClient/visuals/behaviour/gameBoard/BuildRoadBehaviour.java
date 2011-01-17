@@ -52,7 +52,7 @@ public class BuildRoadBehaviour extends BuildSideBehaviour
         {
             GamePlayer player = gameVisual.getGame().getCurrentTurn()
                     .getPlayer();
-            if (player.getBuildPieces().size() == 1)
+            if (player.getSidePieces().size() == 0)
             {
                 sides = gameVisual.getBoard().getGraph()
                         .getRoadCandidatesFirstTown(player);

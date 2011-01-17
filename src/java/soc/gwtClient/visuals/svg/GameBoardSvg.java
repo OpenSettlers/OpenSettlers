@@ -3,10 +3,13 @@ package soc.gwtClient.visuals.svg;
 import java.util.HashMap;
 
 import soc.common.board.hexes.Hex;
-import soc.common.board.pieces.PiecesChangedEvent;
+import soc.common.board.pieces.PlayerPiece;
+import soc.common.board.pieces.PlistChangedEvent;
+import soc.common.board.pieces.PlistChangedEventHandler;
 import soc.common.board.routing.GraphPoint;
 import soc.common.board.routing.GraphSide;
 import soc.common.game.Game;
+import soc.common.game.player.GamePlayer;
 import soc.gwtClient.visuals.abstractVisuals.AbstractGameBoardVisual;
 import soc.gwtClient.visuals.abstractVisuals.HexVisual;
 import soc.gwtClient.visuals.abstractVisuals.PieceVisual;
@@ -17,7 +20,8 @@ import soc.gwtClient.visuals.behaviour.ProxyBehaviour;
 
 import com.google.gwt.user.client.ui.Widget;
 
-public class GameBoardSvg extends AbstractGameBoardVisual
+public class GameBoardSvg extends AbstractGameBoardVisual implements
+        PlistChangedEventHandler
 {
     BoardSvg boardSvg;
 
@@ -62,6 +66,34 @@ public class GameBoardSvg extends AbstractGameBoardVisual
             pirate = visualFactory.createPirateVisual(game.getPirate());
         }
 
+        addHandlers();
+    }
+
+    private void addHandlers()
+    {
+        for (GamePlayer player : game.getPlayers())
+        {
+            player.getTowns().addTownsChangedEventHandler(this);
+            player.getRoads().addRoadsChangedEventHandler(this);
+            player.getCities().addCitiesChangedEventHandler(this);
+            /*
+             * player.getTowns().addTownsChangedEventHandler( new
+             * PlistChangedEventHandler<Town>() {
+             * 
+             * @Override public void onPlistChanged(PlistChangedEvent<Town>
+             * event) { updatePieces(event); } });
+             * player.getRoads().addRoadsChangedEventHandler( new
+             * PlistChangedEventHandler<Road>() {
+             * 
+             * @Override public void onPlistChanged(PlistChangedEvent<Road>
+             * event) { updatePieces(event); } });
+             * player.getCities().addCitiesChangedEventHandler( new
+             * PlistChangedEventHandler<City>() {
+             * 
+             * @Override public void onPlistChanged(PlistChangedEvent<City>
+             * event) { updatePieces(event); } });
+             */
+        }
     }
 
     /*
@@ -87,29 +119,38 @@ public class GameBoardSvg extends AbstractGameBoardVisual
         return new SvgVisualFactory(this);
     }
 
-    @Override
-    public void onPiecesChanged(PiecesChangedEvent list)
+    private void addPiece(PlayerPiece piece)
     {
-        if (list.getAddedPiece() != null)
+        // Create a new visual for the added player piece
+        PieceVisual newPieceVisual = visualFactory
+                .createPlayerPieceVisual(piece);
+
+        // Keep track of it
+        playerPieceVisuals.put(piece, newPieceVisual);
+
+        // Add to the svg canvas
+        boardSvg.getDrawingArea().add(
+                ((SvgVisual) newPieceVisual).getVectorObject());
+    }
+
+    private void removePiece(PlayerPiece piece)
+    {
+        PieceVisual pieceVisual = playerPieceVisuals.get(piece);
+        playerPieceVisuals.remove(piece);
+        boardSvg.getDrawingArea().remove(
+                ((SvgVisual) pieceVisual).getVectorObject());
+    }
+
+    @Override
+    public void onPlistChanged(PlistChangedEvent event)
+    {
+        if (event.getAddedPiece() != null)
         {
-            // Create a new visual for the added player piece
-            PieceVisual newPieceVisual = visualFactory
-                    .createPlayerPieceVisual(list.getAddedPiece());
-
-            // Keep track of it
-            playerPieceVisuals.put(list.getAddedPiece(), newPieceVisual);
-
-            // Add to the svg canvas
-            boardSvg.getDrawingArea().add(
-                    ((SvgVisual) newPieceVisual).getVectorObject());
+            addPiece((PlayerPiece) event.getAddedPiece());
         }
-        if (list.getRemovedPiece() != null)
+        if (event.getRemovedPiece() != null)
         {
-            PieceVisual pieceVisual = playerPieceVisuals.get(list
-                    .getRemovedPiece());
-            playerPieceVisuals.remove(list.getRemovedPiece());
-            boardSvg.getDrawingArea().remove(
-                    ((SvgVisual) pieceVisual).getVectorObject());
+            removePiece((PlayerPiece) event.getRemovedPiece());
         }
     }
 }

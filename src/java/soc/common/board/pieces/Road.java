@@ -39,7 +39,7 @@ public class Road extends AbstractPlayerPiece implements SidePiece
     @Override
     public boolean canBuild(Board board, GamePlayer player)
     {
-        if (player.getStock().ofType(Road.ROAD).size() == 0)
+        if (player.getStock().getRoads().size() == 0)
             return false;
 
         return true;
@@ -79,8 +79,9 @@ public class Road extends AbstractPlayerPiece implements SidePiece
     @Override
     public void addToPlayer(GamePlayer player)
     {
-        player.getBuildPieces().add(this);
-        player.getStock().remove(this);
+        player.getRoads().add(this);
+        player.getSidePieces().add(this);
+        player.getStock().getRoads().remove(this);
     }
 
     @Override

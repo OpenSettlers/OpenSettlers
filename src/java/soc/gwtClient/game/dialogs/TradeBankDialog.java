@@ -85,7 +85,7 @@ public class TradeBankDialog extends PopupPanel implements BankTradeUI,
     {
         // Player can trade when amount of gold resources equals amount of
         // picked resources
-        btnTrade.setEnabled(gamePanel.getPlayingPlayer().amountGold(
+        btnTrade.setEnabled(gamePanel.getPlayingPlayer().getPorts().amountGold(
                 giveResources) == wantResources.size()
                 && wantResources.size() > 0);
     }

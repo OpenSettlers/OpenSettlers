@@ -14,10 +14,10 @@ import soc.common.board.layoutStrategies.LayoutStrategy;
 import soc.common.board.pieces.Army;
 import soc.common.board.pieces.LongestRoad;
 import soc.common.board.pieces.Pirate;
-import soc.common.board.pieces.PlayerPiece;
-import soc.common.board.pieces.PlayerPieceList;
 import soc.common.board.pieces.PointPiece;
+import soc.common.board.pieces.PointPieceList;
 import soc.common.board.pieces.Robber;
+import soc.common.board.pieces.SidePieceList;
 import soc.common.board.resources.ResourceList;
 import soc.common.game.developmentCards.DevelopmentCardList;
 import soc.common.game.dices.Dice;
@@ -86,13 +86,13 @@ public class Game
     /*
      * Returns a list of all PlayerPieces in the game residing on a HexPoint
      */
-    public PlayerPieceList getAllPointPieces()
+    public PointPieceList getAllPointPieces()
     {
-        PlayerPieceList result = new PlayerPieceList();
+        PointPieceList result = new PointPieceList();
 
         for (GamePlayer player : players)
         {
-            result.add(player.getBuildPieces().getPointPieces());
+            result.addList(player.getPointPieces());
         }
 
         return result;
@@ -138,12 +138,12 @@ public class Game
     /*
      * Returns a list of all PlayerPieces in the game residing on a HexSide
      */
-    public PlayerPieceList getAllSidePieces()
+    public SidePieceList getAllSidePieces()
     {
-        PlayerPieceList result = new PlayerPieceList();
+        SidePieceList result = new SidePieceList();
 
         for (GamePlayer player : players)
-            result.add(player.getBuildPieces().getSidePieces());
+            result.addList(player.getSidePieces());
 
         return result;
     }
@@ -236,10 +236,8 @@ public class Game
         {
             // If a PointPiece has given HexLocation contained, add the player
             // to the list of players having a town or city at given HexLocation
-            for (PlayerPiece playerPiece : player.getBuildPieces()
-                    .getPointPieces())
+            for (PointPiece pointPiece : player.getPointPieces())
             {
-                PointPiece pointPiece = (PointPiece) playerPiece;
                 if (pointPiece.getPoint().hasLocation(hexLocation))
                 {
                     playersAtHex.add(player);

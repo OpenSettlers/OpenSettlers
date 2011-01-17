@@ -68,7 +68,7 @@ public abstract class AbstractPlayerPiece extends AbstractPiece implements
 
         // Player can pay given piece if he can trade exactly or more gold as
         // needed
-        return player.amountGold(copy) >= neededGold;
+        return player.getPorts().amountGold(copy) >= neededGold;
     }
 
     public boolean canBuild(Board board, GamePlayer player)

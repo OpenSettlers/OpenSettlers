@@ -2,16 +2,18 @@ package soc.common.board.pieces;
 
 import soc.common.annotations.SeaFarers;
 import soc.common.board.Board;
+import soc.common.board.HexSide;
 import soc.common.board.resources.ResourceList;
 import soc.common.board.resources.Sheep;
 import soc.common.board.resources.Timber;
 import soc.common.game.player.GamePlayer;
 
 @SeaFarers
-public class Ship extends AbstractPlayerPiece
+public class Ship extends AbstractPlayerPiece implements SidePiece
 {
     private static final long serialVersionUID = -8125317569107776067L;
     public static Ship SHIP = new Ship();
+    private HexSide sideLocation;
 
     /*
      * (non-Javadoc)
@@ -22,7 +24,7 @@ public class Ship extends AbstractPlayerPiece
     @Override
     public boolean canBuild(Board board, GamePlayer player)
     {
-        if (player.getStock().ofType(Ship.SHIP).size() == 0)
+        if (player.getStock().getShips().size() == 0)
             return false;
 
         // TODO: port to java
@@ -80,7 +82,8 @@ public class Ship extends AbstractPlayerPiece
     @Override
     public void addToPlayer(GamePlayer player)
     {
-        player.getBuildPieces().add(this);
+        player.getShips().moveFrom(player.getStock().getShips(), this);
+        player.getSidePieces().add(this);
     }
 
     @Override
@@ -88,6 +91,19 @@ public class Ship extends AbstractPlayerPiece
     {
         // TODO Auto-generated method stub
 
+    }
+
+    @Override
+    public HexSide getSide()
+    {
+        return sideLocation;
+    }
+
+    @Override
+    public SidePiece setSide(HexSide side)
+    {
+        this.sideLocation = side;
+        return this;
     }
 
 }

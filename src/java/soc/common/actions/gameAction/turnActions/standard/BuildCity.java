@@ -6,7 +6,6 @@ import soc.common.board.HexPoint;
 import soc.common.board.hexes.Hex;
 import soc.common.board.hexes.ResourceHex;
 import soc.common.board.pieces.City;
-import soc.common.board.pieces.PlayerPieceList;
 import soc.common.board.pieces.Town;
 import soc.common.board.resources.ResourceList;
 import soc.common.game.Game;
@@ -63,7 +62,7 @@ public class BuildCity extends AbstractTurnAction
         // player should have a ship or road at some neighbour
         GamePlayer player = game.getPlayerByID(sender);
 
-        if (!(player.getBuildPieces().ofType(Town.TOWN).contains(pointLocation)))
+        if (!(player.getTowns().contains(pointLocation)))
         {
             invalidMessage = "No town found to replace with a city";
             return false;
@@ -96,7 +95,7 @@ public class BuildCity extends AbstractTurnAction
         GamePlayer player = game.getPlayerByID(sender);
 
         // Get first city from stock
-        City city = (City) player.getStock().ofType(City.CITY).get(0);
+        City city = (City) player.getStock().getCities().get(0);
         city.setPoint(pointLocation);
 
         if (game.getCurrentPhase() instanceof PlayTurnsGamePhase)
@@ -104,18 +103,12 @@ public class BuildCity extends AbstractTurnAction
             // Pay for the city
             player.getResources().moveTo(city.getCost(), game.getBank());
 
-            // Add city to player
-            city.addToPlayer(player);
+            // Remove the town from the board
+            Town town = player.getTowns().get(pointLocation);
+            town.removeFromPlayer(player);
         }
         if (game.getCurrentPhase() instanceof InitialPlacementGamePhase)
         {
-            // Move city from stock to board
-            PlayerPieceList.move(city, player.getStock(), player
-                    .getBuildPieces());
-
-            // add it t players' victory points
-            player.getVictoryPoints().add(city);
-
             // Add resources to player
             ResourceList resourcesFromCity = new ResourceList();
             for (HexLocation hexLocation : pointLocation.getHexLocations())
@@ -128,6 +121,9 @@ public class BuildCity extends AbstractTurnAction
             }
             player.getResources().add(resourcesFromCity);
         }
+
+        // Add city to player
+        city.addToPlayer(player);
 
         // TODO: fix message
         // message = String.Format("{0} build a city at {1}",

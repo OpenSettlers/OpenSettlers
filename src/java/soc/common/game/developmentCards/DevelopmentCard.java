@@ -58,7 +58,7 @@ public class DevelopmentCard
 
         // Player can pay given piece if he can trade exactly or more gold as
         // needed
-        return player.amountGold(copy) >= neededGold;
+        return player.getPorts().amountGold(copy) >= neededGold;
     }
 
     public static ResourceList getCost()

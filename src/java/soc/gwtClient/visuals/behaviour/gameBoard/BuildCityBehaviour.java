@@ -5,8 +5,6 @@ import java.util.Set;
 
 import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.turnActions.standard.BuildCity;
-import soc.common.board.pieces.PlayerPiece;
-import soc.common.board.pieces.PlayerPieceList;
 import soc.common.board.pieces.Town;
 import soc.common.board.routing.GraphPoint;
 import soc.common.game.player.GamePlayer;
@@ -70,10 +68,8 @@ public class BuildCityBehaviour extends BuildPointBehaviour
     @Override
     public void start(GameBoardVisual gameVisual)
     {
-        PlayerPieceList towns = player.getBuildPieces().ofType(Town.TOWN);
-        for (PlayerPiece playerPiece : towns)
+        for (Town town : player.getTowns())
         {
-            Town town = (Town) playerPiece;
             GraphPoint graphPoint = gameVisual.getBoard().getGraph()
                     .findGraphPoint(town.getPoint());
             PointVisual pointVisual = gameVisual.getPointVisuals().get(

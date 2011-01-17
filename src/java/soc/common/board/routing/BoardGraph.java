@@ -284,7 +284,7 @@ public class BoardGraph
         for (GamePlayer player : players)
         {
             // Only consider players with at least 5 SidePieces
-            if (player.getBuildPieces().getSidePieces().size() >= 5)
+            if (player.getSidePieces().size() >= 5)
             {
                 // Get the subgraph from the main graph
                 UndirectedGraph<GraphPoint, GraphSide> subGraph = getPlayerGraph(player);
@@ -466,7 +466,7 @@ public class BoardGraph
     public Set<GraphSide> getRoadCandidatesFirstTown(GamePlayer player)
     {
         // Assuming the player has built only one piece, which is his first town
-        Town town = (Town) player.getBuildPieces().get(0);
+        Town town = (Town) player.getTowns().get(0);
 
         // Grab the GraphPoint where the town resides
         GraphPoint townPoint = findGraphPoint(town.getPoint());
@@ -484,7 +484,7 @@ public class BoardGraph
         // Assuming the player has built two pieces, and the second one in the
         // list of pieces is indeed the actual second built piece.
         // TODO: add support for Tournament Starting Rules
-        Town town = (Town) player.getBuildPieces().get(2);
+        Town town = (Town) player.getTowns().get(1);
 
         // Grab the GraphPoint where the town resides
         GraphPoint townPoint = findGraphPoint(town.getPoint());

@@ -11,7 +11,6 @@ import soc.common.board.pieces.Army;
 import soc.common.board.pieces.City;
 import soc.common.board.pieces.Piece;
 import soc.common.board.pieces.PlayerPiece;
-import soc.common.board.pieces.PlayerPieceList;
 import soc.common.board.pieces.Road;
 import soc.common.board.pieces.Robber;
 import soc.common.board.pieces.Town;
@@ -298,16 +297,15 @@ public class GameRulesImpl implements GameRules
     {
         for (GamePlayer player : game.getPlayers())
         {
-            PlayerPieceList stock = new PlayerPieceList();
-
             for (int i = 0; i < stockCities; i++)
-                stock.add((City) new City().setPlayer(player));
+                player.getStock().getCities().add(
+                        (City) new City().setPlayer(player));
             for (int i = 0; i < stockTowns; i++)
-                stock.add((Town) new Town().setPlayer(player));
+                player.getStock().getTowns().add(
+                        (Town) new Town().setPlayer(player));
             for (int i = 0; i < stockRoads; i++)
-                stock.add((Road) new Road().setPlayer(player));
-
-            player.setStock(stock);
+                player.getStock().getRoads().add(
+                        (Road) new Road().setPlayer(player));
         }
     }
 

@@ -11,9 +11,7 @@ import soc.common.actions.gameAction.turnActions.AbstractTurnAction;
 import soc.common.board.HexLocation;
 import soc.common.board.hexes.Hex;
 import soc.common.board.hexes.ResourceHex;
-import soc.common.board.pieces.City;
-import soc.common.board.pieces.PlayerPiece;
-import soc.common.board.pieces.Town;
+import soc.common.board.pieces.Producable;
 import soc.common.board.resources.ResourceList;
 import soc.common.game.Game;
 import soc.common.game.dices.StandardDice;
@@ -180,49 +178,25 @@ public class RollDice extends AbstractTurnAction
                 // For normal resources, the location of the robber is omitted.
                 if (!hex.getLocation().equals(robber))
                 {
-                    for (GamePlayer player1 : game.getPlayers())
+                    for (Entry<GamePlayer, ResourceList> entry : playersResources
+                            .entrySet())
                     {
-                        List<City> cities = new ArrayList<City>();
-                        for (PlayerPiece city : player1.getBuildPieces()
-                                .ofType(City.CITY))
+                        for (Producable producable : entry.getKey()
+                                .getProducables().producablesAtHex(hex))
                         {
-                            cities.add((City) city);
+                            entry.getValue().add(
+                                    producable.produce(hex, game.getRules()));
                         }
 
-                        List<Town> towns = new ArrayList<Town>();
-                        for (PlayerPiece town : player1.getBuildPieces()
-                                .ofType(Town.TOWN))
-                        {
-                            towns.add((Town) town);
-                        }
-
-                        ResourceList ggainedResources = playersResources
-                                .get(player1);
-
-                        for (Town town : towns)
-                        {
-                            if (town.getPoint().hasLocation(hex.getLocation()))
-                            {
-                                ggainedResources.add(hex.getResource().copy());
-                            }
-                        }
-                        for (City city : cities)
-                        {
-                            if (city.getPoint().hasLocation(hex.getLocation()))
-                            {
-                                ggainedResources.add(hex.getResource().copy());
-                                ggainedResources.add(hex.getResource().copy());
-                            }
-                        }
-
-                        if (ggainedResources.size() > 0)
+                        if (entry.getValue().size() > 0)
                         {
                             hexIsAffected = true;
                         }
                     } // For players
                 } // If robber
 
-                hexesAffected.add(hex.getLocation());
+                if (hexIsAffected)
+                    hexesAffected.add(hex.getLocation());
             } // For rolledHexes
 
             message = player.getUser().getName() + " rolled " + dice.toString();
@@ -234,9 +208,8 @@ public class RollDice extends AbstractTurnAction
                 ResourceList gainedResources = entry.getValue();
                 if (gainedResources.size() > 0)
                 {
-                    GamePlayer playerr = entry.getKey();
-                    playerr.addResources(gainedResources);
-                    game.getBank().remove(gainedResources, false);
+                    game.getBank().moveTo(gainedResources,
+                            player.getResources());
                     message += entry.getKey().getUser().getName() + " gained "
                             + gainedResources.toString();
                 }

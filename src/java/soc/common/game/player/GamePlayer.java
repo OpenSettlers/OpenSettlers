@@ -1,12 +1,18 @@
 package soc.common.game.player;
 
 import soc.common.board.pieces.Army;
-import soc.common.board.pieces.PlayerPieceList;
+import soc.common.board.pieces.CityList;
+import soc.common.board.pieces.PointPieceList;
+import soc.common.board.pieces.ProducableList;
+import soc.common.board.pieces.RoadList;
+import soc.common.board.pieces.ShipList;
+import soc.common.board.pieces.SidePieceList;
+import soc.common.board.pieces.Stock;
+import soc.common.board.pieces.TownList;
 import soc.common.board.ports.PortList;
 import soc.common.board.resources.ResourceList;
 import soc.common.game.RoadTokensChangedEventHandler;
 import soc.common.game.VictoryPointsList;
-import soc.common.game.developmentCards.DevelopmentCard;
 import soc.common.game.developmentCards.DevelopmentCardList;
 import soc.common.server.data.User;
 
@@ -14,87 +20,42 @@ public interface GamePlayer
 {
     public User getUser();
 
-    public abstract PlayerPieceList getTownsCities();
+    public GamePlayer setColor(String color);
 
-    /**
-     * @return the roadBuildingTokens
-     */
-    public abstract int getRoadBuildingTokens();
+    public String getColor();
 
-    /**
-     * @param roadBuildingTokens
-     *            the roadBuildingTokens to set
-     */
-    public abstract GamePlayer setRoadBuildingTokens(int roadBuildingTokens);
+    public TownList getTowns();
 
-    /**
-     * @return the victoryPoints
-     */
-    public abstract VictoryPointsList getVictoryPoints();
+    public CityList getCities();
 
-    /**
-     * @return the playedDevelopmentCards
-     */
-    public abstract DevelopmentCardList getPlayedDevelopmentCards();
+    public RoadList getRoads();
 
-    public abstract void removeResources(ResourceList resources);
+    public ShipList getShips();
 
-    public abstract void addResources(ResourceList resources);
+    public ProducableList getProducables();
 
-    public abstract void useDevelopmentCard(DevelopmentCard developmentCard);
+    public SidePieceList getSidePieces();
 
-    public abstract void addDevelopmentCard(DevelopmentCard developmentCard);
+    public PointPieceList getPointPieces();
 
-    public abstract int getDevelopmentCardsCount();
+    public Stock getStock();
 
-    public abstract int getResourcesCount();
+    public int getRoadBuildingTokens();
 
-    /**
-     * @return the isOnTurn
-     */
-    public abstract boolean isOnTurn();
+    public GamePlayer setRoadBuildingTokens(int roadBuildingTokens);
 
-    /**
-     * @return the stock
-     */
-    public abstract PlayerPieceList getStock();
+    public VictoryPointsList getVictoryPoints();
 
-    /**
-     * @param stock
-     *            the stock to set
-     */
-    public abstract GamePlayer setStock(PlayerPieceList stock);
+    public DevelopmentCardList getPlayedDevelopmentCards();
 
-    /**
-     * @return the buildPieces
-     */
-    public abstract PlayerPieceList getBuildPieces();
+    public boolean isOnTurn();
 
-    /**
-     * @return the ports
-     */
-    public abstract PortList getPorts();
+    public GamePlayer setStock(Stock stock);
 
-    /**
-     * @return the developmentCards
-     */
-    public abstract DevelopmentCardList getDevelopmentCards();
+    public PortList getPorts();
 
-    /*
-     * Returns amount of gold a player can trade for at the bank using given
-     * ResourceList
-     */
-    public abstract int amountGold(ResourceList resourcesToTradeWith);
+    public DevelopmentCardList getDevelopmentCards();
 
-    /*
-     * Returns amount of gold a player can trade for
-     */
-    public abstract int amountGold();
-
-    /**
-     * @param isOnTurn
-     *            the isOnTurn to set
-     */
     public GamePlayer setOnTurn(boolean isOnTurn);
 
     public int getMaximumCardsInHandWhenSeven();
@@ -102,12 +63,6 @@ public interface GamePlayer
     public void setMaximumCardsInHandWhenSeven(int maximumCardsInHandWhenSeven);
 
     public ResourceList getResources();
-
-    public void setResources(ResourceList resources);
-
-    public GamePlayer setColor(String color);
-
-    public String getColor();
 
     public void addRoadTokenChangedEventHandler(
             RoadTokensChangedEventHandler handler);

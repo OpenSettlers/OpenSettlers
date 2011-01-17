@@ -34,7 +34,6 @@ public class Wall extends AbstractPlayerPiece implements PointPiece
     @Override
     public void addToPlayer(GamePlayer player)
     {
-        player.getBuildPieces().add(this);
     }
 
     @Override

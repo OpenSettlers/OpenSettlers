@@ -94,8 +94,7 @@ public class BuildRoad extends AbstractTurnAction
     {
         boolean usedRoadbuildingToken = false;
 
-        Road road = (Road) player.getStock().ofType(Road.ROAD).get(0);
-        player.getStock().remove(road);
+        Road road = (Road) player.getStock().getRoads().get(0);
         road.setSide(sideLocation);
 
         // when in InGame phase, player should pay for road somehow
@@ -111,13 +110,12 @@ public class BuildRoad extends AbstractTurnAction
             }
             else
             {
-                player.getResources().subtractResources(road.getCost());
-                game.getBank().add(road.getCost());
+                player.getResources().moveTo(road.getCost(), game.getBank());
             }
 
         }
+        road.addToPlayer(player);
 
-        player.getBuildPieces().add(road);
         game.getBoard().getGraph().addRoad(road);
 
         if (game.getCurrentPhase() instanceof PlayTurnsGamePhase)

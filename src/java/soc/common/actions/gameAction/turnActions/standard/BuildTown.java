@@ -109,7 +109,7 @@ public class BuildTown extends AbstractTurnAction
     public void perform(Game game)
     {
         // update town management
-        Town town = (Town) player.getStock().ofType(Town.TOWN).get(0);
+        Town town = (Town) player.getStock().getTowns().get(0);
         town.setPoint(pointLocation);
         town.addToPlayer(player);
         game.getBoard().getGraph().addTown(town);
@@ -124,7 +124,7 @@ public class BuildTown extends AbstractTurnAction
             // xmlGame.CalculateLongestRoad(gamePlayer);
         }
         if (game.getCurrentPhase() instanceof InitialPlacementGamePhase
-                && player.getBuildPieces().getPointPieces().size() == 2)
+                && player.getPointPieces().size() == 2)
         {
             // player gets resources in neighbouring hexes
             ResourceList resourcesFromPlacement = new ResourceList();

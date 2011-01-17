@@ -5,23 +5,15 @@ import soc.common.game.player.GamePlayer;
 
 public interface PlayerPiece
 {
+    public GamePlayer getPlayer();
 
-    /**
-     * @return the player
-     */
-    public abstract GamePlayer getPlayer();
+    public PlayerPiece setPlayer(GamePlayer player);
 
-    /**
-     * @param player
-     *            the player to set
-     */
-    public abstract PlayerPiece setPlayer(GamePlayer player);
+    public ResourceList getCost();
 
-    public abstract ResourceList getCost();
+    public boolean canPay(GamePlayer player);
 
-    public abstract boolean canPay(GamePlayer player);
-
-    public abstract String getName();
+    public String getName();
 
     public boolean isStockPiece();
 

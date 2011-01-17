@@ -1,8 +1,8 @@
 package soc.gwtClient.game.widgets.standard.bitmap.actions;
 
 import soc.common.actions.gameAction.turnActions.standard.BuildTown;
-import soc.common.board.pieces.PiecesChangedEvent;
-import soc.common.board.pieces.PiecesChangedEventHandler;
+import soc.common.board.pieces.PlistChangedEvent;
+import soc.common.board.pieces.PlistChangedEventHandler;
 import soc.common.board.pieces.Town;
 import soc.common.board.resources.ResourcesChangedEvent;
 import soc.common.board.resources.ResourcesChangedEventHandler;
@@ -25,8 +25,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class BuildTownBitmapWidget extends AbstractActionWidget implements
-        ResourcesChangedEventHandler, PiecesChangedEventHandler,
-        GamePhaseChangedEventHandler, TurnPhaseChangedHandler
+        ResourcesChangedEventHandler, GamePhaseChangedEventHandler,
+        TurnPhaseChangedHandler, PlistChangedEventHandler<Town>
 {
     private AbsolutePanel absolutePanel = new AbsolutePanel();
     private VerticalPanel tradesPanel1 = new VerticalPanel();
@@ -49,20 +49,16 @@ public class BuildTownBitmapWidget extends AbstractActionWidget implements
         buildTown.setPlayer(player);
 
         player.getResources().addResourcesChangedEventHandler(this);
-        player.getStock().addPiecesChangedEventHandler(this);
+        player.getStock().getTowns().addTownsChangedEventHandler(this);
         gamePanel.getGame().addGamePhaseChangedEventHandler(this);
         gamePanel.getGame().addTurnPhaseChangedHandler(this);
-        player.getBuildPieces().addPiecesChangedEventHandler(
-                new PiecesChangedEventHandler()
+        player.getTowns().addTownsChangedEventHandler(
+                new PlistChangedEventHandler<Town>()
                 {
                     @Override
-                    public void onPiecesChanged(PiecesChangedEvent list)
+                    public void onPlistChanged(PlistChangedEvent<Town> event)
                     {
-                        if (list.getAddedPiece() != null
-                                && list.getAddedPiece() instanceof Town)
-                        {
-                            checkEnabled();
-                        }
+                        checkEnabled();
                     }
                 });
 
@@ -98,12 +94,6 @@ public class BuildTownBitmapWidget extends AbstractActionWidget implements
     }
 
     @Override
-    public void onPiecesChanged(PiecesChangedEvent list)
-    {
-        checkEnabled();
-    }
-
-    @Override
     public void onGamePhaseChanged(GamePhaseChangedEvent event)
     {
         checkEnabled();
@@ -111,6 +101,12 @@ public class BuildTownBitmapWidget extends AbstractActionWidget implements
 
     @Override
     public void onTurnPhaseChanged(TurnPhaseChangedEvent event)
+    {
+        checkEnabled();
+    }
+
+    @Override
+    public void onPlistChanged(PlistChangedEvent<Town> event)
     {
         checkEnabled();
     }

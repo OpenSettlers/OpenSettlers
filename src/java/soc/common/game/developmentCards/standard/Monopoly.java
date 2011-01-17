@@ -73,9 +73,7 @@ public class Monopoly extends DevelopmentCard
             return false;
 
         // Allow only one of the 5 basic resources
-        if (!(resource instanceof Timber) && !(resource instanceof Wheat)
-                && !(resource instanceof Ore) && !(resource instanceof Clay)
-                && !(resource instanceof Sheep))
+        if (!staticMonoPolyableResources.contains(resource))
             return false;
 
         return true;

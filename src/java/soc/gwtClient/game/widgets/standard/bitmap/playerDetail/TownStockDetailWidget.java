@@ -14,7 +14,6 @@ public class TownStockDetailWidget extends AbstractPlayerDetailWidget implements
         super(player);
 
         update();
-        player.getStock().addPiecesChangedEventHandler(this);
     }
 
     private void update()

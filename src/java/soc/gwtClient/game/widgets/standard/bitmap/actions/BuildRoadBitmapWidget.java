@@ -1,8 +1,8 @@
 package soc.gwtClient.game.widgets.standard.bitmap.actions;
 
 import soc.common.actions.gameAction.turnActions.standard.BuildRoad;
-import soc.common.board.pieces.PiecesChangedEvent;
-import soc.common.board.pieces.PiecesChangedEventHandler;
+import soc.common.board.pieces.PlistChangedEvent;
+import soc.common.board.pieces.PlistChangedEventHandler;
 import soc.common.board.pieces.Road;
 import soc.common.board.resources.ResourcesChangedEvent;
 import soc.common.board.resources.ResourcesChangedEventHandler;
@@ -25,8 +25,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class BuildRoadBitmapWidget extends AbstractActionWidget implements
-        ResourcesChangedEventHandler, PiecesChangedEventHandler,
-        GamePhaseChangedEventHandler, RoadTokensChangedEventHandler
+        ResourcesChangedEventHandler, GamePhaseChangedEventHandler,
+        RoadTokensChangedEventHandler, PlistChangedEventHandler<Road>
 {
     AbsolutePanel absolutePanel = new AbsolutePanel();
     VerticalPanel tradesPanel = new VerticalPanel();
@@ -51,7 +51,7 @@ public class BuildRoadBitmapWidget extends AbstractActionWidget implements
         buildRoad.setPlayer(player);
 
         player.getResources().addResourcesChangedEventHandler(this);
-        player.getStock().addPiecesChangedEventHandler(this);
+        player.getStock().getRoads().addRoadsChangedEventHandler(this);
         gamePanel.getGame().addGamePhaseChangedEventHandler(this);
         player.addRoadTokenChangedEventHandler(this);
 
@@ -103,12 +103,6 @@ public class BuildRoadBitmapWidget extends AbstractActionWidget implements
     }
 
     @Override
-    public void onPiecesChanged(PiecesChangedEvent list)
-    {
-        checkEnabled();
-    }
-
-    @Override
     public void onGamePhaseChanged(GamePhaseChangedEvent event)
     {
         checkEnabled();
@@ -116,6 +110,12 @@ public class BuildRoadBitmapWidget extends AbstractActionWidget implements
 
     @Override
     public void onRoadTokensChanged(RoadTokensChangedEvent event)
+    {
+        checkEnabled();
+    }
+
+    @Override
+    public void onPlistChanged(PlistChangedEvent<Road> event)
     {
         checkEnabled();
     }
@@ -163,5 +163,4 @@ public class BuildRoadBitmapWidget extends AbstractActionWidget implements
         }
 
     }
-
 }

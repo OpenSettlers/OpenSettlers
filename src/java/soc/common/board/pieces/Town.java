@@ -2,16 +2,18 @@ package soc.common.board.pieces;
 
 import soc.common.board.Board;
 import soc.common.board.HexPoint;
+import soc.common.board.hexes.ResourceHex;
 import soc.common.board.resources.Clay;
 import soc.common.board.resources.ResourceList;
 import soc.common.board.resources.Sheep;
 import soc.common.board.resources.Timber;
 import soc.common.board.resources.Wheat;
+import soc.common.game.GameRules;
 import soc.common.game.VictoryPointItem;
 import soc.common.game.player.GamePlayer;
 
 public class Town extends AbstractPlayerPiece implements VictoryPointItem,
-        PointPiece
+        PointPiece, Producable
 {
     private static final long serialVersionUID = -2696233711789990786L;
     public static Town TOWN = new Town();
@@ -46,7 +48,7 @@ public class Town extends AbstractPlayerPiece implements VictoryPointItem,
     public boolean canBuild(Board board, GamePlayer player)
     {
         // We need a town in stock...
-        if (player.getStock().ofType(Town.TOWN).size() == 0)
+        if (player.getStock().getTowns().size() == 0)
             return false;
 
         return true;
@@ -81,14 +83,26 @@ public class Town extends AbstractPlayerPiece implements VictoryPointItem,
     @Override
     public void addToPlayer(GamePlayer player)
     {
-        PlayerPieceList.move(this, player.getStock(), player.getBuildPieces());
+        player.getTowns().moveFrom(player.getStock().getTowns(), this);
+        player.getPointPieces().add(this);
+        player.getProducables().add(this);
         player.getVictoryPoints().add(this);
     }
 
     @Override
     public void removeFromPlayer(GamePlayer player)
     {
-        PlayerPieceList.move(this, player.getBuildPieces(), player.getStock());
+        player.getStock().getTowns().moveFrom(player.getTowns(), this);
+        player.getPointPieces().remove(this);
+        player.getProducables().remove(this);
         player.getVictoryPoints().remove(this);
+    }
+
+    @Override
+    public ResourceList produce(ResourceHex resourceHex, GameRules rules)
+    {
+        ResourceList production = new ResourceList();
+        production.add(resourceHex.getResource().copy());
+        return production;
     }
 }

@@ -19,8 +19,8 @@ public class DevelopmentCardsAmountBitmapWidget extends
         super(player);
 
         devcardImage.setSize("16px", "16px");
-        amountDevcards.setText(Integer.toString(player
-                .getDevelopmentCardsCount()));
+        amountDevcards.setText(Integer.toString(player.getDevelopmentCards()
+                .size()));
 
         rootPanel.add(devcardImage);
         rootPanel.add(amountDevcards);
@@ -36,7 +36,7 @@ public class DevelopmentCardsAmountBitmapWidget extends
      */
     public void onDevelopmentCardsChanged(DevelopmentCardsChangedEvent event)
     {
-        amountDevcards.setText(Integer.toString(player
-                .getDevelopmentCardsCount()));
+        amountDevcards.setText(Integer.toString(player.getDevelopmentCards()
+                .size()));
     }
 }

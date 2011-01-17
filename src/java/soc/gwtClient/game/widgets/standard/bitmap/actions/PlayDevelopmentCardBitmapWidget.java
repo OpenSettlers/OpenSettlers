@@ -94,7 +94,7 @@ public class PlayDevelopmentCardBitmapWidget implements
     {
         // Update label showing amount of cards player currently has
         lblAmountDvelopmentCards.setText(Integer.toString(player
-                .getDevelopmentCardsCount()));
+                .getDevelopmentCards().size()));
         if (event.getAddedCard() != null)
         {
             DevelopmentCardWidget devCardWidget = devCardWidgetFactory

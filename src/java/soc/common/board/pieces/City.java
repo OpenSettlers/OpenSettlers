@@ -2,14 +2,16 @@ package soc.common.board.pieces;
 
 import soc.common.board.Board;
 import soc.common.board.HexPoint;
+import soc.common.board.hexes.ResourceHex;
 import soc.common.board.resources.Ore;
 import soc.common.board.resources.ResourceList;
 import soc.common.board.resources.Wheat;
+import soc.common.game.GameRules;
 import soc.common.game.VictoryPointItem;
 import soc.common.game.player.GamePlayer;
 
 public class City extends AbstractPlayerPiece implements VictoryPointItem,
-        PointPiece
+        PointPiece, Producable
 {
     private static final long serialVersionUID = 6682481845539642397L;
     public static City CITY = new City();
@@ -45,11 +47,11 @@ public class City extends AbstractPlayerPiece implements VictoryPointItem,
     public boolean canBuild(Board board, GamePlayer player)
     {
         // We need a city in stock...
-        if (player.getStock().ofType(City.CITY).size() == 0)
+        if (player.getStock().getCities().size() == 0)
             return false;
 
         // And we need a town to replace.
-        if (player.getBuildPieces().ofType(Town.TOWN).size() == 0)
+        if (player.getTowns().size() == 0)
             return false;
 
         return true;
@@ -88,14 +90,10 @@ public class City extends AbstractPlayerPiece implements VictoryPointItem,
     @Override
     public void addToPlayer(GamePlayer player)
     {
-        // Get town to remove from board
-        PlayerPiece town = player.getBuildPieces().get(pointLocation);
-
-        // Move town to stock
-        town.removeFromPlayer(player);
-
         // Put City on board
-        PlayerPieceList.move(this, player.getStock(), player.getBuildPieces());
+        player.getCities().moveFrom(player.getStock().getCities(), this);
+        player.getPointPieces().add(this);
+        player.getProducables().add(this);
 
         // Add to victory points
         player.getVictoryPoints().add(this);
@@ -105,5 +103,16 @@ public class City extends AbstractPlayerPiece implements VictoryPointItem,
     public void removeFromPlayer(GamePlayer player)
     {
 
+    }
+
+    @Override
+    public ResourceList produce(ResourceHex resourceHex, GameRules rules)
+    {
+        ResourceList production = new ResourceList();
+
+        production.add(resourceHex.getResource().copy());
+        production.add(resourceHex.getResource().copy());
+
+        return production;
     }
 }

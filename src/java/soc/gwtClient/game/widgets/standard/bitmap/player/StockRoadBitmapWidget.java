@@ -1,8 +1,8 @@
 package soc.gwtClient.game.widgets.standard.bitmap.player;
 
-import soc.common.board.pieces.PiecesChangedEvent;
-import soc.common.board.pieces.PiecesChangedEventHandler;
 import soc.common.board.pieces.PlayerPiece;
+import soc.common.board.pieces.PlistChangedEvent;
+import soc.common.board.pieces.PlistChangedEventHandler;
 import soc.common.board.pieces.Road;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.AbstractStockItemWidget;
@@ -12,7 +12,8 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 
 public class StockRoadBitmapWidget extends AbstractStockItemWidget implements
-        PiecesChangedEventHandler
+        PlistChangedEventHandler<Road>
+
 {
     private Road road = new Road();
     private Image roadImage = new Image(Resources.icons().roadSmall());
@@ -23,13 +24,12 @@ public class StockRoadBitmapWidget extends AbstractStockItemWidget implements
         super(player);
 
         roadImage.setSize("16px", "16px");
-        roadAmount.setText(Integer.toString(player.getStock().ofType(Road.ROAD)
-                .size()));
+        updateUI();
 
         rootPanel.add(roadImage);
         rootPanel.add(roadAmount);
 
-        player.getStock().addPiecesChangedEventHandler(this);
+        player.getStock().getRoads().addRoadsChangedEventHandler(this);
     }
 
     @Override
@@ -38,13 +38,16 @@ public class StockRoadBitmapWidget extends AbstractStockItemWidget implements
         return road;
     }
 
-    @Override
-    public void onPiecesChanged(PiecesChangedEvent event)
+    private void updateUI()
     {
-        if (event.getChangedPiece() instanceof Road)
-        {
-            roadAmount.setText(Integer.toString(player.getStock().ofType(
-                    Road.ROAD).size()));
-        }
+        roadAmount.setText(Integer
+                .toString(player.getStock().getRoads().size()));
     }
+
+    @Override
+    public void onPlistChanged(PlistChangedEvent<Road> event)
+    {
+        updateUI();
+    }
+
 }

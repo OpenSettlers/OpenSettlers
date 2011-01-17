@@ -1,8 +1,9 @@
 package soc.gwtClient.game.widgets.standard.bitmap.player;
 
-import soc.common.board.pieces.PiecesChangedEvent;
-import soc.common.board.pieces.PiecesChangedEventHandler;
 import soc.common.board.pieces.PlayerPiece;
+import soc.common.board.pieces.PlistChangedEvent;
+import soc.common.board.pieces.PlistChangedEventHandler;
+import soc.common.board.pieces.Road;
 import soc.common.board.pieces.Town;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.AbstractStockItemWidget;
@@ -12,7 +13,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 
 public class StockTownBitmapWidget extends AbstractStockItemWidget implements
-        PiecesChangedEventHandler
+        PlistChangedEventHandler<Road>
 {
     private Image townImage = new Image(Resources.icons().townSmall());
     private Label townAmount = new Label();
@@ -23,13 +24,12 @@ public class StockTownBitmapWidget extends AbstractStockItemWidget implements
         super(player);
 
         townImage.setSize("16px", "16px");
-        townAmount.setText(Integer.toString(player.getStock().ofType(Town.TOWN)
-                .size()));
 
         rootPanel.add(townImage);
         rootPanel.add(townAmount);
+        updateUI();
 
-        player.getStock().addPiecesChangedEventHandler(this);
+        player.getStock().getRoads().addRoadsChangedEventHandler(this);
     }
 
     @Override
@@ -38,14 +38,15 @@ public class StockTownBitmapWidget extends AbstractStockItemWidget implements
         return town;
     }
 
-    @Override
-    public void onPiecesChanged(PiecesChangedEvent event)
+    private void updateUI()
     {
-        if (event.getChangedPiece() instanceof Town)
-        {
-            townAmount.setText(Integer.toString(player.getStock().ofType(
-                    Town.TOWN).size()));
-        }
+        townAmount.setText(Integer
+                .toString(player.getStock().getTowns().size()));
     }
 
+    @Override
+    public void onPlistChanged(PlistChangedEvent<Road> event)
+    {
+        updateUI();
+    }
 }

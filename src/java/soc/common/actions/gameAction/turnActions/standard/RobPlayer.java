@@ -112,7 +112,7 @@ public class RobPlayer extends AbstractTurnAction
             boolean containsTownOrCity = false;
             for (HexPoint point : possiblePoints)
             {
-                if (robbedPlayer.getTownsCities().contains(point))
+                if (robbedPlayer.getPointPieces().contains(point))
                 {
                     containsTownOrCity = true;
                     break;

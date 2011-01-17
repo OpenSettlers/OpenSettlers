@@ -1,15 +1,18 @@
 package soc.common.game.player;
 
 import soc.common.board.pieces.Army;
-import soc.common.board.pieces.City;
-import soc.common.board.pieces.PlayerPieceList;
-import soc.common.board.pieces.Town;
+import soc.common.board.pieces.CityList;
+import soc.common.board.pieces.PointPieceList;
+import soc.common.board.pieces.ProducableList;
+import soc.common.board.pieces.RoadList;
+import soc.common.board.pieces.ShipList;
+import soc.common.board.pieces.SidePieceList;
+import soc.common.board.pieces.Stock;
+import soc.common.board.pieces.TownList;
 import soc.common.board.ports.PortList;
 import soc.common.board.resources.ResourceList;
 import soc.common.game.RoadTokensChangedEvent;
 import soc.common.game.RoadTokensChangedEventHandler;
-import soc.common.game.TurnChangedEvent;
-import soc.common.game.TurnChangedEventHandler;
 import soc.common.game.VictoryPointsList;
 import soc.common.game.developmentCards.DevelopmentCard;
 import soc.common.game.developmentCards.DevelopmentCardList;
@@ -23,7 +26,7 @@ import com.google.gwt.event.shared.SimpleEventBus;
 public class GamePlayerImpl implements GamePlayer
 {
     private User user;
-    private SimpleEventBus eventBus;
+    private SimpleEventBus eventBus = new SimpleEventBus();
     // Hand resource cards
     private ResourceList resources = new ResourceList();
 
@@ -37,10 +40,14 @@ public class GamePlayerImpl implements GamePlayer
 
     // Stock of the player: list of roads, ships, towns, cities, knights etc a
     // player has in stock
-    private PlayerPieceList stock = new PlayerPieceList();
+    private Stock stock = new Stock();
 
-    // List of pieces the player has built
-    private PlayerPieceList buildPieces = new PlayerPieceList();
+    private TownList towns = new TownList();
+    private CityList cities = new CityList();
+    private RoadList roads = new RoadList();
+    private ProducableList producables = new ProducableList();
+    private PointPieceList pointPieces = new PointPieceList();
+    private SidePieceList sidePieces = new SidePieceList();
 
     // Keep track of being on turn
     private boolean isOnTurn = false;
@@ -69,31 +76,6 @@ public class GamePlayerImpl implements GamePlayer
         this.user = user;
 
         return this;
-    }
-
-    private SimpleEventBus getEventBus()
-    {
-        if (eventBus == null)
-        {
-            eventBus = new SimpleEventBus();
-        }
-
-        return eventBus;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see soc.common.game.GamePlayer#getTownsCities()
-     */
-    public PlayerPieceList getTownsCities()
-    {
-        PlayerPieceList result = new PlayerPieceList();
-
-        result.add(buildPieces.ofType(Town.TOWN));
-        result.add(buildPieces.ofType(City.CITY));
-
-        return result;
     }
 
     /*
@@ -227,7 +209,7 @@ public class GamePlayerImpl implements GamePlayer
      * 
      * @see soc.common.game.GamePlayer#getStock()
      */
-    public PlayerPieceList getStock()
+    public Stock getStock()
     {
         return stock;
     }
@@ -239,21 +221,10 @@ public class GamePlayerImpl implements GamePlayer
      * soc.common.game.GamePlayer#setStock(soc.common.board.pieces.PlayerPieceList
      * )
      */
-    public GamePlayer setStock(PlayerPieceList stock)
+    public GamePlayer setStock(Stock stock)
     {
         this.stock = stock;
-
         return this;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see soc.common.game.GamePlayer#getBuildPieces()
-     */
-    public PlayerPieceList getBuildPieces()
-    {
-        return buildPieces;
     }
 
     /*
@@ -384,25 +355,13 @@ public class GamePlayerImpl implements GamePlayer
      * (non-Javadoc)
      * 
      * @see
-     * soc.common.game.GamePlayer#addOnTurnChangedEventHandler(soc.common.game
-     * .TurnChangedEventHandler)
-     */
-    public void addOnTurnChangedEventHandler(TurnChangedEventHandler handler)
-    {
-        getEventBus().addHandler(TurnChangedEvent.TYPE, handler);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
      * soc.common.game.GamePlayer#addRoadTokenChangedEventHandler(soc.common
      * .game.RoadTokensChangedEventHandler)
      */
     public void addRoadTokenChangedEventHandler(
             RoadTokensChangedEventHandler handler)
     {
-        getEventBus().addHandler(RoadTokensChangedEvent.TYPE, handler);
+        eventBus.addHandler(RoadTokensChangedEvent.TYPE, handler);
     }
 
     @Override
@@ -451,5 +410,48 @@ public class GamePlayerImpl implements GamePlayer
     public Army getArmy()
     {
         return army;
+    }
+
+    @Override
+    public CityList getCities()
+    {
+        return cities;
+    }
+
+    @Override
+    public TownList getTowns()
+    {
+        return towns;
+    }
+
+    @Override
+    public RoadList getRoads()
+    {
+        return roads;
+    }
+
+    @Override
+    public PointPieceList getPointPieces()
+    {
+        return pointPieces;
+    }
+
+    @Override
+    public ProducableList getProducables()
+    {
+        return producables;
+    }
+
+    @Override
+    public ShipList getShips()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public SidePieceList getSidePieces()
+    {
+        return sidePieces;
     }
 }

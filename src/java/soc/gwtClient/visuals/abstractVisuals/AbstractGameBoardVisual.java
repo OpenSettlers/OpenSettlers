@@ -9,7 +9,6 @@ import soc.common.board.pieces.PlayerPiece;
 import soc.common.board.routing.GraphPoint;
 import soc.common.board.routing.GraphSide;
 import soc.common.game.Game;
-import soc.common.game.player.GamePlayer;
 import soc.gwtClient.visuals.behaviour.ProxyBehaviour;
 import soc.gwtClient.visuals.behaviour.gameBoard.GameBoardBehaviour;
 import soc.gwtClient.visuals.behaviour.gameBoard.NoBehaviour;
@@ -110,11 +109,6 @@ public abstract class AbstractGameBoardVisual extends AbstractBoardVisual
 
         proxyBehaviour = new ProxyBehaviour(this);
         boardVisual = visualFactory.createBoardVisual(board);
-
-        for (GamePlayer player : game.getPlayers())
-        {
-            player.getBuildPieces().addPiecesChangedEventHandler(this);
-        }
     }
 
     /**
