@@ -16,18 +16,29 @@ public class CounterTradeOffer extends AbstractGameAction implements
     private ResourceList offeredResources = new ResourceList();
     private ResourceList requestedResources = new ResourceList();
     private TradeOffer originatingOffer;
-    private int offerID;
 
-    /**
-     * @return the offeredResources
+    @Override
+    public TradeOffer getOriginatingOffer()
+    {
+        return originatingOffer;
+    }
+
+    public TradeResponse setOriginatingOffer(TradeOffer originatingOffer)
+    {
+        this.originatingOffer = originatingOffer;
+        return this;
+    }
+
+    /*
+     * Offered resources as seen from the offering players'perspective
      */
     public ResourceList getOfferedResources()
     {
         return offeredResources;
     }
 
-    /**
-     * @return the requestedResources
+    /*
+     * Requested resources as seen from the offering players' perspective
      */
     public ResourceList getRequestedResources()
     {
@@ -46,6 +57,24 @@ public class CounterTradeOffer extends AbstractGameAction implements
     {
         if (!super.isValid(game))
         {
+            return false;
+        }
+
+        if (offeredResources == null || requestedResources == null)
+        {
+            invalidMessage = "OfferedResources and RequestedResources cannot be null";
+            return false;
+        }
+
+        if (offeredResources.size() == 0 || requestedResources.size() == 0)
+        {
+            invalidMessage = "OfferedResources and RequestedResources cannot be empty";
+            return false;
+        }
+
+        if (!player.getResources().hasAtLeast(requestedResources))
+        {
+            invalidMessage = "Player does not have offered resources";
             return false;
         }
 
@@ -68,9 +97,7 @@ public class CounterTradeOffer extends AbstractGameAction implements
     @Override
     public void perform(Game game)
     {
-        TradeOffer offer = game.getCurrentTurn().getTradeOffers().getByID(
-                originatingOffer.getID());
-        offer.getResponses().addResponse(this);
+        game.addTradeResponse(this);
 
         // TODO: fix message
 
@@ -80,7 +107,6 @@ public class CounterTradeOffer extends AbstractGameAction implements
     @Override
     public String getToDoMessage()
     {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -94,16 +120,5 @@ public class CounterTradeOffer extends AbstractGameAction implements
     public boolean isAllowed(GamePhase gamePhase)
     {
         return gamePhase instanceof PlayTurnsGamePhase;
-    }
-
-    @Override
-    public TradeOffer getOriginatingOffer()
-    {
-        return originatingOffer;
-    }
-
-    public void setOriginatingOffer(TradeOffer tradeOffer)
-    {
-        this.originatingOffer = tradeOffer;
     }
 }

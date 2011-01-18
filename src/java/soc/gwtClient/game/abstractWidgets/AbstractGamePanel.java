@@ -16,7 +16,6 @@ import soc.gwtClient.game.behaviour.factories.ReceiveGameBehaviourFactory;
 import soc.gwtClient.game.behaviour.factories.ReceivedActionGameBehaviourFactory;
 import soc.gwtClient.game.behaviour.factories.SendGameBehaviourFactory;
 import soc.gwtClient.game.behaviour.received.ReceiveGameBehaviour;
-import soc.gwtClient.game.dialogs.TradePlayersDialog;
 import soc.gwtClient.game.widgets.ChatPanel;
 import soc.gwtClient.game.widgets.DebugPanel;
 import soc.gwtClient.game.widgets.DetailContainerManager;
@@ -58,7 +57,6 @@ public abstract class AbstractGamePanel implements GamePanel, CenterWidget,
     // In-game panels to provide turns funtionality
     protected ResourcesGainedWidget resourcesGainedWidget;
     protected StealCardWidget stealCardWidget;
-    protected TradePlayersDialog tradePlayers;
     protected BankTradeUI bankTradeUI;
     protected LooseCardsDialog looseCardsDialog;
     protected GameOverDialog gameOverDialog;
@@ -83,7 +81,6 @@ public abstract class AbstractGamePanel implements GamePanel, CenterWidget,
         playersWidget = gameWidgetFactory.createPlayersWidget();
         gameBoardVisual = gameWidgetFactory.createGameBoard(800, 500);
         statusPanel = gameWidgetFactory.createStatusDicePanel();
-        tradePlayers = new TradePlayersDialog(this);
         historyWidget = gameWidgetFactory.createHistoryWidget();
         bankTradeUI = gameWidgetFactory.createBankTradeUI();
         stealCardWidget = gameWidgetFactory.createStealCardWidget(player);
@@ -129,11 +126,6 @@ public abstract class AbstractGamePanel implements GamePanel, CenterWidget,
     public PlayersWidget getPlayersWidget()
     {
         return playersWidget;
-    }
-
-    public TradePlayersDialog getTradePlayers()
-    {
-        return tradePlayers;
     }
 
     @Override
@@ -182,13 +174,6 @@ public abstract class AbstractGamePanel implements GamePanel, CenterWidget,
 
         // Simply send the action
         sendAction(action);
-    }
-
-    public void showTradePlayersPanel()
-    {
-        Point2D location = playersWidget.getTopRightLocation();
-        tradePlayers.setPopupPosition(location.getX(), location.getY());
-        tradePlayers.show();
     }
 
     public void showTradeBankPanel()

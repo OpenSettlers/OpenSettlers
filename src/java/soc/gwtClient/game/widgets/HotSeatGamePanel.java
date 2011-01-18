@@ -11,6 +11,7 @@ import soc.gwtClient.game.CenterWidget;
 import soc.gwtClient.game.Point2D;
 import soc.gwtClient.game.abstractWidgets.AbstractGamePanel;
 import soc.gwtClient.game.abstractWidgets.ActionsWidget;
+import soc.gwtClient.game.abstractWidgets.TradePlayerUI;
 import soc.gwtClient.game.abstractWidgets.factories.GameWidgetFactory;
 import soc.gwtClient.game.widgets.abstractWidgets.DebugWidget;
 import soc.gwtClient.game.widgets.abstractWidgets.LooseCardsDialog;
@@ -31,6 +32,7 @@ public class HotSeatGamePanel extends AbstractGamePanel implements
     TabLayoutPanel chatHistoryDebugPanel = new TabLayoutPanel(20.0, Unit.PX);
     BoardLayoutPanel boardVisualPanel;
     HotSeatActionsPlayersWidget playersActionsWidget;
+    HotSeatTradePlayersWidget hotseatTradePlayersWidget;
 
     public HotSeatGamePanel()
     {
@@ -67,8 +69,9 @@ public class HotSeatGamePanel extends AbstractGamePanel implements
         rootPanel.add(boardActionResourcesPanel);
 
         detailContainerManager = new DetailContainerManager(this);
+        hotseatTradePlayersWidget = new HotSeatTradePlayersWidget(this);
 
-        game.addTurnchangedeventHandler(this);
+        game.addTurnChangedEventHandler(this);
         gameBoardVisual.setBehaviour(new DisabledMap());
         gameBoardVisual.hideTerritories();
     }
@@ -144,5 +147,11 @@ public class HotSeatGamePanel extends AbstractGamePanel implements
     public DebugWidget getDebugPanel()
     {
         return debugPanel;
+    }
+
+    @Override
+    public TradePlayerUI getTradePlayerUI()
+    {
+        return hotseatTradePlayersWidget.getPlayerTradeUI(player);
     }
 }

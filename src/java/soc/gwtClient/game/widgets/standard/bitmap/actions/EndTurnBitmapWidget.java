@@ -34,7 +34,7 @@ public class EndTurnBitmapWidget extends AbstractActionWidget implements
 
         endTurn.setPlayer(player);
 
-        gamePanel.getGame().addTurnchangedeventHandler(this);
+        gamePanel.getGame().addTurnChangedEventHandler(this);
         gamePanel.getGame().addGamePhaseChangedEventHandler(this);
         gamePanel.getGame().addTurnPhaseChangedHandler(this);
 

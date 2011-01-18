@@ -16,6 +16,8 @@ public class TradePlayer extends AbstractTurnAction
     private ResourceList offeredResources = new ResourceList();
     private ResourceList requestedResources = new ResourceList();
     private TradeOffer originatingOffer;
+    private AcceptTradeOffer acceptedOffer;
+    private CounterTradeOffer acceptedCounterOffer;
     private GamePlayer tradeOpponent;
 
     public TradeOffer getOriginatingOffer()
@@ -33,6 +35,70 @@ public class TradePlayer extends AbstractTurnAction
         return requestedResources;
     }
 
+    /**
+     * @return the acceptedOffer
+     */
+    public AcceptTradeOffer getAcceptedOffer()
+    {
+        return acceptedOffer;
+    }
+
+    /**
+     * @return the acceptedCounterOffer
+     */
+    public CounterTradeOffer getAcceptedCounterOffer()
+    {
+        return acceptedCounterOffer;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.common.actions.gameAction.AbstractGameAction#isValid(soc.common.game
+     * .Game)
+     */
+    @Override
+    public boolean isValid(Game game)
+    {
+        if (!super.isValid(game))
+        {
+            return false;
+        }
+
+        if (acceptedOffer == null && acceptedCounterOffer == null)
+        {
+            invalidMessage = "acceptedOffer or accptedCounterOffer cannot be both null";
+            return false;
+        }
+
+        if (acceptedOffer != null && acceptedCounterOffer != null)
+        {
+            invalidMessage = "acceptedOffer or accptedCounterOffer cannot be both containing a response";
+            return false;
+        }
+
+        if (offeredResources == null || requestedResources == null)
+        {
+            invalidMessage = "OfferedResources and RequestedResources cannot be null";
+            return false;
+        }
+
+        if (offeredResources.size() == 0 || requestedResources.size() == 0)
+        {
+            invalidMessage = "OfferedResources and RequestedResources cannot be empty";
+            return false;
+        }
+
+        if (!player.getResources().hasAtLeast(offeredResources))
+        {
+            invalidMessage = "Player does not have offered resources";
+            return false;
+        }
+
+        return true;
+    }
+
     /*
      * (non-Javadoc)
      * 
@@ -43,7 +109,6 @@ public class TradePlayer extends AbstractTurnAction
     @Override
     public void perform(Game game)
     {
-
         tradeOpponent.getResources().moveTo(player.getResources(),
                 requestedResources);
         player.getResources().moveTo(tradeOpponent.getResources(),
@@ -52,6 +117,12 @@ public class TradePlayer extends AbstractTurnAction
         // TODO: fix message
 
         super.perform(game);
+    }
+
+    @Override
+    public String getToDoMessage()
+    {
+        return I18n.get().actions().noToDo();
     }
 
     @Override
@@ -65,11 +136,4 @@ public class TradePlayer extends AbstractTurnAction
     {
         return gamePhase instanceof PlayTurnsGamePhase;
     }
-
-    @Override
-    public String getToDoMessage()
-    {
-        return I18n.get().actions().noToDo();
-    }
-
 }

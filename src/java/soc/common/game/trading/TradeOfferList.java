@@ -5,6 +5,7 @@ import java.util.List;
 
 import soc.common.actions.gameAction.turnActions.standard.TradeOffer;
 
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
 
 public class TradeOfferList
@@ -30,11 +31,18 @@ public class TradeOfferList
 
     public TradeOffer getLatestOffer()
     {
-        return tradeOffers.get(tradeOffers.size() - 1);
+        return tradeOffers.size() == 0 ? null : tradeOffers.get(tradeOffers
+                .size() - 1);
     }
 
     public int size()
     {
         return tradeOffers.size();
+    }
+
+    public HandlerRegistration addTradeOfferedEventHandler(
+            TradeOfferedEventHandler handler)
+    {
+        return eventBus.addHandler(TradeOfferedEvent.TYPE, handler);
     }
 }

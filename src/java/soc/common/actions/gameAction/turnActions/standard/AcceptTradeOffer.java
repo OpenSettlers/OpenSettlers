@@ -20,6 +20,12 @@ public class AcceptTradeOffer extends AbstractGameAction implements
         return originatingOffer;
     }
 
+    public TradeResponse setOriginatingOffer(TradeOffer originatingOffer)
+    {
+        this.originatingOffer = originatingOffer;
+        return this;
+    }
+
     @Override
     public String getToDoMessage()
     {
@@ -37,9 +43,7 @@ public class AcceptTradeOffer extends AbstractGameAction implements
     @Override
     public void perform(Game game)
     {
-        TradeOffer offer = game.getCurrentTurn().getTradeOffers().getByID(
-                originatingOffer.getID());
-        offer.getResponses().addResponse(this);
+        game.addTradeResponse(this);
 
         // TODO: fix message
 

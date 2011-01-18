@@ -37,6 +37,7 @@ import soc.common.game.player.GamePlayer;
 import soc.common.game.player.GamePlayerList;
 import soc.common.game.statuses.GameStatus;
 import soc.common.game.statuses.Playing;
+import soc.common.game.trading.TradeResponse;
 import soc.common.server.random.ClientRandom;
 import soc.common.server.random.Random;
 
@@ -127,6 +128,16 @@ public class Game
 
         // Notify handlers the current turn is changed
         eventBus.fireEvent(new TurnChangedEvent(oldTurn, newTurn));
+    }
+
+    public void addTradeResponse(TradeResponse response)
+    {
+        currentTurn.getTradeOffers().getLatestOffer().getResponses()
+                .addResponse(response);
+        if (currentTurn.getTradeOffers().getLatestOffer().getResponses().size() == players
+                .size() - 1)
+            currentTurn.getTradeOffers().getLatestOffer()
+                    .setResponsesCompleted(true);
     }
 
     public void start()
@@ -346,7 +357,7 @@ public class Game
         return eventBus.addHandler(DiceChangedEvent.TYPE, handler);
     }
 
-    public HandlerRegistration addTurnchangedeventHandler(
+    public HandlerRegistration addTurnChangedEventHandler(
             TurnChangedEventHandler handler)
     {
         return eventBus.addHandler(TurnChangedEvent.TYPE, handler);

@@ -43,7 +43,7 @@ public class BuyDevelopmentCardBitmapWidget extends AbstractActionWidget
         super(gamePanel, player);
 
         player.getResources().addResourcesChangedEventHandler(this);
-        gamePanel.getGame().addTurnchangedeventHandler(this);
+        gamePanel.getGame().addTurnChangedEventHandler(this);
         gamePanel.getGame().addTurnPhaseChangedHandler(this);
         gamePanel.getGame().addGamePhaseChangedEventHandler(this);
 

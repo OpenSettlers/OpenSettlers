@@ -37,7 +37,7 @@ public class TradePlayerBitmapWidget extends AbstractActionWidget implements
         player.getResources().addResourcesChangedEventHandler(this);
         gamePanel.getGame().addGamePhaseChangedEventHandler(this);
         gamePanel.getGame().addTurnPhaseChangedHandler(this);
-        gamePanel.getGame().addTurnchangedeventHandler(this);
+        gamePanel.getGame().addTurnChangedEventHandler(this);
         btnTradePlayer.addClickHandler(this);
     }
 
@@ -103,7 +103,7 @@ public class TradePlayerBitmapWidget extends AbstractActionWidget implements
     @Override
     public void onClick(ClickEvent arg0)
     {
-        gamePanel.showTradePlayersPanel();
+        gamePanel.getTradePlayerUI().show();
     }
 
 }

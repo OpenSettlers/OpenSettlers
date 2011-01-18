@@ -15,6 +15,7 @@ public class TradeOffer extends AbstractGameAction
     private ResourceList offeredResources = new ResourceList();
     private ResourceList requestedResources = new ResourceList();
     private TradeResponseList responses = new TradeResponseList();
+    private boolean responsesCompleted = false;
     private int offerID;
 
     public TradeResponseList getResponses()
@@ -42,6 +43,24 @@ public class TradeOffer extends AbstractGameAction
         offerID = id;
     }
 
+    /**
+     * @return the responsesCompleted
+     */
+    public boolean isResponsesCompleted()
+    {
+        return responsesCompleted;
+    }
+
+    /**
+     * @param responsesCompleted
+     *            the responsesCompleted to set
+     */
+    public TradeOffer setResponsesCompleted(boolean responsesCompleted)
+    {
+        this.responsesCompleted = responsesCompleted;
+        return this;
+    }
+
     /*
      * (non-Javadoc)
      * 
@@ -63,7 +82,7 @@ public class TradeOffer extends AbstractGameAction
             return false;
         }
 
-        if (offeredResources.size() == 0 || requestedResources == null)
+        if (offeredResources.size() == 0 || requestedResources.size() == 0)
         {
             invalidMessage = "OfferedResources and RequestedResources cannot be empty";
             return false;

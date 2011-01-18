@@ -5,6 +5,7 @@ import soc.common.actions.gameAction.HostStartsGame;
 import soc.common.actions.gameAction.turnActions.standard.BuyDevelopmentCard;
 import soc.common.actions.gameAction.turnActions.standard.RobPlayer;
 import soc.common.actions.gameAction.turnActions.standard.RollDice;
+import soc.common.actions.gameAction.turnActions.standard.TradeOffer;
 import soc.common.server.GameServer;
 
 public class ServerActionFactory implements GameServerActionFactory
@@ -31,6 +32,11 @@ public class ServerActionFactory implements GameServerActionFactory
         if (action instanceof RollDice)
         {
             return new ServerRollDice((RollDice) action, gameServer);
+        }
+
+        if (action instanceof TradeOffer)
+        {
+            return new ServerHotseatOfferTrade((TradeOffer) action, gameServer);
         }
 
         // No associated server action found, return null

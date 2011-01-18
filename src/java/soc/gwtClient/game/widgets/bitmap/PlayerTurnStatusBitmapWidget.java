@@ -27,7 +27,7 @@ public class PlayerTurnStatusBitmapWidget implements PlayerTurnStatusWidget
         rootPanel.add(turnImage, 0, 0);
         turnImage.setVisible(false);
 
-        game.addTurnchangedeventHandler(this);
+        game.addTurnChangedEventHandler(this);
     }
 
     @Override

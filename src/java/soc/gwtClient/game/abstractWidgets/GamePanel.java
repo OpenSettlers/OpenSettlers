@@ -47,14 +47,14 @@ public interface GamePanel
 
     public BankTradeUI getBankTradeUI();
 
+    public TradePlayerUI getTradePlayerUI();
+
     // Lalala stupid interface methods which need destruction
     public Point2D getTopRightPlayerInfoBoxPosition(GamePlayer player);
 
     public Point2D getTopLeftDiceWidgetPosition();
 
     public void showTradeBankPanel();
-
-    public void showTradePlayersPanel();
 
     public DebugWidget getDebugPanel();
 

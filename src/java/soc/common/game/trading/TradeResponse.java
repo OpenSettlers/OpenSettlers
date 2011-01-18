@@ -7,5 +7,7 @@ public interface TradeResponse
 {
     public TradeOffer getOriginatingOffer();
 
+    public TradeResponse setOriginatingOffer(TradeOffer tradeOffer);
+
     public GamePlayer getPlayer();
 }

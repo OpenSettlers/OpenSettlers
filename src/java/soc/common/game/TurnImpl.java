@@ -8,7 +8,7 @@ public class TurnImpl implements Turn
 {
     private GamePlayer player;
     private int id;
-    private TradeOfferList tradeOffers;
+    private TradeOfferList tradeOffers = new TradeOfferList();
 
     /**
      * @param player

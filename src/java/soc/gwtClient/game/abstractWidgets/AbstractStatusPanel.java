@@ -51,7 +51,7 @@ public abstract class AbstractStatusPanel implements StatusPanel,
         gamePanel.getGame().getActionsQueue().addQueueChangedEventHandler(this);
         gamePanel.getGame().addGamePhaseChangedEventHandler(this);
         gamePanel.getGame().addTurnPhaseChangedHandler(this);
-        gamePanel.getGame().addTurnchangedeventHandler(this);
+        gamePanel.getGame().addTurnChangedEventHandler(this);
         gamePanel.getGame().addStatusChangedEventHandler(this);
     }
 

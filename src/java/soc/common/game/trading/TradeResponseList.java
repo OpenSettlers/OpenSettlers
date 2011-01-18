@@ -5,13 +5,18 @@ import java.util.List;
 
 import soc.common.game.player.GamePlayer;
 
+import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.event.shared.SimpleEventBus;
+
 public class TradeResponseList
 {
     private List<TradeResponse> tradeResponses = new ArrayList<TradeResponse>();
+    private SimpleEventBus eventBus = new SimpleEventBus();
 
     public void addResponse(TradeResponse response)
     {
         tradeResponses.add(response);
+        eventBus.fireEvent(new TradeRespondedEvent(response));
     }
 
     public int size()
@@ -26,5 +31,11 @@ public class TradeResponseList
                 return true;
 
         return false;
+    }
+
+    public HandlerRegistration addTradeRespondedEventHandler(
+            TradeRespondedEventHandler handler)
+    {
+        return eventBus.addHandler(TradeRespondedEvent.TYPE, handler);
     }
 }

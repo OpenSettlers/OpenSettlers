@@ -290,7 +290,7 @@ public class ResourceList implements Iterable<Resource>
     public Resource getRandom(Random random)
     {
         int randomResource = random.nextInt(resources.size(), false);
-        return resources.get(randomResource - 1);
+        return resources.get(randomResource);
     }
 
     /*
