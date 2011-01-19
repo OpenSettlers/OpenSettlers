@@ -24,7 +24,7 @@ public abstract class AbstractTradeListWidget implements TradeListWidget
                 null);
         giveResourceList.setHeight("3em");
         rootPanel.add(wantResourceList);
-        rootPanel.add(new Label(" in exchange for "));
+        rootPanel.add(new Label(" for "));
         rootPanel.add(giveResourceList);
 
         rootPanel.setWidth("200px");

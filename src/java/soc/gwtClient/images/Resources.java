@@ -28,6 +28,16 @@ import soc.common.board.resources.Timber;
 import soc.common.board.resources.Wheat;
 import soc.common.game.VictoryPointItem;
 import soc.common.game.developmentCards.standard.VictoryPoint;
+import soc.common.game.gamePhase.DetermineFirstPlayerGamePhase;
+import soc.common.game.gamePhase.EndedGamePhase;
+import soc.common.game.gamePhase.GamePhase;
+import soc.common.game.gamePhase.InitialPlacementGamePhase;
+import soc.common.game.gamePhase.PlayTurnsGamePhase;
+import soc.common.game.gamePhase.turnPhase.BeforeDiceRollTurnPhase;
+import soc.common.game.gamePhase.turnPhase.BuildingTurnPhase;
+import soc.common.game.gamePhase.turnPhase.RollDiceTurnPhase;
+import soc.common.game.gamePhase.turnPhase.TradingTurnPhase;
+import soc.common.game.gamePhase.turnPhase.TurnPhase;
 import soc.gwtClient.images.defaultTheme.Icons;
 import soc.gwtClient.images.defaultTheme.Images;
 
@@ -201,6 +211,48 @@ public class Resources
         if (vp instanceof LongestRoad)
         {
             return icons.road();
+        }
+        return null;
+    }
+
+    public static ImageResource gamePhase(GamePhase phase)
+    {
+        if (phase instanceof InitialPlacementGamePhase)
+        {
+            return icons.initialPlacementGamePhase();
+        }
+        if (phase instanceof DetermineFirstPlayerGamePhase)
+        {
+            return icons.determineFirstPlayerGamePhase();
+        }
+        if (phase instanceof PlayTurnsGamePhase)
+        {
+            return icons.playTurnsGamePhase();
+        }
+        if (phase instanceof EndedGamePhase)
+        {
+            return icons.endedGamePhase();
+        }
+        return null;
+    }
+
+    public static ImageResource turnPhase(TurnPhase phase)
+    {
+        if (phase instanceof BeforeDiceRollTurnPhase)
+        {
+            return icons.beforeRollDiceTurnPhase();
+        }
+        if (phase instanceof RollDiceTurnPhase)
+        {
+            return icons.rollDiceTurnPhase();
+        }
+        if (phase instanceof TradingTurnPhase)
+        {
+            return icons.tradingTurnPhase();
+        }
+        if (phase instanceof BuildingTurnPhase)
+        {
+            return icons.buildingTurnPhase();
         }
         return null;
     }

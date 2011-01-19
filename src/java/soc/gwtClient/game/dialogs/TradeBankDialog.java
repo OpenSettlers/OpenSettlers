@@ -182,9 +182,12 @@ public class TradeBankDialog extends PopupPanel implements BankTradeUI,
         image.setSize("140", "140");
 
         Label lblTradeWithThe = new Label("Trade with the bank");
+        lblTradeWithThe.setStyleName("label-title");
         horizontalPanel_2.add(lblTradeWithThe);
+        lblTradeWithThe.setWidth("227px");
 
         panelPieceTrade = new HorizontalPanel();
+        panelPieceTrade.setSpacing(10);
         horizontalPanel_2.add(panelPieceTrade);
         panelPieceTrade.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 
@@ -202,13 +205,15 @@ public class TradeBankDialog extends PopupPanel implements BankTradeUI,
         needPanel = new VerticalPanel();
         horizontalPanel.add(needPanel);
 
-        Label lblWhatYouNeed = new Label("What you need");
+        Label lblWhatYouNeed = new Label("get");
+        lblWhatYouNeed.setStyleName("label-title");
         needPanel.add(lblWhatYouNeed);
 
         givePanel = new VerticalPanel();
         horizontalPanel.add(givePanel);
 
-        Label lblWhatYouWant = new Label("What you want");
+        Label lblWhatYouWant = new Label("give");
+        lblWhatYouWant.setStyleName("label-title");
         givePanel.add(lblWhatYouWant);
 
         HorizontalPanel horizontalPanel_4 = new HorizontalPanel();

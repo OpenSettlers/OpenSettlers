@@ -9,6 +9,7 @@ import soc.common.game.gamePhase.turnPhase.TurnPhaseChangedEvent;
 import soc.common.game.logs.ActionQueueChangedEvent;
 import soc.gwtClient.game.abstractWidgets.AbstractStatusPanel;
 import soc.gwtClient.game.abstractWidgets.GamePanel;
+import soc.gwtClient.images.Resources;
 
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -41,12 +42,14 @@ public class StatusBitmapPanel extends AbstractStatusPanel
     @Override
     public void onGamePhaseChanged(GamePhaseChangedEvent event)
     {
+        imgGamePhase.setUrl(Resources.gamePhase(event.getNewPhase()).getURL());
         lblGamePhase.setText("Game phase: " + event.getNewPhase().getName());
     }
 
     @Override
     public void onTurnPhaseChanged(TurnPhaseChangedEvent event)
     {
+        imgTurnPhase.setUrl(Resources.turnPhase(event.getNewPhase()).getURL());
         lblTurnPhase.setText(event.getNewPhase().getName());
     }
 

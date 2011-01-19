@@ -139,6 +139,19 @@ public class TradePlayersDialog extends PopupPanel implements TradePlayerUI,
         pnlTradeStatuses = new VerticalPanel();
         pnlPlayersResponse.add(pnlTradeStatuses);
 
+        DockPanel dockPanel_1 = new DockPanel();
+        pnlPlayersResponse.add(dockPanel_1);
+        dockPanel_1.setWidth("100%");
+
+        Label lblGet = new Label("get");
+        dockPanel_1.add(lblGet, DockPanel.WEST);
+        lblGet.setStyleName("label-title");
+
+        Label lblGive = new Label("give");
+        lblGive.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+        dockPanel_1.add(lblGive, DockPanel.EAST);
+        lblGive.setStyleName("label-title");
+
         HorizontalPanel horizontalPanel_3 = new HorizontalPanel();
         horizontalPanel_3.setSpacing(10);
         pnlPlayersResponse.add(horizontalPanel_3);
@@ -170,6 +183,7 @@ public class TradePlayersDialog extends PopupPanel implements TradePlayerUI,
         horizontalPanel_2.add(image);
 
         Label lblTradeWithOpponents = new Label("Trade with opponents");
+        lblTradeWithOpponents.setStyleName("label-title");
         horizontalPanel_2.add(lblTradeWithOpponents);
 
         HorizontalPanel horizontalPanel_1 = new HorizontalPanel();
@@ -181,17 +195,19 @@ public class TradePlayersDialog extends PopupPanel implements TradePlayerUI,
         pnlWantResources.setSpacing(10);
         horizontalPanel_1.add(pnlWantResources);
 
-        Label lblResourcesYouHave = new Label(
-                "Resources you have dire need for");
-        pnlWantResources.add(lblResourcesYouHave);
+        Label label_1 = new Label("get");
+        pnlWantResources.add(label_1);
+        label_1.setStyleName("label-title");
 
         pnlGiveResources = new VerticalPanel();
         pnlGiveResources.setHeight("145px");
         pnlGiveResources.setSpacing(10);
         horizontalPanel_1.add(pnlGiveResources);
 
-        Label lblResourcesYouCan = new Label("Resources you can get rid of");
-        pnlGiveResources.add(lblResourcesYouCan);
+        Label label = new Label("give");
+        label.setStyleName("label-title");
+        label.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+        pnlGiveResources.add(label);
 
         DockPanel dockPanel = new DockPanel();
         dockPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);

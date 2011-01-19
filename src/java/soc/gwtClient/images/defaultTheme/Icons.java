@@ -9,6 +9,30 @@ public interface Icons extends ClientBundle
     @Source("size48/VictoryPoints.png")
     public ImageResource claimVictory();
 
+    @Source("size32/EndedGamePhase.png")
+    public ImageResource endedGamePhase();
+
+    @Source("size32/PlayTurnsGamePhase.png")
+    public ImageResource playTurnsGamePhase();
+
+    @Source("size32/InitialPlacementGamePhase.png")
+    public ImageResource initialPlacementGamePhase();
+
+    @Source("size32/DetermineFirstPlayerGamePhase.png")
+    public ImageResource determineFirstPlayerGamePhase();
+
+    @Source("size32/BeforeRollDiceTurnPhase.png")
+    public ImageResource beforeRollDiceTurnPhase();
+
+    @Source("size32/RollDiceTurnPhase.png")
+    public ImageResource rollDiceTurnPhase();
+
+    @Source("size32/TradingTurnPhase.png")
+    public ImageResource tradingTurnPhase();
+
+    @Source("size32/BuildingTurnPhase.png")
+    public ImageResource buildingTurnPhase();
+
     @Source("size48/User.png")
     public ImageResource user();
 
