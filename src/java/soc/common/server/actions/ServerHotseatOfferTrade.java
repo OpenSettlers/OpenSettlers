@@ -68,7 +68,7 @@ public class ServerHotseatOfferTrade implements ServerAction
         if (canCounter)
         {
             CounterTradeOffer counter = new CounterTradeOffer();
-            counter.getOfferedResources().add(
+            counter.getOfferedResources().addList(
                     tradeOffer.getRequestedResources());
             counter.getRequestedResources().add(
                     opponent.getResources().getRandom(gameServer.getRandom()));

@@ -19,13 +19,16 @@ public abstract class AbstractTradeListWidget implements TradeListWidget
     {
         wantResourceList = new ResourceListBitmapWidget(wantResources, null,
                 null);
+        wantResourceList.setHeight("3em");
         giveResourceList = new ResourceListBitmapWidget(giveResources, null,
                 null);
+        giveResourceList.setHeight("3em");
         rootPanel.add(wantResourceList);
         rootPanel.add(new Label(" in exchange for "));
         rootPanel.add(giveResourceList);
 
         rootPanel.setWidth("200px");
+        rootPanel.setHeight("3em");
     }
 
     /**

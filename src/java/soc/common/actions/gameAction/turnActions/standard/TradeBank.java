@@ -143,9 +143,9 @@ public class TradeBank extends AbstractTurnAction
         player = game.getPlayerByID(sender);
 
         player.getResources().subtractResources(offeredResources);
-        player.getResources().add(wantedResources);
+        player.getResources().addList(wantedResources);
 
-        game.getBank().add(offeredResources);
+        game.getBank().addList(offeredResources);
         game.getBank().subtractResources(wantedResources);
 
         message = player.getUser().getName() + " exchanges "

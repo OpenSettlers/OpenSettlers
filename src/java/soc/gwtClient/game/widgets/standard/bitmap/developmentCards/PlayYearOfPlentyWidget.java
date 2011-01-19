@@ -52,6 +52,7 @@ public class PlayYearOfPlentyWidget implements DevelopmentCardWidget,
         rootPanel.add(resourcePickerWidget);
         rootPanel.add(resourceListWidget);
         rootPanel.add(btnPlay);
+        btnPlay.setEnabled(false);
 
         playDevelopmentCard.setDevelopmentcard(yearOfPlenty);
         playDevelopmentCard.setPlayer(gamePanel.getPlayingPlayer());

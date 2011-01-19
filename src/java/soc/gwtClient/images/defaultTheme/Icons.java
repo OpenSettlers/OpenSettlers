@@ -105,19 +105,19 @@ public interface Icons extends ClientBundle
     @Source("size16/Trade.png")
     public ImageResource trade();
 
-    @Source("size48/TradeDisabled.png")
+    @Source("size32/TradeDisabled.png")
     public ImageResource tradeDisabled();
 
-    @Source("size48/RejectOffer.png")
+    @Source("size32/RejectOffer.png")
     public ImageResource tradeRejected();
 
-    @Source("size48/CounterOffer.png")
+    @Source("size32/CounterOffer.png")
     public ImageResource tradeCountered();
 
-    @Source("size48/AcceptOffer.png")
+    @Source("size32/AcceptOffer.png")
     public ImageResource tradeAccepted();
 
-    @Source("size48/TradeWaiting.png")
+    @Source("size32/TradeWaiting.png")
     public ImageResource tradeWaiting();
 
     @Source("size32/BlankChit.png")

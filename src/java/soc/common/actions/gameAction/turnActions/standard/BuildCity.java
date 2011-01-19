@@ -119,7 +119,7 @@ public class BuildCity extends AbstractTurnAction
                     resourcesFromCity.add(((ResourceHex) hex).getResource());
                 }
             }
-            player.getResources().add(resourcesFromCity);
+            player.getResources().addList(resourcesFromCity);
         }
 
         // Add city to player

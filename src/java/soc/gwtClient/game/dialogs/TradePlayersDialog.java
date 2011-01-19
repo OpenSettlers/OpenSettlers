@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import soc.common.actions.gameAction.turnActions.standard.TradeOffer;
+import soc.common.actions.gameAction.turnActions.standard.TradePlayer;
 import soc.common.board.ports.PortList;
 import soc.common.board.resources.ResourceList;
 import soc.common.board.resources.ResourcesChangedEvent;
@@ -17,6 +18,7 @@ import soc.common.game.trading.TradeOfferedEvent;
 import soc.common.game.trading.TradeOfferedEventHandler;
 import soc.common.game.trading.TradeRespondedEvent;
 import soc.common.game.trading.TradeRespondedEventHandler;
+import soc.common.game.trading.TradeResponse;
 import soc.gwtClient.game.Point2D;
 import soc.gwtClient.game.abstractWidgets.GamePanel;
 import soc.gwtClient.game.abstractWidgets.TradePlayerUI;
@@ -87,7 +89,7 @@ public class TradePlayersDialog extends PopupPanel implements TradePlayerUI,
         for (GamePlayer opponent : gamePanel.getGame().getPlayers())
         {
             TradePlayerStatusWidget tradeStatus = new TradePlayerStatusBitmapWidget(
-                    gamePanel, opponent, player);
+                    gamePanel, opponent, player, this);
             playerStatuses.put(opponent, tradeStatus);
             pnlTradeStatuses.add(tradeStatus);
         }
@@ -116,15 +118,6 @@ public class TradePlayersDialog extends PopupPanel implements TradePlayerUI,
     {
         return new ResourcePickerBitmapWidget(resources, ports, bankResources,
                 gamePanel);
-    }
-
-    public void setPlayer(GamePlayer player)
-    {
-        this.player = player;
-
-        this.playerHand = player.getResources().copy();
-        giveResourcePickerWidget.setBankResources(playerHand);
-        giveResourcePickerWidget.setPorts(player.getPorts());
     }
 
     /**
@@ -256,8 +249,8 @@ public class TradePlayersDialog extends PopupPanel implements TradePlayerUI,
     {
         TradeOffer offer = new TradeOffer();
         offer.setPlayer(player);
-        offer.getOfferedResources().add(giveResources);
-        offer.getRequestedResources().add(wantResources);
+        offer.getOfferedResources().addList(giveResources);
+        offer.getRequestedResources().addList(wantResources);
         gamePanel.sendAction(offer);
     }
 
@@ -269,6 +262,7 @@ public class TradePlayersDialog extends PopupPanel implements TradePlayerUI,
 
         playerHand = player.getResources().copy();
         giveResourcePickerWidget.setBankResources(playerHand);
+        giveResourcesListWidget.setBankResources(playerHand);
     }
 
     @Override
@@ -365,5 +359,14 @@ public class TradePlayersDialog extends PopupPanel implements TradePlayerUI,
         {
             btnOfferTrade.setEnabled(false);
         }
+    }
+
+    @Override
+    public void trade(TradeResponse tradeResponse)
+    {
+        gamePanel.sendAction(new TradePlayer().setOriginatingOffer(
+                gamePanel.getGame().getCurrentTurn().getTradeOffers()
+                        .getLatestOffer()).setResponse(tradeResponse)
+                .setTradeOpponent(tradeResponse.getPlayer()).setPlayer(player));
     }
 }

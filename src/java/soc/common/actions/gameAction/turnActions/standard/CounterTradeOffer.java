@@ -121,4 +121,11 @@ public class CounterTradeOffer extends AbstractGameAction implements
     {
         return gamePhase instanceof PlayTurnsGamePhase;
     }
+
+    @Override
+    public void setTradeResources(TradePlayer tradePlayer)
+    {
+        tradePlayer.getRequestedResources().addList(requestedResources);
+        tradePlayer.getOfferedResources().addList(offeredResources);
+    }
 }

@@ -9,6 +9,7 @@ import soc.common.board.resources.ResourcesChangedEventHandler;
 import soc.common.game.developmentCards.DevelopmentCard;
 import soc.common.game.player.GamePlayer;
 import soc.common.internationalization.I18n;
+import soc.gwtClient.game.Point2D;
 import soc.gwtClient.game.abstractWidgets.BankTradeUI;
 import soc.gwtClient.game.abstractWidgets.GamePanel;
 import soc.gwtClient.game.behaviour.TradeFirst;
@@ -142,7 +143,7 @@ public class TradeBankDialog extends PopupPanel implements BankTradeUI,
             wantedResourcesPickerWidget.setEnabled(false);
 
             // Add needed resources
-            wantResources.add(playerHand.getNeededResources(pieceToTradeFor
+            wantResources.addList(playerHand.getNeededResources(pieceToTradeFor
                     .getCost()));
 
             // Update image
@@ -266,8 +267,9 @@ public class TradeBankDialog extends PopupPanel implements BankTradeUI,
     {
         this.player = player;
 
-        this.playerHand = player.getResources().copy();
+        playerHand = player.getResources().copy();
         giveResourcesPickerWidget.setBankResources(playerHand);
+        giveResourcesListWidget.setBankResources(playerHand);
         giveResourcesPickerWidget.setPorts(player.getPorts());
 
         return this;
@@ -301,7 +303,7 @@ public class TradeBankDialog extends PopupPanel implements BankTradeUI,
         wantedResourcesPickerWidget.setEnabled(false);
 
         // Add needed resources
-        wantResources.add(playerHand.getNeededResources(DevelopmentCard
+        wantResources.addList(playerHand.getNeededResources(DevelopmentCard
                 .getCost()));
 
         // Update image
@@ -312,4 +314,19 @@ public class TradeBankDialog extends PopupPanel implements BankTradeUI,
 
         show();
     }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.google.gwt.user.client.ui.PopupPanel#show()
+     */
+    @Override
+    public void show()
+    {
+        Point2D location = gamePanel.getPlayersWidget().getTopRightLocation();
+        setPopupPosition(location.getX(), location.getY());
+
+        super.show();
+    }
+
 }

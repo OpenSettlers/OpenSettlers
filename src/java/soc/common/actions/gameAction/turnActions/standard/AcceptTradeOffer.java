@@ -61,4 +61,13 @@ public class AcceptTradeOffer extends AbstractGameAction implements
     {
         return gamePhase instanceof PlayTurnsGamePhase;
     }
+
+    @Override
+    public void setTradeResources(TradePlayer tradePlayer)
+    {
+        tradePlayer.getOfferedResources().addList(
+                originatingOffer.getOfferedResources());
+        tradePlayer.getRequestedResources().addList(
+                originatingOffer.getRequestedResources());
+    }
 }

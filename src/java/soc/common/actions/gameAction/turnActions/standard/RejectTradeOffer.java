@@ -61,4 +61,10 @@ public class RejectTradeOffer extends AbstractGameAction implements
     {
         return gamePhase instanceof PlayTurnsGamePhase;
     }
+
+    @Override
+    public void setTradeResources(TradePlayer tradePlayer)
+    {
+        throw new AssertionError("Can't trade with a rejected offer");
+    }
 }

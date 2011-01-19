@@ -183,7 +183,7 @@ public class RollDice extends AbstractTurnAction
                         for (Producable producable : entry.getKey()
                                 .getProducables().producablesAtHex(hex))
                         {
-                            entry.getValue().add(
+                            entry.getValue().addList(
                                     producable.produce(hex, game.getRules()));
                         }
 

@@ -172,7 +172,7 @@ public abstract class AbstractResourceListWidget implements ResourceListWidget
             resources.remove(resourcesToRemove, false);
             if (bankResources != null)
             {
-                bankResources.add(resourcesToRemove);
+                bankResources.addList(resourcesToRemove);
             }
         }
         else

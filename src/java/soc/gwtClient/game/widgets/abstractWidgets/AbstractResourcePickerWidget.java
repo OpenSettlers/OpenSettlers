@@ -78,7 +78,7 @@ public abstract class AbstractResourcePickerWidget implements
             {
                 resourcesToAdd.add(resourceToAdd.copy());
             }
-            resources.add(resourcesToAdd);
+            resources.addList(resourcesToAdd);
 
             // Remove the resources from the bank
             if (bankResources != null)

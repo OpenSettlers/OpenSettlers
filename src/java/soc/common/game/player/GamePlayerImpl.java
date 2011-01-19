@@ -142,7 +142,7 @@ public class GamePlayerImpl implements GamePlayer
      */
     public void addResources(ResourceList resources)
     {
-        this.resources.add(resources);
+        this.resources.addList(resources);
     }
 
     /*

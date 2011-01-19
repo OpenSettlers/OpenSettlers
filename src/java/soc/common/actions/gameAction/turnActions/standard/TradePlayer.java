@@ -8,6 +8,7 @@ import soc.common.game.gamePhase.PlayTurnsGamePhase;
 import soc.common.game.gamePhase.turnPhase.TradingTurnPhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
 import soc.common.game.player.GamePlayer;
+import soc.common.game.trading.TradeResponse;
 import soc.common.internationalization.I18n;
 
 public class TradePlayer extends AbstractTurnAction
@@ -16,13 +17,18 @@ public class TradePlayer extends AbstractTurnAction
     private ResourceList offeredResources = new ResourceList();
     private ResourceList requestedResources = new ResourceList();
     private TradeOffer originatingOffer;
-    private AcceptTradeOffer acceptedOffer;
-    private CounterTradeOffer acceptedCounterOffer;
     private GamePlayer tradeOpponent;
+    private TradeResponse tradeResponse;
 
     public TradeOffer getOriginatingOffer()
     {
         return originatingOffer;
+    }
+
+    public TradePlayer setOriginatingOffer(TradeOffer originatingOffer)
+    {
+        this.originatingOffer = originatingOffer;
+        return this;
     }
 
     public ResourceList getOfferedResources()
@@ -35,20 +41,17 @@ public class TradePlayer extends AbstractTurnAction
         return requestedResources;
     }
 
-    /**
-     * @return the acceptedOffer
-     */
-    public AcceptTradeOffer getAcceptedOffer()
+    public TradePlayer setResponse(TradeResponse tradeResponse)
     {
-        return acceptedOffer;
+        this.tradeResponse = tradeResponse;
+        tradeResponse.setTradeResources(this);
+        return this;
     }
 
-    /**
-     * @return the acceptedCounterOffer
-     */
-    public CounterTradeOffer getAcceptedCounterOffer()
+    public TradePlayer setTradeOpponent(GamePlayer player)
     {
-        return acceptedCounterOffer;
+        tradeOpponent = player;
+        return this;
     }
 
     /*
@@ -66,15 +69,9 @@ public class TradePlayer extends AbstractTurnAction
             return false;
         }
 
-        if (acceptedOffer == null && acceptedCounterOffer == null)
+        if (tradeResponse == null)
         {
-            invalidMessage = "acceptedOffer or accptedCounterOffer cannot be both null";
-            return false;
-        }
-
-        if (acceptedOffer != null && acceptedCounterOffer != null)
-        {
-            invalidMessage = "acceptedOffer or accptedCounterOffer cannot be both containing a response";
+            invalidMessage = "tradeResponse cannot be null";
             return false;
         }
 
@@ -136,4 +133,5 @@ public class TradePlayer extends AbstractTurnAction
     {
         return gamePhase instanceof PlayTurnsGamePhase;
     }
+
 }

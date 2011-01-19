@@ -37,13 +37,13 @@ public class ResourceList implements Iterable<Resource>
     public void moveTo(ResourceList destination, ResourceList toMove)
     {
         remove(toMove, false);
-        destination.add(toMove);
+        destination.addList(toMove);
     }
 
     /*
      * Adds given ResourceList to this list of resources
      */
-    public void add(ResourceList resourcesToAdd)
+    public void addList(ResourceList resourcesToAdd)
     {
         if (resourcesToAdd == this)
         {
@@ -134,7 +134,7 @@ public class ResourceList implements Iterable<Resource>
     {
         ResourceList result = new ResourceList();
 
-        result.add(this);
+        result.addList(this);
 
         return result;
     }
@@ -193,7 +193,7 @@ public class ResourceList implements Iterable<Resource>
         }
 
         // add the resources to this list...
-        this.add(resourcesToSwap);
+        this.addList(resourcesToSwap);
 
         // ...and remove them at the "from source"
         from.remove(resourcesToSwap, true);
@@ -219,7 +219,7 @@ public class ResourceList implements Iterable<Resource>
         ResourceList result = new ResourceList();
         ResourceList copy = this.copy();
 
-        result.add(neededResources);
+        result.addList(neededResources);
         for (Resource resource : neededResources)
         {
             if (copy.contains(resource))
