@@ -83,4 +83,18 @@ public class TradeRouteImpl implements TradeRoute
         return 1;
     }
 
+    @Override
+    public Route setPlayer(GamePlayer player)
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public boolean validate()
+    {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
 }

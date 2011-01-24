@@ -1,6 +1,7 @@
 package soc.common.board.pieces;
 
 import soc.common.board.HexLocation;
+import soc.common.board.pieces.abstractPieces.AbstractPiece;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;

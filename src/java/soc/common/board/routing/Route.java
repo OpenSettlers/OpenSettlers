@@ -8,5 +8,9 @@ public interface Route extends GraphPath<GraphPoint, GraphSide>
 {
     public GamePlayer getPlayer();
 
+    public Route setPlayer(GamePlayer player);
+
     public int getLength();
+
+    public boolean validate();
 }

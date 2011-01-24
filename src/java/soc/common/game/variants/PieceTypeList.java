@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import soc.common.board.pieces.Piece;
+import soc.common.board.pieces.abstractPieces.Piece;
 
 public class PieceTypeList implements Iterable<Piece>
 {

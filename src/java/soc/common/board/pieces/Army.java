@@ -3,6 +3,7 @@ package soc.common.board.pieces;
 import java.util.ArrayList;
 import java.util.List;
 
+import soc.common.board.pieces.abstractPieces.AbstractPlayerPiece;
 import soc.common.game.VictoryPointItem;
 import soc.common.game.developmentCards.standard.Soldier;
 import soc.common.game.player.GamePlayer;
@@ -62,6 +63,12 @@ public class Army extends AbstractPlayerPiece implements VictoryPointItem
     {
         player.getVictoryPoints().remove(this);
         setLargest(false);
+    }
+
+    @Override
+    public boolean affectsRoad()
+    {
+        return false;
     }
 
 }

@@ -1,4 +1,6 @@
-package soc.common.board.pieces;
+package soc.common.board.pieces.pieceLists;
+
+import soc.common.board.pieces.abstractPieces.PlayerPiece;
 
 import com.google.gwt.event.shared.GwtEvent;
 

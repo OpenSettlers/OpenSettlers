@@ -3,9 +3,12 @@ package soc.common.board.pieces;
 import soc.common.annotations.SeaFarers;
 import soc.common.board.Board;
 import soc.common.board.HexSide;
+import soc.common.board.pieces.abstractPieces.AbstractPlayerPiece;
+import soc.common.board.pieces.abstractPieces.SidePiece;
 import soc.common.board.resources.ResourceList;
 import soc.common.board.resources.Sheep;
 import soc.common.board.resources.Timber;
+import soc.common.board.routing.GraphPoint;
 import soc.common.game.player.GamePlayer;
 
 @SeaFarers
@@ -104,6 +107,47 @@ public class Ship extends AbstractPlayerPiece implements SidePiece
     {
         this.sideLocation = side;
         return this;
+    }
+
+    @Override
+    public boolean affectsRoad()
+    {
+        return true;
+    }
+
+    @Override
+    public void addToBoard(Board board)
+    {
+    }
+
+    @Override
+    public void removeFromBoard(Board board)
+    {
+    }
+
+    @Override
+    public boolean canConnect(GraphPoint graphPoint, SidePiece otherPiece)
+    {
+        return (player.equals(graphPoint.getPlayer()) || graphPoint.getPlayer() == null)
+                && otherPiece.connectsWithShip();
+    }
+
+    @Override
+    public boolean connectsWithBridge()
+    {
+        return false;
+    }
+
+    @Override
+    public boolean connectsWithRoad()
+    {
+        return false;
+    }
+
+    @Override
+    public boolean connectsWithShip()
+    {
+        return true;
     }
 
 }

@@ -2,7 +2,10 @@ package soc.common.board.pieces;
 
 import soc.common.annotations.CitiesKnights;
 import soc.common.annotations.Pioneers;
+import soc.common.board.Board;
 import soc.common.board.HexPoint;
+import soc.common.board.pieces.abstractPieces.AbstractPlayerPiece;
+import soc.common.board.pieces.abstractPieces.PointPiece;
 import soc.common.game.player.GamePlayer;
 
 @CitiesKnights
@@ -43,4 +46,19 @@ public class Wall extends AbstractPlayerPiece implements PointPiece
 
     }
 
+    @Override
+    public boolean affectsRoad()
+    {
+        return false;
+    }
+
+    @Override
+    public void addToBoard(Board board)
+    {
+    }
+
+    @Override
+    public void removeFromBoard(Board board)
+    {
+    }
 }

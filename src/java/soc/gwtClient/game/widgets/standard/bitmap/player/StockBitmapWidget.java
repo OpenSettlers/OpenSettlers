@@ -3,9 +3,9 @@ package soc.gwtClient.game.widgets.standard.bitmap.player;
 import com.google.gwt.user.client.ui.Widget;
 
 import soc.common.board.pieces.City;
-import soc.common.board.pieces.PlayerPiece;
 import soc.common.board.pieces.Road;
 import soc.common.board.pieces.Town;
+import soc.common.board.pieces.abstractPieces.PlayerPiece;
 import soc.common.game.Game;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.AbstractStockWidget;

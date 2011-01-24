@@ -274,7 +274,7 @@ public class Board
                 // when width or height is bigger then original, add hexes
                 if (w >= hexes.getWidth() || h >= hexes.getHeight())
                 {
-                    AbstractHex newHex = null;
+                    Hex newHex = null;
 
                     // if outer bounds, put a SeaHex in place, otherwise a
                     // defaulthex
@@ -434,18 +434,19 @@ public class Board
                 || hexes.get(side.getHex2()).isBuildableLand();
     }
 
+    /*
+     * Returns true when given point can be used to build a town, city, knight,
+     * wall on
+     */
     public boolean includeInGame(HexPoint point)
     {
         // We dont't want to add null
         if (point == null)
-        {
             return false;
-        }
+
         // HexPoint should connect to three valid hexes
         if (!point.fallsWithinBoardBounds(hexes.getWidth(), hexes.getHeight()))
-        {
             return false;
-        }
 
         // Hex should be able to build either sea or land on
         for (HexLocation neighbour : point.getHexLocations())
@@ -456,9 +457,13 @@ public class Board
                 return false;
             }
         }
+
         return true;
     }
 
+    /*
+     * Returns true when given point can be used to build a town on
+     */
     public boolean isTownBuildable(GraphPoint possibleCandidate)
     {
         for (HexLocation location : possibleCandidate.getPoint()

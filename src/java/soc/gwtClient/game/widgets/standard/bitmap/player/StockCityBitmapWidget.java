@@ -1,9 +1,9 @@
 package soc.gwtClient.game.widgets.standard.bitmap.player;
 
 import soc.common.board.pieces.City;
-import soc.common.board.pieces.PlayerPiece;
-import soc.common.board.pieces.PlistChangedEvent;
-import soc.common.board.pieces.PlistChangedEventHandler;
+import soc.common.board.pieces.abstractPieces.PlayerPiece;
+import soc.common.board.pieces.pieceLists.PlayerPieceListChangedEvent;
+import soc.common.board.pieces.pieceLists.PlayerPieceListChangedEventHandler;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.AbstractStockItemWidget;
 import soc.gwtClient.images.Resources;
@@ -12,7 +12,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 
 public class StockCityBitmapWidget extends AbstractStockItemWidget implements
-        PlistChangedEventHandler<City>
+        PlayerPieceListChangedEventHandler<City>
 {
     Image cityImage = new Image(Resources.icons().citySmall());
     Label amountCities = new Label();
@@ -44,7 +44,7 @@ public class StockCityBitmapWidget extends AbstractStockItemWidget implements
     }
 
     @Override
-    public void onPlistChanged(PlistChangedEvent<City> event)
+    public void onPlayerPieceListChanged(PlayerPieceListChangedEvent<City> event)
     {
         updateUI();
     }

@@ -1,10 +1,11 @@
-package soc.common.board.pieces;
+package soc.common.board.pieces.pieceLists;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import soc.common.board.hexes.Hex;
+import soc.common.board.pieces.abstractPieces.Producable;
 
 public class ProducableList implements Iterable<Producable>
 {

@@ -1,7 +1,7 @@
 package soc.gwtClient.game.widgets.standard.bitmap.playerDetail;
 
-import soc.common.board.pieces.PiecesChangedEvent;
-import soc.common.board.pieces.PiecesChangedEventHandler;
+import soc.common.board.pieces.pieceLists.PiecesChangedEvent;
+import soc.common.board.pieces.pieceLists.PiecesChangedEventHandler;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.AbstractPlayerDetailWidget;
 

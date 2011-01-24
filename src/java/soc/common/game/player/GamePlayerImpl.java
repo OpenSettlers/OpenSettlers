@@ -1,14 +1,14 @@
 package soc.common.game.player;
 
 import soc.common.board.pieces.Army;
-import soc.common.board.pieces.CityList;
-import soc.common.board.pieces.PointPieceList;
-import soc.common.board.pieces.ProducableList;
-import soc.common.board.pieces.RoadList;
-import soc.common.board.pieces.ShipList;
-import soc.common.board.pieces.SidePieceList;
-import soc.common.board.pieces.Stock;
-import soc.common.board.pieces.TownList;
+import soc.common.board.pieces.pieceLists.CityList;
+import soc.common.board.pieces.pieceLists.PointPieceList;
+import soc.common.board.pieces.pieceLists.ProducableList;
+import soc.common.board.pieces.pieceLists.RoadList;
+import soc.common.board.pieces.pieceLists.ShipList;
+import soc.common.board.pieces.pieceLists.SidePieceList;
+import soc.common.board.pieces.pieceLists.Stock;
+import soc.common.board.pieces.pieceLists.TownList;
 import soc.common.board.ports.PortList;
 import soc.common.board.resources.ResourceList;
 import soc.common.game.RoadTokensChangedEvent;
@@ -45,6 +45,7 @@ public class GamePlayerImpl implements GamePlayer
     private TownList towns = new TownList();
     private CityList cities = new CityList();
     private RoadList roads = new RoadList();
+    private ShipList ships = new ShipList();
     private ProducableList producables = new ProducableList();
     private PointPieceList pointPieces = new PointPieceList();
     private SidePieceList sidePieces = new SidePieceList();
@@ -445,8 +446,7 @@ public class GamePlayerImpl implements GamePlayer
     @Override
     public ShipList getShips()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return ships;
     }
 
     @Override

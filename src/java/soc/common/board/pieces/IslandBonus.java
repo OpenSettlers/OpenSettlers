@@ -2,6 +2,7 @@ package soc.common.board.pieces;
 
 import soc.common.annotations.SeaFarers;
 import soc.common.board.HexPoint;
+import soc.common.board.pieces.abstractPieces.AbstractPlayerPiece;
 import soc.common.board.territories.Territory;
 import soc.common.game.VictoryPointItem;
 import soc.common.game.player.GamePlayer;
@@ -63,6 +64,12 @@ public class IslandBonus extends AbstractPlayerPiece implements
     public void removeFromPlayer(GamePlayer player)
     {
         player.getVictoryPoints().remove(this);
+    }
+
+    @Override
+    public boolean affectsRoad()
+    {
+        return false;
     }
 
 }

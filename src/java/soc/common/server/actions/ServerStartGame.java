@@ -62,6 +62,22 @@ public class ServerStartGame implements ServerAction
                         new UnregisteredUser().setId(5).setName("Henk"))
                         .setColor("blue"));
 
+        // for (GamePlayer player : gameServer.getGame().getPlayers())
+        // {
+        // player.getResources().add(new Timber());
+        // player.getResources().add(new Timber());
+        // player.getResources().add(new Timber());
+        // player.getResources().add(new Timber());
+        // player.getResources().add(new Timber());
+        // player.getResources().add(new Timber());
+        // player.getResources().add(new Clay());
+        // player.getResources().add(new Clay());
+        // player.getResources().add(new Clay());
+        // player.getResources().add(new Clay());
+        // player.getResources().add(new Clay());
+        // player.getResources().add(new Clay());
+        // }
+
         gameServer.getGame().setBoard(new Board());
 
         gameServer.getGame().start();

@@ -1,7 +1,8 @@
 package soc.common.board.routing;
 
 import soc.common.board.HexPoint;
-import soc.common.board.pieces.PlayerPiece;
+import soc.common.board.pieces.abstractPieces.PlayerPiece;
+import soc.common.board.pieces.abstractPieces.PointPiece;
 import soc.common.game.player.GamePlayer;
 
 public class GraphPointImpl implements GraphPoint
@@ -96,5 +97,11 @@ public class GraphPointImpl implements GraphPoint
         {
             return false;
         }
+    }
+
+    @Override
+    public PointPiece getPointPiece()
+    {
+        return (PointPiece) playerPiece;
     }
 }

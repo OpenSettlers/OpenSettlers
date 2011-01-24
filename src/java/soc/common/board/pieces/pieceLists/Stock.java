@@ -1,5 +1,8 @@
-package soc.common.board.pieces;
+package soc.common.board.pieces.pieceLists;
 
+/*
+ * Represents a stock of a player.
+ */
 public class Stock
 {
     private TownList towns = new TownList();

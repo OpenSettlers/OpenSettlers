@@ -14,11 +14,14 @@ import soc.common.board.layoutStrategies.LayoutStrategy;
 import soc.common.board.pieces.Army;
 import soc.common.board.pieces.LongestRoad;
 import soc.common.board.pieces.Pirate;
-import soc.common.board.pieces.PointPiece;
-import soc.common.board.pieces.PointPieceList;
 import soc.common.board.pieces.Robber;
-import soc.common.board.pieces.SidePieceList;
+import soc.common.board.pieces.abstractPieces.BoardPiece;
+import soc.common.board.pieces.abstractPieces.PlayerPiece;
+import soc.common.board.pieces.abstractPieces.PointPiece;
+import soc.common.board.pieces.pieceLists.PointPieceList;
+import soc.common.board.pieces.pieceLists.SidePieceList;
 import soc.common.board.resources.ResourceList;
+import soc.common.board.routing.Route;
 import soc.common.game.developmentCards.DevelopmentCardList;
 import soc.common.game.dices.Dice;
 import soc.common.game.gamePhase.GamePhase;
@@ -70,7 +73,7 @@ public class Game
     private Pirate pirate = null;
     private Robber robber = null;
     private Army largestArmy;
-    private LongestRoad longestRoute;
+    private LongestRoad longestRoad = new LongestRoad();
     private Dice currentDice;
     private GamePlayer gameStarter;
 
@@ -92,18 +95,25 @@ public class Game
         PointPieceList result = new PointPieceList();
 
         for (GamePlayer player : players)
-        {
             result.addList(player.getPointPieces());
-        }
 
         return result;
     }
 
+    /*
+     * Advances the TurnPhase in the PlayTurnsPhase to the next
+     */
     public boolean advanceTurnPhase()
     {
+        // Grab the current PlayTurnsPhase
         PlayTurnsGamePhase playTurns = (PlayTurnsGamePhase) currentPhase;
+
+        // Grab new TurnPhase and keep reference to the old TurnPhase
         TurnPhase oldPhase = playTurns.getTurnPhase();
         TurnPhase newPhase = playTurns.getTurnPhase().next();
+
+        // If there's a new TurnPhase, update local reference and notify
+        // observers
         if (!oldPhase.equals(newPhase))
         {
             playTurns.setTurnPhase(newPhase);
@@ -116,13 +126,19 @@ public class Game
         }
     }
 
+    /*
+     * Advances the turn to the next turn
+     */
     public void advanceTurn()
     {
+        // Create a new turn
         Turn newTurn = currentPhase.nextTurn(this);
 
+        // Update convenience method at the player
         currentTurn.getPlayer().setOnTurn(false);
         newTurn.getPlayer().setOnTurn(true);
 
+        // keep reference to old turn and switch to the new turn
         Turn oldTurn = currentTurn;
         this.currentTurn = newTurn;
 
@@ -132,14 +148,35 @@ public class Game
 
     public void addTradeResponse(TradeResponse response)
     {
+        // Add the response to the current TradeOffer
         currentTurn.getTradeOffers().getLatestOffer().getResponses()
                 .addResponse(response);
+
+        // Update whether or not we have all responses we expect to get
         if (currentTurn.getTradeOffers().getLatestOffer().getResponses().size() == players
                 .size() - 1)
             currentTurn.getTradeOffers().getLatestOffer()
                     .setResponsesCompleted(true);
     }
 
+    /*
+     * Adds given PlayerPiece to given player, and updates longest road if
+     * necessary
+     */
+    public void addPiece(PlayerPiece piece, GamePlayer player)
+    {
+        piece.addToPlayer(player);
+
+        if (piece instanceof BoardPiece)
+            ((BoardPiece) piece).addToBoard(board);
+
+        if (piece.affectsRoad())
+            calculateLongestRoad();
+    }
+
+    /*
+     * Initializes this game instance
+     */
     public void start()
     {
         gameRules.setRules(this);
@@ -197,12 +234,20 @@ public class Game
         return true;
     }
 
+    /*
+     * Returns true when this Game instance and given GameAction are in a valid
+     * state to perform given GameAction
+     */
     public boolean isValid(GameAction action)
     {
+        // Bugger out when action itself isn't valid
         if (!action.isValid(this))
         {
             return false;
         }
+
+        // When mustExpected flag is set, we expect the given GameAction to be
+        // expected on the GameQueue
         if (action.mustExpected())
         {
             if (actionsQueue.size() > 0)
@@ -216,6 +261,7 @@ public class Game
             }
             else
             {
+                // Nothing present on the GameQueue. Bugger out.
                 return false;
             }
         }
@@ -223,13 +269,57 @@ public class Game
         return true;
     }
 
+    /*
+     * Calculates longest road and updates LongestRoad if necessary
+     */
+    public void calculateLongestRoad()
+    {
+        boolean oldInvalid = false;
+
+        if (longestRoad.getRoute() != null
+                && !longestRoad.getRoute().validate())
+            oldInvalid = true;
+
+        // Call actual longest road calculation
+        Route possibleNewLongest = board.getGraph().getLongestRoute(this,
+                longestRoad.getRoute());
+
+        if (possibleNewLongest != null)
+        {
+            // Set a new route to the LongestRoad when possible new longest road
+            // is
+            // longer, has a different owner or the current longest road's owner
+            // is
+            // null
+            if (longestRoad.getRoute() == null
+                    || possibleNewLongest.getLength() != longestRoad.getRoute()
+                            .getLength()
+                    || possibleNewLongest.getPlayer().equals(
+                            longestRoad.getPlayer()))
+            {
+                // Remove it from the old player if old player exists
+                if (longestRoad.getPlayer() != null)
+                    longestRoad.removeFromPlayer(longestRoad.getPlayer());
+
+                // Add it to new player if new player exists
+                if (possibleNewLongest.getPlayer() != null)
+                    longestRoad.addToPlayer(possibleNewLongest.getPlayer());
+
+                // Update the longest road instance
+                longestRoad.setRoute(possibleNewLongest);
+            }
+        }
+    }
+
+    /*
+     * Returns a GamePlayer by given UserID. If no GamePlayer is found, returns
+     * null
+     */
     public GamePlayer getPlayerByID(int id)
     {
         for (GamePlayer p : players)
-        {
             if (p.getUser().getId() == id)
                 return p;
-        }
 
         return null;
     }
@@ -259,8 +349,12 @@ public class Game
         return playersAtHex;
     }
 
+    /*
+     * Advances GamePhase to the next phase
+     */
     public void advanceGamePhase()
     {
+        // Grab the new phase
         GamePhase newGamePhase = currentPhase.next(this);
         GamePhaseChangedEvent event = new GamePhaseChangedEvent(currentPhase,
                 newGamePhase);
@@ -281,13 +375,19 @@ public class Game
         eventBus.fireEvent(event);
     }
 
+    /*
+     * Performs given GameAction
+     */
     public void performAction(GameAction action)
     {
+        // When given GameAction is expected, grab it from the queue and dequeue
+        // it
         GameAction expectedAction = actionsQueue.findExpected(action, this);
 
         if (expectedAction != null)
             actionsQueue.dequeue();
 
+        // Hand control of the actual performing to the GamePhase
         currentPhase.performAction(action, this);
     }
 
@@ -488,12 +588,12 @@ public class Game
 
     public LongestRoad getLongestRoute()
     {
-        return longestRoute;
+        return longestRoad;
     }
 
     public Game setLongestRoute(LongestRoad longestRoute)
     {
-        this.longestRoute = longestRoute;
+        this.longestRoad = longestRoute;
 
         return this;
     }

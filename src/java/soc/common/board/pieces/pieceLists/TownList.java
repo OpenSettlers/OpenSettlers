@@ -1,15 +1,16 @@
-package soc.common.board.pieces;
+package soc.common.board.pieces.pieceLists;
 
 import soc.common.board.HexPoint;
+import soc.common.board.pieces.Town;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 
-public class TownList extends Plist<Town>
+public class TownList extends PlayerPieceList<Town>
 {
     public HandlerRegistration addTownsChangedEventHandler(
-            PlistChangedEventHandler<Town> handler)
+            PlayerPieceListChangedEventHandler<Town> handler)
     {
-        return eventBus.addHandler(PlistChangedEvent.getType(Town.class),
+        return eventBus.addHandler(PlayerPieceListChangedEvent.getType(Town.class),
                 handler);
     }
 

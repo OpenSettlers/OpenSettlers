@@ -1,9 +1,9 @@
 package soc.gwtClient.game.widgets.standard.bitmap.actions;
 
 import soc.common.actions.gameAction.turnActions.standard.BuildRoad;
-import soc.common.board.pieces.PlistChangedEvent;
-import soc.common.board.pieces.PlistChangedEventHandler;
 import soc.common.board.pieces.Road;
+import soc.common.board.pieces.pieceLists.PlayerPieceListChangedEvent;
+import soc.common.board.pieces.pieceLists.PlayerPieceListChangedEventHandler;
 import soc.common.board.resources.ResourcesChangedEvent;
 import soc.common.board.resources.ResourcesChangedEventHandler;
 import soc.common.game.Game;
@@ -26,7 +26,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class BuildRoadBitmapWidget extends AbstractActionWidget implements
         ResourcesChangedEventHandler, GamePhaseChangedEventHandler,
-        RoadTokensChangedEventHandler, PlistChangedEventHandler<Road>
+        RoadTokensChangedEventHandler, PlayerPieceListChangedEventHandler<Road>
 {
     AbsolutePanel absolutePanel = new AbsolutePanel();
     VerticalPanel tradesPanel = new VerticalPanel();
@@ -115,7 +115,7 @@ public class BuildRoadBitmapWidget extends AbstractActionWidget implements
     }
 
     @Override
-    public void onPlistChanged(PlistChangedEvent<Road> event)
+    public void onPlayerPieceListChanged(PlayerPieceListChangedEvent<Road> event)
     {
         checkEnabled();
     }

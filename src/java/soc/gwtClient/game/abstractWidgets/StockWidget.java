@@ -3,7 +3,7 @@ package soc.gwtClient.game.abstractWidgets;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.IsWidget;
 
-import soc.common.board.pieces.PlayerPiece;
+import soc.common.board.pieces.abstractPieces.PlayerPiece;
 
 public interface StockWidget extends IsWidget
 {

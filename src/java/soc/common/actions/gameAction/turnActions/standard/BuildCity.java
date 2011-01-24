@@ -123,7 +123,7 @@ public class BuildCity extends AbstractTurnAction
         }
 
         // Add city to player
-        city.addToPlayer(player);
+        game.addPiece(city, player);
 
         // TODO: fix message
         // message = String.Format("{0} build a city at {1}",

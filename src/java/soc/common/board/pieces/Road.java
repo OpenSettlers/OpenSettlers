@@ -2,9 +2,12 @@ package soc.common.board.pieces;
 
 import soc.common.board.Board;
 import soc.common.board.HexSide;
+import soc.common.board.pieces.abstractPieces.AbstractPlayerPiece;
+import soc.common.board.pieces.abstractPieces.SidePiece;
 import soc.common.board.resources.Clay;
 import soc.common.board.resources.ResourceList;
 import soc.common.board.resources.Timber;
+import soc.common.board.routing.GraphPoint;
 import soc.common.game.player.GamePlayer;
 
 public class Road extends AbstractPlayerPiece implements SidePiece
@@ -87,5 +90,47 @@ public class Road extends AbstractPlayerPiece implements SidePiece
     @Override
     public void removeFromPlayer(GamePlayer player)
     {
+    }
+
+    @Override
+    public boolean affectsRoad()
+    {
+        return true;
+    }
+
+    @Override
+    public void addToBoard(Board board)
+    {
+        board.getGraph().addRoad(this);
+    }
+
+    @Override
+    public void removeFromBoard(Board board)
+    {
+    }
+
+    @Override
+    public boolean canConnect(GraphPoint graphPoint, SidePiece otherPiece)
+    {
+        return (player.equals(graphPoint.getPlayer()) || graphPoint.getPlayer() == null)
+                && otherPiece.connectsWithRoad();
+    }
+
+    @Override
+    public boolean connectsWithBridge()
+    {
+        return true;
+    }
+
+    @Override
+    public boolean connectsWithRoad()
+    {
+        return true;
+    }
+
+    @Override
+    public boolean connectsWithShip()
+    {
+        return false;
     }
 }

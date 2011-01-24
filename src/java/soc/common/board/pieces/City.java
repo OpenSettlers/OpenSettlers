@@ -3,6 +3,9 @@ package soc.common.board.pieces;
 import soc.common.board.Board;
 import soc.common.board.HexPoint;
 import soc.common.board.hexes.ResourceHex;
+import soc.common.board.pieces.abstractPieces.AbstractPlayerPiece;
+import soc.common.board.pieces.abstractPieces.PointPiece;
+import soc.common.board.pieces.abstractPieces.Producable;
 import soc.common.board.resources.Ore;
 import soc.common.board.resources.ResourceList;
 import soc.common.board.resources.Wheat;
@@ -114,5 +117,22 @@ public class City extends AbstractPlayerPiece implements VictoryPointItem,
         production.add(resourceHex.getResource().copy());
 
         return production;
+    }
+
+    @Override
+    public boolean affectsRoad()
+    {
+        return false;
+    }
+
+    @Override
+    public void addToBoard(Board board)
+    {
+        board.getGraph().addCity(this);
+    }
+
+    @Override
+    public void removeFromBoard(Board board)
+    {
     }
 }

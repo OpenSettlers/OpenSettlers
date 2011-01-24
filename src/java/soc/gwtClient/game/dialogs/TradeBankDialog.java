@@ -1,7 +1,7 @@
 package soc.gwtClient.game.dialogs;
 
 import soc.common.actions.gameAction.turnActions.standard.TradeBank;
-import soc.common.board.pieces.PlayerPiece;
+import soc.common.board.pieces.abstractPieces.PlayerPiece;
 import soc.common.board.ports.PortList;
 import soc.common.board.resources.ResourceList;
 import soc.common.board.resources.ResourcesChangedEvent;

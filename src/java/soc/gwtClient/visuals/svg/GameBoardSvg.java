@@ -3,12 +3,14 @@ package soc.gwtClient.visuals.svg;
 import java.util.HashMap;
 
 import soc.common.board.hexes.Hex;
-import soc.common.board.pieces.PlayerPiece;
-import soc.common.board.pieces.PlistChangedEvent;
-import soc.common.board.pieces.PlistChangedEventHandler;
+import soc.common.board.pieces.abstractPieces.PlayerPiece;
+import soc.common.board.pieces.pieceLists.PlayerPieceListChangedEvent;
+import soc.common.board.pieces.pieceLists.PlayerPieceListChangedEventHandler;
 import soc.common.board.routing.GraphPoint;
 import soc.common.board.routing.GraphSide;
 import soc.common.game.Game;
+import soc.common.game.LongestRoadChangedEvent;
+import soc.common.game.LongestRoadChangedEventHandler;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.visuals.abstractVisuals.AbstractGameBoardVisual;
 import soc.gwtClient.visuals.abstractVisuals.HexVisual;
@@ -21,7 +23,7 @@ import soc.gwtClient.visuals.behaviour.ProxyBehaviour;
 import com.google.gwt.user.client.ui.Widget;
 
 public class GameBoardSvg extends AbstractGameBoardVisual implements
-        PlistChangedEventHandler
+        PlayerPieceListChangedEventHandler, LongestRoadChangedEventHandler
 {
     BoardSvg boardSvg;
 
@@ -76,24 +78,9 @@ public class GameBoardSvg extends AbstractGameBoardVisual implements
             player.getTowns().addTownsChangedEventHandler(this);
             player.getRoads().addRoadsChangedEventHandler(this);
             player.getCities().addCitiesChangedEventHandler(this);
-            /*
-             * player.getTowns().addTownsChangedEventHandler( new
-             * PlistChangedEventHandler<Town>() {
-             * 
-             * @Override public void onPlistChanged(PlistChangedEvent<Town>
-             * event) { updatePieces(event); } });
-             * player.getRoads().addRoadsChangedEventHandler( new
-             * PlistChangedEventHandler<Road>() {
-             * 
-             * @Override public void onPlistChanged(PlistChangedEvent<Road>
-             * event) { updatePieces(event); } });
-             * player.getCities().addCitiesChangedEventHandler( new
-             * PlistChangedEventHandler<City>() {
-             * 
-             * @Override public void onPlistChanged(PlistChangedEvent<City>
-             * event) { updatePieces(event); } });
-             */
         }
+
+        game.getLongestRoute().addLongestRoadChangedEventHandler(this);
     }
 
     /*
@@ -142,15 +129,19 @@ public class GameBoardSvg extends AbstractGameBoardVisual implements
     }
 
     @Override
-    public void onPlistChanged(PlistChangedEvent event)
+    public void onPlayerPieceListChanged(PlayerPieceListChangedEvent event)
     {
         if (event.getAddedPiece() != null)
-        {
             addPiece((PlayerPiece) event.getAddedPiece());
-        }
+
         if (event.getRemovedPiece() != null)
-        {
             removePiece((PlayerPiece) event.getRemovedPiece());
-        }
+    }
+
+    @Override
+    public void onLongestRoadChanged(LongestRoadChangedEvent event)
+    {
+        if (event.getNewRoute() != null)
+            showLongestRoad(event.getNewRoute());
     }
 }

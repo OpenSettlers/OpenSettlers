@@ -3,6 +3,9 @@ package soc.common.board.ports;
 import soc.common.board.HexLocation;
 import soc.common.board.RotationPosition;
 
+/*
+ * Represents a port which can be placed on the board.
+ */
 public class PossiblePort extends AbstractPort
 {
     private static final long serialVersionUID = 5430147957433152867L;

@@ -111,8 +111,7 @@ public class BuildTown extends AbstractTurnAction
         // update town management
         Town town = (Town) player.getStock().getTowns().get(0);
         town.setPoint(pointLocation);
-        town.addToPlayer(player);
-        game.getBoard().getGraph().addTown(town);
+        game.addPiece(town, player);
 
         if (game.getCurrentPhase() instanceof PlayTurnsGamePhase)
         {

@@ -2,9 +2,9 @@ package soc.gwtClient.game.widgets.standard.bitmap.actions;
 
 import soc.common.actions.gameAction.turnActions.standard.BuildCity;
 import soc.common.board.pieces.City;
-import soc.common.board.pieces.PlistChangedEvent;
-import soc.common.board.pieces.PlistChangedEventHandler;
 import soc.common.board.pieces.Town;
+import soc.common.board.pieces.pieceLists.PlayerPieceListChangedEvent;
+import soc.common.board.pieces.pieceLists.PlayerPieceListChangedEventHandler;
 import soc.common.board.resources.ResourcesChangedEvent;
 import soc.common.board.resources.ResourcesChangedEventHandler;
 import soc.common.game.Game;
@@ -27,7 +27,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class BuildCityBitmapWidget extends AbstractActionWidget implements
         ResourcesChangedEventHandler, GamePhaseChangedEventHandler,
-        TurnPhaseChangedHandler, PlistChangedEventHandler<City>
+        TurnPhaseChangedHandler, PlayerPieceListChangedEventHandler<City>
 {
     private AbsolutePanel absolutePanel = new AbsolutePanel();
     private VerticalPanel tradesPanel1 = new VerticalPanel();
@@ -55,10 +55,10 @@ public class BuildCityBitmapWidget extends AbstractActionWidget implements
         gamePanel.getGame().addGamePhaseChangedEventHandler(this);
         gamePanel.getGame().addTurnPhaseChangedHandler(this);
         player.getTowns().addTownsChangedEventHandler(
-                new PlistChangedEventHandler<Town>()
+                new PlayerPieceListChangedEventHandler<Town>()
                 {
                     @Override
-                    public void onPlistChanged(PlistChangedEvent<Town> event)
+                    public void onPlayerPieceListChanged(PlayerPieceListChangedEvent<Town> event)
                     {
                         checkEnabled();
                     }
@@ -115,7 +115,7 @@ public class BuildCityBitmapWidget extends AbstractActionWidget implements
     }
 
     @Override
-    public void onPlistChanged(PlistChangedEvent<City> event)
+    public void onPlayerPieceListChanged(PlayerPieceListChangedEvent<City> event)
     {
         checkEnabled();
     }

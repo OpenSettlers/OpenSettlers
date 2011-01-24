@@ -1,6 +1,6 @@
 package soc.common.game;
 
-import soc.common.board.pieces.PlayerPiece;
+import soc.common.board.pieces.abstractPieces.PlayerPiece;
 
 public class StockItem
 {

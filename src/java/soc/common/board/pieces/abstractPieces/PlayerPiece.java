@@ -1,4 +1,4 @@
-package soc.common.board.pieces;
+package soc.common.board.pieces.abstractPieces;
 
 import soc.common.board.resources.ResourceList;
 import soc.common.game.player.GamePlayer;
@@ -20,4 +20,6 @@ public interface PlayerPiece
     public void addToPlayer(GamePlayer player);
 
     public void removeFromPlayer(GamePlayer player);
+
+    public boolean affectsRoad();
 }

@@ -49,7 +49,7 @@ public class HexSide
         calculatePoints();
     }
 
-    HexSide(HexPoint point1, HexPoint point2)
+    public HexSide(HexPoint point1, HexPoint point2)
     {
         this.hexPoint1 = point1;
         this.hexPoint2 = point2;

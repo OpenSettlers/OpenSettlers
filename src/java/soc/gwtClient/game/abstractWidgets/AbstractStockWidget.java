@@ -1,6 +1,6 @@
 package soc.gwtClient.game.abstractWidgets;
 
-import soc.common.board.pieces.PlayerPiece;
+import soc.common.board.pieces.abstractPieces.PlayerPiece;
 import soc.common.game.Game;
 import soc.common.game.player.GamePlayer;
 

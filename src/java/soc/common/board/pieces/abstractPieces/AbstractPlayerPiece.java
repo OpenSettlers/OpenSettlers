@@ -1,4 +1,4 @@
-package soc.common.board.pieces;
+package soc.common.board.pieces.abstractPieces;
 
 import soc.common.board.Board;
 import soc.common.board.resources.ResourceList;

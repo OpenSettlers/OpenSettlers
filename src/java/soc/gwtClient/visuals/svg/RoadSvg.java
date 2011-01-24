@@ -11,6 +11,8 @@ public class RoadSvg extends AbstractRoadVisual implements SvgVisual
 {
     GameBoardSvg parent;
     Rectangle rectangle;
+    int normalStrokeWidth = 2;
+    int selectedStrokeWidth = 5;
 
     public RoadSvg(Road road, GameBoardSvg parent)
     {
@@ -25,7 +27,7 @@ public class RoadSvg extends AbstractRoadVisual implements SvgVisual
 
         rectangle = new Rectangle((int) ((int) location.getX() - (width / 2)),
                 (int) location.getY(), (int) width, (int) height);
-        rectangle.setStrokeWidth(2);
+        rectangle.setStrokeWidth(normalStrokeWidth);
         rectangle.setFillColor(parent.getGame().getCurrentTurn().getPlayer()
                 .getColor());
 
@@ -50,6 +52,22 @@ public class RoadSvg extends AbstractRoadVisual implements SvgVisual
     public VectorObject getVectorObject()
     {
         return rectangle;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.gwtClient.visuals.abstractVisuals.AbstractPieceVisual#updateSelected
+     * ()
+     */
+    @Override
+    protected void updateSelected()
+    {
+        if (selected)
+            rectangle.setStrokeWidth(selectedStrokeWidth);
+        else
+            rectangle.setStrokeWidth(normalStrokeWidth);
     }
 
 }

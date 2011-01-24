@@ -2,6 +2,7 @@ package soc.common.board.pieces;
 
 import soc.common.annotations.SeaFarers;
 import soc.common.board.HexLocation;
+import soc.common.board.pieces.abstractPieces.AbstractPiece;
 
 @SeaFarers
 public class Pirate extends AbstractPiece

@@ -1,10 +1,11 @@
 package soc.common.board.routing;
 
-import com.google.gwt.user.client.Random;
-
 import soc.common.board.HexPoint;
-import soc.common.board.pieces.PlayerPiece;
+import soc.common.board.pieces.abstractPieces.PlayerPiece;
+import soc.common.board.pieces.abstractPieces.PointPiece;
 import soc.common.game.player.GamePlayer;
+
+import com.google.gwt.user.client.Random;
 
 /*
  * Represents a splitted end point of a subgraph. When a town is built on an existing 
@@ -17,13 +18,13 @@ public class BlockedEndPoint implements GraphPoint
 {
     private HexPoint pointLocation;
     private int hashCode = Random.nextInt();
-    
+
     @Override
     public HexPoint getPoint()
     {
         return pointLocation;
     }
-    
+
     public BlockedEndPoint(HexPoint pointLocation)
     {
         this.pointLocation = pointLocation;
@@ -32,6 +33,7 @@ public class BlockedEndPoint implements GraphPoint
     /*
      * Returns false, since a splittedEndPoint is created because the original
      * point is causing a split
+     * 
      * @see soc.common.board.routing.IGraphPoint#isTownBuildable()
      */
     @Override
@@ -42,6 +44,7 @@ public class BlockedEndPoint implements GraphPoint
 
     /*
      * Ignored
+     * 
      * @see soc.common.board.routing.IGraphPoint#setTownBuildable(boolean)
      */
     @Override
@@ -52,6 +55,7 @@ public class BlockedEndPoint implements GraphPoint
 
     /*
      * Returns always null
+     * 
      * @see soc.common.board.routing.IGraphElement#getPiece()
      */
     @Override
@@ -62,6 +66,7 @@ public class BlockedEndPoint implements GraphPoint
 
     /*
      * Returns always null
+     * 
      * @see soc.common.board.routing.IGraphElement#getPlayer()
      */
     @Override
@@ -72,7 +77,10 @@ public class BlockedEndPoint implements GraphPoint
 
     /*
      * Ignored
-     * @see soc.common.board.routing.IGraphElement#setPlayerPiece(soc.common.board.pieces.PlayerPiece)
+     * 
+     * @see
+     * soc.common.board.routing.IGraphElement#setPlayerPiece(soc.common.board
+     * .pieces.PlayerPiece)
      */
     @Override
     public GraphElement setPlayerPiece(PlayerPiece piece)
@@ -80,7 +88,9 @@ public class BlockedEndPoint implements GraphPoint
         return null;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -89,7 +99,9 @@ public class BlockedEndPoint implements GraphPoint
         return hashCode;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -105,6 +117,12 @@ public class BlockedEndPoint implements GraphPoint
         if (hashCode != other.hashCode())
             return false;
         return true;
+    }
+
+    @Override
+    public PointPiece getPointPiece()
+    {
+        return null;
     }
 
 }

@@ -24,6 +24,7 @@ public class DetermineFirstPlayerGamePhase extends AbstractGamePhase
             game.getActionsQueue().enqueue(new RollDice().setPlayer(player),
                     true);
         }
+
         game.getActionsQueue().enqueue(
                 (GameAction) new GamePhaseHasEnded().setSender(0), true);
     }

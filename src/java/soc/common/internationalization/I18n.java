@@ -1,9 +1,9 @@
 package soc.common.internationalization;
 
 import soc.common.board.pieces.City;
-import soc.common.board.pieces.PlayerPiece;
 import soc.common.board.pieces.Road;
 import soc.common.board.pieces.Town;
+import soc.common.board.pieces.abstractPieces.PlayerPiece;
 
 /*
  * Helper class to reduce lines of code 

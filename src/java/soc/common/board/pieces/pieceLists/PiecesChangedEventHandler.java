@@ -1,4 +1,4 @@
-package soc.common.board.pieces;
+package soc.common.board.pieces.pieceLists;
 
 import com.google.gwt.event.shared.EventHandler;
 

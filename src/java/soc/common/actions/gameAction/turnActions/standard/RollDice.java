@@ -11,7 +11,7 @@ import soc.common.actions.gameAction.turnActions.AbstractTurnAction;
 import soc.common.board.HexLocation;
 import soc.common.board.hexes.Hex;
 import soc.common.board.hexes.ResourceHex;
-import soc.common.board.pieces.Producable;
+import soc.common.board.pieces.abstractPieces.Producable;
 import soc.common.board.resources.ResourceList;
 import soc.common.game.Game;
 import soc.common.game.dices.StandardDice;

@@ -3,11 +3,13 @@ package soc.gwtClient.visuals.abstractVisuals;
 import java.util.HashMap;
 import java.util.Map;
 
-import soc.common.board.pieces.PiecesChangedEvent;
-import soc.common.board.pieces.PiecesChangedEventHandler;
-import soc.common.board.pieces.PlayerPiece;
+import soc.common.board.pieces.abstractPieces.PlayerPiece;
+import soc.common.board.pieces.abstractPieces.SidePiece;
+import soc.common.board.pieces.pieceLists.PiecesChangedEvent;
+import soc.common.board.pieces.pieceLists.PiecesChangedEventHandler;
 import soc.common.board.routing.GraphPoint;
 import soc.common.board.routing.GraphSide;
+import soc.common.board.routing.Route;
 import soc.common.game.Game;
 import soc.gwtClient.visuals.behaviour.ProxyBehaviour;
 import soc.gwtClient.visuals.behaviour.gameBoard.GameBoardBehaviour;
@@ -232,5 +234,39 @@ public abstract class AbstractGameBoardVisual extends AbstractBoardVisual
     public void stopBehaviour()
     {
         setBehaviour(noBehaviour);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.gwtClient.visuals.abstractVisuals.GameBoardVisual#showLongestRoad()
+     */
+    @Override
+    public void showLongestRoad(Route route)
+    {
+        for (PlayerPiece piece : playerPieceVisuals.keySet())
+            playerPieceVisuals.get(piece).setSelected(false);
+
+        for (GraphSide side : route.getEdgeList())
+        {
+            SidePiece sidePiece = route.getPlayer().getSidePieces().get(
+                    side.getSide());
+            playerPieceVisuals.get(sidePiece).setSelected(true);
+        }
+
+        // for (PlayerPiece piece : playerPieceVisuals.keySet())
+        // {
+        // if (piece.getPlayer().equals(route.getPlayer())
+        // && piece instanceof SidePiece)
+        // {
+        // SidePiece sidePiece = (SidePiece) piece;
+        // GraphSide side = game.getBoard().getGraph().findGraphSide(
+        // sidePiece.getSide());
+        // if (route.getEdgeList().contains(side))
+        // playerPieceVisuals.get(side).setSelected(true);
+        // }
+        //
+        // }
     }
 }

@@ -1,4 +1,4 @@
-package soc.common.board.pieces;
+package soc.common.board.pieces.abstractPieces;
 
 import soc.common.board.HexPoint;
 import soc.common.board.hexes.ResourceHex;

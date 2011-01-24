@@ -114,9 +114,7 @@ public class BuildRoad extends AbstractTurnAction
             }
 
         }
-        road.addToPlayer(player);
-
-        game.getBoard().getGraph().addRoad(road);
+        game.addPiece(road, player);
 
         if (game.getCurrentPhase() instanceof PlayTurnsGamePhase)
         {

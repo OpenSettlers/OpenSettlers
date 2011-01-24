@@ -1,12 +1,14 @@
-package soc.common.board.pieces;
+package soc.common.board.pieces.pieceLists;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import soc.common.board.pieces.abstractPieces.PlayerPiece;
+
 import com.google.gwt.event.shared.SimpleEventBus;
 
-public class Plist<P extends PlayerPiece> implements Iterable<P>
+public class PlayerPieceList<P extends PlayerPiece> implements Iterable<P>
 {
     protected List<P> pieces = new ArrayList<P>();
     protected SimpleEventBus eventBus = new SimpleEventBus();
@@ -14,13 +16,13 @@ public class Plist<P extends PlayerPiece> implements Iterable<P>
     public void remove(P piece)
     {
         pieces.remove(piece);
-        eventBus.fireEvent(new PlistChangedEvent<P>(null, piece));
+        eventBus.fireEvent(new PlayerPieceListChangedEvent<P>(null, piece));
     }
 
     public void add(P piece)
     {
         pieces.add(piece);
-        eventBus.fireEvent(new PlistChangedEvent<P>(piece, null));
+        eventBus.fireEvent(new PlayerPieceListChangedEvent<P>(piece, null));
     }
 
     public int size()
@@ -28,7 +30,7 @@ public class Plist<P extends PlayerPiece> implements Iterable<P>
         return pieces.size();
     }
 
-    public void moveFrom(Plist from, P pieceToMove)
+    public void moveFrom(PlayerPieceList from, P pieceToMove)
     {
         from.remove(pieceToMove);
         add(pieceToMove);
