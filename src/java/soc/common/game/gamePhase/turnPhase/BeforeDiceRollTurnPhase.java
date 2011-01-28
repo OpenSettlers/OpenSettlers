@@ -34,7 +34,7 @@ public class BeforeDiceRollTurnPhase extends TurnPhase
     public String getMessage()
     {
         // TODO fix message
-        return "Play soldier or victory point, or roll the dice";
+        return "Start turn";
     }
 
 }

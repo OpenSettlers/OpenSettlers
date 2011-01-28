@@ -3,7 +3,7 @@ package soc.common.game.variants.rules;
 import soc.common.annotations.CitiesKnights;
 import soc.common.annotations.Pioneers;
 import soc.common.board.pieces.Wall;
-import soc.common.game.GameRules;
+import soc.common.game.variants.GameRules;
 
 @CitiesKnights
 @Pioneers

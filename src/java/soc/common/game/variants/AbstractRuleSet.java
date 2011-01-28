@@ -4,12 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import soc.common.game.Game;
-import soc.common.game.GameRules;
 import soc.common.game.variants.rules.GameRule;
 
-/*
- * Basic standard settlers ruleset
- */
 public abstract class AbstractRuleSet implements Variant
 {
     protected Game game;
@@ -32,8 +28,6 @@ public abstract class AbstractRuleSet implements Variant
     public void setRules(GameRules gameRules)
     {
         for (GameRule rule : rules)
-        {
             rule.set(gameRules);
-        }
     }
 }

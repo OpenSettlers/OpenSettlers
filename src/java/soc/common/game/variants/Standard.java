@@ -1,6 +1,7 @@
 package soc.common.game.variants;
 
 import soc.common.game.Game;
+import soc.common.game.variants.rules.BasicGamePhases;
 import soc.common.game.variants.rules.BasicHexes;
 import soc.common.game.variants.rules.BasicPlayerPieces;
 import soc.common.game.variants.rules.BasicResources;
@@ -20,6 +21,7 @@ public class Standard extends AbstractRuleSet
         rules.add(new BasicHexes());
         rules.add(new BasicResources());
         rules.add(new BasicPlayerPieces());
+        rules.add(new BasicGamePhases());
         rules.add(new StandardActions());
 
         rules.add(new UseLargestArmy());

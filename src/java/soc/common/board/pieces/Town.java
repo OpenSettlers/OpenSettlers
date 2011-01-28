@@ -11,9 +11,9 @@ import soc.common.board.resources.ResourceList;
 import soc.common.board.resources.Sheep;
 import soc.common.board.resources.Timber;
 import soc.common.board.resources.Wheat;
-import soc.common.game.GameRules;
 import soc.common.game.VictoryPointItem;
 import soc.common.game.player.GamePlayer;
+import soc.common.game.variants.GameRules;
 
 public class Town extends AbstractPlayerPiece implements VictoryPointItem,
         PointPiece, Producable

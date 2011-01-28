@@ -3,7 +3,7 @@ package soc.common.game.variants.rules;
 import soc.common.annotations.SeaFarers;
 import soc.common.board.hexes.ResourceHex;
 import soc.common.board.resources.Gold;
-import soc.common.game.GameRules;
+import soc.common.game.variants.GameRules;
 
 @SeaFarers
 public class AddGold implements GameRule

@@ -2,7 +2,7 @@ package soc.common.game.variants.rules;
 
 import soc.common.board.HexLocation;
 import soc.common.board.pieces.Robber;
-import soc.common.game.GameRules;
+import soc.common.game.variants.GameRules;
 
 public class UseRobber implements GameRule
 {

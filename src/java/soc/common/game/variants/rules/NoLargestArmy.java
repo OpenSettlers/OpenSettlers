@@ -1,7 +1,7 @@
 package soc.common.game.variants.rules;
 
 import soc.common.annotations.CitiesKnights;
-import soc.common.game.GameRules;
+import soc.common.game.variants.GameRules;
 
 /*
  * Do not use a largest army

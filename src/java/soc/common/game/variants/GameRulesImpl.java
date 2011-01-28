@@ -1,4 +1,4 @@
-package soc.common.game;
+package soc.common.game.variants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,11 +16,11 @@ import soc.common.board.pieces.abstractPieces.Piece;
 import soc.common.board.pieces.abstractPieces.PlayerPiece;
 import soc.common.board.ports.PortList;
 import soc.common.board.resources.Resource;
+import soc.common.game.Game;
 import soc.common.game.developmentCards.DevelopmentCardList;
 import soc.common.game.dices.Dice;
+import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.player.GamePlayer;
-import soc.common.game.variants.Standard;
-import soc.common.game.variants.Variant;
 
 public class GameRulesImpl implements GameRules
 {
@@ -28,6 +28,7 @@ public class GameRulesImpl implements GameRules
     private List<Variant> variants = new ArrayList<Variant>();
 
     private List<TurnAction> possibleActions = new ArrayList<TurnAction>();
+    private List<GamePhase> supportedGamePhases = new ArrayList<GamePhase>();
     private List<Resource> playableResources = new ArrayList<Resource>();
     private List<Piece> playablePieces = new ArrayList<Piece>();
     private List<Hex> playableHexTypes = new ArrayList<Hex>();
@@ -325,12 +326,8 @@ public class GameRulesImpl implements GameRules
     private void createBank()
     {
         for (Resource resource : getSupportedResources())
-        {
             for (int i = 0; i < getBankAmountPerResource(); i++)
-            {
                 game.getBank().add(resource.copy());
-            }
-        }
     }
 
     @Override
@@ -429,6 +426,12 @@ public class GameRulesImpl implements GameRules
     {
         supportedPorts = ports;
         return this;
+    }
+
+    @Override
+    public List<GamePhase> getSupportedPhases()
+    {
+        return supportedGamePhases;
     }
 
 }

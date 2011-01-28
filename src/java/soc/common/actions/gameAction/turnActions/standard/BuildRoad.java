@@ -15,26 +15,16 @@ import soc.common.internationalization.I18n;
 public class BuildRoad extends AbstractTurnAction
 {
     private static final long serialVersionUID = -1265027496921863516L;
-    HexSide sideLocation;
+    private HexSide sideLocation;
 
-    /**
-     * @return the sideLocation
-     */
     public HexSide getSideLocation()
     {
         return sideLocation;
     }
 
-    /**
-     * @param sideLocation
-     *            the sideLocation to set
-     */
     public BuildRoad setSideLocation(HexSide sideLocation)
     {
         this.sideLocation = sideLocation;
-
-        // Enables fluent interface usage
-        // http://en.wikipedia.org/wiki/Fluent_interface
         return this;
     }
 

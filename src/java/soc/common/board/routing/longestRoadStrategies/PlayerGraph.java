@@ -133,6 +133,16 @@ public class PlayerGraph
      * all routes encountered an end 3. Each iteration takes a route, and either
      * detects the route ends, or adds the lookahead GraphPoint 4. Loop ends
      * when all routes have ended
+     * 
+     * Takes ends and splits as starting points to calculate the longest path.
+     * This will usually work, but not when there is a loop without an end or
+     * split. In that case, the loopChecker will detect the loop and add another
+     * possible route.
+     * 
+     * Loops without ends and splits may occur multiple times, and more then 2
+     * times when a volcano is supported. Sequences of roads may be split when a
+     * volcano disconnects a road + town + ship combination, and the ship is
+     * later moved away.
      */
     private Route calculatLongestPath()
     {
@@ -147,7 +157,10 @@ public class PlayerGraph
         for (GraphSide side : graph.edgeSet())
             loopChecker.add(side);
 
+        // Paths which have not yet encountered an end
         List<PossibleRoute> routesToProcess = new ArrayList<PossibleRoute>();
+
+        // Finished paths
         List<PossibleRoute> paths = new ArrayList<PossibleRoute>();
 
         createStartRoutes(routesToProcess);
@@ -160,6 +173,7 @@ public class PlayerGraph
                 loopChecker.remove(side);
         }
 
+        // Iterate until no routes exist without an end detected
         while (routesToProcess.size() > 0)
         {
             // Grab a route from the list
@@ -303,6 +317,11 @@ public class PlayerGraph
         return from.getSidePiece().canConnect(point, to.getSidePiece());
     }
 
+    /*
+     * Creates a list of routes to start a walk with on the player graph. These
+     * will be ends and splits, loops without ends and splits are therefore not
+     * checked when walking the graph using only the ends and splits.
+     */
     private void createStartRoutes(List<PossibleRoute> routesToProcess)
     {
         // Create a set of routes for every end

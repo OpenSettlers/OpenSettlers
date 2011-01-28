@@ -2,7 +2,7 @@ package soc.common.game.variants.rules;
 
 import soc.common.annotations.SeaFarers;
 import soc.common.board.hexes.DiscoveryHex;
-import soc.common.game.GameRules;
+import soc.common.game.variants.GameRules;
 
 @SeaFarers
 public class AddDiscoveryHex implements GameRule

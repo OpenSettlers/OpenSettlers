@@ -11,6 +11,9 @@ package soc.common.game.statuses;
  */
 public interface GameStatus
 {
+    /*
+     * Whether or not the game can continue while in this state
+     */
     public boolean isGameBlocking();
 
     public String getDescription();

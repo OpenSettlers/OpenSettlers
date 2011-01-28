@@ -8,6 +8,12 @@ import soc.common.board.routing.Route;
 import soc.common.game.Game;
 import soc.common.game.player.GamePlayer;
 
+/*
+ * Splits main graph into graphs per player using players' set of GraphSides 
+ * (roads, ships, bridges). Then it defers longst road calculation to the 
+ * PlayerGraph class, which represents a subgraph derived from the main 
+ * graph.
+ */
 public class ReduceStrategy implements LongestRoadStrategy
 {
     @Override
@@ -29,6 +35,7 @@ public class ReduceStrategy implements LongestRoadStrategy
             }
         }
 
+        // No routes found, return null
         if (routes.size() == 0)
             return null;
 

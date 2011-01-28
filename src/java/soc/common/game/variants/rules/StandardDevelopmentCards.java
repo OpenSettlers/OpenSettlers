@@ -1,7 +1,7 @@
 package soc.common.game.variants.rules;
 
-import soc.common.game.GameRules;
 import soc.common.game.developmentCards.DevelopmentCardList;
+import soc.common.game.variants.GameRules;
 
 public class StandardDevelopmentCards implements GameRule
 {

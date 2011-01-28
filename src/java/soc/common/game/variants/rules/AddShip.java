@@ -1,7 +1,7 @@
 package soc.common.game.variants.rules;
 
 import soc.common.board.pieces.Ship;
-import soc.common.game.GameRules;
+import soc.common.game.variants.GameRules;
 
 /*
  * Add support for ships

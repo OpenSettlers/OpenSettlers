@@ -1,6 +1,6 @@
 package soc.common.game.variants.rules;
 
-import soc.common.game.GameRules;
+import soc.common.game.variants.GameRules;
 
 /*
  * Uses standard amount of stock items: 4 cities, 5 towns, 15 roads

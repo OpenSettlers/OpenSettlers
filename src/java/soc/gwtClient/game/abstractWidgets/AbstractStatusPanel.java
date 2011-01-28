@@ -1,32 +1,29 @@
 package soc.gwtClient.game.abstractWidgets;
 
-import soc.common.game.GamePhaseChangedEventHandler;
 import soc.common.game.StatusChangedEventHandler;
 import soc.common.game.TurnChangedEventHandler;
-import soc.common.game.gamePhase.turnPhase.TurnPhaseChangedHandler;
+import soc.gwtClient.game.widgets.standard.bitmap.status.AllPhaseStatusBitmapWidget;
 
+import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.ComplexPanel;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public abstract class AbstractStatusPanel implements StatusPanel,
-        GamePhaseChangedEventHandler, TurnPhaseChangedHandler,
         TurnChangedEventHandler, StatusChangedEventHandler
 {
-    protected VerticalPanel rootPanel = new VerticalPanel();
+    protected AbsolutePanel rootPanel = new AbsolutePanel();
+    protected HorizontalPanel playingStatusPanel = new HorizontalPanel();
+    protected VerticalPanel actionTurnPanel = new VerticalPanel();
+    protected HorizontalPanel turnPanel = new HorizontalPanel();
+    protected HorizontalPanel actionPanel = new HorizontalPanel();
+    protected AllPhaseStatusBitmapWidget allPhaseStatuses;
     protected Label lblAction = new Label("Action todo");
-    protected Label lblGamePhase = new Label("Current game phase goes here");
-    protected Label lblTurnPhase = new Label("Current turn phase goes here");
     protected Label lblStatus = new Label("Status of the game");
     protected Label lblTurn = new Label("Status of the game");
-    protected Image imgGamePhase = new Image();
-    protected Image imgTurnPhase = new Image();
-    protected HorizontalPanel gameTurnPhasePanel = new HorizontalPanel();
-    protected HorizontalPanel turnTodoPanel = new HorizontalPanel();
+    protected Label lblPlayerOnTurn = new Label("Player");
     protected GamePanel gamePanel;
 
     protected abstract ComplexPanel createRootPanel();
@@ -36,32 +33,26 @@ public abstract class AbstractStatusPanel implements StatusPanel,
         super();
         this.gamePanel = gamePanel;
 
-        gameTurnPhasePanel.add(lblStatus);
-        gameTurnPhasePanel.add(new Label(" "));
-        gameTurnPhasePanel.add(imgGamePhase);
-        gameTurnPhasePanel.add(lblGamePhase);
-        gameTurnPhasePanel.add(new Label(" --> "));
-        gameTurnPhasePanel.add(imgTurnPhase);
-        gameTurnPhasePanel.add(lblTurnPhase);
-        gameTurnPhasePanel
-                .setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+        this.allPhaseStatuses = new AllPhaseStatusBitmapWidget(gamePanel);
 
-        turnTodoPanel.add(lblTurn);
-        turnTodoPanel.add(lblAction);
+        turnPanel.add(lblPlayerOnTurn);
+        turnPanel.add(lblTurn);
 
-        rootPanel.add(turnTodoPanel);
-        rootPanel.add(gameTurnPhasePanel);
+        actionPanel.add(lblAction);
 
-        lblGamePhase.setStyleName("gamePhaseLabel");
-        lblStatus.setStyleName("gameStatusLabel");
+        actionTurnPanel.add(turnPanel);
+        actionTurnPanel.add(actionPanel);
+
+        playingStatusPanel.add(allPhaseStatuses);
+        playingStatusPanel.add(actionTurnPanel);
+
+        rootPanel.add(playingStatusPanel);
 
         gamePanel.getGame().getActionsQueue().addQueueChangedEventHandler(this);
-        gamePanel.getGame().addGamePhaseChangedEventHandler(this);
-        gamePanel.getGame().addTurnPhaseChangedHandler(this);
         gamePanel.getGame().addTurnChangedEventHandler(this);
         gamePanel.getGame().addStatusChangedEventHandler(this);
-        gameTurnPhasePanel.setHeight("2em");
-        turnTodoPanel.setHeight("2em");
+
+        rootPanel.add(playingStatusPanel);
         rootPanel.setWidth("100%");
     }
 

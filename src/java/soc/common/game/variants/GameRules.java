@@ -1,4 +1,4 @@
-package soc.common.game;
+package soc.common.game.variants;
 
 import java.util.List;
 
@@ -9,8 +9,10 @@ import soc.common.board.pieces.abstractPieces.Piece;
 import soc.common.board.pieces.abstractPieces.PlayerPiece;
 import soc.common.board.ports.PortList;
 import soc.common.board.resources.Resource;
+import soc.common.game.Game;
 import soc.common.game.developmentCards.DevelopmentCardList;
 import soc.common.game.dices.Dice;
+import soc.common.game.gamePhase.GamePhase;
 
 /*
  * Abstracted properties for game {@see IRuleSet} to modify
@@ -99,4 +101,6 @@ public interface GameRules
     public GameRules setSupportedPorts(PortList ports);
 
     public PortList getSupportedPorts();
+
+    public List<GamePhase> getSupportedPhases();
 }

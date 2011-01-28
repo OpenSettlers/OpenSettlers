@@ -2,7 +2,7 @@ package soc.common.game.variants.rules;
 
 import soc.common.annotations.SeaFarers;
 import soc.common.board.pieces.IslandBonus;
-import soc.common.game.GameRules;
+import soc.common.game.variants.GameRules;
 
 /*
  * Players may gain a bonus victory point when they build on a territory

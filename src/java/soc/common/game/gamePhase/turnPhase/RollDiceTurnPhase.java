@@ -122,7 +122,7 @@ public class RollDiceTurnPhase extends TurnPhase
     public String getMessage()
     {
         // TODO fix message
-        return "Roll the dice";
+        return "Rolling dice...";
     }
 
 }

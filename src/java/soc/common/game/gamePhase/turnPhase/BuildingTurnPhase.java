@@ -8,6 +8,10 @@ public class BuildingTurnPhase extends TurnPhase
 {
     private TradingTurnPhase tradingTurnPhase;
 
+    public BuildingTurnPhase()
+    {
+    }
+
     public BuildingTurnPhase(TradingTurnPhase tradingTurnPhase)
     {
         this.tradingTurnPhase = tradingTurnPhase;
@@ -89,6 +93,6 @@ public class BuildingTurnPhase extends TurnPhase
     public String getMessage()
     {
         // TODO fix message
-        return "Build towns, cities and roads";
+        return "Build or buy stuff";
     }
 }

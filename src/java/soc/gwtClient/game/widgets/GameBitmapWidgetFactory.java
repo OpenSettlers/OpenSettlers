@@ -21,7 +21,7 @@ import soc.gwtClient.game.widgets.abstractWidgets.StealCardWidget;
 import soc.gwtClient.game.widgets.bitmap.HistoryBitmapWidget;
 import soc.gwtClient.game.widgets.bitmap.ResourcesGainedBitmapWidget;
 import soc.gwtClient.game.widgets.standard.bitmap.PlayersBitmapWidget;
-import soc.gwtClient.game.widgets.standard.bitmap.StatusBitmapPanel;
+import soc.gwtClient.game.widgets.standard.bitmap.status.StatusBitmapPanel;
 import soc.gwtClient.visuals.abstractVisuals.GameBoardVisual;
 import soc.gwtClient.visuals.svg.GameBoardSvg;
 

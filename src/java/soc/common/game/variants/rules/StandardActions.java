@@ -10,7 +10,7 @@ import soc.common.actions.gameAction.turnActions.standard.PlayDevelopmentCard;
 import soc.common.actions.gameAction.turnActions.standard.RollDice;
 import soc.common.actions.gameAction.turnActions.standard.TradeBank;
 import soc.common.actions.gameAction.turnActions.standard.TradePlayer;
-import soc.common.game.GameRules;
+import soc.common.game.variants.GameRules;
 
 public class StandardActions implements GameRule
 {

@@ -32,6 +32,7 @@ import soc.common.game.gamePhase.DetermineFirstPlayerGamePhase;
 import soc.common.game.gamePhase.EndedGamePhase;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.InitialPlacementGamePhase;
+import soc.common.game.gamePhase.LobbyGamePhase;
 import soc.common.game.gamePhase.PlayTurnsGamePhase;
 import soc.common.game.gamePhase.turnPhase.BeforeDiceRollTurnPhase;
 import soc.common.game.gamePhase.turnPhase.BuildingTurnPhase;
@@ -218,21 +219,20 @@ public class Resources
     public static ImageResource gamePhase(GamePhase phase)
     {
         if (phase instanceof InitialPlacementGamePhase)
-        {
             return icons.initialPlacementGamePhase();
-        }
+
         if (phase instanceof DetermineFirstPlayerGamePhase)
-        {
             return icons.determineFirstPlayerGamePhase();
-        }
+
         if (phase instanceof PlayTurnsGamePhase)
-        {
             return icons.playTurnsGamePhase();
-        }
+
         if (phase instanceof EndedGamePhase)
-        {
             return icons.endedGamePhase();
-        }
+
+        if (phase instanceof LobbyGamePhase)
+            return icons.lobbyGamePhase();
+
         return null;
     }
 

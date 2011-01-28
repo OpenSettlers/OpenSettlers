@@ -7,7 +7,7 @@ import soc.common.board.resources.Ore;
 import soc.common.board.resources.Sheep;
 import soc.common.board.resources.Timber;
 import soc.common.board.resources.Wheat;
-import soc.common.game.GameRules;
+import soc.common.game.variants.GameRules;
 
 public class UseStandardPorts implements GameRule
 {

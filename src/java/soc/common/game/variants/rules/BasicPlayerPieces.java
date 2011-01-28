@@ -3,7 +3,7 @@ package soc.common.game.variants.rules;
 import soc.common.board.pieces.City;
 import soc.common.board.pieces.Road;
 import soc.common.board.pieces.Town;
-import soc.common.game.GameRules;
+import soc.common.game.variants.GameRules;
 
 /*
  * Allow a city, town and road to be played with 

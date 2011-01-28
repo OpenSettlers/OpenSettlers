@@ -9,9 +9,9 @@ import soc.common.board.pieces.abstractPieces.Producable;
 import soc.common.board.resources.Ore;
 import soc.common.board.resources.ResourceList;
 import soc.common.board.resources.Wheat;
-import soc.common.game.GameRules;
 import soc.common.game.VictoryPointItem;
 import soc.common.game.player.GamePlayer;
+import soc.common.game.variants.GameRules;
 
 public class City extends AbstractPlayerPiece implements VictoryPointItem,
         PointPiece, Producable

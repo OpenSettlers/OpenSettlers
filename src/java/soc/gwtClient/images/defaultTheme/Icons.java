@@ -21,6 +21,9 @@ public interface Icons extends ClientBundle
     @Source("size32/DetermineFirstPlayerGamePhase.png")
     public ImageResource determineFirstPlayerGamePhase();
 
+    @Source("size32/LobbyGamePhase.png")
+    public ImageResource lobbyGamePhase();
+
     @Source("size32/BeforeRollDiceTurnPhase.png")
     public ImageResource beforeRollDiceTurnPhase();
 

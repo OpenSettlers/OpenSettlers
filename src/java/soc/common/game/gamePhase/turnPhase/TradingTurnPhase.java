@@ -84,6 +84,6 @@ public class TradingTurnPhase extends TurnPhase
     public String getMessage()
     {
         // TODO fix message
-        return "Trade with players";
+        return "Trade with opponents";
     }
 }

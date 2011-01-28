@@ -102,3 +102,19 @@ h1 {
 .gameStatusLabel{
 	font-size 1.5em;
 }
+.phaseSelectedIcon{
+	border-color: White;
+	border-width: 0.25em;
+}
+.phaseNotSelectedIcon{
+	border-color: Black;
+	border-width: 0.25em;
+}
+.allGamePhases{
+	margin-left: 0.5em;
+	margin-right: 1em;
+}
+.phasePanel{
+	width: 15em;
+	margin-left: 2em;
+}
