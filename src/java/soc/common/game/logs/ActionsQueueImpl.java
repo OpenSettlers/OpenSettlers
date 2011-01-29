@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import soc.common.actions.gameAction.GameAction;
-import soc.common.game.Game;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
@@ -47,6 +46,22 @@ public class ActionsQueueImpl implements ActionsQueue
         return queuedAction.getGameAction();
     }
 
+    @Override
+    public GameAction dequeueExpected(GameAction expectedAction)
+    {
+        QueuedAction actionToRemove = findExpectedQueuedAction(expectedAction);
+        if (actions.remove(actionToRemove))
+        {
+            eventBus.fireEvent(new ActionQueueChangedEvent(actionToRemove
+                    .getGameAction(), null));
+            return expectedAction;
+        }
+        else
+        {
+            throw new AssertionError("Expected given action to be in queue");
+        }
+    }
+
     /*
      * Returns true when given action is expected with relation to the
      * gamestate.
@@ -56,17 +71,24 @@ public class ActionsQueueImpl implements ActionsQueue
      * .GameAction, soc.common.game.Game)
      */
     @Override
-    public GameAction findExpected(GameAction actionType, Game game)
+    public GameAction findExpected(GameAction prototype)
+    {
+        QueuedAction expected = findExpectedQueuedAction(prototype);
+        return expected == null ? null : expected.getGameAction();
+    }
+
+    private QueuedAction findExpectedQueuedAction(GameAction prototype)
     {
         // First action which is a server action is always expected
         if (actions.size() > 0 && getFirst().getGameAction().isServer())
-            return getFirst().getGameAction();
+            return getFirst();
 
-        for (GameAction blockingAction : getBlockingActions())
+        for (QueuedAction blockingAction : getBlockingQueuedActions())
         {
-            if (blockingAction.getClass() == actionType.getClass()
-                    && blockingAction.getPlayer()
-                            .equals(actionType.getPlayer()))
+            if (blockingAction.getGameAction().getClass() == prototype
+                    .getClass()
+                    && blockingAction.getGameAction().getPlayer().equals(
+                            prototype.getPlayer()))
                 return blockingAction;
         }
 
@@ -102,6 +124,16 @@ public class ActionsQueueImpl implements ActionsQueue
     {
         List<GameAction> result = new ArrayList<GameAction>();
 
+        for (QueuedAction queuedAction : getBlockingQueuedActions())
+            result.add(queuedAction.getGameAction());
+
+        return result;
+    }
+
+    private List<QueuedAction> getBlockingQueuedActions()
+    {
+        List<QueuedAction> result = new ArrayList<QueuedAction>();
+
         for (QueuedAction action : actions)
         {
             // Break out when there are non-blocking actions
@@ -109,7 +141,7 @@ public class ActionsQueueImpl implements ActionsQueue
                 break;
 
             // Add either blocking or non-blocking action
-            result.add(action.getGameAction());
+            result.add(action);
             if (action.isBlocking())
                 break;
         }
@@ -155,4 +187,5 @@ public class ActionsQueueImpl implements ActionsQueue
             return blocking;
         }
     }
+
 }

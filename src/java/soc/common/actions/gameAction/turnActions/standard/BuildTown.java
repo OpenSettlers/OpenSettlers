@@ -117,10 +117,6 @@ public class BuildTown extends AbstractTurnAction
         {
             // remove players' resources and put them in the bank
             player.getResources().moveTo(game.getBank(), town.getCost());
-
-            // Check if the LR should be updated
-            // TODO: implement LR
-            // xmlGame.CalculateLongestRoad(gamePlayer);
         }
         if (game.getCurrentPhase() instanceof InitialPlacementGamePhase
                 && player.getPointPieces().size() == 2)
@@ -145,13 +141,13 @@ public class BuildTown extends AbstractTurnAction
 
         // Get a list of ports
         List<Port> ports = new ArrayList<Port>();
-        for (HexLocation loc : pointLocation.getHexLocations())
+        for (HexLocation locaction : pointLocation.getHexLocations())
         {
-            Hex hex = game.getBoard().getHexes().get(loc);
+            Hex hex = game.getBoard().getHexes().get(locaction);
             if (hex instanceof SeaHex)
             {
                 SeaHex seaHex = (SeaHex) hex;
-                if (((SeaHex) hex).getPort() != null)
+                if (seaHex.getPort() != null)
                 {
                     ports.add(seaHex.getPort());
                 }
@@ -160,7 +156,7 @@ public class BuildTown extends AbstractTurnAction
         for (Port port : ports)
         {
             if (port.getHexSide().getHexPoint1().equals(pointLocation)
-                    || port.getHexSide().getHexPoint1().equals(pointLocation))
+                    || port.getHexSide().getHexPoint2().equals(pointLocation))
             {
                 player.getPorts().add(port);
             }

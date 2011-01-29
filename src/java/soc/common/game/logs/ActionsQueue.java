@@ -3,7 +3,6 @@ package soc.common.game.logs;
 import java.util.List;
 
 import soc.common.actions.gameAction.GameAction;
-import soc.common.game.Game;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 
@@ -28,7 +27,7 @@ public interface ActionsQueue
     public GameAction dequeue();
 
     // Returns true when first item in the queue equals given GameAction
-    public GameAction findExpected(GameAction action, Game game);
+    public GameAction findExpected(GameAction action);
 
     // Returns GameAction on top of the queue without removing it
     public GameAction peek();
@@ -44,4 +43,6 @@ public interface ActionsQueue
 
     public HandlerRegistration addQueueChangedEventHandler(
             ActionQueueChangedEventHandler handler);
+
+    public GameAction dequeueExpected(GameAction expectedAction);
 }

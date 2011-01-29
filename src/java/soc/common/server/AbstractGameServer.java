@@ -66,7 +66,7 @@ public abstract class AbstractGameServer implements GameServer
             if (game.getActionsQueue().size() > 0)
             {
                 ActionsQueue ac = game.getActionsQueue();
-                expectedAction = ac.findExpected(action, game);
+                expectedAction = ac.findExpected(action);
                 if (expectedAction == null)
                 {
                     notifyUnexpected(action);

@@ -254,8 +254,7 @@ public class Game
         {
             if (actionsQueue.size() > 0)
             {
-                GameAction expectedAction = actionsQueue.findExpected(action,
-                        this);
+                GameAction expectedAction = actionsQueue.findExpected(action);
                 if (expectedAction == null)
                     return false;
                 else
@@ -383,11 +382,11 @@ public class Game
     public void performAction(GameAction action)
     {
         // When given GameAction is expected, grab it from the queue and dequeue
-        // it
-        GameAction expectedAction = actionsQueue.findExpected(action, this);
+        // the action
+        GameAction expectedAction = actionsQueue.findExpected(action);
 
         if (expectedAction != null)
-            actionsQueue.dequeue();
+            actionsQueue.dequeueExpected(expectedAction);
 
         // Hand control of the actual performing to the GamePhase
         currentPhase.performAction(action, this);

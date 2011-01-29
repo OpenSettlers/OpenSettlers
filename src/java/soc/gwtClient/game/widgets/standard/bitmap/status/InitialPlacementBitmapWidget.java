@@ -25,6 +25,8 @@ public class InitialPlacementBitmapWidget implements GamePhaseStatusWidget
 
         rootPanel.add(new Label("Place initial towns & roads"));
         rootPanel.add(new Image(icon));
+        rootPanel.setStyleName("phasePanel");
+
     }
 
     @Override
