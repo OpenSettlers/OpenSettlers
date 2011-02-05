@@ -9,4 +9,10 @@ public interface PlayerDetailContainerWidget extends IsWidget
     public void showResourcesGained(ResourceList resources);
 
     public void hide();
+
+    public void showMouseOverWidget(PlayerDetailWidget playerDetailWidget);
+
+    public void hideMouseOverWidget();
+
+    public void hideCurrentWidget();
 }

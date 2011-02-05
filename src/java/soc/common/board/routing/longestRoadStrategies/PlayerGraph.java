@@ -288,7 +288,9 @@ public class PlayerGraph
         Route longest = findFirstLongest(paths);
 
         longest.setPlayer(player);
-        return longest;
+
+        // Return first longest route when it's length exceeds 4
+        return longest.getLength() > 4 ? longest : null;
     }
 
     private Route findFirstLongest(List<PossibleRoute> routes)

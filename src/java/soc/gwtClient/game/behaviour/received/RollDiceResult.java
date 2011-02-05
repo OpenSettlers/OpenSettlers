@@ -60,7 +60,7 @@ public class RollDiceResult implements ReceiveGameBehaviour
     public void doneResources()
     {
         rollDiceBehaviour.setNeutral(gamePanel.getGameBoardVisual());
-        gamePanel.getDetailContainerManager().hideAll();
+        gamePanel.getDetailContainerManager().hideCurrentWidget();
         gamePanel.getActionsWidget().setEnabled(true);
         gamePanel.doneReceiveBehaviour();
     }

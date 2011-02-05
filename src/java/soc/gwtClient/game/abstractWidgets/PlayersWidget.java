@@ -1,6 +1,5 @@
 package soc.gwtClient.game.abstractWidgets;
 
-import soc.common.game.Game;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.Point2D;
 
@@ -11,7 +10,8 @@ public interface PlayersWidget extends IsWidget
 {
     public ComplexPanel createRootPanel();
 
-    public PlayerWidget createPlayerWidget(Game game, GamePlayer player);
+    public PlayerWidget createPlayerWidget(GamePanel gamePanel,
+            GamePlayer player);
 
     public Point2D getTopRightLocation();
 

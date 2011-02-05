@@ -23,6 +23,7 @@ public abstract class AbstractStatusPanel implements StatusPanel,
     protected Label lblAction = new Label("Action todo");
     protected Label lblStatus = new Label("Status of the game");
     protected Label lblTurn = new Label("Status of the game");
+    protected Label lblTurnID = new Label("Turn #");
     protected Label lblPlayerOnTurn = new Label("Player");
     protected GamePanel gamePanel;
 
@@ -35,6 +36,7 @@ public abstract class AbstractStatusPanel implements StatusPanel,
 
         this.allPhaseStatuses = new AllPhaseStatusBitmapWidget(gamePanel);
 
+        turnPanel.add(lblTurnID);
         turnPanel.add(lblPlayerOnTurn);
         turnPanel.add(lblTurn);
 

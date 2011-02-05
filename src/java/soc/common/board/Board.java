@@ -191,18 +191,6 @@ public class Board
         for (Hex hex : hexes)
             hex.setTerritory(territories.get(0));
 
-        for (Hex hex : hexes)
-        {
-            if (hex.getTerritory() == null)
-            {
-                if (!(hex instanceof SeaHex))
-                {
-                    int y = 0;
-                    y++;
-                }
-            }
-        }
-
         for (Chit chit : ChitList.getStandardList())
             territory.getChits().add(chit);
 

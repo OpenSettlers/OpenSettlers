@@ -1,7 +1,6 @@
 package soc.gwtClient.game.abstractWidgets;
 
 import soc.common.board.pieces.abstractPieces.PlayerPiece;
-import soc.common.game.Game;
 import soc.common.game.player.GamePlayer;
 
 import com.google.gwt.user.client.ui.ComplexPanel;
@@ -9,13 +8,13 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 
 public abstract class AbstractStockWidget implements StockWidget
 {
-    protected Game game;
+    protected GamePanel gamePanel;
     protected GamePlayer player;
     protected ComplexPanel rootPanel;
 
-    public AbstractStockWidget(Game game, GamePlayer player)
+    public AbstractStockWidget(GamePanel gamePanel, GamePlayer player)
     {
-        this.game = game;
+        this.gamePanel = gamePanel;
         this.player = player;
 
         rootPanel = createRootPanel();
@@ -25,7 +24,8 @@ public abstract class AbstractStockWidget implements StockWidget
 
     private void createStockItemWidgetsList()
     {
-        for (PlayerPiece piece : game.getRules().getStockPieces())
+        for (PlayerPiece piece : gamePanel.getGame().getRules()
+                .getStockPieces())
         {
             rootPanel.add(createStockItemWidget(piece));
         }

@@ -7,6 +7,9 @@ import soc.common.board.pieces.pieceLists.PlayerPieceListChangedEvent;
 import soc.common.board.pieces.pieceLists.PlayerPieceListChangedEventHandler;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.AbstractStockItemWidget;
+import soc.gwtClient.game.abstractWidgets.GamePanel;
+import soc.gwtClient.game.abstractWidgets.PlayerDetailWidget;
+import soc.gwtClient.game.widgets.standard.bitmap.playerDetail.TownStockDetailWidget;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.user.client.ui.Image;
@@ -18,10 +21,11 @@ public class StockTownBitmapWidget extends AbstractStockItemWidget implements
     private Image townImage = new Image(Resources.icons().townSmall());
     private Label townAmount = new Label();
     private Town town = new Town();
+    protected PlayerDetailWidget townStockDetail;
 
-    public StockTownBitmapWidget(GamePlayer player)
+    public StockTownBitmapWidget(GamePanel gamePanel, GamePlayer player)
     {
-        super(player);
+        super(gamePanel, player);
 
         townImage.setSize("16px", "16px");
 
@@ -48,5 +52,11 @@ public class StockTownBitmapWidget extends AbstractStockItemWidget implements
     public void onPlayerPieceListChanged(PlayerPieceListChangedEvent<Road> event)
     {
         updateUI();
+    }
+
+    @Override
+    public PlayerDetailWidget createDetailWidget()
+    {
+        return new TownStockDetailWidget(player);
     }
 }

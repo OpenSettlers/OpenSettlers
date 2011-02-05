@@ -6,6 +6,9 @@ import soc.common.board.pieces.pieceLists.PlayerPieceListChangedEvent;
 import soc.common.board.pieces.pieceLists.PlayerPieceListChangedEventHandler;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.AbstractStockItemWidget;
+import soc.gwtClient.game.abstractWidgets.GamePanel;
+import soc.gwtClient.game.abstractWidgets.PlayerDetailWidget;
+import soc.gwtClient.game.widgets.standard.bitmap.playerDetail.CityStockDetailWidget;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.user.client.ui.Image;
@@ -18,9 +21,9 @@ public class StockCityBitmapWidget extends AbstractStockItemWidget implements
     Label amountCities = new Label();
     City city = new City();
 
-    public StockCityBitmapWidget(GamePlayer player)
+    public StockCityBitmapWidget(GamePanel gamePanel, GamePlayer player)
     {
-        super(player);
+        super(gamePanel, player);
 
         cityImage.setSize("16px", "16px");
         updateUI();
@@ -47,6 +50,12 @@ public class StockCityBitmapWidget extends AbstractStockItemWidget implements
     public void onPlayerPieceListChanged(PlayerPieceListChangedEvent<City> event)
     {
         updateUI();
+    }
+
+    @Override
+    public PlayerDetailWidget createDetailWidget()
+    {
+        return new CityStockDetailWidget(player);
     }
 
 }

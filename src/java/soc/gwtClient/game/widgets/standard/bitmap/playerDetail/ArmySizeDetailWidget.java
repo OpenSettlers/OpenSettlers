@@ -5,11 +5,11 @@ import soc.gwtClient.game.abstractWidgets.AbstractPlayerDetailWidget;
 
 public class ArmySizeDetailWidget extends AbstractPlayerDetailWidget
 {
+
     public ArmySizeDetailWidget(GamePlayer player)
     {
         super(player);
 
-        update();
     }
 
     private void update()

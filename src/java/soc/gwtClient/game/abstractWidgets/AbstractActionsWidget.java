@@ -42,6 +42,7 @@ public abstract class AbstractActionsWidget implements ActionsWidget
                 index++;
             }
         }
+        rootPanel.setWidth("100%");
     }
 
     /*

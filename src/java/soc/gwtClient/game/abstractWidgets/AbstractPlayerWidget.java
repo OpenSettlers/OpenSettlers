@@ -1,6 +1,5 @@
 package soc.gwtClient.game.abstractWidgets;
 
-import soc.common.game.Game;
 import soc.common.game.player.GamePlayer;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -18,14 +17,16 @@ public abstract class AbstractPlayerWidget extends HorizontalPanel implements
     protected VictoryPointsWidget victoryPointWidget;
     protected PlayerTurnStatusWidget turnStatusWidget;
     protected PortAmountWidget portAmountWidget;
+    protected HorizontalPanel panelName = new HorizontalPanel();
+    protected HorizontalPanel panelRest = new HorizontalPanel();
 
-    protected Game game;
+    protected GamePanel gamePanel;
     protected GamePlayer player;
     protected Label lblName = new Label();
 
-    public AbstractPlayerWidget(Game game, GamePlayer player)
+    public AbstractPlayerWidget(GamePanel gamePanel, GamePlayer player)
     {
-        this.game = game;
+        this.gamePanel = gamePanel;
         this.player = player;
 
         stockWidget = createStockWidget();
@@ -39,18 +40,24 @@ public abstract class AbstractPlayerWidget extends HorizontalPanel implements
         turnStatusWidget = createTurnStatusWidget();
         portAmountWidget = createPortAmountwidget();
 
-        add(lblName);
-        add(stockWidget);
-        add(portAmountWidget);
+        panelName.add(lblName);
 
-        add(devcardsWidget);
-        add(resourcesWidget);
-        add(largestArmyWidget);
-        add(longestRoadWidget);
-        add(victoryPointWidget);
-        add(turnStatusWidget);
+        panelRest.add(stockWidget);
+        panelRest.add(portAmountWidget);
+        panelRest.add(devcardsWidget);
+        panelRest.add(resourcesWidget);
+        panelRest.add(largestArmyWidget);
+        panelRest.add(longestRoadWidget);
+        panelRest.add(victoryPointWidget);
+        panelRest.add(turnStatusWidget);
+
+        panelName.setHorizontalAlignment(ALIGN_LEFT);
+        add(panelName);
+        panelRest.setHorizontalAlignment(ALIGN_RIGHT);
+        add(panelRest);
 
         this.setStyleName("player-widget-" + player.getColor());
+        this.setWidth("100%");
     }
 
     /*

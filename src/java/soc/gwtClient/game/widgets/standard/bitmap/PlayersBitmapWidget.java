@@ -1,9 +1,9 @@
 package soc.gwtClient.game.widgets.standard.bitmap;
 
-import soc.common.game.Game;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.Point2D;
 import soc.gwtClient.game.abstractWidgets.AbstractPlayersWidget;
+import soc.gwtClient.game.abstractWidgets.GamePanel;
 import soc.gwtClient.game.abstractWidgets.PlayerWidget;
 import soc.gwtClient.game.widgets.standard.bitmap.player.PlayerBitmapWidget;
 
@@ -11,15 +11,16 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class PlayersBitmapWidget extends AbstractPlayersWidget
 {
-    public PlayersBitmapWidget(Game game)
+    public PlayersBitmapWidget(GamePanel gamePanel)
     {
-        super(game);
+        super(gamePanel);
     }
 
     @Override
-    public PlayerWidget createPlayerWidget(Game game, GamePlayer player)
+    public PlayerWidget createPlayerWidget(GamePanel gamePanel,
+            GamePlayer player)
     {
-        return new PlayerBitmapWidget(game, player);
+        return new PlayerBitmapWidget(gamePanel, player);
     }
 
     @Override

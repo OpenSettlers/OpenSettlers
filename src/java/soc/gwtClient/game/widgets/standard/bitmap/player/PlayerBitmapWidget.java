@@ -1,10 +1,10 @@
 package soc.gwtClient.game.widgets.standard.bitmap.player;
 
-import soc.common.game.Game;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.Point2D;
 import soc.gwtClient.game.abstractWidgets.AbstractPlayerWidget;
 import soc.gwtClient.game.abstractWidgets.DevelopmentCardsAmountWidget;
+import soc.gwtClient.game.abstractWidgets.GamePanel;
 import soc.gwtClient.game.abstractWidgets.LargestArmyWidget;
 import soc.gwtClient.game.abstractWidgets.LongestRoadWidget;
 import soc.gwtClient.game.abstractWidgets.PlayerTurnStatusWidget;
@@ -22,15 +22,15 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 
 public class PlayerBitmapWidget extends AbstractPlayerWidget
 {
-    public PlayerBitmapWidget(Game game, GamePlayer player)
+    public PlayerBitmapWidget(GamePanel gamePanel, GamePlayer player)
     {
-        super(game, player);
+        super(gamePanel, player);
     }
 
     @Override
     public StockWidget createStockWidget()
     {
-        return new StockBitmapWidget(game, player);
+        return new StockBitmapWidget(gamePanel, player);
     }
 
     @Override
@@ -72,7 +72,7 @@ public class PlayerBitmapWidget extends AbstractPlayerWidget
     @Override
     public PlayerTurnStatusWidget createTurnStatusWidget()
     {
-        return new PlayerTurnStatusBitmapWidget(player, game);
+        return new PlayerTurnStatusBitmapWidget(player, gamePanel.getGame());
     }
 
     @Override

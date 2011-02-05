@@ -2,7 +2,6 @@ package soc.gwtClient.game.abstractWidgets;
 
 import java.util.HashMap;
 
-import soc.common.game.Game;
 import soc.common.game.player.GamePlayer;
 import soc.common.game.player.OrderChangedEvent;
 import soc.common.game.player.OrderChangedEventHandler;
@@ -15,24 +14,25 @@ public abstract class AbstractPlayersWidget implements PlayersWidget,
         OrderChangedEventHandler
 {
     protected ComplexPanel rootPanel;
-    protected Game game;
+    protected GamePanel gamePanel;
     protected GamePlayer player;
     protected HashMap<GamePlayer, PlayerWidget> playersWidgets = new HashMap<GamePlayer, PlayerWidget>();
 
-    public AbstractPlayersWidget(Game game)
+    public AbstractPlayersWidget(GamePanel gamePanel)
     {
-        this.game = game;
+        this.gamePanel = gamePanel;
 
         rootPanel = createRootPanel();
 
-        for (GamePlayer player : game.getPlayers())
+        for (GamePlayer player : gamePanel.getGame().getPlayers())
         {
-            PlayerWidget widget = createPlayerWidget(game, player);
+            PlayerWidget widget = createPlayerWidget(gamePanel, player);
             rootPanel.add(widget);
             playersWidgets.put(player, widget);
         }
 
-        game.getPlayers().addOrderChangedEventHandler(this);
+        gamePanel.getGame().getPlayers().addOrderChangedEventHandler(this);
+        rootPanel.setWidth("100%");
     }
 
     @Override
@@ -52,9 +52,7 @@ public abstract class AbstractPlayersWidget implements PlayersWidget,
     {
         rootPanel.clear();
 
-        for (GamePlayer player : game.getPlayers())
-        {
+        for (GamePlayer player : gamePanel.getGame().getPlayers())
             rootPanel.add(playersWidgets.get(player));
-        }
     }
 }

@@ -8,6 +8,7 @@ import soc.common.board.resources.ResourceList;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.GamePanel;
 import soc.gwtClient.game.abstractWidgets.PlayerDetailContainerWidget;
+import soc.gwtClient.game.abstractWidgets.PlayerDetailWidget;
 import soc.gwtClient.game.widgets.standard.bitmap.playerDetail.DetailContainerWidget;
 
 public class DetailContainerManager
@@ -37,12 +38,22 @@ public class DetailContainerManager
         }
     }
 
-    public void hideAll()
+    public void hideCurrentWidget()
     {
         for (PlayerDetailContainerWidget detailContainer : playersDetails
                 .values())
         {
-            detailContainer.hide();
+            detailContainer.hideCurrentWidget();
         }
+    }
+
+    public void showMouseOverDetail(GamePlayer player, PlayerDetailWidget widget)
+    {
+        playersDetails.get(player).showMouseOverWidget(widget);
+    }
+
+    public void hideMouseOverDetail(GamePlayer player)
+    {
+        playersDetails.get(player).hideMouseOverWidget();
     }
 }

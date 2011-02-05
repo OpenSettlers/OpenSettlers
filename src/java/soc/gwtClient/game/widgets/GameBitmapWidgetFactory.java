@@ -38,7 +38,7 @@ public class GameBitmapWidgetFactory implements GameWidgetFactory
     @Override
     public PlayersWidget createPlayersWidget()
     {
-        return new PlayersBitmapWidget(gamePanel.getGame());
+        return new PlayersBitmapWidget(gamePanel);
     }
 
     @Override

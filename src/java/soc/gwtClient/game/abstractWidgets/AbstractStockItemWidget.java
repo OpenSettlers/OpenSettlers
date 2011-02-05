@@ -1,24 +1,39 @@
 package soc.gwtClient.game.abstractWidgets;
 
+import soc.common.game.player.GamePlayer;
+
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import soc.common.game.player.GamePlayer;
-
-public abstract class AbstractStockItemWidget implements StockItemWidget
+public abstract class AbstractStockItemWidget implements StockItemWidget,
+        MouseOverHandler, MouseOutHandler
 {
     protected GamePlayer player;
     protected ComplexPanel rootPanel;
-    
-    public AbstractStockItemWidget(GamePlayer player)
+    protected GamePanel gamePanel;
+    protected PlayerDetailWidget detailWidget;
+
+    public AbstractStockItemWidget(GamePanel gamePanel, GamePlayer player)
     {
-        this.player=player;
-        
+        this.gamePanel = gamePanel;
+        this.player = player;
+
+        detailWidget = createDetailWidget();
+
         rootPanel = createRootPanel();
+
+        rootPanel.addDomHandler(this, MouseOverEvent.getType());
+        rootPanel.addDomHandler(this, MouseOutEvent.getType());
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.google.gwt.user.client.ui.IsWidget#asWidget()
      */
     @Override
@@ -26,13 +41,28 @@ public abstract class AbstractStockItemWidget implements StockItemWidget
     {
         return rootPanel;
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.gwtClient.client.game.IStockItemWidget#createRootPanel()
      */
     @Override
     public ComplexPanel createRootPanel()
     {
         return new VerticalPanel();
+    }
+
+    @Override
+    public void onMouseOver(MouseOverEvent event)
+    {
+        gamePanel.getDetailContainerManager().showMouseOverDetail(player,
+                detailWidget);
+    }
+
+    @Override
+    public void onMouseOut(MouseOutEvent event)
+    {
+        gamePanel.getDetailContainerManager().hideMouseOverDetail(player);
     }
 }

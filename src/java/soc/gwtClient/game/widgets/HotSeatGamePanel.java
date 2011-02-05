@@ -57,7 +57,7 @@ public class HotSeatGamePanel extends AbstractGamePanel implements
 
         playersActionsWidget = new HotSeatActionsPlayersWidget(this,
                 gameWidgetFactory);
-        boardActionResourcesPanel.addEast(playersActionsWidget, 20);
+        boardActionResourcesPanel.addEast(playersActionsWidget, 15);
         boardActionResourcesPanel.addSouth(statusPanel.asWidget(), 5);
         boardActionResourcesPanel.add(boardVisualPanel);
 

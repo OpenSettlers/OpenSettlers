@@ -46,8 +46,12 @@ public class StatusBitmapPanel extends AbstractStatusPanel
 
         if (turn.getID() != 0)
         {
-            sb.append("Turn #");
-            sb.append(turn.getID());
+            lblTurnID.setText("Turn #" + turn.getID());
+            lblTurnID.setVisible(true);
+        }
+        else
+        {
+            lblTurnID.setVisible(false);
         }
 
         sb.append("'s turn. ");

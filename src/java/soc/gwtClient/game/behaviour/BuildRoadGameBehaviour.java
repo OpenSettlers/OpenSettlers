@@ -36,7 +36,7 @@ public class BuildRoadGameBehaviour implements GameBehaviour,
 
         if (gamePanel.getGame().getCurrentPhase() instanceof PlayTurnsGamePhase)
         {
-            if (player.getResources().hasAtLeast(road.getCost()))
+            if (road.canPay(player))
             {
                 gamePanel.getGameBoardVisual().setBehaviour(
                         buildRoadGameBoardBehaviour);
@@ -56,8 +56,6 @@ public class BuildRoadGameBehaviour implements GameBehaviour,
     @Override
     public void cancel()
     {
-        // TODO Auto-generated method stub
-
     }
 
     @Override

@@ -113,7 +113,8 @@ public class Monopoly extends DevelopmentCard
         }
 
         // remove the trailing ","
-        message = msg.toString().substring(0, msg.toString().length() - 2);
+        // msg.toString().substring(0,msg.toString().length() - 2);
+        message = player.getUser().getName() + "played a monopoly";
 
         super.play(game, player);
     }
