@@ -13,8 +13,6 @@ import soc.gwtClient.game.abstractWidgets.ResourceAmountWidget;
 import soc.gwtClient.game.abstractWidgets.StockWidget;
 import soc.gwtClient.game.abstractWidgets.VictoryPointsWidget;
 import soc.gwtClient.game.widgets.bitmap.PlayerTurnStatusBitmapWidget;
-import soc.gwtClient.game.widgets.standard.bitmap.LargestArmyBitmapWidget;
-import soc.gwtClient.game.widgets.standard.bitmap.LongestRoadBitmapWidget;
 import soc.gwtClient.game.widgets.standard.bitmap.ResourceAmountBitmapWidget;
 
 import com.google.gwt.user.client.ui.ComplexPanel;
@@ -48,7 +46,7 @@ public class PlayerBitmapWidget extends AbstractPlayerWidget
     @Override
     public LargestArmyWidget createLargestArmyWidget()
     {
-        return new LargestArmyBitmapWidget(player);
+        return new LargestArmyBitmapWidget(gamePanel, player);
     }
 
     @Override
@@ -66,7 +64,7 @@ public class PlayerBitmapWidget extends AbstractPlayerWidget
     @Override
     public VictoryPointsWidget createVictoryPointWidget()
     {
-        return new VictoryPointsBitmapWidget(player);
+        return new VictoryPointsBitmapWidget(gamePanel, player);
     }
 
     @Override
@@ -85,7 +83,7 @@ public class PlayerBitmapWidget extends AbstractPlayerWidget
     @Override
     public PortAmountWidget createPortAmountwidget()
     {
-        return new PortAmountBitmapWidget(player);
+        return new PortAmountBitmapWidget(gamePanel, player);
     }
 
 }

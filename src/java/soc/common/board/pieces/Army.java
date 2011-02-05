@@ -8,6 +8,7 @@ import soc.common.game.VictoryPointItem;
 import soc.common.game.developmentCards.standard.Soldier;
 import soc.common.game.player.GamePlayer;
 
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
 
 public class Army extends AbstractPlayerPiece implements VictoryPointItem
@@ -17,6 +18,14 @@ public class Army extends AbstractPlayerPiece implements VictoryPointItem
     private List<Soldier> soldiers = new ArrayList<Soldier>();
     private boolean isLargest = false;
     private SimpleEventBus eventBus = new SimpleEventBus();
+
+    /**
+     * @return the soldiers
+     */
+    public List<Soldier> getSoldiers()
+    {
+        return soldiers;
+    }
 
     @Override
     public int getVictoryPoints()
@@ -31,7 +40,12 @@ public class Army extends AbstractPlayerPiece implements VictoryPointItem
 
     public void addSoldier(Soldier soldier)
     {
+        boolean wasLargest = isLargest;
+        int oldSoldierAmount = getSoldiersAmount();
         soldiers.add(soldier);
+        ArmyChangedEvent event = new ArmyChangedEvent(getSoldiersAmount(),
+                isLargest, wasLargest, oldSoldierAmount, null, soldier);
+        eventBus.fireEvent(event);
     }
 
     @Override
@@ -69,6 +83,12 @@ public class Army extends AbstractPlayerPiece implements VictoryPointItem
     public boolean affectsRoad()
     {
         return false;
+    }
+
+    public HandlerRegistration addSoldiersChangedEventHandler(
+            ArmyChangedEventHandler handler)
+    {
+        return eventBus.addHandler(ArmyChangedEvent.TYPE, handler);
     }
 
 }

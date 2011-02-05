@@ -1,25 +1,28 @@
 package soc.gwtClient.game.abstractWidgets;
 
+import soc.common.game.developmentCards.DevelopmentCardsChangedEventHandler;
+import soc.common.game.player.GamePlayer;
+
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import soc.common.game.developmentCards.DevelopmentCardsChangedEventHandler;
-import soc.common.game.player.GamePlayer;
-
-public abstract class AbstractLargestArmyWidget 
-    implements LargestArmyWidget, DevelopmentCardsChangedEventHandler
+public abstract class AbstractLargestArmyWidget implements LargestArmyWidget,
+        DevelopmentCardsChangedEventHandler
 {
     protected ComplexPanel rootPanel;
-    protected GamePlayer player; 
-    
-    public AbstractLargestArmyWidget(GamePlayer player)
+    protected GamePlayer player;
+    protected GamePanel gamePanel;
+
+    public AbstractLargestArmyWidget(GamePanel gamePanel, GamePlayer player)
     {
-        this.player=player;
-        
+        this.gamePanel = gamePanel;
+        this.player = player;
+
         rootPanel = createRootPanel();
-        
-        player.getPlayedDevelopmentCards().addDevelopmentCardsChangedEventHandler(this);
+
+        player.getPlayedDevelopmentCards()
+                .addDevelopmentCardsChangedEventHandler(this);
     }
 
     @Override
@@ -27,8 +30,10 @@ public abstract class AbstractLargestArmyWidget
     {
         return rootPanel;
     }
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.gwtClient.client.game.ILargestArmyWidget#createRootPanel()
      */
     @Override

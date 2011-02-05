@@ -1,4 +1,4 @@
-package soc.gwtClient.game.widgets.standard.bitmap;
+package soc.gwtClient.game.widgets.standard.bitmap.player;
 
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.AbstractLongestRoadWidget;
