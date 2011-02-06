@@ -9,6 +9,21 @@ public interface Icons extends ClientBundle
     @Source("size48/VictoryPoints.png")
     public ImageResource claimVictory();
 
+    @Source("size48/Lobby.png")
+    public ImageResource lobby();
+
+    @Source("size48/MapEditor.png")
+    public ImageResource mapEditor();
+
+    @Source("size48/Javadoc.png")
+    public ImageResource javadoc();
+
+    @Source("size48/Wiki.png")
+    public ImageResource wiki();
+
+    @Source("size48/City.png")
+    public ImageResource newHotseatGame();
+
     @Source("size16/Bot.png")
     public ImageResource botSmall();
 
