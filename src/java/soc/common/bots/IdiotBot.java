@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import soc.common.actions.gameAction.GameAction;
+import soc.common.actions.gameAction.turnActions.EndTurn;
 import soc.common.actions.gameAction.turnActions.standard.AcceptTradeOffer;
 import soc.common.actions.gameAction.turnActions.standard.CounterTradeOffer;
 import soc.common.actions.gameAction.turnActions.standard.LooseCards;
@@ -13,24 +14,36 @@ import soc.common.actions.gameAction.turnActions.standard.RejectTradeOffer;
 import soc.common.actions.gameAction.turnActions.standard.RobPlayer;
 import soc.common.actions.gameAction.turnActions.standard.RollDice;
 import soc.common.actions.gameAction.turnActions.standard.TradeOffer;
+import soc.common.board.HexLocation;
 import soc.common.board.HexPoint;
 import soc.common.board.HexSide;
 import soc.common.board.resources.ResourceList;
 import soc.common.board.routing.GraphPoint;
 import soc.common.board.routing.GraphSide;
+import soc.common.bots.namingStrategies.IdioticNames;
 import soc.common.game.Game;
 import soc.common.game.player.GamePlayer;
+import soc.common.game.player.GamePlayerList;
 import soc.common.game.trading.TradeResponse;
+import soc.common.game.variants.Standard;
+import soc.common.game.variants.Variant;
+import soc.common.server.data.BotUser;
 import soc.common.server.random.Random;
 
 /*
  * Simple bot implementation using randomness as main advice.
  */
-public class IdiotBot implements Bot
+public class IdiotBot extends AbstractBot
 {
     private Game game;
     private GamePlayer player;
     private Random random;
+    private static List<Class<? extends Variant>> supportedRuleSets = new ArrayList<Class<? extends Variant>>();
+
+    static
+    {
+        supportedRuleSets.add(Standard.class);
+    }
 
     public IdiotBot(Game game, GamePlayer player, Random random)
     {
@@ -38,6 +51,9 @@ public class IdiotBot implements Bot
         this.game = game;
         this.player = player;
         this.random = random;
+
+        botUser = new BotUser();
+        botUser.setName(new IdioticNames(random).getName());
     }
 
     @Override
@@ -47,7 +63,14 @@ public class IdiotBot implements Bot
         RollDice rollDice = (RollDice) new RollDice().setPlayer(player);
         principal.performAction(rollDice);
 
-        // 
+        // Hand control back to principal to perform possible robbing, robber
+        // moving, card loosing & gold picking
+        principal.handleActionsQueue();
+
+        // This bot is really a know-no. It just ends its turn.
+        EndTurn endTurn = new EndTurn();
+        endTurn.setPlayer(player);
+        principal.performAction(endTurn);
     }
 
     @Override
@@ -67,36 +90,6 @@ public class IdiotBot implements Bot
     {
         return grabRandomHexPoint(game.getBoard().getGraph()
                 .getTownCandidatesFirstTown(player));
-    }
-
-    private HexPoint grabRandomHexPoint(Set<GraphPoint> choices)
-    {
-        int randomNumer = random.nextInt(choices.size(), false);
-        int i = 0;
-        for (GraphPoint graphPoint : choices)
-        {
-            if (i == randomNumer)
-                return graphPoint.getPoint();
-
-            i++;
-        }
-
-        throw new AssertionError("Expected a town pick by now");
-    }
-
-    private HexSide grabRandomHexSide(Set<GraphSide> choices)
-    {
-        int randomNumer = random.nextInt(choices.size(), false);
-        int i = 0;
-        for (GraphSide graphSide : choices)
-        {
-            if (i == randomNumer)
-                return graphSide.getSide();
-
-            i++;
-        }
-
-        throw new AssertionError("Expected a road pick by now");
     }
 
     @Override
@@ -180,15 +173,73 @@ public class IdiotBot implements Bot
     @Override
     public PlaceRobber placeRobber()
     {
-        // TODO Auto-generated method stub
-        return null;
+        PlaceRobber placeRobber = new PlaceRobber();
+        placeRobber.setPlayer(player);
+
+        // Pick a random location
+        List<HexLocation> possibleLocations = game.getBoard().getGraph()
+                .getPossibleRobberLocations();
+        HexLocation randomLocation = possibleLocations.get(random.nextInt(
+                possibleLocations.size(), false));
+
+        placeRobber.setNewLocation(randomLocation);
+
+        return placeRobber;
     }
 
     @Override
     public RobPlayer robPlayer()
     {
-        // TODO Auto-generated method stub
-        return null;
+        RobPlayer robPlayer = new RobPlayer();
+        robPlayer.setPlayer(player);
+
+        GamePlayerList robCandidates = game.getPlayersAtHex(game.getRobber()
+                .getLocation(), player);
+
+        if (robCandidates.size() > 0)
+        {
+            GamePlayer robbedPlayer = robCandidates.get(random.nextInt(
+                    robCandidates.size(), false));
+            robPlayer.setRobbedPlayer(robbedPlayer);
+        }
+
+        return robPlayer;
+    }
+
+    private HexPoint grabRandomHexPoint(Set<GraphPoint> choices)
+    {
+        int randomNumer = random.nextInt(choices.size(), false);
+        int i = 0;
+        for (GraphPoint graphPoint : choices)
+        {
+            if (i == randomNumer)
+                return graphPoint.getPoint();
+
+            i++;
+        }
+
+        throw new AssertionError("Expected a town pick by now");
+    }
+
+    private HexSide grabRandomHexSide(Set<GraphSide> choices)
+    {
+        int randomNumer = random.nextInt(choices.size(), false);
+        int i = 0;
+        for (GraphSide graphSide : choices)
+        {
+            if (i == randomNumer)
+                return graphSide.getSide();
+
+            i++;
+        }
+
+        throw new AssertionError("Expected a road pick by now");
+    }
+
+    @Override
+    public List<Class<? extends Variant>> getSupportedVariants()
+    {
+        return supportedRuleSets;
     }
 
 }

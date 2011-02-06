@@ -11,6 +11,7 @@ import soc.common.board.pieces.pieceLists.Stock;
 import soc.common.board.pieces.pieceLists.TownList;
 import soc.common.board.ports.PortList;
 import soc.common.board.resources.ResourceList;
+import soc.common.bots.Bot;
 import soc.common.game.RoadTokensChangedEventHandler;
 import soc.common.game.VictoryPointsList;
 import soc.common.game.developmentCards.DevelopmentCardList;
@@ -68,4 +69,6 @@ public interface GamePlayer
             RoadTokensChangedEventHandler handler);
 
     public Army getArmy();
+
+    public Bot getBot();
 }

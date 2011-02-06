@@ -10,5 +10,6 @@
   <source path='utils'/>
   <source path='annotations'/>
   <source path='server'/>  
-  <source path='internationalization'/>  
+  <source path='internationalization'/>    
+  <source path='bots'/>  
 </module>

@@ -1,5 +1,7 @@
 package soc.common.server;
 
+import soc.common.bots.BotPrincipal;
+import soc.common.bots.BotPrincipalImpl;
 import soc.common.game.Game;
 import soc.common.server.actions.ServerActionFactory;
 import soc.common.server.random.ClientRandom;
@@ -8,6 +10,7 @@ public class HotSeatServer extends AbstractGameServer
 {
     public HotSeatServer(GameServerCallback callback)
     {
+        super();
         this.callback = callback;
 
         game = new Game();
@@ -35,5 +38,11 @@ public class HotSeatServer extends AbstractGameServer
     public ServerActionFactory createActionFactory()
     {
         return new ServerActionFactory();
+    }
+
+    @Override
+    public BotPrincipal createBotPrincipal()
+    {
+        return new BotPrincipalImpl(this);
     }
 }

@@ -11,6 +11,7 @@ import soc.common.board.pieces.pieceLists.Stock;
 import soc.common.board.pieces.pieceLists.TownList;
 import soc.common.board.ports.PortList;
 import soc.common.board.resources.ResourceList;
+import soc.common.bots.Bot;
 import soc.common.game.RoadTokensChangedEvent;
 import soc.common.game.RoadTokensChangedEventHandler;
 import soc.common.game.VictoryPointsList;
@@ -67,6 +68,9 @@ public class GamePlayerImpl implements GamePlayer
 
     // Largest army
     private Army army = new Army();
+
+    // Bot
+    private Bot bot = null;
 
     /**
      * @param user
@@ -365,10 +369,15 @@ public class GamePlayerImpl implements GamePlayer
         eventBus.addHandler(RoadTokensChangedEvent.TYPE, handler);
     }
 
+    /*
+     * Returns the bot if present, otherwise the user instance
+     * 
+     * @see soc.common.game.player.GamePlayer#getUser()
+     */
     @Override
     public User getUser()
     {
-        return user;
+        return bot == null ? user : bot;
     }
 
     /*
@@ -453,5 +462,11 @@ public class GamePlayerImpl implements GamePlayer
     public SidePieceList getSidePieces()
     {
         return sidePieces;
+    }
+
+    @Override
+    public Bot getBot()
+    {
+        return bot;
     }
 }

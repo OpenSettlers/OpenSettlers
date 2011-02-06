@@ -446,6 +446,18 @@ public class Game
         }
     }
 
+    /*
+     * Returns true if bots are present in this game
+     */
+    public boolean hasBots()
+    {
+        for (GamePlayer player : players)
+            if (player.getBot() != null)
+                return true;
+
+        return false;
+    }
+
     public HandlerRegistration addGamePhaseChangedEventHandler(
             GamePhaseChangedEventHandler handler)
     {

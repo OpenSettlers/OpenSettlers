@@ -2,6 +2,7 @@ package soc.common.server;
 
 import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.MessageFromServer;
+import soc.common.bots.BotPrincipal;
 import soc.common.game.Game;
 import soc.common.game.logs.ActionsQueue;
 import soc.common.server.actions.GameServerActionFactory;
@@ -18,11 +19,10 @@ public abstract class AbstractGameServer implements GameServer
     protected Game game;
     protected GameServerActionFactory serverActionFactory;
     protected Random random;
+    protected BotPrincipal botPrincipal;
 
     public AbstractGameServer()
     {
-        super();
-
         serverActionFactory = createActionFactory();
     }
 
@@ -83,13 +83,21 @@ public abstract class AbstractGameServer implements GameServer
             // send the action to all the players
             callback.receive(serverAction.getAction());
 
+            GameAction possibleNextServerAction = game.getActionsQueue().peek();
+
             // Check if the action enqueued a server action, if so: execute it
             // right away
-            GameAction possibleNextServerAction = game.getActionsQueue().peek();
             if (possibleNextServerAction != null
                     && possibleNextServerAction.isServer())
             {
                 sendAction(possibleNextServerAction);
+            }
+
+            // If bots should perform actions, call the bot principal to let the
+            // bots handle them
+            if (possibleNextServerAction != null && game.hasBots())
+            {
+                botPrincipal.handleActionsQueue();
             }
         }
     }

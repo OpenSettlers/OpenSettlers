@@ -9,6 +9,7 @@ import org.jgrapht.Graphs;
 import org.jgrapht.graph.ListenableUndirectedGraph;
 
 import soc.common.board.Board;
+import soc.common.board.HexLocation;
 import soc.common.board.HexPoint;
 import soc.common.board.HexSide;
 import soc.common.board.hexes.Hex;
@@ -395,5 +396,16 @@ public class BoardGraph
                 result.add(side);
 
         return result;
+    }
+
+    public List<HexLocation> getPossibleRobberLocations()
+    {
+        List<HexLocation> possibleRobberLocations = new ArrayList<HexLocation>();
+
+        for (Hex hex : board.getHexes())
+            if (hex.isRobberPlaceable())
+                possibleRobberLocations.add(hex.getLocation());
+
+        return possibleRobberLocations;
     }
 }
