@@ -377,7 +377,7 @@ public class GamePlayerImpl implements GamePlayer
     @Override
     public User getUser()
     {
-        return bot == null ? user : bot;
+        return user;
     }
 
     /*
@@ -468,5 +468,11 @@ public class GamePlayerImpl implements GamePlayer
     public Bot getBot()
     {
         return bot;
+    }
+
+    public void setBot(Bot newBot)
+    {
+        this.bot = newBot;
+        this.user = newBot;
     }
 }

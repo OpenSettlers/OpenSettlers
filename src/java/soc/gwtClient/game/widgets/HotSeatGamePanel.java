@@ -44,7 +44,7 @@ public class HotSeatGamePanel extends AbstractGamePanel implements
         start.setPlayer(new GamePlayerImpl().setUser(new Player().setName(
                 "Henk").setId(1)));
 
-        server.sendAction(start);
+        // server.sendAction(start);
     }
 
     @Override

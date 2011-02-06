@@ -9,6 +9,12 @@ public interface Icons extends ClientBundle
     @Source("size48/VictoryPoints.png")
     public ImageResource claimVictory();
 
+    @Source("size16/Bot.png")
+    public ImageResource botSmall();
+
+    @Source("size16/Player.png")
+    public ImageResource playerSmall();
+
     @Source("size32/EndedGamePhase.png")
     public ImageResource endedGamePhase();
 

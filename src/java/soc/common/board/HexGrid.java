@@ -24,7 +24,7 @@ public class HexGrid extends ArrayList<Hex>
         return height;
     }
 
-    HexGrid(int w, int h)
+    public HexGrid(int w, int h)
     {
         // Set the capacity of the list only once to increase performance
         this.ensureCapacity(w * h);

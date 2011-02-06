@@ -15,6 +15,7 @@ public class HotSeatServer extends AbstractGameServer
 
         game = new Game();
         random = new ClientRandom();
+        botPrincipal = createBotPrincipal();
     }
 
     @Override

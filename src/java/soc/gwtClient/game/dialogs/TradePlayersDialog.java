@@ -132,6 +132,7 @@ public class TradePlayersDialog extends PopupPanel implements TradePlayerUI,
         horizontalPanel.setSize("521px", "339px");
 
         VerticalPanel pnlPlayersResponse = new VerticalPanel();
+        pnlPlayersResponse.setHeight("100%");
         pnlPlayersResponse
                 .setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
         horizontalPanel.add(pnlPlayersResponse);
@@ -159,16 +160,23 @@ public class TradePlayersDialog extends PopupPanel implements TradePlayerUI,
         lblOfferStatus = new Label("New label");
         horizontalPanel_3.add(lblOfferStatus);
 
-        btnOfferTrade = new Button("New button");
-        btnOfferTrade.addClickHandler(new ClickHandler()
+        HorizontalPanel horizontalPanel_5 = new HorizontalPanel();
+        horizontalPanel_5
+                .setVerticalAlignment(HasVerticalAlignment.ALIGN_BOTTOM);
+        pnlPlayersResponse.add(horizontalPanel_5);
+
+        Button button = new Button("New button");
+        horizontalPanel_5.add(button);
+        button.setStyleName("cancel-button");
+        button.addClickHandler(new ClickHandler()
         {
-            public void onClick(ClickEvent event)
+            public void onClick(ClickEvent arg0)
             {
-                offerTrade();
+                hide();
             }
         });
-        btnOfferTrade.setText("Offer trade");
-        horizontalPanel_3.add(btnOfferTrade);
+        button.setText("Close");
+        button.setWidth("101px");
 
         VerticalPanel pnlTradeOptions = new VerticalPanel();
         horizontalPanel.add(pnlTradeOptions);
@@ -230,17 +238,17 @@ public class TradePlayersDialog extends PopupPanel implements TradePlayerUI,
         horizontalPanel_4.add(lblTradesLeft);
         lblTradesLeft.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 
-        Button button = new Button("New button");
-        dockPanel.add(button, DockPanel.EAST);
-        button.addClickHandler(new ClickHandler()
+        btnOfferTrade = new Button("New button");
+        dockPanel.add(btnOfferTrade, DockPanel.EAST);
+        btnOfferTrade.setStyleName("ok-button");
+        btnOfferTrade.addClickHandler(new ClickHandler()
         {
-            public void onClick(ClickEvent arg0)
+            public void onClick(ClickEvent event)
             {
-                hide();
+                offerTrade();
             }
         });
-        button.setText("Close");
-        button.setWidth("101px");
+        btnOfferTrade.setText("Offer trade");
     }
 
     /*

@@ -68,13 +68,10 @@ h1 {
   height: 200px;
 }
 .label-title {
-  font-size: 20px;
-  color: DarkBlue;
-  font-weight: bolder;
-  margin-top:10px;
-  margin-bottom:10px;
-  margin-right:10px;
-  margin-left:10px;
+	color: DarkBlue;
+	margin: 0.5em;
+	font-size: 20px;
+	font-weight: bolder;
 }
 .chathistorydebug{
   background-color: red;
@@ -117,4 +114,33 @@ h1 {
 .phasePanel{
 	width: 15em;
 	margin-left: 2em;
+}
+.header-label {
+	color: Navy;
+	margin: 0.25em;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: bolder;
+}
+.ok-button {
+	color: darkgreen;
+	margin: 0.5em;
+	padding: 1em;
+	font-size: 1em;
+	font-weight: bolder;
+}
+.cancel-button {
+	color: firebrick;
+	margin: 0.25em;
+	padding: 0.5em;
+	border: 0.25;
+	font-size: 0.75em;
+}
+.newHotseatGame {
+	border: 3px dashed Navy;
+}
+.common-panel {
+	margin-left: 1em;
+	padding-left: 1em;
+	border-left: thick solid Navy;
 }

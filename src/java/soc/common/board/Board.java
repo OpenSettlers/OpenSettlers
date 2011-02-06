@@ -1,27 +1,14 @@
 package soc.common.board;
 
 import soc.common.board.hexes.AbstractHex;
-import soc.common.board.hexes.DesertHex;
 import soc.common.board.hexes.Hex;
-import soc.common.board.hexes.NoneHex;
-import soc.common.board.hexes.RandomHex;
-import soc.common.board.hexes.ResourceHex;
 import soc.common.board.hexes.SeaHex;
 import soc.common.board.ports.Port;
 import soc.common.board.ports.PortList;
 import soc.common.board.ports.PossiblePort;
-import soc.common.board.ports.RandomPort;
-import soc.common.board.ports.ThreeToOnePort;
-import soc.common.board.ports.TwoToOneResourcePort;
-import soc.common.board.resources.Clay;
-import soc.common.board.resources.Ore;
-import soc.common.board.resources.Sheep;
-import soc.common.board.resources.Timber;
-import soc.common.board.resources.Wheat;
 import soc.common.board.routing.BoardGraph;
 import soc.common.board.routing.GraphPoint;
 import soc.common.board.routing.GraphSide;
-import soc.common.board.territories.Territory;
 import soc.common.board.territories.TerritoryImpl;
 import soc.common.board.territories.TerritoryList;
 import soc.common.server.random.ClientRandom;
@@ -61,20 +48,20 @@ import soc.common.server.random.Random;
 public class Board
 {
     // list of hexes this board is made of
-    private HexGrid hexes;
+    protected HexGrid hexes;
 
     // graph containing all the GraphPoints and GraphSides
-    private BoardGraph graph;
+    protected BoardGraph graph;
 
     // Specific settings for this board
-    private BoardSettings boardSettings;
+    protected BoardSettings boardSettings;
 
-    private Random random = new ClientRandom();
+    protected Random random = new ClientRandom();
 
     /*
      * List of territories associated with this board
      */
-    private TerritoryList territories = new TerritoryList()
+    protected TerritoryList territories = new TerritoryList()
             .addNew(new TerritoryImpl().setMainland(true));
 
     public Board(int width, int height)
@@ -95,136 +82,7 @@ public class Board
      */
     public Board()
     {
-        this.hexes = new HexGrid(7, 7);
 
-        // Row 1
-        hexes.add(new NoneHex().setLocation(new HexLocation(0, 0)));
-        hexes.add(new SeaHex().setLocation(new HexLocation(1, 0)));
-        hexes.add(new SeaHex().setLocation(new HexLocation(2, 0)));
-        hexes.add(new SeaHex().setLocation(new HexLocation(3, 0)));
-        hexes.add(new SeaHex().setLocation(new HexLocation(4, 0)));
-        hexes.add(new NoneHex().setLocation(new HexLocation(5, 0)));
-        hexes.add(new NoneHex().setLocation(new HexLocation(6, 0)));
-
-        // Row 2
-        hexes.add(new NoneHex().setLocation(new HexLocation(0, 1)));
-        hexes.add(new SeaHex().setLocation(new HexLocation(1, 1)));
-        hexes.add(new RandomHex().setLocation(new HexLocation(2, 1)));
-        hexes.add(new RandomHex().setLocation(new HexLocation(3, 1)));
-        hexes.add(new RandomHex().setLocation(new HexLocation(4, 1)));
-        hexes.add(new SeaHex().setLocation(new HexLocation(5, 1)));
-        hexes.add(new NoneHex().setLocation(new HexLocation(6, 1)));
-
-        // Row 3
-        hexes.add(new SeaHex().setLocation(new HexLocation(0, 2)));
-        hexes.add(new RandomHex().setLocation(new HexLocation(1, 2)));
-        hexes.add(new RandomHex().setLocation(new HexLocation(2, 2)));
-        hexes.add(new RandomHex().setLocation(new HexLocation(3, 2)));
-        hexes.add(new RandomHex().setLocation(new HexLocation(4, 2)));
-        hexes.add(new SeaHex().setLocation(new HexLocation(5, 2)));
-        hexes.add(new NoneHex().setLocation(new HexLocation(6, 2)));
-
-        hexes.add(new SeaHex().setLocation(new HexLocation(0, 3)));
-        hexes.add(new RandomHex().setLocation(new HexLocation(1, 3)));
-        hexes.add(new RandomHex().setLocation(new HexLocation(2, 3)));
-        hexes.add(new RandomHex().setLocation(new HexLocation(3, 3)));
-        hexes.add(new RandomHex().setLocation(new HexLocation(4, 3)));
-        hexes.add(new RandomHex().setLocation(new HexLocation(5, 3)));
-        hexes.add(new SeaHex().setLocation(new HexLocation(6, 3)));
-
-        hexes.add(new SeaHex().setLocation(new HexLocation(0, 4)));
-        hexes.add(new RandomHex().setLocation(new HexLocation(1, 4)));
-        hexes.add(new RandomHex().setLocation(new HexLocation(2, 4)));
-        hexes.add(new RandomHex().setLocation(new HexLocation(3, 4)));
-        hexes.add(new RandomHex().setLocation(new HexLocation(4, 4)));
-        hexes.add(new SeaHex().setLocation(new HexLocation(5, 4)));
-        hexes.add(new NoneHex().setLocation(new HexLocation(6, 4)));
-
-        hexes.add(new NoneHex().setLocation(new HexLocation(0, 5)));
-        hexes.add(new SeaHex().setLocation(new HexLocation(1, 5)));
-        hexes.add(new RandomHex().setLocation(new HexLocation(2, 5)));
-        hexes.add(new RandomHex().setLocation(new HexLocation(3, 5)));
-        hexes.add(new RandomHex().setLocation(new HexLocation(4, 5)));
-        hexes.add(new SeaHex().setLocation(new HexLocation(5, 5)));
-        hexes.add(new NoneHex().setLocation(new HexLocation(6, 5)));
-
-        hexes.add(new NoneHex().setLocation(new HexLocation(0, 6)));
-        hexes.add(new SeaHex().setLocation(new HexLocation(1, 6)));
-        hexes.add(new SeaHex().setLocation(new HexLocation(2, 6)));
-        hexes.add(new SeaHex().setLocation(new HexLocation(3, 6)));
-        hexes.add(new SeaHex().setLocation(new HexLocation(4, 6)));
-        hexes.add(new NoneHex().setLocation(new HexLocation(5, 6)));
-        hexes.add(new NoneHex().setLocation(new HexLocation(6, 6)));
-
-        Territory territory = territories.get(0);
-        for (Hex hex : hexes)
-        {
-            if (hex instanceof RandomHex)
-            {
-                hex.setTerritory(territory);
-            }
-        }
-        territory.getHexes().add(new DesertHex());
-        territory.getHexes().add(new ResourceHex(new Wheat()));
-        territory.getHexes().add(new ResourceHex(new Wheat()));
-        territory.getHexes().add(new ResourceHex(new Wheat()));
-        territory.getHexes().add(new ResourceHex(new Wheat()));
-
-        territory.getHexes().add(new ResourceHex(new Timber()));
-        territory.getHexes().add(new ResourceHex(new Timber()));
-        territory.getHexes().add(new ResourceHex(new Timber()));
-        territory.getHexes().add(new ResourceHex(new Timber()));
-
-        territory.getHexes().add(new ResourceHex(new Ore()));
-        territory.getHexes().add(new ResourceHex(new Ore()));
-        territory.getHexes().add(new ResourceHex(new Ore()));
-
-        territory.getHexes().add(new ResourceHex(new Clay()));
-        territory.getHexes().add(new ResourceHex(new Clay()));
-        territory.getHexes().add(new ResourceHex(new Clay()));
-
-        territory.getHexes().add(new ResourceHex(new Sheep()));
-        territory.getHexes().add(new ResourceHex(new Sheep()));
-        territory.getHexes().add(new ResourceHex(new Sheep()));
-        territory.getHexes().add(new ResourceHex(new Sheep()));
-
-        for (Hex hex : hexes)
-            hex.setTerritory(territories.get(0));
-
-        for (Chit chit : ChitList.getStandardList())
-            territory.getChits().add(chit);
-
-        Territory mainlaind = territories.get(0);
-        mainlaind.getPorts().add(new ThreeToOnePort());
-        mainlaind.getPorts().add(new ThreeToOnePort());
-        mainlaind.getPorts().add(new ThreeToOnePort());
-        mainlaind.getPorts().add(new ThreeToOnePort());
-        mainlaind.getPorts().add(new TwoToOneResourcePort(new Timber()));
-        mainlaind.getPorts().add(new TwoToOneResourcePort(new Wheat()));
-        mainlaind.getPorts().add(new TwoToOneResourcePort(new Ore()));
-        mainlaind.getPorts().add(new TwoToOneResourcePort(new Clay()));
-        mainlaind.getPorts().add(new TwoToOneResourcePort(new Sheep()));
-
-        ((SeaHex) hexes.get(1, 0)).setPort(new RandomPort(hexes.get(1, 0)
-                .getLocation(), RotationPosition.DEG120));
-        ((SeaHex) hexes.get(3, 0)).setPort(new RandomPort(hexes.get(3, 0)
-                .getLocation(), RotationPosition.DEG120));
-        ((SeaHex) hexes.get(0, 2)).setPort(new RandomPort(hexes.get(0, 2)
-                .getLocation(), RotationPosition.DEG60));
-        ((SeaHex) hexes.get(6, 3)).setPort(new RandomPort(hexes.get(6, 3)
-                .getLocation(), RotationPosition.DEG240));
-        ((SeaHex) hexes.get(0, 4)).setPort(new RandomPort(hexes.get(0, 4)
-                .getLocation(), RotationPosition.DEG60));
-        ((SeaHex) hexes.get(5, 5)).setPort(new RandomPort(hexes.get(5, 5)
-                .getLocation(), RotationPosition.DEG300));
-        ((SeaHex) hexes.get(5, 1)).setPort(new RandomPort(hexes.get(5, 1)
-                .getLocation(), RotationPosition.DEG180));
-        ((SeaHex) hexes.get(1, 6)).setPort(new RandomPort(hexes.get(1, 6)
-                .getLocation(), RotationPosition.DEG0));
-        ((SeaHex) hexes.get(3, 6)).setPort(new RandomPort(hexes.get(3, 6)
-                .getLocation(), RotationPosition.DEG300));
-
-        initialize();
     }
 
     private void initialize()

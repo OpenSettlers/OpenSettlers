@@ -217,10 +217,13 @@ public class TradeBankDialog extends PopupPanel implements BankTradeUI,
         givePanel.add(lblWhatYouWant);
 
         HorizontalPanel horizontalPanel_4 = new HorizontalPanel();
+        horizontalPanel_4
+                .setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
         horizontalPanel_4.setSpacing(10);
         verticalPanel.add(horizontalPanel_4);
 
         Button button = new Button("New button");
+        button.setStyleName("cancel-button");
         button.addClickHandler(new ClickHandler()
         {
             public void onClick(ClickEvent arg0)
@@ -232,6 +235,7 @@ public class TradeBankDialog extends PopupPanel implements BankTradeUI,
         horizontalPanel_4.add(button);
 
         btnTrade = new Button("New button");
+        btnTrade.setStyleName("ok-button");
         btnTrade.addClickHandler(new ClickHandler()
         {
             public void onClick(ClickEvent arg0)

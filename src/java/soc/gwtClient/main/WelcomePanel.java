@@ -1,19 +1,24 @@
 package soc.gwtClient.main;
 
 import soc.gwtClient.game.CenterWidget;
+import soc.gwtClient.game.dialogs.NewHotseatGame;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class WelcomePanel extends HorizontalPanel implements CenterWidget
 {
-    private VerticalPanel rootPanel = new VerticalPanel();
+    private DockLayoutPanel rootPanel = new DockLayoutPanel(Unit.EM);
+    private VerticalPanel menuPanel = new VerticalPanel();
     private Button btnMapCreator;
     private final MainWindow mainWindow;
+    private NewHotseatGame newHotseatGameWidget = new NewHotseatGame();
 
     public WelcomePanel(MainWindow mainWindow)
     {
@@ -24,19 +29,21 @@ public class WelcomePanel extends HorizontalPanel implements CenterWidget
 
     private void initialize()
     {
+        rootPanel.addWest(menuPanel, 15);
+
+        menuPanel.setSpacing(5);
+
         Button btnHotseatGame = new Button();
         btnHotseatGame.setHTML("<H3>HotSeat game</H3>Play a mock hotseat game");
         btnHotseatGame.addClickHandler(new ClickHandler()
         {
-
             @Override
             public void onClick(ClickEvent event)
             {
-                mainWindow.setCurrentWidget(mainWindow.getHotseatGame());
+                rootPanel.add(newHotseatGameWidget);
             }
         });
-        rootPanel.setSpacing(10);
-        rootPanel.add(btnHotseatGame);
+        menuPanel.add(btnHotseatGame);
 
         Button btnvisitWikihelpWrite = new Button(
                 "<H3>Visit Wiki</H3>Help write our UI using wiki");
@@ -47,7 +54,7 @@ public class WelcomePanel extends HorizontalPanel implements CenterWidget
                 mainWindow.setCurrentWidget(mainWindow.getWikiPage());
             }
         });
-        rootPanel.add(btnvisitWikihelpWrite);
+        menuPanel.add(btnvisitWikihelpWrite);
 
         btnMapCreator = new Button();
         btnMapCreator.setHTML("<H3>MapCreator</H3>create a new map");
@@ -59,7 +66,7 @@ public class WelcomePanel extends HorizontalPanel implements CenterWidget
                 mainWindow.setCurrentWidget(mainWindow.getMapEditor());
             }
         });
-        rootPanel.add(btnMapCreator);
+        menuPanel.add(btnMapCreator);
 
         Button btnJavadoc = new Button();
         btnJavadoc.setHTML("<H3>View Javadoc</H3>create a new map");
@@ -71,7 +78,7 @@ public class WelcomePanel extends HorizontalPanel implements CenterWidget
                 mainWindow.setCurrentWidget(mainWindow.getJavadoc());
             }
         });
-        rootPanel.add(btnJavadoc);
+        menuPanel.add(btnJavadoc);
 
         Button btnLobby = new Button();
         btnLobby.setHTML("<H3>Lobby</H3>Find games and players");
@@ -83,7 +90,7 @@ public class WelcomePanel extends HorizontalPanel implements CenterWidget
                 mainWindow.setCurrentWidget(mainWindow.getLobby());
             }
         });
-        rootPanel.add(btnLobby);
+        menuPanel.add(btnLobby);
     }
 
     @Override
