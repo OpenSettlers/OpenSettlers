@@ -72,7 +72,7 @@ public class PlaceRobber extends AbstractTurnAction
         // or playing a soldier development card
 
         // Player may not leave the robber on the same location
-        if (game.getRobber().equals(newLocation))
+        if (game.getRobber().getLocation().equals(newLocation))
         {
             invalidMessage = "putting robber back onto same location is not allowed";
             return false;

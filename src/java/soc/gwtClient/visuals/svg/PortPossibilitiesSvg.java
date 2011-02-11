@@ -8,12 +8,12 @@ import soc.common.board.ports.Port;
 import soc.gwtClient.game.Point2D;
 import soc.gwtClient.visuals.abstractVisuals.AbstractPortPossibilitiesVisual;
 
-public class PortPossiblitiesSvg extends AbstractPortPossibilitiesVisual
+public class PortPossibilitiesSvg extends AbstractPortPossibilitiesVisual
         implements SvgVisual
 {
     private Group group;
 
-    public PortPossiblitiesSvg(HexLocation seaLocation,
+    public PortPossibilitiesSvg(HexLocation seaLocation,
             BoardSvg parent)
     {
         super(seaLocation, parent);

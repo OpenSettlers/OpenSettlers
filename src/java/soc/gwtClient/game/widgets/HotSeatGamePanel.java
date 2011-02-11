@@ -2,11 +2,10 @@ package soc.gwtClient.game.widgets;
 
 import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.HostStartsGame;
+import soc.common.game.Game;
 import soc.common.game.TurnChangedEvent;
 import soc.common.game.TurnChangedEventHandler;
-import soc.common.game.player.GamePlayerImpl;
 import soc.common.server.HotSeatServer;
-import soc.common.server.data.Player;
 import soc.gwtClient.game.CenterWidget;
 import soc.gwtClient.game.Point2D;
 import soc.gwtClient.game.abstractWidgets.AbstractGamePanel;
@@ -39,12 +38,16 @@ public class HotSeatGamePanel extends AbstractGamePanel implements
         super();
 
         server = new HotSeatServer(this);
+    }
 
+    public void startGame(Game game)
+    {
         HostStartsGame start = new HostStartsGame();
-        start.setPlayer(new GamePlayerImpl().setUser(new Player().setName(
-                "Henk").setId(1)));
+        start.setGame(game);
 
-        // server.sendAction(start);
+        start.setPlayer(game.getPlayers().get(0));
+
+        server.sendAction(start);
     }
 
     @Override

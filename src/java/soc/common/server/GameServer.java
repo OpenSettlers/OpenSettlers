@@ -21,4 +21,6 @@ public interface GameServer extends Server
     public ServerActionFactory createActionFactory();
 
     public BotPrincipal createBotPrincipal();
+
+    public void startGame(Game game);
 }

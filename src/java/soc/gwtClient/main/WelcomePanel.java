@@ -19,11 +19,13 @@ public class WelcomePanel extends HorizontalPanel implements CenterWidget
     private VerticalPanel menuPanel = new VerticalPanel();
     private Button btnMapCreator;
     private final MainWindow mainWindow;
-    private NewHotseatGame newHotseatGameWidget = new NewHotseatGame();
+    private NewHotseatGame newHotseatGameWidget;
 
     public WelcomePanel(MainWindow mainWindow)
     {
         this.mainWindow = mainWindow;
+
+        newHotseatGameWidget = new NewHotseatGame(mainWindow);
 
         initialize();
     }

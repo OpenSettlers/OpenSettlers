@@ -3,15 +3,10 @@ package soc.common.server.actions;
 import soc.common.actions.gameAction.AbstractGameAction;
 import soc.common.actions.gameAction.HostStartsGame;
 import soc.common.board.Board;
-import soc.common.board.hexes.Hex;
-import soc.common.game.Game;
 import soc.common.game.developmentCards.DevelopmentCardList;
-import soc.common.game.player.GamePlayer;
 import soc.common.game.player.GamePlayerImpl;
 import soc.common.server.GameServer;
-import soc.common.server.data.Player;
 import soc.common.server.data.UnregisteredUser;
-import soc.common.server.data.User;
 
 public class ServerStartGame implements ServerAction
 {
@@ -34,8 +29,13 @@ public class ServerStartGame implements ServerAction
     @Override
     public void execute()
     {
-        createNewGame();
+        // Make sure we have a valid game instance. If not, make a default one.
+        if (hostStartsGame.getGame() == null)
+            createNewGame();
+        else
+            hostStartsGame.getGame().initialize();
 
+        gameServer.startGame(hostStartsGame.getGame());
         gameServer.getGame().performAction(hostStartsGame);
     }
 
@@ -79,42 +79,7 @@ public class ServerStartGame implements ServerAction
         // }
 
         gameServer.getGame().setBoard(new Board());
-
-        gameServer.getGame().start();
-
         hostStartsGame.setGame(gameServer.getGame());
-    }
-
-    private Board copyBoard(Board board)
-    {
-        Board result = new Board(board.getWidth(), board.getHeight());
-
-        for (Hex hex : board.getHexes())
-            result.getHexes().set(hex.getLocation(), hex.copy());
-
-        return result;
-    }
-
-    private Game copyGame(Game game)
-    {
-        Game result = new Game();
-
-        for (GamePlayer player : game.getPlayers())
-            result.getPlayers().add(copyPlayer(player));
-
-        result.setBoard(copyBoard(game.getBoard()));
-
-        return result;
-    }
-
-    private GamePlayer copyPlayer(GamePlayer player)
-    {
-        User otherUser = player.getUser();
-
-        User user = new Player().setId(otherUser.getId()).setName(
-                otherUser.getName());
-
-        return new GamePlayerImpl().setUser(user).setColor(player.getColor());
     }
 
     private DevelopmentCardList shuffleDevcardsDeck(DevelopmentCardList devcards)

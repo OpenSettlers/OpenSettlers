@@ -411,6 +411,7 @@ public class Game
         }
 
         currentStatus = new Playing();
+        board.initialize();
     }
 
     /*
@@ -510,7 +511,6 @@ public class Game
     public Game setBoard(Board board)
     {
         this.board = board;
-
         return this;
     }
 

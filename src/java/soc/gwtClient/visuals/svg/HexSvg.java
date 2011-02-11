@@ -41,8 +41,8 @@ public class HexSvg extends AbstractHexVisual implements MouseMoveHandler,
         // create the visuals
         this.chit = new ChitSvg(null, parent, getMiddlePoint(point));
         this.territory = new TerritorySvg(parent, null, point);
-        this.portPossibilities = new PortPossiblitiesSvg(hex.getLocation(),
-                (BoardSvg) parent);
+        this.portPossibilities = new DummyPortPossibilitiesSvg(hex
+                .getLocation(), (BoardSvg) parent);
         this.port = new PortSvg(null, parent, getMiddlePoint(point));
 
         this.chit.setVisible(false);
@@ -119,9 +119,9 @@ public class HexSvg extends AbstractHexVisual implements MouseMoveHandler,
         return (TerritorySvg) territory;
     }
 
-    private PortPossiblitiesSvg getSvgPortPossibilitiesVisual()
+    private PortPossibilitiesSvg getSvgPortPossibilitiesVisual()
     {
-        return (PortPossiblitiesSvg) portPossibilities;
+        return (PortPossibilitiesSvg) portPossibilities;
     }
 
     private PortSvg getSvgPortVisual()

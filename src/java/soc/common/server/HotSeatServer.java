@@ -46,4 +46,10 @@ public class HotSeatServer extends AbstractGameServer
     {
         return new BotPrincipalImpl(this);
     }
+
+    @Override
+    public void startGame(Game game)
+    {
+        this.game = game;
+    }
 }

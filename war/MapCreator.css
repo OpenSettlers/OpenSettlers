@@ -144,3 +144,36 @@ h1 {
 	padding-left: 1em;
 	border-left: thick solid Navy;
 }
+.common-panel:hover {
+	background-color: aliceblue;
+}
+.color-option-red {
+	padding: 10px 5px 5px;
+	border: 2px solid red;
+	background-color: red;
+}
+.color-option-yellow {
+	padding: 10px 5px 5px;
+	border: 2px solid khaki;
+	background-color: khaki;
+}
+.color-option-blue {
+	padding: 10px 5px 5px;
+	border: 2px solid blue;
+	background-color: blue;
+}
+.color-option-white {
+	padding: 10px 5px 5px;
+	border: 2px solid lightgrey;
+	background-color: lightgrey;
+}
+.color-option-green {
+	padding: 10px 5px 5px;
+	border: 2px solid green;
+	background-color: green;
+}
+.color-option-orange {
+	padding: 10px 5px 5px;
+	border: 2px solid orange;
+	background-color: orange;
+}

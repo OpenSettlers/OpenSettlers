@@ -72,8 +72,6 @@ public class Board
         for (int h = 0; h < height; h++)
             for (int w = 0; w < width; w++)
                 hexes.add(new SeaHex().setLocation(new HexLocation(w, h)));
-
-        initialize();
     }
 
     /*
@@ -85,7 +83,7 @@ public class Board
 
     }
 
-    private void initialize()
+    public void initialize()
     {
         graph = new BoardGraph(this);
     }

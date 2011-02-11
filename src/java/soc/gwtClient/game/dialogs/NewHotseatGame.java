@@ -1,6 +1,9 @@
 package soc.gwtClient.game.dialogs;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import soc.common.board.Board;
 import soc.common.bots.Bot;
@@ -14,7 +17,9 @@ import soc.common.server.data.Player;
 import soc.common.server.random.ClientRandom;
 import soc.common.utils.ClassUtils;
 import soc.gwtClient.game.widgets.BoardViewerWidget;
+import soc.gwtClient.game.widgets.bitmap.ColorCell;
 import soc.gwtClient.images.Resources;
+import soc.gwtClient.main.MainWindow;
 
 import com.google.gwt.cell.client.ButtonCell;
 import com.google.gwt.cell.client.FieldUpdater;
@@ -23,8 +28,12 @@ import com.google.gwt.cell.client.NumberCell;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
@@ -36,6 +45,7 @@ import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TextBox;
@@ -45,7 +55,8 @@ import com.google.gwt.view.client.ProvidesKey;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 
-public class NewHotseatGame extends Composite
+public class NewHotseatGame extends Composite implements
+        ValueChangeHandler<Boolean>
 {
     private BoardProvider boardProvider = new ConstructorBoardProvider();
     private CellTable<Board> cellTable;
@@ -53,7 +64,6 @@ public class NewHotseatGame extends Composite
     private Game newGame = new Game();
     private ListDataProvider<GamePlayer> playerProvider = new ListDataProvider<GamePlayer>();
     private int userID = 0;
-
     private ProvidesKey<Board> boardKeyProvider = new ProvidesKey<Board>()
     {
         @Override
@@ -64,6 +74,18 @@ public class NewHotseatGame extends Composite
     };
     private SimplePanel panelBoardPreview;
     private Label lblSelectedBoard;
+    private RadioButton radiobuttonYellow;
+    private RadioButton radiobuttonOrange;
+    private RadioButton radiobuttonBlue;
+    private RadioButton radiobuttonGrey;
+    private RadioButton radiobuttonGreen;
+    private RadioButton radiobuttonRed;
+    private TextBox textboxPlayerName;
+    private Button buttonAddPlayer;
+    private Map<String, RadioButton> colorsRadioButtons = new HashMap<String, RadioButton>();
+    private Board selectedBoard = null;
+    private Button buttonStartGame;
+    private MainWindow mainWindow;
 
     public NewHotseatGame()
     {
@@ -76,7 +98,7 @@ public class NewHotseatGame extends Composite
                     {
                         if (selectionModel.getSelectedObject() != null)
                         {
-                            Board selectedBoard = (Board) selectionModel
+                            selectedBoard = (Board) selectionModel
                                     .getSelectedObject();
                             int width = panelBoardPreview.getOffsetWidth();
                             int height = panelBoardPreview.getOffsetHeight();
@@ -85,11 +107,16 @@ public class NewHotseatGame extends Composite
                             panelBoardPreview.setWidget(widget);
                             lblSelectedBoard.setText(selectedBoard
                                     .getBoardSettings().getName());
+
+                            updateUI();
                         }
                         else
                         {
                             panelBoardPreview.setWidget(null);
                             lblSelectedBoard.setText("[none selected]");
+                            selectedBoard = null;
+
+                            updateUI();
                         }
 
                     }
@@ -116,7 +143,7 @@ public class NewHotseatGame extends Composite
         VerticalPanel verticalPanel_1 = new VerticalPanel();
         verticalPanel_1.setSpacing(5);
         horizontalPanel_1.add(verticalPanel_1);
-        verticalPanel_1.setWidth("439px");
+        verticalPanel_1.setWidth("100%");
 
         Label lblPlayers = new Label("Players");
         lblPlayers.setStyleName("header-label");
@@ -125,33 +152,78 @@ public class NewHotseatGame extends Composite
         VerticalPanel verticalPanel = new VerticalPanel();
         verticalPanel.setStyleName("common-panel");
         verticalPanel_1.add(verticalPanel);
+        verticalPanel.setWidth("100%");
 
         HorizontalPanel horizontalPanel_2 = new HorizontalPanel();
         verticalPanel.add(horizontalPanel_2);
         horizontalPanel_2.setSpacing(5);
 
-        final TextBox textBox = new TextBox();
-        textBox.addKeyUpHandler(new KeyUpHandler()
+        textboxPlayerName = new TextBox();
+        textboxPlayerName.setText("Myself");
+        textboxPlayerName.addKeyDownHandler(new KeyDownHandler()
+        {
+            @Override
+            public void onKeyDown(KeyDownEvent event)
+            {
+                canAddPlayer();
+            }
+        });
+        textboxPlayerName.addKeyUpHandler(new KeyUpHandler()
         {
             public void onKeyUp(KeyUpEvent event)
             {
-                if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER)
-                    addPlayer(textBox.getText());
+                if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER
+                        && canAddPlayer())
+                    addPlayer();
             }
-
         });
-        horizontalPanel_2.add(textBox);
+        horizontalPanel_2.add(textboxPlayerName);
 
-        Button button = new Button("New button");
-        button.addClickHandler(new ClickHandler()
+        buttonAddPlayer = new Button("New button");
+        buttonAddPlayer.addClickHandler(new ClickHandler()
         {
             public void onClick(ClickEvent event)
             {
-                addPlayer(textBox.getText());
+                if (canAddPlayer())
+                    addPlayer();
             }
         });
-        button.setText("add player");
-        horizontalPanel_2.add(button);
+
+        HorizontalPanel horizontalPanel_6 = new HorizontalPanel();
+        horizontalPanel_2.add(horizontalPanel_6);
+
+        radiobuttonYellow = new RadioButton("color", "");
+        radiobuttonYellow.setValue(true);
+        radiobuttonYellow.setStyleName("color-option-yellow");
+        radiobuttonYellow.addValueChangeHandler(this);
+        horizontalPanel_6.add(radiobuttonYellow);
+
+        radiobuttonOrange = new RadioButton("color", "");
+        radiobuttonOrange.setStyleName("color-option-orange");
+        radiobuttonOrange.addValueChangeHandler(this);
+        horizontalPanel_6.add(radiobuttonOrange);
+
+        radiobuttonBlue = new RadioButton("color", "");
+        radiobuttonBlue.setStyleName("color-option-blue");
+        radiobuttonBlue.addValueChangeHandler(this);
+        horizontalPanel_6.add(radiobuttonBlue);
+
+        radiobuttonGrey = new RadioButton("color", "");
+        radiobuttonGrey.setStyleName("color-option-white");
+        radiobuttonGrey.addValueChangeHandler(this);
+        horizontalPanel_6.add(radiobuttonGrey);
+
+        radiobuttonGreen = new RadioButton("color", "");
+        radiobuttonGreen.setStyleName("color-option-green");
+        radiobuttonGreen.addValueChangeHandler(this);
+        horizontalPanel_6.add(radiobuttonGreen);
+
+        radiobuttonRed = new RadioButton("color", "");
+        radiobuttonRed.setStyleName("color-option-red");
+        radiobuttonRed.addValueChangeHandler(this);
+        horizontalPanel_6.add(radiobuttonRed);
+        buttonAddPlayer.setText("add player");
+        horizontalPanel_2.add(buttonAddPlayer);
 
         HorizontalPanel horizontalPanel_4 = new HorizontalPanel();
         verticalPanel.add(horizontalPanel_4);
@@ -174,7 +246,8 @@ public class NewHotseatGame extends Composite
         horizontalPanel_4.add(button_1);
         button_1.setText("add bot");
 
-        CellTable<GamePlayer> celltablePlayers = new CellTable<GamePlayer>();
+        CellTable<GamePlayer> celltablePlayers = new CellTable<GamePlayer>(8);
+        celltablePlayers.setFocus(false);
         verticalPanel.add(celltablePlayers);
 
         Column<GamePlayer, ?> columnID = new Column<GamePlayer, Number>(
@@ -212,6 +285,17 @@ public class NewHotseatGame extends Composite
         };
         celltablePlayers.addColumn(columnPlayerType, "Type");
 
+        Column<GamePlayer, String> colorColumn = new Column<GamePlayer, String>(
+                new ColorCell())
+        {
+            @Override
+            public String getValue(GamePlayer object)
+            {
+                return object.getColor();
+            }
+        };
+        celltablePlayers.addColumn(colorColumn, "Color");
+
         TextColumn columnName = new TextColumn<GamePlayer>()
         {
             @Override
@@ -237,11 +321,11 @@ public class NewHotseatGame extends Composite
             @Override
             public void update(int index, GamePlayer object, String value)
             {
-                playerProvider.getList().remove(object);
+                removePlayer(object);
             }
         });
         celltablePlayers.addColumn(columnRemove, "Remove");
-        celltablePlayers.setWidth("100%");
+        celltablePlayers.setSize("100%", "20em");
 
         playerProvider.addDataDisplay(celltablePlayers);
 
@@ -346,24 +430,62 @@ public class NewHotseatGame extends Composite
         buttonCancel.setText("Cancel & leave");
         panelOkCancel.add(buttonCancel);
 
-        Button buttonOK = new Button("New button");
-        buttonOK.setStyleName("ok-button");
-        buttonOK.setText("OK & start");
-        panelOkCancel.add(buttonOK);
+        buttonStartGame = new Button("New button");
+        buttonStartGame.setStyleName("ok-button");
+        buttonStartGame.setText("OK & start");
+        buttonStartGame.addClickHandler(new ClickHandler()
+        {
+            @Override
+            public void onClick(ClickEvent event)
+            {
+                if (canStartGame())
+                    startGame();
+            }
+        });
+        panelOkCancel.add(buttonStartGame);
 
         for (Class bot : GameUtils.getAllBots())
             comboBox.addItem(ClassUtils.getSimpleClassName(bot.getName()));
+
+        createColorsRadioButtonsMap();
     }
 
-    private void addPlayer(String text)
+    public NewHotseatGame(MainWindow mainWindow)
+    {
+        this();
+        this.mainWindow = mainWindow;
+    }
+
+    private void createColorsRadioButtonsMap()
+    {
+        colorsRadioButtons.put("blue", radiobuttonBlue);
+        colorsRadioButtons.put("green", radiobuttonGreen);
+        colorsRadioButtons.put("white", radiobuttonGrey);
+        colorsRadioButtons.put("orange", radiobuttonOrange);
+        colorsRadioButtons.put("red", radiobuttonRed);
+        colorsRadioButtons.put("yellow", radiobuttonYellow);
+    }
+
+    private void addPlayer()
     {
         userID++;
         GamePlayerImpl newPlayer = new GamePlayerImpl();
+        newPlayer.setColor(getSelectedColor());
         Player user = new Player();
-        user.setName(text);
+        user.setName(textboxPlayerName.getText());
         user.setId(userID);
         newPlayer.setUser(user);
         playerProvider.getList().add(newPlayer);
+
+        updateUI();
+    }
+
+    private void removePlayer(GamePlayer playerToRemove)
+    {
+        colorsRadioButtons.get(playerToRemove.getColor()).setEnabled(true);
+        playerProvider.getList().remove(playerToRemove);
+
+        updateUI();
     }
 
     private void addBot(Class<? extends Bot> botType)
@@ -375,5 +497,107 @@ public class NewHotseatGame extends Composite
         newBot.setId(userID);
         newPlayer.setBot(newBot);
         playerProvider.getList().add(newPlayer);
+    }
+
+    private boolean canAddPlayer()
+    {
+        // User can be added when there is a name, the name is unique,
+        // the color is selected and the color is unique.
+        if (textboxPlayerName.getText().length() > 0 && isColorSelected()
+                && isUniqueName() && isUniqueColor())
+        {
+            buttonAddPlayer.setEnabled(true);
+            return true;
+        }
+        else
+        {
+            buttonAddPlayer.setEnabled(false);
+            return false;
+        }
+    }
+
+    private boolean isUniqueColor()
+    {
+        String color = getSelectedColor();
+        for (GamePlayer player : playerProvider.getList())
+            if (player.getColor().toLowerCase().equals(color))
+                return false;
+
+        return true;
+    }
+
+    private boolean isUniqueName()
+    {
+        String name = textboxPlayerName.getText().toLowerCase();
+        for (GamePlayer player : playerProvider.getList())
+            if (player.getUser().getName().toLowerCase().equals(name))
+                return false;
+
+        return true;
+    }
+
+    private boolean isColorSelected()
+    {
+        for (RadioButton radioButton : colorsRadioButtons.values())
+            if (radioButton.getValue() && radioButton.isEnabled())
+                return true;
+
+        return false;
+    }
+
+    private String getSelectedColor()
+    {
+        for (Entry<String, RadioButton> entry : colorsRadioButtons.entrySet())
+            // getValue().getValue(). whoa!. Ugh! *throws up*
+            if (entry.getValue().getValue())
+                return entry.getKey();
+
+        throw new AssertionError(
+                "Expected a radiobutton with a selected value. None found :(");
+    }
+
+    @Override
+    public void onValueChange(ValueChangeEvent<Boolean> event)
+    {
+        canAddPlayer();
+    }
+
+    private boolean hasEnoughPlayers()
+    {
+        int numPlayers = playerProvider.getList().size();
+        return selectedBoard.getBoardSettings().getMinPlayers() >= numPlayers
+                && selectedBoard.getBoardSettings().getMaxPlayers() <= numPlayers;
+    }
+
+    private boolean canStartGame()
+    {
+        if (selectedBoard == null)
+            return false;
+
+        if (!hasEnoughPlayers())
+            return false;
+
+        return true;
+    }
+
+    private void updateUI()
+    {
+        setStartGameButton();
+    }
+
+    private void setStartGameButton()
+    {
+        buttonStartGame.setEnabled(canStartGame());
+    }
+
+    private void startGame()
+    {
+        Game game = new Game();
+        game.setBoard(selectedBoard);
+        for (GamePlayer player : playerProvider.getList())
+            game.getPlayers().add(player);
+
+        mainWindow.getHotseatGame().startGame(game);
+        mainWindow.setCurrentWidget(mainWindow.getHotseatGame());
     }
 }

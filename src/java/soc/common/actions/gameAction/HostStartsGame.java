@@ -22,6 +22,7 @@ public class HostStartsGame extends AbstractGameAction
     public void perform(Game game)
     {
         game.initialize();
+        game.start();
         game.getActionsQueue().enqueue(
                 (GameAction) new GamePhaseHasEnded().setSender(0), true);
 

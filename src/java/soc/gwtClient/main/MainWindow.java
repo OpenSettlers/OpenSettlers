@@ -28,7 +28,7 @@ public class MainWindow implements EntryPoint
     CenterWidget mapEditor;
     CenterWidget welcomePanel;
     CenterWidget currentWidget;
-    CenterWidget hotseatGame;
+    HotSeatGamePanel hotseatGame;
     CenterWidget wikiPage;
     CenterWidget lobby;
     CenterWidget javadoc;
@@ -41,7 +41,7 @@ public class MainWindow implements EntryPoint
     /**
      * @return the hotseatGame
      */
-    public CenterWidget getHotseatGame()
+    public HotSeatGamePanel getHotseatGame()
     {
         return hotseatGame;
     }
