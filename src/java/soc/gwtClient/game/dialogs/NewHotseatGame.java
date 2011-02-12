@@ -87,6 +87,9 @@ public class NewHotseatGame extends Composite implements
     private Button buttonStartGame;
     private MainWindow mainWindow;
 
+    /**
+     * @wbp.parser.constructor
+     */
     public NewHotseatGame()
     {
         final SingleSelectionModel selectionModel = new SingleSelectionModel<Board>();
@@ -137,6 +140,94 @@ public class NewHotseatGame extends Composite implements
         lblNewHotseatGame.setStyleName("label-title");
         horizontalPanel.add(lblNewHotseatGame);
 
+        VerticalPanel verticalPanel_2 = new VerticalPanel();
+        verticalPanel_3.add(verticalPanel_2);
+        verticalPanel_2.setSpacing(5);
+        verticalPanel_2.setWidth("100%");
+
+        HorizontalPanel horizontalPanel_5 = new HorizontalPanel();
+        horizontalPanel_5
+                .setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+        verticalPanel_2.add(horizontalPanel_5);
+
+        Label lblBoard = new Label("Board ");
+        horizontalPanel_5.add(lblBoard);
+        lblBoard.setStyleName("header-label");
+
+        lblSelectedBoard = new Label("[none selected]");
+        horizontalPanel_5.add(lblSelectedBoard);
+
+        VerticalPanel verticalPanel_4 = new VerticalPanel();
+        verticalPanel_2.add(verticalPanel_4);
+
+        HorizontalPanel horizontalPanel_3 = new HorizontalPanel();
+        horizontalPanel_3.setStyleName("common-panel");
+        verticalPanel_4.add(horizontalPanel_3);
+        horizontalPanel_3.setHeight("");
+
+        cellTable = new CellTable<Board>(boardKeyProvider);
+
+        cellTable.setSelectionModel(selectionModel);
+
+        TextColumn nameColumn = new TextColumn<Board>()
+        {
+            @Override
+            public String getValue(Board object)
+            {
+                return object.getBoardSettings().getName();
+            }
+        };
+        cellTable.addColumn(nameColumn, "Name");
+
+        TextColumn amountPlayersColumn = new TextColumn<Board>()
+        {
+            @Override
+            public String getValue(Board object)
+            {
+                if (object.getBoardSettings().getMinPlayers() == object
+                        .getBoardSettings().getMaxPlayers())
+                {
+                    return Integer.toString(object.getBoardSettings()
+                            .getMinPlayers());
+                }
+                else
+                {
+                    return object.getBoardSettings().getMinPlayers() + " - "
+                            + object.getBoardSettings().getMaxPlayers();
+                }
+            }
+        };
+        cellTable.addColumn(amountPlayersColumn, "# players");
+
+        Column<Board, ?> columnVP = new Column<Board, Number>(new NumberCell())
+        {
+            @Override
+            public Number getValue(Board object)
+            {
+                return object.getBoardSettings().getVpToWin();
+            }
+        };
+        cellTable.addColumn(columnVP, "Points");
+
+        TextColumn designerColumn = new TextColumn<Board>()
+        {
+            @Override
+            public String getValue(Board object)
+            {
+                return object.getBoardSettings().getDesigner();
+            }
+        };
+        cellTable.addColumn(designerColumn, "Designer");
+        horizontalPanel_3.add(cellTable);
+        cellTable.setWidth("15em");
+
+        panelBoardPreview = new SimplePanel();
+        horizontalPanel_3.add(panelBoardPreview);
+        panelBoardPreview.setSize("500px", "500px");
+
+        cellTable.setRowCount(boards.size());
+        cellTable.setRowData(0, boards);
+
         HorizontalPanel horizontalPanel_1 = new HorizontalPanel();
         verticalPanel_3.add(horizontalPanel_1);
 
@@ -175,6 +266,8 @@ public class NewHotseatGame extends Composite implements
                 if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER
                         && canAddPlayer())
                     addPlayer();
+                else
+                    canAddPlayer();
             }
         });
         horizontalPanel_2.add(textboxPlayerName);
@@ -329,94 +422,6 @@ public class NewHotseatGame extends Composite implements
 
         playerProvider.addDataDisplay(celltablePlayers);
 
-        VerticalPanel verticalPanel_2 = new VerticalPanel();
-        verticalPanel_3.add(verticalPanel_2);
-        verticalPanel_2.setSpacing(5);
-        verticalPanel_2.setWidth("100%");
-
-        HorizontalPanel horizontalPanel_5 = new HorizontalPanel();
-        horizontalPanel_5
-                .setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-        verticalPanel_2.add(horizontalPanel_5);
-
-        Label lblBoard = new Label("Board ");
-        horizontalPanel_5.add(lblBoard);
-        lblBoard.setStyleName("header-label");
-
-        lblSelectedBoard = new Label("[none selected]");
-        horizontalPanel_5.add(lblSelectedBoard);
-
-        VerticalPanel verticalPanel_4 = new VerticalPanel();
-        verticalPanel_2.add(verticalPanel_4);
-
-        HorizontalPanel horizontalPanel_3 = new HorizontalPanel();
-        horizontalPanel_3.setStyleName("common-panel");
-        verticalPanel_4.add(horizontalPanel_3);
-        horizontalPanel_3.setHeight("");
-
-        cellTable = new CellTable<Board>(boardKeyProvider);
-
-        cellTable.setSelectionModel(selectionModel);
-
-        TextColumn nameColumn = new TextColumn<Board>()
-        {
-            @Override
-            public String getValue(Board object)
-            {
-                return object.getBoardSettings().getName();
-            }
-        };
-        cellTable.addColumn(nameColumn, "Name");
-
-        TextColumn amountPlayersColumn = new TextColumn<Board>()
-        {
-            @Override
-            public String getValue(Board object)
-            {
-                if (object.getBoardSettings().getMinPlayers() == object
-                        .getBoardSettings().getMaxPlayers())
-                {
-                    return Integer.toString(object.getBoardSettings()
-                            .getMinPlayers());
-                }
-                else
-                {
-                    return object.getBoardSettings().getMinPlayers() + " - "
-                            + object.getBoardSettings().getMaxPlayers();
-                }
-            }
-        };
-        cellTable.addColumn(amountPlayersColumn, "# players");
-
-        Column<Board, ?> columnVP = new Column<Board, Number>(new NumberCell())
-        {
-            @Override
-            public Number getValue(Board object)
-            {
-                return object.getBoardSettings().getVpToWin();
-            }
-        };
-        cellTable.addColumn(columnVP, "Points");
-
-        TextColumn designerColumn = new TextColumn<Board>()
-        {
-            @Override
-            public String getValue(Board object)
-            {
-                return object.getBoardSettings().getDesigner();
-            }
-        };
-        cellTable.addColumn(designerColumn, "Designer");
-        horizontalPanel_3.add(cellTable);
-        cellTable.setWidth("15em");
-
-        panelBoardPreview = new SimplePanel();
-        horizontalPanel_3.add(panelBoardPreview);
-        panelBoardPreview.setSize("500px", "500px");
-
-        cellTable.setRowCount(boards.size());
-        cellTable.setRowData(0, boards);
-
         HorizontalPanel panelOkCancel = new HorizontalPanel();
         verticalPanel_3.add(panelOkCancel);
         panelOkCancel.setWidth("100%");
@@ -477,6 +482,9 @@ public class NewHotseatGame extends Composite implements
         newPlayer.setUser(user);
         playerProvider.getList().add(newPlayer);
 
+        colorsRadioButtons.get(getSelectedColor()).setEnabled(false);
+
+        selectNextColorIfAvailable();
         updateUI();
     }
 
@@ -488,6 +496,23 @@ public class NewHotseatGame extends Composite implements
         updateUI();
     }
 
+    private boolean canAddPlayerOrBot()
+    {
+        return selectedBoard != null
+                && selectedBoard.getBoardSettings().getMaxPlayers() > playerProvider
+                        .getList().size();
+    }
+
+    private String getAvailableColor()
+    {
+        for (Entry<String, RadioButton> entry : colorsRadioButtons.entrySet())
+            // getValue().getValue(). whoa!. Ugh! *throws up*
+            if (entry.getValue().isEnabled())
+                return entry.getKey();
+
+        return null;
+    }
+
     private void addBot(Class<? extends Bot> botType)
     {
         userID++;
@@ -496,7 +521,13 @@ public class NewHotseatGame extends Composite implements
                 new ClientRandom());
         newBot.setId(userID);
         newPlayer.setBot(newBot);
+
+        String color = getAvailableColor();
+        newPlayer.setColor(color);
+        colorsRadioButtons.get(color).setEnabled(false);
         playerProvider.getList().add(newPlayer);
+
+        selectNextColorIfAvailable();
     }
 
     private boolean canAddPlayer()
@@ -504,7 +535,7 @@ public class NewHotseatGame extends Composite implements
         // User can be added when there is a name, the name is unique,
         // the color is selected and the color is unique.
         if (textboxPlayerName.getText().length() > 0 && isColorSelected()
-                && isUniqueName() && isUniqueColor())
+                && isUniqueName() && isUniqueColor() && canAddPlayerOrBot())
         {
             buttonAddPlayer.setEnabled(true);
             return true;
@@ -583,6 +614,17 @@ public class NewHotseatGame extends Composite implements
     private void updateUI()
     {
         setStartGameButton();
+        canAddPlayer();
+    }
+
+    private void selectNextColorIfAvailable()
+    {
+        for (Entry<String, RadioButton> entry : colorsRadioButtons.entrySet())
+            // getValue().getValue(). whoa!. Ugh! *throws up*
+            if (entry.getValue().isEnabled())
+            {
+                entry.getValue().setValue(true);
+            }
     }
 
     private void setStartGameButton()

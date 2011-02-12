@@ -8,8 +8,6 @@ import soc.gwtClient.game.abstractWidgets.factories.ActionWidgetFactory;
 
 public class ActionsBitmapWidget extends AbstractActionsWidget
 {
-    ActionWidgetBitmapFactory widgetFactory;
-
     public ActionsBitmapWidget(GamePanel gamePanel, GamePlayer player)
     {
         super(gamePanel, player);

@@ -16,7 +16,6 @@ import soc.gwtClient.game.abstractWidgets.AbstractStandardDiceWidget;
 import soc.gwtClient.game.abstractWidgets.ActionWidget;
 import soc.gwtClient.game.abstractWidgets.GamePanel;
 
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -29,7 +28,6 @@ public class SvgStandardDiceWidget extends AbstractStandardDiceWidget implements
     SvgSingleDiceWidget dice2 = new SvgSingleDiceWidget(this);
     AbsolutePanel totalNumber = new AbsolutePanel();
     Label lblTotalNumber = new Label();
-    HandlerRegistration turnPhaseRegistration;
 
     public SvgStandardDiceWidget(GamePanel gamePanel, GamePlayer player)
     {

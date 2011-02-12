@@ -118,5 +118,4 @@ public class Monopoly extends DevelopmentCard
 
         super.play(game, player);
     }
-
 }

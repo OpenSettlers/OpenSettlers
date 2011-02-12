@@ -14,16 +14,17 @@ public class RouteImpl implements Route
 {
     private static final long serialVersionUID = -4485164015839740985L;
     private List<GraphSide> edges = new ArrayList<GraphSide>();
-    transient BoardGraph baseGraph;
-    transient GamePlayer player;
+    private transient BoardGraph baseGraph;
+    private transient GamePlayer player;
     private GraphPoint startVertex;
     private GraphPoint endVertex;
+    private int playerID;
 
     public RouteImpl(BoardGraph baseGraph, Set<GraphSide> edges,
             GamePlayer player)
     {
         this.baseGraph = baseGraph;
-        this.player = player;
+        setPlayer(player);
 
         for (GraphSide side : edges)
             this.edges.add(side);
@@ -33,7 +34,7 @@ public class RouteImpl implements Route
             GamePlayer player)
     {
         this.baseGraph = baseGraph;
-        this.player = player;
+        setPlayer(player);
 
         for (int i = 0; i < longest.size() - 1; i++)
         {
@@ -91,6 +92,7 @@ public class RouteImpl implements Route
     public Route setPlayer(GamePlayer player)
     {
         this.player = player;
+        this.playerID = player.getUser().getId();
         return this;
     }
 
@@ -100,4 +102,8 @@ public class RouteImpl implements Route
         return false;
     }
 
+    public int getPlayerID()
+    {
+        return playerID;
+    }
 }
