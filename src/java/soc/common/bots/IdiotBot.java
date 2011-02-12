@@ -35,6 +35,7 @@ import soc.common.server.random.Random;
  */
 public class IdiotBot extends AbstractBot
 {
+    private static final long serialVersionUID = 2413238692032425276L;
     private Game game;
     private GamePlayer player;
     private Random random;
@@ -145,7 +146,7 @@ public class IdiotBot extends AbstractBot
             responses.add(counter);
         }
         int size = responses.size();
-        size = size == 0 ? 0 : size++;
+        size = size == 0 ? 0 : size + 1;
         int randomResponse = random.nextInt(size, false);
 
         GameAction response = responses.get(randomResponse);

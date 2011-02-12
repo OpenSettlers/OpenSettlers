@@ -14,6 +14,8 @@ import soc.common.utils.ClassUtils;
  */
 public abstract class AbstractGamePhase implements GamePhase
 {
+    private static final long serialVersionUID = -1096857442642768802L;
+
     public void performAction(GameAction action, Game game)
     {
     };

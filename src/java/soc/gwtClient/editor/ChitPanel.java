@@ -6,10 +6,9 @@ import soc.gwtClient.visuals.behaviour.editor.SetChitBehaviour;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.GwtEvent;
-import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.HasHandlers;
+import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PushButton;
@@ -32,26 +31,17 @@ public class ChitPanel extends HorizontalPanel implements HasHandlers
     private final Chit chit12 = new Chit(12);
     private final Chit chitRandom = new Chit(0);
 
-    @SuppressWarnings("deprecation")
-    private HandlerManager handlerManager = new HandlerManager(this);
+    private SimpleEventBus eventBus = new SimpleEventBus();
 
-    @SuppressWarnings("deprecation")
-    @Override
-    public void fireEvent(GwtEvent<?> event)
-    {
-        handlerManager.fireEvent(event);
-    }
-
-    @SuppressWarnings("deprecation")
     public HandlerRegistration addBehaviourChangedEventHandler(
             BehaviourChangedHandler handler)
     {
-        return handlerManager.addHandler(BehaviourChanged.TYPE, handler);
+        return eventBus.addHandler(BehaviourChanged.TYPE, handler);
     }
 
     private void vuur()
     {
-        fireEvent(new BehaviourChanged(editBehaviour));
+        eventBus.fireEvent(new BehaviourChanged(editBehaviour));
     }
 
     public ChitPanel(SetChitBehaviour behaviour)

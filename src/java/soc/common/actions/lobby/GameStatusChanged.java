@@ -7,6 +7,7 @@ import soc.common.server.Lobby;
  */
 public class GameStatusChanged extends AbstractLobbyAction
 {
+    private static final long serialVersionUID = -1626089108739910240L;
 
     @Override
     public String getMessage()

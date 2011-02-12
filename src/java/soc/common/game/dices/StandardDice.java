@@ -4,6 +4,10 @@ import soc.common.server.random.Random;
 
 public class StandardDice implements Dice
 {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -3562069307843936600L;
     private int dice1;
     private int dice2;
 

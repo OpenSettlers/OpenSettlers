@@ -5,6 +5,7 @@ import soc.common.game.Turn;
 
 public class EndedGamePhase extends AbstractGamePhase
 {
+    private static final long serialVersionUID = -3286474892624586180L;
 
     @Override
     public String getMessage()

@@ -16,6 +16,7 @@ import com.google.gwt.user.client.Random;
  */
 public class BlockedEndPoint implements GraphPoint
 {
+    private static final long serialVersionUID = -3762257427218444022L;
     private HexPoint pointLocation;
     private int hashCode = Random.nextInt();
 

@@ -2,6 +2,8 @@ package soc.common.board.resources;
 
 public class Clay extends AbstractResource
 {
+    private static final long serialVersionUID = -4151296314674387899L;
+
     /*
      * (non-Javadoc)
      * 

@@ -18,6 +18,10 @@ import soc.common.server.random.Random;
 @SeaFarers
 public class VolcanoDice implements Dice
 {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -4243164420585542860L;
     private int dice = 0;
 
     /**

@@ -7,6 +7,11 @@ import soc.common.game.player.GamePlayer;
 public class RoadBuilding extends DevelopmentCard
 {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 5867545725527745220L;
+
     /*
      * (non-Javadoc)
      * 

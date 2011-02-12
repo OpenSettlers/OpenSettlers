@@ -2,6 +2,11 @@ package soc.common.board.resources;
 
 public class Sheep extends AbstractResource
 {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 8756575918873023940L;
+
     /*
      * (non-Javadoc)
      * 

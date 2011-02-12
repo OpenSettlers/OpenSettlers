@@ -75,6 +75,11 @@ public abstract class AbstractBaseGraph<V, E>
 {
     //~ Static fields/initializers ---------------------------------------------
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -1263088497616142427L;
+
     private static final String LOOPS_NOT_ALLOWED = "loops not allowed";
 
     //~ Instance fields --------------------------------------------------------
@@ -511,6 +516,11 @@ public abstract class AbstractBaseGraph<V, E>
     private abstract class Specifics
         implements Serializable
     {
+        /**
+         * 
+         */
+        private static final long serialVersionUID = 785196247314761183L;
+
         public abstract void addVertex(V vertex);
 
         public abstract Set<V> getVertexSet();

@@ -9,6 +9,11 @@ import com.google.gwt.event.shared.HandlerRegistration;
 
 public class TownList extends PlayerPieceList<Town> implements Serializable
 {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -2324707060822969303L;
+
     public HandlerRegistration addTownsChangedEventHandler(
             PlayerPieceListChangedEventHandler<Town> handler)
     {

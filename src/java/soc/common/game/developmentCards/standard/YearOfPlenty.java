@@ -7,6 +7,10 @@ import soc.common.game.player.GamePlayer;
 
 public class YearOfPlenty extends DevelopmentCard
 {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 8598985603470688487L;
     // actual picked resources by player
     private ResourceList goldPick;
 

@@ -6,6 +6,7 @@ import soc.common.game.Game;
 
 public class BuildingTurnPhase extends TurnPhase
 {
+    private static final long serialVersionUID = 8241030068782844685L;
     private TradingTurnPhase tradingTurnPhase;
 
     public BuildingTurnPhase()

@@ -5,6 +5,7 @@ import soc.common.annotations.Sea3D;
 @Sea3D
 public class Diamond extends AbstractResource
 {
+    private static final long serialVersionUID = -592207257460216530L;
 
     /*
      * (non-Javadoc)

@@ -5,6 +5,8 @@ import soc.common.annotations.SeaFarers;
 @SeaFarers
 public class Gold extends AbstractResource
 {
+    private static final long serialVersionUID = 6496837317375783863L;
+
     /*
      * (non-Javadoc)
      * 

@@ -16,6 +16,10 @@ import soc.common.server.random.Random;
 @SeaFarers
 public class TerritoryImpl implements Territory
 {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 4568924008718927137L;
     private String name;
     private int ID;
     private boolean isMainland;

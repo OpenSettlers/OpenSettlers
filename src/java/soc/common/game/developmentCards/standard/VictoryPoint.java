@@ -12,6 +12,11 @@ import soc.common.game.player.GamePlayer;
  */
 public class VictoryPoint extends DevelopmentCard implements VictoryPointItem
 {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -7322456488887068608L;
+
     /* A victoryPoint development card returns into stock after playing
      * @see soc.common.game.developmentCards.DevelopmentCard#keepInStock()
      */

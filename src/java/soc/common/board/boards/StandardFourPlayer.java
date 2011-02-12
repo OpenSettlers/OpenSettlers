@@ -27,6 +27,11 @@ import soc.common.game.variants.Standard;
 public class StandardFourPlayer extends Board
 {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 7516208031201813989L;
+
     public StandardFourPlayer()
     {
         super();

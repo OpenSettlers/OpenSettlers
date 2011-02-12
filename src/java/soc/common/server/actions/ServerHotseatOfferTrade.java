@@ -75,7 +75,7 @@ public class ServerHotseatOfferTrade implements ServerAction
             responses.add(counter);
         }
         int size = responses.size();
-        size = size == 0 ? 0 : size++;
+        size = size == 0 ? 0 : size + 1;
         int randomResponse = gameServer.getRandom().nextInt(size, false);
 
         GameAction response = responses.get(randomResponse);

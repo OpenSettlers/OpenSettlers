@@ -2,6 +2,11 @@ package soc.common.board.resources;
 
 public class Ore extends AbstractResource
 {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -8778560987710166668L;
+
     /*
      * (non-Javadoc)
      * 

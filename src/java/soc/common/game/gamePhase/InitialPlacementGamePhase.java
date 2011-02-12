@@ -9,6 +9,10 @@ import soc.common.game.Game;
 
 public class InitialPlacementGamePhase extends AbstractGamePhase
 {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -7144215557160903240L;
     private int actionCount = 0;
 
     @Override

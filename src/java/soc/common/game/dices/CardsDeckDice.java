@@ -13,6 +13,7 @@ import soc.common.server.random.Random;
  */
 public class CardsDeckDice implements Dice
 {
+    private static final long serialVersionUID = -9052747293803551710L;
     List<Integer> diceRolls = new ArrayList<Integer>();
 
     @Override

@@ -3,6 +3,11 @@ package soc.common.board.resources;
 public class Timber extends AbstractResource
 {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -6537069648667733465L;
+
     /*
      * (non-Javadoc)
      * 

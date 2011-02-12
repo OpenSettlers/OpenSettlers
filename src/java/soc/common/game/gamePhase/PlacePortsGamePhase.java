@@ -11,6 +11,8 @@ import soc.common.game.Game;
 @SeaFarers
 public class PlacePortsGamePhase extends AbstractGamePhase
 {
+    private static final long serialVersionUID = -5600692199083296067L;
+
     /*
      * @see
      * soc.common.game.gamePhase.GamePhase#performAction(soc.common.actions.

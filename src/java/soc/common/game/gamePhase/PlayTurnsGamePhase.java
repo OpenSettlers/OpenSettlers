@@ -13,6 +13,7 @@ import soc.common.game.player.GamePlayer;
 
 public class PlayTurnsGamePhase extends AbstractGamePhase
 {
+    private static final long serialVersionUID = 7286330376523360257L;
     // Current phase of the player on turn
     private TurnPhase turnPhase = new BeforeDiceRollTurnPhase();
 

@@ -12,6 +12,10 @@ import soc.common.game.player.GamePlayerList;
 
 public class LobbyGamePhase extends AbstractGamePhase
 {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -2536825366866151136L;
     private List<GamePlayer> playersWhoAcceptedSettings = new ArrayList<GamePlayer>();
 
     /**

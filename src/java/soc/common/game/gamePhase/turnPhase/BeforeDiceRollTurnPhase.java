@@ -5,6 +5,7 @@ import soc.common.game.Game;
 
 public class BeforeDiceRollTurnPhase extends TurnPhase
 {
+    private static final long serialVersionUID = -2334736656517691453L;
 
     /*
      * (non-Javadoc)

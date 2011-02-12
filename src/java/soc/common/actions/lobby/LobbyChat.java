@@ -4,6 +4,10 @@ import soc.common.server.Lobby;
 
 public class LobbyChat extends AbstractLobbyAction
 {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -722899871562057226L;
     private String chatMessage;
 
     /**

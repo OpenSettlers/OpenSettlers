@@ -24,6 +24,7 @@ import soc.common.game.player.GamePlayer;
 
 public class GameRulesImpl implements GameRules
 {
+    private static final long serialVersionUID = -6260028559443830085L;
     private Game game;
     private List<Variant> variants = new ArrayList<Variant>();
 

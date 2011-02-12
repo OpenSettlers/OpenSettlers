@@ -11,6 +11,11 @@ import soc.common.game.player.GamePlayer;
  */
 public class Soldier extends DevelopmentCard
 {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 3097762985301413120L;
+
     /*
      * (non-Javadoc)
      * 

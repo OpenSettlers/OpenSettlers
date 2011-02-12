@@ -3,6 +3,11 @@ package soc.common.board.resources;
 public class Wheat extends AbstractResource
 {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -7393820454171830461L;
+
     /*
      * (non-Javadoc)
      * 

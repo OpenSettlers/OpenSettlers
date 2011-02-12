@@ -14,6 +14,8 @@ import soc.common.game.player.GamePlayer;
 
 public class DetermineFirstPlayerGamePhase extends AbstractGamePhase
 {
+    private static final long serialVersionUID = 6144523951649998903L;
+
     @Override
     public void start(Game game)
     {
