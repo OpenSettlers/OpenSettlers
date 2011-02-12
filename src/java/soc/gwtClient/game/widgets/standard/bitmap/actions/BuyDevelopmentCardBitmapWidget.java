@@ -8,7 +8,6 @@ import soc.common.game.GamePhaseChangedEventHandler;
 import soc.common.game.TurnChangedEvent;
 import soc.common.game.TurnChangedEventHandler;
 import soc.common.game.developmentCards.DevelopmentCard;
-import soc.common.game.developmentCards.standard.VictoryPoint;
 import soc.common.game.gamePhase.turnPhase.TurnPhaseChangedEvent;
 import soc.common.game.gamePhase.turnPhase.TurnPhaseChangedHandler;
 import soc.common.game.player.GamePlayer;
@@ -60,9 +59,8 @@ public class BuyDevelopmentCardBitmapWidget extends AbstractActionWidget
             @Override
             public void onClick(ClickEvent event)
             {
-                VictoryPoint vp = new VictoryPoint();
                 gamePanel.startAction(new BuyDevelopmentCard().setResources(
-                        vp.getCost()).setPlayer(player));
+                        DevelopmentCard.getCost()).setPlayer(player));
             }
         });
     }

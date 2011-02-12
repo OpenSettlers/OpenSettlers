@@ -81,7 +81,7 @@ public class BoardSvg extends AbstractBoardVisual implements
         return new Point2D((int) x, (int) y);
     }
 
-    public Point2D CalculatePosition(HexSide location)
+    public Point2D calculatePosition(HexSide location)
     {
         Point2D result = calculatePosition(location.getHighestOrLeftestHex());
         double x = result.getX();
@@ -106,7 +106,7 @@ public class BoardSvg extends AbstractBoardVisual implements
         return new Point2D((int) x, (int) y);
     }
 
-    public Point2D CalculatePosition(HexPoint location)
+    public Point2D calculatePosition(HexPoint location)
     {
         // get the x,y coordinate of the topmost HexLocation
         Point2D point = calculatePosition(location.getTopMost());

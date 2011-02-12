@@ -1,5 +1,6 @@
 package soc.common.board.pieces.pieceLists;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -7,8 +8,9 @@ import java.util.List;
 import soc.common.board.HexSide;
 import soc.common.board.pieces.abstractPieces.SidePiece;
 
-public class SidePieceList implements Iterable<SidePiece>
+public class SidePieceList implements Iterable<SidePiece>, Serializable
 {
+    private static final long serialVersionUID = 7047263447536155603L;
     private List<SidePiece> sidePieces = new ArrayList<SidePiece>();
     private List<HexSide> sides = new ArrayList<HexSide>();
 

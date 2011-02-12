@@ -118,7 +118,7 @@ public class SvgStandardDiceWidget extends AbstractStandardDiceWidget implements
                     && gamePanel.getGame().getCurrentTurn().getPlayer().equals(
                             gamePanel.getPlayingPlayer()))
             {
-                setEnabled(false);
+                setEnabled(true);
             }
             else
             {

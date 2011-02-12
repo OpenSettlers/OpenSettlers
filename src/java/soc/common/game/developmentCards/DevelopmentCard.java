@@ -1,5 +1,7 @@
 package soc.common.game.developmentCards;
 
+import java.io.Serializable;
+
 import soc.common.board.resources.Ore;
 import soc.common.board.resources.ResourceList;
 import soc.common.board.resources.Sheep;
@@ -10,8 +12,9 @@ import soc.common.game.gamePhase.turnPhase.TurnPhase;
 import soc.common.game.player.GamePlayer;
 import soc.common.utils.ClassUtils;
 
-public class DevelopmentCard
+public class DevelopmentCard implements Serializable
 {
+    private static final long serialVersionUID = 3192052784726040369L;
     protected String invalidMessage;
     protected String message = "No message implemented yet for Devcard"
             + toString();

@@ -1,17 +1,19 @@
 package soc.common.board.pieces.pieceLists;
 
+import java.io.Serializable;
+
 import soc.common.board.HexPoint;
 import soc.common.board.pieces.Town;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 
-public class TownList extends PlayerPieceList<Town>
+public class TownList extends PlayerPieceList<Town> implements Serializable
 {
     public HandlerRegistration addTownsChangedEventHandler(
             PlayerPieceListChangedEventHandler<Town> handler)
     {
-        return eventBus.addHandler(PlayerPieceListChangedEvent.getType(Town.class),
-                handler);
+        return eventBus.addHandler(PlayerPieceListChangedEvent
+                .getType(Town.class), handler);
     }
 
     public Town get(HexPoint pointLocation)

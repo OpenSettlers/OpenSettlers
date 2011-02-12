@@ -19,7 +19,7 @@ public class CitySvg extends AbstractCityVisual implements SvgVisual
 
         int side = (int) (parent.getHexagonWidth() / 6);
 
-        Point2D point = parent.getBoardSvg().CalculatePosition(city.getPoint());
+        Point2D point = parent.getBoardSvg().calculatePosition(city.getPoint());
 
         cityPath = new Path(point.getX() - side, point.getY() + side);
 

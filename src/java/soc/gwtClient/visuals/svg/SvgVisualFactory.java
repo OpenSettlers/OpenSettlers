@@ -67,7 +67,7 @@ public class SvgVisualFactory extends AbstractVisualFactory
     public PointVisual createPointVisual(GraphPoint point)
     {
         return new PointSvg(parent, point.getPoint(), parent.getBoardSvg()
-                .CalculatePosition(point.getPoint()));
+                .calculatePosition(point.getPoint()));
     }
 
     @Override

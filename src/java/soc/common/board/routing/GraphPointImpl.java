@@ -7,6 +7,7 @@ import soc.common.game.player.GamePlayer;
 
 public class GraphPointImpl implements GraphPoint
 {
+    private static final long serialVersionUID = 5064517666442024709L;
     private HexPoint pointLocation;
     private transient PlayerPiece playerPiece;
     private boolean townBuildable = true;

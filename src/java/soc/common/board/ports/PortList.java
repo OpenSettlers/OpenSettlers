@@ -1,5 +1,6 @@
 package soc.common.board.ports;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -9,11 +10,12 @@ import soc.common.board.resources.ResourceList;
 
 import com.google.gwt.event.shared.SimpleEventBus;
 
-public class PortList implements Iterable<Port>
+public class PortList implements Iterable<Port>, Serializable
 {
+    private static final long serialVersionUID = 2465609717722438326L;
     private ResourceList tradeableResourceTypes = ResourceList
             .tradeableResources();
-    private SimpleEventBus eventBus;
+    private transient SimpleEventBus eventBus;
     private List<Port> ports = new ArrayList<Port>();
 
     private SimpleEventBus getEventBus()

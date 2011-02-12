@@ -1,5 +1,6 @@
 package soc.common.game.logs;
 
+import java.io.Serializable;
 import java.util.List;
 
 import soc.common.actions.gameAction.GameAction;
@@ -10,7 +11,7 @@ import soc.common.game.player.GamePlayer;
 /*
  * List of GameActions which occurred during a game
  */
-public interface GameLog extends Iterable<GameAction>
+public interface GameLog extends Iterable<GameAction>, Serializable
 {
     /*
      * Adds an action to this gamelog

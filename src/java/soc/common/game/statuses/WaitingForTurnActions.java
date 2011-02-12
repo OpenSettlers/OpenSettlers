@@ -6,6 +6,7 @@ import soc.common.actions.gameAction.GameAction;
 
 public class WaitingForTurnActions implements GameStatus
 {
+    private static final long serialVersionUID = 8620951881762820554L;
     private List<GameAction> blockingActions;
 
     /*

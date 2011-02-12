@@ -3,15 +3,16 @@ package soc.common.game.logs;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.event.shared.SimpleEventBus;
-
 import soc.common.actions.gameAction.GameChat;
+
+import com.google.gwt.event.shared.SimpleEventBus;
 
 public class ChatLogImpl implements ChatLog
 {
+    private static final long serialVersionUID = 6288111035333874654L;
     private List<GameChat> chats = new ArrayList<GameChat>();
-    private SimpleEventBus eventBus;
-    
+    private transient SimpleEventBus eventBus;
+
     private void safelyFireEvent(SaidEvent event)
     {
         if (eventBus != null)
@@ -19,15 +20,17 @@ public class ChatLogImpl implements ChatLog
             eventBus.fireEvent(event);
         }
     }
+
     private SimpleEventBus getEventBus()
     {
         if (eventBus == null)
         {
             eventBus = new SimpleEventBus();
         }
-        
+
         return eventBus;
     }
+
     @Override
     public ChatLog copy()
     {
@@ -40,7 +43,7 @@ public class ChatLogImpl implements ChatLog
         chats.add(gameChat);
         safelyFireEvent(new SaidEvent(gameChat));
     }
-    
+
     @Override
     public void addSaidEventHandler(SaidEventHandler handler)
     {

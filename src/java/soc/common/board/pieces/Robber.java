@@ -10,7 +10,7 @@ public class Robber extends AbstractPiece
 {
     private static final long serialVersionUID = 2162591486291994070L;
     private HexLocation location;
-    private SimpleEventBus eventBus = new SimpleEventBus();
+    private transient SimpleEventBus eventBus = new SimpleEventBus();
 
     public Robber(HexLocation hexLocation)
     {

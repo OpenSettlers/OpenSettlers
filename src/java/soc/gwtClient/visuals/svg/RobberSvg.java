@@ -25,7 +25,6 @@ public class RobberSvg extends AbstractRobberVisual implements SvgVisual,
 
         int headRadius = (int) (parent.getBoardSvg().getHexagonWidth() / 8);
         int bodyRadius = (int) (parent.getBoardSvg().getHexagonWidth() / 6);
-        int distance = (int) (parent.getBoardSvg().getHexagonWidth() / 8);
 
         Point2D point = parent.getBoardSvg().calculatePosition(
                 robber.getLocation());

@@ -49,7 +49,6 @@ public class DetermineFirstPlayerGamePhase extends AbstractGamePhase
 
         if (action instanceof RollDice)
         {
-            RollDice rollDice = (RollDice) action;
             // Check if a phase has ended. If the queue is empty, every player
             // has rolled the dice.
             if (game.getActionsQueue().size() == 1)

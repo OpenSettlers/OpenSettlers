@@ -84,7 +84,7 @@ public class ServerStartGame implements ServerAction
 
     private DevelopmentCardList shuffleDevcardsDeck(DevelopmentCardList devcards)
     {
-        DevelopmentCardList result = new DevelopmentCardList();
+        // DevelopmentCardList result = new DevelopmentCardList();
 
         // TODO: reimplement without GWT unsupported Hashtable
         // Create a list to associate random value to each development card

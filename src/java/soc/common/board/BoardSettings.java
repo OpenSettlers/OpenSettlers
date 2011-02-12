@@ -1,12 +1,15 @@
 package soc.common.board;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import soc.common.game.variants.Variant;
 
-public class BoardSettings
+public class BoardSettings implements Serializable
 {
+    private static final long serialVersionUID = 439520618383077352L;
+
     // Minimum amount of players expected
     private int minPlayers = 3;
 

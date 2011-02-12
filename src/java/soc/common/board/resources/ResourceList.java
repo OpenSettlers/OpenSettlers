@@ -1,5 +1,6 @@
 package soc.common.board.resources;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -9,10 +10,12 @@ import soc.common.server.random.Random;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
 
-public class ResourceList implements Iterable<Resource>
+public class ResourceList implements Iterable<Resource>, Serializable
 {
+    private static final long serialVersionUID = 5679736807497802357L;
+
     // Notification mechanism
-    SimpleEventBus eventBus;
+    private transient SimpleEventBus eventBus;
 
     // Encapsulated list of resources
     private final List<Resource> resources = new ArrayList<Resource>();
@@ -206,7 +209,7 @@ public class ResourceList implements Iterable<Resource>
     {
         int count = size();
         // Make number even
-        if (count % 2 == 1)
+        if (count % 2 != 0)
             count--;
         return count / 2;
     }

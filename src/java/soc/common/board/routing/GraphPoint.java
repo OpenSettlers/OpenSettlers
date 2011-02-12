@@ -1,9 +1,11 @@
 package soc.common.board.routing;
 
+import java.io.Serializable;
+
 import soc.common.board.HexPoint;
 import soc.common.board.pieces.abstractPieces.PointPiece;
 
-public interface GraphPoint extends GraphElement
+public interface GraphPoint extends GraphElement, Serializable
 {
     public HexPoint getPoint();
 

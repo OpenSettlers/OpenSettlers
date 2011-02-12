@@ -1,11 +1,15 @@
 package soc.common.game;
 
+import java.io.Serializable;
+
 import soc.common.annotations.Sea3D;
 import soc.common.board.Board;
 import soc.common.board.BoardSettings;
 
-public class GameSettings
+public class GameSettings implements Serializable
 {
+    private static final long serialVersionUID = -258750633772212293L;
+
     // Game boardsettings may be overridden by the user
     // This implies not having a ladder game (where settings should equal
     // original boardsettings)

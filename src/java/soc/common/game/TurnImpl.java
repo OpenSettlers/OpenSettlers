@@ -6,6 +6,7 @@ import soc.common.game.trading.TradeOfferList;
 
 public class TurnImpl implements Turn
 {
+    private static final long serialVersionUID = -7392096314044521868L;
     private GamePlayer player;
     private int id;
     private TradeOfferList tradeOffers = new TradeOfferList();

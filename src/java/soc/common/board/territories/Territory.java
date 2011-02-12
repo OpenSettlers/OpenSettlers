@@ -1,12 +1,14 @@
 package soc.common.board.territories;
 
+import java.io.Serializable;
+
 import soc.common.board.ChitList;
 import soc.common.board.hexes.HexList;
 import soc.common.board.ports.Port;
 import soc.common.board.ports.PortList;
 import soc.common.server.random.Random;
 
-public interface Territory
+public interface Territory extends Serializable
 {
     /**
      * @return the isBonus

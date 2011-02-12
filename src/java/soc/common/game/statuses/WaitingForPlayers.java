@@ -5,6 +5,7 @@ package soc.common.game.statuses;
  */
 public class WaitingForPlayers implements GameStatus
 {
+    private static final long serialVersionUID = 6687601384463272579L;
 
     /*
      * Returns true; when waiting for players, the game can't continue

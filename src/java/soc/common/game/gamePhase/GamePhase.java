@@ -1,10 +1,12 @@
 package soc.common.game.gamePhase;
 
+import java.io.Serializable;
+
 import soc.common.actions.gameAction.GameAction;
 import soc.common.game.Game;
 import soc.common.game.Turn;
 
-public interface GamePhase
+public interface GamePhase extends Serializable
 {
     public void performAction(GameAction action, Game game);
 

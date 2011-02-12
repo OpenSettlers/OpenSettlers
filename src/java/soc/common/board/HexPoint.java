@@ -1,5 +1,6 @@
 package soc.common.board;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,8 +12,9 @@ import java.util.List;
  * 
  * TODO: cache values of neighbours either at construction time or lazy loading
  */
-public class HexPoint
+public class HexPoint implements Serializable
 {
+    private static final long serialVersionUID = 6260735958174372711L;
     private HexLocation hex1;
     private HexLocation hex2;
     private HexLocation hex3;

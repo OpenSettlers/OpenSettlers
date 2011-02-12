@@ -60,7 +60,7 @@ public class LobbyGamePhase extends AbstractGamePhase
         }
 
         // Invalidate players
-        playersWhoAcceptedSettings.remove(playersToRemove);
+        playersWhoAcceptedSettings.clear();
     }
 
     @Override

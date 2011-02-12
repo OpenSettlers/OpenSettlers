@@ -25,21 +25,6 @@ public abstract class AbstractGameAction extends AbstractAction implements
     protected int id;
 
     /*
-     * Should be omitted at hashCode calculation, since values differ at server
-     * and at client
-     */
-    protected Date dateTimeExecuted;
-
-    /**
-     * @return DateTime when this action is performed
-     */
-    @Override
-    public Date getDateTimeExecuted()
-    {
-        return dateTimeExecuted;
-    }
-
-    /*
      * (non-Javadoc)
      * 
      * @see soc.common.actions.gameAction.GameAction#getID()

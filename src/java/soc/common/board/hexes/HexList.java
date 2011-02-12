@@ -1,13 +1,15 @@
 package soc.common.board.hexes;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import soc.common.server.random.Random;
 
-public class HexList implements Iterable<Hex>
+public class HexList implements Iterable<Hex>, Serializable
 {
+    private static final long serialVersionUID = 1628486402283426134L;
     private List<Hex> hexes = new ArrayList<Hex>();
 
     public void add(Hex hex)

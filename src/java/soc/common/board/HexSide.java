@@ -1,13 +1,15 @@
 package soc.common.board;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /*
  * Represents a side, determined by two HexLocations. 
  */
-public class HexSide
+public class HexSide implements Serializable
 {
+    private static final long serialVersionUID = 8459387416372761641L;
     // A HexSide may be constructed using a set of two HexLocations or
     // a set of two HexPoints
 

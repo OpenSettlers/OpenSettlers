@@ -1,5 +1,6 @@
 package soc.common.game.player;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -7,10 +8,11 @@ import java.util.List;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
 
-public class GamePlayerList implements Iterable<GamePlayer>
+public class GamePlayerList implements Iterable<GamePlayer>, Serializable
 {
-    List<GamePlayer> players = new ArrayList<GamePlayer>();
-    private SimpleEventBus eventBus = new SimpleEventBus();
+    private static final long serialVersionUID = -2615032265282784616L;
+    private List<GamePlayer> players = new ArrayList<GamePlayer>();
+    private transient SimpleEventBus eventBus = new SimpleEventBus();
 
     @Override
     public Iterator<GamePlayer> iterator()

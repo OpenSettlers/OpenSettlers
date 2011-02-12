@@ -12,6 +12,7 @@ import soc.common.game.player.GamePlayer;
 
 public class RouteImpl implements Route
 {
+    private static final long serialVersionUID = -4485164015839740985L;
     private List<GraphSide> edges = new ArrayList<GraphSide>();
     transient BoardGraph baseGraph;
     transient GamePlayer player;

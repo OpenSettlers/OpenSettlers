@@ -21,7 +21,6 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PushButton;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 @SuppressWarnings("deprecation")
@@ -177,7 +176,6 @@ public class TerritoryPanel extends VerticalPanel implements
         // We can set the id of a widget by accessing its Element
         closeButton.getElement().setId("closeButton");
         final Label textToServerLabel = new Label();
-        final TextBox txtName = new TextBox();
         final HTML serverResponseLabel = new HTML();
         VerticalPanel dialogVPanel = new VerticalPanel();
         dialogVPanel.addStyleName("dialogVPanel");

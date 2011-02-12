@@ -17,7 +17,7 @@ public class Army extends AbstractPlayerPiece implements VictoryPointItem
     public static Army LARGESTARMY = new Army();
     private List<Soldier> soldiers = new ArrayList<Soldier>();
     private boolean isLargest = false;
-    private SimpleEventBus eventBus = new SimpleEventBus();
+    private transient SimpleEventBus eventBus = new SimpleEventBus();
 
     /**
      * @return the soldiers

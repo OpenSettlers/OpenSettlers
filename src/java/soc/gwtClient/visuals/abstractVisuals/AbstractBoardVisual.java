@@ -185,7 +185,7 @@ public abstract class AbstractBoardVisual extends AbstractPieceVisual implements
     // / Helper function for size calculation
     // / </summary>
     // / @param degrees
-    protected double DegreesToRadians(double degrees)
+    protected double degreesToRadians(double degrees)
     {
         return degrees * Math.PI / 180;
     }
@@ -193,8 +193,8 @@ public abstract class AbstractBoardVisual extends AbstractPieceVisual implements
     protected void calculateHexSizes()
     {
         // TODO: come up with descriptive name for h
-        h = Math.sin(DegreesToRadians(30)) * sideLength;
-        halfWidth = Math.cos(DegreesToRadians(30)) * sideLength;
+        h = Math.sin(degreesToRadians(30)) * sideLength;
+        halfWidth = Math.cos(degreesToRadians(30)) * sideLength;
         height = sideLength + (2 * h);
         width = 2 * halfWidth;
     }

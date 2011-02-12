@@ -1,15 +1,14 @@
 package soc.common.board.ports;
 
-import soc.common.board.resources.AbstractResource;
 import soc.common.board.resources.Resource;
 import soc.common.board.resources.ResourceList;
 
 public class TwoToOneResourcePort extends AbstractPort
 {
     private static final long serialVersionUID = 2615564785346537011L;
-    private AbstractResource resource;
+    private Resource resource;
 
-    public TwoToOneResourcePort(AbstractResource r)
+    public TwoToOneResourcePort(Resource r)
     {
         resource = r;
     }
@@ -18,12 +17,9 @@ public class TwoToOneResourcePort extends AbstractPort
      * @param resource
      *            the resource to set
      */
-    public TwoToOneResourcePort setResource(AbstractResource resource)
+    public TwoToOneResourcePort setResource(Resource resource)
     {
         this.resource = resource;
-
-        // Enables fluent interface usage
-        // http://en.wikipedia.org/wiki/Fluent_interface
         return this;
     }
 
@@ -55,7 +51,7 @@ public class TwoToOneResourcePort extends AbstractPort
      * @see soc.common.board.ports.Port#getResource()
      */
     @Override
-    public AbstractResource getResource()
+    public Resource getResource()
     {
         return resource;
     }

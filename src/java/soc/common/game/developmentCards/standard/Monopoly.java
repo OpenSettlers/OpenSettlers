@@ -17,6 +17,7 @@ import soc.common.game.player.GamePlayer;
  */
 public class Monopoly extends DevelopmentCard
 {
+    private static final long serialVersionUID = 7740748478927741890L;
     public static ResourceList staticMonoPolyableResources = new ResourceList();
     private Resource resource;
 
@@ -89,7 +90,6 @@ public class Monopoly extends DevelopmentCard
     @Override
     public void play(Game game, GamePlayer player)
     {
-        StringBuilder msg = new StringBuilder();
         // TODO: fix message
         // msg.append(String.format("%s stole ", player.getName()));
 

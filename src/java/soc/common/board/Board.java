@@ -1,5 +1,7 @@
 package soc.common.board;
 
+import java.io.Serializable;
+
 import soc.common.board.hexes.AbstractHex;
 import soc.common.board.hexes.Hex;
 import soc.common.board.hexes.SeaHex;
@@ -45,18 +47,20 @@ import soc.common.server.random.Random;
 /// should be made invisible, and/or locked.
 /// </summary>
 
-public class Board
+public class Board implements Serializable
 {
+    private static final long serialVersionUID = 5182386418039607317L;
+
     // list of hexes this board is made of
     protected HexGrid hexes;
 
     // graph containing all the GraphPoints and GraphSides
-    protected BoardGraph graph;
+    protected transient BoardGraph graph;
 
     // Specific settings for this board
     protected BoardSettings boardSettings;
 
-    protected Random random = new ClientRandom();
+    protected transient Random random = new ClientRandom();
 
     /*
      * List of territories associated with this board
@@ -93,7 +97,7 @@ public class Board
     // / </summary>
     // / <param name="newWidth">New width of the board</param>
     // / <param name="newHeight">New height of the board</param>
-    public void Resize(int newWidth, int newHeight, AbstractHex defaultHex)
+    public void resize(int newWidth, int newHeight, AbstractHex defaultHex)
     {
         // default on seahexes if we have no default
         if (defaultHex == null)

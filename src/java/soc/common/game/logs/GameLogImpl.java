@@ -14,8 +14,9 @@ import com.google.gwt.event.shared.SimpleEventBus;
 
 public class GameLogImpl implements GameLog
 {
+    private static final long serialVersionUID = -2732262503732907260L;
     private List<GameAction> actions = new ArrayList<GameAction>();
-    private SimpleEventBus eventBus;
+    private transient SimpleEventBus eventBus;
 
     private void safelyFireEvent(ActionPerformedEvent actionPerformedEvent)
     {

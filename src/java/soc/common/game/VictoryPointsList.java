@@ -1,15 +1,18 @@
 package soc.common.game;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import com.google.gwt.event.shared.SimpleEventBus;
 
-public class VictoryPointsList implements Iterable<VictoryPointItem>
+public class VictoryPointsList implements Iterable<VictoryPointItem>,
+        Serializable
 {
+    private static final long serialVersionUID = 5192452564267423722L;
     private List<VictoryPointItem> points = new ArrayList<VictoryPointItem>();
-    private SimpleEventBus eventBus = new SimpleEventBus();
+    private transient SimpleEventBus eventBus = new SimpleEventBus();
 
     public void add(VictoryPointItem item)
     {

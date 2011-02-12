@@ -19,7 +19,7 @@ public class RoadSvg extends AbstractRoadVisual implements SvgVisual
         super(road);
         this.parent = parent;
 
-        Point2D location = parent.getBoardSvg().CalculatePosition(
+        Point2D location = parent.getBoardSvg().calculatePosition(
                 road.getSide());
 
         double width = parent.getSize() * 0.6;

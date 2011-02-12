@@ -2,6 +2,7 @@ package soc.common.game.statuses;
 
 public class Playing implements GameStatus
 {
+    private static final long serialVersionUID = -5863963795809197191L;
 
     @Override
     public boolean isGameBlocking()

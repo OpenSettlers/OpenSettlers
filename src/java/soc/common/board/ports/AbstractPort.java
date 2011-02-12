@@ -3,7 +3,6 @@ package soc.common.board.ports;
 import soc.common.board.HexLocation;
 import soc.common.board.HexSide;
 import soc.common.board.RotationPosition;
-import soc.common.board.resources.AbstractResource;
 import soc.common.board.resources.Resource;
 import soc.common.board.resources.ResourceList;
 
@@ -30,7 +29,7 @@ public abstract class AbstractPort implements Port
      * 
      * @see soc.common.board.ports.Port#getResource()
      */
-    public AbstractResource getResource()
+    public Resource getResource()
     {
         return null;
     }

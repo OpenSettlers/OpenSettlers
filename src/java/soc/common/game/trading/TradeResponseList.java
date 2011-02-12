@@ -1,5 +1,6 @@
 package soc.common.game.trading;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,10 +9,11 @@ import soc.common.game.player.GamePlayer;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
 
-public class TradeResponseList
+public class TradeResponseList implements Serializable
 {
+    private static final long serialVersionUID = -5258619888338776149L;
     private List<TradeResponse> tradeResponses = new ArrayList<TradeResponse>();
-    private SimpleEventBus eventBus = new SimpleEventBus();
+    private transient SimpleEventBus eventBus = new SimpleEventBus();
 
     public void addResponse(TradeResponse response)
     {

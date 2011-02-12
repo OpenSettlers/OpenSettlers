@@ -1,5 +1,6 @@
 package soc.common.board;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,8 +8,9 @@ import java.util.List;
  * Represents a location of an Hex. This location is represented by
  * an w + h coordinate (width, height).
  */
-public class HexLocation
+public class HexLocation implements Serializable
 {
+    private static final long serialVersionUID = -1092174209657522030L;
     private int w;
     private int h;
 

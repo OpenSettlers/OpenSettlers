@@ -1,5 +1,6 @@
 package soc.common.game.logs;
 
+import java.io.Serializable;
 import java.util.List;
 
 import soc.common.actions.gameAction.GameAction;
@@ -14,7 +15,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
  * players are done loosing excess of 7 cards. In that case, a LooseCards action
  * is added for each player having > 7 cards, with blocking set to true.
  */
-public interface ActionsQueue
+public interface ActionsQueue extends Serializable
 {
     // Enqueues given gameAction
     public void enqueue(GameAction gameAction, boolean blocking);

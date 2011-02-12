@@ -140,7 +140,6 @@ public class PlayerGraphList implements Iterable<PlayerGraph>
         Set<GraphSide> processedSides = new HashSet<GraphSide>();
 
         // Process each side in the edgeset until all sides are processed
-        int i = completePlayerGraph.edgeSet().size();
         Iterator<GraphSide> it = completePlayerGraph.edgeSet().iterator();
         while (processedSides.size() != completePlayerGraph.edgeSet().size())
         {

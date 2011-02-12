@@ -20,7 +20,7 @@ public class TownSvg extends AbstractTownVisual implements SvgVisual
         int width = (int) parent.getSize() / 3;
         int roofHeight = (int) parent.getSize() / 4;
 
-        Point2D loc = parent.getBoardSvg().CalculatePosition(town.getPoint());
+        Point2D loc = parent.getBoardSvg().calculatePosition(town.getPoint());
         townPath = new Path(loc.getX() - (width / 2), loc.getY());
 
         townPath.lineRelativelyTo(0, width);

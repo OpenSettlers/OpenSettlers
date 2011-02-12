@@ -1,5 +1,6 @@
 package soc.common.board.pieces.pieceLists;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -7,8 +8,9 @@ import java.util.List;
 import soc.common.board.HexPoint;
 import soc.common.board.pieces.abstractPieces.PointPiece;
 
-public class PointPieceList implements Iterable<PointPiece>
+public class PointPieceList implements Iterable<PointPiece>, Serializable
 {
+    private static final long serialVersionUID = -5650123247361039636L;
     private List<PointPiece> pointPieces = new ArrayList<PointPiece>();
     private List<HexPoint> points = new ArrayList<HexPoint>();
 

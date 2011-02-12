@@ -15,7 +15,7 @@ public class LongestRoad extends AbstractPlayerPiece implements
 {
     private static final long serialVersionUID = -1851490325447009277L;
     private Route route;
-    private SimpleEventBus eventBus = new SimpleEventBus();
+    private transient SimpleEventBus eventBus = new SimpleEventBus();
 
     public Route getRoute()
     {

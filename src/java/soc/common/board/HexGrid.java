@@ -12,7 +12,7 @@ public class HexGrid extends ArrayList<Hex>
     private static final long serialVersionUID = 8931931419267340946L;
     private final int width;
     private final int height;
-    protected SimpleEventBus eventBus = new SimpleEventBus();
+    protected transient SimpleEventBus eventBus = new SimpleEventBus();
 
     public int getHeight()
     {

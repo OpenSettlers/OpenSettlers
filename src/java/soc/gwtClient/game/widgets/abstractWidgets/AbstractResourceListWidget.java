@@ -1,7 +1,5 @@
 package soc.gwtClient.game.widgets.abstractWidgets;
 
-import java.util.ArrayList;
-
 import soc.common.board.ports.PortList;
 import soc.common.board.resources.Resource;
 import soc.common.board.resources.ResourceList;
@@ -131,7 +129,6 @@ public abstract class AbstractResourceListWidget implements ResourceListWidget
 
     private void removeResources(ResourceList resourcesToRemove)
     {
-        ArrayList<ResourceWidget> widgetsToRemove = new ArrayList<ResourceWidget>();
         ResourceList resToRemove = resourcesToRemove.copy();
 
         for (Resource resourceToRemove : resToRemove)

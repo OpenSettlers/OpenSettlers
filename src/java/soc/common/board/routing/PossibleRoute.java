@@ -9,9 +9,10 @@ import soc.common.game.player.GamePlayer;
 
 public class PossibleRoute implements Route
 {
+    private static final long serialVersionUID = -5338964663179034866L;
     private List<GraphSide> sides = new ArrayList<GraphSide>();
     private List<GraphPoint> points = new ArrayList<GraphPoint>();
-    private BoardGraph boardGraph;
+    private transient BoardGraph boardGraph;
     private GamePlayer player;
 
     public PossibleRoute(BoardGraph boardGraph, GraphPoint start,

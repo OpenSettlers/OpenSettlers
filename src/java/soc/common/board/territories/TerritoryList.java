@@ -1,5 +1,6 @@
 package soc.common.board.territories;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -13,10 +14,11 @@ import com.google.gwt.event.shared.SimpleEventBus;
  * List of territories. Defaults on having a Mainland, but a mainland is not required.
  */
 @SeaFarers
-public class TerritoryList implements Iterable<TerritoryImpl>
+public class TerritoryList implements Iterable<TerritoryImpl>, Serializable
 {
-    List<TerritoryImpl> territories = new ArrayList<TerritoryImpl>();
-    SimpleEventBus eventBus = new SimpleEventBus();
+    private static final long serialVersionUID = -4621310527060737092L;
+    private List<TerritoryImpl> territories = new ArrayList<TerritoryImpl>();
+    private transient SimpleEventBus eventBus = new SimpleEventBus();
 
     public void add(TerritoryImpl territory)
     {

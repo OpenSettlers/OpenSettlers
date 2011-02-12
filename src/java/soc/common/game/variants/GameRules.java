@@ -1,5 +1,6 @@
 package soc.common.game.variants;
 
+import java.io.Serializable;
 import java.util.List;
 
 import soc.common.actions.gameAction.turnActions.TurnAction;
@@ -17,7 +18,7 @@ import soc.common.game.gamePhase.GamePhase;
 /*
  * Abstracted properties for game {@see IRuleSet} to modify
  */
-public interface GameRules
+public interface GameRules extends Serializable
 {
     public int getStockRoadAmount();
 

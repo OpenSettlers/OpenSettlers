@@ -111,8 +111,6 @@ public class BuyDevelopmentCard extends AbstractTurnAction
     @Override
     public void perform(Game game)
     {
-        GamePlayer gamePlayer = game.getPlayerByID(sender);
-
         // Perform resources administration
         player.getResources().subtractResources(resources);
         game.getBank().addList(resources);

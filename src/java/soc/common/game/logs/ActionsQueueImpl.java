@@ -20,8 +20,9 @@ import com.google.gwt.event.shared.SimpleEventBus;
  */
 public class ActionsQueueImpl implements ActionsQueue
 {
+    private static final long serialVersionUID = -8555444373631283907L;
     private List<QueuedAction> actions = new ArrayList<QueuedAction>();
-    private SimpleEventBus eventBus = new SimpleEventBus();
+    private transient SimpleEventBus eventBus = new SimpleEventBus();
 
     @Override
     public void enqueue(GameAction gameAction, boolean blocking)

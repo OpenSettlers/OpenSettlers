@@ -26,8 +26,9 @@ import com.google.gwt.event.shared.SimpleEventBus;
  */
 public class GamePlayerImpl implements GamePlayer
 {
+    private static final long serialVersionUID = -5064212092133830922L;
     private User user;
-    private SimpleEventBus eventBus = new SimpleEventBus();
+    private transient SimpleEventBus eventBus = new SimpleEventBus();
     // Hand resource cards
     private ResourceList resources = new ResourceList();
 

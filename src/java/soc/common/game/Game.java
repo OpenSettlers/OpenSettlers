@@ -1,5 +1,6 @@
 package soc.common.game;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,11 +50,12 @@ import soc.common.server.random.Random;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
 
-public class Game
+public class Game implements Serializable
 {
+    private static final long serialVersionUID = -4310619750495087333L;
     // Event subscribers/broadcasting mechanism
     private transient SimpleEventBus eventBus = new SimpleEventBus();
-    private Random random = new ClientRandom();
+    private transient Random random = new ClientRandom();
 
     // Lists of actions, logs & future actions
     private ActionsQueue actionsQueue = new ActionsQueueImpl();
@@ -62,7 +64,7 @@ public class Game
 
     // Abstracted rules
     private GameRules gameRules;
-    private LayoutStrategy layoutStrategy = new BruteForceLayout(30);
+    private transient LayoutStrategy layoutStrategy = new BruteForceLayout(30);
 
     private GamePlayerList players = new GamePlayerList();
     private List<GamePlayer> spectators = new ArrayList<GamePlayer>();

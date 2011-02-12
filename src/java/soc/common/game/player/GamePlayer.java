@@ -1,5 +1,7 @@
 package soc.common.game.player;
 
+import java.io.Serializable;
+
 import soc.common.board.pieces.Army;
 import soc.common.board.pieces.pieceLists.CityList;
 import soc.common.board.pieces.pieceLists.PointPieceList;
@@ -17,7 +19,7 @@ import soc.common.game.VictoryPointsList;
 import soc.common.game.developmentCards.DevelopmentCardList;
 import soc.common.server.data.User;
 
-public interface GamePlayer
+public interface GamePlayer extends Serializable
 {
     public User getUser();
 

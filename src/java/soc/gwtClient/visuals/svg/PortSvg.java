@@ -20,7 +20,7 @@ import com.google.gwt.event.dom.client.MouseOutHandler;
 public class PortSvg extends AbstractPortVisual implements MouseMoveHandler,
         ClickHandler, MouseOutHandler, SvgVisual
 {
-    private final double fillOpacity = 0.5;
+    private static final double fillOpacity = 0.5;
     private Group group = new Group();
     private Path territoryPath;
     private Circle circle;

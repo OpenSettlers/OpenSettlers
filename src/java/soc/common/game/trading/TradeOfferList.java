@@ -1,5 +1,6 @@
 package soc.common.game.trading;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,10 +9,11 @@ import soc.common.actions.gameAction.turnActions.standard.TradeOffer;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
 
-public class TradeOfferList
+public class TradeOfferList implements Serializable
 {
+    private static final long serialVersionUID = 279721035013362133L;
     private List<TradeOffer> tradeOffers = new ArrayList<TradeOffer>();
-    private SimpleEventBus eventBus = new SimpleEventBus();
+    private transient SimpleEventBus eventBus = new SimpleEventBus();
 
     public void addOffer(TradeOffer tradeOffer)
     {

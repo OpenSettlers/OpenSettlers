@@ -1,12 +1,16 @@
 package soc.common.board.pieces.pieceLists;
 
+import java.io.Serializable;
+
 import soc.common.board.HexSide;
 import soc.common.board.pieces.Road;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 
-public class RoadList extends PlayerPieceList<Road>
+public class RoadList extends PlayerPieceList<Road> implements Serializable
 {
+    private static final long serialVersionUID = 434233437868739237L;
+
     public HandlerRegistration addRoadsChangedEventHandler(
             PlayerPieceListChangedEventHandler<Road> handler)
     {

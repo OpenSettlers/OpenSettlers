@@ -119,11 +119,6 @@ public class HexSvg extends AbstractHexVisual implements MouseMoveHandler,
         return (TerritorySvg) territory;
     }
 
-    private PortPossibilitiesSvg getSvgPortPossibilitiesVisual()
-    {
-        return (PortPossibilitiesSvg) portPossibilities;
-    }
-
     private PortSvg getSvgPortVisual()
     {
         return (PortSvg) port;

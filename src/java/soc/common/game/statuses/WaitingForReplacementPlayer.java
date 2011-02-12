@@ -10,6 +10,7 @@ import soc.common.game.player.GamePlayer;
  */
 public class WaitingForReplacementPlayer implements GameStatus
 {
+    private static final long serialVersionUID = 574256018106230045L;
     private int amountPlayers = 1;
     private List<GamePlayer> gonePlayers = new ArrayList<GamePlayer>();
 

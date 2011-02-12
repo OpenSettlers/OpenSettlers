@@ -34,7 +34,7 @@ public class SideSvg extends SideVisual implements SvgVisual,
         super(hexSide);
         this.parent = parent;
 
-        location = parent.getBoardSvg().CalculatePosition(hexSide);
+        location = parent.getBoardSvg().calculatePosition(hexSide);
 
         width = parent.getSize() * 0.8;
         height = parent.getSize() * 0.3;
