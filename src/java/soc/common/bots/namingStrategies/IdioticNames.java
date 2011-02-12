@@ -18,15 +18,15 @@ public class IdioticNames implements NameStrategy
 
     static
     {
-        idioticNames.add("IAmSuchAnIdiot");
+        idioticNames.add("SuchAnIdiot");
         idioticNames.add("Dumber");
         idioticNames.add("Dumb");
         idioticNames.add("LousyBot");
         idioticNames.add("Dimwit");
         idioticNames.add("FoolBot");
-        idioticNames.add("JustFunnyHowDumbIAm");
+        idioticNames.add("SoDumbIAm");
         idioticNames.add("IdiotBot");
-        idioticNames.add("StupidityIncorporated");
+        idioticNames.add("StupidInc");
     }
 
     @Override

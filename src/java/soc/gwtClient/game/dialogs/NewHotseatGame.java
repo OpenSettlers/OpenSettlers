@@ -43,6 +43,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RadioButton;
@@ -128,6 +129,7 @@ public class NewHotseatGame extends Composite implements
         ScrollPanel scrollPanel = new ScrollPanel();
         scrollPanel.setStyleName("newHotseatGame");
         initWidget(scrollPanel);
+        scrollPanel.setSize("100%", "100%");
 
         VerticalPanel verticalPanel_3 = new VerticalPanel();
         scrollPanel.setWidget(verticalPanel_3);
@@ -246,6 +248,8 @@ public class NewHotseatGame extends Composite implements
         verticalPanel.setWidth("100%");
 
         HorizontalPanel horizontalPanel_2 = new HorizontalPanel();
+        horizontalPanel_2
+                .setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
         verticalPanel.add(horizontalPanel_2);
         horizontalPanel_2.setSpacing(5);
 
@@ -270,6 +274,9 @@ public class NewHotseatGame extends Composite implements
                     canAddPlayer();
             }
         });
+
+        Image image = new Image(Resources.icons().playerMedium());
+        horizontalPanel_2.add(image);
         horizontalPanel_2.add(textboxPlayerName);
 
         buttonAddPlayer = new Button("New button");
@@ -320,8 +327,13 @@ public class NewHotseatGame extends Composite implements
         horizontalPanel_2.add(buttonAddPlayer);
 
         HorizontalPanel horizontalPanel_4 = new HorizontalPanel();
+        horizontalPanel_4
+                .setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
         verticalPanel.add(horizontalPanel_4);
         horizontalPanel_4.setSpacing(5);
+
+        Image image_1 = new Image(Resources.icons().botMedium());
+        horizontalPanel_4.add(image_1);
 
         final ListBox comboBox = new ListBox();
         horizontalPanel_4.add(comboBox);
