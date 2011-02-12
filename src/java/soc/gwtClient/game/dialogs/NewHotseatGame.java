@@ -273,6 +273,7 @@ public class NewHotseatGame extends Composite implements
         horizontalPanel_2.add(textboxPlayerName);
 
         buttonAddPlayer = new Button("New button");
+        buttonAddPlayer.setEnabled(false);
         buttonAddPlayer.addClickHandler(new ClickHandler()
         {
             public void onClick(ClickEvent event)
@@ -528,6 +529,7 @@ public class NewHotseatGame extends Composite implements
         playerProvider.getList().add(newPlayer);
 
         selectNextColorIfAvailable();
+        updateUI();
     }
 
     private boolean canAddPlayer()
