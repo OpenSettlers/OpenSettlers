@@ -13,8 +13,8 @@ import soc.common.board.routing.GraphPoint;
 import soc.common.board.routing.GraphSide;
 import soc.common.board.territories.TerritoryImpl;
 import soc.common.board.territories.TerritoryList;
-import soc.common.server.random.ClientRandom;
-import soc.common.server.random.Random;
+import soc.common.server.randomization.ClientRandom;
+import soc.common.server.randomization.Random;
 
 /// <summary>
 /// Represents the board data structure. 

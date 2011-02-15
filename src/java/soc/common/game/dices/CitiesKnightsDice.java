@@ -1,7 +1,7 @@
 package soc.common.game.dices;
 
 import soc.common.annotations.CitiesKnights;
-import soc.common.server.random.Random;
+import soc.common.server.randomization.Random;
 
 @CitiesKnights
 public class CitiesKnightsDice implements Dice

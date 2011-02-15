@@ -1,4 +1,4 @@
-package soc.common.server.data;
+package soc.common.server.entities;
 
 import java.util.ArrayList;
 import java.util.List;

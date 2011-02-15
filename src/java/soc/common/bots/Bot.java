@@ -3,15 +3,15 @@ package soc.common.bots;
 import java.util.List;
 
 import soc.common.actions.gameAction.GameAction;
+import soc.common.actions.gameAction.turnActions.standard.BuildRoad;
+import soc.common.actions.gameAction.turnActions.standard.BuildTown;
 import soc.common.actions.gameAction.turnActions.standard.LooseCards;
 import soc.common.actions.gameAction.turnActions.standard.PlaceRobber;
 import soc.common.actions.gameAction.turnActions.standard.RobPlayer;
 import soc.common.actions.gameAction.turnActions.standard.TradeOffer;
-import soc.common.board.HexPoint;
-import soc.common.board.HexSide;
 import soc.common.board.resources.ResourceList;
 import soc.common.game.variants.Variant;
-import soc.common.server.data.User;
+import soc.common.server.entities.User;
 
 /*
  * Represents a bot. Server is responsible for calling the bot his methods.
@@ -24,13 +24,13 @@ public interface Bot extends User
 
     public ResourceList pickGold(int amount);
 
-    public HexPoint pickFirstTown();
+    public BuildTown pickFirstTown();
 
-    public HexPoint pickSecondTown();
+    public BuildTown pickSecondTown();
 
-    public HexSide pickFirstRoad();
+    public BuildRoad pickFirstRoad();
 
-    public HexSide pickSecondRoad();
+    public BuildRoad pickSecondRoad();
 
     public LooseCards looseCards(int amount);
 

@@ -3,8 +3,8 @@ package soc.gwtServer.database;
 import java.util.List;
 
 import soc.common.board.Board;
-import soc.common.server.data.BoardProvider;
-import soc.common.server.data.User;
+import soc.common.server.entities.BoardProvider;
+import soc.common.server.entities.User;
 
 /*
  * Provides boards from an object database

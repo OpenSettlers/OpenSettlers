@@ -56,7 +56,7 @@ public class StockRoadBitmapWidget extends AbstractStockItemWidget implements
     @Override
     public PlayerDetailWidget createDetailWidget()
     {
-        return new RoadStockDetailWidget(player);
+        return new RoadStockDetailWidget(gamePanel, player);
     }
 
 }

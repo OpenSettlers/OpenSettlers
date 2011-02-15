@@ -1,6 +1,6 @@
 package soc.common.game.dices;
 
-import soc.common.server.random.Random;
+import soc.common.server.randomization.Random;
 
 public class StandardDice implements Dice
 {

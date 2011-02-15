@@ -12,4 +12,5 @@
   <source path='server'/>  
   <source path='internationalization'/>    
   <source path='bots'/>  
+  <source path='core'/>  
 </module>

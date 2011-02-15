@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import soc.common.server.random.Random;
+import soc.common.server.randomization.Random;
 
 public class HexList implements Iterable<Hex>, Serializable
 {

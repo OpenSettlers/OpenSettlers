@@ -16,7 +16,7 @@ import soc.common.board.ports.PortList;
 import soc.common.board.ports.RandomPort;
 import soc.common.board.territories.Territory;
 import soc.common.game.Game;
-import soc.common.server.random.Random;
+import soc.common.server.randomization.Random;
 
 /*
  * Randomly lays out the chits. When equal neighbours or 6/8 neighbours 

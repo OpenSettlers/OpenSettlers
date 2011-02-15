@@ -27,7 +27,7 @@ public class LargestArmyBitmapWidget extends AbstractLargestArmyWidget
     {
         super(gamePanel, player);
 
-        soldiersDetailWidget = new SoldiersDetailWidget(player);
+        soldiersDetailWidget = new SoldiersDetailWidget(gamePanel, player);
 
         amountSoldiers.setText(Integer.toString(player
                 .getPlayedDevelopmentCards().ofType(new Soldier()).size()));

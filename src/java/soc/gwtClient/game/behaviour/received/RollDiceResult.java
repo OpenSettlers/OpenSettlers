@@ -39,8 +39,7 @@ public class RollDiceResult implements ReceiveGameBehaviour
             // Show the hexes which have been rolled
             gamePanel.getGameBoardVisual().setBehaviour(rollDiceBehaviour);
 
-            gamePanel.getDetailContainerManager().showResourcesGained(
-                    rolledDice);
+            gamePanel.getDetailContainerManager().showActionWidget(rolledDice);
 
             gamePanel.getResourcesGainedWidget().update(this);
             gamePanel.getActionsWidget().setEnabled(false);

@@ -40,6 +40,7 @@ public abstract class AbstractGamePanel implements GamePanel, CenterWidget,
     protected ReceiveGameBehaviourFactory receiveBehaviourFactory;
     protected GameBehaviourFactory sendBehaviourFactory;
     protected GameBehaviourFactory nextActionBehaviourFactory;
+    protected ReceiveGameBehaviourFactory opponentBehaviourFactory;
     protected GameWidgetFactory gameWidgetFactory;
 
     // Left-bottom tab panel

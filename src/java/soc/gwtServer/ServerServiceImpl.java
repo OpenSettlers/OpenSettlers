@@ -10,8 +10,8 @@ import net.zschech.gwt.comet.server.CometServlet;
 import net.zschech.gwt.comet.server.CometSession;
 import soc.common.actions.lobby.LobbyAction;
 import soc.common.server.ServerService;
-import soc.common.server.data.Player;
-import soc.common.server.data.User;
+import soc.common.server.entities.Player;
+import soc.common.server.entities.User;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 

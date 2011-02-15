@@ -3,12 +3,12 @@ package soc.common.actions.gameAction;
 import java.util.Date;
 
 import soc.common.actions.AbstractAction;
+import soc.common.core.Core;
 import soc.common.game.Game;
 import soc.common.game.Turn;
 import soc.common.game.player.GamePlayer;
 import soc.common.game.player.GamePlayerImpl;
 import soc.common.game.statuses.GameStatus;
-import soc.common.server.data.ServerUser;
 import soc.common.utils.ClassUtils;
 
 /*
@@ -25,7 +25,7 @@ public abstract class AbstractGameAction extends AbstractAction implements
     protected int id;
 
     /*
-     * (non-Javadoc)
+     * Returns the ID of the action
      * 
      * @see soc.common.actions.gameAction.GameAction#getID()
      */
@@ -36,7 +36,7 @@ public abstract class AbstractGameAction extends AbstractAction implements
     }
 
     /*
-     * (non-Javadoc)
+     * Sets the ID of the action
      * 
      * @see soc.common.actions.gameAction.GameAction#setID(int)
      */
@@ -70,7 +70,7 @@ public abstract class AbstractGameAction extends AbstractAction implements
     {
         if (sender == 0 && player == null)
         {
-            player = new GamePlayerImpl().setUser(new ServerUser());
+            player = new GamePlayerImpl().setUser(Core.get().getServerUser());
         }
         return player;
     }
@@ -161,6 +161,19 @@ public abstract class AbstractGameAction extends AbstractAction implements
     public boolean mustExpected()
     {
         return false;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.common.actions.gameAction.GameAction#isExpectedQueueType(soc.common
+     * .actions.gameAction.GameAction)
+     */
+    @Override
+    public boolean isExpectedQueueType(GameAction actualAction)
+    {
+        return this.getClass() == actualAction.getClass();
     }
 
 }

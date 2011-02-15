@@ -7,7 +7,7 @@ import soc.common.game.Game;
 import soc.common.game.logs.ActionsQueue;
 import soc.common.server.actions.GameServerActionFactory;
 import soc.common.server.actions.ServerAction;
-import soc.common.server.random.Random;
+import soc.common.server.randomization.Random;
 
 /*
  * Abstracted implementation of a gameserver. Should be able to be used locally 
@@ -20,6 +20,7 @@ public abstract class AbstractGameServer implements GameServer
     protected GameServerActionFactory serverActionFactory;
     protected Random random;
     protected BotPrincipal botPrincipal;
+    protected boolean botTurnHandled = false;
 
     public AbstractGameServer()
     {
@@ -29,7 +30,7 @@ public abstract class AbstractGameServer implements GameServer
     /**
      * @return the random
      */
-    public soc.common.server.random.Random getRandom()
+    public soc.common.server.randomization.Random getRandom()
     {
         return random;
     }
@@ -98,6 +99,13 @@ public abstract class AbstractGameServer implements GameServer
             if (possibleNextServerAction != null && game.hasBots())
             {
                 botPrincipal.handleActionsQueue();
+            }
+
+            if (possibleNextServerAction == null && game.hasBots()
+                    && game.getCurrentTurn().getPlayer().getBot() != null
+                    && !botTurnHandled)
+            {
+                botPrincipal.handleTurn();
             }
         }
     }

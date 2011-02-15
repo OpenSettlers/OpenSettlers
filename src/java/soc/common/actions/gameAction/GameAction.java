@@ -68,4 +68,6 @@ public interface GameAction extends Action
      * or PlaceRobber
      */
     public boolean mustExpected();
+
+    public boolean isExpectedQueueType(GameAction actualAction);
 }

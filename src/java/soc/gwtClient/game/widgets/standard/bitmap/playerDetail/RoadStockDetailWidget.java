@@ -8,6 +8,7 @@ import soc.common.board.pieces.pieceLists.PlayerPieceListChangedEvent;
 import soc.common.board.pieces.pieceLists.PlayerPieceListChangedEventHandler;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.AbstractPlayerDetailWidget;
+import soc.gwtClient.game.abstractWidgets.GamePanel;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.user.client.ui.Image;
@@ -17,9 +18,9 @@ public class RoadStockDetailWidget extends AbstractPlayerDetailWidget implements
 {
     private Map<Road, Image> roadImages = new HashMap<Road, Image>();
 
-    public RoadStockDetailWidget(GamePlayer player)
+    public RoadStockDetailWidget(GamePanel gamePanel, GamePlayer player)
     {
-        super(player);
+        super(gamePanel, player);
 
         for (Road road : player.getStock().getRoads())
         {

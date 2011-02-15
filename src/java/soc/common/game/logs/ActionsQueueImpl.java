@@ -86,8 +86,7 @@ public class ActionsQueueImpl implements ActionsQueue
 
         for (QueuedAction blockingAction : getBlockingQueuedActions())
         {
-            if (blockingAction.getGameAction().getClass() == prototype
-                    .getClass()
+            if (blockingAction.getGameAction().isExpectedQueueType(prototype)
                     && blockingAction.getGameAction().getPlayer().equals(
                             prototype.getPlayer()))
                 return blockingAction;

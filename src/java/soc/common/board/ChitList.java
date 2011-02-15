@@ -3,7 +3,7 @@ package soc.common.board;
 import java.util.ArrayList;
 
 import soc.common.annotations.SeaFarers;
-import soc.common.server.random.Random;
+import soc.common.server.randomization.Random;
 
 /*
  * Represents a list of chits

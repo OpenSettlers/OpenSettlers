@@ -44,8 +44,8 @@ import soc.common.game.statuses.Playing;
 import soc.common.game.trading.TradeResponse;
 import soc.common.game.variants.GameRules;
 import soc.common.game.variants.GameRulesImpl;
-import soc.common.server.random.ClientRandom;
-import soc.common.server.random.Random;
+import soc.common.server.randomization.ClientRandom;
+import soc.common.server.randomization.Random;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;

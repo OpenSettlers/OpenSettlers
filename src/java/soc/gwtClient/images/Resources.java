@@ -26,6 +26,7 @@ import soc.common.board.resources.Resource;
 import soc.common.board.resources.Sheep;
 import soc.common.board.resources.Timber;
 import soc.common.board.resources.Wheat;
+import soc.common.bots.Bot;
 import soc.common.game.VictoryPointItem;
 import soc.common.game.developmentCards.standard.VictoryPoint;
 import soc.common.game.gamePhase.DetermineFirstPlayerGamePhase;
@@ -39,6 +40,9 @@ import soc.common.game.gamePhase.turnPhase.BuildingTurnPhase;
 import soc.common.game.gamePhase.turnPhase.RollDiceTurnPhase;
 import soc.common.game.gamePhase.turnPhase.TradingTurnPhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
+import soc.common.server.entities.Player;
+import soc.common.server.entities.ServerUser;
+import soc.common.server.entities.User;
 import soc.gwtClient.images.defaultTheme.Icons;
 import soc.gwtClient.images.defaultTheme.Images;
 
@@ -140,17 +144,27 @@ public class Resources
     public static ImageResource piece(PlayerPiece piece)
     {
         if (piece instanceof City)
-        {
             return icons.city();
-        }
+
         if (piece instanceof Town)
-        {
             return icons.town();
-        }
+
         if (piece instanceof Road)
-        {
             return icons.road();
-        }
+
+        return null;
+    }
+
+    public static ImageResource user(User user)
+    {
+        if (user instanceof ServerUser)
+            return Resources.icons().refereeMedium();
+
+        if (user instanceof Player)
+            return Resources.icons().playerMedium();
+
+        if (user instanceof Bot)
+            return Resources.icons().botMedium();
 
         return null;
     }
@@ -319,4 +333,65 @@ public class Resources
         return null;
     }
 
+    public static ImageResource hexIcon(Hex hex)
+    {
+        if (hex instanceof ResourceHex)
+        {
+            Resource resource = ((ResourceHex) hex).getResource();
+            if (resource instanceof Wheat)
+            {
+                return icons.wheatHex();
+            }
+            if (resource instanceof Timber)
+            {
+                return icons.timberHex();
+            }
+            if (resource instanceof Ore)
+            {
+                return icons.oreHex();
+            }
+            if (resource instanceof Clay)
+            {
+                return icons.clayHex();
+            }
+            if (resource instanceof Sheep)
+            {
+                return icons.sheepHex();
+            }
+            if (resource instanceof Gold)
+            {
+                return icons.goldHex();
+            }
+            if (resource instanceof Diamond)
+            {
+                return icons.jungleHex();
+            }
+        }
+        if (hex instanceof DesertHex)
+        {
+            return icons.desertHex();
+        }
+        if (hex instanceof SeaHex)
+        {
+            return icons.seaHex();
+        }
+        if (hex instanceof VolcanoHex)
+        {
+            return icons.volcanoHex();
+        }
+        if (hex instanceof NoneHex)
+        {
+            return icons.noneHex();
+        }
+        if (hex instanceof DiscoveryHex)
+        {
+            return icons.discoveryHex();
+        }
+        if (hex instanceof RandomHex)
+        {
+            return icons.randomHex();
+        }
+
+        return null;
+    }
 }

@@ -10,7 +10,7 @@ import soc.common.game.logs.ActionsQueue;
 import soc.common.game.logs.GameLog;
 import soc.common.game.player.GamePlayer;
 import soc.common.game.player.GamePlayerImpl;
-import soc.common.server.data.User;
+import soc.common.server.entities.User;
 
 public interface IGame
 {

@@ -7,7 +7,8 @@ target/lib/*
 target/classes
 target/classes/*
 war/mapcreator/*
-war/WEB-INF/*
+war/WEB-INF/lib/*
+war/WEB-INF/classes/*
 .gwt/*
 .svn
 .svn/*

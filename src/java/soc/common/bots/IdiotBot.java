@@ -7,6 +7,8 @@ import java.util.Set;
 import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.turnActions.EndTurn;
 import soc.common.actions.gameAction.turnActions.standard.AcceptTradeOffer;
+import soc.common.actions.gameAction.turnActions.standard.BuildRoad;
+import soc.common.actions.gameAction.turnActions.standard.BuildTown;
 import soc.common.actions.gameAction.turnActions.standard.CounterTradeOffer;
 import soc.common.actions.gameAction.turnActions.standard.LooseCards;
 import soc.common.actions.gameAction.turnActions.standard.PlaceRobber;
@@ -27,8 +29,8 @@ import soc.common.game.player.GamePlayerList;
 import soc.common.game.trading.TradeResponse;
 import soc.common.game.variants.Standard;
 import soc.common.game.variants.Variant;
-import soc.common.server.data.BotUser;
-import soc.common.server.random.Random;
+import soc.common.server.entities.BotUser;
+import soc.common.server.randomization.Random;
 
 /*
  * Simple bot implementation using randomness as main advice.
@@ -75,10 +77,12 @@ public class IdiotBot extends AbstractBot
     }
 
     @Override
-    public HexSide pickFirstRoad()
+    public BuildRoad pickFirstRoad()
     {
-        return grabRandomHexSide(game.getBoard().getGraph()
+        HexSide roadPick = grabRandomHexSide(game.getBoard().getGraph()
                 .getRoadCandidatesFirstTown(player));
+        return (BuildRoad) new BuildRoad().setSideLocation(roadPick).setPlayer(
+                player);
     }
 
     /*
@@ -87,10 +91,12 @@ public class IdiotBot extends AbstractBot
      * @see soc.common.bots.Bot#pickFirstTown()
      */
     @Override
-    public HexPoint pickFirstTown()
+    public BuildTown pickFirstTown()
     {
-        return grabRandomHexPoint(game.getBoard().getGraph()
+        HexPoint townPick = grabRandomHexPoint(game.getBoard().getGraph()
                 .getTownCandidatesFirstTown(player));
+        return (BuildTown) new BuildTown().setPointLocation(townPick)
+                .setPlayer(player);
     }
 
     @Override
@@ -110,17 +116,21 @@ public class IdiotBot extends AbstractBot
     }
 
     @Override
-    public HexSide pickSecondRoad()
+    public BuildRoad pickSecondRoad()
     {
-        return grabRandomHexSide(game.getBoard().getGraph()
+        HexSide roadPick = grabRandomHexSide(game.getBoard().getGraph()
                 .getRoadCandidatesSecondTown(player));
+        return (BuildRoad) new BuildRoad().setSideLocation(roadPick).setPlayer(
+                player);
     }
 
     @Override
-    public HexPoint pickSecondTown()
+    public BuildTown pickSecondTown()
     {
-        return grabRandomHexPoint(game.getBoard().getGraph()
+        HexPoint townPick = grabRandomHexPoint(game.getBoard().getGraph()
                 .getTownCandidatesFirstTown(player));
+        return (BuildTown) new BuildTown().setPointLocation(townPick)
+                .setPlayer(player);
     }
 
     @Override

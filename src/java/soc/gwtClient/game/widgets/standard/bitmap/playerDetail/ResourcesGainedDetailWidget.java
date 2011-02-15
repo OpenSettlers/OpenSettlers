@@ -3,6 +3,7 @@ package soc.gwtClient.game.widgets.standard.bitmap.playerDetail;
 import soc.common.board.resources.ResourceList;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.AbstractPlayerDetailWidget;
+import soc.gwtClient.game.abstractWidgets.GamePanel;
 import soc.gwtClient.game.abstractWidgets.PlayerDetailWidget;
 import soc.gwtClient.game.widgets.abstractWidgets.ResourceListWidget;
 import soc.gwtClient.game.widgets.bitmap.ResourceListBitmapWidget;
@@ -19,9 +20,9 @@ public class ResourcesGainedDetailWidget extends AbstractPlayerDetailWidget
     private ResourceListWidget resourceWidget;
     private ResourceList resources = new ResourceList();
 
-    public ResourcesGainedDetailWidget(GamePlayer player)
+    public ResourcesGainedDetailWidget(GamePanel gamePanel, GamePlayer player)
     {
-        super(player);
+        super(gamePanel, player);
         resourceWidget = new ResourceListBitmapWidget(resources, null, null);
         rootPanel.add(resourceWidget);
         resourceWidget.setHeight("3em");

@@ -11,10 +11,10 @@ import soc.common.game.Game;
 import soc.common.game.GameUtils;
 import soc.common.game.player.GamePlayer;
 import soc.common.game.player.GamePlayerImpl;
-import soc.common.server.data.BoardProvider;
-import soc.common.server.data.ConstructorBoardProvider;
-import soc.common.server.data.Player;
-import soc.common.server.random.ClientRandom;
+import soc.common.server.entities.BoardProvider;
+import soc.common.server.entities.ConstructorBoardProvider;
+import soc.common.server.entities.Player;
+import soc.common.server.randomization.ClientRandom;
 import soc.common.utils.ClassUtils;
 import soc.gwtClient.game.widgets.BoardViewerWidget;
 import soc.gwtClient.game.widgets.bitmap.ColorCell;
@@ -648,12 +648,11 @@ public class NewHotseatGame extends Composite implements
 
     private void startGame()
     {
-        Game game = new Game();
-        game.setBoard(selectedBoard);
+        newGame.setBoard(selectedBoard);
         for (GamePlayer player : playerProvider.getList())
-            game.getPlayers().add(player);
+            newGame.getPlayers().add(player);
 
-        mainWindow.getHotseatGame().startGame(game);
+        mainWindow.getHotseatGame().startGame(newGame);
         mainWindow.setCurrentWidget(mainWindow.getHotseatGame());
     }
 }

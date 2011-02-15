@@ -1,10 +1,8 @@
 package soc.gwtClient.game.widgets;
 
 import java.util.HashMap;
-import java.util.Map.Entry;
 
-import soc.common.actions.gameAction.turnActions.standard.RollDice;
-import soc.common.board.resources.ResourceList;
+import soc.common.actions.gameAction.GameAction;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.GamePanel;
 import soc.gwtClient.game.abstractWidgets.PlayerDetailContainerWidget;
@@ -28,14 +26,9 @@ public class DetailContainerManager
         }
     }
 
-    public void showResourcesGained(RollDice rollDice)
+    public void showActionWidget(GameAction action)
     {
-        for (Entry<GamePlayer, ResourceList> entry : rollDice
-                .getPlayersResources().entrySet())
-        {
-            playersDetails.get(entry.getKey()).showResourcesGained(
-                    entry.getValue());
-        }
+        playersDetails.get(action.getPlayer()).showActionWidget(action);
     }
 
     public void hideCurrentWidget()

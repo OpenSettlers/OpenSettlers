@@ -1,6 +1,6 @@
 package soc.gwtClient.lobby;
 
-import soc.common.server.data.Player;
+import soc.common.server.entities.Player;
 
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;

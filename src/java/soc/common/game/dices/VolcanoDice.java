@@ -1,7 +1,7 @@
 package soc.common.game.dices;
 
 import soc.common.annotations.SeaFarers;
-import soc.common.server.random.Random;
+import soc.common.server.randomization.Random;
 
 /*
  * Represents a single 6-sided dice. Rolled when a volcano produces resources by

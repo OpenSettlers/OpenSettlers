@@ -6,9 +6,13 @@ import java.util.List;
 import java.util.Map;
 
 import soc.common.actions.gameAction.GameAction;
+import soc.common.actions.gameAction.turnActions.QueuedTradeResponse;
+import soc.common.actions.gameAction.turnActions.standard.BuildRoad;
+import soc.common.actions.gameAction.turnActions.standard.BuildTown;
 import soc.common.actions.gameAction.turnActions.standard.LooseCards;
 import soc.common.actions.gameAction.turnActions.standard.PlaceRobber;
 import soc.common.actions.gameAction.turnActions.standard.RobPlayer;
+import soc.common.actions.gameAction.turnActions.standard.RollDice;
 import soc.common.game.player.GamePlayer;
 import soc.common.server.GameServer;
 
@@ -29,7 +33,8 @@ public class BotPrincipalImpl implements BotPrincipal
         // Simple start implementation, no threads needed so no wrapped thread
         // bot needed
         for (GamePlayer player : gameServer.getGame().getPlayers())
-            threadingBots.put(player.getBot(), player.getBot());
+            if (player.getBot() != null)
+                threadingBots.put(player.getBot(), player.getBot());
     }
 
     @Override
@@ -68,6 +73,29 @@ public class BotPrincipalImpl implements BotPrincipal
         if (queuedAction instanceof RobPlayer)
             answerAction = bot.robPlayer();
 
+        if (queuedAction instanceof RollDice)
+            answerAction = new RollDice().setPlayer(queuedAction.getPlayer());
+
+        if (queuedAction instanceof BuildTown)
+        {
+            if (queuedAction.getPlayer().getTowns().size() == 0)
+                answerAction = bot.pickFirstTown();
+            else
+                answerAction = bot.pickSecondTown();
+        }
+
+        if (queuedAction instanceof BuildRoad)
+        {
+            if (queuedAction.getPlayer().getRoads().size() == 0)
+                answerAction = bot.pickFirstRoad();
+            else
+                answerAction = bot.pickSecondRoad();
+        }
+
+        if (queuedAction instanceof QueuedTradeResponse)
+            answerAction = bot.respondToTrade(gameServer.getGame()
+                    .getCurrentTurn().getTradeOffers().getLatestOffer());
+
         // Execute the action
         performAction(answerAction);
     }
@@ -76,6 +104,15 @@ public class BotPrincipalImpl implements BotPrincipal
     public void performAction(GameAction action)
     {
         gameServer.sendAction(action);
+    }
+
+    @Override
+    public void handleTurn()
+    {
+        GamePlayer playerOnTurn = gameServer.getGame().getCurrentTurn()
+                .getPlayer();
+        if (playerOnTurn.getBot() != null)
+            playerOnTurn.getBot().handTurn(this);
     }
 
 }

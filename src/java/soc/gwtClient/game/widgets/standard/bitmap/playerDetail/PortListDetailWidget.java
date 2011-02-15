@@ -9,6 +9,7 @@ import soc.common.board.ports.PortListChangedEvent;
 import soc.common.board.ports.PortListChangedEventHandler;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.AbstractPlayerDetailWidget;
+import soc.gwtClient.game.abstractWidgets.GamePanel;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.user.client.ui.Image;
@@ -18,9 +19,9 @@ public class PortListDetailWidget extends AbstractPlayerDetailWidget implements
 {
     private Map<Port, Image> portImages = new HashMap<Port, Image>();
 
-    public PortListDetailWidget(GamePlayer player)
+    public PortListDetailWidget(GamePanel gamePanel, GamePlayer player)
     {
-        super(player);
+        super(gamePanel, player);
 
         for (Port port : player.getPorts())
         {
@@ -38,7 +39,8 @@ public class PortListDetailWidget extends AbstractPlayerDetailWidget implements
     @Override
     public void onPortsChanged(PortListChangedEvent event)
     {
-        if (event.getAddedPort() != null)
+        if (event.getAddedPort() != null
+                && !(event.getAddedPort() instanceof FourToOnePort))
         {
             Image portImage = new Image(Resources.port(event.getAddedPort()));
             portImages.put(event.getAddedPort(), portImage);

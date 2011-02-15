@@ -3,8 +3,8 @@ package soc.gwtClient.main;
 import java.util.List;
 
 import soc.common.board.Board;
-import soc.common.server.data.BoardList;
-import soc.common.server.data.BoardProvider;
+import soc.common.server.entities.BoardList;
+import soc.common.server.entities.BoardProvider;
 
 /*
  * Provider of Boards for gwt client. Checks memory instances, then local browser cache, then asks a server
@@ -38,7 +38,7 @@ public class GwtBoardProvider implements BoardProvider
     }
 
     @Override
-    public List<Board> getBoardsFromUser(soc.common.server.data.User user)
+    public List<Board> getBoardsFromUser(soc.common.server.entities.User user)
     {
         // TODO Auto-generated method stub
         return null;

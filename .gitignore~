@@ -1,0 +1,14 @@
+bin
+bin/*
+deploy
+deploy/*
+target/lib
+target/lib/*
+target/classes
+target/classes/*
+war/mapcreator/*
+war/WEB-INF/*
+.gwt/*
+.svn
+.svn/*
+*.log

@@ -2,8 +2,8 @@ package soc.gwtServer.database;
 
 import java.util.List;
 
-import soc.common.server.data.User;
-import soc.common.server.data.UserProvider;
+import soc.common.server.entities.User;
+import soc.common.server.entities.UserProvider;
 
 public class OdbUserProvider implements UserProvider
 {

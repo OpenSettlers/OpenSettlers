@@ -1,6 +1,6 @@
 package soc.common.actions.lobby;
 
-import soc.common.server.data.Player;
+import soc.common.server.entities.Player;
 
 public abstract class AbstractLobbyAction implements LobbyAction
 {

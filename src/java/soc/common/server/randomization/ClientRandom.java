@@ -1,4 +1,4 @@
-package soc.common.server.random;
+package soc.common.server.randomization;
 
 /*
  * Random generator from the browser

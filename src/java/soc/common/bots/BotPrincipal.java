@@ -16,4 +16,6 @@ public interface BotPrincipal
     public void performAction(GameAction action);
 
     public void handleActionsQueue();
+
+    public void handleTurn();
 }

@@ -3,7 +3,7 @@ package soc.common.bots.namingStrategies;
 import java.util.ArrayList;
 import java.util.List;
 
-import soc.common.server.random.Random;
+import soc.common.server.randomization.Random;
 
 public class IdioticNames implements NameStrategy
 {

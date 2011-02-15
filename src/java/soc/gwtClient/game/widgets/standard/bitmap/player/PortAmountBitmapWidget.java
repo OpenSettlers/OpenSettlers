@@ -33,7 +33,7 @@ public class PortAmountBitmapWidget implements PortAmountWidget,
         this.gamePanel = gamePanel;
         this.player = player;
 
-        portListDetailWidget = new PortListDetailWidget(player);
+        portListDetailWidget = new PortListDetailWidget(gamePanel, player);
         updateUI();
 
         rootPanel.add(imgPort);

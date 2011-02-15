@@ -1,7 +1,7 @@
 package soc.common.server;
 
 import soc.common.actions.lobby.LobbyAction;
-import soc.common.server.data.User;
+import soc.common.server.entities.User;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 

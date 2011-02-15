@@ -9,11 +9,13 @@ public abstract class AbstractPlayerDetailWidget implements PlayerDetailWidget
 {
     protected GamePlayer player;
     protected HorizontalPanel rootPanel = new HorizontalPanel();
+    protected GamePanel gamePanel;
 
-    public AbstractPlayerDetailWidget(GamePlayer player)
+    public AbstractPlayerDetailWidget(GamePanel gamePanel, GamePlayer player)
     {
         super();
         this.player = player;
+        this.gamePanel = gamePanel;
         rootPanel.setHeight("2em");
     }
 

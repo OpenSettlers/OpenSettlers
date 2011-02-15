@@ -1,4 +1,4 @@
-package soc.common.server.data;
+package soc.common.server.entities;
 
 public class BotUser extends AbstractUser implements User
 {

@@ -10,6 +10,7 @@ import soc.common.game.gamePhase.PlayTurnsGamePhase;
 import soc.gwtClient.game.abstractWidgets.GamePanel;
 import soc.gwtClient.game.behaviour.ErrorReceivedGameBehaviour;
 import soc.gwtClient.game.behaviour.StartGameGameBehaviour;
+import soc.gwtClient.game.behaviour.opponent.DefaultOpponentReceivedBehaviour;
 import soc.gwtClient.game.behaviour.received.GameOverGameBehaviour;
 import soc.gwtClient.game.behaviour.received.ReceiveGameBehaviour;
 import soc.gwtClient.game.behaviour.received.RollDiceResult;
@@ -28,6 +29,9 @@ public class ReceivedActionGameBehaviourFactory implements
     @Override
     public ReceiveGameBehaviour createBehaviour(GameAction gameAction)
     {
+        if (gameAction.getPlayer().getBot() != null)
+            return new DefaultOpponentReceivedBehaviour(gamePanel, gameAction);
+
         if (gameAction instanceof RollDice)
         {
             if (gamePanel.getGame().getCurrentPhase() instanceof DetermineFirstPlayerGamePhase)

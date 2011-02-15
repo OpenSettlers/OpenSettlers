@@ -12,6 +12,15 @@ public interface Icons extends ClientBundle
     @Source("size48/Lobby.png")
     public ImageResource lobby();
 
+    @Source("size32/MoveRobber.png")
+    public ImageResource moveRobberMedium();
+
+    @Source("size48/Build.png")
+    public ImageResource buildLarge();
+
+    @Source("size32/Referee.png")
+    public ImageResource refereeMedium();
+
     @Source("size48/MapEditor.png")
     public ImageResource mapEditor();
 

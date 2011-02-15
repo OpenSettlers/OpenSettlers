@@ -1,6 +1,6 @@
 package soc.common.bots;
 
-import soc.common.server.data.User;
+import soc.common.server.entities.User;
 
 public abstract class AbstractBot implements Bot
 {

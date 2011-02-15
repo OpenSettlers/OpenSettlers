@@ -1,4 +1,4 @@
-package soc.common.server.random;
+package soc.common.server.randomization;
 
 /*
  * Wrapper interface for retrieval of random numbers. Abstracted to 

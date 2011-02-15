@@ -7,7 +7,7 @@ import net.zschech.gwt.comet.client.CometListener;
 import soc.common.game.Game;
 import soc.common.game.logs.ChatLog;
 import soc.common.server.Lobby;
-import soc.common.server.data.Player;
+import soc.common.server.entities.Player;
 import soc.gwtClient.game.CenterWidget;
 
 import com.google.gwt.user.cellview.client.CellList;

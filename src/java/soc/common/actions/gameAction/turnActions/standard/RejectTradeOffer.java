@@ -1,6 +1,7 @@
 package soc.common.actions.gameAction.turnActions.standard;
 
 import soc.common.actions.gameAction.AbstractGameAction;
+import soc.common.actions.gameAction.GameAction;
 import soc.common.game.Game;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.PlayTurnsGamePhase;
@@ -48,6 +49,19 @@ public class RejectTradeOffer extends AbstractGameAction implements
     {
         // TODO Auto-generated method stub
         return "";
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.common.actions.gameAction.AbstractGameAction#isExpectedQueueType(
+     * soc.common.actions.gameAction.GameAction)
+     */
+    @Override
+    public boolean isExpectedQueueType(GameAction actualAction)
+    {
+        return actualAction instanceof TradeResponse;
     }
 
     @Override

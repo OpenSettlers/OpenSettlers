@@ -3,7 +3,7 @@ package soc.common.game.dices;
 import java.util.ArrayList;
 import java.util.List;
 
-import soc.common.server.random.Random;
+import soc.common.server.randomization.Random;
 
 /*
  * Represents a deck of 36 cards, shuffled at start. When a player "rolls", a card from 

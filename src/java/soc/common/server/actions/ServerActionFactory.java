@@ -2,6 +2,7 @@ package soc.common.server.actions;
 
 import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.HostStartsGame;
+import soc.common.actions.gameAction.turnActions.EndTurn;
 import soc.common.actions.gameAction.turnActions.standard.BuyDevelopmentCard;
 import soc.common.actions.gameAction.turnActions.standard.RobPlayer;
 import soc.common.actions.gameAction.turnActions.standard.RollDice;
@@ -38,6 +39,9 @@ public class ServerActionFactory implements GameServerActionFactory
         {
             return new ServerHotseatOfferTrade((TradeOffer) action, gameServer);
         }
+
+        if (action instanceof EndTurn)
+            return new ServerEndTurn((EndTurn) action, gameServer);
 
         // No associated server action found, return null
         return new DefaultAction(action, gameServer);

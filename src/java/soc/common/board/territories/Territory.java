@@ -6,7 +6,7 @@ import soc.common.board.ChitList;
 import soc.common.board.hexes.HexList;
 import soc.common.board.ports.Port;
 import soc.common.board.ports.PortList;
-import soc.common.server.random.Random;
+import soc.common.server.randomization.Random;
 
 public interface Territory extends Serializable
 {

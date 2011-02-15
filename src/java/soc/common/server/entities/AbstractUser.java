@@ -1,13 +1,12 @@
-package soc.common.server.data;
+package soc.common.server.entities;
 
-public class Player implements User
+public abstract class AbstractUser implements User
 {
     private static final long serialVersionUID = 2830056305909862121L;
     private String name;
     private int id;
     private int gamesPlayed;
     private boolean isRegistered;
-    private String password;
 
     /**
      * @return the name
@@ -21,7 +20,7 @@ public class Player implements User
      * @param name
      *            the name to set
      */
-    public Player setName(String name)
+    public User setName(String name)
     {
         this.name = name;
 
@@ -40,7 +39,7 @@ public class Player implements User
      * @param id
      *            the id to set
      */
-    public Player setId(int id)
+    public User setId(int id)
     {
         this.id = id;
 
@@ -59,14 +58,14 @@ public class Player implements User
      * @param gamesPlayed
      *            the gamesPlayed to set
      */
-    public Player setGamesPlayed(int gamesPlayed)
+    public User setGamesPlayed(int gamesPlayed)
     {
         this.gamesPlayed = gamesPlayed;
 
         return this;
     }
 
-    public Player setRegistered(boolean isRegistered)
+    public User setRegistered(boolean isRegistered)
     {
         this.isRegistered = isRegistered;
 
@@ -78,16 +77,34 @@ public class Player implements User
         return isRegistered;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#hashCode()
+     */
     @Override
-    public String getPassword()
+    public int hashCode()
     {
-        return password;
+        return id;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
     @Override
-    public User setPassword(String password)
+    public boolean equals(Object obj)
     {
-        this.password = password;
-        return this;
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        User other = (User) obj;
+        if (id != other.getId())
+            return false;
+        return true;
     }
 }

@@ -17,7 +17,7 @@ import soc.common.bots.Bot;
 import soc.common.game.RoadTokensChangedEventHandler;
 import soc.common.game.VictoryPointsList;
 import soc.common.game.developmentCards.DevelopmentCardList;
-import soc.common.server.data.User;
+import soc.common.server.entities.User;
 
 public interface GamePlayer extends Serializable
 {

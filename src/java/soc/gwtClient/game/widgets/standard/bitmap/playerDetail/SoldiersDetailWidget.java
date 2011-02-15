@@ -8,6 +8,7 @@ import soc.common.board.pieces.ArmyChangedEventHandler;
 import soc.common.game.developmentCards.standard.Soldier;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.abstractWidgets.AbstractPlayerDetailWidget;
+import soc.gwtClient.game.abstractWidgets.GamePanel;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.user.client.ui.Image;
@@ -17,9 +18,9 @@ public class SoldiersDetailWidget extends AbstractPlayerDetailWidget implements
 {
     private Map<Soldier, Image> soldierImages = new HashMap<Soldier, Image>();
 
-    public SoldiersDetailWidget(GamePlayer player)
+    public SoldiersDetailWidget(GamePanel gamePanel, GamePlayer player)
     {
-        super(player);
+        super(gamePanel, player);
 
         for (Soldier soldier : player.getArmy().getSoldiers())
         {

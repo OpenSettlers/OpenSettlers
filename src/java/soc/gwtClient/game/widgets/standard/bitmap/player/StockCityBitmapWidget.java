@@ -55,7 +55,7 @@ public class StockCityBitmapWidget extends AbstractStockItemWidget implements
     @Override
     public PlayerDetailWidget createDetailWidget()
     {
-        return new CityStockDetailWidget(player);
+        return new CityStockDetailWidget(gamePanel, player);
     }
 
 }

@@ -6,7 +6,7 @@ import soc.common.board.Board;
 import soc.common.game.developmentCards.DevelopmentCardList;
 import soc.common.game.player.GamePlayerImpl;
 import soc.common.server.GameServer;
-import soc.common.server.data.UnregisteredUser;
+import soc.common.server.entities.UnregisteredUser;
 
 public class ServerStartGame implements ServerAction
 {

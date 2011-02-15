@@ -1,12 +1,14 @@
 package soc.common.actions.gameAction.turnActions.standard;
 
 import soc.common.actions.gameAction.AbstractGameAction;
+import soc.common.actions.gameAction.turnActions.QueuedTradeResponse;
 import soc.common.board.resources.ResourceList;
 import soc.common.game.Game;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.PlayTurnsGamePhase;
 import soc.common.game.gamePhase.turnPhase.TradingTurnPhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
+import soc.common.game.player.GamePlayer;
 import soc.common.game.trading.TradeResponseList;
 
 public class TradeOffer extends AbstractGameAction
@@ -115,6 +117,10 @@ public class TradeOffer extends AbstractGameAction
     public void perform(Game game)
     {
         game.getCurrentTurn().getTradeOffers().addOffer(this);
+
+        for (GamePlayer player : game.getPlayers())
+            game.getActionsQueue().enqueue(
+                    new QueuedTradeResponse().setPlayer(player), false);
 
         super.perform(game);
     }

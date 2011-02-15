@@ -1,12 +1,13 @@
-package soc.common.server.data;
+package soc.common.server.entities;
 
-public abstract class AbstractUser implements User
+public class Player implements User
 {
     private static final long serialVersionUID = 2830056305909862121L;
     private String name;
     private int id;
     private int gamesPlayed;
     private boolean isRegistered;
+    private String password;
 
     /**
      * @return the name
@@ -20,7 +21,7 @@ public abstract class AbstractUser implements User
      * @param name
      *            the name to set
      */
-    public User setName(String name)
+    public Player setName(String name)
     {
         this.name = name;
 
@@ -39,7 +40,7 @@ public abstract class AbstractUser implements User
      * @param id
      *            the id to set
      */
-    public User setId(int id)
+    public Player setId(int id)
     {
         this.id = id;
 
@@ -58,14 +59,14 @@ public abstract class AbstractUser implements User
      * @param gamesPlayed
      *            the gamesPlayed to set
      */
-    public User setGamesPlayed(int gamesPlayed)
+    public Player setGamesPlayed(int gamesPlayed)
     {
         this.gamesPlayed = gamesPlayed;
 
         return this;
     }
 
-    public User setRegistered(boolean isRegistered)
+    public Player setRegistered(boolean isRegistered)
     {
         this.isRegistered = isRegistered;
 
@@ -77,34 +78,16 @@ public abstract class AbstractUser implements User
         return isRegistered;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#hashCode()
-     */
     @Override
-    public int hashCode()
+    public String getPassword()
     {
-        return id;
+        return password;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
-    public boolean equals(Object obj)
+    public User setPassword(String password)
     {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        User other = (User) obj;
-        if (id != other.getId())
-            return false;
-        return true;
+        this.password = password;
+        return this;
     }
 }

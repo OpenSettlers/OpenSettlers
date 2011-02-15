@@ -9,6 +9,7 @@ import soc.common.game.developmentCards.standard.VictoryPoint;
 import soc.common.game.player.GamePlayer;
 import soc.common.utils.NotImplementedException;
 import soc.gwtClient.game.abstractWidgets.AbstractPlayerDetailWidget;
+import soc.gwtClient.game.abstractWidgets.GamePanel;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.user.client.ui.Image;
@@ -21,9 +22,9 @@ public class VictoryPointDetailWidget extends AbstractPlayerDetailWidget
 {
     private HashMap<VictoryPoint, Image> pointsIcons = new HashMap<VictoryPoint, Image>();
 
-    public VictoryPointDetailWidget(GamePlayer player)
+    public VictoryPointDetailWidget(GamePanel gamePanel, GamePlayer player)
     {
-        super(player);
+        super(gamePanel, player);
 
         update();
         player.getVictoryPoints().addVictoryPointsChangedListener(this);

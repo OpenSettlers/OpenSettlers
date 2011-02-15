@@ -6,7 +6,7 @@ import java.util.List;
 import soc.common.bots.Bot;
 import soc.common.bots.IdiotBot;
 import soc.common.game.player.GamePlayer;
-import soc.common.server.random.Random;
+import soc.common.server.randomization.Random;
 
 public class GameUtils
 {
