@@ -9,10 +9,12 @@ import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 
 public class StringActionCell extends AbstractCell<GameAction>
 {
+
     @Override
-    public void render(GameAction arg0, Object arg1, SafeHtmlBuilder arg2)
+    public void render(com.google.gwt.cell.client.Cell.Context context,
+            GameAction value, SafeHtmlBuilder sb)
     {
-        SafeHtml safeValue = SafeHtmlUtils.fromString(arg0.getMessage());
-        arg2.append(safeValue);
+        SafeHtml safeValue = SafeHtmlUtils.fromString(value.getMessage());
+        sb.append(safeValue);
     }
 }

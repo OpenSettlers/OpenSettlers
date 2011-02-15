@@ -10,7 +10,8 @@ public class GameCell extends AbstractCell<Game>
 {
 
     @Override
-    public void render(Game value, Object key, SafeHtmlBuilder sb)
+    public void render(com.google.gwt.cell.client.Cell.Context context,
+            Game value, SafeHtmlBuilder sb)
     {
         sb.append(SafeHtmlUtils.fromString(value.getGameSettings().getName()));
     }

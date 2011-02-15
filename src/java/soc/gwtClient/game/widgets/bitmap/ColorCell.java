@@ -6,7 +6,8 @@ import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 public class ColorCell extends AbstractCell<String>
 {
     @Override
-    public void render(String value, Object key, SafeHtmlBuilder sb)
+    public void render(com.google.gwt.cell.client.Cell.Context context,
+            String value, SafeHtmlBuilder sb)
     {
         /*
          * Always do a null check on the value. Cell widgets can pass null to
