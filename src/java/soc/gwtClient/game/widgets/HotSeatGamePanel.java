@@ -25,13 +25,15 @@ import com.google.gwt.user.client.ui.TabLayoutPanel;
 public class HotSeatGamePanel extends AbstractGamePanel implements
         CenterWidget, TurnChangedEventHandler
 {
-    DockLayoutPanel rootPanel = new DockLayoutPanel(Unit.EM);
-    DockLayoutPanel playersBankChatPanel = new DockLayoutPanel(Unit.EM);
-    DockLayoutPanel boardActionResourcesPanel = new DockLayoutPanel(Unit.EM);
-    TabLayoutPanel chatHistoryDebugPanel = new TabLayoutPanel(20.0, Unit.PX);
-    BoardLayoutPanel boardVisualPanel;
-    HotSeatActionsPlayersWidget playersActionsWidget;
-    HotSeatTradePlayersWidget hotseatTradePlayersWidget;
+    private DockLayoutPanel rootPanel = new DockLayoutPanel(Unit.EM);
+    private DockLayoutPanel playersBankChatPanel = new DockLayoutPanel(Unit.EM);
+    private DockLayoutPanel boardActionResourcesPanel = new DockLayoutPanel(
+            Unit.EM);
+    private TabLayoutPanel chatHistoryDebugPanel = new TabLayoutPanel(20.0,
+            Unit.PX);
+    private BoardLayoutPanel boardVisualPanel;
+    private HotSeatActionsPlayersWidget playersActionsWidget;
+    private HotSeatTradePlayersWidget hotseatTradePlayersWidget;
 
     public HotSeatGamePanel()
     {
@@ -44,7 +46,6 @@ public class HotSeatGamePanel extends AbstractGamePanel implements
     {
         HostStartsGame start = new HostStartsGame();
         start.setGame(game);
-
         start.setPlayer(game.getPlayers().get(0));
 
         server.sendAction(start);

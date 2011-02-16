@@ -1,8 +1,5 @@
 package soc.gwtClient.game.widgets.standard.bitmap.playerDetail;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.turnActions.EndTurn;
 import soc.common.actions.gameAction.turnActions.standard.BuildCity;
@@ -53,7 +50,6 @@ public class DetailContainerWidget extends PopupPanel implements
 
     private PlayerDetailWidget playerDetailWidget;
     private ResourcesGainedDetailWidget resourcesGained;
-    private static List<Command> commands = new ArrayList<Command>();
 
     public DetailContainerWidget(GamePlayer player, GamePanel gamePanel)
     {
@@ -78,11 +74,8 @@ public class DetailContainerWidget extends PopupPanel implements
         if (widget != null)
         {
             actionPanel.add(widget);
-            Command command = new TimedCommand(widget,
-                    (commands.size() + 1) * 2000);
-            System.out.println((commands.size() + 1) * 2000);
+            Command command = new TimedCommand(widget, 2000);
             DeferredCommand.addCommand(command);
-            commands.add(command);
             setPositionAndShow();
         }
     }
@@ -166,7 +159,6 @@ public class DetailContainerWidget extends PopupPanel implements
             public void run()
             {
                 actionPanel.remove(widget);
-                commands.remove(this);
             }
         };
 

@@ -1,4 +1,5 @@
-#Sat Feb 12 20:00:45 CET 2011
+#Tue Feb 15 23:38:24 CET 2011
 eclipse.preferences.version=1
 encoding//src/java/soc/common/internationalization/OpenSettlersConstants_nl.properties=UTF-8
 encoding//src/java/soc/common/internationalization/OpenSettlersMessages_nl.properties=UTF-8
+encoding//src/java/soc/gwtClient/game/dialogs/Woei.ui.xml=UTF-8
