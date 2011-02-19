@@ -1,7 +1,6 @@
 package soc.gwtClient.main;
 
-import soc.gwtClient.game.CenterWidget;
-import soc.gwtClient.game.dialogs.NewHotseatGame;
+import soc.gwtClient.game.widgetsBitmap.dialogs.NewHotseatGame;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.dom.client.Style.Unit;

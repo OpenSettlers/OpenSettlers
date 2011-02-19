@@ -3,8 +3,7 @@ package soc.gwtClient.main;
 import soc.common.internationalization.ClientInternationalization;
 import soc.common.internationalization.I18n;
 import soc.gwtClient.editor.SvgMapEditor;
-import soc.gwtClient.game.CenterWidget;
-import soc.gwtClient.game.widgets.HotSeatGamePanel;
+import soc.gwtClient.game.widgetsBitmap.main.HotSeatGamePanel;
 import soc.gwtClient.lobby.GameLobby;
 
 import com.google.gwt.core.client.EntryPoint;

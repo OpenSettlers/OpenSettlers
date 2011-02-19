@@ -1,12 +1,12 @@
 package soc.gwtClient.editor;
 
 import soc.common.board.Board;
-import soc.gwtClient.game.CenterWidget;
-import soc.gwtClient.visuals.behaviour.SetPortBehaviour;
-import soc.gwtClient.visuals.behaviour.editor.SetChitBehaviour;
-import soc.gwtClient.visuals.behaviour.editor.SetHexBehaviour;
-import soc.gwtClient.visuals.behaviour.editor.SetTerritoryBehaviour;
-import soc.gwtClient.visuals.svg.BoardSvg;
+import soc.gwtClient.game.behaviour.board.SetChitBehaviour;
+import soc.gwtClient.game.behaviour.board.SetHexBehaviour;
+import soc.gwtClient.game.behaviour.board.SetPortBehaviour;
+import soc.gwtClient.game.behaviour.board.SetTerritoryBehaviour;
+import soc.gwtClient.game.widgetsSvg.visuals.BoardSvg;
+import soc.gwtClient.main.CenterWidget;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;

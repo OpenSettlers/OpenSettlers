@@ -9,8 +9,8 @@ import soc.common.board.resources.Ore;
 import soc.common.board.resources.Sheep;
 import soc.common.board.resources.Timber;
 import soc.common.board.resources.Wheat;
+import soc.gwtClient.game.behaviour.board.SetPortBehaviour;
 import soc.gwtClient.images.Resources;
-import soc.gwtClient.visuals.behaviour.SetPortBehaviour;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

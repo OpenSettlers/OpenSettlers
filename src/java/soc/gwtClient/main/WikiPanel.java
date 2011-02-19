@@ -1,6 +1,5 @@
 package soc.gwtClient.main;
 
-import soc.gwtClient.game.CenterWidget;
 
 import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.LayoutPanel;

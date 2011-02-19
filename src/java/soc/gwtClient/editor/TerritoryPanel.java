@@ -5,9 +5,9 @@ import java.util.HashMap;
 import soc.common.board.territories.TerritoriesChangedEvent;
 import soc.common.board.territories.TerritoriesChangedEventHandler;
 import soc.common.board.territories.Territory;
+import soc.gwtClient.game.behaviour.board.SetTerritoryBehaviour;
+import soc.gwtClient.game.widgetsInterface.visuals.BoardVisual;
 import soc.gwtClient.images.Resources;
-import soc.gwtClient.visuals.abstractVisuals.BoardVisual;
-import soc.gwtClient.visuals.behaviour.editor.SetTerritoryBehaviour;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

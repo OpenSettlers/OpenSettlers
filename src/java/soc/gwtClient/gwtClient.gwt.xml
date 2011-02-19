@@ -16,9 +16,8 @@
 
   <source path='game'/>
   <source path='main'/>
-  <source path='visuals'/>
-  <source path='editor'/>
   <source path='images'/>
   <source path='lobby'/>
+  <source path='editor'/>
 
 </module>

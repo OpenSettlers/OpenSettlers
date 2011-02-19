@@ -1,0 +1,31 @@
+package soc.gwtClient.game.widgetsInterface.visuals;
+
+import java.util.Map;
+
+import soc.common.board.pieces.abstractPieces.PlayerPiece;
+import soc.common.board.routing.GraphPoint;
+import soc.common.board.routing.GraphSide;
+import soc.common.board.routing.Route;
+import soc.common.game.Game;
+import soc.gwtClient.game.behaviour.gameBoard.GameBoardBehaviour;
+
+public interface GameBoardVisual extends BoardVisual
+{
+    public Game getGame();
+
+    public GameBoardBehaviour getBehaviour();
+
+    public void setBehaviour(GameBoardBehaviour gameBehaviour);
+
+    public VisualFactory createVisualFactory();
+
+    public Map<PlayerPiece, PieceVisual> getPlayerPieceVisuals();
+
+    public Map<GraphPoint, PointVisual> getPointVisuals();
+
+    public Map<GraphSide, SideVisual> getSideVisuals();
+
+    public void stopBehaviour();
+
+    public void showLongestRoad(Route route);
+}

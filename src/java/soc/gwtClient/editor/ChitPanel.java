@@ -1,8 +1,8 @@
 package soc.gwtClient.editor;
 
 import soc.common.board.Chit;
+import soc.gwtClient.game.behaviour.board.SetChitBehaviour;
 import soc.gwtClient.images.Resources;
-import soc.gwtClient.visuals.behaviour.editor.SetChitBehaviour;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
