@@ -1,4 +1,4 @@
-package soc.gwtClient.game.behaviour.gamePanel;
+package soc.gwtClient.game.behaviour.gameWidget;
 
 import soc.common.actions.gameAction.turnActions.standard.BuildTown;
 import soc.common.board.pieces.Town;

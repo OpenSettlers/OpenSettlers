@@ -8,7 +8,7 @@ import soc.common.actions.gameAction.turnActions.standard.BuildCity;
 import soc.common.board.pieces.Town;
 import soc.common.board.routing.GraphPoint;
 import soc.common.game.player.GamePlayer;
-import soc.gwtClient.game.behaviour.gamePanel.GameBehaviourCallback;
+import soc.gwtClient.game.behaviour.gameWidget.GameBehaviourCallback;
 import soc.gwtClient.game.widgetsInterface.visuals.GameBoardVisual;
 import soc.gwtClient.game.widgetsInterface.visuals.PieceVisual;
 import soc.gwtClient.game.widgetsInterface.visuals.PointVisual;

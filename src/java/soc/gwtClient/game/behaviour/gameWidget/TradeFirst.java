@@ -1,4 +1,4 @@
-package soc.gwtClient.game.behaviour.gamePanel;
+package soc.gwtClient.game.behaviour.gameWidget;
 
 public interface TradeFirst
 {

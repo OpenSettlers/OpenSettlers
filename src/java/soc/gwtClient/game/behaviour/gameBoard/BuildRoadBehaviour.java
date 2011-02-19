@@ -8,7 +8,7 @@ import soc.common.board.routing.GraphSide;
 import soc.common.game.gamePhase.InitialPlacementGamePhase;
 import soc.common.game.gamePhase.PlayTurnsGamePhase;
 import soc.common.game.player.GamePlayer;
-import soc.gwtClient.game.behaviour.gamePanel.GameBehaviourCallback;
+import soc.gwtClient.game.behaviour.gameWidget.GameBehaviourCallback;
 import soc.gwtClient.game.widgetsInterface.visuals.GameBoardVisual;
 import soc.gwtClient.game.widgetsInterface.visuals.PieceVisual;
 import soc.gwtClient.game.widgetsInterface.visuals.SideVisual;

@@ -14,7 +14,7 @@ import soc.gwtClient.game.behaviour.gameBoard.factories.ReceiveGameBehaviourFact
 import soc.gwtClient.game.behaviour.gameBoard.factories.ReceivedActionGameBehaviourFactory;
 import soc.gwtClient.game.behaviour.gameBoard.factories.SendGameBehaviourFactory;
 import soc.gwtClient.game.behaviour.gameBoard.received.ReceiveGameBehaviour;
-import soc.gwtClient.game.behaviour.gamePanel.GameBehaviour;
+import soc.gwtClient.game.behaviour.gameWidget.GameBehaviour;
 import soc.gwtClient.game.widgetsBitmap.main.DesktopGamePanelLayout;
 import soc.gwtClient.game.widgetsBitmap.main.GameDetailsWidget;
 import soc.gwtClient.game.widgetsInterface.actions.ActionsWidget;

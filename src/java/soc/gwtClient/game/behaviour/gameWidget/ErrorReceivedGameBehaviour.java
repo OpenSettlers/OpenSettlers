@@ -1,4 +1,4 @@
-package soc.gwtClient.game.behaviour.gamePanel;
+package soc.gwtClient.game.behaviour.gameWidget;
 
 import soc.common.actions.gameAction.MessageFromServer;
 import soc.gwtClient.game.behaviour.gameBoard.received.ReceiveGameBehaviour;

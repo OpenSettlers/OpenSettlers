@@ -11,8 +11,8 @@ import soc.gwtClient.game.behaviour.gameBoard.opponent.DefaultOpponentReceivedBe
 import soc.gwtClient.game.behaviour.gameBoard.received.GameOverGameBehaviour;
 import soc.gwtClient.game.behaviour.gameBoard.received.ReceiveGameBehaviour;
 import soc.gwtClient.game.behaviour.gameBoard.received.RollDiceResult;
-import soc.gwtClient.game.behaviour.gamePanel.ErrorReceivedGameBehaviour;
-import soc.gwtClient.game.behaviour.gamePanel.StartGameGameBehaviour;
+import soc.gwtClient.game.behaviour.gameWidget.ErrorReceivedGameBehaviour;
+import soc.gwtClient.game.behaviour.gameWidget.StartGameGameBehaviour;
 import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 
 public class ReceivedActionGameBehaviourFactory implements

@@ -10,7 +10,7 @@ import soc.common.game.developmentCards.DevelopmentCard;
 import soc.common.game.player.GamePlayer;
 import soc.common.internationalization.I18n;
 import soc.gwtClient.game.Point2D;
-import soc.gwtClient.game.behaviour.gamePanel.TradeFirst;
+import soc.gwtClient.game.behaviour.gameWidget.TradeFirst;
 import soc.gwtClient.game.widgetsBitmap.generic.ResourceListBitmapWidget;
 import soc.gwtClient.game.widgetsBitmap.generic.ResourcePickerBitmapWidget;
 import soc.gwtClient.game.widgetsInterface.generic.ResourceListWidget;

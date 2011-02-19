@@ -1,4 +1,4 @@
-package soc.gwtClient.game.behaviour.gamePanel;
+package soc.gwtClient.game.behaviour.gameWidget;
 
 import soc.gwtClient.game.behaviour.gameBoard.DisabledMap;
 import soc.gwtClient.game.behaviour.gameBoard.received.ReceiveGameBehaviour;

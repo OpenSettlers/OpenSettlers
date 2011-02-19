@@ -2,7 +2,7 @@ package soc.gwtClient.game.widgetsInterface.main;
 
 import soc.common.board.pieces.abstractPieces.PlayerPiece;
 import soc.common.game.player.GamePlayer;
-import soc.gwtClient.game.behaviour.gamePanel.TradeFirst;
+import soc.gwtClient.game.behaviour.gameWidget.TradeFirst;
 
 public interface BankTradeWidget
 {

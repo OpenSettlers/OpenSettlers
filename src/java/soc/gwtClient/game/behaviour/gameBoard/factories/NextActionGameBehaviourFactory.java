@@ -5,11 +5,11 @@ import soc.common.actions.gameAction.turnActions.standard.BuildRoad;
 import soc.common.actions.gameAction.turnActions.standard.BuildTown;
 import soc.common.actions.gameAction.turnActions.standard.PlaceRobber;
 import soc.common.actions.gameAction.turnActions.standard.RobPlayer;
-import soc.gwtClient.game.behaviour.gamePanel.BuildRoadGameBehaviour;
-import soc.gwtClient.game.behaviour.gamePanel.BuildTownGameBehaviour;
-import soc.gwtClient.game.behaviour.gamePanel.GameBehaviour;
-import soc.gwtClient.game.behaviour.gamePanel.MoveRobberGameBehaviour;
-import soc.gwtClient.game.behaviour.gamePanel.RobPlayerGameBehaviour;
+import soc.gwtClient.game.behaviour.gameWidget.BuildRoadGameBehaviour;
+import soc.gwtClient.game.behaviour.gameWidget.BuildTownGameBehaviour;
+import soc.gwtClient.game.behaviour.gameWidget.GameBehaviour;
+import soc.gwtClient.game.behaviour.gameWidget.MoveRobberGameBehaviour;
+import soc.gwtClient.game.behaviour.gameWidget.RobPlayerGameBehaviour;
 import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 
 public class NextActionGameBehaviourFactory implements GameBehaviourFactory

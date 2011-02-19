@@ -23,4 +23,4 @@
  * on the actions queue of the game. 
  */
 
-package soc.gwtClient.game.behaviour.gamePanel;
+package soc.gwtClient.game.behaviour.gameWidget;

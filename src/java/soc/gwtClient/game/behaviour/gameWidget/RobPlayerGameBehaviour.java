@@ -1,4 +1,4 @@
-package soc.gwtClient.game.behaviour.gamePanel;
+package soc.gwtClient.game.behaviour.gameWidget;
 
 import soc.common.actions.gameAction.turnActions.standard.RobPlayer;
 import soc.gwtClient.game.widgetsInterface.main.GameWidget;

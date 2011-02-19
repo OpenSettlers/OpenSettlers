@@ -5,11 +5,11 @@ import soc.common.actions.gameAction.turnActions.standard.BuildCity;
 import soc.common.actions.gameAction.turnActions.standard.BuildRoad;
 import soc.common.actions.gameAction.turnActions.standard.BuildTown;
 import soc.common.actions.gameAction.turnActions.standard.BuyDevelopmentCard;
-import soc.gwtClient.game.behaviour.gamePanel.BuildCityGameBehaviour;
-import soc.gwtClient.game.behaviour.gamePanel.BuildRoadGameBehaviour;
-import soc.gwtClient.game.behaviour.gamePanel.BuildTownGameBehaviour;
-import soc.gwtClient.game.behaviour.gamePanel.BuyDevelopmentCardGameBehaviour;
-import soc.gwtClient.game.behaviour.gamePanel.GameBehaviour;
+import soc.gwtClient.game.behaviour.gameWidget.BuildCityGameBehaviour;
+import soc.gwtClient.game.behaviour.gameWidget.BuildRoadGameBehaviour;
+import soc.gwtClient.game.behaviour.gameWidget.BuildTownGameBehaviour;
+import soc.gwtClient.game.behaviour.gameWidget.BuyDevelopmentCardGameBehaviour;
+import soc.gwtClient.game.behaviour.gameWidget.GameBehaviour;
 import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 
 public class SendGameBehaviourFactory implements GameBehaviourFactory
