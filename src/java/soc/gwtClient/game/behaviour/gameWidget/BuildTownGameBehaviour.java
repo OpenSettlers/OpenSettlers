@@ -15,7 +15,7 @@ public class BuildTownGameBehaviour implements GameBehaviour,
     GameWidget gamePanel;
     private Town town = new Town();
 
-    public BuildTownGameBehaviour(BuildTown buildTown, GameWidget gamePanel)
+    public BuildTownGameBehaviour(GameWidget gamePanel, BuildTown buildTown)
     {
         super();
         this.buildTown = buildTown;

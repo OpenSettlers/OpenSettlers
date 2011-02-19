@@ -14,7 +14,7 @@ public class BuildRoadGameBehaviour implements GameBehaviour,
     private GameWidget gamePanel;
     private BuildRoadBehaviour buildRoadGameBoardBehaviour;
 
-    public BuildRoadGameBehaviour(BuildRoad buildRoad, GameWidget gamePanel)
+    public BuildRoadGameBehaviour(GameWidget gamePanel, BuildRoad buildRoad)
     {
         super();
         this.buildRoad = buildRoad;

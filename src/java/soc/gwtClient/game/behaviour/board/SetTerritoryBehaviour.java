@@ -38,9 +38,6 @@ public class SetTerritoryBehaviour implements BoardBehaviour
     public SetTerritoryBehaviour setTerritory(Territory territory)
     {
         this.territory = territory;
-
-        // Enables fluent interface usage
-        // http://en.wikipedia.org/wiki/Fluent_interface
         return this;
     }
 

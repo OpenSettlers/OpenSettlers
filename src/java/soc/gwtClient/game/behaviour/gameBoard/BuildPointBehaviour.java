@@ -31,11 +31,4 @@ public abstract class BuildPointBehaviour implements GameBoardBehaviour
             hexPointVisual.setSelected(false);
         }
     }
-
-    @Override
-    public void clicked(PieceVisual pieceVisual, GameBoardVisual board)
-    {
-        throw new RuntimeException();
-    }
-
 }

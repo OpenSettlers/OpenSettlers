@@ -23,26 +23,16 @@ public abstract class BuildSideBehaviour implements GameBoardBehaviour
     }
 
     @Override
-    public void clicked(PieceVisual pieceVisual, GameBoardVisual board)
-    {
-        throw new RuntimeException();
-    }
-
-    @Override
     public void mouseEnter(PieceVisual pieceVisual, GameBoardVisual board)
     {
         if (pieceVisual instanceof ISideVisual)
-        {
             pieceVisual.setSelected(true);
-        }
     }
 
     @Override
     public void mouseOut(PieceVisual pieceVisual, GameBoardVisual board)
     {
         if (pieceVisual instanceof ISideVisual)
-        {
             pieceVisual.setSelected(false);
-        }
     }
 }

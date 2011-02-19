@@ -27,11 +27,11 @@ public class NextActionGameBehaviourFactory implements GameBehaviourFactory
     {
         if (gameAction instanceof BuildTown)
         {
-            return new BuildTownGameBehaviour((BuildTown) gameAction, gamePanel);
+            return new BuildTownGameBehaviour(gamePanel, (BuildTown) gameAction);
         }
         if (gameAction instanceof BuildRoad)
         {
-            return new BuildRoadGameBehaviour((BuildRoad) gameAction, gamePanel);
+            return new BuildRoadGameBehaviour(gamePanel, (BuildRoad) gameAction);
         }
         if (gameAction instanceof PlaceRobber)
         {
