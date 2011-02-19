@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import soc.common.actions.gameAction.GameAction;
+import soc.common.game.player.GamePlayer;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 
@@ -40,7 +41,10 @@ public interface ActionsQueue extends Serializable
     public boolean isWaitingForActions();
 
     // Returns a list of the actions which must be performed first
-    public List<GameAction> getBlockingActions();
+    public List<GameAction> getAllBlockingActions();
+
+    // Returns a list of the actions which must be performed first
+    public GameAction getBlockingActions(GamePlayer player);
 
     public HandlerRegistration addQueueChangedEventHandler(
             ActionQueueChangedEventHandler handler);

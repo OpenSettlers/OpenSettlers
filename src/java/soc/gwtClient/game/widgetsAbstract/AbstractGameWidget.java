@@ -15,13 +15,13 @@ import soc.gwtClient.game.behaviour.gameBoard.factories.ReceivedActionGameBehavi
 import soc.gwtClient.game.behaviour.gameBoard.factories.SendGameBehaviourFactory;
 import soc.gwtClient.game.behaviour.gameBoard.received.ReceiveGameBehaviour;
 import soc.gwtClient.game.behaviour.gamePanel.GameBehaviour;
-import soc.gwtClient.game.widgetsBitmap.main.ChatBitmapPanel;
-import soc.gwtClient.game.widgetsBitmap.main.DebugBitmapPanel;
 import soc.gwtClient.game.widgetsBitmap.main.DesktopGamePanelLayout;
-import soc.gwtClient.game.widgetsBitmap.main.GameQueueWidget;
+import soc.gwtClient.game.widgetsBitmap.main.GameDetailsWidget;
+import soc.gwtClient.game.widgetsInterface.actions.ActionsWidget;
 import soc.gwtClient.game.widgetsInterface.dialogs.GameOverDialog;
 import soc.gwtClient.game.widgetsInterface.dialogs.LooseCardsDialog;
 import soc.gwtClient.game.widgetsInterface.dialogs.StealCardWidget;
+import soc.gwtClient.game.widgetsInterface.dialogs.TradePlayerDialog;
 import soc.gwtClient.game.widgetsInterface.main.BankStockWidget;
 import soc.gwtClient.game.widgetsInterface.main.BankTradeWidget;
 import soc.gwtClient.game.widgetsInterface.main.BoardVisualWidget;
@@ -38,7 +38,9 @@ import soc.gwtClient.game.widgetsInterface.main.StatusWidget;
 import soc.gwtClient.game.widgetsInterface.playerDetail.PlayersInfoWidget;
 import soc.gwtClient.main.CenterWidget;
 
-public abstract class AbstractGamePanel implements GameWidget, CenterWidget,
+import com.google.gwt.user.client.ui.Widget;
+
+public abstract class AbstractGameWidget implements GameWidget, CenterWidget,
         GameServerCallback
 {
     // Variables for the game panel
@@ -58,6 +60,7 @@ public abstract class AbstractGamePanel implements GameWidget, CenterWidget,
     protected ChatWidget chatPanel;
     protected QueueWidget queueWidget;
     protected DebugWidget debugWidget;
+    protected GameDetailsWidget gameDetailsWidget;
 
     protected GamePanelLayoutWidget gamePanelLayoutWidget;
 
@@ -73,11 +76,13 @@ public abstract class AbstractGamePanel implements GameWidget, CenterWidget,
     protected BankTradeWidget bankTradeWidget;
     protected LooseCardsDialog looseCardsDialog;
     protected GameOverDialog gameOverDialog;
+    protected TradePlayerDialog tradePlayerDialog;
+    protected ActionsWidget actionsWidget;
 
     protected PlayerStuffWidget playerStuff;
     protected DetailContainerManager detailContainerManager;
 
-    public AbstractGamePanel()
+    public AbstractGameWidget()
     {
     }
 
@@ -93,10 +98,10 @@ public abstract class AbstractGamePanel implements GameWidget, CenterWidget,
         GameWidgetFactory gameWidgetFactory = gamePanelLayoutWidget
                 .getGameWidgetFactory();
 
-        bankStockPanel = gameWidgetFactory.createBankStockPanel();
+        bankStockPanel = gameWidgetFactory.createBankStockWidget();
         playersWidget = gameWidgetFactory.createPlayersWidget();
         boardVisualWidget = gameWidgetFactory.createBoardVisualWidget();
-        statusWidget = gameWidgetFactory.createStatusDicePanel();
+        statusWidget = gameWidgetFactory.createStatusDiceWidget();
 
         historyWidget = gameWidgetFactory.createHistoryWidget();
         chatPanel = gameWidgetFactory.createChatWidget();
@@ -106,11 +111,24 @@ public abstract class AbstractGamePanel implements GameWidget, CenterWidget,
         bankTradeWidget = gameWidgetFactory.createBankTradeWidget();
         stealCardDialog = gameWidgetFactory.createStealCardWidget(player);
         resourcesGainedWidget = gameWidgetFactory.createResourcesGainedWidget();
+        gameDetailsWidget = gameWidgetFactory.createDetailsWidget();
+        looseCardsDialog = gameWidgetFactory.createLooseCardsDialog();
 
-        chatPanel = new ChatBitmapPanel(this);
-        queueWidget = new GameQueueWidget(this);
-        debugWidget = new DebugBitmapPanel(this);
+        chatPanel = gameWidgetFactory.createChatWidget();
+        queueWidget = gameWidgetFactory.createQueueWidget();
+        debugWidget = gameWidgetFactory.createDebugWidget();
         detailContainerManager = new DetailContainerManager(this);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see soc.gwtClient.main.CenterWidget#getRootWidget()
+     */
+    @Override
+    public Widget getRootWidget()
+    {
+        return gamePanelLayoutWidget.getRootPanel();
     }
 
     @Override
@@ -179,6 +197,12 @@ public abstract class AbstractGamePanel implements GameWidget, CenterWidget,
     }
 
     @Override
+    public GameDetailsWidget getDetailsWidget()
+    {
+        return gameDetailsWidget;
+    }
+
+    @Override
     public DebugWidget getDebugPanel()
     {
         return debugWidget;
@@ -205,6 +229,24 @@ public abstract class AbstractGamePanel implements GameWidget, CenterWidget,
     public GamePlayer getPlayingPlayer()
     {
         return player;
+    }
+
+    @Override
+    public ActionsWidget getActionsWidget()
+    {
+        return actionsWidget;
+    }
+
+    @Override
+    public PlayerStuffWidget getPlayerStuffWidget()
+    {
+        return playerStuff;
+    }
+
+    @Override
+    public TradePlayerDialog getTradePlayerUI()
+    {
+        return tradePlayerDialog;
     }
 
     @Override
@@ -249,16 +291,16 @@ public abstract class AbstractGamePanel implements GameWidget, CenterWidget,
     @Override
     public void receive(GameAction gameAction)
     {
+        // Grab new game behaviour for received action
         ReceiveGameBehaviour newBehaviour = receiveBehaviourFactory
                 .createBehaviour(gameAction);
+
         if (newBehaviour != null)
         {
             setNewGameBehaviour(newBehaviour);
 
             if (!newBehaviour.endsManually())
-            {
                 setBehaviourForNextAction();
-            }
         }
         else
         {
@@ -284,7 +326,7 @@ public abstract class AbstractGamePanel implements GameWidget, CenterWidget,
     protected void setBehaviourForNextAction()
     {
         // Grab the next action on the queue
-        GameAction next = game.getActionsQueue().peek();
+        GameAction next = game.getActionsQueue().getBlockingActions(player);
 
         // Make sure the next action is meant to be played with the player
         // playing in this GamePanel
@@ -294,10 +336,9 @@ public abstract class AbstractGamePanel implements GameWidget, CenterWidget,
             // Create new behaviour and set it when available
             GameBehaviour newBehaviour = nextActionBehaviourFactory
                     .createBehaviour(next);
+
             if (newBehaviour != null)
-            {
                 setNewGameBehaviour(newBehaviour);
-            }
         }
     }
 

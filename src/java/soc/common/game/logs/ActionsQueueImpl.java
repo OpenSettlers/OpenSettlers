@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import soc.common.actions.gameAction.GameAction;
+import soc.common.game.player.GamePlayer;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
@@ -120,7 +121,7 @@ public class ActionsQueueImpl implements ActionsQueue
      * 
      * @see soc.common.game.logs.ActionsQueue#getBlockingActions()
      */
-    public List<GameAction> getBlockingActions()
+    public List<GameAction> getAllBlockingActions()
     {
         List<GameAction> result = new ArrayList<GameAction>();
 
@@ -197,7 +198,7 @@ public class ActionsQueueImpl implements ActionsQueue
     public List<GameAction> getPendingBotActions()
     {
         // Grab the blocking game actions in the queue
-        List<GameAction> blockingActions = getBlockingActions();
+        List<GameAction> blockingActions = getAllBlockingActions();
 
         // Compile a list of actions to be performed by bots
         List<GameAction> botActions = new ArrayList<GameAction>();
@@ -206,6 +207,27 @@ public class ActionsQueueImpl implements ActionsQueue
                 botActions.add(action);
 
         return botActions;
+    }
+
+    @Override
+    public GameAction getBlockingActions(GamePlayer player)
+    {
+        List<GameAction> playerBlockingActions = new ArrayList<GameAction>();
+
+        // Grab the blocking game actions in the queue
+        List<GameAction> allBlockingActions = getAllBlockingActions();
+
+        // Compile a list of actions to be performed by given player
+        for (GameAction action : allBlockingActions)
+            if (action.getPlayer().equals(player))
+                playerBlockingActions.add(action);
+
+        if (playerBlockingActions.size() > 0)
+            throw new AssertionError(
+                    "Expected only to be one action in the list of blocking actions");
+
+        return playerBlockingActions.size() > 0 ? playerBlockingActions.get(0)
+                : null;
     }
 
 }

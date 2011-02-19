@@ -3,7 +3,7 @@ package soc.gwtClient.main;
 import soc.common.internationalization.ClientInternationalization;
 import soc.common.internationalization.I18n;
 import soc.gwtClient.editor.SvgMapEditor;
-import soc.gwtClient.game.widgetsBitmap.main.HotSeatGamePanel;
+import soc.gwtClient.game.widgetsBitmap.main.HotSeatGameWidget;
 import soc.gwtClient.lobby.GameLobby;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -27,7 +27,7 @@ public class MainWindow implements EntryPoint
     CenterWidget mapEditor;
     CenterWidget welcomePanel;
     CenterWidget currentWidget;
-    HotSeatGamePanel hotseatGame;
+    HotSeatGameWidget hotseatGame;
     CenterWidget wikiPage;
     CenterWidget lobby;
     CenterWidget javadoc;
@@ -40,7 +40,7 @@ public class MainWindow implements EntryPoint
     /**
      * @return the hotseatGame
      */
-    public HotSeatGamePanel getHotseatGame()
+    public HotSeatGameWidget getHotseatGame()
     {
         return hotseatGame;
     }
@@ -52,7 +52,7 @@ public class MainWindow implements EntryPoint
         createMenu();
         mapEditor = new SvgMapEditor();
         welcomePanel = new WelcomePanel(this);
-        hotseatGame = new HotSeatGamePanel();
+        hotseatGame = new HotSeatGameWidget();
         wikiPage = new WikiPanel();
         lobby = new GameLobby();
         javadoc = new JavadocPanel();

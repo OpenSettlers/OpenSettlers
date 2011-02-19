@@ -1,6 +1,9 @@
 package soc.gwtClient.game.widgetsInterface.main;
 
 import soc.common.game.player.GamePlayer;
+import soc.gwtClient.game.widgetsBitmap.actions.HotSeatActionsPlayersWidget;
+import soc.gwtClient.game.widgetsBitmap.main.GameDetailsWidget;
+import soc.gwtClient.game.widgetsBitmap.main.HotSeatTradePlayersWidget;
 import soc.gwtClient.game.widgetsInterface.dialogs.GameOverDialog;
 import soc.gwtClient.game.widgetsInterface.dialogs.HotseatLooseCardsDialog;
 import soc.gwtClient.game.widgetsInterface.dialogs.LooseCardsDialog;
@@ -11,11 +14,11 @@ public interface GameWidgetFactory
 {
     public PlayersInfoWidget createPlayersWidget();
 
-    public BankStockWidget createBankStockPanel();
+    public BankStockWidget createBankStockWidget();
 
     public BoardVisualWidget createBoardVisualWidget();
 
-    public StatusWidget createStatusDicePanel();
+    public StatusWidget createStatusDiceWidget();
 
     public HistoryWidget createHistoryWidget();
 
@@ -38,4 +41,10 @@ public interface GameWidgetFactory
     public HotseatLooseCardsDialog createHotseatLooseCardsDialog();
 
     public GameOverDialog createGameOverDialog();
+
+    public GameDetailsWidget createDetailsWidget();
+
+    public HotSeatActionsPlayersWidget createHotSeatActionsPlayersWidget();
+
+    public HotSeatTradePlayersWidget createHotSeatTradePlayersWidget();
 }

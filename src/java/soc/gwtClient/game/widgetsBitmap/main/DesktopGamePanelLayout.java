@@ -7,6 +7,7 @@ import soc.gwtClient.game.widgetsInterface.main.GameWidgetFactory;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class DesktopGamePanelLayout implements GamePanelLayoutWidget
 {
@@ -18,6 +19,7 @@ public class DesktopGamePanelLayout implements GamePanelLayoutWidget
     protected GameWidgetFactory gameWidgetFactory;
 
     private GameWidget gamePanel;
+    protected Widget gameDetailsWidget;
 
     public DesktopGamePanelLayout(GameWidget gamePanel)
     {
@@ -36,7 +38,8 @@ public class DesktopGamePanelLayout implements GamePanelLayoutWidget
     @Override
     public void initialize()
     {
-        // boardActionResourcesPanel.addEast(playersActionsWidget, 15);
+        boardActionResourcesPanel.addEast(gamePanel.getActionsWidget()
+                .asWidget(), 15);
         boardActionResourcesPanel.addSouth(gamePanel.getStatusWidget()
                 .asWidget(), 5);
         boardActionResourcesPanel.add(gamePanel.getBoardVisualWidget());
@@ -45,7 +48,7 @@ public class DesktopGamePanelLayout implements GamePanelLayoutWidget
                 .asWidget(), 20);
         playersBankChatPanel.addNorth(gamePanel.getbankStockPanel().asWidget(),
                 5);
-        // playersBankChatPanel.add(chatHistoryDebugPanel);
+        playersBankChatPanel.add(gamePanel.getDetailsWidget());
 
         rootPanel.addWest(playersBankChatPanel, 20);
         rootPanel.add(boardActionResourcesPanel);

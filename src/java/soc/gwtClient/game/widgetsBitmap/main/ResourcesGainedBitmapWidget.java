@@ -44,7 +44,8 @@ public class ResourcesGainedBitmapWidget implements ResourcesGainedWidget,
     private void setPositionAndShow()
     {
         popup.show();
-        Point2D location = gamePanel.getTopLeftDiceWidgetPosition();
+        Point2D location = gamePanel.getPlayerStuffWidget()
+                .getDiceWidgetTopLeftPosition();
         popup.setPopupPosition(location.getX() - popup.getOffsetWidth(),
                 location.getY());
     }

@@ -6,24 +6,24 @@ import soc.common.game.Game;
 import soc.common.game.TurnChangedEvent;
 import soc.common.game.TurnChangedEventHandler;
 import soc.common.server.HotSeatServer;
-import soc.gwtClient.game.Point2D;
 import soc.gwtClient.game.behaviour.gameBoard.DisabledMap;
-import soc.gwtClient.game.widgetsAbstract.AbstractGamePanel;
+import soc.gwtClient.game.widgetsAbstract.AbstractGameWidget;
 import soc.gwtClient.game.widgetsBitmap.actions.HotSeatActionsPlayersWidget;
 import soc.gwtClient.game.widgetsInterface.actions.ActionsWidget;
 import soc.gwtClient.game.widgetsInterface.dialogs.TradePlayerDialog;
 import soc.gwtClient.game.widgetsInterface.main.GameWidgetFactory;
+import soc.gwtClient.game.widgetsInterface.main.PlayerStuffWidget;
 import soc.gwtClient.main.CenterWidget;
 
 import com.google.gwt.user.client.ui.Panel;
 
-public class HotSeatGamePanel extends AbstractGamePanel implements
+public class HotSeatGameWidget extends AbstractGameWidget implements
         CenterWidget, TurnChangedEventHandler
 {
     private HotSeatActionsPlayersWidget playersActionsWidget;
     private HotSeatTradePlayersWidget hotseatTradePlayersWidget;
 
-    public HotSeatGamePanel()
+    public HotSeatGameWidget()
     {
         super();
 
@@ -49,22 +49,16 @@ public class HotSeatGamePanel extends AbstractGamePanel implements
 
         looseCardsDialog = gameWidgetFactory.createHotseatLooseCardsDialog();
 
-        createChatHistoryDebugPanel();
+        playersActionsWidget = gameWidgetFactory
+                .createHotSeatActionsPlayersWidget();
 
-        playersActionsWidget = new HotSeatActionsPlayersWidget(this,
-                gameWidgetFactory);
-
-        hotseatTradePlayersWidget = new HotSeatTradePlayersWidget(this);
+        hotseatTradePlayersWidget = gameWidgetFactory
+                .createHotSeatTradePlayersWidget();
 
         gamePanelLayoutWidget.initialize();
         game.addTurnChangedEventHandler(this);
         boardVisualWidget.getBoardVisual().setBehaviour(new DisabledMap());
         boardVisualWidget.getBoardVisual().hideTerritories();
-    }
-
-    private void createChatHistoryDebugPanel()
-    {
-
     }
 
     @Override
@@ -104,12 +98,6 @@ public class HotSeatGamePanel extends AbstractGamePanel implements
         return new GameBitmapWidgetFactory(this);
     }
 
-    @Override
-    public Point2D getTopLeftDiceWidgetPosition()
-    {
-        return playersActionsWidget.getTopLeftDiceWidgetPosition(player);
-    }
-
     /*
      * Returns the ActionWidget of the player currently on turn
      * 
@@ -125,5 +113,11 @@ public class HotSeatGamePanel extends AbstractGamePanel implements
     public TradePlayerDialog getTradePlayerUI()
     {
         return hotseatTradePlayersWidget.getPlayerTradeUI(player);
+    }
+
+    @Override
+    public PlayerStuffWidget getPlayerStuffWidget()
+    {
+        return playersActionsWidget;
     }
 }

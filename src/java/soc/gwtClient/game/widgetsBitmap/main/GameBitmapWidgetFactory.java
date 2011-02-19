@@ -2,6 +2,7 @@ package soc.gwtClient.game.widgetsBitmap.main;
 
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.widgetsAbstract.AbstractBankStockWidget;
+import soc.gwtClient.game.widgetsBitmap.actions.HotSeatActionsPlayersWidget;
 import soc.gwtClient.game.widgetsBitmap.dialogs.HotSeatGameOverDialog;
 import soc.gwtClient.game.widgetsBitmap.dialogs.HotseatLooseCards;
 import soc.gwtClient.game.widgetsBitmap.dialogs.StealCardDialog;
@@ -45,13 +46,13 @@ public class GameBitmapWidgetFactory implements GameWidgetFactory
     }
 
     @Override
-    public BankStockWidget createBankStockPanel()
+    public BankStockWidget createBankStockWidget()
     {
         return new AbstractBankStockWidget(gamePanel.getGame());
     }
 
     @Override
-    public StatusWidget createStatusDicePanel()
+    public StatusWidget createStatusDiceWidget()
     {
         return new StatusBitmapPanel(gamePanel);
     }
@@ -126,5 +127,23 @@ public class GameBitmapWidgetFactory implements GameWidgetFactory
     public QueueWidget createQueueWidget()
     {
         return gameDetailsWidget;
+    }
+
+    @Override
+    public GameDetailsWidget createDetailsWidget()
+    {
+        return gameDetailsWidget;
+    }
+
+    @Override
+    public HotSeatActionsPlayersWidget createHotSeatActionsPlayersWidget()
+    {
+        return new HotSeatActionsPlayersWidget(gamePanel, this);
+    }
+
+    @Override
+    public HotSeatTradePlayersWidget createHotSeatTradePlayersWidget()
+    {
+        return new HotSeatTradePlayersWidget(gamePanel);
     }
 }

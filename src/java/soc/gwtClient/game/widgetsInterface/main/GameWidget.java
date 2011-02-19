@@ -5,6 +5,7 @@ import soc.common.game.Game;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.DetailContainerManager;
 import soc.gwtClient.game.Point2D;
+import soc.gwtClient.game.widgetsBitmap.main.GameDetailsWidget;
 import soc.gwtClient.game.widgetsInterface.actions.ActionsWidget;
 import soc.gwtClient.game.widgetsInterface.dialogs.GameOverDialog;
 import soc.gwtClient.game.widgetsInterface.dialogs.LooseCardsDialog;
@@ -45,6 +46,10 @@ public interface GameWidget
 
     public ActionsWidget getActionsWidget();
 
+    public PlayerStuffWidget getPlayerStuffWidget();
+
+    public GameDetailsWidget getDetailsWidget();
+
     public LooseCardsDialog getLooseCardsDialog();
 
     public BankTradeWidget getBankTradeUI();
@@ -53,8 +58,6 @@ public interface GameWidget
 
     // Lalala stupid interface methods which need destruction
     public Point2D getTopRightPlayerInfoBoxPosition(GamePlayer player);
-
-    public Point2D getTopLeftDiceWidgetPosition();
 
     public void showTradeBankPanel();
 

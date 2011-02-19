@@ -7,11 +7,13 @@ import soc.gwtClient.game.Point2D;
 import soc.gwtClient.game.widgetsInterface.actions.ActionsWidget;
 import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 import soc.gwtClient.game.widgetsInterface.main.GameWidgetFactory;
+import soc.gwtClient.game.widgetsInterface.main.HandCardsWidget;
 import soc.gwtClient.game.widgetsInterface.main.PlayerStuffWidget;
 
 import com.google.gwt.user.client.ui.DeckPanel;
 
-public class HotSeatActionsPlayersWidget extends DeckPanel
+public class HotSeatActionsPlayersWidget extends DeckPanel implements
+        PlayerStuffWidget
 {
     private HashMap<GamePlayer, Integer> playersStuff = new HashMap<GamePlayer, Integer>();
     private HashMap<Integer, PlayerStuffWidget> indexedWidgets = new HashMap<Integer, PlayerStuffWidget>();
@@ -65,10 +67,27 @@ public class HotSeatActionsPlayersWidget extends DeckPanel
         }
     }
 
-    public Point2D getTopLeftDiceWidgetPosition(GamePlayer player)
+    @Override
+    public ActionsWidget getActionsWidget()
     {
-        int index = playersStuff.get(player);
+        int index = playersStuff.get(gamePanel.getPlayingPlayer());
+        currentWidget = indexedWidgets.get(index);
+        return currentWidget.getActionsWidget();
+    }
+
+    @Override
+    public Point2D getDiceWidgetTopLeftPosition()
+    {
+        int index = playersStuff.get(gamePanel.getPlayingPlayer());
         PlayerStuffWidget widget = indexedWidgets.get(index);
         return widget.getDiceWidgetTopLeftPosition();
+    }
+
+    @Override
+    public HandCardsWidget getHandCardsWidget()
+    {
+        int index = playersStuff.get(gamePanel.getPlayingPlayer());
+        currentWidget = indexedWidgets.get(index);
+        return currentWidget.getHandCardsWidget();
     }
 }
