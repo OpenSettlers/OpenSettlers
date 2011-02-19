@@ -19,11 +19,13 @@ import soc.common.actions.gameAction.turnActions.standard.TradeOffer;
 import soc.common.board.HexLocation;
 import soc.common.board.HexPoint;
 import soc.common.board.HexSide;
+import soc.common.board.resources.Resource;
 import soc.common.board.resources.ResourceList;
 import soc.common.board.routing.GraphPoint;
 import soc.common.board.routing.GraphSide;
 import soc.common.bots.namingStrategies.IdioticNames;
 import soc.common.game.Game;
+import soc.common.game.gamePhase.turnPhase.TurnPhase;
 import soc.common.game.player.GamePlayer;
 import soc.common.game.player.GamePlayerList;
 import soc.common.game.trading.TradeResponse;
@@ -42,6 +44,7 @@ public class IdiotBot extends AbstractBot
     private GamePlayer player;
     private Random random;
     private static List<Class<? extends Variant>> supportedRuleSets = new ArrayList<Class<? extends Variant>>();
+    private TurnPhase turnPhase;
 
     static
     {
@@ -59,17 +62,44 @@ public class IdiotBot extends AbstractBot
         botUser.setName(new IdioticNames(random).getName());
     }
 
+    /*
+     * Does as little as possible in a turn
+     * 
+     * @see soc.common.bots.Bot#handTurn(soc.common.bots.BotPrincipal)
+     */
     @Override
     public void handTurn(BotPrincipal principal)
     {
-        // We start always by rolling the dice
+        if (game.getCurrentTurn().getTurnPhase().isBeforeDiceRoll())
+            handleBeforeDiceRollTurnPhase(principal);
+
+        if (game.getCurrentTurn().getTurnPhase().isTrading())
+            handleTradingTurnPhase(principal);
+
+        if (game.getCurrentTurn().getTurnPhase().isBuilding())
+            handleBuildTurnPhase(principal);
+    }
+
+    /*
+     * Simply rolls the dice
+     */
+    private void handleBeforeDiceRollTurnPhase(BotPrincipal principal)
+    {
         RollDice rollDice = (RollDice) new RollDice().setPlayer(player);
         principal.performAction(rollDice);
+    }
 
-        // Hand control back to principal to perform possible robbing, robber
-        // moving, card loosing & gold picking
-        principal.handleActionsQueue();
+    /*
+     * No trading supported
+     */
+    private void handleTradingTurnPhase(BotPrincipal principal)
+    {
+        // No trading yet
+        handleBuildTurnPhase(principal);
+    }
 
+    private void handleBuildTurnPhase(BotPrincipal principal)
+    {
         // This bot is really a know-no. It just ends its turn.
         EndTurn endTurn = new EndTurn();
         endTurn.setPlayer(player);
@@ -172,9 +202,15 @@ public class IdiotBot extends AbstractBot
         LooseCards looseCards = new LooseCards();
         looseCards.setPlayer(player);
         ResourceList lostCards = new ResourceList();
+        ResourceList copy = player.getResources().copy();
 
         for (int i = 0; i < amount; i++)
-            lostCards.add(player.getResources().get(i));
+        {
+            int pickedCard = random.nextInt(copy.size(), false);
+            Resource pickedResource = copy.get(pickedCard);
+            copy.remove(pickedResource);
+            lostCards.add(pickedResource);
+        }
 
         looseCards.setLostCards(lostCards);
 

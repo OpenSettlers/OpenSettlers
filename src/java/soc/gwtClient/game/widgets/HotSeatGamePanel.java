@@ -115,7 +115,7 @@ public class HotSeatGamePanel extends AbstractGamePanel implements
         // Hotseat, so when the turn changes, the current player is set to the
         // new player on turn
         player = event.getNewTurn().getPlayer();
-        if (player.getBot() != null)
+        if (player.getBot() == null)
             playersActionsWidget.setPlayer(player);
     }
 

@@ -34,7 +34,7 @@ public abstract class AbstractGamePhase implements GamePhase
             {
                 player = next.getPlayer();
             }
-            return new TurnImpl().setPlayer(player);
+            return new TurnImpl(player);
         }
         throw new RuntimeException("No expected action, no turn to create");
     }

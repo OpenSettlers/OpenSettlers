@@ -1,5 +1,7 @@
 package soc.gwtClient.game.widgets.standard.bitmap.playerDetail;
 
+import org.adamtacy.client.ui.effects.impl.Fade;
+
 import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.turnActions.EndTurn;
 import soc.common.actions.gameAction.turnActions.standard.BuildCity;
@@ -145,6 +147,7 @@ public class DetailContainerWidget extends PopupPanel implements
     private class TimedCommand implements Command
     {
         PlayerDetailWidget widget;
+        boolean effectEnded = false;
 
         public TimedCommand(PlayerDetailWidget widget, int delay)
         {
@@ -158,7 +161,17 @@ public class DetailContainerWidget extends PopupPanel implements
             @Override
             public void run()
             {
-                actionPanel.remove(widget);
+                if (effectEnded)
+                {
+                    actionPanel.remove(widget);
+                }
+                else
+                {
+                    Fade fade = new Fade(widget.asWidget().getElement());
+                    fade.play();
+                    effectEnded = true;
+                    timer.schedule(1000);
+                }
             }
         };
 

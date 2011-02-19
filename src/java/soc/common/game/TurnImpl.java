@@ -8,8 +8,23 @@ public class TurnImpl implements Turn
 {
     private static final long serialVersionUID = -7392096314044521868L;
     private GamePlayer player;
-    private int id;
+    private int id = 0;
     private TradeOfferList tradeOffers = new TradeOfferList();
+    private TurnPhase turnPhase;
+
+    public TurnImpl(GamePlayer player, int id, TurnPhase turnPhase)
+    {
+        super();
+        this.player = player;
+        this.id = id;
+        this.turnPhase = turnPhase;
+    }
+
+    public TurnImpl(GamePlayer player)
+    {
+        super();
+        this.player = player;
+    }
 
     /**
      * @param player
@@ -52,8 +67,13 @@ public class TurnImpl implements Turn
     @Override
     public TurnPhase getTurnPhase()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return turnPhase;
+    }
+
+    @Override
+    public void setTurnPhase(TurnPhase phase)
+    {
+        this.turnPhase = phase;
     }
 
 }

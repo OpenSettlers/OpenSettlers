@@ -121,6 +121,7 @@ public class Game implements Serializable
         if (!oldPhase.equals(newPhase))
         {
             playTurns.setTurnPhase(newPhase);
+            currentTurn.setTurnPhase(newPhase);
             eventBus.fireEvent(new TurnPhaseChangedEvent(newPhase, oldPhase));
             return true;
         }
@@ -397,7 +398,7 @@ public class Game implements Serializable
     public void initialize()
     {
         // Set first player on turn
-        currentTurn = new TurnImpl().setPlayer(players.get(0));
+        currentTurn = new TurnImpl(players.get(0), 0, null);
 
         // Move robber to desert hex, if exists
         Hex desertHex = null;

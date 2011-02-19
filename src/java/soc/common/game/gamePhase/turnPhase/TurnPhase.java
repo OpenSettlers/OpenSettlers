@@ -30,5 +30,25 @@ public abstract class TurnPhase implements Serializable
         return ClassUtils.getSimpleClassName(this.getClass().getName());
     }
 
+    public boolean isBeforeDiceRoll()
+    {
+        return this.getClass() == BeforeDiceRollTurnPhase.class;
+    }
+
+    public boolean isDiceRoll()
+    {
+        return this.getClass() == RollDiceTurnPhase.class;
+    }
+
+    public boolean isTrading()
+    {
+        return this.getClass() == TradingTurnPhase.class;
+    }
+
+    public boolean isBuilding()
+    {
+        return this.getClass() == BuildingTurnPhase.class;
+    }
+
     public abstract String getMessage();
 }

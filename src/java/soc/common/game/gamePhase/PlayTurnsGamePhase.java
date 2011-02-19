@@ -104,8 +104,7 @@ public class PlayTurnsGamePhase extends AbstractGamePhase
         if (game.getCurrentTurn().getID() == 0)
         {
             // First turn in PlayTurnsGamePhase has always ID=1
-            newTurn = new TurnImpl().setPlayer(game.getPlayers().get(0)).setID(
-                    1);
+            newTurn = new TurnImpl(game.getPlayers().get(0), 1, turnPhase);
         }
         else
         {
@@ -121,8 +120,8 @@ public class PlayTurnsGamePhase extends AbstractGamePhase
             GamePlayer newPlayerOnTurn = game.getPlayers().get(nextPlayerIndex);
 
             // Create a new turn with increased ID numer
-            newTurn = new TurnImpl().setPlayer(newPlayerOnTurn).setID(
-                    game.getCurrentTurn().getID() + 1);
+            newTurn = new TurnImpl(newPlayerOnTurn, game.getCurrentTurn()
+                    .getID() + 1, turnPhase);
         }
 
         return newTurn;

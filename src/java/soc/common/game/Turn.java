@@ -18,6 +18,8 @@ public interface Turn extends Serializable
 
     public TurnPhase getTurnPhase();
 
+    public void setTurnPhase(TurnPhase phase);
+
     /**
      * @param player
      *            the player to set

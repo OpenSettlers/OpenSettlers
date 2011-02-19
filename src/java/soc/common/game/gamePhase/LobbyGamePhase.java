@@ -84,6 +84,6 @@ public class LobbyGamePhase extends AbstractGamePhase
     @Override
     public Turn nextTurn(Game game)
     {
-        return new TurnImpl().setPlayer(game.getPlayers().get(0));
+        return new TurnImpl(game.getPlayers().get(0));
     }
 }

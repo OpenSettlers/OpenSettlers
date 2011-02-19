@@ -22,4 +22,6 @@ public interface GameServer extends Server
     public void startGame(Game game);
 
     public void setBotTurnHandled(boolean handled);
+
+    public boolean hasQueuedBotActions();
 }

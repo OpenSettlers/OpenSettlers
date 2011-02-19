@@ -1,8 +1,5 @@
 package soc.common.server;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import soc.common.actions.gameAction.GameAction;
 import soc.common.bots.BotPrincipalImpl;
 import soc.common.game.Game;
@@ -11,10 +8,12 @@ import soc.common.server.randomization.ClientRandom;
 
 import com.google.gwt.user.client.Timer;
 
+/*
+ * Server running n the browser to provide hotseat and playing versus bots possibility
+ */
 public class HotSeatServer extends AbstractGameServer
 {
     int botActionDelay = 2000; // ms
-    private List<GameAction> botActions = new ArrayList<GameAction>();
     private Timer timer = new Timer()
     {
         @Override
@@ -36,10 +35,9 @@ public class HotSeatServer extends AbstractGameServer
 
     private void processNextBotAction()
     {
-        if (botActions.size() > 0)
+        if (botActionQueue.size() > 0)
         {
-            GameAction botAction = botActions.get(0);
-            botActions.remove(0);
+            GameAction botAction = botActionQueue.get(0);
             super.sendAction(botAction);
         }
     }
@@ -67,23 +65,6 @@ public class HotSeatServer extends AbstractGameServer
         return new ServerActionFactory();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * soc.common.server.AbstractGameServer#sendAction(soc.common.actions.gameAction
-     * .GameAction)
-     */
-    @Override
-    public void sendAction(GameAction action)
-    {
-        // When the action comes from a bot, schedule it to add a delay
-        if (action.getPlayer().getBot() != null)
-            botActions.add(action);
-        else
-            super.sendAction(action);
-    }
-
     @Override
     public void startGame(Game game)
     {
@@ -96,4 +77,5 @@ public class HotSeatServer extends AbstractGameServer
     {
         botTurnHandled = handled;
     }
+
 }

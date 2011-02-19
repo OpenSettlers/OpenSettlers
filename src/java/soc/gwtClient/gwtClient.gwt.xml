@@ -10,6 +10,7 @@
   <inherits name='soc.common.OSCommon' />
   <inherits name='org.vaadin.gwtgraphics.GWTGraphics' />
   <inherits name='net.zschech.gwt.comet.Comet' />
+  <inherits name='org.adamtacy.GWTEffects' />
   
   <entry-point class='soc.gwtClient.main.MainWindow'/>
 

@@ -188,4 +188,24 @@ public class ActionsQueueImpl implements ActionsQueue
         }
     }
 
+    @Override
+    public boolean hasPendingBotActions()
+    {
+        return getPendingBotActions().size() > 0;
+    }
+
+    public List<GameAction> getPendingBotActions()
+    {
+        // Grab the blocking game actions in the queue
+        List<GameAction> blockingActions = getBlockingActions();
+
+        // Compile a list of actions to be performed by bots
+        List<GameAction> botActions = new ArrayList<GameAction>();
+        for (GameAction action : blockingActions)
+            if (action.getPlayer().getBot() != null)
+                botActions.add(action);
+
+        return botActions;
+    }
+
 }

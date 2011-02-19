@@ -1,6 +1,5 @@
 package soc.common.bots;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,15 +39,8 @@ public class BotPrincipalImpl implements BotPrincipal
     @Override
     public void handleActionsQueue()
     {
-        // Grab the blocking game actions in the queue
-        List<GameAction> blockingActions = gameServer.getGame()
-                .getActionsQueue().getBlockingActions();
-
-        // Compile a list of actions to be performed by bots
-        List<GameAction> botActions = new ArrayList<GameAction>();
-        for (GameAction action : blockingActions)
-            if (action.getPlayer().getBot() != null)
-                botActions.add(action);
+        List<GameAction> botActions = gameServer.getGame().getActionsQueue()
+                .getPendingBotActions();
 
         // Call each bot's handler for the action
         for (GameAction botAction : botActions)
@@ -107,7 +99,7 @@ public class BotPrincipalImpl implements BotPrincipal
     }
 
     @Override
-    public void handleTurn()
+    public void handleActions()
     {
         GamePlayer playerOnTurn = gameServer.getGame().getCurrentTurn()
                 .getPlayer();

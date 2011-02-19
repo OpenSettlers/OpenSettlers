@@ -163,7 +163,7 @@ public class DetermineFirstPlayerGamePhase extends AbstractGamePhase
     {
         if (game.getStartPlayer() != null)
         {
-            return new TurnImpl().setPlayer(game.getStartPlayer());
+            return new TurnImpl(game.getStartPlayer());
         }
         return super.nextTurn(game);
     }

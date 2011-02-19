@@ -1,5 +1,8 @@
 package soc.common.server;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.MessageFromServer;
 import soc.common.bots.BotPrincipal;
@@ -21,6 +24,7 @@ public abstract class AbstractGameServer implements GameServer
     protected Random random;
     protected BotPrincipal botPrincipal;
     protected boolean botTurnHandled = false;
+    protected List<GameAction> botActionQueue = new ArrayList<GameAction>();
 
     public AbstractGameServer()
     {
@@ -53,17 +57,23 @@ public abstract class AbstractGameServer implements GameServer
     {
         if (action != null)
         {
+            // When the action comes from a bot, schedule it to add a delay
+            // If there are scheduled actions, ad this action to the schedule.
+            if ((action.getPlayer().getBot() != null)
+                    && !botActionQueue.contains(action))
+            {
+                botActionQueue.add(action);
+                return;
+            }
+
+            if (botActionQueue.contains(action))
+                botActionQueue.remove(action);
+
+            if (!checkAllowedAndValid(action))
+                return;
+
             GameAction expectedAction = null;
-            if (!game.isAllowed(action))
-            {
-                notifyNotAllowed(action);
-                return;
-            }
-            if (!action.isValid(game))
-            {
-                notifyInvalid(action);
-                return;
-            }
+
             if (game.getActionsQueue().size() > 0)
             {
                 ActionsQueue ac = game.getActionsQueue();
@@ -79,6 +89,7 @@ public abstract class AbstractGameServer implements GameServer
             ServerAction serverAction = serverActionFactory.createServerAction(
                     action, this);
 
+            // Update state of our game instance by performing the action
             serverAction.execute();
 
             // send the action to all the players
@@ -94,20 +105,38 @@ public abstract class AbstractGameServer implements GameServer
                 sendAction(possibleNextServerAction);
             }
 
-            // If bots should perform actions, call the bot principal to let the
-            // bots handle them
-            if (possibleNextServerAction != null && game.hasBots())
-            {
-                botPrincipal.handleActionsQueue();
-            }
-
-            if (possibleNextServerAction == null && game.hasBots()
-                    && game.getCurrentTurn().getPlayer().getBot() != null
-                    && !botTurnHandled)
-            {
-                botPrincipal.handleTurn();
-            }
+            // If bot is on turn, pass control
+            if (game.hasBots())
+                handleBotActions();
         }
+    }
+
+    private void handleBotActions()
+    {
+        // If bots should perform actions, call the bot principal to let the
+        // bots handle them
+        if (game.getActionsQueue().hasPendingBotActions())
+            botPrincipal.handleActionsQueue();
+        // Hand turn execution over to the bot currently on turn
+        else if (game.getCurrentTurn().getPlayer().getBot() != null
+                && !hasQueuedBotActions())
+            botPrincipal.handleActions();
+    }
+
+    private boolean checkAllowedAndValid(GameAction action)
+    {
+        if (!game.isAllowed(action))
+        {
+            notifyNotAllowed(action);
+            return false;
+        }
+        if (!action.isValid(game))
+        {
+            notifyInvalid(action);
+            return false;
+        }
+
+        return true;
     }
 
     private void notifyNotAllowed(GameAction action)
@@ -132,14 +161,20 @@ public abstract class AbstractGameServer implements GameServer
         // TODO 200 fix message
         callback.receive((GameAction) new MessageFromServer().setServerMessage(
                 "Invalid action! \r\n Reason: Expected "
-                        + expected.toString()
+                        + expected.getClass().toString()
                         + " from player "
                         + game.getPlayerByID(expected.getSender()).getUser()
                                 .getName()
                         + ", but instead got "
-                        + action.toString()
+                        + action.getClass().toString()
                         + " from player "
                         + game.getPlayerByID(action.getSender()).getUser()
                                 .getName()).setSender(0));
+    }
+
+    @Override
+    public boolean hasQueuedBotActions()
+    {
+        return botActionQueue.size() > 0;
     }
 }

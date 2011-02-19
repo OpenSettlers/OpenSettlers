@@ -34,24 +34,35 @@ public class HotSeatActionsPlayersWidget extends DeckPanel
         int index = 0;
         for (GamePlayer player : gamePanel.getGame().getPlayers())
         {
-            PlayerStuffWidget widget = factory.createPlayerStuffWidget(player);
-            this.add(widget.asWidget());
-            playersStuff.put(player, index);
-            indexedWidgets.put(index, widget);
-            if (currentWidget == null)
+            if (player.getBot() == null)
             {
-                currentWidget = widget;
+                PlayerStuffWidget widget = factory
+                        .createPlayerStuffWidget(player);
+                this.add(widget.asWidget());
+                playersStuff.put(player, index);
+                indexedWidgets.put(index, widget);
+                if (currentWidget == null)
+                {
+                    currentWidget = widget;
+                }
+                index++;
             }
-            index++;
         }
-        this.showWidget(0);
+
+        // Only show first widget when present, bot-only games don't need player
+        // widgets
+        if (playersStuff.size() > 0)
+            this.showWidget(0);
     }
 
     public void setPlayer(GamePlayer player)
     {
-        int index = playersStuff.get(player);
-        currentWidget = indexedWidgets.get(index);
-        this.showWidget(index);
+        if (playersStuff.size() > 0)
+        {
+            int index = playersStuff.get(player);
+            currentWidget = indexedWidgets.get(index);
+            this.showWidget(index);
+        }
     }
 
     public Point2D getTopLeftDiceWidgetPosition(GamePlayer player)

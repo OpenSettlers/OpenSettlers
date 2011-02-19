@@ -46,4 +46,8 @@ public interface ActionsQueue extends Serializable
             ActionQueueChangedEventHandler handler);
 
     public GameAction dequeueExpected(GameAction expectedAction);
+
+    public boolean hasPendingBotActions();
+
+    public List<GameAction> getPendingBotActions();
 }
