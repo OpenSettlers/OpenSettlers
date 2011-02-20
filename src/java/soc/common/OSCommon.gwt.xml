@@ -13,4 +13,5 @@
   <source path='internationalization'/>    
   <source path='bots'/>  
   <source path='core'/>  
+  <source path='ui'/>  
 </module>

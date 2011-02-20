@@ -2,8 +2,8 @@ package soc.gwtClient.game.widgetsBitmap.dialogs;
 
 import java.util.HashMap;
 
-import soc.common.actions.gameAction.turnActions.standard.LooseCards;
-import soc.common.actions.gameAction.turnActions.standard.RollDice;
+import soc.common.actions.gameAction.standard.LooseCards;
+import soc.common.actions.gameAction.standard.RollDice;
 import soc.common.game.player.GamePlayer;
 import soc.common.game.player.GamePlayerList;
 import soc.gwtClient.game.behaviour.gameBoard.received.RollDiceResult;

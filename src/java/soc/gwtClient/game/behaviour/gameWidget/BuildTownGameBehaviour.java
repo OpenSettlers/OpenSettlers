@@ -1,6 +1,6 @@
 package soc.gwtClient.game.behaviour.gameWidget;
 
-import soc.common.actions.gameAction.turnActions.standard.BuildTown;
+import soc.common.actions.gameAction.standard.BuildTown;
 import soc.common.board.pieces.Town;
 import soc.common.game.gamePhase.PlayTurnsGamePhase;
 import soc.common.game.player.GamePlayer;

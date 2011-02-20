@@ -1,18 +1,14 @@
 package soc.gwtClient.game.widgetsAbstract;
 
 import soc.common.actions.gameAction.GameAction;
-import soc.common.actions.gameAction.turnActions.TurnAction;
+import soc.common.actions.gameAction.turns.TurnAction;
+import soc.common.core.Core;
 import soc.common.game.Game;
 import soc.common.game.player.GamePlayer;
 import soc.common.server.GameServer;
 import soc.common.server.GameServerCallback;
 import soc.gwtClient.game.DetailContainerManager;
 import soc.gwtClient.game.Point2D;
-import soc.gwtClient.game.behaviour.gameBoard.factories.GameBehaviourFactory;
-import soc.gwtClient.game.behaviour.gameBoard.factories.NextActionGameBehaviourFactory;
-import soc.gwtClient.game.behaviour.gameBoard.factories.ReceiveGameBehaviourFactory;
-import soc.gwtClient.game.behaviour.gameBoard.factories.ReceivedActionGameBehaviourFactory;
-import soc.gwtClient.game.behaviour.gameBoard.factories.SendGameBehaviourFactory;
 import soc.gwtClient.game.behaviour.gameBoard.received.ReceiveGameBehaviour;
 import soc.gwtClient.game.behaviour.gameWidget.GameBehaviour;
 import soc.gwtClient.game.widgetsBitmap.main.DesktopGamePanelLayout;
@@ -49,12 +45,6 @@ public abstract class AbstractGameWidget implements GameWidget, CenterWidget,
     protected GameBehaviour gameBehaviour;
     protected GamePlayer player;
 
-    // Factories
-    protected ReceiveGameBehaviourFactory receiveBehaviourFactory;
-    protected GameBehaviourFactory sendBehaviourFactory;
-    protected GameBehaviourFactory nextActionBehaviourFactory;
-    protected ReceiveGameBehaviourFactory opponentBehaviourFactory;
-
     // Left-bottom tab panel
     protected HistoryWidget historyWidget;
     protected ChatWidget chatPanel;
@@ -84,6 +74,7 @@ public abstract class AbstractGameWidget implements GameWidget, CenterWidget,
 
     public AbstractGameWidget()
     {
+        Core.get().setGameWidget(this);
     }
 
     protected void initialize()
@@ -92,10 +83,7 @@ public abstract class AbstractGameWidget implements GameWidget, CenterWidget,
 
         gamePanelLayoutWidget = new DesktopGamePanelLayout(this);
 
-        receiveBehaviourFactory = new ReceivedActionGameBehaviourFactory(this);
-        sendBehaviourFactory = new SendGameBehaviourFactory(this);
-        nextActionBehaviourFactory = new NextActionGameBehaviourFactory(this);
-        GameWidgetFactory gameWidgetFactory = gamePanelLayoutWidget
+        GameWidgetFactory gameWidgetFactory = Core.get().getClientFactory()
                 .getGameWidgetFactory();
 
         bankStockPanel = gameWidgetFactory.createBankStockWidget();
@@ -260,8 +248,7 @@ public abstract class AbstractGameWidget implements GameWidget, CenterWidget,
         }
 
         // Create a behaviour based on our action
-        GameBehaviour gameBehaviour = sendBehaviourFactory
-                .createBehaviour((TurnAction) action);
+        GameBehaviour gameBehaviour = action.getSendBehaviour();
 
         if (gameBehaviour != null)
         {
@@ -282,7 +269,8 @@ public abstract class AbstractGameWidget implements GameWidget, CenterWidget,
     }
 
     /*
-     * Receive an action from the game server
+     * Receive an action from the game server Check if there's any behaviour
+     * associated with receiving,
      * 
      * @see
      * soc.common.server.IGameServerCallback#receive(soc.common.actions.gameAction
@@ -292,8 +280,7 @@ public abstract class AbstractGameWidget implements GameWidget, CenterWidget,
     public void receive(GameAction gameAction)
     {
         // Grab new game behaviour for received action
-        ReceiveGameBehaviour newBehaviour = receiveBehaviourFactory
-                .createBehaviour(gameAction);
+        ReceiveGameBehaviour newBehaviour = gameAction.getReceiveBehaviour();
 
         if (newBehaviour != null)
         {
@@ -334,8 +321,7 @@ public abstract class AbstractGameWidget implements GameWidget, CenterWidget,
                 && next.getPlayer().equals(player))
         {
             // Create new behaviour and set it when available
-            GameBehaviour newBehaviour = nextActionBehaviourFactory
-                    .createBehaviour(next);
+            GameBehaviour newBehaviour = next.getNextActionBehaviour();
 
             if (newBehaviour != null)
                 setNewGameBehaviour(newBehaviour);

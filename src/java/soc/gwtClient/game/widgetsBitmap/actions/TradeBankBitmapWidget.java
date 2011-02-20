@@ -1,6 +1,6 @@
 package soc.gwtClient.game.widgetsBitmap.actions;
 
-import soc.common.actions.gameAction.turnActions.standard.TradeBank;
+import soc.common.actions.gameAction.trading.TradeBank;
 import soc.common.board.ports.PortListChangedEvent;
 import soc.common.board.ports.PortListChangedEventHandler;
 import soc.common.board.resources.ResourcesChangedEvent;

@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import soc.common.actions.gameAction.GameAction;
-import soc.common.actions.gameAction.turnActions.standard.BuildCity;
+import soc.common.actions.gameAction.standard.BuildCity;
 import soc.common.board.pieces.Town;
 import soc.common.board.routing.GraphPoint;
 import soc.common.game.player.GamePlayer;

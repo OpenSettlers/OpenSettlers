@@ -1,9 +1,19 @@
 package soc.common.actions.gameAction;
 
+import soc.common.core.Core;
 import soc.common.game.Game;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
+import soc.common.game.player.GamePlayer;
 import soc.common.internationalization.I18n;
+import soc.common.ui.Graphics;
+import soc.common.ui.Icon;
+import soc.common.ui.IconImpl;
+import soc.common.ui.ToolTip;
+import soc.common.ui.meta.Meta;
+import soc.gwtClient.game.behaviour.gameBoard.received.ReceiveGameBehaviour;
+import soc.gwtClient.game.behaviour.gameWidget.GameBehaviour;
+import soc.gwtClient.game.widgetsInterface.actions.ActionWidget;
 
 /*
  * A player is saying something in this game using a text chat interface
@@ -11,6 +21,51 @@ import soc.common.internationalization.I18n;
 public class GameChat extends AbstractGameAction
 {
     private static final long serialVersionUID = -3710258112524872173L;
+    private static Meta meta = new Meta()
+    {
+        private Icon icon = new IconImpl(null, null, null, null);
+
+        @Override
+        public Icon icon()
+        {
+            return icon;
+        }
+
+        @Override
+        public Graphics graphics()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public String getName()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public String getLocalizedName()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public String getDescription()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public ToolTip createToolTip()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+    };
     private String chatMessage;
 
     /**
@@ -32,12 +87,6 @@ public class GameChat extends AbstractGameAction
         return this;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * soc.common.actions.gameAction.GameAction#perform(soc.common.game.Game)
-     */
     @Override
     public void perform(Game game)
     {
@@ -49,13 +98,6 @@ public class GameChat extends AbstractGameAction
         super.perform(game);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * soc.common.actions.gameAction.GameAction#isAllowed(soc.common.game.gamePhase
-     * .GamePhase)
-     */
     @Override
     public boolean isAllowed(GamePhase gamePhase)
     {
@@ -79,6 +121,47 @@ public class GameChat extends AbstractGameAction
     public String getToDoMessage()
     {
         return I18n.get().actions().noToDo();
+    }
+
+    @Override
+    public ActionWidget createActionWidget(GamePlayer player)
+    {
+        return null;
+    }
+
+    @Override
+    public GameBehaviour getNextActionBehaviour()
+    {
+        return Core.get().getClientFactory().getBehaviourFactory()
+                .getNextActionBehaviourFactory().createGameChatBehaviour(this);
+    }
+
+    @Override
+    public ReceiveGameBehaviour getOpponentReceiveBehaviour()
+    {
+        return Core.get().getClientFactory().getBehaviourFactory()
+                .getOpponentReceiveBehaviourFactory().createGameChatBehaviour(
+                        this);
+    }
+
+    @Override
+    public ReceiveGameBehaviour getReceiveBehaviour()
+    {
+        return Core.get().getClientFactory().getBehaviourFactory()
+                .getReceiveBehaviourFactory().createGameChatBehaviour(this);
+    }
+
+    @Override
+    public GameBehaviour getSendBehaviour()
+    {
+        return Core.get().getClientFactory().getBehaviourFactory()
+                .getSendBehaviourFactory().createGameChatBehaviour(this);
+    }
+
+    @Override
+    public Meta getMeta()
+    {
+        return meta;
     }
 
 }

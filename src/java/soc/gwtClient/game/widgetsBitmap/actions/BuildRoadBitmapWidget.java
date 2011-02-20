@@ -1,6 +1,6 @@
 package soc.gwtClient.game.widgetsBitmap.actions;
 
-import soc.common.actions.gameAction.turnActions.standard.BuildRoad;
+import soc.common.actions.gameAction.standard.BuildRoad;
 import soc.common.board.pieces.Road;
 import soc.common.board.pieces.pieceLists.PlayerPieceListChangedEvent;
 import soc.common.board.pieces.pieceLists.PlayerPieceListChangedEventHandler;

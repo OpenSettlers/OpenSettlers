@@ -1,6 +1,6 @@
 package soc.gwtClient.game.widgetsBitmap.actions;
 
-import soc.common.actions.gameAction.turnActions.standard.BuildTown;
+import soc.common.actions.gameAction.standard.BuildTown;
 import soc.common.board.pieces.Town;
 import soc.common.board.pieces.pieceLists.PlayerPieceListChangedEvent;
 import soc.common.board.pieces.pieceLists.PlayerPieceListChangedEventHandler;
@@ -34,6 +34,8 @@ public class BuildTownBitmapWidget extends AbstractActionWidget implements
     private PushButton btnBuildTown = new PushButton(new Image(Resources
             .icons().town()));
     private Town town = new Town();
+
+    // 4 trades maximum for a town
     private Image trade1 = new Image(Resources.icons().trade());
     private Image trade2 = new Image(Resources.icons().trade());
     private Image trade3 = new Image(Resources.icons().trade());
@@ -56,7 +58,8 @@ public class BuildTownBitmapWidget extends AbstractActionWidget implements
                 new PlayerPieceListChangedEventHandler<Town>()
                 {
                     @Override
-                    public void onPlayerPieceListChanged(PlayerPieceListChangedEvent<Town> event)
+                    public void onPlayerPieceListChanged(
+                            PlayerPieceListChangedEvent<Town> event)
                     {
                         checkEnabled();
                     }

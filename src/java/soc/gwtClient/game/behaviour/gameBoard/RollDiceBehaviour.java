@@ -1,7 +1,7 @@
 package soc.gwtClient.game.behaviour.gameBoard;
 
 import soc.common.actions.gameAction.GameAction;
-import soc.common.actions.gameAction.turnActions.standard.RollDice;
+import soc.common.actions.gameAction.standard.RollDice;
 import soc.gwtClient.game.widgetsInterface.visuals.GameBoardVisual;
 import soc.gwtClient.game.widgetsInterface.visuals.HexVisual;
 import soc.gwtClient.game.widgetsInterface.visuals.PieceVisual;

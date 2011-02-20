@@ -1,6 +1,6 @@
 package soc.gwtClient.game.widgetsBitmap.developmentCards;
 
-import soc.common.actions.gameAction.turnActions.standard.PlayDevelopmentCard;
+import soc.common.actions.gameAction.standard.PlayDevelopmentCard;
 import soc.common.board.resources.ResourceList;
 import soc.common.board.resources.ResourcesChangedEvent;
 import soc.common.board.resources.ResourcesChangedEventHandler;
@@ -32,7 +32,7 @@ public class PlayYearOfPlentyWidget implements DevelopmentCardWidget,
     private ResourceListWidget resourceListWidget;
     private ResourcePickerWidget resourcePickerWidget;
     private ResourceList pickedResources = new ResourceList();
-    private Button btnPlay = new Button(I18n.get().constants().play());
+    private Button buttonnPlay = new Button(I18n.get().constants().play());
 
     public PlayYearOfPlentyWidget(final YearOfPlenty yearOfPlenty,
             final GameWidget gamePanel)
@@ -51,13 +51,13 @@ public class PlayYearOfPlentyWidget implements DevelopmentCardWidget,
         rootPanel.add(new Label(I18n.get().constants().yearOfPlenty()));
         rootPanel.add(resourcePickerWidget);
         rootPanel.add(resourceListWidget);
-        rootPanel.add(btnPlay);
-        btnPlay.setEnabled(false);
+        rootPanel.add(buttonnPlay);
+        buttonnPlay.setEnabled(false);
 
         playDevelopmentCard.setDevelopmentcard(yearOfPlenty);
         playDevelopmentCard.setPlayer(gamePanel.getPlayingPlayer());
 
-        btnPlay.addClickHandler(new ClickHandler()
+        buttonnPlay.addClickHandler(new ClickHandler()
         {
             @Override
             public void onClick(ClickEvent event)
@@ -79,6 +79,6 @@ public class PlayYearOfPlentyWidget implements DevelopmentCardWidget,
     @Override
     public void onResourcesChanged(ResourcesChangedEvent resourcesChanged)
     {
-        btnPlay.setEnabled(pickedResources.size() == 2);
+        buttonnPlay.setEnabled(pickedResources.size() == 2);
     }
 }

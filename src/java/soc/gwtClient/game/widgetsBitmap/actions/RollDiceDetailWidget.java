@@ -1,6 +1,6 @@
 package soc.gwtClient.game.widgetsBitmap.actions;
 
-import soc.common.actions.gameAction.turnActions.standard.RollDice;
+import soc.common.actions.gameAction.standard.RollDice;
 import soc.gwtClient.game.widgetsAbstract.AbstractPlayerDetailWidget;
 import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 

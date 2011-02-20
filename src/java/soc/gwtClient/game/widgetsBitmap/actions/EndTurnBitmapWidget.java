@@ -1,7 +1,7 @@
 package soc.gwtClient.game.widgetsBitmap.actions;
 
-import soc.common.actions.gameAction.turnActions.AbstractTurnAction;
-import soc.common.actions.gameAction.turnActions.EndTurn;
+import soc.common.actions.gameAction.turns.AbstractTurnAction;
+import soc.common.actions.gameAction.turns.EndTurn;
 import soc.common.game.GamePhaseChangedEvent;
 import soc.common.game.GamePhaseChangedEventHandler;
 import soc.common.game.TurnChangedEvent;

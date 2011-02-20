@@ -36,7 +36,14 @@ public class GameBitmapWidgetFactory implements GameWidgetFactory
         super();
         this.gamePanel = gamePanel;
 
-        this.gameDetailsWidget = new GameDetailsWidget(gamePanel);
+    }
+
+    private GameDetailsWidget getGameDetailsWidget()
+    {
+        if (gameDetailsWidget == null)
+            this.gameDetailsWidget = new GameDetailsWidget(gamePanel);
+
+        return gameDetailsWidget;
     }
 
     @Override
@@ -108,31 +115,31 @@ public class GameBitmapWidgetFactory implements GameWidgetFactory
     @Override
     public HistoryWidget createHistoryWidget()
     {
-        return gameDetailsWidget;
+        return getGameDetailsWidget();
     }
 
     @Override
     public ChatWidget createChatWidget()
     {
-        return gameDetailsWidget;
+        return getGameDetailsWidget();
     }
 
     @Override
     public DebugWidget createDebugWidget()
     {
-        return gameDetailsWidget;
+        return getGameDetailsWidget();
     }
 
     @Override
     public QueueWidget createQueueWidget()
     {
-        return gameDetailsWidget;
+        return getGameDetailsWidget();
     }
 
     @Override
     public GameDetailsWidget createDetailsWidget()
     {
-        return gameDetailsWidget;
+        return getGameDetailsWidget();
     }
 
     @Override

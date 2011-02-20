@@ -2,7 +2,7 @@ package soc.common.server.actions;
 
 import soc.common.actions.gameAction.AbstractGameAction;
 import soc.common.actions.gameAction.GameAction;
-import soc.common.actions.gameAction.turnActions.standard.BuyDevelopmentCard;
+import soc.common.actions.gameAction.standard.BuyDevelopmentCard;
 import soc.common.server.GameServer;
 
 public class ServerBuyDevelopmentCard implements ServerAction

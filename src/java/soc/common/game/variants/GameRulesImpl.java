@@ -3,8 +3,8 @@ package soc.common.game.variants;
 import java.util.ArrayList;
 import java.util.List;
 
-import soc.common.actions.gameAction.turnActions.AbstractTurnAction;
-import soc.common.actions.gameAction.turnActions.TurnAction;
+import soc.common.actions.gameAction.turns.AbstractTurnAction;
+import soc.common.actions.gameAction.turns.TurnAction;
 import soc.common.board.HexLocation;
 import soc.common.board.hexes.Hex;
 import soc.common.board.pieces.Army;

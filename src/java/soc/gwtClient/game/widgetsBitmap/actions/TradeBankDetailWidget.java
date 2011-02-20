@@ -1,6 +1,6 @@
 package soc.gwtClient.game.widgetsBitmap.actions;
 
-import soc.common.actions.gameAction.turnActions.standard.TradeBank;
+import soc.common.actions.gameAction.trading.TradeBank;
 import soc.gwtClient.game.widgetsAbstract.AbstractPlayerDetailWidget;
 import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 import soc.gwtClient.images.Resources;

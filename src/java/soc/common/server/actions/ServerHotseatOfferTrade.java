@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import soc.common.actions.gameAction.GameAction;
-import soc.common.actions.gameAction.turnActions.standard.AcceptTradeOffer;
-import soc.common.actions.gameAction.turnActions.standard.CounterTradeOffer;
-import soc.common.actions.gameAction.turnActions.standard.RejectTradeOffer;
-import soc.common.actions.gameAction.turnActions.standard.TradeOffer;
+import soc.common.actions.gameAction.standard.CounterTradeOffer;
+import soc.common.actions.gameAction.trading.AcceptTradeOffer;
+import soc.common.actions.gameAction.trading.RejectTradeOffer;
+import soc.common.actions.gameAction.trading.TradeOffer;
 import soc.common.game.player.GamePlayer;
 import soc.common.game.trading.TradeResponse;
 import soc.common.server.GameServer;

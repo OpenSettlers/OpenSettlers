@@ -1,6 +1,6 @@
 package soc.gwtClient.game.widgetsBitmap.actions;
 
-import soc.common.actions.gameAction.turnActions.standard.PlaceRobber;
+import soc.common.actions.gameAction.standard.PlaceRobber;
 import soc.common.board.hexes.Hex;
 import soc.gwtClient.game.widgetsAbstract.AbstractPlayerDetailWidget;
 import soc.gwtClient.game.widgetsInterface.main.GameWidget;

@@ -1,6 +1,6 @@
 package soc.gwtClient.game.widgetsBitmap.developmentCards;
 
-import soc.common.actions.gameAction.turnActions.standard.PlayDevelopmentCard;
+import soc.common.actions.gameAction.standard.PlayDevelopmentCard;
 import soc.common.board.resources.ResourceList;
 import soc.common.board.resources.ResourcesChangedEvent;
 import soc.common.board.resources.ResourcesChangedEventHandler;

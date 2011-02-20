@@ -1,6 +1,6 @@
 package soc.gwtClient.game.widgetsBitmap.actions;
 
-import soc.common.actions.gameAction.turnActions.standard.TradePlayer;
+import soc.common.actions.gameAction.trading.TradePlayer;
 import soc.common.board.resources.ResourcesChangedEvent;
 import soc.common.board.resources.ResourcesChangedEventHandler;
 import soc.common.game.GamePhaseChangedEvent;

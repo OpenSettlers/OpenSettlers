@@ -6,6 +6,9 @@ import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
 import soc.common.game.player.GamePlayer;
 import soc.common.game.statuses.GameStatus;
+import soc.gwtClient.game.behaviour.gameBoard.received.ReceiveGameBehaviour;
+import soc.gwtClient.game.behaviour.gameWidget.GameBehaviour;
+import soc.gwtClient.game.widgetsInterface.actions.ActionWidget;
 
 public interface GameAction extends Action
 {
@@ -70,4 +73,14 @@ public interface GameAction extends Action
     public boolean mustExpected();
 
     public boolean isExpectedQueueType(GameAction actualAction);
+
+    public ReceiveGameBehaviour getReceiveBehaviour();;
+
+    public ReceiveGameBehaviour getOpponentReceiveBehaviour();;
+
+    public GameBehaviour getSendBehaviour();
+
+    public GameBehaviour getNextActionBehaviour();
+
+    public ActionWidget createActionWidget(GamePlayer player);
 }

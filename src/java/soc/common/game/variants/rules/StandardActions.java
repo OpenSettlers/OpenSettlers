@@ -1,15 +1,15 @@
 package soc.common.game.variants.rules;
 
-import soc.common.actions.gameAction.turnActions.EndTurn;
-import soc.common.actions.gameAction.turnActions.standard.BuildCity;
-import soc.common.actions.gameAction.turnActions.standard.BuildRoad;
-import soc.common.actions.gameAction.turnActions.standard.BuildTown;
-import soc.common.actions.gameAction.turnActions.standard.BuyDevelopmentCard;
-import soc.common.actions.gameAction.turnActions.standard.ClaimVictory;
-import soc.common.actions.gameAction.turnActions.standard.PlayDevelopmentCard;
-import soc.common.actions.gameAction.turnActions.standard.RollDice;
-import soc.common.actions.gameAction.turnActions.standard.TradeBank;
-import soc.common.actions.gameAction.turnActions.standard.TradePlayer;
+import soc.common.actions.gameAction.standard.BuildCity;
+import soc.common.actions.gameAction.standard.BuildRoad;
+import soc.common.actions.gameAction.standard.BuildTown;
+import soc.common.actions.gameAction.standard.BuyDevelopmentCard;
+import soc.common.actions.gameAction.standard.ClaimVictory;
+import soc.common.actions.gameAction.standard.PlayDevelopmentCard;
+import soc.common.actions.gameAction.standard.RollDice;
+import soc.common.actions.gameAction.trading.TradeBank;
+import soc.common.actions.gameAction.trading.TradePlayer;
+import soc.common.actions.gameAction.turns.EndTurn;
 import soc.common.game.variants.GameRules;
 
 public class StandardActions implements GameRule

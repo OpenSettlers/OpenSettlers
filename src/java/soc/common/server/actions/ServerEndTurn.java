@@ -1,7 +1,7 @@
 package soc.common.server.actions;
 
 import soc.common.actions.gameAction.GameAction;
-import soc.common.actions.gameAction.turnActions.EndTurn;
+import soc.common.actions.gameAction.turns.EndTurn;
 import soc.common.server.GameServer;
 
 public class ServerEndTurn implements ServerAction

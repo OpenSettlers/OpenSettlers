@@ -1,16 +1,5 @@
 package soc.gwtClient.game.widgetsBitmap.actions;
 
-import soc.common.actions.gameAction.turnActions.EndTurn;
-import soc.common.actions.gameAction.turnActions.TurnAction;
-import soc.common.actions.gameAction.turnActions.standard.BuildCity;
-import soc.common.actions.gameAction.turnActions.standard.BuildRoad;
-import soc.common.actions.gameAction.turnActions.standard.BuildTown;
-import soc.common.actions.gameAction.turnActions.standard.BuyDevelopmentCard;
-import soc.common.actions.gameAction.turnActions.standard.ClaimVictory;
-import soc.common.actions.gameAction.turnActions.standard.PlayDevelopmentCard;
-import soc.common.actions.gameAction.turnActions.standard.RollDice;
-import soc.common.actions.gameAction.turnActions.standard.TradeBank;
-import soc.common.actions.gameAction.turnActions.standard.TradePlayer;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.widgetsInterface.actions.ActionWidget;
 import soc.gwtClient.game.widgetsInterface.actions.ActionWidgetFactory;
@@ -24,68 +13,76 @@ public class ActionWidgetBitmapFactory implements ActionWidgetFactory
 {
     private GamePlayer player;
     private DiceWidgetFactory diceWidgetFactory;
+    private GameWidget gamePanel;
 
-    public ActionWidgetBitmapFactory(GamePlayer player)
+    public ActionWidgetBitmapFactory(GameWidget gamePanel, GamePlayer player)
     {
         super();
         this.player = player;
+        this.gamePanel = gamePanel;
 
         diceWidgetFactory = new DiceWidgetBitmapFactory(player);
     }
 
     @Override
-    public ActionWidget createActionWidget(TurnAction action,
-            GamePlayer player, GameWidget gamePanel)
+    public ActionWidget createBuildCityWidget()
     {
-        if (action instanceof BuildRoad)
-        {
-            return new BuildRoadBitmapWidget(gamePanel, player);
-        }
+        return new BuildCityBitmapWidget(gamePanel, player);
+    }
 
-        if (action instanceof BuildCity)
-        {
-            return new BuildCityBitmapWidget(gamePanel, player);
-        }
+    @Override
+    public ActionWidget createBuildRoadWidget()
+    {
+        return new BuildRoadBitmapWidget(gamePanel, player);
+    }
 
-        if (action instanceof BuildTown)
-        {
-            return new BuildTownBitmapWidget(gamePanel, player);
-        }
+    @Override
+    public ActionWidget createBuildTownWidget()
+    {
+        return new BuildTownBitmapWidget(gamePanel, player);
+    }
 
-        if (action instanceof EndTurn)
-        {
-            return new EndTurnBitmapWidget(gamePanel, player);
-        }
+    @Override
+    public ActionWidget createBuyDevelopmentCardWidget()
+    {
+        return new BuyDevelopmentCardBitmapWidget(gamePanel, player);
+    }
 
-        if (action instanceof ClaimVictory)
-        {
-            return new ClaimVictoryBitmapWidget(gamePanel, player);
-        }
+    @Override
+    public ActionWidget createClaimVictoryWidget()
+    {
+        return new ClaimVictoryBitmapWidget(gamePanel, player);
+    }
 
-        if (action instanceof TradePlayer)
-        {
-            return new TradePlayerBitmapWidget(gamePanel, player);
-        }
+    @Override
+    public ActionWidget createEndTurnWidget()
+    {
+        return new EndTurnBitmapWidget(gamePanel, player);
+    }
 
-        if (action instanceof TradeBank)
-        {
-            return new TradeBankBitmapWidget(gamePanel, player);
-        }
-        if (action instanceof PlayDevelopmentCard)
-        {
-            return new PlayDevelopmentCardBitmapWidget(player, gamePanel);
-        }
-        if (action instanceof BuyDevelopmentCard)
-        {
-            return new BuyDevelopmentCardBitmapWidget(gamePanel, player);
-        }
-        if (action instanceof RollDice)
-        {
-            return diceWidgetFactory.createDiceWidget(gamePanel.getGame()
-                    .getRules().getDiceType(), gamePanel);
-        }
+    @Override
+    public ActionWidget createPlayDevelopmentCardWidget()
+    {
+        return new PlayDevelopmentCardBitmapWidget(player, gamePanel);
+    }
 
-        return null;
+    @Override
+    public ActionWidget createRollDiceWidget()
+    {
+        return diceWidgetFactory.createDiceWidget(gamePanel.getGame()
+                .getRules().getDiceType(), gamePanel);
+    }
+
+    @Override
+    public ActionWidget createTradeBankWidget()
+    {
+        return new TradeBankBitmapWidget(gamePanel, player);
+    }
+
+    @Override
+    public ActionWidget createTradePlayerWidget()
+    {
+        return new TradePlayerBitmapWidget(gamePanel, player);
     }
 
 }

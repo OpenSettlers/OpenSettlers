@@ -1,6 +1,6 @@
 package soc.gwtClient.game.behaviour.gameWidget;
 
-import soc.common.actions.gameAction.turnActions.standard.PlaceRobber;
+import soc.common.actions.gameAction.standard.PlaceRobber;
 import soc.gwtClient.game.behaviour.gameBoard.PlaceRobberBehaviour;
 import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 
@@ -10,7 +10,7 @@ public class MoveRobberGameBehaviour implements GameBehaviour
     private PlaceRobberBehaviour placeRobberBehaviour;
     private GameWidget gamePanel;
 
-    public MoveRobberGameBehaviour(PlaceRobber placeRobber, GameWidget gamePanel)
+    public MoveRobberGameBehaviour(GameWidget gamePanel, PlaceRobber placeRobber)
     {
         super();
         this.placeRobber = placeRobber;

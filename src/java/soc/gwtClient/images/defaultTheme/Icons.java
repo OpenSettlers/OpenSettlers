@@ -15,6 +15,15 @@ public interface Icons extends ClientBundle
     @Source("size32/MoveRobber.png")
     public ImageResource moveRobberMedium();
 
+    @Source("size16/Unavailable.png")
+    public ImageResource unavailableSmall();
+
+    @Source("size32/Unavailable.png")
+    public ImageResource unavailableMedium();
+
+    @Source("size48/Unavailable.png")
+    public ImageResource unavailableLarge();
+
     @Source("size48/Build.png")
     public ImageResource buildLarge();
 

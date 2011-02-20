@@ -222,12 +222,11 @@ public class ActionsQueueImpl implements ActionsQueue
             if (action.getPlayer().equals(player))
                 playerBlockingActions.add(action);
 
-        if (playerBlockingActions.size() > 0)
+        if (playerBlockingActions.size() > 1)
             throw new AssertionError(
                     "Expected only to be one action in the list of blocking actions");
 
         return playerBlockingActions.size() > 0 ? playerBlockingActions.get(0)
                 : null;
     }
-
 }

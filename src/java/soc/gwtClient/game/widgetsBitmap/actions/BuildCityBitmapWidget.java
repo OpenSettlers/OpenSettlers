@@ -1,6 +1,6 @@
 package soc.gwtClient.game.widgetsBitmap.actions;
 
-import soc.common.actions.gameAction.turnActions.standard.BuildCity;
+import soc.common.actions.gameAction.standard.BuildCity;
 import soc.common.board.pieces.City;
 import soc.common.board.pieces.Town;
 import soc.common.board.pieces.pieceLists.PlayerPieceListChangedEvent;

@@ -7,8 +7,6 @@ import com.google.gwt.user.client.ui.IsWidget;
 
 public interface ActionsWidget extends IsWidget
 {
-    public ActionWidgetFactory getActionWidgetFactory();
-
     public ComplexPanel createRootPanel();
 
     public Point2D getTopLeftDiceWidgetPosition();

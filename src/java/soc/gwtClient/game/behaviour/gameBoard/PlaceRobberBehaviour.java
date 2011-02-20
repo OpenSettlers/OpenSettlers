@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import soc.common.actions.gameAction.GameAction;
-import soc.common.actions.gameAction.turnActions.standard.PlaceRobber;
+import soc.common.actions.gameAction.standard.PlaceRobber;
 import soc.common.board.hexes.Hex;
 import soc.gwtClient.game.behaviour.gameWidget.MoveRobberGameBehaviour;
 import soc.gwtClient.game.widgetsInterface.visuals.GameBoardVisual;

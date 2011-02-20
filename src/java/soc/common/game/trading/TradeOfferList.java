@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import soc.common.actions.gameAction.turnActions.standard.TradeOffer;
+import soc.common.actions.gameAction.trading.TradeOffer;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;

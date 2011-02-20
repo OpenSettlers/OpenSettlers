@@ -2,7 +2,7 @@ package soc.gwtClient.game.widgetsBitmap.dialogs;
 
 import java.util.HashMap;
 
-import soc.common.actions.gameAction.turnActions.standard.RobPlayer;
+import soc.common.actions.gameAction.standard.RobPlayer;
 import soc.common.game.Game;
 import soc.common.game.player.GamePlayer;
 import soc.common.game.player.GamePlayerList;

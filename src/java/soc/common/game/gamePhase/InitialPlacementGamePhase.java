@@ -2,9 +2,9 @@ package soc.common.game.gamePhase;
 
 import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.GamePhaseHasEnded;
-import soc.common.actions.gameAction.turnActions.standard.BuildCity;
-import soc.common.actions.gameAction.turnActions.standard.BuildRoad;
-import soc.common.actions.gameAction.turnActions.standard.BuildTown;
+import soc.common.actions.gameAction.standard.BuildCity;
+import soc.common.actions.gameAction.standard.BuildRoad;
+import soc.common.actions.gameAction.standard.BuildTown;
 import soc.common.game.Game;
 
 public class InitialPlacementGamePhase extends AbstractGamePhase

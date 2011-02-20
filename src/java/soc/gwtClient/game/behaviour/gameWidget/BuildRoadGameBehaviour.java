@@ -1,6 +1,6 @@
 package soc.gwtClient.game.behaviour.gameWidget;
 
-import soc.common.actions.gameAction.turnActions.standard.BuildRoad;
+import soc.common.actions.gameAction.standard.BuildRoad;
 import soc.common.board.pieces.Road;
 import soc.common.game.gamePhase.PlayTurnsGamePhase;
 import soc.common.game.player.GamePlayer;

@@ -3,12 +3,12 @@ package soc.common.bots;
 import java.util.List;
 
 import soc.common.actions.gameAction.GameAction;
-import soc.common.actions.gameAction.turnActions.standard.BuildRoad;
-import soc.common.actions.gameAction.turnActions.standard.BuildTown;
-import soc.common.actions.gameAction.turnActions.standard.LooseCards;
-import soc.common.actions.gameAction.turnActions.standard.PlaceRobber;
-import soc.common.actions.gameAction.turnActions.standard.RobPlayer;
-import soc.common.actions.gameAction.turnActions.standard.TradeOffer;
+import soc.common.actions.gameAction.standard.BuildRoad;
+import soc.common.actions.gameAction.standard.BuildTown;
+import soc.common.actions.gameAction.standard.LooseCards;
+import soc.common.actions.gameAction.standard.PlaceRobber;
+import soc.common.actions.gameAction.standard.RobPlayer;
+import soc.common.actions.gameAction.trading.TradeOffer;
 import soc.common.board.resources.ResourceList;
 import soc.common.game.variants.Variant;
 import soc.common.server.entities.User;

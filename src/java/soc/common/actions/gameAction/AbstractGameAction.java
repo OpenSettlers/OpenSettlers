@@ -10,6 +10,7 @@ import soc.common.game.player.GamePlayer;
 import soc.common.game.player.GamePlayerImpl;
 import soc.common.game.statuses.GameStatus;
 import soc.common.utils.ClassUtils;
+import soc.gwtClient.game.widgetsInterface.actions.ActionWidget;
 
 /*
  * A GameAction performed in a game
@@ -174,6 +175,20 @@ public abstract class AbstractGameAction extends AbstractAction implements
     public boolean isExpectedQueueType(GameAction actualAction)
     {
         return this.getClass() == actualAction.getClass();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.common.actions.gameAction.GameAction#createActionWidget(soc.common
+     * .game.player.GamePlayer,
+     * soc.gwtClient.game.widgetsInterface.main.GameWidget)
+     */
+    @Override
+    public ActionWidget createActionWidget(GamePlayer player)
+    {
+        return null;
     }
 
 }

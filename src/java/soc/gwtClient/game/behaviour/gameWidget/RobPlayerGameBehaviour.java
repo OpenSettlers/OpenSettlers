@@ -1,6 +1,6 @@
 package soc.gwtClient.game.behaviour.gameWidget;
 
-import soc.common.actions.gameAction.turnActions.standard.RobPlayer;
+import soc.common.actions.gameAction.standard.RobPlayer;
 import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 
 public class RobPlayerGameBehaviour implements GameBehaviour

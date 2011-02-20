@@ -1,6 +1,6 @@
 package soc.gwtClient.game.behaviour.gameWidget;
 
-import soc.common.actions.gameAction.turnActions.standard.BuildCity;
+import soc.common.actions.gameAction.standard.BuildCity;
 import soc.common.board.pieces.City;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.behaviour.gameBoard.BuildCityBehaviour;
@@ -14,7 +14,7 @@ public class BuildCityGameBehaviour implements GameBehaviour,
     private GameWidget gamePanel;
     private City city = new City();
 
-    public BuildCityGameBehaviour(BuildCity buildCity, GameWidget gamePanel)
+    public BuildCityGameBehaviour(GameWidget gamePanel, BuildCity buildCity)
     {
         super();
         this.buildCity = buildCity;

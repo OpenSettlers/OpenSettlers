@@ -1,7 +1,7 @@
 package soc.common.server.actions;
 
 import soc.common.actions.gameAction.GameAction;
-import soc.common.actions.gameAction.turnActions.standard.RollDice;
+import soc.common.actions.gameAction.standard.RollDice;
 import soc.common.game.dices.StandardDice;
 import soc.common.server.GameServer;
 

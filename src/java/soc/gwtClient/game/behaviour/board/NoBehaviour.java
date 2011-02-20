@@ -12,15 +12,18 @@ public class NoBehaviour implements BoardBehaviour
     @Override
     public void clicked(PieceVisual pieceVisual, BoardVisual board)
     {
+        // Empty implementation
     }
 
     @Override
     public void mouseEnter(PieceVisual pieceVisual, BoardVisual board)
     {
+        // Empty implementation
     }
 
     @Override
     public void mouseOut(PieceVisual pieceVisual, BoardVisual board)
     {
+        // Empty implementation
     }
 }

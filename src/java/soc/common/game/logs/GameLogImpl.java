@@ -5,8 +5,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import soc.common.actions.gameAction.GameAction;
-import soc.common.actions.gameAction.turnActions.RolledSame;
-import soc.common.actions.gameAction.turnActions.standard.RollDice;
+import soc.common.actions.gameAction.standard.RollDice;
+import soc.common.actions.gameAction.turns.RolledSame;
 import soc.common.game.Game;
 import soc.common.game.player.GamePlayer;
 

@@ -1,6 +1,6 @@
 package soc.common.game.trading;
 
-import soc.common.actions.gameAction.turnActions.standard.TradeOffer;
+import soc.common.actions.gameAction.trading.TradeOffer;
 
 import com.google.gwt.event.shared.GwtEvent;
 

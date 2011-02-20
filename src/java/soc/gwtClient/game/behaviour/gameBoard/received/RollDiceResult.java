@@ -1,6 +1,6 @@
 package soc.gwtClient.game.behaviour.gameBoard.received;
 
-import soc.common.actions.gameAction.turnActions.standard.RollDice;
+import soc.common.actions.gameAction.standard.RollDice;
 import soc.gwtClient.game.behaviour.gameBoard.RollDiceBehaviour;
 import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 

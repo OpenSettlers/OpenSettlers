@@ -1,8 +1,8 @@
 package soc.common.game.gamePhase.turnPhase;
 
 import soc.common.actions.gameAction.GameAction;
-import soc.common.actions.gameAction.turnActions.standard.BuildRoad;
-import soc.common.actions.gameAction.turnActions.standard.RollDice;
+import soc.common.actions.gameAction.standard.BuildRoad;
+import soc.common.actions.gameAction.standard.RollDice;
 import soc.common.game.Game;
 
 public class RollDiceTurnPhase extends TurnPhase

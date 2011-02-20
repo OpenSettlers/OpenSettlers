@@ -1,8 +1,6 @@
 package soc.common.game;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import soc.common.actions.Action;
 import soc.common.actions.gameAction.GameAction;
@@ -67,7 +65,7 @@ public class Game implements Serializable
     private transient LayoutStrategy layoutStrategy = new BruteForceLayout(30);
 
     private GamePlayerList players = new GamePlayerList();
-    private List<GamePlayer> spectators = new ArrayList<GamePlayer>();
+    private UserList spectators = new UserList();
 
     // Game rules specific stuff
     private GameSettings gameSettings = new GameSettings();
@@ -649,7 +647,7 @@ public class Game implements Serializable
         return players;
     }
 
-    public List<GamePlayer> getSpectators()
+    public UserList getSpectators()
     {
         return spectators;
     }

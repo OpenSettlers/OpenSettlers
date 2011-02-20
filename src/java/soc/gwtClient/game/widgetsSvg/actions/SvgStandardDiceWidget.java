@@ -1,6 +1,6 @@
 package soc.gwtClient.game.widgetsSvg.actions;
 
-import soc.common.actions.gameAction.turnActions.standard.RollDice;
+import soc.common.actions.gameAction.standard.RollDice;
 import soc.common.game.DiceChangedEvent;
 import soc.common.game.GamePhaseChangedEvent;
 import soc.common.game.GamePhaseChangedEventHandler;

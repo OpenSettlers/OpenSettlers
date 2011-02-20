@@ -3,7 +3,9 @@ package soc.common.actions;
 import java.io.Serializable;
 import java.util.Date;
 
-public interface Action extends Serializable
+import soc.common.ui.meta.HasMeta;
+
+public interface Action extends Serializable, HasMeta
 {
     /**
      * @return When an action is required to perform for a user, this message is

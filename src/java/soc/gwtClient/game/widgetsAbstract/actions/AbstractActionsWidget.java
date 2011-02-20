@@ -2,7 +2,8 @@ package soc.gwtClient.game.widgetsAbstract.actions;
 
 import java.util.HashMap;
 
-import soc.common.actions.gameAction.turnActions.TurnAction;
+import soc.common.actions.gameAction.turns.TurnAction;
+import soc.common.core.Core;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.Point2D;
 import soc.gwtClient.game.widgetsInterface.actions.ActionWidget;
@@ -31,18 +32,18 @@ public abstract class AbstractActionsWidget implements ActionsWidget
         rootPanel = createRootPanel();
         rootPanel.add(new Label(player.getUser().getName()));
 
-        ActionWidgetFactory widgetFactory = getActionWidgetFactory();
+        ActionWidgetFactory widgetFactory = Core.get().getClientFactory()
+                .getActionWidgetFactory(player);
 
         int index = 0;
         for (TurnAction turnAction : gamePanel.getGame().getRules()
                 .getPossibleActions())
         {
-            ActionWidget w = widgetFactory.createActionWidget(turnAction,
-                    player, gamePanel);
-            if (w != null)
+            ActionWidget widget = turnAction.createActionWidget(player);
+            if (widget != null)
             {
-                rootPanel.add(w);
-                widgetsIndices.put(index, w);
+                rootPanel.add(widget);
+                widgetsIndices.put(index, widget);
                 index++;
             }
         }

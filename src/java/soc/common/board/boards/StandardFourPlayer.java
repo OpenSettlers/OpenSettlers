@@ -26,10 +26,6 @@ import soc.common.game.variants.Standard;
 
 public class StandardFourPlayer extends Board
 {
-
-    /**
-     * 
-     */
     private static final long serialVersionUID = 7516208031201813989L;
 
     public StandardFourPlayer()
@@ -131,7 +127,7 @@ public class StandardFourPlayer extends Board
         territory.getHexes().add(new ResourceHex(new Sheep()));
 
         for (Hex hex : hexes)
-            hex.setTerritory(territories.get(0));
+            hex.setTerritory(territory);
 
         for (Chit chit : ChitList.getStandardList())
             territory.getChits().add(chit);

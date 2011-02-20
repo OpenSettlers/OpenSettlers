@@ -1,6 +1,6 @@
 package soc.gwtClient.game.widgetsBitmap.developmentCards;
 
-import soc.common.actions.gameAction.turnActions.standard.PlayDevelopmentCard;
+import soc.common.actions.gameAction.standard.PlayDevelopmentCard;
 import soc.common.game.developmentCards.standard.Soldier;
 import soc.common.internationalization.I18n;
 import soc.gwtClient.game.widgetsInterface.developmentCards.DevelopmentCardWidget;

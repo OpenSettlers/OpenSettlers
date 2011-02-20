@@ -3,8 +3,8 @@ package soc.gwtClient.game.widgetsBitmap.dialogs;
 import java.util.HashMap;
 import java.util.Map;
 
-import soc.common.actions.gameAction.turnActions.standard.TradeOffer;
-import soc.common.actions.gameAction.turnActions.standard.TradePlayer;
+import soc.common.actions.gameAction.trading.TradeOffer;
+import soc.common.actions.gameAction.trading.TradePlayer;
 import soc.common.board.ports.PortList;
 import soc.common.board.resources.ResourceList;
 import soc.common.board.resources.ResourcesChangedEvent;

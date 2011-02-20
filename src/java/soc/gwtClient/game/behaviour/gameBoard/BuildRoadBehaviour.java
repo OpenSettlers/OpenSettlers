@@ -3,7 +3,7 @@ package soc.gwtClient.game.behaviour.gameBoard;
 import java.util.Set;
 
 import soc.common.actions.gameAction.GameAction;
-import soc.common.actions.gameAction.turnActions.standard.BuildRoad;
+import soc.common.actions.gameAction.standard.BuildRoad;
 import soc.common.board.routing.GraphSide;
 import soc.common.game.gamePhase.InitialPlacementGamePhase;
 import soc.common.game.gamePhase.PlayTurnsGamePhase;

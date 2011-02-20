@@ -1,8 +1,8 @@
 package soc.common.game.gamePhase;
 
 import soc.common.actions.gameAction.GameAction;
-import soc.common.actions.gameAction.TradeAction;
-import soc.common.actions.gameAction.TurnPhaseEnded;
+import soc.common.actions.gameAction.trading.TradeAction;
+import soc.common.actions.gameAction.turns.TurnPhaseEnded;
 import soc.common.game.Game;
 import soc.common.game.Turn;
 import soc.common.game.TurnImpl;

@@ -1,6 +1,6 @@
 package soc.gwtClient.game.behaviour.gameWidget;
 
-import soc.common.actions.gameAction.turnActions.standard.BuyDevelopmentCard;
+import soc.common.actions.gameAction.standard.BuyDevelopmentCard;
 import soc.common.game.developmentCards.DevelopmentCard;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.widgetsInterface.main.GameWidget;
@@ -11,8 +11,8 @@ public class BuyDevelopmentCardGameBehaviour implements GameBehaviour,
     private BuyDevelopmentCard buyDev;
     private GameWidget gamePanel;
 
-    public BuyDevelopmentCardGameBehaviour(BuyDevelopmentCard buyDev,
-            GameWidget gamePanel)
+    public BuyDevelopmentCardGameBehaviour(GameWidget gamePanel,
+            BuyDevelopmentCard buyDev)
     {
         super();
         this.gamePanel = gamePanel;

@@ -5,13 +5,13 @@ import java.util.List;
 import java.util.Map;
 
 import soc.common.actions.gameAction.GameAction;
-import soc.common.actions.gameAction.turnActions.QueuedTradeResponse;
-import soc.common.actions.gameAction.turnActions.standard.BuildRoad;
-import soc.common.actions.gameAction.turnActions.standard.BuildTown;
-import soc.common.actions.gameAction.turnActions.standard.LooseCards;
-import soc.common.actions.gameAction.turnActions.standard.PlaceRobber;
-import soc.common.actions.gameAction.turnActions.standard.RobPlayer;
-import soc.common.actions.gameAction.turnActions.standard.RollDice;
+import soc.common.actions.gameAction.standard.BuildRoad;
+import soc.common.actions.gameAction.standard.BuildTown;
+import soc.common.actions.gameAction.standard.LooseCards;
+import soc.common.actions.gameAction.standard.PlaceRobber;
+import soc.common.actions.gameAction.standard.RobPlayer;
+import soc.common.actions.gameAction.standard.RollDice;
+import soc.common.actions.gameAction.turns.QueuedTradeResponse;
 import soc.common.game.player.GamePlayer;
 import soc.common.server.GameServer;
 

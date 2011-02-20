@@ -2,7 +2,7 @@ package soc.common.game.gamePhase;
 
 import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.GamePhaseHasEnded;
-import soc.common.actions.gameAction.turnActions.seaFarers.PlacePort;
+import soc.common.actions.gameAction.seaFarers.PlacePort;
 import soc.common.annotations.SeaFarers;
 import soc.common.board.ports.Port;
 import soc.common.board.territories.Territory;

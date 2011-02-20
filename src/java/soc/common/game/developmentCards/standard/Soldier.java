@@ -1,7 +1,7 @@
 package soc.common.game.developmentCards.standard;
 
-import soc.common.actions.gameAction.turnActions.standard.PlaceRobber;
-import soc.common.actions.gameAction.turnActions.standard.RobPlayer;
+import soc.common.actions.gameAction.standard.PlaceRobber;
+import soc.common.actions.gameAction.standard.RobPlayer;
 import soc.common.game.Game;
 import soc.common.game.developmentCards.DevelopmentCard;
 import soc.common.game.player.GamePlayer;

@@ -1,8 +1,8 @@
 package soc.gwtClient.game.widgetsAbstract;
 
-import soc.common.actions.gameAction.turnActions.standard.AcceptTradeOffer;
-import soc.common.actions.gameAction.turnActions.standard.CounterTradeOffer;
-import soc.common.actions.gameAction.turnActions.standard.RejectTradeOffer;
+import soc.common.actions.gameAction.standard.CounterTradeOffer;
+import soc.common.actions.gameAction.trading.AcceptTradeOffer;
+import soc.common.actions.gameAction.trading.RejectTradeOffer;
 import soc.common.board.resources.ResourceList;
 import soc.common.board.resources.ResourcesChangedEvent;
 import soc.common.board.resources.ResourcesChangedEventHandler;

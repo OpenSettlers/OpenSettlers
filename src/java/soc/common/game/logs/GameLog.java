@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import soc.common.actions.gameAction.GameAction;
-import soc.common.actions.gameAction.turnActions.standard.RollDice;
+import soc.common.actions.gameAction.standard.RollDice;
 import soc.common.game.Game;
 import soc.common.game.player.GamePlayer;
 

@@ -1,7 +1,7 @@
 package soc.common.game.trading;
 
-import soc.common.actions.gameAction.turnActions.standard.TradeOffer;
-import soc.common.actions.gameAction.turnActions.standard.TradePlayer;
+import soc.common.actions.gameAction.trading.TradeOffer;
+import soc.common.actions.gameAction.trading.TradePlayer;
 import soc.common.game.player.GamePlayer;
 
 public interface TradeResponse
