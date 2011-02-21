@@ -1,9 +1,6 @@
 package soc.gwtClient.game.widgetsBitmap.dialogs;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import soc.common.board.Board;
 import soc.common.bots.Bot;
@@ -17,6 +14,9 @@ import soc.common.server.entities.Player;
 import soc.common.server.randomization.ClientRandom;
 import soc.common.utils.ClassUtils;
 import soc.gwtClient.game.widgetsBitmap.generic.ColorCell;
+import soc.gwtClient.game.widgetsBitmap.generic.LimitedColorPickerBitmapWidget;
+import soc.gwtClient.game.widgetsBitmap.generic.LimitedColorPickerBitmapWidget.OnColorChanged;
+import soc.gwtClient.game.widgetsInterface.generic.LimitedColorPicker;
 import soc.gwtClient.game.widgetsSvg.BoardViewerSvgWidget;
 import soc.gwtClient.images.Resources;
 import soc.gwtClient.main.MainWindow;
@@ -32,8 +32,6 @@ import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
@@ -46,7 +44,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TextBox;
@@ -56,8 +53,7 @@ import com.google.gwt.view.client.ProvidesKey;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 
-public class NewHotseatGame extends Composite implements
-        ValueChangeHandler<Boolean>
+public class NewHotseatGame extends Composite implements OnColorChanged
 {
     private BoardProvider boardProvider = new ConstructorBoardProvider();
     private CellTable<Board> cellTable;
@@ -75,18 +71,12 @@ public class NewHotseatGame extends Composite implements
     };
     private SimplePanel panelBoardPreview;
     private Label lblSelectedBoard;
-    private RadioButton radiobuttonYellow;
-    private RadioButton radiobuttonOrange;
-    private RadioButton radiobuttonBlue;
-    private RadioButton radiobuttonGrey;
-    private RadioButton radiobuttonGreen;
-    private RadioButton radiobuttonRed;
     private TextBox textboxPlayerName;
     private Button buttonAddPlayer;
-    private Map<String, RadioButton> colorsRadioButtons = new HashMap<String, RadioButton>();
     private Board selectedBoard = null;
     private Button buttonStartGame;
     private MainWindow mainWindow;
+    private LimitedColorPicker limitedColorPicker = new LimitedColorPickerBitmapWidget();
 
     /**
      * @wbp.parser.constructor
@@ -290,39 +280,8 @@ public class NewHotseatGame extends Composite implements
             }
         });
 
-        HorizontalPanel horizontalPanel_6 = new HorizontalPanel();
-        horizontalPanel_2.add(horizontalPanel_6);
+        horizontalPanel_2.add(limitedColorPicker);
 
-        radiobuttonYellow = new RadioButton("color", "");
-        radiobuttonYellow.setValue(true);
-        radiobuttonYellow.setStyleName("color-option-yellow");
-        radiobuttonYellow.addValueChangeHandler(this);
-        horizontalPanel_6.add(radiobuttonYellow);
-
-        radiobuttonOrange = new RadioButton("color", "");
-        radiobuttonOrange.setStyleName("color-option-orange");
-        radiobuttonOrange.addValueChangeHandler(this);
-        horizontalPanel_6.add(radiobuttonOrange);
-
-        radiobuttonBlue = new RadioButton("color", "");
-        radiobuttonBlue.setStyleName("color-option-blue");
-        radiobuttonBlue.addValueChangeHandler(this);
-        horizontalPanel_6.add(radiobuttonBlue);
-
-        radiobuttonGrey = new RadioButton("color", "");
-        radiobuttonGrey.setStyleName("color-option-white");
-        radiobuttonGrey.addValueChangeHandler(this);
-        horizontalPanel_6.add(radiobuttonGrey);
-
-        radiobuttonGreen = new RadioButton("color", "");
-        radiobuttonGreen.setStyleName("color-option-green");
-        radiobuttonGreen.addValueChangeHandler(this);
-        horizontalPanel_6.add(radiobuttonGreen);
-
-        radiobuttonRed = new RadioButton("color", "");
-        radiobuttonRed.setStyleName("color-option-red");
-        radiobuttonRed.addValueChangeHandler(this);
-        horizontalPanel_6.add(radiobuttonRed);
         buttonAddPlayer.setText("add player");
         horizontalPanel_2.add(buttonAddPlayer);
 
@@ -464,8 +423,6 @@ public class NewHotseatGame extends Composite implements
 
         for (Class bot : GameUtils.getAllBots())
             comboBox.addItem(ClassUtils.getSimpleClassName(bot.getName()));
-
-        createColorsRadioButtonsMap();
     }
 
     public NewHotseatGame(MainWindow mainWindow)
@@ -474,36 +431,25 @@ public class NewHotseatGame extends Composite implements
         this.mainWindow = mainWindow;
     }
 
-    private void createColorsRadioButtonsMap()
-    {
-        colorsRadioButtons.put("blue", radiobuttonBlue);
-        colorsRadioButtons.put("green", radiobuttonGreen);
-        colorsRadioButtons.put("white", radiobuttonGrey);
-        colorsRadioButtons.put("orange", radiobuttonOrange);
-        colorsRadioButtons.put("red", radiobuttonRed);
-        colorsRadioButtons.put("yellow", radiobuttonYellow);
-    }
-
     private void addPlayer()
     {
         userID++;
         GamePlayerImpl newPlayer = new GamePlayerImpl();
-        newPlayer.setColor(getSelectedColor());
+        newPlayer.setColor(limitedColorPicker.getSelectedColor());
         Player user = new Player();
         user.setName(textboxPlayerName.getText());
         user.setId(userID);
         newPlayer.setUser(user);
         playerProvider.getList().add(newPlayer);
 
-        colorsRadioButtons.get(getSelectedColor()).setEnabled(false);
-
-        selectNextColorIfAvailable();
+        limitedColorPicker.setCurrentSelectedColorDisabled();
+        limitedColorPicker.selectNextColorIfAvailable();
         updateUI();
     }
 
     private void removePlayer(GamePlayer playerToRemove)
     {
-        colorsRadioButtons.get(playerToRemove.getColor()).setEnabled(true);
+        limitedColorPicker.enableColor(playerToRemove.getColor());
         playerProvider.getList().remove(playerToRemove);
 
         updateUI();
@@ -516,16 +462,6 @@ public class NewHotseatGame extends Composite implements
                         .getList().size();
     }
 
-    private String getAvailableColor()
-    {
-        for (Entry<String, RadioButton> entry : colorsRadioButtons.entrySet())
-            // getValue().getValue(). whoa!. Ugh! *throws up*
-            if (entry.getValue().isEnabled())
-                return entry.getKey();
-
-        return null;
-    }
-
     private void addBot(Class<? extends Bot> botType)
     {
         userID++;
@@ -535,12 +471,12 @@ public class NewHotseatGame extends Composite implements
         newBot.setId(userID);
         newPlayer.setBot(newBot);
 
-        String color = getAvailableColor();
+        String color = limitedColorPicker.getAnyAvailableColor();
         newPlayer.setColor(color);
-        colorsRadioButtons.get(color).setEnabled(false);
         playerProvider.getList().add(newPlayer);
 
-        selectNextColorIfAvailable();
+        limitedColorPicker.disableColor(color);
+        limitedColorPicker.selectNextColorIfAvailable();
         updateUI();
     }
 
@@ -548,8 +484,9 @@ public class NewHotseatGame extends Composite implements
     {
         // User can be added when there is a name, the name is unique,
         // the color is selected and the color is unique.
-        if (textboxPlayerName.getText().length() > 0 && isColorSelected()
-                && isUniqueName() && isUniqueColor() && canAddPlayerOrBot())
+        if (textboxPlayerName.getText().length() > 0
+                && limitedColorPicker.isColorSelected() && isUniqueName()
+                && isSelectedColor() && canAddPlayerOrBot())
         {
             buttonAddPlayer.setEnabled(true);
             return true;
@@ -561,16 +498,6 @@ public class NewHotseatGame extends Composite implements
         }
     }
 
-    private boolean isUniqueColor()
-    {
-        String color = getSelectedColor();
-        for (GamePlayer player : playerProvider.getList())
-            if (player.getColor().toLowerCase().equals(color))
-                return false;
-
-        return true;
-    }
-
     private boolean isUniqueName()
     {
         String name = textboxPlayerName.getText().toLowerCase();
@@ -579,32 +506,6 @@ public class NewHotseatGame extends Composite implements
                 return false;
 
         return true;
-    }
-
-    private boolean isColorSelected()
-    {
-        for (RadioButton radioButton : colorsRadioButtons.values())
-            if (radioButton.getValue() && radioButton.isEnabled())
-                return true;
-
-        return false;
-    }
-
-    private String getSelectedColor()
-    {
-        for (Entry<String, RadioButton> entry : colorsRadioButtons.entrySet())
-            // getValue().getValue(). whoa!. Ugh! *throws up*
-            if (entry.getValue().getValue())
-                return entry.getKey();
-
-        throw new AssertionError(
-                "Expected a radiobutton with a selected value. None found :(");
-    }
-
-    @Override
-    public void onValueChange(ValueChangeEvent<Boolean> event)
-    {
-        canAddPlayer();
     }
 
     private boolean hasEnoughPlayers()
@@ -625,20 +526,20 @@ public class NewHotseatGame extends Composite implements
         return true;
     }
 
+    private boolean isSelectedColor()
+    {
+        String color = limitedColorPicker.getSelectedColor();
+        for (GamePlayer player : playerProvider.getList())
+            if (player.getColor().toLowerCase().equals(color))
+                return false;
+
+        return true;
+    }
+
     private void updateUI()
     {
         setStartGameButton();
         canAddPlayer();
-    }
-
-    private void selectNextColorIfAvailable()
-    {
-        for (Entry<String, RadioButton> entry : colorsRadioButtons.entrySet())
-            // getValue().getValue(). whoa!. Ugh! *throws up*
-            if (entry.getValue().isEnabled())
-            {
-                entry.getValue().setValue(true);
-            }
     }
 
     private void setStartGameButton()
@@ -654,5 +555,11 @@ public class NewHotseatGame extends Composite implements
 
         mainWindow.getHotseatGame().startGame(newGame);
         mainWindow.setCurrentWidget(mainWindow.getHotseatGame());
+    }
+
+    @Override
+    public void onColorChanged()
+    {
+        canAddPlayer();
     }
 }
