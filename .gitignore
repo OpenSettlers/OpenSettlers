@@ -6,7 +6,8 @@ target/lib
 target/lib/*
 target/classes
 target/classes/*
-war/mapcreator/*
+war/OpenSettlers/*
+war/Documentation/*
 war/WEB-INF/lib/*
 war/WEB-INF/classes/*
 .gwt/*
