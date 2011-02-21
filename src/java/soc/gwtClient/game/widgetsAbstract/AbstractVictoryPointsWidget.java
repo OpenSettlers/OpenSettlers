@@ -1,8 +1,9 @@
 package soc.gwtClient.game.widgetsAbstract;
 
 import soc.common.game.player.GamePlayer;
+import soc.gwtClient.game.widgetsBitmap.tooltips.VictoryPointsToolTip;
+import soc.gwtClient.game.widgetsInterface.generic.ToolTip;
 import soc.gwtClient.game.widgetsInterface.main.GameWidget;
-import soc.gwtClient.game.widgetsInterface.playerDetail.PlayerDetailWidget;
 import soc.gwtClient.game.widgetsInterface.playerDetail.VictoryPointAmountWidget;
 
 import com.google.gwt.event.dom.client.MouseOutEvent;
@@ -19,7 +20,7 @@ public abstract class AbstractVictoryPointsWidget implements
     protected ComplexPanel rootPanel;
     protected GamePlayer player;
     protected GameWidget gamePanel;
-    protected PlayerDetailWidget vpDetailWidget;
+    protected ToolTip vpToolTip;
 
     public AbstractVictoryPointsWidget(GameWidget gamePanel, GamePlayer player)
     {
@@ -27,7 +28,7 @@ public abstract class AbstractVictoryPointsWidget implements
         this.player = player;
 
         rootPanel = createRootPanel();
-        vpDetailWidget = createPlayerDetailWidget();
+        vpToolTip = new VictoryPointsToolTip(gamePanel, player);
 
         rootPanel.addDomHandler(this, MouseOutEvent.getType());
         rootPanel.addDomHandler(this, MouseOverEvent.getType());
@@ -48,14 +49,12 @@ public abstract class AbstractVictoryPointsWidget implements
     @Override
     public void onMouseOut(MouseOutEvent event)
     {
-        gamePanel.getDetailContainerManager().hideMouseOverDetail(player);
+        gamePanel.getToolTipManager().hideToolTip(vpToolTip);
     }
 
     @Override
     public void onMouseOver(MouseOverEvent event)
     {
-        gamePanel.getDetailContainerManager().showMouseOverDetail(player,
-                vpDetailWidget);
+        gamePanel.getToolTipManager().showToolTip(vpToolTip);
     }
-
 }

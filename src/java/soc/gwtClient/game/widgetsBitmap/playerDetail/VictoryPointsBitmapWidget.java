@@ -4,9 +4,7 @@ import soc.common.game.VictoryPointsChangedEvent;
 import soc.common.game.VictoryPointsChangedEventHandler;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.widgetsAbstract.AbstractVictoryPointsWidget;
-import soc.gwtClient.game.widgetsBitmap.tooltips.VictoryPointsDetailWidget;
 import soc.gwtClient.game.widgetsInterface.main.GameWidget;
-import soc.gwtClient.game.widgetsInterface.playerDetail.PlayerDetailWidget;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.user.client.ui.Image;
@@ -40,9 +38,4 @@ public class VictoryPointsBitmapWidget extends AbstractVictoryPointsWidget
                 .getVictoryPoints().getTotalPoints()));
     }
 
-    @Override
-    public PlayerDetailWidget createPlayerDetailWidget()
-    {
-        return new VictoryPointsDetailWidget(gamePanel, player);
-    }
 }

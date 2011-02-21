@@ -1,12 +1,13 @@
 package soc.gwtClient.game.widgetsBitmap.actions;
 
+import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.standard.RollDice;
-import soc.gwtClient.game.widgetsAbstract.AbstractPlayerDetailWidget;
+import soc.gwtClient.game.widgetsAbstract.AbstractActionDetailWidget;
 import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 
 import com.google.gwt.user.client.ui.Label;
 
-public class RollDiceDetailWidget extends AbstractPlayerDetailWidget
+public class RollDiceDetailWidget extends AbstractActionDetailWidget
 {
     private RollDice rollDice;
 
@@ -19,6 +20,12 @@ public class RollDiceDetailWidget extends AbstractPlayerDetailWidget
                 .getDiceTotal()));
         diceTotal.setStyleName("label-title");
         rootPanel.add(diceTotal);
+    }
+
+    @Override
+    public GameAction getGameAction()
+    {
+        return rollDice;
     }
 
 }

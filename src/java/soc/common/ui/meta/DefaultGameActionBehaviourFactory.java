@@ -24,7 +24,8 @@ public class DefaultGameActionBehaviourFactory implements
 
         nextActionBehaviourFactory = new NextActionGameBehaviourFactory(
                 gameWidget);
-        opponentReceiveBehaviourFactory = new OpponentBehaviourFactory();
+        opponentReceiveBehaviourFactory = new OpponentBehaviourFactory(
+                gameWidget);
         receiveBehaviourFactory = new ReceivedActionGameBehaviourFactory(
                 gameWidget);
         sendActionBehaviourFactory = new SendGameBehaviourFactory(gameWidget);

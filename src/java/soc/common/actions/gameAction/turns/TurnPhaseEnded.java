@@ -10,11 +10,11 @@ import soc.common.game.player.GamePlayer;
 import soc.common.ui.Graphics;
 import soc.common.ui.Icon;
 import soc.common.ui.IconImpl;
-import soc.common.ui.ToolTip;
 import soc.common.ui.meta.Meta;
 import soc.gwtClient.game.behaviour.gameBoard.received.ReceiveGameBehaviour;
 import soc.gwtClient.game.behaviour.gameWidget.GameBehaviour;
 import soc.gwtClient.game.widgetsInterface.actions.ActionWidget;
+import soc.gwtClient.game.widgetsInterface.generic.ToolTip;
 
 public class TurnPhaseEnded extends AbstractGameAction
 {

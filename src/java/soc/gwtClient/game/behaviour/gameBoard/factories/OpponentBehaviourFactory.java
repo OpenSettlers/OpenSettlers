@@ -25,205 +25,195 @@ import soc.common.actions.gameAction.turns.QueuedTradeResponse;
 import soc.common.actions.gameAction.turns.RolledSame;
 import soc.common.actions.gameAction.turns.StartingPlayerDetermined;
 import soc.common.actions.gameAction.turns.TurnPhaseEnded;
+import soc.gwtClient.game.behaviour.gameBoard.opponent.DefaultOpponentReceivedBehaviour;
 import soc.gwtClient.game.behaviour.gameBoard.received.ReceiveGameBehaviour;
+import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 
 public class OpponentBehaviourFactory implements ReceiveGameBehaviourFactory
 {
+    private GameWidget gamePanel;
+
+    public OpponentBehaviourFactory(GameWidget gamePanel)
+    {
+        super();
+        this.gamePanel = gamePanel;
+    }
 
     @Override
     public ReceiveGameBehaviour createBuildCityBehaviour(BuildCity buildCity)
     {
-        // TODO Auto-generated method stub
-        return null;
+        return new DefaultOpponentReceivedBehaviour(gamePanel, buildCity);
     }
 
     @Override
     public ReceiveGameBehaviour createBuildRoadBehaviour(BuildRoad buildRoad)
     {
-        // TODO Auto-generated method stub
-        return null;
+        return new DefaultOpponentReceivedBehaviour(gamePanel, buildRoad);
     }
 
     @Override
     public ReceiveGameBehaviour createBuildTownBehaviour(BuildTown buildTown)
     {
-        // TODO Auto-generated method stub
-        return null;
+        return new DefaultOpponentReceivedBehaviour(gamePanel, buildTown);
     }
 
     @Override
     public ReceiveGameBehaviour createBuyDevelopmentcardBehaviour(
             BuildTown buildTown)
     {
-        // TODO Auto-generated method stub
-        return null;
+        return new DefaultOpponentReceivedBehaviour(gamePanel, buildTown);
     }
 
     @Override
     public ReceiveGameBehaviour createClaimVictoryBehaviour(
             ClaimVictory claimVictory)
     {
-        // TODO Auto-generated method stub
-        return null;
+        return new DefaultOpponentReceivedBehaviour(gamePanel, claimVictory);
     }
 
     @Override
     public ReceiveGameBehaviour createEndTurnBehaviour(EndTurn endTurn)
     {
-        // TODO Auto-generated method stub
-        return null;
+        return new DefaultOpponentReceivedBehaviour(gamePanel, endTurn);
     }
 
     @Override
     public ReceiveGameBehaviour createHostStartsBehaviour(
             HostStartsGame hostStartsGame)
     {
-        // TODO Auto-generated method stub
-        return null;
+        return new DefaultOpponentReceivedBehaviour(gamePanel, hostStartsGame);
     }
 
     @Override
     public ReceiveGameBehaviour createMessageFromServerBehaviour(
             MessageFromServer messageFromServer)
     {
-        // TODO Auto-generated method stub
-        return null;
+        return new DefaultOpponentReceivedBehaviour(gamePanel,
+                messageFromServer);
     }
 
     @Override
     public ReceiveGameBehaviour createMoveRobberBehaviour(PlaceRobber moveRobber)
     {
-        // TODO Auto-generated method stub
-        return null;
+        return new DefaultOpponentReceivedBehaviour(gamePanel, moveRobber);
     }
 
     @Override
     public ReceiveGameBehaviour createPlayDevelopmentCardBehaviour(
             PlayDevelopmentCard playDevelopmentCard)
     {
-        // TODO Auto-generated method stub
-        return null;
+        return new DefaultOpponentReceivedBehaviour(gamePanel,
+                playDevelopmentCard);
     }
 
     @Override
     public ReceiveGameBehaviour createRobPlayerBehaviour(RobPlayer robPlayer)
     {
-        // TODO Auto-generated method stub
-        return null;
+        return new DefaultOpponentReceivedBehaviour(gamePanel, robPlayer);
     }
 
     @Override
     public ReceiveGameBehaviour createRollDiceBehaviour(RollDice rollDice)
     {
-        // TODO Auto-generated method stub
-        return null;
+        return new DefaultOpponentReceivedBehaviour(gamePanel, rollDice);
     }
 
     @Override
     public ReceiveGameBehaviour createAcceptOfferBehaviour(
             AcceptTradeOffer acceptTradeOffer)
     {
-        // TODO Auto-generated method stub
-        return null;
+        return new DefaultOpponentReceivedBehaviour(gamePanel, acceptTradeOffer);
     }
 
     @Override
     public ReceiveGameBehaviour createCounterTradeOfferBehaviour(
             CounterTradeOffer counterTradeOffer)
     {
-        // TODO Auto-generated method stub
-        return null;
+        return new DefaultOpponentReceivedBehaviour(gamePanel,
+                counterTradeOffer);
     }
 
     @Override
     public ReceiveGameBehaviour createGameChatBehaviour(GameChat gameChat)
     {
-        // TODO Auto-generated method stub
-        return null;
+        return new DefaultOpponentReceivedBehaviour(gamePanel, gameChat);
     }
 
     @Override
     public ReceiveGameBehaviour createGamePhaseHasEndedBehaviour(
             GamePhaseHasEnded gamePhaseHasEnded)
     {
-        // TODO Auto-generated method stub
-        return null;
+        return new DefaultOpponentReceivedBehaviour(gamePanel,
+                gamePhaseHasEnded);
     }
 
     @Override
     public ReceiveGameBehaviour createLooseCardsBehaviour(LooseCards looseCards)
     {
-        // TODO Auto-generated method stub
-        return null;
+        return new DefaultOpponentReceivedBehaviour(gamePanel, looseCards);
     }
 
     @Override
     public ReceiveGameBehaviour createPlayDevelopmentCardBehaviour(
             BuyDevelopmentCard buyDevelopmentCard)
     {
-        // TODO Auto-generated method stub
-        return null;
+        return new DefaultOpponentReceivedBehaviour(gamePanel,
+                buyDevelopmentCard);
     }
 
     @Override
     public ReceiveGameBehaviour createQueuedTradeResponseBehaviour(
             QueuedTradeResponse queuedTradeResponse)
     {
-        // TODO Auto-generated method stub
-        return null;
+        return new DefaultOpponentReceivedBehaviour(gamePanel,
+                queuedTradeResponse);
     }
 
     @Override
     public ReceiveGameBehaviour createRejectOfferBehaviour(
             RejectTradeOffer rejectTradeOffer)
     {
-        // TODO Auto-generated method stub
-        return null;
+        return new DefaultOpponentReceivedBehaviour(gamePanel, rejectTradeOffer);
     }
 
     @Override
     public ReceiveGameBehaviour createRolledSameBehaviour(RolledSame rolledSame)
     {
-        // TODO Auto-generated method stub
-        return null;
+        return new DefaultOpponentReceivedBehaviour(gamePanel, rolledSame);
     }
 
     @Override
     public ReceiveGameBehaviour createStartingPlayerDeterminedBehaviour(
             StartingPlayerDetermined startingPlayerDetermined)
     {
-        // TODO Auto-generated method stub
-        return null;
+        return new DefaultOpponentReceivedBehaviour(gamePanel,
+                startingPlayerDetermined);
     }
 
     @Override
     public ReceiveGameBehaviour createTradeBankBehaviour(TradeBank tradeBank)
     {
-        // TODO Auto-generated method stub
-        return null;
+        return new DefaultOpponentReceivedBehaviour(gamePanel, tradeBank);
     }
 
     @Override
     public ReceiveGameBehaviour createTradeOfferBehaviour(TradeOffer tradeOffer)
     {
-        // TODO Auto-generated method stub
-        return null;
+        return new DefaultOpponentReceivedBehaviour(gamePanel, tradeOffer);
     }
 
     @Override
     public ReceiveGameBehaviour createTradePlayerBehaviour(
             TradePlayer tradePlayer)
     {
-        // TODO Auto-generated method stub
-        return null;
+        return new DefaultOpponentReceivedBehaviour(gamePanel, tradePlayer);
     }
 
     @Override
     public ReceiveGameBehaviour createTurnPhaseEndedBehaviour(
             TurnPhaseEnded turnPhaseEnded)
     {
-        // TODO Auto-generated method stub
-        return null;
+        return new DefaultOpponentReceivedBehaviour(gamePanel, turnPhaseEnded);
     }
 
 }

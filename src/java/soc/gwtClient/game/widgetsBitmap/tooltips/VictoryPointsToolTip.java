@@ -7,18 +7,18 @@ import soc.common.game.VictoryPointItem;
 import soc.common.game.VictoryPointsChangedEvent;
 import soc.common.game.VictoryPointsChangedEventHandler;
 import soc.common.game.player.GamePlayer;
-import soc.gwtClient.game.widgetsAbstract.AbstractPlayerDetailWidget;
+import soc.gwtClient.game.widgetsAbstract.AbstractPlayerInfoToolTip;
 import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.user.client.ui.Image;
 
-public class VictoryPointsDetailWidget extends AbstractPlayerDetailWidget
-        implements VictoryPointsChangedEventHandler
+public class VictoryPointsToolTip extends AbstractPlayerInfoToolTip implements
+        VictoryPointsChangedEventHandler
 {
     private Map<VictoryPointItem, Image> vpImages = new HashMap<VictoryPointItem, Image>();
 
-    public VictoryPointsDetailWidget(GameWidget gamePanel, GamePlayer player)
+    public VictoryPointsToolTip(GameWidget gamePanel, GamePlayer player)
     {
         super(gamePanel, player);
 
@@ -48,5 +48,4 @@ public class VictoryPointsDetailWidget extends AbstractPlayerDetailWidget
             rootPanel.remove(vpImage);
         }
     }
-
 }

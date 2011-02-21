@@ -1,28 +1,27 @@
-package soc.gwtClient.game.widgetsBitmap.tooltips;
+package soc.gwtClient.game.widgetsBitmap.playerDetail;
 
+import soc.common.actions.gameAction.GameAction;
+import soc.common.actions.gameAction.standard.RollDice;
 import soc.common.board.resources.ResourceList;
-import soc.common.game.player.GamePlayer;
-import soc.gwtClient.game.widgetsAbstract.AbstractPlayerDetailWidget;
+import soc.gwtClient.game.widgetsAbstract.AbstractActionDetailWidget;
 import soc.gwtClient.game.widgetsBitmap.generic.ResourceListBitmapWidget;
 import soc.gwtClient.game.widgetsInterface.generic.ResourceListWidget;
 import soc.gwtClient.game.widgetsInterface.main.GameWidget;
-import soc.gwtClient.game.widgetsInterface.playerDetail.PlayerDetailWidget;
-
-import com.google.gwt.user.client.ui.Widget;
 
 /*
  * Displays a list of resources the player gained by a player action,
  * such as a dice roll, monopoly, year of plenty or robbing a player.
  */
-public class ResourcesGainedDetailWidget extends AbstractPlayerDetailWidget
-        implements PlayerDetailWidget
+public class ResourcesGainedDetailWidget extends AbstractActionDetailWidget
 {
     private ResourceListWidget resourceWidget;
     private ResourceList resources = new ResourceList();
+    private RollDice rolledDice;
 
-    public ResourcesGainedDetailWidget(GameWidget gamePanel, GamePlayer player)
+    public ResourcesGainedDetailWidget(GameWidget gamePanel, RollDice rolledDice)
     {
-        super(gamePanel, player);
+        super(gamePanel, rolledDice.getPlayer());
+        this.rolledDice = rolledDice;
         resourceWidget = new ResourceListBitmapWidget(resources, null, null);
         rootPanel.add(resourceWidget);
         resourceWidget.setHeight("3em");
@@ -34,9 +33,8 @@ public class ResourcesGainedDetailWidget extends AbstractPlayerDetailWidget
     }
 
     @Override
-    public Widget asWidget()
+    public GameAction getGameAction()
     {
-        return rootPanel;
+        return rolledDice;
     }
-
 }

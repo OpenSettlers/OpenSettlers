@@ -10,6 +10,4 @@ public interface StockItemWidget extends IsWidget
     public ComplexPanel createRootPanel();
 
     public PlayerPiece getStockPiece();
-
-    public PlayerDetailWidget createDetailWidget();
 }

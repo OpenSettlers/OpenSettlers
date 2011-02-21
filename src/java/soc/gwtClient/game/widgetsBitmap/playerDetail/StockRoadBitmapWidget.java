@@ -6,9 +6,9 @@ import soc.common.board.pieces.pieceLists.PlayerPieceListChangedEvent;
 import soc.common.board.pieces.pieceLists.PlayerPieceListChangedEventHandler;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.widgetsAbstract.AbstractStockItemWidget;
-import soc.gwtClient.game.widgetsBitmap.tooltips.RoadStockDetailWidget;
+import soc.gwtClient.game.widgetsBitmap.tooltips.RoadStockToolTip;
+import soc.gwtClient.game.widgetsInterface.generic.ToolTip;
 import soc.gwtClient.game.widgetsInterface.main.GameWidget;
-import soc.gwtClient.game.widgetsInterface.playerDetail.PlayerDetailWidget;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.user.client.ui.Image;
@@ -54,9 +54,8 @@ public class StockRoadBitmapWidget extends AbstractStockItemWidget implements
     }
 
     @Override
-    public PlayerDetailWidget createDetailWidget()
+    protected ToolTip createToolTip()
     {
-        return new RoadStockDetailWidget(gamePanel, player);
+        return new RoadStockToolTip(gamePanel, player);
     }
-
 }

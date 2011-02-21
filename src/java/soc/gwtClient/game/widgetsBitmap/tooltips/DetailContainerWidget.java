@@ -12,16 +12,17 @@ import soc.common.actions.gameAction.trading.TradeBank;
 import soc.common.actions.gameAction.turns.EndTurn;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.Point2D;
-import soc.gwtClient.game.widgetsBitmap.actions.BuildCityWidget;
+import soc.gwtClient.game.widgetsBitmap.actions.BuildCityDetailBitmapWidget;
 import soc.gwtClient.game.widgetsBitmap.actions.BuildRoadDetailWidget;
 import soc.gwtClient.game.widgetsBitmap.actions.BuildTownDetailWidget;
 import soc.gwtClient.game.widgetsBitmap.actions.EndTurnDetailWidget;
 import soc.gwtClient.game.widgetsBitmap.actions.MoveRobberDetailWidget;
 import soc.gwtClient.game.widgetsBitmap.actions.RollDiceDetailWidget;
 import soc.gwtClient.game.widgetsBitmap.actions.TradeBankDetailWidget;
+import soc.gwtClient.game.widgetsBitmap.playerDetail.ResourcesGainedDetailWidget;
 import soc.gwtClient.game.widgetsInterface.main.GameWidget;
+import soc.gwtClient.game.widgetsInterface.playerDetail.ActionDetailWidget;
 import soc.gwtClient.game.widgetsInterface.playerDetail.PlayerDetailContainerWidget;
-import soc.gwtClient.game.widgetsInterface.playerDetail.PlayerDetailWidget;
 
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DeferredCommand;
@@ -50,7 +51,7 @@ public class DetailContainerWidget extends PopupPanel implements
     private SimplePanel mouseOverPanel = new SimplePanel();
     private GameWidget gamePanel;
 
-    private PlayerDetailWidget playerDetailWidget;
+    private ActionDetailWidget playerDetailWidget;
     private ResourcesGainedDetailWidget resourcesGained;
 
     public DetailContainerWidget(GamePlayer player, GameWidget gamePanel)
@@ -70,19 +71,18 @@ public class DetailContainerWidget extends PopupPanel implements
      */
     @SuppressWarnings("deprecation")
     @Override
-    public void showActionWidget(GameAction action)
+    public void showActionWidget(ActionDetailWidget actionDetailWidget)
     {
-        PlayerDetailWidget widget = createDetailWidget(action);
-        if (widget != null)
+        if (actionDetailWidget != null)
         {
-            actionPanel.add(widget);
-            Command command = new TimedCommand(widget, 2000);
+            actionPanel.add(actionDetailWidget);
+            Command command = new TimedCommand(actionDetailWidget, 2000);
             DeferredCommand.addCommand(command);
             setPositionAndShow();
         }
     }
 
-    private PlayerDetailWidget createDetailWidget(GameAction gameAction)
+    private ActionDetailWidget createDetailWidget(GameAction gameAction)
     {
         if (gameAction instanceof EndTurn)
             return new EndTurnDetailWidget(gamePanel, (EndTurn) gameAction);
@@ -94,7 +94,8 @@ public class DetailContainerWidget extends PopupPanel implements
             return new BuildRoadDetailWidget(gamePanel, (BuildRoad) gameAction);
 
         if (gameAction instanceof BuildCity)
-            return new BuildCityWidget(gamePanel, (BuildCity) gameAction);
+            return new BuildCityDetailBitmapWidget(gamePanel,
+                    (BuildCity) gameAction);
 
         if (gameAction instanceof PlaceRobber)
             return new MoveRobberDetailWidget(gamePanel,
@@ -123,7 +124,7 @@ public class DetailContainerWidget extends PopupPanel implements
         hide();
     }
 
-    public void showMouseOverWidget(PlayerDetailWidget playerDetailWidget)
+    public void showMouseOverWidget(ActionDetailWidget playerDetailWidget)
     {
         this.playerDetailWidget = playerDetailWidget;
         mouseOverPanel.setWidget(playerDetailWidget);
@@ -146,10 +147,10 @@ public class DetailContainerWidget extends PopupPanel implements
 
     private class TimedCommand implements Command
     {
-        PlayerDetailWidget widget;
+        ActionDetailWidget widget;
         boolean effectEnded = false;
 
-        public TimedCommand(PlayerDetailWidget widget, int delay)
+        public TimedCommand(ActionDetailWidget widget, int delay)
         {
             super();
             this.widget = widget;

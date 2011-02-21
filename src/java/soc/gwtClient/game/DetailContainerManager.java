@@ -2,12 +2,11 @@ package soc.gwtClient.game;
 
 import java.util.HashMap;
 
-import soc.common.actions.gameAction.GameAction;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.widgetsBitmap.tooltips.DetailContainerWidget;
 import soc.gwtClient.game.widgetsInterface.main.GameWidget;
+import soc.gwtClient.game.widgetsInterface.playerDetail.ActionDetailWidget;
 import soc.gwtClient.game.widgetsInterface.playerDetail.PlayerDetailContainerWidget;
-import soc.gwtClient.game.widgetsInterface.playerDetail.PlayerDetailWidget;
 
 public class DetailContainerManager
 {
@@ -26,9 +25,11 @@ public class DetailContainerManager
         }
     }
 
-    public void showActionWidget(GameAction action)
+    public void showActionWidget(ActionDetailWidget actionDetailWidget)
     {
-        playersDetails.get(action.getPlayer()).showActionWidget(action);
+        PlayerDetailContainerWidget detailContainer = playersDetails
+                .get(actionDetailWidget.getGameAction().getPlayer());
+        detailContainer.showActionWidget(actionDetailWidget);
     }
 
     public void hideCurrentWidget()
@@ -40,7 +41,7 @@ public class DetailContainerManager
         }
     }
 
-    public void showMouseOverDetail(GamePlayer player, PlayerDetailWidget widget)
+    public void showMouseOverDetail(GamePlayer player, ActionDetailWidget widget)
     {
         playersDetails.get(player).showMouseOverWidget(widget);
     }

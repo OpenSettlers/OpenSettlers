@@ -8,7 +8,7 @@ import soc.common.game.VictoryPointsChangedEventHandler;
 import soc.common.game.developmentCards.standard.VictoryPoint;
 import soc.common.game.player.GamePlayer;
 import soc.common.utils.NotImplementedException;
-import soc.gwtClient.game.widgetsAbstract.AbstractPlayerDetailWidget;
+import soc.gwtClient.game.widgetsAbstract.AbstractPlayerInfoToolTip;
 import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 import soc.gwtClient.images.Resources;
 
@@ -17,7 +17,7 @@ import com.google.gwt.user.client.ui.Image;
 /*
  * Shows amount of victory points by displaying each victory point as an image
  */
-public class VictoryPointDetailWidget extends AbstractPlayerDetailWidget
+public class VictoryPointDetailWidget extends AbstractPlayerInfoToolTip
         implements VictoryPointsChangedEventHandler
 {
     private HashMap<VictoryPoint, Image> pointsIcons = new HashMap<VictoryPoint, Image>();

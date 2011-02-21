@@ -3,6 +3,7 @@ package soc.gwtClient.game.behaviour.gameBoard.received;
 import soc.common.actions.gameAction.standard.RollDice;
 import soc.gwtClient.game.behaviour.gameBoard.RollDiceBehaviour;
 import soc.gwtClient.game.widgetsInterface.main.GameWidget;
+import soc.gwtClient.game.widgetsInterface.playerDetail.ActionDetailWidget;
 
 public class RollDiceResult implements ReceiveGameBehaviour
 {
@@ -40,7 +41,9 @@ public class RollDiceResult implements ReceiveGameBehaviour
             gamePanel.getBoardVisualWidget().getBoardVisual().setBehaviour(
                     rollDiceBehaviour);
 
-            gamePanel.getDetailContainerManager().showActionWidget(rolledDice);
+            ActionDetailWidget widget = rolledDice.createActionDetailWidget();
+
+            gamePanel.getDetailContainerManager().showActionWidget(widget);
 
             gamePanel.getResourcesGainedWidget().update(this);
             gamePanel.getActionsWidget().setEnabled(false);

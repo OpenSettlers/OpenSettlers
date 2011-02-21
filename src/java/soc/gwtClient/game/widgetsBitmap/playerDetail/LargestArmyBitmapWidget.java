@@ -4,7 +4,8 @@ import soc.common.game.developmentCards.DevelopmentCardsChangedEvent;
 import soc.common.game.developmentCards.standard.Soldier;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.widgetsAbstract.AbstractLargestArmyWidget;
-import soc.gwtClient.game.widgetsBitmap.tooltips.SoldiersDetailWidget;
+import soc.gwtClient.game.widgetsBitmap.tooltips.SoldiersToolTip;
+import soc.gwtClient.game.widgetsInterface.generic.ToolTip;
 import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 import soc.gwtClient.images.Resources;
 
@@ -21,13 +22,13 @@ public class LargestArmyBitmapWidget extends AbstractLargestArmyWidget
     Image largestAmryImage = new Image(Resources.icons().robberSmall());
     Label amountSoldiers = new Label();
     Soldier soldier = new Soldier();
-    SoldiersDetailWidget soldiersDetailWidget;
+    ToolTip toolTip;
 
     public LargestArmyBitmapWidget(GameWidget gamePanel, GamePlayer player)
     {
         super(gamePanel, player);
 
-        soldiersDetailWidget = new SoldiersDetailWidget(gamePanel, player);
+        toolTip = new SoldiersToolTip(gamePanel, player);
 
         amountSoldiers.setText(Integer.toString(player
                 .getPlayedDevelopmentCards().ofType(new Soldier()).size()));
@@ -50,14 +51,13 @@ public class LargestArmyBitmapWidget extends AbstractLargestArmyWidget
     @Override
     public void onMouseOut(MouseOutEvent event)
     {
-        gamePanel.getDetailContainerManager().hideMouseOverDetail(player);
+        gamePanel.getToolTipManager().hideToolTip(toolTip);
     }
 
     @Override
     public void onMouseOver(MouseOverEvent event)
     {
-        gamePanel.getDetailContainerManager().showMouseOverDetail(player,
-                soldiersDetailWidget);
+        gamePanel.getToolTipManager().showToolTip(toolTip);
     }
 
 }

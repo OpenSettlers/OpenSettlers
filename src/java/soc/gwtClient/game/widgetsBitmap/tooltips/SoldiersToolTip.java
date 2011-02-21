@@ -7,18 +7,18 @@ import soc.common.board.pieces.ArmyChangedEvent;
 import soc.common.board.pieces.ArmyChangedEventHandler;
 import soc.common.game.developmentCards.standard.Soldier;
 import soc.common.game.player.GamePlayer;
-import soc.gwtClient.game.widgetsAbstract.AbstractPlayerDetailWidget;
+import soc.gwtClient.game.widgetsAbstract.AbstractPlayerInfoToolTip;
 import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.user.client.ui.Image;
 
-public class SoldiersDetailWidget extends AbstractPlayerDetailWidget implements
+public class SoldiersToolTip extends AbstractPlayerInfoToolTip implements
         ArmyChangedEventHandler
 {
     private Map<Soldier, Image> soldierImages = new HashMap<Soldier, Image>();
 
-    public SoldiersDetailWidget(GameWidget gamePanel, GamePlayer player)
+    public SoldiersToolTip(GameWidget gamePanel, GamePlayer player)
     {
         super(gamePanel, player);
 

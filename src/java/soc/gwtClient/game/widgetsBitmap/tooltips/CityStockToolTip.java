@@ -7,18 +7,18 @@ import soc.common.board.pieces.City;
 import soc.common.board.pieces.pieceLists.PlayerPieceListChangedEvent;
 import soc.common.board.pieces.pieceLists.PlayerPieceListChangedEventHandler;
 import soc.common.game.player.GamePlayer;
-import soc.gwtClient.game.widgetsAbstract.AbstractPlayerDetailWidget;
+import soc.gwtClient.game.widgetsAbstract.AbstractPlayerInfoToolTip;
 import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.user.client.ui.Image;
 
-public class CityStockDetailWidget extends AbstractPlayerDetailWidget implements
+public class CityStockToolTip extends AbstractPlayerInfoToolTip implements
         PlayerPieceListChangedEventHandler<City>
 {
     private Map<City, Image> cityImages = new HashMap<City, Image>();
 
-    public CityStockDetailWidget(GameWidget gamePanel, GamePlayer player)
+    public CityStockToolTip(GameWidget gamePanel, GamePlayer player)
     {
         super(gamePanel, player);
 

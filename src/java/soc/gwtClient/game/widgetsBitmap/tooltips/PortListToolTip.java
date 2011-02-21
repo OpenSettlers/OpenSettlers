@@ -8,18 +8,18 @@ import soc.common.board.ports.Port;
 import soc.common.board.ports.PortListChangedEvent;
 import soc.common.board.ports.PortListChangedEventHandler;
 import soc.common.game.player.GamePlayer;
-import soc.gwtClient.game.widgetsAbstract.AbstractPlayerDetailWidget;
+import soc.gwtClient.game.widgetsAbstract.AbstractPlayerInfoToolTip;
 import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.user.client.ui.Image;
 
-public class PortListDetailWidget extends AbstractPlayerDetailWidget implements
+public class PortListToolTip extends AbstractPlayerInfoToolTip implements
         PortListChangedEventHandler
 {
     private Map<Port, Image> portImages = new HashMap<Port, Image>();
 
-    public PortListDetailWidget(GameWidget gamePanel, GamePlayer player)
+    public PortListToolTip(GameWidget gamePanel, GamePlayer player)
     {
         super(gamePanel, player);
 

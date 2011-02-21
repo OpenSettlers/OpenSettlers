@@ -13,11 +13,13 @@ import soc.gwtClient.game.behaviour.gameBoard.received.ReceiveGameBehaviour;
 import soc.gwtClient.game.behaviour.gameWidget.GameBehaviour;
 import soc.gwtClient.game.widgetsBitmap.main.DesktopGamePanelLayout;
 import soc.gwtClient.game.widgetsBitmap.main.GameDetailsWidget;
+import soc.gwtClient.game.widgetsBitmap.main.ToolTipManagerImpl;
 import soc.gwtClient.game.widgetsInterface.actions.ActionsWidget;
 import soc.gwtClient.game.widgetsInterface.dialogs.GameOverDialog;
 import soc.gwtClient.game.widgetsInterface.dialogs.LooseCardsDialog;
 import soc.gwtClient.game.widgetsInterface.dialogs.StealCardWidget;
 import soc.gwtClient.game.widgetsInterface.dialogs.TradePlayerDialog;
+import soc.gwtClient.game.widgetsInterface.generic.ToolTipManager;
 import soc.gwtClient.game.widgetsInterface.main.BankStockWidget;
 import soc.gwtClient.game.widgetsInterface.main.BankTradeWidget;
 import soc.gwtClient.game.widgetsInterface.main.BoardVisualWidget;
@@ -71,6 +73,7 @@ public abstract class AbstractGameWidget implements GameWidget, CenterWidget,
 
     protected PlayerStuffWidget playerStuff;
     protected DetailContainerManager detailContainerManager;
+    protected ToolTipManager toolTipManager;
 
     public AbstractGameWidget()
     {
@@ -106,6 +109,7 @@ public abstract class AbstractGameWidget implements GameWidget, CenterWidget,
         queueWidget = gameWidgetFactory.createQueueWidget();
         debugWidget = gameWidgetFactory.createDebugWidget();
         detailContainerManager = new DetailContainerManager(this);
+        toolTipManager = new ToolTipManagerImpl();
     }
 
     /*
@@ -203,6 +207,13 @@ public abstract class AbstractGameWidget implements GameWidget, CenterWidget,
     }
 
     @Override
+    public ToolTipManager getToolTipManager()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
     public Game getGame()
     {
         return game;
@@ -279,8 +290,13 @@ public abstract class AbstractGameWidget implements GameWidget, CenterWidget,
     @Override
     public void receive(GameAction gameAction)
     {
+        ReceiveGameBehaviour newBehaviour;
+
         // Grab new game behaviour for received action
-        ReceiveGameBehaviour newBehaviour = gameAction.getReceiveBehaviour();
+        if (gameAction.getPlayer().equals(player))
+            newBehaviour = gameAction.getReceiveBehaviour();
+        else
+            newBehaviour = gameAction.getOpponentReceiveBehaviour();
 
         if (newBehaviour != null)
         {

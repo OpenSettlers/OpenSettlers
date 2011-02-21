@@ -9,6 +9,7 @@ import soc.common.game.statuses.GameStatus;
 import soc.gwtClient.game.behaviour.gameBoard.received.ReceiveGameBehaviour;
 import soc.gwtClient.game.behaviour.gameWidget.GameBehaviour;
 import soc.gwtClient.game.widgetsInterface.actions.ActionWidget;
+import soc.gwtClient.game.widgetsInterface.playerDetail.ActionDetailWidget;
 
 public interface GameAction extends Action
 {
@@ -83,4 +84,6 @@ public interface GameAction extends Action
     public GameBehaviour getNextActionBehaviour();
 
     public ActionWidget createActionWidget(GamePlayer player);
+
+    public ActionDetailWidget createActionDetailWidget();
 }

@@ -11,6 +11,7 @@ import soc.common.game.player.GamePlayerImpl;
 import soc.common.game.statuses.GameStatus;
 import soc.common.utils.ClassUtils;
 import soc.gwtClient.game.widgetsInterface.actions.ActionWidget;
+import soc.gwtClient.game.widgetsInterface.playerDetail.ActionDetailWidget;
 
 /*
  * A GameAction performed in a game
@@ -187,6 +188,17 @@ public abstract class AbstractGameAction extends AbstractAction implements
      */
     @Override
     public ActionWidget createActionWidget(GamePlayer player)
+    {
+        return null;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see soc.common.actions.gameAction.GameAction#createActionDetailWidget()
+     */
+    @Override
+    public ActionDetailWidget createActionDetailWidget()
     {
         return null;
     }

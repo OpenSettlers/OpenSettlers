@@ -78,6 +78,11 @@ public class HotSeatActionsPlayersWidget extends DeckPanel implements
     @Override
     public Point2D getDiceWidgetTopLeftPosition()
     {
+        if (playersStuff.get(gamePanel.getPlayingPlayer()) == null)
+        {
+            int y = 2;
+            y++;
+        }
         int index = playersStuff.get(gamePanel.getPlayingPlayer());
         PlayerStuffWidget widget = indexedWidgets.get(index);
         return widget.getDiceWidgetTopLeftPosition();

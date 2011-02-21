@@ -3,7 +3,7 @@ package soc.gwtClient.game.widgetsBitmap.playerDetail;
 import soc.common.board.ports.PortListChangedEvent;
 import soc.common.board.ports.PortListChangedEventHandler;
 import soc.common.game.player.GamePlayer;
-import soc.gwtClient.game.widgetsBitmap.tooltips.PortListDetailWidget;
+import soc.gwtClient.game.widgetsBitmap.tooltips.PortListToolTip;
 import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 import soc.gwtClient.game.widgetsInterface.playerDetail.PortAmountWidget;
 import soc.gwtClient.images.Resources;
@@ -24,7 +24,7 @@ public class PortAmountBitmapWidget implements PortAmountWidget,
     private Image imgPort = new Image(Resources.icons().port());
     private Label lblPortAmount = new Label();
     private GamePlayer player;
-    private PortListDetailWidget portListDetailWidget;
+    private PortListToolTip portListDetailWidget;
     private GameWidget gamePanel;
 
     public PortAmountBitmapWidget(GameWidget gamePanel, GamePlayer player)
@@ -33,7 +33,7 @@ public class PortAmountBitmapWidget implements PortAmountWidget,
         this.gamePanel = gamePanel;
         this.player = player;
 
-        portListDetailWidget = new PortListDetailWidget(gamePanel, player);
+        portListDetailWidget = new PortListToolTip(gamePanel, player);
         updateUI();
 
         rootPanel.add(imgPort);
@@ -65,14 +65,13 @@ public class PortAmountBitmapWidget implements PortAmountWidget,
     @Override
     public void onMouseOut(MouseOutEvent event)
     {
-        gamePanel.getDetailContainerManager().hideMouseOverDetail(player);
+        gamePanel.getToolTipManager().hideToolTip(portListDetailWidget);
     }
 
     @Override
     public void onMouseOver(MouseOverEvent event)
     {
-        gamePanel.getDetailContainerManager().showMouseOverDetail(player,
-                portListDetailWidget);
+        gamePanel.getToolTipManager().showToolTip(portListDetailWidget);
     }
 
 }

@@ -1,8 +1,8 @@
 package soc.gwtClient.game.widgetsAbstract;
 
 import soc.common.game.player.GamePlayer;
+import soc.gwtClient.game.widgetsInterface.generic.ToolTip;
 import soc.gwtClient.game.widgetsInterface.main.GameWidget;
-import soc.gwtClient.game.widgetsInterface.playerDetail.PlayerDetailWidget;
 import soc.gwtClient.game.widgetsInterface.playerDetail.StockItemWidget;
 
 import com.google.gwt.event.dom.client.MouseOutEvent;
@@ -19,19 +19,24 @@ public abstract class AbstractStockItemWidget implements StockItemWidget,
     protected GamePlayer player;
     protected ComplexPanel rootPanel;
     protected GameWidget gamePanel;
-    protected PlayerDetailWidget detailWidget;
+    protected ToolTip toolTip;
 
     public AbstractStockItemWidget(GameWidget gamePanel, GamePlayer player)
     {
         this.gamePanel = gamePanel;
         this.player = player;
 
-        detailWidget = createDetailWidget();
+        toolTip = createToolTip();
 
         rootPanel = createRootPanel();
 
         rootPanel.addDomHandler(this, MouseOverEvent.getType());
         rootPanel.addDomHandler(this, MouseOutEvent.getType());
+    }
+
+    protected ToolTip createToolTip()
+    {
+        return null;
     }
 
     /*
@@ -59,13 +64,12 @@ public abstract class AbstractStockItemWidget implements StockItemWidget,
     @Override
     public void onMouseOver(MouseOverEvent event)
     {
-        gamePanel.getDetailContainerManager().showMouseOverDetail(player,
-                detailWidget);
+        gamePanel.getToolTipManager().showToolTip(toolTip);
     }
 
     @Override
     public void onMouseOut(MouseOutEvent event)
     {
-        gamePanel.getDetailContainerManager().hideMouseOverDetail(player);
+        gamePanel.getToolTipManager().hideToolTip(toolTip);
     }
 }

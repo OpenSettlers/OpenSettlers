@@ -7,18 +7,18 @@ import soc.common.board.pieces.Road;
 import soc.common.board.pieces.pieceLists.PlayerPieceListChangedEvent;
 import soc.common.board.pieces.pieceLists.PlayerPieceListChangedEventHandler;
 import soc.common.game.player.GamePlayer;
-import soc.gwtClient.game.widgetsAbstract.AbstractPlayerDetailWidget;
+import soc.gwtClient.game.widgetsAbstract.AbstractPlayerInfoToolTip;
 import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.user.client.ui.Image;
 
-public class RoadStockDetailWidget extends AbstractPlayerDetailWidget implements
+public class RoadStockToolTip extends AbstractPlayerInfoToolTip implements
         PlayerPieceListChangedEventHandler<Road>
 {
     private Map<Road, Image> roadImages = new HashMap<Road, Image>();
 
-    public RoadStockDetailWidget(GameWidget gamePanel, GamePlayer player)
+    public RoadStockToolTip(GameWidget gamePanel, GamePlayer player)
     {
         super(gamePanel, player);
 
@@ -47,5 +47,4 @@ public class RoadStockDetailWidget extends AbstractPlayerDetailWidget implements
             rootPanel.add(roadImage);
         }
     }
-
 }

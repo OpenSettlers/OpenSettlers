@@ -8,8 +8,9 @@ import soc.common.board.pieces.pieceLists.PlayerPieceListChangedEventHandler;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.widgetsAbstract.AbstractStockItemWidget;
 import soc.gwtClient.game.widgetsBitmap.tooltips.TownStockDetailWidget;
+import soc.gwtClient.game.widgetsInterface.generic.ToolTip;
 import soc.gwtClient.game.widgetsInterface.main.GameWidget;
-import soc.gwtClient.game.widgetsInterface.playerDetail.PlayerDetailWidget;
+import soc.gwtClient.game.widgetsInterface.playerDetail.ActionDetailWidget;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.user.client.ui.Image;
@@ -21,7 +22,7 @@ public class StockTownBitmapWidget extends AbstractStockItemWidget implements
     private Image townImage = new Image(Resources.icons().townSmall());
     private Label townAmount = new Label();
     private Town town = new Town();
-    protected PlayerDetailWidget townStockDetail;
+    protected ActionDetailWidget townStockDetail;
 
     public StockTownBitmapWidget(GameWidget gamePanel, GamePlayer player)
     {
@@ -55,8 +56,9 @@ public class StockTownBitmapWidget extends AbstractStockItemWidget implements
     }
 
     @Override
-    public PlayerDetailWidget createDetailWidget()
+    protected ToolTip createToolTip()
     {
         return new TownStockDetailWidget(gamePanel, player);
     }
+
 }

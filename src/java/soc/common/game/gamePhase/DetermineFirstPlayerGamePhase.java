@@ -1,5 +1,6 @@
 package soc.common.game.gamePhase;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import soc.common.actions.gameAction.GameAction;
@@ -82,6 +83,12 @@ public class DetermineFirstPlayerGamePhase extends AbstractGamePhase
                 }
                 else
                 {
+                    // Starting player is not determined.
+
+                    // Prepare list of same rolling players for RolledSame
+                    // instance
+                    List<Integer> sameRollingPlayers = new ArrayList<Integer>();
+
                     // Enqueue each high roller
                     for (RollDice sameRoll : rolledDices)
                     {
@@ -90,14 +97,17 @@ public class DetermineFirstPlayerGamePhase extends AbstractGamePhase
                             game.getActionsQueue().enqueuePriority(
                                     new RollDice().setPlayer(sameRoll
                                             .getPlayer()), true);
+                            sameRollingPlayers.add(sameRoll.getPlayer()
+                                    .getUser().getId());
                         }
                     }
-                    // Starting player is not determined. Notify players and
-                    // update Game object
+
+                    // First execute a RolledSame action
                     game.getActionsQueue().enqueuePriority(
                             (GameAction) new RolledSame()
-                            // Pass on the highest diceroll
+                                    // Pass on the highest diceroll
                                     .setHighRoll(highRoll)
+                                    .setSameRollingPlayers(sameRollingPlayers)
                                     // Server says dice rolled the same
                                     .setSender(0), true);
                 }

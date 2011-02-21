@@ -11,6 +11,7 @@ import soc.gwtClient.game.widgetsInterface.dialogs.GameOverDialog;
 import soc.gwtClient.game.widgetsInterface.dialogs.LooseCardsDialog;
 import soc.gwtClient.game.widgetsInterface.dialogs.StealCardWidget;
 import soc.gwtClient.game.widgetsInterface.dialogs.TradePlayerDialog;
+import soc.gwtClient.game.widgetsInterface.generic.ToolTipManager;
 import soc.gwtClient.game.widgetsInterface.playerDetail.PlayersInfoWidget;
 
 public interface GameWidget
@@ -74,4 +75,6 @@ public interface GameWidget
     public BankStockWidget getbankStockPanel();
 
     public StatusWidget getStatusWidget();
+
+    public ToolTipManager getToolTipManager();
 }

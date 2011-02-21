@@ -12,4 +12,6 @@ public interface ClientFactory
     public ClientBehaviourFactory getBehaviourFactory();
 
     public GameWidgetFactory getGameWidgetFactory();
+
+    public ActionDetailWidgetFactory getActionDetailWidgetFactory();
 }
