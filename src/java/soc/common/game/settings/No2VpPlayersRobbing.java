@@ -1,0 +1,35 @@
+package soc.common.game.settings;
+
+import soc.common.ui.meta.Meta;
+
+public class No2VpPlayersRobbing implements Setting
+{
+    private static final long serialVersionUID = 4221708430742151374L;
+    private boolean no2VpPlayersRobbing = true;
+
+    /**
+     * @return the no2VpPlayersRobbing
+     */
+    public boolean isNo2VpPlayersRobbing()
+    {
+        return no2VpPlayersRobbing;
+    }
+
+    /**
+     * @param no2VpPlayersRobbing
+     *            the no2VpPlayersRobbing to set
+     */
+    public No2VpPlayersRobbing setNo2VpPlayersRobbing(
+            boolean no2VpPlayersRobbing)
+    {
+        this.no2VpPlayersRobbing = no2VpPlayersRobbing;
+        return this;
+    }
+
+    @Override
+    public Meta getMeta()
+    {
+        return null;
+    }
+
+}

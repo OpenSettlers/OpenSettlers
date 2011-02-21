@@ -7,7 +7,7 @@ import soc.common.game.TurnChangedEvent;
 import soc.common.game.TurnChangedEventHandler;
 import soc.common.server.HotSeatServer;
 import soc.gwtClient.game.behaviour.gameBoard.DisabledMap;
-import soc.gwtClient.game.widgetsAbstract.AbstractGameWidget;
+import soc.gwtClient.game.widgetsAbstract.main.AbstractGameWidget;
 import soc.gwtClient.game.widgetsBitmap.actions.HotSeatActionsPlayersWidget;
 import soc.gwtClient.game.widgetsInterface.actions.ActionsWidget;
 import soc.gwtClient.game.widgetsInterface.dialogs.TradePlayerDialog;

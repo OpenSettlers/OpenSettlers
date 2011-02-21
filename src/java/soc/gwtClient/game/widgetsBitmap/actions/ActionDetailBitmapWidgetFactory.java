@@ -5,6 +5,7 @@ import soc.common.actions.gameAction.standard.BuildRoad;
 import soc.common.actions.gameAction.standard.BuildTown;
 import soc.common.actions.gameAction.standard.BuyDevelopmentCard;
 import soc.common.actions.gameAction.standard.ClaimVictory;
+import soc.common.actions.gameAction.standard.PlaceRobber;
 import soc.common.actions.gameAction.standard.PlayDevelopmentCard;
 import soc.common.actions.gameAction.standard.RobPlayer;
 import soc.common.actions.gameAction.standard.RollDice;
@@ -101,6 +102,13 @@ public class ActionDetailBitmapWidgetFactory implements
 
     @Override
     public ActionDetailWidget getTradePlayerDetailWidget(TradePlayer tradePlayer)
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public ActionDetailWidget getMoveRobberDetailWidget(PlaceRobber placeRobber)
     {
         // TODO Auto-generated method stub
         return null;

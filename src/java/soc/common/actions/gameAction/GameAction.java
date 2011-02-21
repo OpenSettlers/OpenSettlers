@@ -6,6 +6,9 @@ import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
 import soc.common.game.player.GamePlayer;
 import soc.common.game.statuses.GameStatus;
+import soc.common.ui.ActionDetailWidgetFactory;
+import soc.gwtClient.game.behaviour.gameBoard.factories.GameBehaviourFactory;
+import soc.gwtClient.game.behaviour.gameBoard.factories.ReceiveGameBehaviourFactory;
 import soc.gwtClient.game.behaviour.gameBoard.received.ReceiveGameBehaviour;
 import soc.gwtClient.game.behaviour.gameWidget.GameBehaviour;
 import soc.gwtClient.game.widgetsInterface.actions.ActionWidget;
@@ -75,15 +78,20 @@ public interface GameAction extends Action
 
     public boolean isExpectedQueueType(GameAction actualAction);
 
-    public ReceiveGameBehaviour getReceiveBehaviour();;
+    public ReceiveGameBehaviour getReceiveBehaviour(
+            ReceiveGameBehaviourFactory receiveGameBehaviourFactory);
 
-    public ReceiveGameBehaviour getOpponentReceiveBehaviour();;
+    public ReceiveGameBehaviour getOpponentReceiveBehaviour(
+            ReceiveGameBehaviourFactory receiveGameBehaviourFactory);;
 
-    public GameBehaviour getSendBehaviour();
+    public GameBehaviour getSendBehaviour(
+            GameBehaviourFactory gameBehaviourFactory);
 
-    public GameBehaviour getNextActionBehaviour();
+    public GameBehaviour getNextActionBehaviour(
+            GameBehaviourFactory gameBehaviourFactory);
 
     public ActionWidget createActionWidget(GamePlayer player);
 
-    public ActionDetailWidget createActionDetailWidget();
+    public ActionDetailWidget createActionDetailWidget(
+            ActionDetailWidgetFactory factory);
 }

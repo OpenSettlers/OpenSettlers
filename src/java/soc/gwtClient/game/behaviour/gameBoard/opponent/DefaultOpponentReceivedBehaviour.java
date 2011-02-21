@@ -1,6 +1,7 @@
 package soc.gwtClient.game.behaviour.gameBoard.opponent;
 
 import soc.common.actions.gameAction.GameAction;
+import soc.common.ui.ActionDetailWidgetFactory;
 import soc.gwtClient.game.behaviour.gameBoard.received.ReceiveGameBehaviour;
 import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 import soc.gwtClient.game.widgetsInterface.playerDetail.ActionDetailWidget;
@@ -34,11 +35,12 @@ public class DefaultOpponentReceivedBehaviour implements ReceiveGameBehaviour
     @Override
     public void start(GameWidget gamePanel)
     {
+        ActionDetailWidgetFactory factory = gamePanel.getClientFactory()
+                .getActionDetailWidgetFactory();
         ActionDetailWidget actionDetailWidget = gameAction
-                .createActionDetailWidget();
+                .createActionDetailWidget(factory);
         if (actionDetailWidget != null)
             gamePanel.getDetailContainerManager().showActionWidget(
                     actionDetailWidget);
     }
-
 }

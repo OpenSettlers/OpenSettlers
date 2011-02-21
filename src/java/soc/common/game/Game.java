@@ -37,6 +37,7 @@ import soc.common.game.logs.GameLog;
 import soc.common.game.logs.GameLogImpl;
 import soc.common.game.player.GamePlayer;
 import soc.common.game.player.GamePlayerList;
+import soc.common.game.settings.GameSettings;
 import soc.common.game.statuses.GameStatus;
 import soc.common.game.statuses.Playing;
 import soc.common.game.trading.TradeResponse;
@@ -398,21 +399,26 @@ public class Game implements Serializable
         // Set first player on turn
         currentTurn = new TurnImpl(players.get(0), 0, null);
 
-        // Move robber to desert hex, if exists
-        Hex desertHex = null;
-        for (Hex hex : board.getHexes())
-        {
-            if (hex instanceof DesertHex)
-                desertHex = hex;
-        }
-
-        if (desertHex != null)
-        {
-            robber.setLocation(desertHex.getLocation());
-        }
+        moveRobberToDesert();
 
         currentStatus = new Playing();
         board.initialize();
+    }
+
+    /*
+     * Move robber to desert hex, if available
+     */
+    private void moveRobberToDesert()
+    {
+        // Find DesertHex
+        Hex desertHex = null;
+        for (Hex hex : board.getHexes())
+            if (hex instanceof DesertHex)
+                desertHex = hex;
+
+        // Move robber when a DesertHex is found
+        if (desertHex != null)
+            robber.setLocation(desertHex.getLocation());
     }
 
     /*

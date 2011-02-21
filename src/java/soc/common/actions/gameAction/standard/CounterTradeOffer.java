@@ -5,7 +5,6 @@ import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.trading.TradeOffer;
 import soc.common.actions.gameAction.trading.TradePlayer;
 import soc.common.board.resources.ResourceList;
-import soc.common.core.Core;
 import soc.common.game.Game;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.PlayTurnsGamePhase;
@@ -17,6 +16,8 @@ import soc.common.ui.Graphics;
 import soc.common.ui.Icon;
 import soc.common.ui.IconImpl;
 import soc.common.ui.meta.Meta;
+import soc.gwtClient.game.behaviour.gameBoard.factories.GameBehaviourFactory;
+import soc.gwtClient.game.behaviour.gameBoard.factories.ReceiveGameBehaviourFactory;
 import soc.gwtClient.game.behaviour.gameBoard.received.ReceiveGameBehaviour;
 import soc.gwtClient.game.behaviour.gameWidget.GameBehaviour;
 import soc.gwtClient.game.widgetsInterface.actions.ActionWidget;
@@ -209,35 +210,33 @@ public class CounterTradeOffer extends AbstractGameAction implements
     }
 
     @Override
-    public GameBehaviour getNextActionBehaviour()
+    public GameBehaviour getNextActionBehaviour(
+            GameBehaviourFactory gameBehaviourFactory)
     {
-        return Core.get().getClientFactory().getBehaviourFactory()
-                .getNextActionBehaviourFactory()
+        return gameBehaviourFactory.createCounterTradeOfferBehaviour(this);
+    }
+
+    @Override
+    public ReceiveGameBehaviour getOpponentReceiveBehaviour(
+            ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
+    {
+        return receiveGameBehaviourFactory
                 .createCounterTradeOfferBehaviour(this);
     }
 
     @Override
-    public ReceiveGameBehaviour getOpponentReceiveBehaviour()
+    public ReceiveGameBehaviour getReceiveBehaviour(
+            ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
-        return Core.get().getClientFactory().getBehaviourFactory()
-                .getOpponentReceiveBehaviourFactory()
+        return receiveGameBehaviourFactory
                 .createCounterTradeOfferBehaviour(this);
     }
 
     @Override
-    public ReceiveGameBehaviour getReceiveBehaviour()
+    public GameBehaviour getSendBehaviour(
+            GameBehaviourFactory gameBehaviourFactory)
     {
-        return Core.get().getClientFactory().getBehaviourFactory()
-                .getReceiveBehaviourFactory().createCounterTradeOfferBehaviour(
-                        this);
-    }
-
-    @Override
-    public GameBehaviour getSendBehaviour()
-    {
-        return Core.get().getClientFactory().getBehaviourFactory()
-                .getSendBehaviourFactory().createCounterTradeOfferBehaviour(
-                        this);
+        return gameBehaviourFactory.createCounterTradeOfferBehaviour(this);
     }
 
     @Override

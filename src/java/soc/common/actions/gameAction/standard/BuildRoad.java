@@ -12,14 +12,18 @@ import soc.common.game.gamePhase.turnPhase.BuildingTurnPhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
 import soc.common.game.player.GamePlayer;
 import soc.common.internationalization.I18n;
+import soc.common.ui.ActionDetailWidgetFactory;
 import soc.common.ui.Graphics;
 import soc.common.ui.Icon;
 import soc.common.ui.IconImpl;
 import soc.common.ui.meta.Meta;
+import soc.gwtClient.game.behaviour.gameBoard.factories.GameBehaviourFactory;
+import soc.gwtClient.game.behaviour.gameBoard.factories.ReceiveGameBehaviourFactory;
 import soc.gwtClient.game.behaviour.gameBoard.received.ReceiveGameBehaviour;
 import soc.gwtClient.game.behaviour.gameWidget.GameBehaviour;
 import soc.gwtClient.game.widgetsInterface.actions.ActionWidget;
 import soc.gwtClient.game.widgetsInterface.generic.ToolTip;
+import soc.gwtClient.game.widgetsInterface.playerDetail.ActionDetailWidget;
 import soc.gwtClient.images.Resources;
 
 public class BuildRoad extends AbstractTurnAction
@@ -207,32 +211,31 @@ public class BuildRoad extends AbstractTurnAction
     }
 
     @Override
-    public GameBehaviour getNextActionBehaviour()
+    public GameBehaviour getNextActionBehaviour(
+            GameBehaviourFactory gameBehaviourFactory)
     {
-        return Core.get().getClientFactory().getBehaviourFactory()
-                .getNextActionBehaviourFactory().createBuildRoadBehaviour(this);
+        return gameBehaviourFactory.createBuildRoadBehaviour(this);
     }
 
     @Override
-    public ReceiveGameBehaviour getOpponentReceiveBehaviour()
+    public ReceiveGameBehaviour getOpponentReceiveBehaviour(
+            ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
-        return Core.get().getClientFactory().getBehaviourFactory()
-                .getOpponentReceiveBehaviourFactory().createBuildRoadBehaviour(
-                        this);
+        return receiveGameBehaviourFactory.createBuildRoadBehaviour(this);
     }
 
     @Override
-    public ReceiveGameBehaviour getReceiveBehaviour()
+    public ReceiveGameBehaviour getReceiveBehaviour(
+            ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
-        return Core.get().getClientFactory().getBehaviourFactory()
-                .getReceiveBehaviourFactory().createBuildRoadBehaviour(this);
+        return receiveGameBehaviourFactory.createBuildRoadBehaviour(this);
     }
 
     @Override
-    public GameBehaviour getSendBehaviour()
+    public GameBehaviour getSendBehaviour(
+            GameBehaviourFactory gameBehaviourFactory)
     {
-        return Core.get().getClientFactory().getBehaviourFactory()
-                .getSendBehaviourFactory().createBuildRoadBehaviour(this);
+        return gameBehaviourFactory.createBuildRoadBehaviour(this);
     }
 
     @Override
@@ -241,4 +244,17 @@ public class BuildRoad extends AbstractTurnAction
         return meta;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.common.actions.gameAction.AbstractGameAction#createActionDetailWidget
+     * (soc.common.ui.ActionDetailWidgetFactory)
+     */
+    @Override
+    public ActionDetailWidget createActionDetailWidget(
+            ActionDetailWidgetFactory factory)
+    {
+        return factory.getBuildRoadDetailWidget(this);
+    }
 }

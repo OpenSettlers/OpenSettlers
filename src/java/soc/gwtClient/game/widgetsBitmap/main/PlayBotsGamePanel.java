@@ -1,6 +1,6 @@
 package soc.gwtClient.game.widgetsBitmap.main;
 
-import soc.gwtClient.game.widgetsAbstract.AbstractGameWidget;
+import soc.gwtClient.game.widgetsAbstract.main.AbstractGameWidget;
 import soc.gwtClient.game.widgetsInterface.actions.ActionsWidget;
 import soc.gwtClient.game.widgetsInterface.generic.ToolTipManager;
 import soc.gwtClient.game.widgetsInterface.main.GameWidgetFactory;

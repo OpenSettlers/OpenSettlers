@@ -1,6 +1,8 @@
 package soc.gwtClient.game.behaviour.gameBoard.received;
 
 import soc.common.actions.gameAction.standard.RollDice;
+import soc.common.core.Core;
+import soc.common.ui.ActionDetailWidgetFactory;
 import soc.gwtClient.game.behaviour.gameBoard.RollDiceBehaviour;
 import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 import soc.gwtClient.game.widgetsInterface.playerDetail.ActionDetailWidget;
@@ -41,8 +43,13 @@ public class RollDiceResult implements ReceiveGameBehaviour
             gamePanel.getBoardVisualWidget().getBoardVisual().setBehaviour(
                     rollDiceBehaviour);
 
-            ActionDetailWidget widget = rolledDice.createActionDetailWidget();
+            // Grab an ActionDetailWidget
+            ActionDetailWidgetFactory factory = Core.get().getClientFactory()
+                    .getActionDetailWidgetFactory();
+            ActionDetailWidget widget = rolledDice
+                    .createActionDetailWidget(factory);
 
+            // Show the ActionDetailWidget
             gamePanel.getDetailContainerManager().showActionWidget(widget);
 
             gamePanel.getResourcesGainedWidget().update(this);

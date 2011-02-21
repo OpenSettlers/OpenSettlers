@@ -2,23 +2,8 @@ package soc.gwtClient.game.widgetsBitmap.tooltips;
 
 import org.adamtacy.client.ui.effects.impl.Fade;
 
-import soc.common.actions.gameAction.GameAction;
-import soc.common.actions.gameAction.standard.BuildCity;
-import soc.common.actions.gameAction.standard.BuildRoad;
-import soc.common.actions.gameAction.standard.BuildTown;
-import soc.common.actions.gameAction.standard.PlaceRobber;
-import soc.common.actions.gameAction.standard.RollDice;
-import soc.common.actions.gameAction.trading.TradeBank;
-import soc.common.actions.gameAction.turns.EndTurn;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.Point2D;
-import soc.gwtClient.game.widgetsBitmap.actions.BuildCityDetailBitmapWidget;
-import soc.gwtClient.game.widgetsBitmap.actions.BuildRoadDetailWidget;
-import soc.gwtClient.game.widgetsBitmap.actions.BuildTownDetailWidget;
-import soc.gwtClient.game.widgetsBitmap.actions.EndTurnDetailWidget;
-import soc.gwtClient.game.widgetsBitmap.actions.MoveRobberDetailWidget;
-import soc.gwtClient.game.widgetsBitmap.actions.RollDiceDetailWidget;
-import soc.gwtClient.game.widgetsBitmap.actions.TradeBankDetailWidget;
 import soc.gwtClient.game.widgetsBitmap.playerDetail.ResourcesGainedDetailWidget;
 import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 import soc.gwtClient.game.widgetsInterface.playerDetail.ActionDetailWidget;
@@ -82,53 +67,11 @@ public class DetailContainerWidget extends PopupPanel implements
         }
     }
 
-    private ActionDetailWidget createDetailWidget(GameAction gameAction)
-    {
-        if (gameAction instanceof EndTurn)
-            return new EndTurnDetailWidget(gamePanel, (EndTurn) gameAction);
-
-        if (gameAction instanceof BuildTown)
-            return new BuildTownDetailWidget(gamePanel, (BuildTown) gameAction);
-
-        if (gameAction instanceof BuildRoad)
-            return new BuildRoadDetailWidget(gamePanel, (BuildRoad) gameAction);
-
-        if (gameAction instanceof BuildCity)
-            return new BuildCityDetailBitmapWidget(gamePanel,
-                    (BuildCity) gameAction);
-
-        if (gameAction instanceof PlaceRobber)
-            return new MoveRobberDetailWidget(gamePanel,
-                    (PlaceRobber) gameAction);
-
-        if (gameAction instanceof TradeBank)
-            return new TradeBankDetailWidget(gamePanel, (TradeBank) gameAction);
-
-        if (gameAction instanceof RollDice)
-            return new RollDiceDetailWidget(gamePanel, (RollDice) gameAction);
-
-        return null;
-    }
-
     public void setPositionAndShow()
     {
         Point2D location = gamePanel.getTopRightPlayerInfoBoxPosition(player);
         setPopupPosition(location.getX(), location.getY());
         this.show();
-    }
-
-    public void hideMouseOverWidget()
-    {
-        mouseOverPanel.setVisible(false);
-        mouseOverPanel.remove(mouseOverPanel);
-        hide();
-    }
-
-    public void showMouseOverWidget(ActionDetailWidget playerDetailWidget)
-    {
-        this.playerDetailWidget = playerDetailWidget;
-        mouseOverPanel.setWidget(playerDetailWidget);
-        setPositionAndShow();
     }
 
     @Override
@@ -171,7 +114,7 @@ public class DetailContainerWidget extends PopupPanel implements
                     Fade fade = new Fade(widget.asWidget().getElement());
                     fade.play();
                     effectEnded = true;
-                    timer.schedule(1000);
+                    timer.schedule(2000);
                 }
             }
         };

@@ -3,6 +3,7 @@ package soc.gwtClient.game.widgetsInterface.main;
 import soc.common.actions.gameAction.GameAction;
 import soc.common.game.Game;
 import soc.common.game.player.GamePlayer;
+import soc.common.ui.ClientFactory;
 import soc.gwtClient.game.DetailContainerManager;
 import soc.gwtClient.game.Point2D;
 import soc.gwtClient.game.widgetsBitmap.main.GameDetailsWidget;
@@ -77,4 +78,6 @@ public interface GameWidget
     public StatusWidget getStatusWidget();
 
     public ToolTipManager getToolTipManager();
+
+    public ClientFactory getClientFactory();
 }

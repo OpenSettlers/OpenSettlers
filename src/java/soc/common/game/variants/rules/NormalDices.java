@@ -5,7 +5,6 @@ import soc.common.game.variants.GameRules;
 
 public class NormalDices implements GameRule
 {
-
     @Override
     public String getDescription()
     {
@@ -18,5 +17,4 @@ public class NormalDices implements GameRule
     {
         rules.setDiceType(new StandardDice());
     }
-
 }

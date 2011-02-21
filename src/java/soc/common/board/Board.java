@@ -16,36 +16,36 @@ import soc.common.board.territories.TerritoryList;
 import soc.common.server.randomization.ClientRandom;
 import soc.common.server.randomization.Random;
 
-/// <summary>
-/// Represents the board data structure. 
-/// 
-/// A board is made up of hexes in a 2D matrix. The even rows of the matrix 
-/// have an indentation length on the left side half the width of a hex.
-/// For example, a 5x5 sized board will have the layout of:
-/// 
-/// <code>
-/// |H| |H| |H| |H| |H|     0
-///   |H| |H| |H| |H| |H|   1
-/// |H| |H| |H| |H| |H|     2
-///   |H| |H| |H| |H| |H|   3
-/// |H| |H| |H| |H| |H|     4
-/// </code>
-/// 
-/// Sea3D has the same layout, only has the last hexes of the even rows 
-/// omitted. Thus, a Sea3D 'compatible' board would have the following
-/// layout:
-/// 
-/// <code>
-/// |H| |H| |H| |H| |H|     0
-///   |H| |H| |H| |H|       1
-/// |H| |H| |H| |H| |H|     2
-///   |H| |H| |H| |H|       3
-/// |H| |H| |H| |H| |H|     4
-/// </code>
-/// 
-/// The last hexes of each even row in a 'Sea3D compatible' configuration
-/// should be made invisible, and/or locked.
-/// </summary>
+/*
+ * Represents the board data structure. 
+
+ *  A board is made up of hexes in a 2D matrix. The even rows of the matrix 
+ *  have an indentation length on the left side half the width of a hex.
+ * For example, a 5x5 sized board will have the layout of:
+
+ *  <code>
+ *  |H| |H| |H| |H| |H|     0
+ *    |H| |H| |H| |H| |H|   1
+ *  |H| |H| |H| |H| |H|     2
+ *    |H| |H| |H| |H| |H|   3
+ *  |H| |H| |H| |H| |H|     4
+ *  </code>
+ *  
+ *  Sea3D has the same layout, only has the last hexes of the even rows 
+ *  omitted. Thus, a Sea3D 'compatible' board would have the following
+ *  layout:
+ *  
+ *  <code>
+ *  |H| |H| |H| |H| |H|     0
+ *    |H| |H| |H| |H|       1
+ *  |H| |H| |H| |H| |H|     2
+ *    |H| |H| |H| |H|       3
+ *  |H| |H| |H| |H| |H|     4
+ *  </code>
+ *  
+ * The last hexes of each even row in a 'Sea3D compatible' configuration
+ *  should be made invisible, and/or locked.
+ */
 
 public class Board implements Serializable
 {

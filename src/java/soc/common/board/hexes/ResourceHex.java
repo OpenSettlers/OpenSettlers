@@ -125,7 +125,6 @@ public class ResourceHex extends AbstractHex
     @Override
     public boolean isBuildableSea()
     {
-        // TODO Auto-generated method stub
         return false;
     }
 

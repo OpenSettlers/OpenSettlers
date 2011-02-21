@@ -40,14 +40,4 @@ public class DetailContainerManager
             detailContainer.hideCurrentWidget();
         }
     }
-
-    public void showMouseOverDetail(GamePlayer player, ActionDetailWidget widget)
-    {
-        playersDetails.get(player).showMouseOverWidget(widget);
-    }
-
-    public void hideMouseOverDetail(GamePlayer player)
-    {
-        playersDetails.get(player).hideMouseOverWidget();
-    }
 }

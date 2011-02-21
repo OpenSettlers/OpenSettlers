@@ -17,7 +17,7 @@ public class SeaHex extends AbstractHex
     private SimpleEventBus eventBus = new SimpleEventBus();
 
     /*
-     * Has no effect on a SeaHex
+     * Has no effect on a SeaHex, sea hexes do not have a territory
      * 
      * @see
      * soc.common.board.hexes.Hex#setTerritory(soc.common.board.territories.
@@ -51,7 +51,7 @@ public class SeaHex extends AbstractHex
     }
 
     /*
-     * (non-Javadoc)
+     * Copies this sea hex without the port
      * 
      * @see soc.common.board.hexes.Hex#Copy()
      */
@@ -132,5 +132,4 @@ public class SeaHex extends AbstractHex
     {
         return false;
     }
-
 }

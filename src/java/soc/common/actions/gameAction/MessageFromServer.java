@@ -1,6 +1,5 @@
 package soc.common.actions.gameAction;
 
-import soc.common.core.Core;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
 import soc.common.internationalization.I18n;
@@ -8,6 +7,8 @@ import soc.common.ui.Graphics;
 import soc.common.ui.Icon;
 import soc.common.ui.IconImpl;
 import soc.common.ui.meta.Meta;
+import soc.gwtClient.game.behaviour.gameBoard.factories.GameBehaviourFactory;
+import soc.gwtClient.game.behaviour.gameBoard.factories.ReceiveGameBehaviourFactory;
 import soc.gwtClient.game.behaviour.gameBoard.received.ReceiveGameBehaviour;
 import soc.gwtClient.game.behaviour.gameWidget.GameBehaviour;
 import soc.gwtClient.game.widgetsInterface.generic.ToolTip;
@@ -119,35 +120,33 @@ public class MessageFromServer extends AbstractGameAction
     }
 
     @Override
-    public GameBehaviour getNextActionBehaviour()
+    public GameBehaviour getNextActionBehaviour(
+            GameBehaviourFactory gameBehaviourFactory)
     {
-        return Core.get().getClientFactory().getBehaviourFactory()
-                .getNextActionBehaviourFactory()
+        return gameBehaviourFactory.createMessageFromServerBehaviour(this);
+    }
+
+    @Override
+    public ReceiveGameBehaviour getOpponentReceiveBehaviour(
+            ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
+    {
+        return receiveGameBehaviourFactory
                 .createMessageFromServerBehaviour(this);
     }
 
     @Override
-    public ReceiveGameBehaviour getOpponentReceiveBehaviour()
+    public ReceiveGameBehaviour getReceiveBehaviour(
+            ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
-        return Core.get().getClientFactory().getBehaviourFactory()
-                .getOpponentReceiveBehaviourFactory()
+        return receiveGameBehaviourFactory
                 .createMessageFromServerBehaviour(this);
     }
 
     @Override
-    public ReceiveGameBehaviour getReceiveBehaviour()
+    public GameBehaviour getSendBehaviour(
+            GameBehaviourFactory gameBehaviourFactory)
     {
-        return Core.get().getClientFactory().getBehaviourFactory()
-                .getReceiveBehaviourFactory().createMessageFromServerBehaviour(
-                        this);
-    }
-
-    @Override
-    public GameBehaviour getSendBehaviour()
-    {
-        return Core.get().getClientFactory().getBehaviourFactory()
-                .getSendBehaviourFactory().createMessageFromServerBehaviour(
-                        this);
+        return gameBehaviourFactory.createMessageFromServerBehaviour(this);
     }
 
     @Override

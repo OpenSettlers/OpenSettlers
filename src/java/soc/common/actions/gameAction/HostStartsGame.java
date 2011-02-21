@@ -1,6 +1,5 @@
 package soc.common.actions.gameAction;
 
-import soc.common.core.Core;
 import soc.common.game.Game;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.LobbyGamePhase;
@@ -11,6 +10,8 @@ import soc.common.ui.Graphics;
 import soc.common.ui.Icon;
 import soc.common.ui.IconImpl;
 import soc.common.ui.meta.Meta;
+import soc.gwtClient.game.behaviour.gameBoard.factories.GameBehaviourFactory;
+import soc.gwtClient.game.behaviour.gameBoard.factories.ReceiveGameBehaviourFactory;
 import soc.gwtClient.game.behaviour.gameBoard.received.ReceiveGameBehaviour;
 import soc.gwtClient.game.behaviour.gameWidget.GameBehaviour;
 import soc.gwtClient.game.widgetsInterface.actions.ActionWidget;
@@ -142,33 +143,31 @@ public class HostStartsGame extends AbstractGameAction
     }
 
     @Override
-    public GameBehaviour getNextActionBehaviour()
+    public GameBehaviour getNextActionBehaviour(
+            GameBehaviourFactory gameBehaviourFactory)
     {
-        return Core.get().getClientFactory().getBehaviourFactory()
-                .getNextActionBehaviourFactory()
-                .createHostStartsBehaviour(this);
+        return gameBehaviourFactory.createHostStartsBehaviour(this);
     }
 
     @Override
-    public ReceiveGameBehaviour getOpponentReceiveBehaviour()
+    public ReceiveGameBehaviour getOpponentReceiveBehaviour(
+            ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
-        return Core.get().getClientFactory().getBehaviourFactory()
-                .getOpponentReceiveBehaviourFactory()
-                .createHostStartsBehaviour(this);
+        return receiveGameBehaviourFactory.createHostStartsBehaviour(this);
     }
 
     @Override
-    public ReceiveGameBehaviour getReceiveBehaviour()
+    public ReceiveGameBehaviour getReceiveBehaviour(
+            ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
-        return Core.get().getClientFactory().getBehaviourFactory()
-                .getReceiveBehaviourFactory().createHostStartsBehaviour(this);
+        return receiveGameBehaviourFactory.createHostStartsBehaviour(this);
     }
 
     @Override
-    public GameBehaviour getSendBehaviour()
+    public GameBehaviour getSendBehaviour(
+            GameBehaviourFactory gameBehaviourFactory)
     {
-        return Core.get().getClientFactory().getBehaviourFactory()
-                .getSendBehaviourFactory().createHostStartsBehaviour(this);
+        return gameBehaviourFactory.createHostStartsBehaviour(this);
     }
 
     @Override

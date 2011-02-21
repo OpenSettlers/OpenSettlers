@@ -31,5 +31,4 @@ public class WaitingForReplacementPlayer implements GameStatus
         // TODO fix message
         return "Waiting for another player to replace ...";
     }
-
 }

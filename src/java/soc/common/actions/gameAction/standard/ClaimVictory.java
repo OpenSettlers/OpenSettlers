@@ -14,6 +14,8 @@ import soc.common.ui.Graphics;
 import soc.common.ui.Icon;
 import soc.common.ui.IconImpl;
 import soc.common.ui.meta.Meta;
+import soc.gwtClient.game.behaviour.gameBoard.factories.GameBehaviourFactory;
+import soc.gwtClient.game.behaviour.gameBoard.factories.ReceiveGameBehaviourFactory;
 import soc.gwtClient.game.behaviour.gameBoard.received.ReceiveGameBehaviour;
 import soc.gwtClient.game.behaviour.gameWidget.GameBehaviour;
 import soc.gwtClient.game.widgetsInterface.actions.ActionWidget;
@@ -138,33 +140,31 @@ public class ClaimVictory extends AbstractTurnAction
     }
 
     @Override
-    public GameBehaviour getNextActionBehaviour()
+    public GameBehaviour getNextActionBehaviour(
+            GameBehaviourFactory gameBehaviourFactory)
     {
-        return Core.get().getClientFactory().getBehaviourFactory()
-                .getNextActionBehaviourFactory().createClaimVictoryBehaviour(
-                        this);
+        return gameBehaviourFactory.createClaimVictoryBehaviour(this);
     }
 
     @Override
-    public ReceiveGameBehaviour getOpponentReceiveBehaviour()
+    public ReceiveGameBehaviour getOpponentReceiveBehaviour(
+            ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
-        return Core.get().getClientFactory().getBehaviourFactory()
-                .getOpponentReceiveBehaviourFactory()
-                .createClaimVictoryBehaviour(this);
+        return receiveGameBehaviourFactory.createClaimVictoryBehaviour(this);
     }
 
     @Override
-    public ReceiveGameBehaviour getReceiveBehaviour()
+    public ReceiveGameBehaviour getReceiveBehaviour(
+            ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
-        return Core.get().getClientFactory().getBehaviourFactory()
-                .getReceiveBehaviourFactory().createClaimVictoryBehaviour(this);
+        return receiveGameBehaviourFactory.createClaimVictoryBehaviour(this);
     }
 
     @Override
-    public GameBehaviour getSendBehaviour()
+    public GameBehaviour getSendBehaviour(
+            GameBehaviourFactory gameBehaviourFactory)
     {
-        return Core.get().getClientFactory().getBehaviourFactory()
-                .getSendBehaviourFactory().createClaimVictoryBehaviour(this);
+        return gameBehaviourFactory.createClaimVictoryBehaviour(this);
     }
 
     @Override
