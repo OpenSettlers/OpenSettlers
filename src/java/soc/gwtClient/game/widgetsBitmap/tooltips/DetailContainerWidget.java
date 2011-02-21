@@ -4,10 +4,10 @@ import org.adamtacy.client.ui.effects.impl.Fade;
 
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.Point2D;
-import soc.gwtClient.game.widgetsBitmap.playerDetail.ResourcesGainedDetailWidget;
+import soc.gwtClient.game.widgetsBitmap.playerInfo.ResourcesGainedDetailWidget;
 import soc.gwtClient.game.widgetsInterface.main.GameWidget;
-import soc.gwtClient.game.widgetsInterface.playerDetail.ActionDetailWidget;
-import soc.gwtClient.game.widgetsInterface.playerDetail.PlayerDetailContainerWidget;
+import soc.gwtClient.game.widgetsInterface.playerInfo.ActionDetailWidget;
+import soc.gwtClient.game.widgetsInterface.playerInfo.PlayerDetailContainerWidget;
 
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DeferredCommand;

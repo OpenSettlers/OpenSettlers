@@ -1,6 +1,6 @@
 package soc.gwtClient.game.widgetsBitmap.dialogs;
 
-import soc.gwtClient.game.behaviour.gameBoard.received.GameOverGameBehaviour;
+import soc.gwtClient.game.behaviour.gameWidget.received.GameOverGameBehaviour;
 import soc.gwtClient.game.widgetsInterface.dialogs.GameOverDialog;
 
 import com.google.gwt.user.client.ui.Button;

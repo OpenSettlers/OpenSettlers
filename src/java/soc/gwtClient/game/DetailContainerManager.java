@@ -5,8 +5,8 @@ import java.util.HashMap;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.widgetsBitmap.tooltips.DetailContainerWidget;
 import soc.gwtClient.game.widgetsInterface.main.GameWidget;
-import soc.gwtClient.game.widgetsInterface.playerDetail.ActionDetailWidget;
-import soc.gwtClient.game.widgetsInterface.playerDetail.PlayerDetailContainerWidget;
+import soc.gwtClient.game.widgetsInterface.playerInfo.ActionDetailWidget;
+import soc.gwtClient.game.widgetsInterface.playerInfo.PlayerDetailContainerWidget;
 
 public class DetailContainerManager
 {

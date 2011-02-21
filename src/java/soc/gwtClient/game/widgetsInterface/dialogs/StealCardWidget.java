@@ -1,7 +1,7 @@
 package soc.gwtClient.game.widgetsInterface.dialogs;
 
 import soc.common.game.player.GamePlayer;
-import soc.gwtClient.game.behaviour.gameWidget.RobPlayerGameBehaviour;
+import soc.gwtClient.game.behaviour.gameWidget.beforeSend.RobPlayerGameBehaviour;
 
 import com.google.gwt.user.client.ui.IsWidget;
 

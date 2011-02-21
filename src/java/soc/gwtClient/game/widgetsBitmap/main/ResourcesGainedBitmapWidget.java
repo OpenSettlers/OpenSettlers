@@ -1,7 +1,7 @@
 package soc.gwtClient.game.widgetsBitmap.main;
 
 import soc.gwtClient.game.Point2D;
-import soc.gwtClient.game.behaviour.gameBoard.received.RollDiceResult;
+import soc.gwtClient.game.behaviour.gameWidget.received.RollDiceResult;
 import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 import soc.gwtClient.game.widgetsInterface.main.ResourcesGainedWidget;
 

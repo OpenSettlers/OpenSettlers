@@ -8,7 +8,7 @@ import soc.common.game.VictoryPointsChangedEventHandler;
 import soc.common.game.developmentCards.standard.VictoryPoint;
 import soc.common.game.player.GamePlayer;
 import soc.common.utils.NotImplementedException;
-import soc.gwtClient.game.widgetsAbstract.AbstractPlayerInfoToolTip;
+import soc.gwtClient.game.widgetsAbstract.toolTips.AbstractPlayerInfoToolTip;
 import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 import soc.gwtClient.images.Resources;
 

@@ -6,7 +6,7 @@ import java.util.List;
 import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.standard.PlaceRobber;
 import soc.common.board.hexes.Hex;
-import soc.gwtClient.game.behaviour.gameWidget.MoveRobberGameBehaviour;
+import soc.gwtClient.game.behaviour.gameWidget.beforeSend.MoveRobberGameBehaviour;
 import soc.gwtClient.game.widgetsInterface.visuals.GameBoardVisual;
 import soc.gwtClient.game.widgetsInterface.visuals.HexVisual;
 import soc.gwtClient.game.widgetsInterface.visuals.PieceVisual;

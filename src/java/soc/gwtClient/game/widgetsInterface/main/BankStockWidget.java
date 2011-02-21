@@ -2,7 +2,7 @@ package soc.gwtClient.game.widgetsInterface.main;
 
 import soc.common.board.resources.Resource;
 import soc.common.game.Game;
-import soc.gwtClient.game.widgetsInterface.playerDetail.DevelopmentCardsAmountWidget;
+import soc.gwtClient.game.widgetsInterface.playerInfo.DevelopmentCardsAmountWidget;
 
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.IsWidget;

@@ -6,13 +6,13 @@ import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
 import soc.common.game.player.GamePlayer;
 import soc.common.game.statuses.GameStatus;
-import soc.common.ui.ActionDetailWidgetFactory;
-import soc.gwtClient.game.behaviour.gameBoard.factories.GameBehaviourFactory;
-import soc.gwtClient.game.behaviour.gameBoard.factories.ReceiveGameBehaviourFactory;
-import soc.gwtClient.game.behaviour.gameBoard.received.ReceiveGameBehaviour;
 import soc.gwtClient.game.behaviour.gameWidget.GameBehaviour;
+import soc.gwtClient.game.behaviour.gameWidget.factories.GameBehaviourFactory;
+import soc.gwtClient.game.behaviour.gameWidget.factories.ReceiveGameBehaviourFactory;
+import soc.gwtClient.game.behaviour.gameWidget.received.ReceiveGameBehaviour;
+import soc.gwtClient.game.widgetsInterface.actions.ActionDetailWidgetFactory;
 import soc.gwtClient.game.widgetsInterface.actions.ActionWidget;
-import soc.gwtClient.game.widgetsInterface.playerDetail.ActionDetailWidget;
+import soc.gwtClient.game.widgetsInterface.playerInfo.ActionDetailWidget;
 
 public interface GameAction extends Action
 {

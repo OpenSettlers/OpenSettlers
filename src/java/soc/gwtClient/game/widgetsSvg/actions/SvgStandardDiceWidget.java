@@ -12,7 +12,7 @@ import soc.common.game.gamePhase.turnPhase.TurnPhaseChangedEvent;
 import soc.common.game.gamePhase.turnPhase.TurnPhaseChangedHandler;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.Point2D;
-import soc.gwtClient.game.widgetsAbstract.AbstractStandardDiceWidget;
+import soc.gwtClient.game.widgetsAbstract.actions.AbstractStandardDiceWidget;
 import soc.gwtClient.game.widgetsInterface.actions.ActionWidget;
 import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 

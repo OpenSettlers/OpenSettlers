@@ -8,7 +8,7 @@ import soc.gwtClient.game.widgetsInterface.dialogs.GameOverDialog;
 import soc.gwtClient.game.widgetsInterface.dialogs.HotseatLooseCardsDialog;
 import soc.gwtClient.game.widgetsInterface.dialogs.LooseCardsDialog;
 import soc.gwtClient.game.widgetsInterface.dialogs.StealCardWidget;
-import soc.gwtClient.game.widgetsInterface.playerDetail.PlayersInfoWidget;
+import soc.gwtClient.game.widgetsInterface.playerInfo.PlayersInfoWidget;
 
 public interface GameWidgetFactory
 {

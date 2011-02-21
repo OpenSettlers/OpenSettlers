@@ -1,11 +1,11 @@
 package soc.common.ui.meta;
 
-import soc.gwtClient.game.behaviour.gameBoard.factories.GameBehaviourFactory;
-import soc.gwtClient.game.behaviour.gameBoard.factories.NextActionGameBehaviourFactory;
-import soc.gwtClient.game.behaviour.gameBoard.factories.OpponentBehaviourFactory;
-import soc.gwtClient.game.behaviour.gameBoard.factories.ReceiveGameBehaviourFactory;
-import soc.gwtClient.game.behaviour.gameBoard.factories.ReceivedActionGameBehaviourFactory;
-import soc.gwtClient.game.behaviour.gameBoard.factories.SendGameBehaviourFactory;
+import soc.gwtClient.game.behaviour.gameWidget.factories.GameBehaviourFactory;
+import soc.gwtClient.game.behaviour.gameWidget.factories.NextActionGameBehaviourFactory;
+import soc.gwtClient.game.behaviour.gameWidget.factories.OpponentBehaviourFactory;
+import soc.gwtClient.game.behaviour.gameWidget.factories.ReceiveGameBehaviourFactory;
+import soc.gwtClient.game.behaviour.gameWidget.factories.ReceivedActionGameBehaviourFactory;
+import soc.gwtClient.game.behaviour.gameWidget.factories.SendGameBehaviourFactory;
 import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 
 public class DefaultGameActionBehaviourFactory implements

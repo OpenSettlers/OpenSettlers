@@ -6,7 +6,7 @@ import soc.common.actions.gameAction.standard.LooseCards;
 import soc.common.actions.gameAction.standard.RollDice;
 import soc.common.game.player.GamePlayer;
 import soc.common.game.player.GamePlayerList;
-import soc.gwtClient.game.behaviour.gameBoard.received.RollDiceResult;
+import soc.gwtClient.game.behaviour.gameWidget.received.RollDiceResult;
 import soc.gwtClient.game.widgetsBitmap.main.LooseCardsBitmapWidget;
 import soc.gwtClient.game.widgetsInterface.dialogs.HotseatLooseCardsDialog;
 import soc.gwtClient.game.widgetsInterface.dialogs.LooseCardsWidget;

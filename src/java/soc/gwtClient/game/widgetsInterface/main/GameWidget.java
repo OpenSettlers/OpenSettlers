@@ -13,7 +13,7 @@ import soc.gwtClient.game.widgetsInterface.dialogs.LooseCardsDialog;
 import soc.gwtClient.game.widgetsInterface.dialogs.StealCardWidget;
 import soc.gwtClient.game.widgetsInterface.dialogs.TradePlayerDialog;
 import soc.gwtClient.game.widgetsInterface.generic.ToolTipManager;
-import soc.gwtClient.game.widgetsInterface.playerDetail.PlayersInfoWidget;
+import soc.gwtClient.game.widgetsInterface.playerInfo.PlayersInfoWidget;
 
 public interface GameWidget
 {

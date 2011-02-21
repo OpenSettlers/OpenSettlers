@@ -3,7 +3,7 @@ package soc.gwtClient.game.widgetsBitmap.main;
 import soc.common.board.resources.Resource;
 import soc.common.board.resources.ResourcesChangedEvent;
 import soc.common.game.player.GamePlayer;
-import soc.gwtClient.game.widgetsAbstract.AbstractHandCardsWidget;
+import soc.gwtClient.game.widgetsAbstract.main.AbstractHandCardsWidget;
 import soc.gwtClient.game.widgetsBitmap.generic.ResourceBitmapWidget;
 import soc.gwtClient.game.widgetsInterface.generic.ResourceWidget;
 

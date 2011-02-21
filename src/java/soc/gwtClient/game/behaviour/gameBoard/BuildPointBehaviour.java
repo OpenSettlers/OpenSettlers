@@ -10,7 +10,7 @@ import soc.gwtClient.game.widgetsInterface.visuals.PieceVisual;
 
 public abstract class BuildPointBehaviour implements GameBoardBehaviour
 {
-    List<HexPoint> possibleLocations = new ArrayList<HexPoint>();
+    protected List<HexPoint> possibleLocations = new ArrayList<HexPoint>();
 
     @Override
     public void mouseEnter(PieceVisual pieceVisual, GameBoardVisual board)

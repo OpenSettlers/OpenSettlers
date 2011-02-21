@@ -1,7 +1,7 @@
 package soc.gwtClient.game.widgetsBitmap.main;
 
 import soc.common.game.player.GamePlayer;
-import soc.gwtClient.game.widgetsAbstract.AbstractBankStockWidget;
+import soc.gwtClient.game.widgetsAbstract.main.AbstractBankStockWidget;
 import soc.gwtClient.game.widgetsBitmap.actions.HotSeatActionsPlayersWidget;
 import soc.gwtClient.game.widgetsBitmap.dialogs.HotSeatGameOverDialog;
 import soc.gwtClient.game.widgetsBitmap.dialogs.HotseatLooseCards;
@@ -23,7 +23,7 @@ import soc.gwtClient.game.widgetsInterface.main.PlayerStuffWidget;
 import soc.gwtClient.game.widgetsInterface.main.QueueWidget;
 import soc.gwtClient.game.widgetsInterface.main.ResourcesGainedWidget;
 import soc.gwtClient.game.widgetsInterface.main.StatusWidget;
-import soc.gwtClient.game.widgetsInterface.playerDetail.PlayersInfoWidget;
+import soc.gwtClient.game.widgetsInterface.playerInfo.PlayersInfoWidget;
 import soc.gwtClient.game.widgetsSvg.BoardVisualSvgWidget;
 
 public class GameBitmapWidgetFactory implements GameWidgetFactory

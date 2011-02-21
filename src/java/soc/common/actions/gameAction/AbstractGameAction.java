@@ -9,10 +9,10 @@ import soc.common.game.Turn;
 import soc.common.game.player.GamePlayer;
 import soc.common.game.player.GamePlayerImpl;
 import soc.common.game.statuses.GameStatus;
-import soc.common.ui.ActionDetailWidgetFactory;
 import soc.common.utils.ClassUtils;
+import soc.gwtClient.game.widgetsInterface.actions.ActionDetailWidgetFactory;
 import soc.gwtClient.game.widgetsInterface.actions.ActionWidget;
-import soc.gwtClient.game.widgetsInterface.playerDetail.ActionDetailWidget;
+import soc.gwtClient.game.widgetsInterface.playerInfo.ActionDetailWidget;
 
 /*
  * A GameAction performed in a game

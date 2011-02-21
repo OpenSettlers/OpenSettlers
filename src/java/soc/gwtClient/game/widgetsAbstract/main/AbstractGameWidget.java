@@ -11,8 +11,8 @@ import soc.common.ui.ClientFactory;
 import soc.common.ui.DefaultClientFactory;
 import soc.gwtClient.game.DetailContainerManager;
 import soc.gwtClient.game.Point2D;
-import soc.gwtClient.game.behaviour.gameBoard.received.ReceiveGameBehaviour;
 import soc.gwtClient.game.behaviour.gameWidget.GameBehaviour;
+import soc.gwtClient.game.behaviour.gameWidget.received.ReceiveGameBehaviour;
 import soc.gwtClient.game.widgetsBitmap.main.DesktopGamePanelLayout;
 import soc.gwtClient.game.widgetsBitmap.main.GameDetailsWidget;
 import soc.gwtClient.game.widgetsBitmap.main.ToolTipManagerImpl;
@@ -35,7 +35,7 @@ import soc.gwtClient.game.widgetsInterface.main.PlayerStuffWidget;
 import soc.gwtClient.game.widgetsInterface.main.QueueWidget;
 import soc.gwtClient.game.widgetsInterface.main.ResourcesGainedWidget;
 import soc.gwtClient.game.widgetsInterface.main.StatusWidget;
-import soc.gwtClient.game.widgetsInterface.playerDetail.PlayersInfoWidget;
+import soc.gwtClient.game.widgetsInterface.playerInfo.PlayersInfoWidget;
 import soc.gwtClient.main.CenterWidget;
 
 import com.google.gwt.user.client.ui.Widget;

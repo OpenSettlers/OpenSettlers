@@ -1,6 +1,6 @@
 package soc.gwtClient.game.widgetsInterface.dialogs;
 
-import soc.gwtClient.game.behaviour.gameBoard.received.GameOverGameBehaviour;
+import soc.gwtClient.game.behaviour.gameWidget.received.GameOverGameBehaviour;
 
 import com.google.gwt.user.client.ui.IsWidget;
 

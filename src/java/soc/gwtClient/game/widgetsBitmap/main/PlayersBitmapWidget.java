@@ -2,10 +2,10 @@ package soc.gwtClient.game.widgetsBitmap.main;
 
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.Point2D;
-import soc.gwtClient.game.widgetsAbstract.AbstractPlayersWidget;
-import soc.gwtClient.game.widgetsBitmap.playerDetail.PlayerBitmapWidget;
+import soc.gwtClient.game.widgetsAbstract.playerInfo.AbstractPlayersWidget;
+import soc.gwtClient.game.widgetsBitmap.playerInfo.PlayerBitmapWidget;
 import soc.gwtClient.game.widgetsInterface.main.GameWidget;
-import soc.gwtClient.game.widgetsInterface.playerDetail.PlayerInfoWidget;
+import soc.gwtClient.game.widgetsInterface.playerInfo.PlayerInfoWidget;
 
 import com.google.gwt.user.client.ui.Widget;
 

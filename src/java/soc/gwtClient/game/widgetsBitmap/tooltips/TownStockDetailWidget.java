@@ -7,7 +7,7 @@ import soc.common.board.pieces.Town;
 import soc.common.board.pieces.pieceLists.PlayerPieceListChangedEvent;
 import soc.common.board.pieces.pieceLists.PlayerPieceListChangedEventHandler;
 import soc.common.game.player.GamePlayer;
-import soc.gwtClient.game.widgetsAbstract.AbstractPlayerInfoToolTip;
+import soc.gwtClient.game.widgetsAbstract.toolTips.AbstractPlayerInfoToolTip;
 import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 import soc.gwtClient.images.Resources;
 

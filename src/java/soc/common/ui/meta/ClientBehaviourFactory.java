@@ -1,7 +1,7 @@
 package soc.common.ui.meta;
 
-import soc.gwtClient.game.behaviour.gameBoard.factories.GameBehaviourFactory;
-import soc.gwtClient.game.behaviour.gameBoard.factories.ReceiveGameBehaviourFactory;
+import soc.gwtClient.game.behaviour.gameWidget.factories.GameBehaviourFactory;
+import soc.gwtClient.game.behaviour.gameWidget.factories.ReceiveGameBehaviourFactory;
 
 public interface ClientBehaviourFactory
 {

@@ -6,7 +6,7 @@ import soc.common.actions.gameAction.standard.RobPlayer;
 import soc.common.game.Game;
 import soc.common.game.player.GamePlayer;
 import soc.common.game.player.GamePlayerList;
-import soc.gwtClient.game.behaviour.gameWidget.RobPlayerGameBehaviour;
+import soc.gwtClient.game.behaviour.gameWidget.beforeSend.RobPlayerGameBehaviour;
 import soc.gwtClient.game.widgetsBitmap.generic.StealPlayerCardBitmapWidget;
 import soc.gwtClient.game.widgetsInterface.dialogs.StealCardWidget;
 import soc.gwtClient.game.widgetsInterface.main.GameWidget;

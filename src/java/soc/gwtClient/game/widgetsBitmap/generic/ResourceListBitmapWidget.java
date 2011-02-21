@@ -3,7 +3,7 @@ package soc.gwtClient.game.widgetsBitmap.generic;
 import soc.common.board.ports.PortList;
 import soc.common.board.resources.Resource;
 import soc.common.board.resources.ResourceList;
-import soc.gwtClient.game.widgetsAbstract.AbstractResourceListWidget;
+import soc.gwtClient.game.widgetsAbstract.generic.AbstractResourceListWidget;
 import soc.gwtClient.game.widgetsInterface.generic.ResourceWidget;
 
 import com.google.gwt.user.client.ui.ComplexPanel;

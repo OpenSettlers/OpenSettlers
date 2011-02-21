@@ -5,7 +5,7 @@ import soc.common.board.resources.AbstractResource;
 import soc.common.board.resources.Resource;
 import soc.common.board.resources.ResourceList;
 import soc.common.game.player.GamePlayerImpl;
-import soc.gwtClient.game.widgetsAbstract.AbstractResourcePickerWidget;
+import soc.gwtClient.game.widgetsAbstract.generic.AbstractResourcePickerWidget;
 import soc.gwtClient.game.widgetsInterface.generic.ResourcePickerWidget;
 import soc.gwtClient.game.widgetsInterface.generic.ResourceSelectorWidget;
 import soc.gwtClient.game.widgetsInterface.main.GameWidget;
