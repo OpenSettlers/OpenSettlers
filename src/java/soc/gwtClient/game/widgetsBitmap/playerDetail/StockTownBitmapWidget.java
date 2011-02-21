@@ -24,9 +24,9 @@ public class StockTownBitmapWidget extends AbstractStockItemWidget implements
     private Town town = new Town();
     protected ActionDetailWidget townStockDetail;
 
-    public StockTownBitmapWidget(GameWidget gamePanel, GamePlayer player)
+    public StockTownBitmapWidget(GameWidget gameWidget, GamePlayer player)
     {
-        super(gamePanel, player);
+        super(gameWidget, player);
 
         townImage.setSize("16px", "16px");
 
@@ -58,7 +58,7 @@ public class StockTownBitmapWidget extends AbstractStockItemWidget implements
     @Override
     protected ToolTip createToolTip()
     {
-        return new TownStockDetailWidget(gamePanel, player);
+        return new TownStockDetailWidget(gameWidget, player);
     }
 
 }

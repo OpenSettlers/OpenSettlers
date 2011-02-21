@@ -12,9 +12,9 @@ public class RobPlayerDetailWidget extends AbstractActionDetailWidget
 {
     private RobPlayer robPlayer;
 
-    public RobPlayerDetailWidget(GameWidget gamePanel, RobPlayer robPlayer)
+    public RobPlayerDetailWidget(GameWidget gameWidget, RobPlayer robPlayer)
     {
-        super(gamePanel, robPlayer.getPlayer());
+        super(gameWidget, robPlayer.getPlayer());
         this.robPlayer = robPlayer;
 
         rootPanel.add(new Image(Resources.icons().robber()));

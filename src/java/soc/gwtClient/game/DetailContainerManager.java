@@ -11,17 +11,17 @@ import soc.gwtClient.game.widgetsInterface.playerDetail.PlayerDetailContainerWid
 public class DetailContainerManager
 {
     protected HashMap<GamePlayer, PlayerDetailContainerWidget> playersDetails = new HashMap<GamePlayer, PlayerDetailContainerWidget>();
-    protected GameWidget gamePanel;
+    protected GameWidget gameWidget;
 
-    public DetailContainerManager(GameWidget gamePanel)
+    public DetailContainerManager(GameWidget gameWidget)
     {
         super();
-        this.gamePanel = gamePanel;
+        this.gameWidget = gameWidget;
 
-        for (GamePlayer playerr : gamePanel.getGame().getPlayers())
+        for (GamePlayer playerr : gameWidget.getGame().getPlayers())
         {
             playersDetails.put(playerr, new DetailContainerWidget(playerr,
-                    gamePanel));
+                    gameWidget));
         }
     }
 

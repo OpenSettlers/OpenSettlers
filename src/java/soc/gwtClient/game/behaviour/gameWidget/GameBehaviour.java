@@ -4,7 +4,7 @@ import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 
 public interface GameBehaviour
 {
-    public void start(GameWidget gamePanel);
+    public void start(GameWidget gameWidget);
 
     public void finish();
 }

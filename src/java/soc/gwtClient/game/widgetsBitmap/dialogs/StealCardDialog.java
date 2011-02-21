@@ -27,20 +27,20 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  */
 public class StealCardDialog extends DialogBox implements StealCardWidget
 {
-    private GameWidget gamePanel;
+    private GameWidget gameWidget;
     private GamePlayer player;
     private VerticalPanel playersCards = new VerticalPanel();
     private HashMap<GamePlayer, StealPlayerCardWidget> playerWidgets = new HashMap<GamePlayer, StealPlayerCardWidget>();
     private RobPlayerGameBehaviour robPlayerGameBehaviour;
 
-    public StealCardDialog(GameWidget gamePanel, GamePlayer player)
+    public StealCardDialog(GameWidget gameWidget, GamePlayer player)
     {
         this();
-        this.gamePanel = gamePanel;
+        this.gameWidget = gameWidget;
         this.player = player;
 
         // Add a widget for all players to the rootpanel
-        for (GamePlayer playerr : gamePanel.getGame().getPlayers())
+        for (GamePlayer playerr : gameWidget.getGame().getPlayers())
         {
             StealPlayerCardWidget widget = new StealPlayerCardBitmapWidget(
                     playerr, this);
@@ -102,11 +102,11 @@ public class StealCardDialog extends DialogBox implements StealCardWidget
     public void update(RobPlayerGameBehaviour robPlayerGameBehaviour)
     {
         this.robPlayerGameBehaviour = robPlayerGameBehaviour;
-        this.player = gamePanel.getPlayingPlayer();
-        Game game = gamePanel.getGame();
+        this.player = gameWidget.getPlayingPlayer();
+        Game game = gameWidget.getGame();
 
         GamePlayerList robCandidates = game.getPlayersAtHex(game.getRobber()
-                .getLocation(), gamePanel.getPlayingPlayer());
+                .getLocation(), gameWidget.getPlayingPlayer());
 
         // Only make the players' visible who can be robbed.
         for (GamePlayer playerr : playerWidgets.keySet())

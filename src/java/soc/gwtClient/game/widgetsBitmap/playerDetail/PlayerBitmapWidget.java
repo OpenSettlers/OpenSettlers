@@ -18,15 +18,15 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 
 public class PlayerBitmapWidget extends AbstractPlayerWidget
 {
-    public PlayerBitmapWidget(GameWidget gamePanel, GamePlayer player)
+    public PlayerBitmapWidget(GameWidget gameWidget, GamePlayer player)
     {
-        super(gamePanel, player);
+        super(gameWidget, player);
     }
 
     @Override
     public StockWidget createStockWidget()
     {
-        return new StockBitmapWidget(gamePanel, player);
+        return new StockBitmapWidget(gameWidget, player);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class PlayerBitmapWidget extends AbstractPlayerWidget
     @Override
     public LargestArmyDetailWidget createLargestArmyWidget()
     {
-        return new LargestArmyBitmapWidget(gamePanel, player);
+        return new LargestArmyBitmapWidget(gameWidget, player);
     }
 
     @Override
@@ -62,13 +62,13 @@ public class PlayerBitmapWidget extends AbstractPlayerWidget
     @Override
     public VictoryPointAmountWidget createVictoryPointWidget()
     {
-        return new VictoryPointsBitmapWidget(gamePanel, player);
+        return new VictoryPointsBitmapWidget(gameWidget, player);
     }
 
     @Override
     public PlayerTurnStatusWidget createTurnStatusWidget()
     {
-        return new PlayerTurnStatusBitmapWidget(player, gamePanel.getGame());
+        return new PlayerTurnStatusBitmapWidget(player, gameWidget.getGame());
     }
 
     @Override
@@ -81,7 +81,7 @@ public class PlayerBitmapWidget extends AbstractPlayerWidget
     @Override
     public PortAmountWidget createPortAmountwidget()
     {
-        return new PortAmountBitmapWidget(gamePanel, player);
+        return new PortAmountBitmapWidget(gameWidget, player);
     }
 
 }

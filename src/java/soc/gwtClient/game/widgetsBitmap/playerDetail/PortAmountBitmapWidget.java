@@ -25,15 +25,15 @@ public class PortAmountBitmapWidget implements PortAmountWidget,
     private Label lblPortAmount = new Label();
     private GamePlayer player;
     private PortListToolTip portListDetailWidget;
-    private GameWidget gamePanel;
+    private GameWidget gameWidget;
 
-    public PortAmountBitmapWidget(GameWidget gamePanel, GamePlayer player)
+    public PortAmountBitmapWidget(GameWidget gameWidget, GamePlayer player)
     {
         super();
-        this.gamePanel = gamePanel;
+        this.gameWidget = gameWidget;
         this.player = player;
 
-        portListDetailWidget = new PortListToolTip(gamePanel, player);
+        portListDetailWidget = new PortListToolTip(gameWidget, player);
         updateUI();
 
         rootPanel.add(imgPort);
@@ -65,13 +65,13 @@ public class PortAmountBitmapWidget implements PortAmountWidget,
     @Override
     public void onMouseOut(MouseOutEvent event)
     {
-        gamePanel.getToolTipManager().hideToolTip(portListDetailWidget);
+        gameWidget.getToolTipManager().hideToolTip(portListDetailWidget);
     }
 
     @Override
     public void onMouseOver(MouseOverEvent event)
     {
-        gamePanel.getToolTipManager().showToolTip(portListDetailWidget);
+        gameWidget.getToolTipManager().showToolTip(portListDetailWidget);
     }
 
 }

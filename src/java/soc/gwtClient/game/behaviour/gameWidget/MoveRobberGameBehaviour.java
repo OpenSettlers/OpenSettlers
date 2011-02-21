@@ -8,13 +8,13 @@ public class MoveRobberGameBehaviour implements GameBehaviour
 {
     private PlaceRobber placeRobber;
     private PlaceRobberBehaviour placeRobberBehaviour;
-    private GameWidget gamePanel;
+    private GameWidget gameWidget;
 
-    public MoveRobberGameBehaviour(GameWidget gamePanel, PlaceRobber placeRobber)
+    public MoveRobberGameBehaviour(GameWidget gameWidget, PlaceRobber placeRobber)
     {
         super();
         this.placeRobber = placeRobber;
-        this.gamePanel = gamePanel;
+        this.gameWidget = gameWidget;
 
         placeRobberBehaviour = new PlaceRobberBehaviour(this);
     }
@@ -25,20 +25,20 @@ public class MoveRobberGameBehaviour implements GameBehaviour
     }
 
     @Override
-    public void start(GameWidget gamePanel)
+    public void start(GameWidget gameWidget)
     {
-        gamePanel.blockUI();
-        gamePanel.getBoardVisualWidget().getBoardVisual().setBehaviour(
+        gameWidget.blockUI();
+        gameWidget.getBoardVisualWidget().getBoardVisual().setBehaviour(
                 placeRobberBehaviour);
     }
 
     public void pickedRobberSpot(PlaceRobberBehaviour placeRobberBehaviour)
     {
-        gamePanel.unBlockUI();
-        placeRobberBehaviour.setNeutral(gamePanel.getBoardVisualWidget()
+        gameWidget.unBlockUI();
+        placeRobberBehaviour.setNeutral(gameWidget.getBoardVisualWidget()
                 .getBoardVisual());
-        gamePanel.getBoardVisualWidget().getBoardVisual().stopBehaviour();
-        gamePanel.sendAction(placeRobber);
+        gameWidget.getBoardVisualWidget().getBoardVisual().stopBehaviour();
+        gameWidget.sendAction(placeRobber);
     }
 
     public PlaceRobber getPlaceRobber()

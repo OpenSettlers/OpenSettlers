@@ -5,12 +5,12 @@ import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 
 public class RobPlayerGameBehaviour implements GameBehaviour
 {
-    private GameWidget gamePanel;
+    private GameWidget gameWidget;
 
-    public RobPlayerGameBehaviour(GameWidget gamePanel)
+    public RobPlayerGameBehaviour(GameWidget gameWidget)
     {
         super();
-        this.gamePanel = gamePanel;
+        this.gameWidget = gameWidget;
     }
 
     @Override
@@ -19,15 +19,15 @@ public class RobPlayerGameBehaviour implements GameBehaviour
     }
 
     @Override
-    public void start(GameWidget gamePanel)
+    public void start(GameWidget gameWidget)
     {
-        gamePanel.blockUI();
-        gamePanel.getStealCardWidget().update(this);
+        gameWidget.blockUI();
+        gameWidget.getStealCardWidget().update(this);
     }
 
     public void robbedPlayer(RobPlayer robplayer)
     {
-        gamePanel.unBlockUI();
-        gamePanel.sendAction(robplayer);
+        gameWidget.unBlockUI();
+        gameWidget.sendAction(robplayer);
     }
 }

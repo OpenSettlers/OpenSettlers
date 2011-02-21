@@ -29,11 +29,11 @@ public class RolledSameBehaviour implements ReceiveGameBehaviour
     }
 
     @Override
-    public void start(GameWidget gamePanel)
+    public void start(GameWidget gameWidget)
     {
         for (int playerID : rolledSame.getSameRolledPlayers())
         {
-            GamePlayer player = gamePanel.getGame().getPlayerByID(playerID);
+            GamePlayer player = gameWidget.getGame().getPlayerByID(playerID);
         }
     }
 

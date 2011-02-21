@@ -10,13 +10,13 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 
 public abstract class AbstractStockWidget implements StockWidget
 {
-    protected GameWidget gamePanel;
+    protected GameWidget gameWidget;
     protected GamePlayer player;
     protected ComplexPanel rootPanel;
 
-    public AbstractStockWidget(GameWidget gamePanel, GamePlayer player)
+    public AbstractStockWidget(GameWidget gameWidget, GamePlayer player)
     {
-        this.gamePanel = gamePanel;
+        this.gameWidget = gameWidget;
         this.player = player;
 
         rootPanel = createRootPanel();
@@ -26,7 +26,7 @@ public abstract class AbstractStockWidget implements StockWidget
 
     private void createStockItemWidgetsList()
     {
-        for (PlayerPiece piece : gamePanel.getGame().getRules()
+        for (PlayerPiece piece : gameWidget.getGame().getRules()
                 .getStockPieces())
         {
             rootPanel.add(createStockItemWidget(piece));

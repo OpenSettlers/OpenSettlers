@@ -28,16 +28,16 @@ public class TradePlayerBitmapWidget extends AbstractActionWidget implements
             .tradePlayer()));
     TradePlayer tradePlayer = new TradePlayer();
 
-    public TradePlayerBitmapWidget(GameWidget gamePanel, GamePlayer player)
+    public TradePlayerBitmapWidget(GameWidget gameWidget, GamePlayer player)
     {
-        super(gamePanel, player);
+        super(gameWidget, player);
 
         tradePlayer.setPlayer(player);
 
         player.getResources().addResourcesChangedEventHandler(this);
-        gamePanel.getGame().addGamePhaseChangedEventHandler(this);
-        gamePanel.getGame().addTurnPhaseChangedHandler(this);
-        gamePanel.getGame().addTurnChangedEventHandler(this);
+        gameWidget.getGame().addGamePhaseChangedEventHandler(this);
+        gameWidget.getGame().addTurnPhaseChangedHandler(this);
+        gameWidget.getGame().addTurnChangedEventHandler(this);
         btnTradePlayer.addClickHandler(this);
     }
 
@@ -90,7 +90,7 @@ public class TradePlayerBitmapWidget extends AbstractActionWidget implements
     private void checkEnabled()
     {
         if (enabled && player.isOnTurn()
-                && gamePanel.getGame().isAllowed(tradePlayer)
+                && gameWidget.getGame().isAllowed(tradePlayer)
                 && player.getResources().size() > 0)
         {
             enableUI();
@@ -103,7 +103,7 @@ public class TradePlayerBitmapWidget extends AbstractActionWidget implements
     @Override
     public void onClick(ClickEvent arg0)
     {
-        gamePanel.getTradePlayerUI().show();
+        gameWidget.getTradePlayerUI().show();
     }
 
 }

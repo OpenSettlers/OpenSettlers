@@ -17,9 +17,9 @@ import com.google.gwt.user.client.ui.Widget;
 public class ResourcePickerBitmapWidget extends AbstractResourcePickerWidget
 {
     public ResourcePickerBitmapWidget(ResourceList resources,
-             PortList ports, ResourceList bankResources, GameWidget gamePanel)
+             PortList ports, ResourceList bankResources, GameWidget gameWidget)
     {
-        super(resources, ports, bankResources, gamePanel);
+        super(resources, ports, bankResources, gameWidget);
     }
 
     @Override

@@ -16,9 +16,9 @@ public class StatusBitmapPanel extends AbstractStatusPanel
     /**
      * @wbp.parser.entryPoint
      */
-    public StatusBitmapPanel(GameWidget gamePanel)
+    public StatusBitmapPanel(GameWidget gameWidget)
     {
-        super(gamePanel);
+        super(gameWidget);
 
         rootPanel.setStyleName("statusPanel");
     }
@@ -57,7 +57,7 @@ public class StatusBitmapPanel extends AbstractStatusPanel
         sb.append("'s turn. ");
         sb.append(turn.getPlayer().getUser().getName());
         sb.append(" should ");
-        sb.append(gamePanel.getGame().getCurrentPhase().getMessage());
+        sb.append(gameWidget.getGame().getCurrentPhase().getMessage());
 
         lblTurn.setText(sb.toString());
         lblPlayerOnTurn.setText(turn.getPlayer().getUser().getName());
@@ -67,6 +67,6 @@ public class StatusBitmapPanel extends AbstractStatusPanel
     public void onStatusChanged(StatusChangedEvent event)
     {
         lblStatus.setText("Game status: "
-                + gamePanel.getGame().getStatus().getDescription());
+                + gameWidget.getGame().getStatus().getDescription());
     }
 }

@@ -11,9 +11,9 @@ public class RollDiceDetailWidget extends AbstractActionDetailWidget
 {
     private RollDice rollDice;
 
-    public RollDiceDetailWidget(GameWidget gamePanel, RollDice rollDice)
+    public RollDiceDetailWidget(GameWidget gameWidget, RollDice rollDice)
     {
-        super(gamePanel, rollDice.getPlayer());
+        super(gameWidget, rollDice.getPlayer());
         this.rollDice = rollDice;
 
         Label diceTotal = new Label(Integer.toString(rollDice.getDice()

@@ -17,9 +17,9 @@ public class ClaimVictoryBitmapWidget extends AbstractActionWidget implements
     PushButton btnClaimVictory = new PushButton(new Image(Resources.icons()
             .claimVictory()));
 
-    public ClaimVictoryBitmapWidget(GameWidget gamePanel, GamePlayer player)
+    public ClaimVictoryBitmapWidget(GameWidget gameWidget, GamePlayer player)
     {
-        super(gamePanel, player);
+        super(gameWidget, player);
 
         player.getVictoryPoints().addVictoryPointsChangedListener(this);
     }
@@ -50,7 +50,7 @@ public class ClaimVictoryBitmapWidget extends AbstractActionWidget implements
     {
         if (enabled
                 && player.isOnTurn()
-                && gamePanel.getGame().getGameSettings().getBoardSettings()
+                && gameWidget.getGame().getGameSettings().getBoardSettings()
                         .getVpToWin() <= player.getVictoryPoints()
                         .getTotalPoints())
         {

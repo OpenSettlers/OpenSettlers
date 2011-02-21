@@ -7,9 +7,9 @@ import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 public class ArmySizeToolTip extends AbstractPlayerInfoToolTip
 {
 
-    public ArmySizeToolTip(GameWidget gamePanel, GamePlayer player)
+    public ArmySizeToolTip(GameWidget gameWidget, GamePlayer player)
     {
-        super(gamePanel, player);
+        super(gameWidget, player);
     }
 
     private void update()

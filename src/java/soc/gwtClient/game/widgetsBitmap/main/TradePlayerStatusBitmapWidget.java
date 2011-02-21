@@ -9,11 +9,11 @@ public class TradePlayerStatusBitmapWidget extends
         AbstractTradePlayerStatusWidget
 {
 
-    public TradePlayerStatusBitmapWidget(GameWidget gamePanel,
+    public TradePlayerStatusBitmapWidget(GameWidget gameWidget,
             GamePlayer opponent, GamePlayer playingPlayer,
             TradePlayerDialog tradePlayerUI)
     {
-        super(gamePanel, opponent, playingPlayer, tradePlayerUI);
+        super(gameWidget, opponent, playingPlayer, tradePlayerUI);
     }
 
 }

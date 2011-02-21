@@ -36,15 +36,15 @@ public class BuyDevelopmentCardBitmapWidget extends AbstractActionWidget
             .icons().buyDvelopmentCard()));
     BuyDevelopmentCard buyDevelopmentCard = new BuyDevelopmentCard();
 
-    public BuyDevelopmentCardBitmapWidget(final GameWidget gamePanel,
+    public BuyDevelopmentCardBitmapWidget(final GameWidget gameWidget,
             final GamePlayer player)
     {
-        super(gamePanel, player);
+        super(gameWidget, player);
 
         player.getResources().addResourcesChangedEventHandler(this);
-        gamePanel.getGame().addTurnChangedEventHandler(this);
-        gamePanel.getGame().addTurnPhaseChangedHandler(this);
-        gamePanel.getGame().addGamePhaseChangedEventHandler(this);
+        gameWidget.getGame().addTurnChangedEventHandler(this);
+        gameWidget.getGame().addTurnPhaseChangedHandler(this);
+        gameWidget.getGame().addGamePhaseChangedEventHandler(this);
 
         tradePanel.add(trade1);
         tradePanel.add(trade2);
@@ -59,7 +59,7 @@ public class BuyDevelopmentCardBitmapWidget extends AbstractActionWidget
             @Override
             public void onClick(ClickEvent event)
             {
-                gamePanel.startAction(new BuyDevelopmentCard().setResources(
+                gameWidget.startAction(new BuyDevelopmentCard().setResources(
                         DevelopmentCard.getCost()).setPlayer(player));
             }
         });
@@ -109,7 +109,7 @@ public class BuyDevelopmentCardBitmapWidget extends AbstractActionWidget
         setTradesNeededToBuild();
         if (enabled && player.isOnTurn())
         {
-            if (gamePanel.getGame().isAllowed(buyDevelopmentCard)
+            if (gameWidget.getGame().isAllowed(buyDevelopmentCard)
                     && DevelopmentCard.canPay(player))
             {
                 enableUI();

@@ -12,7 +12,7 @@ public class PlayBotsGamePanel extends AbstractGameWidget
     {
         super.initialize();
 
-        GameWidgetFactory gameWidgetFactory = gamePanelLayoutWidget
+        GameWidgetFactory gameWidgetFactory = gameWidgetLayoutWidget
                 .getGameWidgetFactory();
 
     }

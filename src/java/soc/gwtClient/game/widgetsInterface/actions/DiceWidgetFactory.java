@@ -8,5 +8,5 @@ import soc.gwtClient.game.widgetsInterface.main.GameWidget;
  */
 public interface DiceWidgetFactory
 {
-    public DiceWidget createDiceWidget(Dice diceType, GameWidget gamePanel);
+    public DiceWidget createDiceWidget(Dice diceType, GameWidget gameWidget);
 }

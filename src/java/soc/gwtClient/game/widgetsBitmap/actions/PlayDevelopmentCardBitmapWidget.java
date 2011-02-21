@@ -32,7 +32,7 @@ public class PlayDevelopmentCardBitmapWidget implements
     protected PopupPanel menuBar = new PopupPanel();
     protected VerticalPanel verticalPanel = new VerticalPanel();
     protected GamePlayer player;
-    protected GameWidget gamePanel;
+    protected GameWidget gameWidget;
     protected PushButton btnPlayDevelopmentCard = new PushButton(new Image(
             Resources.icons().developmentCardBack()));
     protected Label lblAmountDvelopmentCards = new Label();
@@ -41,10 +41,10 @@ public class PlayDevelopmentCardBitmapWidget implements
     protected HashMap<DevelopmentCard, DevelopmentCardWidget> devCardsWidgets = new HashMap<DevelopmentCard, DevelopmentCardWidget>();
 
     public PlayDevelopmentCardBitmapWidget(GamePlayer player,
-            GameWidget gamePanel)
+            GameWidget gameWidget)
     {
         this.player = player;
-        this.gamePanel = gamePanel;
+        this.gameWidget = gameWidget;
 
         rootPanel.add(btnPlayDevelopmentCard);
         rootPanel.add(lblAmountDvelopmentCards);
@@ -54,7 +54,7 @@ public class PlayDevelopmentCardBitmapWidget implements
         for (DevelopmentCard devCard : player.getDevelopmentCards())
         {
             DevelopmentCardWidget devCardWidget = devCardWidgetFactory
-                    .createWidget(devCard, gamePanel);
+                    .createWidget(devCard, gameWidget);
             verticalPanel.add(devCardWidget);
             devCardsWidgets.put(devCard, devCardWidget);
         }
@@ -98,7 +98,7 @@ public class PlayDevelopmentCardBitmapWidget implements
         if (event.getAddedCard() != null)
         {
             DevelopmentCardWidget devCardWidget = devCardWidgetFactory
-                    .createWidget(event.getAddedCard(), gamePanel);
+                    .createWidget(event.getAddedCard(), gameWidget);
             verticalPanel.add(devCardWidget);
             devCardsWidgets.put(event.getAddedCard(), devCardWidget);
         }

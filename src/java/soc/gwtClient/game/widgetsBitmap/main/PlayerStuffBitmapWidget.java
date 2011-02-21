@@ -15,17 +15,17 @@ public class PlayerStuffBitmapWidget extends HorizontalPanel implements
 {
     protected HandCardsWidget handCards;
     protected ActionsWidget buildPallette;
-    private GameWidget gamePanel;
+    private GameWidget gameWidget;
     private GamePlayer player;
 
-    public PlayerStuffBitmapWidget(GameWidget gamePanel, GamePlayer player)
+    public PlayerStuffBitmapWidget(GameWidget gameWidget, GamePlayer player)
     {
         super();
-        this.gamePanel = gamePanel;
+        this.gameWidget = gameWidget;
         this.player = player;
 
         handCards = new HandCardsBitmapWidget(player);
-        buildPallette = new ActionsBitmapWidget(gamePanel, player);
+        buildPallette = new ActionsBitmapWidget(gameWidget, player);
 
         this.add(handCards);
         this.add(buildPallette);

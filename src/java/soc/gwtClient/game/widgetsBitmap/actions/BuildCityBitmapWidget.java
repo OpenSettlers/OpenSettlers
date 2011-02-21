@@ -42,18 +42,18 @@ public class BuildCityBitmapWidget extends AbstractActionWidget implements
     private Image trade5 = new Image(Resources.icons().trade());
     private BuildCity buildCity = new BuildCity();
 
-    public BuildCityBitmapWidget(final GameWidget gamePanel,
+    public BuildCityBitmapWidget(final GameWidget gameWidget,
             final GamePlayer player)
     {
-        super(gamePanel, player);
+        super(gameWidget, player);
 
         absolutePanel.setSize("60px", "60px");
         buildCity.setPlayer(player);
 
         player.getResources().addResourcesChangedEventHandler(this);
         player.getStock().getCities().addCitiesChangedEventHandler(this);
-        gamePanel.getGame().addGamePhaseChangedEventHandler(this);
-        gamePanel.getGame().addTurnPhaseChangedHandler(this);
+        gameWidget.getGame().addGamePhaseChangedEventHandler(this);
+        gameWidget.getGame().addTurnPhaseChangedHandler(this);
         player.getTowns().addTownsChangedEventHandler(
                 new PlayerPieceListChangedEventHandler<Town>()
                 {
@@ -79,7 +79,7 @@ public class BuildCityBitmapWidget extends AbstractActionWidget implements
             @Override
             public void onClick(ClickEvent event)
             {
-                gamePanel.startAction(new BuildCity().setPlayer(player));
+                gameWidget.startAction(new BuildCity().setPlayer(player));
             }
         });
     }
@@ -136,7 +136,7 @@ public class BuildCityBitmapWidget extends AbstractActionWidget implements
     {
         if (enabled && player.isOnTurn())
         {
-            Game game = gamePanel.getGame();
+            Game game = gameWidget.getGame();
 
             if (game.getCurrentPhase().isAllowed(buildCity) && // current phase
                     // must be OK

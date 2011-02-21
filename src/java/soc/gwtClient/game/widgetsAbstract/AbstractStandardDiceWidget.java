@@ -10,16 +10,16 @@ import com.google.gwt.user.client.ui.Widget;
 
 public abstract class AbstractStandardDiceWidget implements StandardDiceWidget
 {
-    protected GameWidget gamePanel;
+    protected GameWidget gameWidget;
     protected AbsolutePanel rootPanel;
     protected GamePlayer player;
     protected boolean enabled = false;
 
     protected abstract ComplexPanel createRootPanel();
 
-    public AbstractStandardDiceWidget(GameWidget gamePanel, GamePlayer player)
+    public AbstractStandardDiceWidget(GameWidget gameWidget, GamePlayer player)
     {
-        this.gamePanel = gamePanel;
+        this.gameWidget = gameWidget;
         this.player = player;
         rootPanel = new AbsolutePanel();
     }

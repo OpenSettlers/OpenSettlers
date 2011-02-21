@@ -20,11 +20,11 @@ public class DiceWidgetBitmapFactory implements DiceWidgetFactory
     }
 
     @Override
-    public DiceWidget createDiceWidget(Dice diceType, GameWidget gamePanel)
+    public DiceWidget createDiceWidget(Dice diceType, GameWidget gameWidget)
     {
         if (diceType instanceof StandardDice)
         {
-            return new SvgStandardDiceWidget(gamePanel, player);
+            return new SvgStandardDiceWidget(gameWidget, player);
         }
         if (diceType instanceof CitiesKnightsDice)
         {

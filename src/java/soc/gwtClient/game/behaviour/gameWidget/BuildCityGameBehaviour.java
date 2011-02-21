@@ -11,16 +11,16 @@ public class BuildCityGameBehaviour implements GameBehaviour,
 {
     private BuildCityBehaviour buildCityBehaviour;
     private BuildCity buildCity;
-    private GameWidget gamePanel;
+    private GameWidget gameWidget;
     private City city = new City();
 
-    public BuildCityGameBehaviour(GameWidget gamePanel, BuildCity buildCity)
+    public BuildCityGameBehaviour(GameWidget gameWidget, BuildCity buildCity)
     {
         super();
         this.buildCity = buildCity;
-        this.gamePanel = gamePanel;
+        this.gameWidget = gameWidget;
 
-        buildCityBehaviour = new BuildCityBehaviour(buildCity, gamePanel
+        buildCityBehaviour = new BuildCityBehaviour(buildCity, gameWidget
                 .getPlayingPlayer(), this);
     }
 
@@ -30,17 +30,17 @@ public class BuildCityGameBehaviour implements GameBehaviour,
     }
 
     @Override
-    public void start(GameWidget gamePanel)
+    public void start(GameWidget gameWidget)
     {
-        GamePlayer player = gamePanel.getPlayingPlayer();
+        GamePlayer player = gameWidget.getPlayingPlayer();
         if (player.getResources().hasAtLeast(city.getCost()))
         {
-            gamePanel.getBoardVisualWidget().getBoardVisual().setBehaviour(
+            gameWidget.getBoardVisualWidget().getBoardVisual().setBehaviour(
                     buildCityBehaviour);
         }
         else
         {
-            gamePanel.getBankTradeUI().setPieceToTradeFor(city, this);
+            gameWidget.getBankTradeUI().setPieceToTradeFor(city, this);
         }
     }
 
@@ -52,8 +52,8 @@ public class BuildCityGameBehaviour implements GameBehaviour,
     @Override
     public void done()
     {
-        gamePanel.sendAction(buildCity);
-        buildCityBehaviour.setNeutral(gamePanel.getBoardVisualWidget()
+        gameWidget.sendAction(buildCity);
+        buildCityBehaviour.setNeutral(gameWidget.getBoardVisualWidget()
                 .getBoardVisual());
     }
 
@@ -65,7 +65,7 @@ public class BuildCityGameBehaviour implements GameBehaviour,
     @Override
     public void onTraded()
     {
-        gamePanel.getBoardVisualWidget().getBoardVisual().setBehaviour(
+        gameWidget.getBoardVisualWidget().getBoardVisual().setBehaviour(
                 buildCityBehaviour);
     }
 }

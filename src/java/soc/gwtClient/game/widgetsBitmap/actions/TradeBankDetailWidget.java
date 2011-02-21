@@ -12,9 +12,9 @@ public class TradeBankDetailWidget extends AbstractActionDetailWidget
 {
     private TradeBank tradeBank;
 
-    public TradeBankDetailWidget(GameWidget gamePanel, TradeBank tradeBank)
+    public TradeBankDetailWidget(GameWidget gameWidget, TradeBank tradeBank)
     {
-        super(gamePanel, tradeBank.getPlayer());
+        super(gameWidget, tradeBank.getPlayer());
         this.tradeBank = tradeBank;
 
         rootPanel.add(new Image(Resources.icons().bankTrade()));

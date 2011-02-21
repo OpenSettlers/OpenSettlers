@@ -20,7 +20,7 @@ public class ChatBitmapPanel implements ChatWidget, SaidEventHandler
     TextArea chats = new TextArea();
     TextBox saySomething = new TextBox();
     LayoutPanel rootPanel = new LayoutPanel();
-    GameWidget gamePanel;
+    GameWidget gameWidget;
 
     public ChatBitmapPanel()
     {
@@ -47,21 +47,21 @@ public class ChatBitmapPanel implements ChatWidget, SaidEventHandler
 
     }
 
-    public ChatBitmapPanel(GameWidget gamePanel)
+    public ChatBitmapPanel(GameWidget gameWidget)
     {
         this();
 
-        this.gamePanel = gamePanel;
-        gamePanel.getGame().getChatLog().addSaidEventHandler(this);
+        this.gameWidget = gameWidget;
+        gameWidget.getGame().getChatLog().addSaidEventHandler(this);
     }
 
     private void sendChat()
     {
         GameChat chat = new GameChat();
-        chat.setPlayer(gamePanel.getPlayingPlayer());
+        chat.setPlayer(gameWidget.getPlayingPlayer());
         chat.setChatMessage(saySomething.getText());
 
-        gamePanel.startAction(chat);
+        gameWidget.startAction(chat);
 
         // clear chat textbox
         saySomething.setText("");

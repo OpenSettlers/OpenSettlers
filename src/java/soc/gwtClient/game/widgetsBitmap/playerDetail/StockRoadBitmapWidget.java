@@ -22,9 +22,9 @@ public class StockRoadBitmapWidget extends AbstractStockItemWidget implements
     private Image roadImage = new Image(Resources.icons().roadSmall());
     private Label roadAmount = new Label();
 
-    public StockRoadBitmapWidget(GameWidget gamePanel, GamePlayer player)
+    public StockRoadBitmapWidget(GameWidget gameWidget, GamePlayer player)
     {
-        super(gamePanel, player);
+        super(gameWidget, player);
 
         roadImage.setSize("16px", "16px");
         updateUI();
@@ -56,6 +56,6 @@ public class StockRoadBitmapWidget extends AbstractStockItemWidget implements
     @Override
     protected ToolTip createToolTip()
     {
-        return new RoadStockToolTip(gamePanel, player);
+        return new RoadStockToolTip(gameWidget, player);
     }
 }

@@ -59,7 +59,7 @@ public abstract class AbstractGameWidget implements GameWidget, CenterWidget,
     protected DebugWidget debugWidget;
     protected GameDetailsWidget gameDetailsWidget;
 
-    protected GamePanelLayoutWidget gamePanelLayoutWidget;
+    protected GamePanelLayoutWidget gameWidgetLayoutWidget;
 
     // Generic info boxes
     protected PlayersInfoWidget playersWidget;
@@ -89,7 +89,7 @@ public abstract class AbstractGameWidget implements GameWidget, CenterWidget,
     {
         player = game.getPlayers().get(0);
 
-        gamePanelLayoutWidget = new DesktopGamePanelLayout(this);
+        gameWidgetLayoutWidget = new DesktopGamePanelLayout(this);
 
         GameWidgetFactory gameWidgetFactory = Core.get().getClientFactory()
                 .getGameWidgetFactory();
@@ -125,7 +125,7 @@ public abstract class AbstractGameWidget implements GameWidget, CenterWidget,
     @Override
     public Widget getRootWidget()
     {
-        return gamePanelLayoutWidget.getRootPanel();
+        return gameWidgetLayoutWidget.getRootPanel();
     }
 
     @Override

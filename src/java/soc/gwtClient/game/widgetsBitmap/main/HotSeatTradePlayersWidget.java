@@ -11,16 +11,16 @@ import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 public class HotSeatTradePlayersWidget
 {
     private Map<GamePlayer, TradePlayerDialog> playersTradeUI = new HashMap<GamePlayer, TradePlayerDialog>();
-    private GameWidget gamePanel;
+    private GameWidget gameWidget;
 
-    public HotSeatTradePlayersWidget(GameWidget gamePanel)
+    public HotSeatTradePlayersWidget(GameWidget gameWidget)
     {
         super();
-        this.gamePanel = gamePanel;
+        this.gameWidget = gameWidget;
 
-        for (GamePlayer player : gamePanel.getGame().getPlayers())
+        for (GamePlayer player : gameWidget.getGame().getPlayers())
         {
-            TradePlayerDialog tradeWidget = new TradePlayersDialog(gamePanel,
+            TradePlayerDialog tradeWidget = new TradePlayersDialog(gameWidget,
                     player);
             playersTradeUI.put(player, tradeWidget);
         }

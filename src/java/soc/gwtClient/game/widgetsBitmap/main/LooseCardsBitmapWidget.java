@@ -22,7 +22,7 @@ public class LooseCardsBitmapWidget implements LooseCardsWidget,
 {
     private HorizontalPanel rootPanel = new HorizontalPanel();
     private GamePlayer player;
-    private GameWidget gamePanel;
+    private GameWidget gameWidget;
     private ResourceListWidget handCardsWidget;
     private ResourceListWidget cardsToLooseWidget;
     private Label lblPlayerName;
@@ -31,11 +31,11 @@ public class LooseCardsBitmapWidget implements LooseCardsWidget,
     private ResourceList cardsToLoose = new ResourceList();
     private ResourceList handCards;
 
-    public LooseCardsBitmapWidget(GameWidget gamePanel, GamePlayer player,
+    public LooseCardsBitmapWidget(GameWidget gameWidget, GamePlayer player,
             final LooseCardsDialog parent)
     {
         super();
-        this.gamePanel = gamePanel;
+        this.gameWidget = gameWidget;
         this.player = player;
         this.parent = parent;
 

@@ -12,9 +12,9 @@ public class BuildTownDetailWidget extends AbstractActionDetailWidget
 {
     private BuildTown buildTown;
 
-    public BuildTownDetailWidget(GameWidget gamePanel, BuildTown buildTown)
+    public BuildTownDetailWidget(GameWidget gameWidget, BuildTown buildTown)
     {
-        super(gamePanel, buildTown.getPlayer());
+        super(gameWidget, buildTown.getPlayer());
 
         this.buildTown = buildTown;
 

@@ -11,10 +11,10 @@ public class RolledSameDetailBitmapWidget extends AbstractActionDetailWidget
 {
     private RolledSame rolledSame;
 
-    public RolledSameDetailBitmapWidget(GameWidget gamePanel,
+    public RolledSameDetailBitmapWidget(GameWidget gameWidget,
             RolledSame rolledSame)
     {
-        super(gamePanel, rolledSame.getPlayer());
+        super(gameWidget, rolledSame.getPlayer());
         this.rolledSame = rolledSame;
 
         Label labelSameRoll = new Label(Integer.toString(rolledSame

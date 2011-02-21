@@ -19,16 +19,16 @@ public abstract class AbstractVictoryPointsWidget implements
 {
     protected ComplexPanel rootPanel;
     protected GamePlayer player;
-    protected GameWidget gamePanel;
+    protected GameWidget gameWidget;
     protected ToolTip vpToolTip;
 
-    public AbstractVictoryPointsWidget(GameWidget gamePanel, GamePlayer player)
+    public AbstractVictoryPointsWidget(GameWidget gameWidget, GamePlayer player)
     {
-        this.gamePanel = gamePanel;
+        this.gameWidget = gameWidget;
         this.player = player;
 
         rootPanel = createRootPanel();
-        vpToolTip = new VictoryPointsToolTip(gamePanel, player);
+        vpToolTip = new VictoryPointsToolTip(gameWidget, player);
 
         rootPanel.addDomHandler(this, MouseOutEvent.getType());
         rootPanel.addDomHandler(this, MouseOverEvent.getType());
@@ -49,12 +49,12 @@ public abstract class AbstractVictoryPointsWidget implements
     @Override
     public void onMouseOut(MouseOutEvent event)
     {
-        gamePanel.getToolTipManager().hideToolTip(vpToolTip);
+        gameWidget.getToolTipManager().hideToolTip(vpToolTip);
     }
 
     @Override
     public void onMouseOver(MouseOverEvent event)
     {
-        gamePanel.getToolTipManager().showToolTip(vpToolTip);
+        gameWidget.getToolTipManager().showToolTip(vpToolTip);
     }
 }

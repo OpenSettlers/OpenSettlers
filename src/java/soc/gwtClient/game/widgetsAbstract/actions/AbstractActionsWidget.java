@@ -21,13 +21,13 @@ public abstract class AbstractActionsWidget implements ActionsWidget
 {
     protected ComplexPanel rootPanel;
     protected GamePlayer player;
-    protected GameWidget gamePanel;
+    protected GameWidget gameWidget;
     protected HashMap<Integer, ActionWidget> widgetsIndices = new HashMap<Integer, ActionWidget>();
 
-    public AbstractActionsWidget(GameWidget gamePanel, GamePlayer player)
+    public AbstractActionsWidget(GameWidget gameWidget, GamePlayer player)
     {
         this.player = player;
-        this.gamePanel = gamePanel;
+        this.gameWidget = gameWidget;
 
         rootPanel = createRootPanel();
         rootPanel.add(new Label(player.getUser().getName()));
@@ -36,7 +36,7 @@ public abstract class AbstractActionsWidget implements ActionsWidget
                 .getActionWidgetFactory(player);
 
         int index = 0;
-        for (TurnAction turnAction : gamePanel.getGame().getRules()
+        for (TurnAction turnAction : gameWidget.getGame().getRules()
                 .getPossibleActions())
         {
             ActionWidget widget = turnAction.createActionWidget(player);

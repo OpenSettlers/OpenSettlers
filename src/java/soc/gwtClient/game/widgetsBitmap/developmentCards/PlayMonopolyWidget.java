@@ -26,7 +26,7 @@ public class PlayMonopolyWidget implements DevelopmentCardWidget,
         ResourcesChangedEventHandler
 {
     private Monopoly monopoly;
-    private GameWidget gamePanel;
+    private GameWidget gameWidget;
     private PlayDevelopmentCard playDevelopmentCard = new PlayDevelopmentCard();
     private HorizontalPanel rootPanel = new HorizontalPanel();
     private Button btnPlay = new Button(I18n.get().constants().play());
@@ -34,16 +34,16 @@ public class PlayMonopolyWidget implements DevelopmentCardWidget,
     private ResourcePickerWidget resourcePickerWidget;
     private ResourceList pickedResources = new ResourceList();
 
-    public PlayMonopolyWidget(final Monopoly monopoly, final GameWidget gamePanel)
+    public PlayMonopolyWidget(final Monopoly monopoly, final GameWidget gameWidget)
     {
         this.monopoly = monopoly;
-        this.gamePanel = gamePanel;
+        this.gameWidget = gameWidget;
 
         resourceListWidget = new ResourceListBitmapWidget(pickedResources,
-                gamePanel.getGame().getBank().copy(), null);
+                gameWidget.getGame().getBank().copy(), null);
         resourceListWidget.setHeight("3em");
         resourcePickerWidget = new ResourcePickerBitmapWidget(pickedResources,
-                null, gamePanel.getGame().getBank().copy(), gamePanel);
+                null, gameWidget.getGame().getBank().copy(), gameWidget);
 
         rootPanel.setSpacing(5);
         rootPanel.add(new Image(Resources.icons().monopoly()));
@@ -53,7 +53,7 @@ public class PlayMonopolyWidget implements DevelopmentCardWidget,
         rootPanel.add(btnPlay);
 
         playDevelopmentCard.setDevelopmentcard(monopoly);
-        playDevelopmentCard.setPlayer(gamePanel.getPlayingPlayer());
+        playDevelopmentCard.setPlayer(gameWidget.getPlayingPlayer());
 
         btnPlay.setEnabled(false);
         btnPlay.addClickHandler(new ClickHandler()
@@ -62,7 +62,7 @@ public class PlayMonopolyWidget implements DevelopmentCardWidget,
             public void onClick(ClickEvent event)
             {
                 monopoly.setResource(pickedResources.get(0));
-                gamePanel.sendAction(playDevelopmentCard);
+                gameWidget.sendAction(playDevelopmentCard);
             }
         });
 

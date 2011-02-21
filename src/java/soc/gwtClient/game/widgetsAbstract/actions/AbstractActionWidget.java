@@ -9,17 +9,17 @@ import com.google.gwt.user.client.ui.ComplexPanel;
 public abstract class AbstractActionWidget implements ActionWidget
 {
     protected GamePlayer player;
-    protected GameWidget gamePanel;
+    protected GameWidget gameWidget;
     protected ComplexPanel rootPanel;
     protected boolean onTurn;
     protected boolean enabled;
 
     protected abstract void updateEnabled();
 
-    public AbstractActionWidget(GameWidget gamePanel, GamePlayer player)
+    public AbstractActionWidget(GameWidget gameWidget, GamePlayer player)
     {
         this.player = player;
-        this.gamePanel = gamePanel;
+        this.gameWidget = gameWidget;
     }
 
     @Override

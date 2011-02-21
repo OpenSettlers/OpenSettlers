@@ -10,13 +10,13 @@ public class DefaultOpponentReceivedBehaviour implements ReceiveGameBehaviour
 {
     private GameAction gameAction;
     private ActionDetailWidget playerDetailWidget;
-    private GameWidget gamePanel;
+    private GameWidget gameWidget;
 
-    public DefaultOpponentReceivedBehaviour(GameWidget gamePanel,
+    public DefaultOpponentReceivedBehaviour(GameWidget gameWidget,
             GameAction gameAction)
     {
         super();
-        this.gamePanel = gamePanel;
+        this.gameWidget = gameWidget;
         this.gameAction = gameAction;
     }
 
@@ -29,18 +29,18 @@ public class DefaultOpponentReceivedBehaviour implements ReceiveGameBehaviour
     @Override
     public void finish()
     {
-        gamePanel.getDetailContainerManager().hideCurrentWidget();
+        gameWidget.getDetailContainerManager().hideCurrentWidget();
     }
 
     @Override
-    public void start(GameWidget gamePanel)
+    public void start(GameWidget gameWidget)
     {
-        ActionDetailWidgetFactory factory = gamePanel.getClientFactory()
+        ActionDetailWidgetFactory factory = gameWidget.getClientFactory()
                 .getActionDetailWidgetFactory();
         ActionDetailWidget actionDetailWidget = gameAction
                 .createActionDetailWidget(factory);
         if (actionDetailWidget != null)
-            gamePanel.getDetailContainerManager().showActionWidget(
+            gameWidget.getDetailContainerManager().showActionWidget(
                     actionDetailWidget);
     }
 }

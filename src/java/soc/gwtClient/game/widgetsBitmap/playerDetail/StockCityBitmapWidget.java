@@ -21,9 +21,9 @@ public class StockCityBitmapWidget extends AbstractStockItemWidget implements
     Label amountCities = new Label();
     City city = new City();
 
-    public StockCityBitmapWidget(GameWidget gamePanel, GamePlayer player)
+    public StockCityBitmapWidget(GameWidget gameWidget, GamePlayer player)
     {
-        super(gamePanel, player);
+        super(gameWidget, player);
 
         cityImage.setSize("16px", "16px");
         updateUI();
@@ -55,6 +55,6 @@ public class StockCityBitmapWidget extends AbstractStockItemWidget implements
     @Override
     protected ToolTip createToolTip()
     {
-        return new CityStockToolTip(gamePanel, player);
+        return new CityStockToolTip(gameWidget, player);
     }
 }

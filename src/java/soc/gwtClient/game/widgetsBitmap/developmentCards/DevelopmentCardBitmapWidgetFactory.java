@@ -16,27 +16,27 @@ public class DevelopmentCardBitmapWidgetFactory implements
 
     @Override
     public DevelopmentCardWidget createWidget(DevelopmentCard devCard,
-            GameWidget gamePanel)
+            GameWidget gameWidget)
     {
         if (devCard instanceof Soldier)
         {
-            return new PlaySoldierWidget((Soldier) devCard, gamePanel);
+            return new PlaySoldierWidget((Soldier) devCard, gameWidget);
         }
         if (devCard instanceof YearOfPlenty)
         {
-            return new PlayYearOfPlentyWidget((YearOfPlenty) devCard, gamePanel);
+            return new PlayYearOfPlentyWidget((YearOfPlenty) devCard, gameWidget);
         }
         if (devCard instanceof Monopoly)
         {
-            return new PlayMonopolyWidget((Monopoly) devCard, gamePanel);
+            return new PlayMonopolyWidget((Monopoly) devCard, gameWidget);
         }
         if (devCard instanceof RoadBuilding)
         {
-            return new PlayRoadBuildingWidget((RoadBuilding) devCard, gamePanel);
+            return new PlayRoadBuildingWidget((RoadBuilding) devCard, gameWidget);
         }
         if (devCard instanceof VictoryPoint)
         {
-            return new PlayVictoryPointWidget((VictoryPoint) devCard, gamePanel);
+            return new PlayVictoryPointWidget((VictoryPoint) devCard, gameWidget);
         }
 
         return null;

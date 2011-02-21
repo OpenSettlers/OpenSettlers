@@ -11,7 +11,7 @@ public interface PlayersInfoWidget extends IsWidget
 {
     public ComplexPanel createRootPanel();
 
-    public PlayerInfoWidget createPlayerWidget(GameWidget gamePanel,
+    public PlayerInfoWidget createPlayerWidget(GameWidget gameWidget,
             GamePlayer player);
 
     public Point2D getTopRightLocation();

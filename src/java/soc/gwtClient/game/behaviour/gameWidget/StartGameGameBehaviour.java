@@ -7,25 +7,25 @@ import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 public class StartGameGameBehaviour implements ReceiveGameBehaviour
 {
     DisabledMap disabledMap = new DisabledMap();
-    GameWidget gamePanel;
+    GameWidget gameWidget;
 
-    public StartGameGameBehaviour(GameWidget gamePanel)
+    public StartGameGameBehaviour(GameWidget gameWidget)
     {
         super();
-        this.gamePanel = gamePanel;
+        this.gameWidget = gameWidget;
     }
 
     @Override
     public void finish()
     {
-        disabledMap.setNeutral(gamePanel.getBoardVisualWidget()
+        disabledMap.setNeutral(gameWidget.getBoardVisualWidget()
                 .getBoardVisual());
     }
 
     @Override
-    public void start(GameWidget gamePanel)
+    public void start(GameWidget gameWidget)
     {
-        disabledMap.start(gamePanel.getBoardVisualWidget().getBoardVisual());
+        disabledMap.start(gameWidget.getBoardVisualWidget().getBoardVisual());
     }
 
     @Override

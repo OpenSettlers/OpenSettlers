@@ -16,20 +16,20 @@ public class GameQueueWidget implements QueueWidget,
         ActionQueueChangedEventHandler
 {
     private ScrollPanel rootPanel = new ScrollPanel();
-    private GameWidget gamePanel;
+    private GameWidget gameWidget;
     private StringQueuedActionCell cell = new StringQueuedActionCell();
     private CellList<GameAction> queuedList = new CellList<GameAction>(cell);
     private ListDataProvider<GameAction> dataList = new ListDataProvider<GameAction>();
 
-    public GameQueueWidget(GameWidget gamePanel)
+    public GameQueueWidget(GameWidget gameWidget)
     {
         super();
-        this.gamePanel = gamePanel;
+        this.gameWidget = gameWidget;
 
         rootPanel.add(queuedList);
         dataList.addDataDisplay(queuedList);
 
-        gamePanel.getGame().getActionsQueue().addQueueChangedEventHandler(this);
+        gameWidget.getGame().getActionsQueue().addQueueChangedEventHandler(this);
     }
 
     @Override

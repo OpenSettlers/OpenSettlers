@@ -30,13 +30,13 @@ public abstract class AbstractPlayerWidget extends HorizontalPanel implements
     protected HorizontalPanel panelName = new HorizontalPanel();
     protected HorizontalPanel panelRest = new HorizontalPanel();
 
-    protected GameWidget gamePanel;
+    protected GameWidget gameWidget;
     protected GamePlayer player;
     protected Label lblName = new Label();
 
-    public AbstractPlayerWidget(GameWidget gamePanel, GamePlayer player)
+    public AbstractPlayerWidget(GameWidget gameWidget, GamePlayer player)
     {
-        this.gamePanel = gamePanel;
+        this.gameWidget = gameWidget;
         this.player = player;
 
         stockWidget = createStockWidget();

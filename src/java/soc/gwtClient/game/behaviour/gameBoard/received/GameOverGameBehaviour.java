@@ -6,13 +6,13 @@ import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 public class GameOverGameBehaviour implements ReceiveGameBehaviour
 {
     ClaimVictory claimVictory;
-    GameWidget gamePanel;
+    GameWidget gameWidget;
 
-    public GameOverGameBehaviour(GameWidget gamePanel, ClaimVictory claimVictory)
+    public GameOverGameBehaviour(GameWidget gameWidget, ClaimVictory claimVictory)
     {
         super();
         this.claimVictory = claimVictory;
-        this.gamePanel = gamePanel;
+        this.gameWidget = gameWidget;
     }
 
     public ClaimVictory getClaimVictory()
@@ -27,9 +27,9 @@ public class GameOverGameBehaviour implements ReceiveGameBehaviour
     }
 
     @Override
-    public void start(GameWidget gamePanel)
+    public void start(GameWidget gameWidget)
     {
-        gamePanel.getGameOverDialog().update(this);
+        gameWidget.getGameOverDialog().update(this);
     }
 
     @Override

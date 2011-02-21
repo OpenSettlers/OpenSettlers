@@ -18,14 +18,14 @@ public class ResourcesGainedBitmapWidget implements ResourcesGainedWidget,
 {
     private PopupPanel popup = new PopupPanel();
     private HorizontalPanel rootPanel = new HorizontalPanel();
-    private GameWidget gamePanel;
+    private GameWidget gameWidget;
     private Button btnClose = new Button("Close");
     private RollDiceResult rollDiceResult;
     private Label lblAmountResources = new Label();
 
-    public ResourcesGainedBitmapWidget(GameWidget gamePanel)
+    public ResourcesGainedBitmapWidget(GameWidget gameWidget)
     {
-        this.gamePanel = gamePanel;
+        this.gameWidget = gameWidget;
 
         rootPanel.add(lblAmountResources);
         rootPanel.add(btnClose);
@@ -44,7 +44,7 @@ public class ResourcesGainedBitmapWidget implements ResourcesGainedWidget,
     private void setPositionAndShow()
     {
         popup.show();
-        Point2D location = gamePanel.getPlayerStuffWidget()
+        Point2D location = gameWidget.getPlayerStuffWidget()
                 .getDiceWidgetTopLeftPosition();
         popup.setPopupPosition(location.getX() - popup.getOffsetWidth(),
                 location.getY());

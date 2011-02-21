@@ -29,7 +29,7 @@ public class AbstractTradePlayerStatusWidget implements
 {
     private GamePlayer opponent;
     private GamePlayer playingPlayer;
-    private GameWidget gamePanel;
+    private GameWidget gameWidget;
     private ComplexPanel rootPanel = new HorizontalPanel();
     private Image imgStatus = new Image();
     private PushButton btnAccept = new PushButton("Accept");
@@ -37,15 +37,15 @@ public class AbstractTradePlayerStatusWidget implements
     private TradePlayerDialog tradePlayerUI;
     private TradeResponse tradeResponse;
 
-    public AbstractTradePlayerStatusWidget(GameWidget gamePanel,
+    public AbstractTradePlayerStatusWidget(GameWidget gameWidget,
             GamePlayer opponent, GamePlayer playingPlayer,
             TradePlayerDialog tradePlayerUI)
     {
-        this.gamePanel = gamePanel;
+        this.gameWidget = gameWidget;
         this.opponent = opponent;
         this.playingPlayer = playingPlayer;
         this.tradePlayerUI = tradePlayerUI;
-        int height = gamePanel.getPlayersInfoWidget().getPlayerWidgetHeight();
+        int height = gameWidget.getPlayersInfoWidget().getPlayerWidgetHeight();
 
         ResourceList wantResources = new ResourceList();
         ResourceList giveResources = new ResourceList();
@@ -90,7 +90,7 @@ public class AbstractTradePlayerStatusWidget implements
     @Override
     public void update(TradeResponse tradeResponse)
     {
-        int height = gamePanel.getPlayersInfoWidget().getPlayerWidgetHeight();
+        int height = gameWidget.getPlayersInfoWidget().getPlayerWidgetHeight();
         rootPanel.setHeight(Integer.toString(height) + "px");
         if (tradeResources != null)
         {

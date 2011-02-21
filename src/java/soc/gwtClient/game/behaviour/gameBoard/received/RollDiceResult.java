@@ -11,36 +11,36 @@ public class RollDiceResult implements ReceiveGameBehaviour
 {
     private RollDice rolledDice;
     private RollDiceBehaviour rollDiceBehaviour;
-    private GameWidget gamePanel;
+    private GameWidget gameWidget;
 
-    public RollDiceResult(GameWidget gamePanel, RollDice rolledDice)
+    public RollDiceResult(GameWidget gameWidget, RollDice rolledDice)
     {
         super();
-        this.gamePanel = gamePanel;
+        this.gameWidget = gameWidget;
         this.rolledDice = rolledDice;
 
         rollDiceBehaviour = new RollDiceBehaviour(rolledDice);
     }
 
     @Override
-    public void start(GameWidget gamePanel)
+    public void start(GameWidget gameWidget)
     {
         if (rolledDice.isRobberRolled())
         {
             if (rolledDice.getLooserPlayers().size() > 0)
             {
-                gamePanel.getLooseCardsDialog().update(rolledDice, this);
+                gameWidget.getLooseCardsDialog().update(rolledDice, this);
             }
             else
             {
                 // Rolled 7, nothing to see here, move along.
-                gamePanel.doneReceiveBehaviour();
+                gameWidget.doneReceiveBehaviour();
             }
         }
         else
         {
             // Show the hexes which have been rolled
-            gamePanel.getBoardVisualWidget().getBoardVisual().setBehaviour(
+            gameWidget.getBoardVisualWidget().getBoardVisual().setBehaviour(
                     rollDiceBehaviour);
 
             // Grab an ActionDetailWidget
@@ -50,10 +50,10 @@ public class RollDiceResult implements ReceiveGameBehaviour
                     .createActionDetailWidget(factory);
 
             // Show the ActionDetailWidget
-            gamePanel.getDetailContainerManager().showActionWidget(widget);
+            gameWidget.getDetailContainerManager().showActionWidget(widget);
 
-            gamePanel.getResourcesGainedWidget().update(this);
-            gamePanel.getActionsWidget().setEnabled(false);
+            gameWidget.getResourcesGainedWidget().update(this);
+            gameWidget.getActionsWidget().setEnabled(false);
         }
     }
 
@@ -64,16 +64,16 @@ public class RollDiceResult implements ReceiveGameBehaviour
 
     public void doneLoosingCards()
     {
-        gamePanel.doneReceiveBehaviour();
+        gameWidget.doneReceiveBehaviour();
     }
 
     public void doneResources()
     {
-        rollDiceBehaviour.setNeutral(gamePanel.getBoardVisualWidget()
+        rollDiceBehaviour.setNeutral(gameWidget.getBoardVisualWidget()
                 .getBoardVisual());
-        gamePanel.getDetailContainerManager().hideCurrentWidget();
-        gamePanel.getActionsWidget().setEnabled(true);
-        gamePanel.doneReceiveBehaviour();
+        gameWidget.getDetailContainerManager().hideCurrentWidget();
+        gameWidget.getActionsWidget().setEnabled(true);
+        gameWidget.doneReceiveBehaviour();
     }
 
     @Override

@@ -7,9 +7,9 @@ import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 
 public class ActionsBitmapWidget extends AbstractActionsWidget
 {
-    public ActionsBitmapWidget(GameWidget gamePanel, GamePlayer player)
+    public ActionsBitmapWidget(GameWidget gameWidget, GamePlayer player)
     {
-        super(gamePanel, player);
+        super(gameWidget, player);
     }
 
     @Override

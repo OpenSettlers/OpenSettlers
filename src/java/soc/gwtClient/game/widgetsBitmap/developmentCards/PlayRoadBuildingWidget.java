@@ -18,16 +18,16 @@ import com.google.gwt.user.client.ui.Widget;
 public class PlayRoadBuildingWidget implements DevelopmentCardWidget
 {
     private RoadBuilding roadBuilding;
-    private GameWidget gamePanel;
+    private GameWidget gameWidget;
     private PlayDevelopmentCard playDevelopmentCard = new PlayDevelopmentCard();
     private HorizontalPanel rootPanel = new HorizontalPanel();
     private Button btnPlay = new Button(I18n.get().constants().play());
 
     public PlayRoadBuildingWidget(RoadBuilding roadBuilding,
-            final GameWidget gamePanel)
+            final GameWidget gameWidget)
     {
         this.roadBuilding = roadBuilding;
-        this.gamePanel = gamePanel;
+        this.gameWidget = gameWidget;
 
         rootPanel.setSpacing(5);
         rootPanel.add(new Image(Resources.icons().roadBuilding()));
@@ -35,14 +35,14 @@ public class PlayRoadBuildingWidget implements DevelopmentCardWidget
         rootPanel.add(btnPlay);
 
         playDevelopmentCard.setDevelopmentcard(roadBuilding);
-        playDevelopmentCard.setPlayer(gamePanel.getPlayingPlayer());
+        playDevelopmentCard.setPlayer(gameWidget.getPlayingPlayer());
 
         btnPlay.addClickHandler(new ClickHandler()
         {
             @Override
             public void onClick(ClickEvent event)
             {
-                gamePanel.sendAction(playDevelopmentCard);
+                gameWidget.sendAction(playDevelopmentCard);
             }
         });
     }

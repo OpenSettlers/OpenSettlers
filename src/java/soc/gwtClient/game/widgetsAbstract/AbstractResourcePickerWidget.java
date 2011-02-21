@@ -20,18 +20,18 @@ public abstract class AbstractResourcePickerWidget implements
     protected ResourceList resources;
     protected ResourceList bankResources;
     protected PortList ports;
-    protected GameWidget gamePanel;
+    protected GameWidget gameWidget;
     protected HashMap<Resource, ResourceSelectorWidget> resourceSlectorWidgets = new HashMap<Resource, ResourceSelectorWidget>();
 
     public AbstractResourcePickerWidget(ResourceList resources, PortList ports,
-            ResourceList bankResources, GameWidget gamePanel)
+            ResourceList bankResources, GameWidget gameWidget)
     {
         this.resources = resources;
-        this.gamePanel = gamePanel;
+        this.gameWidget = gameWidget;
         this.bankResources = bankResources;
         this.ports = ports;
 
-        for (Resource resource : gamePanel.getGame().getRules()
+        for (Resource resource : gameWidget.getGame().getRules()
                 .getSupportedResources())
         {
             ResourceSelectorWidget resourceSelector = createResourceSelectorWidget(

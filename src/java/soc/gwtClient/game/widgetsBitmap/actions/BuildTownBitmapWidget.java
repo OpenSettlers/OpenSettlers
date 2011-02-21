@@ -42,18 +42,18 @@ public class BuildTownBitmapWidget extends AbstractActionWidget implements
     private Image trade4 = new Image(Resources.icons().trade());
     private BuildTown buildTown = new BuildTown();
 
-    public BuildTownBitmapWidget(final GameWidget gamePanel,
+    public BuildTownBitmapWidget(final GameWidget gameWidget,
             final GamePlayer player)
     {
-        super(gamePanel, player);
+        super(gameWidget, player);
         absolutePanel.setSize("60px", "60px");
 
         buildTown.setPlayer(player);
 
         player.getResources().addResourcesChangedEventHandler(this);
         player.getStock().getTowns().addTownsChangedEventHandler(this);
-        gamePanel.getGame().addGamePhaseChangedEventHandler(this);
-        gamePanel.getGame().addTurnPhaseChangedHandler(this);
+        gameWidget.getGame().addGamePhaseChangedEventHandler(this);
+        gameWidget.getGame().addTurnPhaseChangedHandler(this);
         player.getTowns().addTownsChangedEventHandler(
                 new PlayerPieceListChangedEventHandler<Town>()
                 {
@@ -79,7 +79,7 @@ public class BuildTownBitmapWidget extends AbstractActionWidget implements
             @Override
             public void onClick(ClickEvent event)
             {
-                gamePanel.startAction(new BuildTown().setPlayer(player));
+                gameWidget.startAction(new BuildTown().setPlayer(player));
             }
         });
     }
@@ -119,7 +119,7 @@ public class BuildTownBitmapWidget extends AbstractActionWidget implements
         setTradesNeededToBuild();
         if (enabled && player.isOnTurn())
         {
-            Game game = gamePanel.getGame();
+            Game game = gameWidget.getGame();
 
             if (game.isAllowed(buildTown) && // current phase
                     // must be OK

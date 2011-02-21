@@ -12,14 +12,14 @@ public class BuildTownGameBehaviour implements GameBehaviour,
 {
     private BuildTown buildTown;
     private BuildTownBehaviour buildTownGameBoardBehaviour;
-    GameWidget gamePanel;
+    GameWidget gameWidget;
     private Town town = new Town();
 
-    public BuildTownGameBehaviour(GameWidget gamePanel, BuildTown buildTown)
+    public BuildTownGameBehaviour(GameWidget gameWidget, BuildTown buildTown)
     {
         super();
         this.buildTown = buildTown;
-        this.gamePanel = gamePanel;
+        this.gameWidget = gameWidget;
         buildTownGameBoardBehaviour = new BuildTownBehaviour(buildTown, this);
     }
 
@@ -30,24 +30,24 @@ public class BuildTownGameBehaviour implements GameBehaviour,
     }
 
     @Override
-    public void start(GameWidget gamePanel)
+    public void start(GameWidget gameWidget)
     {
-        GamePlayer player = gamePanel.getPlayingPlayer();
-        if (gamePanel.getGame().getCurrentPhase() instanceof PlayTurnsGamePhase)
+        GamePlayer player = gameWidget.getPlayingPlayer();
+        if (gameWidget.getGame().getCurrentPhase() instanceof PlayTurnsGamePhase)
         {
             if (player.getResources().hasAtLeast(town.getCost()))
             {
-                gamePanel.getBoardVisualWidget().getBoardVisual().setBehaviour(
+                gameWidget.getBoardVisualWidget().getBoardVisual().setBehaviour(
                         buildTownGameBoardBehaviour);
             }
             else
             {
-                gamePanel.getBankTradeUI().setPieceToTradeFor(town, this);
+                gameWidget.getBankTradeUI().setPieceToTradeFor(town, this);
             }
         }
         else
         {
-            gamePanel.getBoardVisualWidget().getBoardVisual().setBehaviour(
+            gameWidget.getBoardVisualWidget().getBoardVisual().setBehaviour(
                     buildTownGameBoardBehaviour);
         }
     }
@@ -61,22 +61,22 @@ public class BuildTownGameBehaviour implements GameBehaviour,
     @Override
     public void done()
     {
-        gamePanel.sendAction(buildTown);
-        buildTownGameBoardBehaviour.setNeutral(gamePanel.getBoardVisualWidget()
+        gameWidget.sendAction(buildTown);
+        buildTownGameBoardBehaviour.setNeutral(gameWidget.getBoardVisualWidget()
                 .getBoardVisual());
     }
 
     @Override
     public void onCancelTrade()
     {
-        buildTownGameBoardBehaviour.setNeutral(gamePanel.getBoardVisualWidget()
+        buildTownGameBoardBehaviour.setNeutral(gameWidget.getBoardVisualWidget()
                 .getBoardVisual());
     }
 
     @Override
     public void onTraded()
     {
-        gamePanel.getBoardVisualWidget().getBoardVisual().setBehaviour(
+        gameWidget.getBoardVisualWidget().getBoardVisual().setBehaviour(
                 buildTownGameBoardBehaviour);
     }
 }

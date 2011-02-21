@@ -11,45 +11,45 @@ public class BuildRoadGameBehaviour implements GameBehaviour,
         GameBehaviourCallback, TradeFirst
 {
     private BuildRoad buildRoad;
-    private GameWidget gamePanel;
+    private GameWidget gameWidget;
     private BuildRoadBehaviour buildRoadGameBoardBehaviour;
 
-    public BuildRoadGameBehaviour(GameWidget gamePanel, BuildRoad buildRoad)
+    public BuildRoadGameBehaviour(GameWidget gameWidget, BuildRoad buildRoad)
     {
         super();
         this.buildRoad = buildRoad;
         buildRoadGameBoardBehaviour = new BuildRoadBehaviour(buildRoad, this);
-        this.gamePanel = gamePanel;
+        this.gameWidget = gameWidget;
     }
 
     @Override
     public void finish()
     {
-        buildRoadGameBoardBehaviour.setNeutral(gamePanel.getBoardVisualWidget()
+        buildRoadGameBoardBehaviour.setNeutral(gameWidget.getBoardVisualWidget()
                 .getBoardVisual());
     }
 
     @Override
-    public void start(GameWidget gamePanel)
+    public void start(GameWidget gameWidget)
     {
-        GamePlayer player = gamePanel.getPlayingPlayer();
+        GamePlayer player = gameWidget.getPlayingPlayer();
         Road road = new Road();
 
-        if (gamePanel.getGame().getCurrentPhase() instanceof PlayTurnsGamePhase)
+        if (gameWidget.getGame().getCurrentPhase() instanceof PlayTurnsGamePhase)
         {
             if (road.canPay(player))
             {
-                gamePanel.getBoardVisualWidget().getBoardVisual().setBehaviour(
+                gameWidget.getBoardVisualWidget().getBoardVisual().setBehaviour(
                         buildRoadGameBoardBehaviour);
             }
             else
             {
-                gamePanel.getBankTradeUI().setPieceToTradeFor(road, this);
+                gameWidget.getBankTradeUI().setPieceToTradeFor(road, this);
             }
         }
         else
         {
-            gamePanel.getBoardVisualWidget().getBoardVisual().setBehaviour(
+            gameWidget.getBoardVisualWidget().getBoardVisual().setBehaviour(
                     buildRoadGameBoardBehaviour);
         }
     }
@@ -62,15 +62,15 @@ public class BuildRoadGameBehaviour implements GameBehaviour,
     @Override
     public void done()
     {
-        gamePanel.sendAction(buildRoad);
-        buildRoadGameBoardBehaviour.setNeutral(gamePanel.getBoardVisualWidget()
+        gameWidget.sendAction(buildRoad);
+        buildRoadGameBoardBehaviour.setNeutral(gameWidget.getBoardVisualWidget()
                 .getBoardVisual());
     }
 
     @Override
     public void onTraded()
     {
-        gamePanel.getBoardVisualWidget().getBoardVisual().setBehaviour(
+        gameWidget.getBoardVisualWidget().getBoardVisual().setBehaviour(
                 buildRoadGameBoardBehaviour);
     }
 

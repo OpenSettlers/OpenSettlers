@@ -17,7 +17,7 @@ public class HotSeatActionsPlayersWidget extends DeckPanel implements
 {
     private HashMap<GamePlayer, Integer> playersStuff = new HashMap<GamePlayer, Integer>();
     private HashMap<Integer, PlayerStuffWidget> indexedWidgets = new HashMap<Integer, PlayerStuffWidget>();
-    private GameWidget gamePanel;
+    private GameWidget gameWidget;
     private PlayerStuffWidget currentWidget;
 
     /**
@@ -28,13 +28,13 @@ public class HotSeatActionsPlayersWidget extends DeckPanel implements
         return currentWidget.getActionsWidget();
     }
 
-    public HotSeatActionsPlayersWidget(GameWidget gamePanel,
+    public HotSeatActionsPlayersWidget(GameWidget gameWidget,
             GameWidgetFactory factory)
     {
         super();
-        this.gamePanel = gamePanel;
+        this.gameWidget = gameWidget;
         int index = 0;
-        for (GamePlayer player : gamePanel.getGame().getPlayers())
+        for (GamePlayer player : gameWidget.getGame().getPlayers())
         {
             if (player.getBot() == null)
             {
@@ -70,7 +70,7 @@ public class HotSeatActionsPlayersWidget extends DeckPanel implements
     @Override
     public ActionsWidget getActionsWidget()
     {
-        int index = playersStuff.get(gamePanel.getPlayingPlayer());
+        int index = playersStuff.get(gameWidget.getPlayingPlayer());
         currentWidget = indexedWidgets.get(index);
         return currentWidget.getActionsWidget();
     }
@@ -78,12 +78,12 @@ public class HotSeatActionsPlayersWidget extends DeckPanel implements
     @Override
     public Point2D getDiceWidgetTopLeftPosition()
     {
-        if (playersStuff.get(gamePanel.getPlayingPlayer()) == null)
+        if (playersStuff.get(gameWidget.getPlayingPlayer()) == null)
         {
             int y = 2;
             y++;
         }
-        int index = playersStuff.get(gamePanel.getPlayingPlayer());
+        int index = playersStuff.get(gameWidget.getPlayingPlayer());
         PlayerStuffWidget widget = indexedWidgets.get(index);
         return widget.getDiceWidgetTopLeftPosition();
     }
@@ -91,7 +91,7 @@ public class HotSeatActionsPlayersWidget extends DeckPanel implements
     @Override
     public HandCardsWidget getHandCardsWidget()
     {
-        int index = playersStuff.get(gamePanel.getPlayingPlayer());
+        int index = playersStuff.get(gameWidget.getPlayingPlayer());
         currentWidget = indexedWidgets.get(index);
         return currentWidget.getHandCardsWidget();
     }

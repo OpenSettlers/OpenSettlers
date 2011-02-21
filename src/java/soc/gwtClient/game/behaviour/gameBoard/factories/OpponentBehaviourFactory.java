@@ -31,133 +31,133 @@ import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 
 public class OpponentBehaviourFactory implements ReceiveGameBehaviourFactory
 {
-    private GameWidget gamePanel;
+    private GameWidget gameWidget;
 
-    public OpponentBehaviourFactory(GameWidget gamePanel)
+    public OpponentBehaviourFactory(GameWidget gameWidget)
     {
         super();
-        this.gamePanel = gamePanel;
+        this.gameWidget = gameWidget;
     }
 
     @Override
     public ReceiveGameBehaviour createBuildCityBehaviour(BuildCity buildCity)
     {
-        return new DefaultOpponentReceivedBehaviour(gamePanel, buildCity);
+        return new DefaultOpponentReceivedBehaviour(gameWidget, buildCity);
     }
 
     @Override
     public ReceiveGameBehaviour createBuildRoadBehaviour(BuildRoad buildRoad)
     {
-        return new DefaultOpponentReceivedBehaviour(gamePanel, buildRoad);
+        return new DefaultOpponentReceivedBehaviour(gameWidget, buildRoad);
     }
 
     @Override
     public ReceiveGameBehaviour createBuildTownBehaviour(BuildTown buildTown)
     {
-        return new DefaultOpponentReceivedBehaviour(gamePanel, buildTown);
+        return new DefaultOpponentReceivedBehaviour(gameWidget, buildTown);
     }
 
     @Override
     public ReceiveGameBehaviour createBuyDevelopmentcardBehaviour(
             BuildTown buildTown)
     {
-        return new DefaultOpponentReceivedBehaviour(gamePanel, buildTown);
+        return new DefaultOpponentReceivedBehaviour(gameWidget, buildTown);
     }
 
     @Override
     public ReceiveGameBehaviour createClaimVictoryBehaviour(
             ClaimVictory claimVictory)
     {
-        return new DefaultOpponentReceivedBehaviour(gamePanel, claimVictory);
+        return new DefaultOpponentReceivedBehaviour(gameWidget, claimVictory);
     }
 
     @Override
     public ReceiveGameBehaviour createEndTurnBehaviour(EndTurn endTurn)
     {
-        return new DefaultOpponentReceivedBehaviour(gamePanel, endTurn);
+        return new DefaultOpponentReceivedBehaviour(gameWidget, endTurn);
     }
 
     @Override
     public ReceiveGameBehaviour createHostStartsBehaviour(
             HostStartsGame hostStartsGame)
     {
-        return new DefaultOpponentReceivedBehaviour(gamePanel, hostStartsGame);
+        return new DefaultOpponentReceivedBehaviour(gameWidget, hostStartsGame);
     }
 
     @Override
     public ReceiveGameBehaviour createMessageFromServerBehaviour(
             MessageFromServer messageFromServer)
     {
-        return new DefaultOpponentReceivedBehaviour(gamePanel,
+        return new DefaultOpponentReceivedBehaviour(gameWidget,
                 messageFromServer);
     }
 
     @Override
     public ReceiveGameBehaviour createMoveRobberBehaviour(PlaceRobber moveRobber)
     {
-        return new DefaultOpponentReceivedBehaviour(gamePanel, moveRobber);
+        return new DefaultOpponentReceivedBehaviour(gameWidget, moveRobber);
     }
 
     @Override
     public ReceiveGameBehaviour createPlayDevelopmentCardBehaviour(
             PlayDevelopmentCard playDevelopmentCard)
     {
-        return new DefaultOpponentReceivedBehaviour(gamePanel,
+        return new DefaultOpponentReceivedBehaviour(gameWidget,
                 playDevelopmentCard);
     }
 
     @Override
     public ReceiveGameBehaviour createRobPlayerBehaviour(RobPlayer robPlayer)
     {
-        return new DefaultOpponentReceivedBehaviour(gamePanel, robPlayer);
+        return new DefaultOpponentReceivedBehaviour(gameWidget, robPlayer);
     }
 
     @Override
     public ReceiveGameBehaviour createRollDiceBehaviour(RollDice rollDice)
     {
-        return new DefaultOpponentReceivedBehaviour(gamePanel, rollDice);
+        return new DefaultOpponentReceivedBehaviour(gameWidget, rollDice);
     }
 
     @Override
     public ReceiveGameBehaviour createAcceptOfferBehaviour(
             AcceptTradeOffer acceptTradeOffer)
     {
-        return new DefaultOpponentReceivedBehaviour(gamePanel, acceptTradeOffer);
+        return new DefaultOpponentReceivedBehaviour(gameWidget, acceptTradeOffer);
     }
 
     @Override
     public ReceiveGameBehaviour createCounterTradeOfferBehaviour(
             CounterTradeOffer counterTradeOffer)
     {
-        return new DefaultOpponentReceivedBehaviour(gamePanel,
+        return new DefaultOpponentReceivedBehaviour(gameWidget,
                 counterTradeOffer);
     }
 
     @Override
     public ReceiveGameBehaviour createGameChatBehaviour(GameChat gameChat)
     {
-        return new DefaultOpponentReceivedBehaviour(gamePanel, gameChat);
+        return new DefaultOpponentReceivedBehaviour(gameWidget, gameChat);
     }
 
     @Override
     public ReceiveGameBehaviour createGamePhaseHasEndedBehaviour(
             GamePhaseHasEnded gamePhaseHasEnded)
     {
-        return new DefaultOpponentReceivedBehaviour(gamePanel,
+        return new DefaultOpponentReceivedBehaviour(gameWidget,
                 gamePhaseHasEnded);
     }
 
     @Override
     public ReceiveGameBehaviour createLooseCardsBehaviour(LooseCards looseCards)
     {
-        return new DefaultOpponentReceivedBehaviour(gamePanel, looseCards);
+        return new DefaultOpponentReceivedBehaviour(gameWidget, looseCards);
     }
 
     @Override
     public ReceiveGameBehaviour createPlayDevelopmentCardBehaviour(
             BuyDevelopmentCard buyDevelopmentCard)
     {
-        return new DefaultOpponentReceivedBehaviour(gamePanel,
+        return new DefaultOpponentReceivedBehaviour(gameWidget,
                 buyDevelopmentCard);
     }
 
@@ -165,7 +165,7 @@ public class OpponentBehaviourFactory implements ReceiveGameBehaviourFactory
     public ReceiveGameBehaviour createQueuedTradeResponseBehaviour(
             QueuedTradeResponse queuedTradeResponse)
     {
-        return new DefaultOpponentReceivedBehaviour(gamePanel,
+        return new DefaultOpponentReceivedBehaviour(gameWidget,
                 queuedTradeResponse);
     }
 
@@ -173,47 +173,47 @@ public class OpponentBehaviourFactory implements ReceiveGameBehaviourFactory
     public ReceiveGameBehaviour createRejectOfferBehaviour(
             RejectTradeOffer rejectTradeOffer)
     {
-        return new DefaultOpponentReceivedBehaviour(gamePanel, rejectTradeOffer);
+        return new DefaultOpponentReceivedBehaviour(gameWidget, rejectTradeOffer);
     }
 
     @Override
     public ReceiveGameBehaviour createRolledSameBehaviour(RolledSame rolledSame)
     {
-        return new DefaultOpponentReceivedBehaviour(gamePanel, rolledSame);
+        return new DefaultOpponentReceivedBehaviour(gameWidget, rolledSame);
     }
 
     @Override
     public ReceiveGameBehaviour createStartingPlayerDeterminedBehaviour(
             StartingPlayerDetermined startingPlayerDetermined)
     {
-        return new DefaultOpponentReceivedBehaviour(gamePanel,
+        return new DefaultOpponentReceivedBehaviour(gameWidget,
                 startingPlayerDetermined);
     }
 
     @Override
     public ReceiveGameBehaviour createTradeBankBehaviour(TradeBank tradeBank)
     {
-        return new DefaultOpponentReceivedBehaviour(gamePanel, tradeBank);
+        return new DefaultOpponentReceivedBehaviour(gameWidget, tradeBank);
     }
 
     @Override
     public ReceiveGameBehaviour createTradeOfferBehaviour(TradeOffer tradeOffer)
     {
-        return new DefaultOpponentReceivedBehaviour(gamePanel, tradeOffer);
+        return new DefaultOpponentReceivedBehaviour(gameWidget, tradeOffer);
     }
 
     @Override
     public ReceiveGameBehaviour createTradePlayerBehaviour(
             TradePlayer tradePlayer)
     {
-        return new DefaultOpponentReceivedBehaviour(gamePanel, tradePlayer);
+        return new DefaultOpponentReceivedBehaviour(gameWidget, tradePlayer);
     }
 
     @Override
     public ReceiveGameBehaviour createTurnPhaseEndedBehaviour(
             TurnPhaseEnded turnPhaseEnded)
     {
-        return new DefaultOpponentReceivedBehaviour(gamePanel, turnPhaseEnded);
+        return new DefaultOpponentReceivedBehaviour(gameWidget, turnPhaseEnded);
     }
 
 }

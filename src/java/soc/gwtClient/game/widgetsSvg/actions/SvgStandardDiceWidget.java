@@ -29,9 +29,9 @@ public class SvgStandardDiceWidget extends AbstractStandardDiceWidget implements
     AbsolutePanel totalNumber = new AbsolutePanel();
     Label lblTotalNumber = new Label();
 
-    public SvgStandardDiceWidget(GameWidget gamePanel, GamePlayer player)
+    public SvgStandardDiceWidget(GameWidget gameWidget, GamePlayer player)
     {
-        super(gamePanel, player);
+        super(gameWidget, player);
 
         rootPanel.setSize("8em", "3em");
         totalNumber.setSize("2em", "3em");
@@ -43,9 +43,9 @@ public class SvgStandardDiceWidget extends AbstractStandardDiceWidget implements
         rootPanel.add(dice1.asWidget(), 32, 0);
         rootPanel.add(dice2.asWidget(), 72, 0);
 
-        gamePanel.getGame().addDiceChangedEventHandler(this);
-        gamePanel.getGame().addGamePhaseChangedEventHandler(this);
-        gamePanel.getGame().addTurnPhaseChangedHandler(this);
+        gameWidget.getGame().addDiceChangedEventHandler(this);
+        gameWidget.getGame().addGamePhaseChangedEventHandler(this);
+        gameWidget.getGame().addTurnPhaseChangedHandler(this);
     }
 
     private void updateTotalNumber(int number)
@@ -94,8 +94,8 @@ public class SvgStandardDiceWidget extends AbstractStandardDiceWidget implements
     public void clicked()
     {
         RollDice rollDice = new RollDice();
-        rollDice.setPlayer(gamePanel.getPlayingPlayer());
-        gamePanel.sendAction(rollDice);
+        rollDice.setPlayer(gameWidget.getPlayingPlayer());
+        gameWidget.sendAction(rollDice);
     }
 
     @Override
@@ -113,8 +113,8 @@ public class SvgStandardDiceWidget extends AbstractStandardDiceWidget implements
         if (event.getNewPhase() != null)
         {
             if (!(event.getNewPhase() instanceof BeforeDiceRollTurnPhase)
-                    && gamePanel.getGame().getCurrentTurn().getPlayer().equals(
-                            gamePanel.getPlayingPlayer()))
+                    && gameWidget.getGame().getCurrentTurn().getPlayer().equals(
+                            gameWidget.getPlayingPlayer()))
             {
                 setEnabled(true);
             }

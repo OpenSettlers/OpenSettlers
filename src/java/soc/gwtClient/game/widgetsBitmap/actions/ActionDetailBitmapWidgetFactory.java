@@ -20,37 +20,37 @@ import soc.gwtClient.game.widgetsInterface.playerDetail.ActionDetailWidget;
 public class ActionDetailBitmapWidgetFactory implements
         ActionDetailWidgetFactory
 {
-    private GameWidget gamePanel;
+    private GameWidget gameWidget;
 
-    public ActionDetailBitmapWidgetFactory(GameWidget gamePanel)
+    public ActionDetailBitmapWidgetFactory(GameWidget gameWidget)
     {
         super();
-        this.gamePanel = gamePanel;
+        this.gameWidget = gameWidget;
     }
 
     @Override
     public ActionDetailWidget getBuildCityDetailWidget(BuildCity buildCity)
     {
-        return new BuildCityDetailBitmapWidget(gamePanel, buildCity);
+        return new BuildCityDetailBitmapWidget(gameWidget, buildCity);
     }
 
     @Override
     public ActionDetailWidget getBuildRoadDetailWidget(BuildRoad buildRoad)
     {
-        return new BuildRoadDetailWidget(gamePanel, buildRoad);
+        return new BuildRoadDetailWidget(gameWidget, buildRoad);
     }
 
     @Override
     public ActionDetailWidget getBuildTownDetailWidget(BuildTown buildTown)
     {
-        return new BuildTownDetailWidget(gamePanel, buildTown);
+        return new BuildTownDetailWidget(gameWidget, buildTown);
     }
 
     @Override
     public ActionDetailWidget getBuyDevelopmentCardDetailWidget(
             BuyDevelopmentCard buyDevelopmentcard)
     {
-        return new BuyDevelopmentCardDetailBitmapWidget(gamePanel,
+        return new BuyDevelopmentCardDetailBitmapWidget(gameWidget,
                 buyDevelopmentcard);
     }
 
@@ -64,7 +64,7 @@ public class ActionDetailBitmapWidgetFactory implements
     @Override
     public ActionDetailWidget getEndTurnDetailWidget(EndTurn endTurn)
     {
-        return new EndTurnDetailWidget(gamePanel, endTurn);
+        return new EndTurnDetailWidget(gameWidget, endTurn);
     }
 
     @Override
@@ -78,19 +78,19 @@ public class ActionDetailBitmapWidgetFactory implements
     @Override
     public ActionDetailWidget getRobPlayerDetailWidget(RobPlayer robPlayer)
     {
-        return new RobPlayerDetailWidget(gamePanel, robPlayer);
+        return new RobPlayerDetailWidget(gameWidget, robPlayer);
     }
 
     @Override
     public ActionDetailWidget getRollDiceDetailWidget(RollDice rollDice)
     {
-        return new RollDiceDetailWidget(gamePanel, rollDice);
+        return new RollDiceDetailWidget(gameWidget, rollDice);
     }
 
     @Override
     public ActionDetailWidget getRolledSameDetailWidget(RolledSame rolledSame)
     {
-        return new RolledSameDetailBitmapWidget(gamePanel, rolledSame);
+        return new RolledSameDetailBitmapWidget(gameWidget, rolledSame);
     }
 
     @Override

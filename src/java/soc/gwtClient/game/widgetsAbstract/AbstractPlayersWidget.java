@@ -17,24 +17,24 @@ public abstract class AbstractPlayersWidget implements PlayersInfoWidget,
         OrderChangedEventHandler
 {
     protected ComplexPanel rootPanel;
-    protected GameWidget gamePanel;
+    protected GameWidget gameWidget;
     protected GamePlayer player;
     protected HashMap<GamePlayer, PlayerInfoWidget> playersWidgets = new HashMap<GamePlayer, PlayerInfoWidget>();
 
-    public AbstractPlayersWidget(GameWidget gamePanel)
+    public AbstractPlayersWidget(GameWidget gameWidget)
     {
-        this.gamePanel = gamePanel;
+        this.gameWidget = gameWidget;
 
         rootPanel = createRootPanel();
 
-        for (GamePlayer player : gamePanel.getGame().getPlayers())
+        for (GamePlayer player : gameWidget.getGame().getPlayers())
         {
-            PlayerInfoWidget widget = createPlayerWidget(gamePanel, player);
+            PlayerInfoWidget widget = createPlayerWidget(gameWidget, player);
             rootPanel.add(widget);
             playersWidgets.put(player, widget);
         }
 
-        gamePanel.getGame().getPlayers().addOrderChangedEventHandler(this);
+        gameWidget.getGame().getPlayers().addOrderChangedEventHandler(this);
         rootPanel.setWidth("100%");
     }
 
@@ -55,7 +55,7 @@ public abstract class AbstractPlayersWidget implements PlayersInfoWidget,
     {
         rootPanel.clear();
 
-        for (GamePlayer player : gamePanel.getGame().getPlayers())
+        for (GamePlayer player : gameWidget.getGame().getPlayers())
             rootPanel.add(playersWidgets.get(player));
     }
 }

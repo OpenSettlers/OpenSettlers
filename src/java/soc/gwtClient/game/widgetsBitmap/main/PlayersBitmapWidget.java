@@ -11,16 +11,16 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class PlayersBitmapWidget extends AbstractPlayersWidget
 {
-    public PlayersBitmapWidget(GameWidget gamePanel)
+    public PlayersBitmapWidget(GameWidget gameWidget)
     {
-        super(gamePanel);
+        super(gameWidget);
     }
 
     @Override
-    public PlayerInfoWidget createPlayerWidget(GameWidget gamePanel,
+    public PlayerInfoWidget createPlayerWidget(GameWidget gameWidget,
             GamePlayer player)
     {
-        return new PlayerBitmapWidget(gamePanel, player);
+        return new PlayerBitmapWidget(gameWidget, player);
     }
 
     @Override

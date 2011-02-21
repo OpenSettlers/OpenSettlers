@@ -27,23 +27,23 @@ public class EndTurnBitmapWidget extends AbstractActionWidget implements
             .endTurn()));
     private EndTurn endTurn = new EndTurn();
 
-    public EndTurnBitmapWidget(final GameWidget gamePanel,
+    public EndTurnBitmapWidget(final GameWidget gameWidget,
             final GamePlayer player)
     {
-        super(gamePanel, player);
+        super(gameWidget, player);
 
         endTurn.setPlayer(player);
 
-        gamePanel.getGame().addTurnChangedEventHandler(this);
-        gamePanel.getGame().addGamePhaseChangedEventHandler(this);
-        gamePanel.getGame().addTurnPhaseChangedHandler(this);
+        gameWidget.getGame().addTurnChangedEventHandler(this);
+        gameWidget.getGame().addGamePhaseChangedEventHandler(this);
+        gameWidget.getGame().addTurnPhaseChangedHandler(this);
 
         btnEndTurn.addClickHandler(new ClickHandler()
         {
             @Override
             public void onClick(ClickEvent event)
             {
-                gamePanel.startAction((AbstractTurnAction) new EndTurn()
+                gameWidget.startAction((AbstractTurnAction) new EndTurn()
                         .setPlayer(player));
             }
         });
@@ -75,7 +75,7 @@ public class EndTurnBitmapWidget extends AbstractActionWidget implements
     {
         if (enabled && player.isOnTurn())
         {
-            if (gamePanel.getGame().isAllowed(endTurn))
+            if (gameWidget.getGame().isAllowed(endTurn))
             {
                 enableUI();
                 return;

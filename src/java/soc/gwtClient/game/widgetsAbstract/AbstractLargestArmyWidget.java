@@ -14,11 +14,11 @@ public abstract class AbstractLargestArmyWidget implements LargestArmyDetailWidg
 {
     protected ComplexPanel rootPanel;
     protected GamePlayer player;
-    protected GameWidget gamePanel;
+    protected GameWidget gameWidget;
 
-    public AbstractLargestArmyWidget(GameWidget gamePanel, GamePlayer player)
+    public AbstractLargestArmyWidget(GameWidget gameWidget, GamePlayer player)
     {
-        this.gamePanel = gamePanel;
+        this.gameWidget = gameWidget;
         this.player = player;
 
         rootPanel = createRootPanel();

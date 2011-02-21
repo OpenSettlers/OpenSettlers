@@ -44,7 +44,7 @@ public class HotSeatGameWidget extends AbstractGameWidget implements
     {
         super.initialize();
 
-        GameWidgetFactory gameWidgetFactory = gamePanelLayoutWidget
+        GameWidgetFactory gameWidgetFactory = gameWidgetLayoutWidget
                 .getGameWidgetFactory();
 
         looseCardsDialog = gameWidgetFactory.createHotseatLooseCardsDialog();
@@ -55,7 +55,7 @@ public class HotSeatGameWidget extends AbstractGameWidget implements
         hotseatTradePlayersWidget = gameWidgetFactory
                 .createHotSeatTradePlayersWidget();
 
-        gamePanelLayoutWidget.initialize();
+        gameWidgetLayoutWidget.initialize();
         game.addTurnChangedEventHandler(this);
         boardVisualWidget.getBoardVisual().setBehaviour(new DisabledMap());
         boardVisualWidget.getBoardVisual().hideTerritories();
@@ -64,7 +64,7 @@ public class HotSeatGameWidget extends AbstractGameWidget implements
     @Override
     public Panel getRootWidget()
     {
-        return gamePanelLayoutWidget.getRootPanel();
+        return gameWidgetLayoutWidget.getRootPanel();
     }
 
     @Override

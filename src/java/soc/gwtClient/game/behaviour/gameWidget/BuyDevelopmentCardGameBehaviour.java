@@ -9,13 +9,13 @@ public class BuyDevelopmentCardGameBehaviour implements GameBehaviour,
         TradeFirst
 {
     private BuyDevelopmentCard buyDev;
-    private GameWidget gamePanel;
+    private GameWidget gameWidget;
 
-    public BuyDevelopmentCardGameBehaviour(GameWidget gamePanel,
+    public BuyDevelopmentCardGameBehaviour(GameWidget gameWidget,
             BuyDevelopmentCard buyDev)
     {
         super();
-        this.gamePanel = gamePanel;
+        this.gameWidget = gameWidget;
         this.buyDev = buyDev;
     }
 
@@ -25,16 +25,16 @@ public class BuyDevelopmentCardGameBehaviour implements GameBehaviour,
     }
 
     @Override
-    public void start(GameWidget gamePanel)
+    public void start(GameWidget gameWidget)
     {
-        GamePlayer player = gamePanel.getPlayingPlayer();
+        GamePlayer player = gameWidget.getPlayingPlayer();
         if (player.getResources().hasAtLeast(DevelopmentCard.getCost()))
         {
-            gamePanel.sendAction(buyDev);
+            gameWidget.sendAction(buyDev);
         }
         else
         {
-            gamePanel.getBankTradeUI().setDevcardTrade(this);
+            gameWidget.getBankTradeUI().setDevcardTrade(this);
         }
     }
 
@@ -46,6 +46,6 @@ public class BuyDevelopmentCardGameBehaviour implements GameBehaviour,
     @Override
     public void onTraded()
     {
-        gamePanel.sendAction(buyDev);
+        gameWidget.sendAction(buyDev);
     }
 }

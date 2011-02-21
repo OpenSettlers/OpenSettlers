@@ -17,9 +17,9 @@ public class VictoryPointsBitmapWidget extends AbstractVictoryPointsWidget
             .victoryPointsSmall());
     private Label lblVictoryPointsAmount = new Label();
 
-    public VictoryPointsBitmapWidget(GameWidget gamePanel, GamePlayer player)
+    public VictoryPointsBitmapWidget(GameWidget gameWidget, GamePlayer player)
     {
-        super(gamePanel, player);
+        super(gameWidget, player);
 
         victoryPointsImage.setSize("16px", "16px");
         lblVictoryPointsAmount.setText(Integer.toString(player

@@ -11,13 +11,13 @@ public abstract class AbstractActionDetailWidget implements ActionDetailWidget
 {
     protected GamePlayer player;
     protected HorizontalPanel rootPanel = new HorizontalPanel();
-    protected GameWidget gamePanel;
+    protected GameWidget gameWidget;
 
-    public AbstractActionDetailWidget(GameWidget gamePanel, GamePlayer player)
+    public AbstractActionDetailWidget(GameWidget gameWidget, GamePlayer player)
     {
         super();
         this.player = player;
-        this.gamePanel = gamePanel;
+        this.gameWidget = gameWidget;
         rootPanel.setHeight("2em");
     }
 

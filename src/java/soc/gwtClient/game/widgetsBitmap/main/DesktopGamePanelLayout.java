@@ -18,14 +18,14 @@ public class DesktopGamePanelLayout implements GamePanelLayoutWidget
 
     protected GameWidgetFactory gameWidgetFactory;
 
-    private GameWidget gamePanel;
+    private GameWidget gameWidget;
     protected Widget gameDetailsWidget;
 
-    public DesktopGamePanelLayout(GameWidget gamePanel)
+    public DesktopGamePanelLayout(GameWidget gameWidget)
     {
         super();
-        this.gamePanel = gamePanel;
-        gameWidgetFactory = new GameBitmapWidgetFactory(gamePanel);
+        this.gameWidget = gameWidget;
+        gameWidgetFactory = new GameBitmapWidgetFactory(gameWidget);
 
     }
 
@@ -38,17 +38,17 @@ public class DesktopGamePanelLayout implements GamePanelLayoutWidget
     @Override
     public void initialize()
     {
-        boardActionResourcesPanel.addEast(gamePanel.getActionsWidget()
+        boardActionResourcesPanel.addEast(gameWidget.getActionsWidget()
                 .asWidget(), 15);
-        boardActionResourcesPanel.addSouth(gamePanel.getStatusWidget()
+        boardActionResourcesPanel.addSouth(gameWidget.getStatusWidget()
                 .asWidget(), 5);
-        boardActionResourcesPanel.add(gamePanel.getBoardVisualWidget());
+        boardActionResourcesPanel.add(gameWidget.getBoardVisualWidget());
 
-        playersBankChatPanel.addNorth(gamePanel.getPlayersInfoWidget()
+        playersBankChatPanel.addNorth(gameWidget.getPlayersInfoWidget()
                 .asWidget(), 20);
-        playersBankChatPanel.addNorth(gamePanel.getbankStockPanel().asWidget(),
+        playersBankChatPanel.addNorth(gameWidget.getbankStockPanel().asWidget(),
                 5);
-        playersBankChatPanel.add(gamePanel.getDetailsWidget());
+        playersBankChatPanel.add(gameWidget.getDetailsWidget());
 
         rootPanel.addWest(playersBankChatPanel, 20);
         rootPanel.add(boardActionResourcesPanel);

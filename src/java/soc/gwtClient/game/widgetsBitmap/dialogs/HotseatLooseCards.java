@@ -22,7 +22,7 @@ public class HotseatLooseCards extends DialogBox implements
         HotseatLooseCardsDialog
 {
     private VerticalPanel panelPlayerCards;
-    private GameWidget gamePanel;
+    private GameWidget gameWidget;
     private HashMap<LooseCardsWidget, Boolean> lostCards = new HashMap<LooseCardsWidget, Boolean>();
     private HashMap<GamePlayer, LooseCardsWidget> playerWidgets = new HashMap<GamePlayer, LooseCardsWidget>();
     private Button btnDone;
@@ -54,21 +54,21 @@ public class HotseatLooseCards extends DialogBox implements
                     LooseCards looseCards = (LooseCards) new LooseCards()
                             .setLostCards(widget.getLostCards()).setPlayer(
                                     widget.getPlayer());
-                    gamePanel.sendAction(looseCards);
+                    gameWidget.sendAction(looseCards);
                 }
                 rollDiceResult.doneLoosingCards();
             }
         });
     }
 
-    public HotseatLooseCards(GameWidget gamePanel)
+    public HotseatLooseCards(GameWidget gameWidget)
     {
         this();
-        this.gamePanel = gamePanel;
+        this.gameWidget = gameWidget;
 
-        for (GamePlayer player : gamePanel.getGame().getPlayers())
+        for (GamePlayer player : gameWidget.getGame().getPlayers())
         {
-            LooseCardsWidget widget = new LooseCardsBitmapWidget(gamePanel,
+            LooseCardsWidget widget = new LooseCardsBitmapWidget(gameWidget,
                     player, this);
             panelPlayerCards.add(widget);
             playerWidgets.put(player, widget);
@@ -85,7 +85,7 @@ public class HotseatLooseCards extends DialogBox implements
         for (int playerID : rollDice.getLooserPlayers())
         {
             playersToLooseCards
-                    .add(gamePanel.getGame().getPlayerByID(playerID));
+                    .add(gameWidget.getGame().getPlayerByID(playerID));
         }
         for (GamePlayer player : playerWidgets.keySet())
         {

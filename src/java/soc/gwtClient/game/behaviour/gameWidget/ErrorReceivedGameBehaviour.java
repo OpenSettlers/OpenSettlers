@@ -21,9 +21,9 @@ public class ErrorReceivedGameBehaviour implements ReceiveGameBehaviour
     }
 
     @Override
-    public void start(GameWidget gamePanel)
+    public void start(GameWidget gameWidget)
     {
-        gamePanel.getDebugPanel().addError(messageFromServer);
+        gameWidget.getDebugPanel().addError(messageFromServer);
     }
 
     @Override

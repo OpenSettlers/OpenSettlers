@@ -27,16 +27,16 @@ public abstract class AbstractStatusPanel implements StatusWidget,
     protected Label lblTurn = new Label("Status of the game");
     protected Label lblTurnID = new Label("Turn #");
     protected Label lblPlayerOnTurn = new Label("Player");
-    protected GameWidget gamePanel;
+    protected GameWidget gameWidget;
 
     protected abstract ComplexPanel createRootPanel();
 
-    public AbstractStatusPanel(GameWidget gamePanel)
+    public AbstractStatusPanel(GameWidget gameWidget)
     {
         super();
-        this.gamePanel = gamePanel;
+        this.gameWidget = gameWidget;
 
-        this.allPhaseStatuses = new AllPhaseStatusBitmapWidget(gamePanel);
+        this.allPhaseStatuses = new AllPhaseStatusBitmapWidget(gameWidget);
 
         turnPanel.add(lblTurnID);
         turnPanel.add(lblPlayerOnTurn);
@@ -52,9 +52,9 @@ public abstract class AbstractStatusPanel implements StatusWidget,
 
         rootPanel.add(playingStatusPanel);
 
-        gamePanel.getGame().getActionsQueue().addQueueChangedEventHandler(this);
-        gamePanel.getGame().addTurnChangedEventHandler(this);
-        gamePanel.getGame().addStatusChangedEventHandler(this);
+        gameWidget.getGame().getActionsQueue().addQueueChangedEventHandler(this);
+        gameWidget.getGame().addTurnChangedEventHandler(this);
+        gameWidget.getGame().addStatusChangedEventHandler(this);
 
         rootPanel.add(playingStatusPanel);
         rootPanel.setWidth("100%");

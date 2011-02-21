@@ -12,9 +12,9 @@ public class BuildRoadDetailWidget extends AbstractActionDetailWidget
 {
     private BuildRoad buildRoad;
 
-    public BuildRoadDetailWidget(GameWidget gamePanel, BuildRoad buildRoad)
+    public BuildRoadDetailWidget(GameWidget gameWidget, BuildRoad buildRoad)
     {
-        super(gamePanel, buildRoad.getPlayer());
+        super(gameWidget, buildRoad.getPlayer());
         this.buildRoad = buildRoad;
 
         rootPanel.add(new Image(Resources.icons().buildLarge()));

@@ -33,12 +33,12 @@ import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 
 public class NextActionGameBehaviourFactory implements GameBehaviourFactory
 {
-    private GameWidget gamePanel;
+    private GameWidget gameWidget;
 
-    public NextActionGameBehaviourFactory(GameWidget gamePanel)
+    public NextActionGameBehaviourFactory(GameWidget gameWidget)
     {
         super();
-        this.gamePanel = gamePanel;
+        this.gameWidget = gameWidget;
     }
 
     @Override
@@ -51,13 +51,13 @@ public class NextActionGameBehaviourFactory implements GameBehaviourFactory
     @Override
     public GameBehaviour createBuildRoadBehaviour(BuildRoad buildRoad)
     {
-        return new BuildRoadGameBehaviour(gamePanel, buildRoad);
+        return new BuildRoadGameBehaviour(gameWidget, buildRoad);
     }
 
     @Override
     public GameBehaviour createBuildTownBehaviour(BuildTown buildTown)
     {
-        return new BuildTownGameBehaviour(gamePanel, buildTown);
+        return new BuildTownGameBehaviour(gameWidget, buildTown);
     }
 
     @Override
@@ -100,7 +100,7 @@ public class NextActionGameBehaviourFactory implements GameBehaviourFactory
     @Override
     public GameBehaviour createMoveRobberBehaviour(PlaceRobber moveRobber)
     {
-        return new MoveRobberGameBehaviour(gamePanel, moveRobber);
+        return new MoveRobberGameBehaviour(gameWidget, moveRobber);
     }
 
     @Override
@@ -114,7 +114,7 @@ public class NextActionGameBehaviourFactory implements GameBehaviourFactory
     @Override
     public GameBehaviour createRobPlayerBehaviour(RobPlayer robPlayer)
     {
-        return new RobPlayerGameBehaviour(gamePanel);
+        return new RobPlayerGameBehaviour(gameWidget);
     }
 
     @Override

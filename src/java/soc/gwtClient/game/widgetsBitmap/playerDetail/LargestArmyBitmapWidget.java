@@ -24,11 +24,11 @@ public class LargestArmyBitmapWidget extends AbstractLargestArmyWidget
     Soldier soldier = new Soldier();
     ToolTip toolTip;
 
-    public LargestArmyBitmapWidget(GameWidget gamePanel, GamePlayer player)
+    public LargestArmyBitmapWidget(GameWidget gameWidget, GamePlayer player)
     {
-        super(gamePanel, player);
+        super(gameWidget, player);
 
-        toolTip = new SoldiersToolTip(gamePanel, player);
+        toolTip = new SoldiersToolTip(gameWidget, player);
 
         amountSoldiers.setText(Integer.toString(player
                 .getPlayedDevelopmentCards().ofType(new Soldier()).size()));
@@ -51,13 +51,13 @@ public class LargestArmyBitmapWidget extends AbstractLargestArmyWidget
     @Override
     public void onMouseOut(MouseOutEvent event)
     {
-        gamePanel.getToolTipManager().hideToolTip(toolTip);
+        gameWidget.getToolTipManager().hideToolTip(toolTip);
     }
 
     @Override
     public void onMouseOver(MouseOverEvent event)
     {
-        gamePanel.getToolTipManager().showToolTip(toolTip);
+        gameWidget.getToolTipManager().showToolTip(toolTip);
     }
 
 }

@@ -40,10 +40,10 @@ public class BuildRoadBitmapWidget extends AbstractActionWidget implements
     Image roadToken2 = new Image(Resources.icons().roadToken());
     BuildRoad buildRoad;
 
-    public BuildRoadBitmapWidget(final GameWidget gamePanel,
+    public BuildRoadBitmapWidget(final GameWidget gameWidget,
             final GamePlayer player)
     {
-        super(gamePanel, player);
+        super(gameWidget, player);
 
         absolutePanel.setSize("4em", "4em");
 
@@ -52,7 +52,7 @@ public class BuildRoadBitmapWidget extends AbstractActionWidget implements
 
         player.getResources().addResourcesChangedEventHandler(this);
         player.getStock().getRoads().addRoadsChangedEventHandler(this);
-        gamePanel.getGame().addGamePhaseChangedEventHandler(this);
+        gameWidget.getGame().addGamePhaseChangedEventHandler(this);
         player.addRoadTokenChangedEventHandler(this);
 
         btnBuildRoad.addClickHandler(new ClickHandler()
@@ -60,7 +60,7 @@ public class BuildRoadBitmapWidget extends AbstractActionWidget implements
             @Override
             public void onClick(ClickEvent event)
             {
-                gamePanel.startAction(new BuildRoad().setPlayer(player));
+                gameWidget.startAction(new BuildRoad().setPlayer(player));
             }
         });
 
@@ -126,7 +126,7 @@ public class BuildRoadBitmapWidget extends AbstractActionWidget implements
         setTradesNeededToBuild();
         if (enabled && player.isOnTurn())
         {
-            Game game = gamePanel.getGame();
+            Game game = gameWidget.getGame();
 
             if (game.isAllowed(buildRoad) && // current phase
                     // must be OK

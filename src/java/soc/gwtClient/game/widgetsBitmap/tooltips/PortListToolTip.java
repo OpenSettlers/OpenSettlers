@@ -19,9 +19,9 @@ public class PortListToolTip extends AbstractPlayerInfoToolTip implements
 {
     private Map<Port, Image> portImages = new HashMap<Port, Image>();
 
-    public PortListToolTip(GameWidget gamePanel, GamePlayer player)
+    public PortListToolTip(GameWidget gameWidget, GamePlayer player)
     {
-        super(gamePanel, player);
+        super(gameWidget, player);
 
         for (Port port : player.getPorts())
         {

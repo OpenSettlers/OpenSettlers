@@ -18,9 +18,9 @@ public class SoldiersToolTip extends AbstractPlayerInfoToolTip implements
 {
     private Map<Soldier, Image> soldierImages = new HashMap<Soldier, Image>();
 
-    public SoldiersToolTip(GameWidget gamePanel, GamePlayer player)
+    public SoldiersToolTip(GameWidget gameWidget, GamePlayer player)
     {
-        super(gamePanel, player);
+        super(gameWidget, player);
 
         for (Soldier soldier : player.getArmy().getSoldiers())
         {

@@ -34,16 +34,16 @@ public class DetailContainerWidget extends PopupPanel implements
     // Panel containing all the widgets for permanent viewing
     private HorizontalPanel actionPanel = new HorizontalPanel();
     private SimplePanel mouseOverPanel = new SimplePanel();
-    private GameWidget gamePanel;
+    private GameWidget gameWidget;
 
     private ActionDetailWidget playerDetailWidget;
     private ResourcesGainedDetailWidget resourcesGained;
 
-    public DetailContainerWidget(GamePlayer player, GameWidget gamePanel)
+    public DetailContainerWidget(GamePlayer player, GameWidget gameWidget)
     {
         super();
         this.player = player;
-        this.gamePanel = gamePanel;
+        this.gameWidget = gameWidget;
 
         rootPanel.add(actionPanel);
         rootPanel.add(mouseOverPanel);
@@ -69,7 +69,7 @@ public class DetailContainerWidget extends PopupPanel implements
 
     public void setPositionAndShow()
     {
-        Point2D location = gamePanel.getTopRightPlayerInfoBoxPosition(player);
+        Point2D location = gameWidget.getTopRightPlayerInfoBoxPosition(player);
         setPopupPosition(location.getX(), location.getY());
         this.show();
     }

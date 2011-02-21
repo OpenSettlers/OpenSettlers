@@ -36,14 +36,14 @@ public class AllPhaseStatusBitmapWidget implements
     private List<Image> gamePhaseIcons = new ArrayList<Image>();
     private Map<GamePhase, GamePhaseStatusWidget> phaseWidgets = new HashMap<GamePhase, GamePhaseStatusWidget>();
     private List<GamePhaseStatusWidget> widgets = new ArrayList<GamePhaseStatusWidget>();
-    private GameWidget gamePanel;
+    private GameWidget gameWidget;
     private Image currentPhaseIcon;
 
-    public AllPhaseStatusBitmapWidget(GameWidget gamePanel)
+    public AllPhaseStatusBitmapWidget(GameWidget gameWidget)
     {
-        this.gamePanel = gamePanel;
+        this.gameWidget = gameWidget;
 
-        for (GamePhase gamePhase : gamePanel.getGame().getRules()
+        for (GamePhase gamePhase : gameWidget.getGame().getRules()
                 .getSupportedPhases())
         {
             gamePhaseIcons.add(new Image(Resources.gamePhase(gamePhase)));
@@ -62,7 +62,7 @@ public class AllPhaseStatusBitmapWidget implements
         rootPanel.add(phasesRootPanel);
         rootPanel.add(currentPhasePanel);
 
-        gamePanel.getGame().addGamePhaseChangedEventHandler(this);
+        gameWidget.getGame().addGamePhaseChangedEventHandler(this);
         setCurrentPhase();
         rootPanel.setStyleName("allGamePhases");
         currentPhasePanel.setStyleName("phasePanel");
@@ -79,7 +79,7 @@ public class AllPhaseStatusBitmapWidget implements
                     (InitialPlacementGamePhase) gamePhase);
 
         if (gamePhase instanceof PlayTurnsGamePhase)
-            return new PlayTurnsBitmapWidget(gamePanel,
+            return new PlayTurnsBitmapWidget(gameWidget,
                     (PlayTurnsGamePhase) gamePhase);
 
         if (gamePhase instanceof EndedGamePhase)
@@ -99,7 +99,7 @@ public class AllPhaseStatusBitmapWidget implements
 
     private void setCurrentPhase()
     {
-        GamePhase newPhase = gamePanel.getGame().getCurrentPhase();
+        GamePhase newPhase = gameWidget.getGame().getCurrentPhase();
 
         if (currentPhaseIcon != null)
             currentPhaseIcon.setStyleName("phaseNotSelectedIcon");

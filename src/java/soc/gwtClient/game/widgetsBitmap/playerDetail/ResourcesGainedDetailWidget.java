@@ -18,9 +18,9 @@ public class ResourcesGainedDetailWidget extends AbstractActionDetailWidget
     private ResourceList resources = new ResourceList();
     private RollDice rolledDice;
 
-    public ResourcesGainedDetailWidget(GameWidget gamePanel, RollDice rolledDice)
+    public ResourcesGainedDetailWidget(GameWidget gameWidget, RollDice rolledDice)
     {
-        super(gamePanel, rolledDice.getPlayer());
+        super(gameWidget, rolledDice.getPlayer());
         this.rolledDice = rolledDice;
         resourceWidget = new ResourceListBitmapWidget(resources, null, null);
         rootPanel.add(resourceWidget);

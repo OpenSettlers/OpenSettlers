@@ -18,9 +18,9 @@ public class CityStockToolTip extends AbstractPlayerInfoToolTip implements
 {
     private Map<City, Image> cityImages = new HashMap<City, Image>();
 
-    public CityStockToolTip(GameWidget gamePanel, GamePlayer player)
+    public CityStockToolTip(GameWidget gameWidget, GamePlayer player)
     {
-        super(gamePanel, player);
+        super(gameWidget, player);
 
         for (City city : player.getStock().getCities())
         {

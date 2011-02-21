@@ -16,13 +16,13 @@ public class DebugBitmapPanel implements DebugWidget
     ScrollPanel rootPanel = new ScrollPanel();
     CellList<MessageFromServer> actionsList = new CellList<MessageFromServer>(
             cell);
-    GameWidget gamePanel;
+    GameWidget gameWidget;
     ListDataProvider<MessageFromServer> dataProvider = new ListDataProvider<MessageFromServer>();
 
-    public DebugBitmapPanel(GameWidget gamePanel)
+    public DebugBitmapPanel(GameWidget gameWidget)
     {
         super();
-        this.gamePanel = gamePanel;
+        this.gameWidget = gameWidget;
 
         rootPanel.add(actionsList);
         dataProvider.addDataDisplay(actionsList);

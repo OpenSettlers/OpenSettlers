@@ -18,9 +18,9 @@ public class RoadStockToolTip extends AbstractPlayerInfoToolTip implements
 {
     private Map<Road, Image> roadImages = new HashMap<Road, Image>();
 
-    public RoadStockToolTip(GameWidget gamePanel, GamePlayer player)
+    public RoadStockToolTip(GameWidget gameWidget, GamePlayer player)
     {
-        super(gamePanel, player);
+        super(gameWidget, player);
 
         for (Road road : player.getStock().getRoads())
         {

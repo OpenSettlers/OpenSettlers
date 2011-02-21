@@ -38,7 +38,7 @@ public class TradeBankDialog extends PopupPanel implements BankTradeWidget,
     private ResourceList bankResources;
     private ResourceList playerHand;
     private PlayerPiece pieceToTradeFor;
-    private GameWidget gamePanel;
+    private GameWidget gameWidget;
     private VerticalPanel needPanel;
     private VerticalPanel givePanel;
     private ResourceListWidget giveResourcesListWidget;
@@ -52,13 +52,13 @@ public class TradeBankDialog extends PopupPanel implements BankTradeWidget,
     private HorizontalPanel panelPieceTrade;
     private Label lblTradeForA;
 
-    public TradeBankDialog(GameWidget gamePanel)
+    public TradeBankDialog(GameWidget gameWidget)
     {
         this();
-        this.gamePanel = gamePanel;
-        this.playerHand = gamePanel.getPlayingPlayer().getResources().copy();
-        this.bankResources = gamePanel.getGame().getBank().copy();
-        this.player = gamePanel.getPlayingPlayer();
+        this.gameWidget = gameWidget;
+        this.playerHand = gameWidget.getPlayingPlayer().getResources().copy();
+        this.bankResources = gameWidget.getGame().getBank().copy();
+        this.player = gameWidget.getPlayingPlayer();
 
         giveResourcesListWidget = createResourceListWidget(giveResources,
                 playerHand, player.getPorts());
@@ -67,10 +67,10 @@ public class TradeBankDialog extends PopupPanel implements BankTradeWidget,
                 bankResources, null);
 
         giveResourcesPickerWidget = createResourcePickerWidget(giveResources,
-                player.getPorts(), playerHand, gamePanel);
+                player.getPorts(), playerHand, gameWidget);
 
         wantedResourcesPickerWidget = createResourcePickerWidget(wantResources,
-                null, bankResources, gamePanel);
+                null, bankResources, gameWidget);
 
         givePanel.add(giveResourcesPickerWidget);
         givePanel.add(giveResourcesListWidget);
@@ -86,7 +86,7 @@ public class TradeBankDialog extends PopupPanel implements BankTradeWidget,
     {
         // Player can trade when amount of gold resources equals amount of
         // picked resources
-        btnTrade.setEnabled(gamePanel.getPlayingPlayer().getPorts().amountGold(
+        btnTrade.setEnabled(gameWidget.getPlayingPlayer().getPorts().amountGold(
                 giveResources) == wantResources.size()
                 && wantResources.size() > 0);
     }
@@ -99,10 +99,10 @@ public class TradeBankDialog extends PopupPanel implements BankTradeWidget,
 
     private ResourcePickerWidget createResourcePickerWidget(
             ResourceList resources, PortList ports, ResourceList bankResources,
-            GameWidget gamePanel)
+            GameWidget gameWidget)
     {
         return new ResourcePickerBitmapWidget(resources, ports, bankResources,
-                gamePanel);
+                gameWidget);
     }
 
     /**
@@ -122,13 +122,13 @@ public class TradeBankDialog extends PopupPanel implements BankTradeWidget,
     {
         this.pieceToTradeFor = pieceToTradeFor;
         this.tradeFirst = tradeFirst;
-        this.setPlayer(gamePanel.getPlayingPlayer());
+        this.setPlayer(gameWidget.getPlayingPlayer());
 
         // Get rid of any old resources
         giveResources.clear();
         wantResources.clear();
 
-        this.bankResources = gamePanel.getGame().getBank().copy();
+        this.bankResources = gameWidget.getGame().getBank().copy();
 
         wantedResourcesPickerWidget.setBankResources(bankResources);
         wantedResourcesListWidget.setBankResources(bankResources);
@@ -240,7 +240,7 @@ public class TradeBankDialog extends PopupPanel implements BankTradeWidget,
         {
             public void onClick(ClickEvent arg0)
             {
-                gamePanel.sendAction(new TradeBank().setOfferedResources(
+                gameWidget.sendAction(new TradeBank().setOfferedResources(
                         giveResources).setWantedResources(wantResources)
                         .setPlayer(player));
                 if (tradeFirst != null)
@@ -296,13 +296,13 @@ public class TradeBankDialog extends PopupPanel implements BankTradeWidget,
     public void setDevcardTrade(TradeFirst tradeFirst)
     {
         this.tradeFirst = tradeFirst;
-        this.setPlayer(gamePanel.getPlayingPlayer());
+        this.setPlayer(gameWidget.getPlayingPlayer());
 
         // Get rid of any old resources
         giveResources.clear();
         wantResources.clear();
 
-        this.bankResources = gamePanel.getGame().getBank().copy();
+        this.bankResources = gameWidget.getGame().getBank().copy();
 
         wantedResourcesPickerWidget.setBankResources(bankResources);
         wantedResourcesListWidget.setBankResources(bankResources);
@@ -332,7 +332,7 @@ public class TradeBankDialog extends PopupPanel implements BankTradeWidget,
     @Override
     public void show()
     {
-        Point2D location = gamePanel.getPlayersInfoWidget().getTopRightLocation();
+        Point2D location = gameWidget.getPlayersInfoWidget().getTopRightLocation();
         setPopupPosition(location.getX(), location.getY());
 
         super.show();

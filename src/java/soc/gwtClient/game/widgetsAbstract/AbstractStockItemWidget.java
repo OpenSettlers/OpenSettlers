@@ -18,12 +18,12 @@ public abstract class AbstractStockItemWidget implements StockItemWidget,
 {
     protected GamePlayer player;
     protected ComplexPanel rootPanel;
-    protected GameWidget gamePanel;
+    protected GameWidget gameWidget;
     protected ToolTip toolTip;
 
-    public AbstractStockItemWidget(GameWidget gamePanel, GamePlayer player)
+    public AbstractStockItemWidget(GameWidget gameWidget, GamePlayer player)
     {
-        this.gamePanel = gamePanel;
+        this.gameWidget = gameWidget;
         this.player = player;
 
         toolTip = createToolTip();
@@ -64,12 +64,12 @@ public abstract class AbstractStockItemWidget implements StockItemWidget,
     @Override
     public void onMouseOver(MouseOverEvent event)
     {
-        gamePanel.getToolTipManager().showToolTip(toolTip);
+        gameWidget.getToolTipManager().showToolTip(toolTip);
     }
 
     @Override
     public void onMouseOut(MouseOutEvent event)
     {
-        gamePanel.getToolTipManager().hideToolTip(toolTip);
+        gameWidget.getToolTipManager().hideToolTip(toolTip);
     }
 }

@@ -22,9 +22,9 @@ public class VictoryPointDetailWidget extends AbstractPlayerInfoToolTip
 {
     private HashMap<VictoryPoint, Image> pointsIcons = new HashMap<VictoryPoint, Image>();
 
-    public VictoryPointDetailWidget(GameWidget gamePanel, GamePlayer player)
+    public VictoryPointDetailWidget(GameWidget gameWidget, GamePlayer player)
     {
-        super(gamePanel, player);
+        super(gameWidget, player);
 
         update();
         player.getVictoryPoints().addVictoryPointsChangedListener(this);

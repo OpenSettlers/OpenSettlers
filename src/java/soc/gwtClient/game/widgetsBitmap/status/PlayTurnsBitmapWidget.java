@@ -32,16 +32,16 @@ public class PlayTurnsBitmapWidget implements GamePhaseStatusWidget,
     private PlayTurnsGamePhase playTurnsGamePhase;
     private ImageResource icon;
     private Label lblTurnPhaseDescription = new Label();
-    private GameWidget gamePanel;
+    private GameWidget gameWidget;
     private ArrayList<TurnPhase> turnPhases = new ArrayList<TurnPhase>();
     private Map<TurnPhase, Image> phaseIcons = new HashMap<TurnPhase, Image>();
     private Image currentPhaseIcon;
 
-    public PlayTurnsBitmapWidget(GameWidget gamePanel,
+    public PlayTurnsBitmapWidget(GameWidget gameWidget,
             PlayTurnsGamePhase playTurnsGamePhase)
     {
         super();
-        this.gamePanel = gamePanel;
+        this.gameWidget = gameWidget;
         this.playTurnsGamePhase = playTurnsGamePhase;
 
         icon = Resources.gamePhase(playTurnsGamePhase);
@@ -61,7 +61,7 @@ public class PlayTurnsBitmapWidget implements GamePhaseStatusWidget,
             turnPhasePanel.add(icon);
         }
 
-        gamePanel.getGame().addTurnPhaseChangedHandler(this);
+        gameWidget.getGame().addTurnPhaseChangedHandler(this);
     }
 
     @Override

@@ -13,22 +13,22 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class StockBitmapWidget extends AbstractStockWidget
 {
-    public StockBitmapWidget(GameWidget gamePanel, GamePlayer player)
+    public StockBitmapWidget(GameWidget gameWidget, GamePlayer player)
     {
-        super(gamePanel, player);
+        super(gameWidget, player);
     }
 
     @Override
     public StockItemWidget createStockItemWidget(PlayerPiece playerPiece)
     {
         if (playerPiece instanceof Road)
-            return new StockRoadBitmapWidget(gamePanel, player);
+            return new StockRoadBitmapWidget(gameWidget, player);
 
         if (playerPiece instanceof City)
-            return new StockCityBitmapWidget(gamePanel, player);
+            return new StockCityBitmapWidget(gameWidget, player);
 
         if (playerPiece instanceof Town)
-            return new StockTownBitmapWidget(gamePanel, player);
+            return new StockTownBitmapWidget(gameWidget, player);
 
         throw new RuntimeException();
     }

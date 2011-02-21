@@ -14,21 +14,21 @@ import com.google.gwt.user.client.ui.Widget;
 public class GameDetailsWidget implements HistoryWidget, ChatWidget,
         DebugWidget, QueueWidget
 {
-    private GameWidget gamePanel;
+    private GameWidget gameWidget;
     private ChatWidget chatWidget = new ChatBitmapPanel();
     private HistoryWidget historyWidget;
     private DebugWidget debugWidget;
     private QueueWidget queueWidget;
     private TabLayoutPanel rootPanel = new TabLayoutPanel(20.0, Unit.PX);
 
-    public GameDetailsWidget(GameWidget gamePanel)
+    public GameDetailsWidget(GameWidget gameWidget)
     {
         super();
-        this.gamePanel = gamePanel;
+        this.gameWidget = gameWidget;
 
-        historyWidget = new HistoryBitmapWidget(gamePanel);
-        debugWidget = new DebugBitmapPanel(gamePanel);
-        queueWidget = new GameQueueWidget(gamePanel);
+        historyWidget = new HistoryBitmapWidget(gameWidget);
+        debugWidget = new DebugBitmapPanel(gameWidget);
+        queueWidget = new GameQueueWidget(gameWidget);
 
         rootPanel.add(chatWidget, "chat");
         rootPanel.add(historyWidget, "history");

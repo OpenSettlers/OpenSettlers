@@ -28,20 +28,20 @@ import soc.gwtClient.game.widgetsSvg.BoardVisualSvgWidget;
 
 public class GameBitmapWidgetFactory implements GameWidgetFactory
 {
-    GameWidget gamePanel;
+    GameWidget gameWidget;
     GameDetailsWidget gameDetailsWidget;
 
-    public GameBitmapWidgetFactory(GameWidget gamePanel)
+    public GameBitmapWidgetFactory(GameWidget gameWidget)
     {
         super();
-        this.gamePanel = gamePanel;
+        this.gameWidget = gameWidget;
 
     }
 
     private GameDetailsWidget getGameDetailsWidget()
     {
         if (gameDetailsWidget == null)
-            this.gameDetailsWidget = new GameDetailsWidget(gamePanel);
+            this.gameDetailsWidget = new GameDetailsWidget(gameWidget);
 
         return gameDetailsWidget;
     }
@@ -49,49 +49,49 @@ public class GameBitmapWidgetFactory implements GameWidgetFactory
     @Override
     public PlayersInfoWidget createPlayersWidget()
     {
-        return new PlayersBitmapWidget(gamePanel);
+        return new PlayersBitmapWidget(gameWidget);
     }
 
     @Override
     public BankStockWidget createBankStockWidget()
     {
-        return new AbstractBankStockWidget(gamePanel.getGame());
+        return new AbstractBankStockWidget(gameWidget.getGame());
     }
 
     @Override
     public StatusWidget createStatusDiceWidget()
     {
-        return new StatusBitmapPanel(gamePanel);
+        return new StatusBitmapPanel(gameWidget);
     }
 
     @Override
     public BankTradeWidget createBankTradeWidget()
     {
-        return new TradeBankDialog(gamePanel);
+        return new TradeBankDialog(gameWidget);
     }
 
     @Override
     public ResourcesGainedWidget createResourcesGainedWidget()
     {
-        return new ResourcesGainedBitmapWidget(gamePanel);
+        return new ResourcesGainedBitmapWidget(gameWidget);
     }
 
     @Override
     public PlayerStuffWidget createPlayerStuffWidget(GamePlayer player)
     {
-        return new PlayerStuffBitmapWidget(gamePanel, player);
+        return new PlayerStuffBitmapWidget(gameWidget, player);
     }
 
     @Override
     public StealCardWidget createStealCardWidget(GamePlayer player)
     {
-        return new StealCardDialog(gamePanel, player);
+        return new StealCardDialog(gameWidget, player);
     }
 
     @Override
     public LooseCardsDialog createLooseCardsDialog()
     {
-        return new HotseatLooseCards(gamePanel);
+        return new HotseatLooseCards(gameWidget);
     }
 
     @Override
@@ -103,13 +103,13 @@ public class GameBitmapWidgetFactory implements GameWidgetFactory
     @Override
     public HotseatLooseCardsDialog createHotseatLooseCardsDialog()
     {
-        return new HotseatLooseCards(gamePanel);
+        return new HotseatLooseCards(gameWidget);
     }
 
     @Override
     public BoardVisualSvgWidget createBoardVisualWidget()
     {
-        return new BoardVisualSvgWidget(gamePanel);
+        return new BoardVisualSvgWidget(gameWidget);
     }
 
     @Override
@@ -145,12 +145,12 @@ public class GameBitmapWidgetFactory implements GameWidgetFactory
     @Override
     public HotSeatActionsPlayersWidget createHotSeatActionsPlayersWidget()
     {
-        return new HotSeatActionsPlayersWidget(gamePanel, this);
+        return new HotSeatActionsPlayersWidget(gameWidget, this);
     }
 
     @Override
     public HotSeatTradePlayersWidget createHotSeatTradePlayersWidget()
     {
-        return new HotSeatTradePlayersWidget(gamePanel);
+        return new HotSeatTradePlayersWidget(gameWidget);
     }
 }

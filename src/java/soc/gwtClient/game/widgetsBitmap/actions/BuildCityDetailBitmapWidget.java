@@ -12,9 +12,9 @@ public class BuildCityDetailBitmapWidget extends AbstractActionDetailWidget
 {
     private BuildCity buildCity;
 
-    public BuildCityDetailBitmapWidget(GameWidget gamePanel, BuildCity buildCity)
+    public BuildCityDetailBitmapWidget(GameWidget gameWidget, BuildCity buildCity)
     {
-        super(gamePanel, buildCity.getPlayer());
+        super(gameWidget, buildCity.getPlayer());
         this.buildCity = buildCity;
 
         rootPanel.add(new Image(Resources.icons().buildLarge()));

@@ -18,9 +18,9 @@ public class VictoryPointsToolTip extends AbstractPlayerInfoToolTip implements
 {
     private Map<VictoryPointItem, Image> vpImages = new HashMap<VictoryPointItem, Image>();
 
-    public VictoryPointsToolTip(GameWidget gamePanel, GamePlayer player)
+    public VictoryPointsToolTip(GameWidget gameWidget, GamePlayer player)
     {
-        super(gamePanel, player);
+        super(gameWidget, player);
 
         for (VictoryPointItem vp : player.getVictoryPoints())
         {

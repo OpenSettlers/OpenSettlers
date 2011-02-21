@@ -9,5 +9,5 @@ import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 public interface DevelopmentCardWidgetFactory
 {
     public DevelopmentCardWidget createWidget(DevelopmentCard devCard,
-            GameWidget gamePanel);
+            GameWidget gameWidget);
 }

@@ -26,7 +26,7 @@ public class PlayYearOfPlentyWidget implements DevelopmentCardWidget,
         ResourcesChangedEventHandler
 {
     private YearOfPlenty yearOfPlenty;
-    private GameWidget gamePanel;
+    private GameWidget gameWidget;
     private PlayDevelopmentCard playDevelopmentCard = new PlayDevelopmentCard();
     private HorizontalPanel rootPanel = new HorizontalPanel();
     private ResourceListWidget resourceListWidget;
@@ -35,16 +35,16 @@ public class PlayYearOfPlentyWidget implements DevelopmentCardWidget,
     private Button buttonnPlay = new Button(I18n.get().constants().play());
 
     public PlayYearOfPlentyWidget(final YearOfPlenty yearOfPlenty,
-            final GameWidget gamePanel)
+            final GameWidget gameWidget)
     {
         this.yearOfPlenty = yearOfPlenty;
-        this.gamePanel = gamePanel;
+        this.gameWidget = gameWidget;
 
         resourceListWidget = new ResourceListBitmapWidget(pickedResources,
-                gamePanel.getGame().getBank().copy(), null);
+                gameWidget.getGame().getBank().copy(), null);
         resourceListWidget.setHeight("3em");
         resourcePickerWidget = new ResourcePickerBitmapWidget(pickedResources,
-                null, gamePanel.getGame().getBank().copy(), gamePanel);
+                null, gameWidget.getGame().getBank().copy(), gameWidget);
 
         rootPanel.setSpacing(5);
         rootPanel.add(new Image(Resources.icons().yearOfPlenty()));
@@ -55,7 +55,7 @@ public class PlayYearOfPlentyWidget implements DevelopmentCardWidget,
         buttonnPlay.setEnabled(false);
 
         playDevelopmentCard.setDevelopmentcard(yearOfPlenty);
-        playDevelopmentCard.setPlayer(gamePanel.getPlayingPlayer());
+        playDevelopmentCard.setPlayer(gameWidget.getPlayingPlayer());
 
         buttonnPlay.addClickHandler(new ClickHandler()
         {
@@ -63,7 +63,7 @@ public class PlayYearOfPlentyWidget implements DevelopmentCardWidget,
             public void onClick(ClickEvent event)
             {
                 yearOfPlenty.setGoldPick(pickedResources);
-                gamePanel.sendAction(playDevelopmentCard);
+                gameWidget.sendAction(playDevelopmentCard);
             }
         });
 

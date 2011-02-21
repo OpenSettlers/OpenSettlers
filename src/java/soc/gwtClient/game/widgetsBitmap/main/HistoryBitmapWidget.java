@@ -18,17 +18,17 @@ public class HistoryBitmapWidget implements HistoryWidget,
     StringActionCell cell = new StringActionCell();
     ScrollPanel rootPanel = new ScrollPanel();
     CellList<GameAction> actionsList = new CellList<GameAction>(cell);
-    GameWidget gamePanel;
+    GameWidget gameWidget;
     ListDataProvider<GameAction> dataProvider = new ListDataProvider<GameAction>();
 
-    public HistoryBitmapWidget(GameWidget gamePanel)
+    public HistoryBitmapWidget(GameWidget gameWidget)
     {
         super();
-        this.gamePanel = gamePanel;
+        this.gameWidget = gameWidget;
 
         dataProvider.addDataDisplay(actionsList);
 
-        gamePanel.getGame().getGameLog().addActionPerformedEventHandler(this);
+        gameWidget.getGame().getGameLog().addActionPerformedEventHandler(this);
 
         rootPanel.add(actionsList);
     }

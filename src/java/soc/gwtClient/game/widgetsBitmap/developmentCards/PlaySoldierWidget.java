@@ -18,15 +18,15 @@ import com.google.gwt.user.client.ui.Widget;
 public class PlaySoldierWidget implements DevelopmentCardWidget
 {
     private Soldier soldier;
-    private GameWidget gamePanel;
+    private GameWidget gameWidget;
     private PlayDevelopmentCard playDevelopmentCard = new PlayDevelopmentCard();
     private HorizontalPanel rootPanel = new HorizontalPanel();
     private Button btnPlay = new Button(I18n.get().constants().play());
 
-    public PlaySoldierWidget(Soldier soldier, final GameWidget gamePanel)
+    public PlaySoldierWidget(Soldier soldier, final GameWidget gameWidget)
     {
         this.soldier = soldier;
-        this.gamePanel = gamePanel;
+        this.gameWidget = gameWidget;
 
         rootPanel.setSpacing(5);
         rootPanel.add(new Image(Resources.icons().soldier()));
@@ -34,14 +34,14 @@ public class PlaySoldierWidget implements DevelopmentCardWidget
         rootPanel.add(btnPlay);
 
         playDevelopmentCard.setDevelopmentcard(soldier);
-        playDevelopmentCard.setPlayer(gamePanel.getPlayingPlayer());
+        playDevelopmentCard.setPlayer(gameWidget.getPlayingPlayer());
 
         btnPlay.addClickHandler(new ClickHandler()
         {
             @Override
             public void onClick(ClickEvent event)
             {
-                gamePanel.sendAction(playDevelopmentCard);
+                gameWidget.sendAction(playDevelopmentCard);
             }
         });
     }

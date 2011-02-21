@@ -11,12 +11,12 @@ public class BoardVisualSvgWidget extends LayoutPanel implements
         BoardVisualWidget
 {
     GameBoardVisual boardVisual;
-    GameWidget gamePanel;
+    GameWidget gameWidget;
 
-    public BoardVisualSvgWidget(GameWidget gamePanel)
+    public BoardVisualSvgWidget(GameWidget gameWidget)
     {
         super();
-        this.boardVisual = new GameBoardSvg(gamePanel.getGame(), 800, 800);
+        this.boardVisual = new GameBoardSvg(gameWidget.getGame(), 800, 800);
         this.add(boardVisual);
     }
 

@@ -33,36 +33,36 @@ import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 
 public class SendGameBehaviourFactory implements GameBehaviourFactory
 {
-    private GameWidget gamePanel;
+    private GameWidget gameWidget;
 
-    public SendGameBehaviourFactory(GameWidget gamePanel)
+    public SendGameBehaviourFactory(GameWidget gameWidget)
     {
-        this.gamePanel = gamePanel;
+        this.gameWidget = gameWidget;
     }
 
     @Override
     public GameBehaviour createBuildCityBehaviour(BuildCity buildCity)
     {
-        return new BuildCityGameBehaviour(gamePanel, buildCity);
+        return new BuildCityGameBehaviour(gameWidget, buildCity);
     }
 
     @Override
     public GameBehaviour createBuildRoadBehaviour(BuildRoad buildRoad)
     {
-        return new BuildRoadGameBehaviour(gamePanel, buildRoad);
+        return new BuildRoadGameBehaviour(gameWidget, buildRoad);
     }
 
     @Override
     public GameBehaviour createBuildTownBehaviour(BuildTown buildTown)
     {
-        return new BuildTownGameBehaviour(gamePanel, buildTown);
+        return new BuildTownGameBehaviour(gameWidget, buildTown);
     }
 
     @Override
     public GameBehaviour createBuyDevelopmentcardBehaviour(
             BuyDevelopmentCard buyDevelopmentCard)
     {
-        return new BuyDevelopmentCardGameBehaviour(gamePanel,
+        return new BuyDevelopmentCardGameBehaviour(gameWidget,
                 buyDevelopmentCard);
     }
 

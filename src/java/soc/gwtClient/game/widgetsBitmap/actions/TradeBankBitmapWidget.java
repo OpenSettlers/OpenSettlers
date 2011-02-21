@@ -28,15 +28,15 @@ public class TradeBankBitmapWidget extends AbstractActionWidget implements
     boolean isTradeBankShown = false;
     TradeBank tradeBank = new TradeBank();
 
-    public TradeBankBitmapWidget(GameWidget gamePanel, GamePlayer player)
+    public TradeBankBitmapWidget(GameWidget gameWidget, GamePlayer player)
     {
-        super(gamePanel, player);
+        super(gameWidget, player);
 
         btnTradeBank = new PushButton(new Image(Resources.icons().bankTrade()));
         player.getResources().addResourcesChangedEventHandler(this);
         player.getPorts().addPortListChangedEventHandler(this);
-        gamePanel.getGame().addGamePhaseChangedEventHandler(this);
-        gamePanel.getGame().addTurnPhaseChangedHandler(this);
+        gameWidget.getGame().addGamePhaseChangedEventHandler(this);
+        gameWidget.getGame().addTurnPhaseChangedHandler(this);
 
         btnTradeBank.addClickHandler(this);
     }
@@ -91,7 +91,7 @@ public class TradeBankBitmapWidget extends AbstractActionWidget implements
     {
         if (enabled && player.isOnTurn())
         {
-            if (gamePanel.getGame().isAllowed(tradeBank)
+            if (gameWidget.getGame().isAllowed(tradeBank)
                     && player.getPorts().amountGold(player.getResources()) > 0)
             {
                 enableUI();
@@ -105,7 +105,7 @@ public class TradeBankBitmapWidget extends AbstractActionWidget implements
     @Override
     public void onClick(ClickEvent arg0)
     {
-        gamePanel.getBankTradeUI().setPieceToTradeFor(null, null);
+        gameWidget.getBankTradeUI().setPieceToTradeFor(null, null);
     }
 
 }
