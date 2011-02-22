@@ -463,5 +463,6 @@ public class NewHotseatGame extends Composite implements OnColorChanged,
         {
             lblSelectedBoard.setText("[none selected]");
         }
+        canAddPlayer();
     }
 }

@@ -38,7 +38,7 @@ public abstract class AbstractActionsWidget implements ActionsWidget
         for (TurnAction turnAction : gameWidget.getGame().getRules()
                 .getPossibleActions())
         {
-            ActionWidget widget = turnAction.createActionWidget(null);
+            ActionWidget widget = turnAction.createActionWidget(widgetFactory);
             if (widget != null)
             {
                 rootPanel.add(widget);

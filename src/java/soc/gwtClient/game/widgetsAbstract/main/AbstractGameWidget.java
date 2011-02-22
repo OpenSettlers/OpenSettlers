@@ -11,6 +11,8 @@ import soc.common.ui.DefaultClientFactory;
 import soc.gwtClient.game.DetailContainerManager;
 import soc.gwtClient.game.Point2D;
 import soc.gwtClient.game.behaviour.gameWidget.GameBehaviour;
+import soc.gwtClient.game.behaviour.gameWidget.factories.GameBehaviourFactory;
+import soc.gwtClient.game.behaviour.gameWidget.factories.ReceiveGameBehaviourFactory;
 import soc.gwtClient.game.behaviour.gameWidget.received.ReceiveGameBehaviour;
 import soc.gwtClient.game.widgetsBitmap.main.DesktopGamePanelLayout;
 import soc.gwtClient.game.widgetsBitmap.main.GameDetailsWidget;
@@ -303,12 +305,18 @@ public abstract class AbstractGameWidget implements GameWidget, CenterWidget,
     public void receive(GameAction gameAction)
     {
         ReceiveGameBehaviour newBehaviour;
+        ReceiveGameBehaviourFactory normalReceiveBehaviourFactory = clientFactory
+                .getBehaviourFactory().getReceiveBehaviourFactory();
+        ReceiveGameBehaviourFactory opponentReceiveBehaviourFactory = clientFactory
+                .getBehaviourFactory().getOpponentReceiveBehaviourFactory();
 
         // Grab new game behaviour for received action
         if (gameAction.getPlayer().equals(player))
-            newBehaviour = gameAction.getReceiveBehaviour(null);
+            newBehaviour = gameAction
+                    .getReceiveBehaviour(normalReceiveBehaviourFactory);
         else
-            newBehaviour = gameAction.getOpponentReceiveBehaviour(null);
+            newBehaviour = gameAction
+                    .getOpponentReceiveBehaviour(opponentReceiveBehaviourFactory);
 
         if (newBehaviour != null)
         {
@@ -348,8 +356,10 @@ public abstract class AbstractGameWidget implements GameWidget, CenterWidget,
         if (next != null && next instanceof TurnAction
                 && next.getPlayer().equals(player))
         {
+            GameBehaviourFactory factory = clientFactory.getBehaviourFactory()
+                    .getNextActionBehaviourFactory();
             // Create new behaviour and set it when available
-            GameBehaviour newBehaviour = next.getNextActionBehaviour(null);
+            GameBehaviour newBehaviour = next.getNextActionBehaviour(factory);
 
             if (newBehaviour != null)
                 setNewGameBehaviour(newBehaviour);
