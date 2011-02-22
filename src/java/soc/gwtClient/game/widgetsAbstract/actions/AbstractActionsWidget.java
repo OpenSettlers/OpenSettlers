@@ -3,7 +3,6 @@ package soc.gwtClient.game.widgetsAbstract.actions;
 import java.util.HashMap;
 
 import soc.common.actions.gameAction.turns.TurnAction;
-import soc.common.core.Core;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.Point2D;
 import soc.gwtClient.game.widgetsInterface.actions.ActionWidget;
@@ -32,7 +31,7 @@ public abstract class AbstractActionsWidget implements ActionsWidget
         rootPanel = createRootPanel();
         rootPanel.add(new Label(player.getUser().getName()));
 
-        ActionWidgetFactory widgetFactory = Core.get().getClientFactory()
+        ActionWidgetFactory widgetFactory = gameWidget.getClientFactory()
                 .getActionWidgetFactory(player);
 
         int index = 0;

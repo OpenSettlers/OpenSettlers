@@ -29,6 +29,8 @@ public class LimitedColorPickerBitmapWidget extends Composite implements
     {
         super();
 
+        initWidget(rootPanel);
+
         radiobuttonYellow = new RadioButton("color", "");
         radiobuttonYellow.setValue(true);
         radiobuttonYellow.setStyleName("color-option-yellow");

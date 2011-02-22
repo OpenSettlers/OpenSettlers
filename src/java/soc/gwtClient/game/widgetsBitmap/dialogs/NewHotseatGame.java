@@ -1,23 +1,22 @@
 package soc.gwtClient.game.widgetsBitmap.dialogs;
 
-import java.util.List;
-
 import soc.common.board.Board;
 import soc.common.bots.Bot;
 import soc.common.game.Game;
 import soc.common.game.GameUtils;
 import soc.common.game.player.GamePlayer;
 import soc.common.game.player.GamePlayerImpl;
-import soc.common.server.entities.BoardProvider;
-import soc.common.server.entities.ConstructorBoardProvider;
 import soc.common.server.entities.Player;
 import soc.common.server.randomization.ClientRandom;
 import soc.common.utils.ClassUtils;
+import soc.gwtClient.game.widgetsBitmap.generic.BoardPickerBitmapWidget;
 import soc.gwtClient.game.widgetsBitmap.generic.ColorCell;
 import soc.gwtClient.game.widgetsBitmap.generic.LimitedColorPickerBitmapWidget;
 import soc.gwtClient.game.widgetsBitmap.generic.LimitedColorPickerBitmapWidget.OnColorChanged;
+import soc.gwtClient.game.widgetsInterface.generic.BoardChangedEvent;
+import soc.gwtClient.game.widgetsInterface.generic.BoardChangedEventHandler;
+import soc.gwtClient.game.widgetsInterface.generic.BoardPicker;
 import soc.gwtClient.game.widgetsInterface.generic.LimitedColorPicker;
-import soc.gwtClient.game.widgetsSvg.BoardViewerSvgWidget;
 import soc.gwtClient.images.Resources;
 import soc.gwtClient.main.MainWindow;
 
@@ -45,77 +44,29 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.ListDataProvider;
-import com.google.gwt.view.client.ProvidesKey;
-import com.google.gwt.view.client.SelectionChangeEvent;
-import com.google.gwt.view.client.SingleSelectionModel;
 
-public class NewHotseatGame extends Composite implements OnColorChanged
+public class NewHotseatGame extends Composite implements OnColorChanged,
+        BoardChangedEventHandler
 {
-    private BoardProvider boardProvider = new ConstructorBoardProvider();
-    private CellTable<Board> cellTable;
-    private List<Board> boards = boardProvider.getAllBoards();
     private Game newGame = new Game();
     private ListDataProvider<GamePlayer> playerProvider = new ListDataProvider<GamePlayer>();
     private int userID = 0;
-    private ProvidesKey<Board> boardKeyProvider = new ProvidesKey<Board>()
-    {
-        @Override
-        public Object getKey(Board item)
-        {
-            return item == null ? null : item.getBoardSettings().getId();
-        }
-    };
-    private SimplePanel panelBoardPreview;
-    private Label lblSelectedBoard;
     private TextBox textboxPlayerName;
     private Button buttonAddPlayer;
-    private Board selectedBoard = null;
+    private Label lblSelectedBoard;
     private Button buttonStartGame;
     private MainWindow mainWindow;
     private LimitedColorPicker limitedColorPicker = new LimitedColorPickerBitmapWidget();
+    private BoardPicker boardPicker = new BoardPickerBitmapWidget();
 
     /**
      * @wbp.parser.constructor
      */
     public NewHotseatGame()
     {
-        final SingleSelectionModel selectionModel = new SingleSelectionModel<Board>();
-        selectionModel
-                .addSelectionChangeHandler(new SelectionChangeEvent.Handler()
-                {
-                    @Override
-                    public void onSelectionChange(SelectionChangeEvent event)
-                    {
-                        if (selectionModel.getSelectedObject() != null)
-                        {
-                            selectedBoard = (Board) selectionModel
-                                    .getSelectedObject();
-                            int width = panelBoardPreview.getOffsetWidth();
-                            int height = panelBoardPreview.getOffsetHeight();
-                            BoardViewerSvgWidget widget = new BoardViewerSvgWidget(
-                                    selectedBoard, width, height);
-                            panelBoardPreview.setWidget(widget);
-                            lblSelectedBoard.setText(selectedBoard
-                                    .getBoardSettings().getName());
-
-                            updateUI();
-                        }
-                        else
-                        {
-                            panelBoardPreview.setWidget(null);
-                            lblSelectedBoard.setText("[none selected]");
-                            selectedBoard = null;
-
-                            updateUI();
-                        }
-
-                    }
-                });
-
         ScrollPanel scrollPanel = new ScrollPanel();
         scrollPanel.setStyleName("newHotseatGame");
         initWidget(scrollPanel);
@@ -149,76 +100,10 @@ public class NewHotseatGame extends Composite implements OnColorChanged
         lblSelectedBoard = new Label("[none selected]");
         horizontalPanel_5.add(lblSelectedBoard);
 
+        verticalPanel_3.add(boardPicker);
+
         VerticalPanel verticalPanel_4 = new VerticalPanel();
         verticalPanel_2.add(verticalPanel_4);
-
-        HorizontalPanel horizontalPanel_3 = new HorizontalPanel();
-        horizontalPanel_3.setStyleName("common-panel");
-        verticalPanel_4.add(horizontalPanel_3);
-        horizontalPanel_3.setHeight("");
-
-        cellTable = new CellTable<Board>(boardKeyProvider);
-
-        cellTable.setSelectionModel(selectionModel);
-
-        TextColumn nameColumn = new TextColumn<Board>()
-        {
-            @Override
-            public String getValue(Board object)
-            {
-                return object.getBoardSettings().getName();
-            }
-        };
-        cellTable.addColumn(nameColumn, "Name");
-
-        TextColumn amountPlayersColumn = new TextColumn<Board>()
-        {
-            @Override
-            public String getValue(Board object)
-            {
-                if (object.getBoardSettings().getMinPlayers() == object
-                        .getBoardSettings().getMaxPlayers())
-                {
-                    return Integer.toString(object.getBoardSettings()
-                            .getMinPlayers());
-                }
-                else
-                {
-                    return object.getBoardSettings().getMinPlayers() + " - "
-                            + object.getBoardSettings().getMaxPlayers();
-                }
-            }
-        };
-        cellTable.addColumn(amountPlayersColumn, "# players");
-
-        Column<Board, ?> columnVP = new Column<Board, Number>(new NumberCell())
-        {
-            @Override
-            public Number getValue(Board object)
-            {
-                return object.getBoardSettings().getVpToWin();
-            }
-        };
-        cellTable.addColumn(columnVP, "Points");
-
-        TextColumn designerColumn = new TextColumn<Board>()
-        {
-            @Override
-            public String getValue(Board object)
-            {
-                return object.getBoardSettings().getDesigner();
-            }
-        };
-        cellTable.addColumn(designerColumn, "Designer");
-        horizontalPanel_3.add(cellTable);
-        cellTable.setWidth("15em");
-
-        panelBoardPreview = new SimplePanel();
-        horizontalPanel_3.add(panelBoardPreview);
-        panelBoardPreview.setSize("500px", "500px");
-
-        cellTable.setRowCount(boards.size());
-        cellTable.setRowData(0, boards);
 
         HorizontalPanel horizontalPanel_1 = new HorizontalPanel();
         verticalPanel_3.add(horizontalPanel_1);
@@ -421,6 +306,8 @@ public class NewHotseatGame extends Composite implements OnColorChanged
         });
         panelOkCancel.add(buttonStartGame);
 
+        boardPicker.addBoardChangedHandler(this);
+
         for (Class bot : GameUtils.getAllBots())
             comboBox.addItem(ClassUtils.getSimpleClassName(bot.getName()));
     }
@@ -457,9 +344,9 @@ public class NewHotseatGame extends Composite implements OnColorChanged
 
     private boolean canAddPlayerOrBot()
     {
-        return selectedBoard != null
-                && selectedBoard.getBoardSettings().getMaxPlayers() > playerProvider
-                        .getList().size();
+        return boardPicker.hasBoardSelected()
+                && boardPicker.getSelectedBoard().getBoardSettings()
+                        .getMaxPlayers() > playerProvider.getList().size();
     }
 
     private void addBot(Class<? extends Bot> botType)
@@ -511,13 +398,14 @@ public class NewHotseatGame extends Composite implements OnColorChanged
     private boolean hasEnoughPlayers()
     {
         int numPlayers = playerProvider.getList().size();
+        Board selectedBoard = boardPicker.getSelectedBoard();
         return selectedBoard.getBoardSettings().getMinPlayers() >= numPlayers
                 && selectedBoard.getBoardSettings().getMaxPlayers() <= numPlayers;
     }
 
     private boolean canStartGame()
     {
-        if (selectedBoard == null)
+        if (!boardPicker.hasBoardSelected())
             return false;
 
         if (!hasEnoughPlayers())
@@ -549,7 +437,7 @@ public class NewHotseatGame extends Composite implements OnColorChanged
 
     private void startGame()
     {
-        newGame.setBoard(selectedBoard);
+        newGame.setBoard(boardPicker.getSelectedBoard());
         for (GamePlayer player : playerProvider.getList())
             newGame.getPlayers().add(player);
 
@@ -561,5 +449,19 @@ public class NewHotseatGame extends Composite implements OnColorChanged
     public void onColorChanged()
     {
         canAddPlayer();
+    }
+
+    @Override
+    public void onBoardChanged(BoardChangedEvent event)
+    {
+        if (event.getNewBoard() != null)
+        {
+            lblSelectedBoard.setText(event.getNewBoard().getBoardSettings()
+                    .getName());
+        }
+        else
+        {
+            lblSelectedBoard.setText("[none selected]");
+        }
     }
 }

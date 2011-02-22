@@ -2,7 +2,6 @@ package soc.gwtClient.game.widgetsAbstract.main;
 
 import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.turns.TurnAction;
-import soc.common.core.Core;
 import soc.common.game.Game;
 import soc.common.game.player.GamePlayer;
 import soc.common.server.GameServer;
@@ -91,7 +90,7 @@ public abstract class AbstractGameWidget implements GameWidget, CenterWidget,
 
         gameWidgetLayoutWidget = new DesktopGamePanelLayout(this);
 
-        GameWidgetFactory gameWidgetFactory = Core.get().getClientFactory()
+        GameWidgetFactory gameWidgetFactory = clientFactory
                 .getGameWidgetFactory();
 
         bankStockPanel = gameWidgetFactory.createBankStockWidget();
