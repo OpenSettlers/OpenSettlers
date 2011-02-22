@@ -3,6 +3,8 @@ package soc.common.board.pieces;
 import soc.common.annotations.SeaFarers;
 import soc.common.board.HexLocation;
 import soc.common.board.pieces.abstractPieces.AbstractPiece;
+import soc.gwtClient.game.widgetsInterface.visuals.PieceVisual;
+import soc.gwtClient.game.widgetsInterface.visuals.VisualFactory;
 
 @SeaFarers
 public class Pirate extends AbstractPiece
@@ -30,9 +32,12 @@ public class Pirate extends AbstractPiece
     public Pirate setLocation(HexLocation location)
     {
         this.location = location;
-
-        // Enables fluent interface usage
-        // http://en.wikipedia.org/wiki/Fluent_interface
         return this;
+    }
+
+    @Override
+    public PieceVisual createPiece(VisualFactory visualFactory)
+    {
+        return visualFactory.createPirateVisual(this);
     }
 }

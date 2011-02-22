@@ -2,6 +2,8 @@ package soc.common.board.pieces;
 
 import soc.common.board.HexLocation;
 import soc.common.board.pieces.abstractPieces.AbstractPiece;
+import soc.gwtClient.game.widgetsInterface.visuals.PieceVisual;
+import soc.gwtClient.game.widgetsInterface.visuals.VisualFactory;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
@@ -44,5 +46,11 @@ public class Robber extends AbstractPiece
     public HandlerRegistration addMoveEventHandler(MovedEventHandler handler)
     {
         return eventBus.addHandler(MovedEvent.TYPE, handler);
+    }
+
+    @Override
+    public PieceVisual createPiece(VisualFactory visualFactory)
+    {
+        return visualFactory.createRobberVisual(this);
     }
 }

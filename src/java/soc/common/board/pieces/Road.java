@@ -9,6 +9,8 @@ import soc.common.board.resources.ResourceList;
 import soc.common.board.resources.Timber;
 import soc.common.board.routing.GraphPoint;
 import soc.common.game.player.GamePlayer;
+import soc.gwtClient.game.widgetsInterface.visuals.PieceVisual;
+import soc.gwtClient.game.widgetsInterface.visuals.VisualFactory;
 
 public class Road extends AbstractPlayerPiece implements SidePiece
 {
@@ -132,5 +134,11 @@ public class Road extends AbstractPlayerPiece implements SidePiece
     public boolean connectsWithShip()
     {
         return false;
+    }
+
+    @Override
+    public PieceVisual createPiece(VisualFactory visualFactory)
+    {
+        return visualFactory.createRoadVisual(this);
     }
 }

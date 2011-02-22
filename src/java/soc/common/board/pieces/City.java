@@ -12,6 +12,8 @@ import soc.common.board.resources.Wheat;
 import soc.common.game.VictoryPointItem;
 import soc.common.game.player.GamePlayer;
 import soc.common.game.variants.GameRules;
+import soc.gwtClient.game.widgetsInterface.visuals.PieceVisual;
+import soc.gwtClient.game.widgetsInterface.visuals.VisualFactory;
 
 public class City extends AbstractPlayerPiece implements VictoryPointItem,
         PointPiece, Producable
@@ -134,5 +136,11 @@ public class City extends AbstractPlayerPiece implements VictoryPointItem,
     @Override
     public void removeFromBoard(Board board)
     {
+    }
+
+    @Override
+    public PieceVisual createPiece(VisualFactory visualFactory)
+    {
+        return visualFactory.createCityVisual(this);
     }
 }

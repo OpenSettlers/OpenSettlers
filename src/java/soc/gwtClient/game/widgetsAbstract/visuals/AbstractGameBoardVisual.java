@@ -3,7 +3,7 @@ package soc.gwtClient.game.widgetsAbstract.visuals;
 import java.util.HashMap;
 import java.util.Map;
 
-import soc.common.board.pieces.abstractPieces.PlayerPiece;
+import soc.common.board.pieces.abstractPieces.Piece;
 import soc.common.board.pieces.abstractPieces.SidePiece;
 import soc.common.board.pieces.pieceLists.PiecesChangedEvent;
 import soc.common.board.pieces.pieceLists.PiecesChangedEventHandler;
@@ -35,7 +35,7 @@ public abstract class AbstractGameBoardVisual extends AbstractBoardVisual
     protected BoardVisual boardVisual;
     protected RobberVisual robber;
     protected PirateVisual pirate;
-    protected Map<PlayerPiece, PieceVisual> playerPieceVisuals = new HashMap<PlayerPiece, PieceVisual>();
+    protected Map<Piece, PieceVisual> playerPieceVisuals = new HashMap<Piece, PieceVisual>();
     protected Map<GraphPoint, PointVisual> pointVisuals = new HashMap<GraphPoint, PointVisual>();
     protected Map<GraphSide, SideVisual> sideVisuals = new HashMap<GraphSide, SideVisual>();
     protected GameBoardBehaviour gameBehaviour;
@@ -125,7 +125,7 @@ public abstract class AbstractGameBoardVisual extends AbstractBoardVisual
     /**
      * @return the playerPieceVisuals
      */
-    public Map<PlayerPiece, PieceVisual> getPlayerPieceVisuals()
+    public Map<Piece, PieceVisual> getPlayerPieceVisuals()
     {
         return playerPieceVisuals;
     }
@@ -254,7 +254,7 @@ public abstract class AbstractGameBoardVisual extends AbstractBoardVisual
     @Override
     public void showLongestRoad(Route route)
     {
-        for (PlayerPiece piece : playerPieceVisuals.keySet())
+        for (Piece piece : playerPieceVisuals.keySet())
             playerPieceVisuals.get(piece).setSelected(false);
 
         for (GraphSide side : route.getEdgeList())

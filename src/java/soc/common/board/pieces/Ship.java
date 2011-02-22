@@ -10,6 +10,8 @@ import soc.common.board.resources.Sheep;
 import soc.common.board.resources.Timber;
 import soc.common.board.routing.GraphPoint;
 import soc.common.game.player.GamePlayer;
+import soc.gwtClient.game.widgetsInterface.visuals.PieceVisual;
+import soc.gwtClient.game.widgetsInterface.visuals.VisualFactory;
 
 @SeaFarers
 public class Ship extends AbstractPlayerPiece implements SidePiece
@@ -148,6 +150,12 @@ public class Ship extends AbstractPlayerPiece implements SidePiece
     public boolean connectsWithShip()
     {
         return true;
+    }
+
+    @Override
+    public PieceVisual createPiece(VisualFactory visualFactory)
+    {
+        return visualFactory.createShipVisual(this);
     }
 
 }

@@ -6,6 +6,8 @@ import soc.common.board.pieces.abstractPieces.AbstractPlayerPiece;
 import soc.common.board.territories.Territory;
 import soc.common.game.VictoryPointItem;
 import soc.common.game.player.GamePlayer;
+import soc.gwtClient.game.widgetsInterface.visuals.PieceVisual;
+import soc.gwtClient.game.widgetsInterface.visuals.VisualFactory;
 
 @SeaFarers
 public class IslandBonus extends AbstractPlayerPiece implements
@@ -70,6 +72,12 @@ public class IslandBonus extends AbstractPlayerPiece implements
     public boolean affectsRoad()
     {
         return false;
+    }
+
+    @Override
+    public PieceVisual createPiece(VisualFactory visualFactory)
+    {
+        return visualFactory.createIslandBonus(this);
     }
 
 }

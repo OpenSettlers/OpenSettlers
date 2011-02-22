@@ -6,6 +6,8 @@ import soc.common.game.LongestRoadChangedEvent;
 import soc.common.game.LongestRoadChangedEventHandler;
 import soc.common.game.VictoryPointItem;
 import soc.common.game.player.GamePlayer;
+import soc.gwtClient.game.widgetsInterface.visuals.PieceVisual;
+import soc.gwtClient.game.widgetsInterface.visuals.VisualFactory;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
@@ -69,5 +71,11 @@ public class LongestRoad extends AbstractPlayerPiece implements
     public boolean affectsRoad()
     {
         return false;
+    }
+
+    @Override
+    public PieceVisual createPiece(VisualFactory visualFactory)
+    {
+        return null;
     }
 }

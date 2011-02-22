@@ -3,7 +3,7 @@ package soc.gwtClient.game.widgetsSvg.visuals;
 import java.util.HashMap;
 
 import soc.common.board.hexes.Hex;
-import soc.common.board.pieces.abstractPieces.PlayerPiece;
+import soc.common.board.pieces.abstractPieces.Piece;
 import soc.common.board.pieces.pieceLists.PlayerPieceListChangedEvent;
 import soc.common.board.pieces.pieceLists.PlayerPieceListChangedEventHandler;
 import soc.common.board.routing.GraphPoint;
@@ -106,11 +106,10 @@ public class GameBoardSvg extends AbstractGameBoardVisual implements
         return new SvgVisualFactory(this);
     }
 
-    private void addPiece(PlayerPiece piece)
+    private void addPiece(Piece piece)
     {
         // Create a new visual for the added player piece
-        PieceVisual newPieceVisual = visualFactory
-                .createPlayerPieceVisual(piece);
+        PieceVisual newPieceVisual = piece.createPiece(visualFactory);
 
         // Keep track of it
         playerPieceVisuals.put(piece, newPieceVisual);
@@ -120,7 +119,7 @@ public class GameBoardSvg extends AbstractGameBoardVisual implements
                 ((SvgVisual) newPieceVisual).getVectorObject());
     }
 
-    private void removePiece(PlayerPiece piece)
+    private void removePiece(Piece piece)
     {
         PieceVisual pieceVisual = playerPieceVisuals.get(piece);
         playerPieceVisuals.remove(piece);
@@ -132,10 +131,10 @@ public class GameBoardSvg extends AbstractGameBoardVisual implements
     public void onPlayerPieceListChanged(PlayerPieceListChangedEvent event)
     {
         if (event.getAddedPiece() != null)
-            addPiece((PlayerPiece) event.getAddedPiece());
+            addPiece((Piece) event.getAddedPiece());
 
         if (event.getRemovedPiece() != null)
-            removePiece((PlayerPiece) event.getRemovedPiece());
+            removePiece((Piece) event.getRemovedPiece());
     }
 
     @Override

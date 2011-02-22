@@ -2,7 +2,7 @@ package soc.gwtClient.game.widgetsInterface.visuals;
 
 import java.util.Map;
 
-import soc.common.board.pieces.abstractPieces.PlayerPiece;
+import soc.common.board.pieces.abstractPieces.Piece;
 import soc.common.board.routing.GraphPoint;
 import soc.common.board.routing.GraphSide;
 import soc.common.board.routing.Route;
@@ -19,7 +19,7 @@ public interface GameBoardVisual extends BoardVisual
 
     public VisualFactory createVisualFactory();
 
-    public Map<PlayerPiece, PieceVisual> getPlayerPieceVisuals();
+    public Map<Piece, PieceVisual> getPlayerPieceVisuals();
 
     public Map<GraphPoint, PointVisual> getPointVisuals();
 

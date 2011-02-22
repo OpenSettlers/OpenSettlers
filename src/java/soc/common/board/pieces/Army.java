@@ -7,6 +7,8 @@ import soc.common.board.pieces.abstractPieces.AbstractPlayerPiece;
 import soc.common.game.VictoryPointItem;
 import soc.common.game.developmentCards.standard.Soldier;
 import soc.common.game.player.GamePlayer;
+import soc.gwtClient.game.widgetsInterface.visuals.PieceVisual;
+import soc.gwtClient.game.widgetsInterface.visuals.VisualFactory;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
@@ -89,6 +91,12 @@ public class Army extends AbstractPlayerPiece implements VictoryPointItem
             ArmyChangedEventHandler handler)
     {
         return eventBus.addHandler(ArmyChangedEvent.TYPE, handler);
+    }
+
+    @Override
+    public PieceVisual createPiece(VisualFactory visualFactory)
+    {
+        return null;
     }
 
 }

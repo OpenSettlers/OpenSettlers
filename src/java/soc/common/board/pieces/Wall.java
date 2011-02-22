@@ -7,6 +7,8 @@ import soc.common.board.HexPoint;
 import soc.common.board.pieces.abstractPieces.AbstractPlayerPiece;
 import soc.common.board.pieces.abstractPieces.PointPiece;
 import soc.common.game.player.GamePlayer;
+import soc.gwtClient.game.widgetsInterface.visuals.PieceVisual;
+import soc.gwtClient.game.widgetsInterface.visuals.VisualFactory;
 
 @CitiesKnights
 @Pioneers
@@ -60,5 +62,11 @@ public class Wall extends AbstractPlayerPiece implements PointPiece
     @Override
     public void removeFromBoard(Board board)
     {
+    }
+
+    @Override
+    public PieceVisual createPiece(VisualFactory visualFactory)
+    {
+        return visualFactory.createWallVisual(this);
     }
 }

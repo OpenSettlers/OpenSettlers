@@ -3,7 +3,7 @@ package soc.common.board.pieces.abstractPieces;
 import soc.common.board.resources.ResourceList;
 import soc.common.game.player.GamePlayer;
 
-public interface PlayerPiece
+public interface PlayerPiece extends Piece
 {
     public GamePlayer getPlayer();
 

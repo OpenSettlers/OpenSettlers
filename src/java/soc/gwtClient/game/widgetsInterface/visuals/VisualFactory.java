@@ -2,20 +2,18 @@ package soc.gwtClient.game.widgetsInterface.visuals;
 
 import soc.common.board.Board;
 import soc.common.board.pieces.City;
+import soc.common.board.pieces.IslandBonus;
 import soc.common.board.pieces.Pirate;
 import soc.common.board.pieces.Road;
 import soc.common.board.pieces.Robber;
+import soc.common.board.pieces.Ship;
 import soc.common.board.pieces.Town;
-import soc.common.board.pieces.abstractPieces.Piece;
-import soc.common.board.pieces.abstractPieces.PlayerPiece;
+import soc.common.board.pieces.Wall;
 import soc.common.board.routing.GraphPoint;
 import soc.common.board.routing.GraphSide;
 
 public interface VisualFactory
 {
-    public PieceVisual createPlayerPieceVisual(PlayerPiece piece);
-
-    public PieceVisual createPieceVisual(Piece piece);
 
     public RobberVisual createRobberVisual(Robber robber);
 
@@ -32,4 +30,10 @@ public interface VisualFactory
     public SideVisual createSideVisual(GraphSide side);
 
     public PointVisual createPointVisual(GraphPoint point);
+
+    public IslandBonusVisual createIslandBonus(IslandBonus islandBonus);
+
+    public ShipVisual createShipVisual(Ship ship);
+
+    public WallVisual createWallVisual(Wall wall);
 }
