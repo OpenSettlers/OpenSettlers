@@ -178,4 +178,22 @@ public class RejectTradeOffer extends AbstractGameAction implements
     {
         return meta;
     }
+
+    @Override
+    public boolean isAccepted()
+    {
+        return false;
+    }
+
+    @Override
+    public boolean isCounterOffer()
+    {
+        return false;
+    }
+
+    @Override
+    public boolean isRejection()
+    {
+        return true;
+    }
 }

@@ -6,8 +6,6 @@ import soc.common.game.GamePhaseChangedEvent;
 import soc.common.game.GamePhaseChangedEventHandler;
 import soc.common.game.dices.Dice;
 import soc.common.game.dices.StandardDice;
-import soc.common.game.gamePhase.PlayTurnsGamePhase;
-import soc.common.game.gamePhase.turnPhase.BeforeDiceRollTurnPhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhaseChangedEvent;
 import soc.common.game.gamePhase.turnPhase.TurnPhaseChangedHandler;
 import soc.common.game.player.GamePlayer;
@@ -101,7 +99,7 @@ public class SvgStandardDiceWidget extends AbstractStandardDiceWidget implements
     @Override
     public void onGamePhaseChanged(GamePhaseChangedEvent event)
     {
-        if (event.getNewPhase() instanceof PlayTurnsGamePhase)
+        if (event.getNewPhase().isPlayTurns())
         {
             setEnabled(true);
         }
@@ -112,9 +110,9 @@ public class SvgStandardDiceWidget extends AbstractStandardDiceWidget implements
     {
         if (event.getNewPhase() != null)
         {
-            if (!(event.getNewPhase() instanceof BeforeDiceRollTurnPhase)
-                    && gameWidget.getGame().getCurrentTurn().getPlayer().equals(
-                            gameWidget.getPlayingPlayer()))
+            if (!(event.getNewPhase().isBeforeDiceRoll())
+                    && gameWidget.getGame().getCurrentTurn().getPlayer()
+                            .equals(gameWidget.getPlayingPlayer()))
             {
                 setEnabled(true);
             }

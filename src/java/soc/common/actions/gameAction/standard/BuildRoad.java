@@ -5,7 +5,6 @@ import soc.common.board.HexSide;
 import soc.common.board.pieces.Road;
 import soc.common.game.Game;
 import soc.common.game.gamePhase.GamePhase;
-import soc.common.game.gamePhase.InitialPlacementGamePhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
 import soc.common.game.player.GamePlayer;
 import soc.common.internationalization.I18n;
@@ -113,7 +112,7 @@ public class BuildRoad extends AbstractTurnAction
 
         GamePlayer player = game.getPlayerByID(sender);
 
-        if (!(game.getCurrentPhase() instanceof InitialPlacementGamePhase))
+        if (!(game.getCurrentPhase().isInitialPlacement()))
         {
             if (!(Road.ROAD.canBuild(game.getBoard(), player)))
             {

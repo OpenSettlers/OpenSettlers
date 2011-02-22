@@ -13,4 +13,10 @@ public interface TradeResponse
     public GamePlayer getPlayer();
 
     public void setTradeResources(TradePlayer tradePlayer);
+
+    public boolean isCounterOffer();
+
+    public boolean isRejection();
+
+    public boolean isAccepted();
 }

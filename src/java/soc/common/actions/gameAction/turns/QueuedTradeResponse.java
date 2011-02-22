@@ -106,7 +106,8 @@ public class QueuedTradeResponse extends AbstractGameAction implements
     }
 
     @Override
-    public ActionWidget createActionWidget(ActionWidgetFactory actionWidgetFactory)
+    public ActionWidget createActionWidget(
+            ActionWidgetFactory actionWidgetFactory)
     {
         return null;
     }
@@ -146,4 +147,21 @@ public class QueuedTradeResponse extends AbstractGameAction implements
         return meta;
     }
 
+    @Override
+    public boolean isAccepted()
+    {
+        return false;
+    }
+
+    @Override
+    public boolean isCounterOffer()
+    {
+        return false;
+    }
+
+    @Override
+    public boolean isRejection()
+    {
+        return false;
+    }
 }

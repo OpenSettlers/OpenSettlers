@@ -180,4 +180,22 @@ public class AcceptTradeOffer extends AbstractGameAction implements
     {
         return null;
     }
+
+    @Override
+    public boolean isAccepted()
+    {
+        return true;
+    }
+
+    @Override
+    public boolean isCounterOffer()
+    {
+        return false;
+    }
+
+    @Override
+    public boolean isRejection()
+    {
+        return false;
+    }
 }

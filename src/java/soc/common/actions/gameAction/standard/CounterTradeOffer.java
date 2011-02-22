@@ -243,4 +243,22 @@ public class CounterTradeOffer extends AbstractGameAction implements
     {
         return meta;
     }
+
+    @Override
+    public boolean isAccepted()
+    {
+        return false;
+    }
+
+    @Override
+    public boolean isCounterOffer()
+    {
+        return true;
+    }
+
+    @Override
+    public boolean isRejection()
+    {
+        return false;
+    }
 }

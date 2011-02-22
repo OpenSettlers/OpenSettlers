@@ -97,13 +97,13 @@ public class AbstractTradePlayerStatusWidget implements
             if (tradeResponse != null)
             {
                 this.tradeResponse = tradeResponse;
-                if (tradeResponse instanceof AcceptTradeOffer)
+                if (tradeResponse.isAccepted())
                     updateAccept((AcceptTradeOffer) tradeResponse);
 
-                if (tradeResponse instanceof CounterTradeOffer)
+                if (tradeResponse.isCounterOffer())
                     updateCounter((CounterTradeOffer) tradeResponse);
 
-                if (tradeResponse instanceof RejectTradeOffer)
+                if (tradeResponse.isRejection())
                     updateReject((RejectTradeOffer) tradeResponse);
             }
             else
@@ -195,10 +195,10 @@ public class AbstractTradePlayerStatusWidget implements
     @Override
     public void onResourcesChanged(ResourcesChangedEvent resourcesChanged)
     {
-        if (tradeResponse instanceof CounterTradeOffer)
+        if (tradeResponse.isCounterOffer())
             updateCounter((CounterTradeOffer) tradeResponse);
 
-        if (tradeResponse instanceof AcceptTradeOffer)
+        if (tradeResponse.isAccepted())
             updateAccept((AcceptTradeOffer) tradeResponse);
     }
 }
