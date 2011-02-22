@@ -16,6 +16,7 @@ import soc.gwtClient.game.behaviour.gameWidget.factories.GameBehaviourFactory;
 import soc.gwtClient.game.behaviour.gameWidget.factories.ReceiveGameBehaviourFactory;
 import soc.gwtClient.game.behaviour.gameWidget.received.ReceiveGameBehaviour;
 import soc.gwtClient.game.widgetsInterface.actions.ActionWidget;
+import soc.gwtClient.game.widgetsInterface.actions.ActionWidgetFactory;
 import soc.gwtClient.game.widgetsInterface.generic.ToolTip;
 
 public class StartingPlayerDetermined extends AbstractGameAction
@@ -145,7 +146,7 @@ public class StartingPlayerDetermined extends AbstractGameAction
     }
 
     @Override
-    public ActionWidget createActionWidget(GamePlayer player)
+    public ActionWidget createActionWidget(ActionWidgetFactory actionWidgetFactory)
     {
         return null;
     }

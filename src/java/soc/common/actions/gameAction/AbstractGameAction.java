@@ -12,6 +12,7 @@ import soc.common.game.statuses.GameStatus;
 import soc.common.utils.ClassUtils;
 import soc.gwtClient.game.widgetsInterface.actions.ActionDetailWidgetFactory;
 import soc.gwtClient.game.widgetsInterface.actions.ActionWidget;
+import soc.gwtClient.game.widgetsInterface.actions.ActionWidgetFactory;
 import soc.gwtClient.game.widgetsInterface.playerInfo.ActionDetailWidget;
 
 /*
@@ -188,7 +189,7 @@ public abstract class AbstractGameAction extends AbstractAction implements
      * soc.gwtClient.game.widgetsInterface.main.GameWidget)
      */
     @Override
-    public ActionWidget createActionWidget(GamePlayer player)
+    public ActionWidget createActionWidget(ActionWidgetFactory actionWidgetFactory)
     {
         return null;
     }

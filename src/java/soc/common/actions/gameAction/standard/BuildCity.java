@@ -8,7 +8,6 @@ import soc.common.board.hexes.ResourceHex;
 import soc.common.board.pieces.City;
 import soc.common.board.pieces.Town;
 import soc.common.board.resources.ResourceList;
-import soc.common.core.Core;
 import soc.common.game.Game;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.InitialPlacementGamePhase;
@@ -27,6 +26,7 @@ import soc.gwtClient.game.behaviour.gameWidget.factories.ReceiveGameBehaviourFac
 import soc.gwtClient.game.behaviour.gameWidget.received.ReceiveGameBehaviour;
 import soc.gwtClient.game.widgetsInterface.actions.ActionDetailWidgetFactory;
 import soc.gwtClient.game.widgetsInterface.actions.ActionWidget;
+import soc.gwtClient.game.widgetsInterface.actions.ActionWidgetFactory;
 import soc.gwtClient.game.widgetsInterface.generic.ToolTip;
 import soc.gwtClient.game.widgetsInterface.playerInfo.ActionDetailWidget;
 import soc.gwtClient.images.Resources;
@@ -216,10 +216,10 @@ public class BuildCity extends AbstractTurnAction
     }
 
     @Override
-    public ActionWidget createActionWidget(GamePlayer player)
+    public ActionWidget createActionWidget(
+            ActionWidgetFactory actionWidgetFactory)
     {
-        return Core.get().getClientFactory().getActionWidgetFactory(player)
-                .createBuildCityWidget();
+        return actionWidgetFactory.createBuildCityWidget();
     }
 
     @Override

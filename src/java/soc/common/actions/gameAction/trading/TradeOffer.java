@@ -20,6 +20,7 @@ import soc.gwtClient.game.behaviour.gameWidget.factories.GameBehaviourFactory;
 import soc.gwtClient.game.behaviour.gameWidget.factories.ReceiveGameBehaviourFactory;
 import soc.gwtClient.game.behaviour.gameWidget.received.ReceiveGameBehaviour;
 import soc.gwtClient.game.widgetsInterface.actions.ActionWidget;
+import soc.gwtClient.game.widgetsInterface.actions.ActionWidgetFactory;
 import soc.gwtClient.game.widgetsInterface.generic.ToolTip;
 import soc.gwtClient.images.Resources;
 
@@ -203,7 +204,7 @@ public class TradeOffer extends AbstractGameAction
     }
 
     @Override
-    public ActionWidget createActionWidget(GamePlayer player)
+    public ActionWidget createActionWidget(ActionWidgetFactory actionWidgetFactory)
     {
         return Core.get().getClientFactory().getActionWidgetFactory(player)
                 .createTradePlayerWidget();

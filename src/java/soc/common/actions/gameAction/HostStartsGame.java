@@ -4,7 +4,6 @@ import soc.common.game.Game;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.LobbyGamePhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
-import soc.common.game.player.GamePlayer;
 import soc.common.internationalization.I18n;
 import soc.common.ui.Graphics;
 import soc.common.ui.Icon;
@@ -15,6 +14,7 @@ import soc.gwtClient.game.behaviour.gameWidget.factories.GameBehaviourFactory;
 import soc.gwtClient.game.behaviour.gameWidget.factories.ReceiveGameBehaviourFactory;
 import soc.gwtClient.game.behaviour.gameWidget.received.ReceiveGameBehaviour;
 import soc.gwtClient.game.widgetsInterface.actions.ActionWidget;
+import soc.gwtClient.game.widgetsInterface.actions.ActionWidgetFactory;
 import soc.gwtClient.game.widgetsInterface.generic.ToolTip;
 
 public class HostStartsGame extends AbstractGameAction
@@ -137,7 +137,7 @@ public class HostStartsGame extends AbstractGameAction
     }
 
     @Override
-    public ActionWidget createActionWidget(GamePlayer player)
+    public ActionWidget createActionWidget(ActionWidgetFactory actionWidgetFactory)
     {
         return null;
     }

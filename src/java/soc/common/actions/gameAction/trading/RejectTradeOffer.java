@@ -7,7 +7,6 @@ import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.PlayTurnsGamePhase;
 import soc.common.game.gamePhase.turnPhase.TradingTurnPhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
-import soc.common.game.player.GamePlayer;
 import soc.common.game.trading.TradeResponse;
 import soc.common.ui.Graphics;
 import soc.common.ui.Icon;
@@ -18,6 +17,7 @@ import soc.gwtClient.game.behaviour.gameWidget.factories.GameBehaviourFactory;
 import soc.gwtClient.game.behaviour.gameWidget.factories.ReceiveGameBehaviourFactory;
 import soc.gwtClient.game.behaviour.gameWidget.received.ReceiveGameBehaviour;
 import soc.gwtClient.game.widgetsInterface.actions.ActionWidget;
+import soc.gwtClient.game.widgetsInterface.actions.ActionWidgetFactory;
 import soc.gwtClient.game.widgetsInterface.generic.ToolTip;
 import soc.gwtClient.images.Resources;
 
@@ -141,7 +141,7 @@ public class RejectTradeOffer extends AbstractGameAction implements
     }
 
     @Override
-    public ActionWidget createActionWidget(GamePlayer player)
+    public ActionWidget createActionWidget(ActionWidgetFactory actionWidgetFactory)
     {
         return null;
     }

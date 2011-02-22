@@ -2,7 +2,6 @@ package soc.common.actions.gameAction.trading;
 
 import soc.common.actions.gameAction.turns.AbstractTurnAction;
 import soc.common.board.resources.ResourceList;
-import soc.common.core.Core;
 import soc.common.game.Game;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.PlayTurnsGamePhase;
@@ -20,6 +19,7 @@ import soc.gwtClient.game.behaviour.gameWidget.factories.GameBehaviourFactory;
 import soc.gwtClient.game.behaviour.gameWidget.factories.ReceiveGameBehaviourFactory;
 import soc.gwtClient.game.behaviour.gameWidget.received.ReceiveGameBehaviour;
 import soc.gwtClient.game.widgetsInterface.actions.ActionWidget;
+import soc.gwtClient.game.widgetsInterface.actions.ActionWidgetFactory;
 import soc.gwtClient.game.widgetsInterface.generic.ToolTip;
 import soc.gwtClient.images.Resources;
 
@@ -193,10 +193,10 @@ public class TradePlayer extends AbstractTurnAction
     }
 
     @Override
-    public ActionWidget createActionWidget(GamePlayer player)
+    public ActionWidget createActionWidget(
+            ActionWidgetFactory actionWidgetFactory)
     {
-        return Core.get().getClientFactory().getActionWidgetFactory(player)
-                .createTradePlayerWidget();
+        return actionWidgetFactory.createTradePlayerWidget();
     }
 
     @Override

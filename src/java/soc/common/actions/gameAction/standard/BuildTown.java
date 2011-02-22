@@ -12,14 +12,12 @@ import soc.common.board.hexes.SeaHex;
 import soc.common.board.pieces.Town;
 import soc.common.board.ports.Port;
 import soc.common.board.resources.ResourceList;
-import soc.common.core.Core;
 import soc.common.game.Game;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.InitialPlacementGamePhase;
 import soc.common.game.gamePhase.PlayTurnsGamePhase;
 import soc.common.game.gamePhase.turnPhase.BuildingTurnPhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
-import soc.common.game.player.GamePlayer;
 import soc.common.internationalization.I18n;
 import soc.common.ui.Graphics;
 import soc.common.ui.Icon;
@@ -31,6 +29,7 @@ import soc.gwtClient.game.behaviour.gameWidget.factories.ReceiveGameBehaviourFac
 import soc.gwtClient.game.behaviour.gameWidget.received.ReceiveGameBehaviour;
 import soc.gwtClient.game.widgetsInterface.actions.ActionDetailWidgetFactory;
 import soc.gwtClient.game.widgetsInterface.actions.ActionWidget;
+import soc.gwtClient.game.widgetsInterface.actions.ActionWidgetFactory;
 import soc.gwtClient.game.widgetsInterface.generic.ToolTip;
 import soc.gwtClient.game.widgetsInterface.playerInfo.ActionDetailWidget;
 import soc.gwtClient.images.Resources;
@@ -248,10 +247,10 @@ public class BuildTown extends AbstractTurnAction
     }
 
     @Override
-    public ActionWidget createActionWidget(GamePlayer player)
+    public ActionWidget createActionWidget(
+            ActionWidgetFactory actionWidgetFactory)
     {
-        return Core.get().getClientFactory().getActionWidgetFactory(player)
-                .createBuildTownWidget();
+        return actionWidgetFactory.createBuildTownWidget();
     }
 
     @Override

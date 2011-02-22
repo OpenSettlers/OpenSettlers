@@ -12,6 +12,7 @@ import soc.gwtClient.game.behaviour.gameWidget.factories.ReceiveGameBehaviourFac
 import soc.gwtClient.game.behaviour.gameWidget.received.ReceiveGameBehaviour;
 import soc.gwtClient.game.widgetsInterface.actions.ActionDetailWidgetFactory;
 import soc.gwtClient.game.widgetsInterface.actions.ActionWidget;
+import soc.gwtClient.game.widgetsInterface.actions.ActionWidgetFactory;
 import soc.gwtClient.game.widgetsInterface.playerInfo.ActionDetailWidget;
 
 public interface GameAction extends Action
@@ -90,7 +91,7 @@ public interface GameAction extends Action
     public GameBehaviour getNextActionBehaviour(
             GameBehaviourFactory gameBehaviourFactory);
 
-    public ActionWidget createActionWidget(GamePlayer player);
+    public ActionWidget createActionWidget(ActionWidgetFactory actionWidgetFactory);
 
     public ActionDetailWidget createActionDetailWidget(
             ActionDetailWidgetFactory factory);
