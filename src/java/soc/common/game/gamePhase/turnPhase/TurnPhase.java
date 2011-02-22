@@ -1,9 +1,11 @@
 package soc.common.game.gamePhase.turnPhase;
 
+import java.io.Serializable;
+
 import soc.common.actions.gameAction.GameAction;
 import soc.common.game.Game;
 
-public interface TurnPhase
+public interface TurnPhase extends Serializable
 {
 
     public TurnPhase next();

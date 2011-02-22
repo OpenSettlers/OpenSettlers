@@ -1,5 +1,6 @@
 package soc.common.board.hexes;
 
+import soc.common.board.Chit;
 
 /*
  * Represents a hex removed at gamestart, acting as design-time placeholder 
@@ -12,7 +13,7 @@ public class NoneHex extends AbstractHex
      * @see soc.common.board.hexes.Hex#Copy()
      */
     @Override
-    public AbstractHex copy()
+    public Hex copy()
     {
         return new NoneHex();
     }
@@ -81,6 +82,36 @@ public class NoneHex extends AbstractHex
     public boolean isRobberPlaceable()
     {
         return false;
+    }
+
+    @Override
+    public boolean canHaveChit()
+    {
+        return false;
+    }
+
+    @Override
+    public boolean hasChit()
+    {
+        return false;
+    }
+
+    @Override
+    public boolean hasResource()
+    {
+        return false;
+    }
+
+    @Override
+    public Chit getChit()
+    {
+        return null;
+    }
+
+    @Override
+    public Hex setChit(Chit chit)
+    {
+        return this;
     }
 
 }

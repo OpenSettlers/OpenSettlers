@@ -1,21 +1,19 @@
 package soc.gwtClient.game.behaviour.board;
 
-import soc.common.board.hexes.AbstractHex;
 import soc.common.board.hexes.Hex;
-import soc.common.board.hexes.ResourceHex;
-import soc.common.board.resources.Timber;
+import soc.common.board.hexes.TimberHex;
 import soc.gwtClient.game.widgetsInterface.visuals.BoardVisual;
 import soc.gwtClient.game.widgetsInterface.visuals.HexVisual;
 import soc.gwtClient.game.widgetsInterface.visuals.PieceVisual;
 
 public class SetHexBehaviour implements BoardBehaviour
 {
-    private AbstractHex hex = new ResourceHex(new Timber());
+    private Hex hex = new TimberHex();
 
     /**
      * @return the hex
      */
-    public AbstractHex getHex()
+    public Hex getHex()
     {
         return hex;
     }
@@ -24,12 +22,9 @@ public class SetHexBehaviour implements BoardBehaviour
      * @param hex
      *            the hex to set
      */
-    public SetHexBehaviour setHex(AbstractHex h)
+    public SetHexBehaviour setHex(Hex h)
     {
         this.hex = h;
-
-        // Enables fluent interface usage
-        // http://en.wikipedia.org/wiki/Fluent_interface
         return this;
     }
 

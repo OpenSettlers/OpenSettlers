@@ -10,7 +10,6 @@ import soc.common.actions.gameAction.turns.AbstractTurnAction;
 import soc.common.actions.gameAction.turns.TurnPhaseEnded;
 import soc.common.board.HexLocation;
 import soc.common.board.hexes.Hex;
-import soc.common.board.hexes.ResourceHex;
 import soc.common.board.pieces.abstractPieces.Producable;
 import soc.common.board.resources.ResourceList;
 import soc.common.game.Game;
@@ -209,24 +208,15 @@ public class RollDice extends AbstractTurnAction
         if (dice.getDiceTotal() != 7)
         {
             // gather all resource hexes without the robber
-            List<ResourceHex> rolledHexes = new ArrayList<ResourceHex>();
+            List<Hex> rolledHexes = new ArrayList<Hex>();
             for (Hex hex : game.getBoard().getHexes())
             {
-                if (hex instanceof ResourceHex)
-                {
-                    ResourceHex resourceHex = (ResourceHex) hex;
-                    if (resourceHex.getChit() != null)
-                    {
-                        if (resourceHex.getChit().getNumber() == dice
-                                .getDiceTotal())
-                        {
-                            rolledHexes.add(resourceHex);
-                        }
-                    }
-                }
+                if (hex.hasResource() && hex.hasChit()
+                        && hex.getChit().getNumber() == dice.getDiceTotal())
+                    rolledHexes.add(hex);
             }
             // Iterate over all hexes with resources
-            for (ResourceHex hex : rolledHexes)
+            for (Hex hex : rolledHexes)
             {
                 boolean hexIsAffected = false;
                 // For normal resources, the location of the robber is omitted.

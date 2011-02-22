@@ -1,6 +1,8 @@
 package soc.common.board.hexes;
 
 import soc.common.board.HexLocation;
+import soc.common.board.ports.Port;
+import soc.common.board.resources.Resource;
 import soc.common.board.territories.Territory;
 import soc.common.utils.ClassUtils;
 
@@ -53,11 +55,6 @@ public abstract class AbstractHex implements Hex
         return hexLocation;
     }
 
-    public AbstractHex copy()
-    {
-        throw new RuntimeException();
-    }
-
     /*
      * (non-Javadoc)
      * 
@@ -79,5 +76,49 @@ public abstract class AbstractHex implements Hex
             TerritoryChangedEventHandler handler)
     {
         return eventBus.addHandler(TerritoryChangedEvent.TYPE, handler);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see soc.common.board.hexes.Hex#getResource()
+     */
+    @Override
+    public Resource getResource()
+    {
+        return null;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see soc.common.board.hexes.Hex#getPort()
+     */
+    @Override
+    public Port getPort()
+    {
+        return null;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see soc.common.board.hexes.Hex#hasPort()
+     */
+    @Override
+    public boolean hasPort()
+    {
+        return false;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see soc.common.board.hexes.Hex#setPort(soc.common.board.ports.Port)
+     */
+    @Override
+    public Hex setPort(Port port)
+    {
+        return this;
     }
 }

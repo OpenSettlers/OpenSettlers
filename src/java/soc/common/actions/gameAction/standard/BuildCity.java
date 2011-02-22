@@ -4,7 +4,6 @@ import soc.common.actions.gameAction.turns.AbstractTurnAction;
 import soc.common.board.HexLocation;
 import soc.common.board.HexPoint;
 import soc.common.board.hexes.Hex;
-import soc.common.board.hexes.ResourceHex;
 import soc.common.board.pieces.City;
 import soc.common.board.pieces.Town;
 import soc.common.board.resources.ResourceList;
@@ -170,9 +169,9 @@ public class BuildCity extends AbstractTurnAction
             for (HexLocation hexLocation : pointLocation.getHexLocations())
             {
                 Hex hex = game.getBoard().getHexes().get(hexLocation);
-                if (hex instanceof ResourceHex)
+                if (hex.hasResource())
                 {
-                    resourcesFromCity.add(((ResourceHex) hex).getResource());
+                    resourcesFromCity.add(hex.getResource());
                 }
             }
             player.getResources().addList(resourcesFromCity);

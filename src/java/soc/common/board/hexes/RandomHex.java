@@ -1,17 +1,23 @@
 package soc.common.board.hexes;
 
+import soc.common.board.Chit;
+
 public class RandomHex extends AbstractHex
 {
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.board.hexes.Hex#Copy()
      */
     @Override
-    public AbstractHex copy()
+    public Hex copy()
     {
         return new RandomHex();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.board.hexes.Hex#getColor()
      */
     @Override
@@ -20,7 +26,9 @@ public class RandomHex extends AbstractHex
         return "White";
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.board.hexes.Hex#isBuildableLand()
      */
     @Override
@@ -29,7 +37,9 @@ public class RandomHex extends AbstractHex
         return false;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.board.hexes.Hex#isBuildableSea()
      */
     @Override
@@ -38,7 +48,9 @@ public class RandomHex extends AbstractHex
         return false;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.board.hexes.Hex#isPartOfGame()
      */
     @Override
@@ -47,7 +59,9 @@ public class RandomHex extends AbstractHex
         return true;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.board.hexes.Hex#isPiratePlaceable()
      */
     @Override
@@ -56,7 +70,9 @@ public class RandomHex extends AbstractHex
         return false;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.board.hexes.Hex#isRobberPlaceable()
      */
     @Override
@@ -64,5 +80,34 @@ public class RandomHex extends AbstractHex
     {
         return false;
     }
-    
+
+    @Override
+    public boolean canHaveChit()
+    {
+        return false;
+    }
+
+    @Override
+    public boolean hasChit()
+    {
+        return false;
+    }
+
+    @Override
+    public boolean hasResource()
+    {
+        return false;
+    }
+
+    @Override
+    public Chit getChit()
+    {
+        return null;
+    }
+
+    @Override
+    public Hex setChit(Chit chit)
+    {
+        return this;
+    }
 }

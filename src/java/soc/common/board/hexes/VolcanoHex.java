@@ -3,24 +3,28 @@ package soc.common.board.hexes;
 import soc.common.annotations.Sea3D;
 import soc.common.board.Chit;
 import soc.common.board.resources.Gold;
-import soc.common.board.resources.AbstractResource;
+import soc.common.board.resources.Resource;
 import soc.common.utils.ClassUtils;
 
 @Sea3D
 public class VolcanoHex extends ResourceHex
 {
-    private AbstractResource resource = new Gold();
+    private Resource resource = new Gold();
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.board.hexes.ResourceHex#getResource()
      */
     @Override
-    public AbstractResource getResource()
+    public Resource getResource()
     {
         return resource;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.board.hexes.Hex#getColor()
      */
     @Override
@@ -29,7 +33,9 @@ public class VolcanoHex extends ResourceHex
         return "DarkRed";
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.board.hexes.ResourceHex#getName()
      */
     @Override
@@ -38,18 +44,37 @@ public class VolcanoHex extends ResourceHex
         return ClassUtils.getSimpleClassName(this.getClass().getName());
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.board.hexes.ResourceHex#Copy()
      */
     @Override
-    public AbstractHex copy()
+    public Hex copy()
     {
         VolcanoHex result = new VolcanoHex();
-        
+
         result.setChit(new Chit(5));
         result.setTerritory(territory);
-        
+
         return result;
     }
 
+    @Override
+    public boolean canHaveChit()
+    {
+        return true;
+    }
+
+    @Override
+    public boolean hasChit()
+    {
+        return chit != null;
+    }
+
+    @Override
+    public boolean hasResource()
+    {
+        return true;
+    }
 }

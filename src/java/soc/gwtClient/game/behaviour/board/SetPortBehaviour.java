@@ -54,7 +54,7 @@ public class SetPortBehaviour implements BoardBehaviour
         if (pieceVisual instanceof HexVisual)
         {
             HexVisual hexVisual = (HexVisual) pieceVisual;
-            if (hexVisual.getHex() instanceof SeaHex)
+            if (hexVisual.getHex().hasPort())
             {
                 hexVisual.setSelected(true);
                 hexVisual.getPortPossibilitiesVisual().setVisible(true);
@@ -75,7 +75,7 @@ public class SetPortBehaviour implements BoardBehaviour
         if (pieceVisual instanceof HexVisual)
         {
             HexVisual hexVisual = (HexVisual) pieceVisual;
-            if (hexVisual.getHex() instanceof SeaHex)
+            if (hexVisual.getHex().hasPort())
             {
                 hexVisual.setSelected(false);
                 hexVisual.getPortPossibilitiesVisual().setVisible(false);

@@ -174,11 +174,10 @@ public class Board implements Serializable
             landHexLocation = hex2;
             seaHexLocation = hex1;
         }
-        if (seaHexLocation != null && seaHexLocation instanceof SeaHex)
+        if (seaHexLocation != null && seaHexLocation.hasPort())
         {
             // A port found, invalid spot
-            if (((SeaHex) seaHexLocation).getPort() != null)
-                return false;
+            return false;
         }
         return true;
     }

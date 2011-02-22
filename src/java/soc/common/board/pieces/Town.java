@@ -2,7 +2,7 @@ package soc.common.board.pieces;
 
 import soc.common.board.Board;
 import soc.common.board.HexPoint;
-import soc.common.board.hexes.ResourceHex;
+import soc.common.board.hexes.Hex;
 import soc.common.board.pieces.abstractPieces.AbstractPlayerPiece;
 import soc.common.board.pieces.abstractPieces.PointPiece;
 import soc.common.board.pieces.abstractPieces.Producable;
@@ -102,10 +102,10 @@ public class Town extends AbstractPlayerPiece implements VictoryPointItem,
     }
 
     @Override
-    public ResourceList produce(ResourceHex resourceHex, GameRules rules)
+    public ResourceList produce(Hex hex, GameRules rules)
     {
         ResourceList production = new ResourceList();
-        production.add(resourceHex.getResource().copy());
+        production.add(hex.getResource().copy());
         return production;
     }
 

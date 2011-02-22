@@ -7,8 +7,6 @@ import soc.common.actions.gameAction.turns.AbstractTurnAction;
 import soc.common.board.HexLocation;
 import soc.common.board.HexPoint;
 import soc.common.board.hexes.Hex;
-import soc.common.board.hexes.ResourceHex;
-import soc.common.board.hexes.SeaHex;
 import soc.common.board.pieces.Town;
 import soc.common.board.ports.Port;
 import soc.common.board.resources.ResourceList;
@@ -183,10 +181,9 @@ public class BuildTown extends AbstractTurnAction
             for (HexLocation loc : pointLocation.getHexLocations())
             {
                 Hex hex = game.getBoard().getHexes().get(loc);
-                if (hex instanceof ResourceHex)
+                if (hex.hasResource())
                 {
-                    resourcesFromPlacement.add(((ResourceHex) hex)
-                            .getResource());
+                    resourcesFromPlacement.add(hex.getResource());
                 }
             }
             player.getResources().swapResourcesFrom(resourcesFromPlacement,
@@ -201,14 +198,8 @@ public class BuildTown extends AbstractTurnAction
         for (HexLocation locaction : pointLocation.getHexLocations())
         {
             Hex hex = game.getBoard().getHexes().get(locaction);
-            if (hex instanceof SeaHex)
-            {
-                SeaHex seaHex = (SeaHex) hex;
-                if (seaHex.getPort() != null)
-                {
-                    ports.add(seaHex.getPort());
-                }
-            }
+            if (hex.hasPort())
+                ports.add(hex.getPort());
         }
         for (Port port : ports)
         {

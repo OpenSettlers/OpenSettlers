@@ -1,6 +1,9 @@
 package soc.common.board.hexes;
 
+import soc.common.board.Chit;
 import soc.common.board.HexLocation;
+import soc.common.board.ports.Port;
+import soc.common.board.resources.Resource;
 import soc.common.board.territories.Territory;
 
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -60,8 +63,45 @@ public interface Hex
     /*
      * Return a copy of itself
      */
-    public AbstractHex copy();
+    public Hex copy();
 
     public HandlerRegistration addTerritoryChangedEventHandler(
             TerritoryChangedEventHandler handler);
+
+    /*
+     * Returns true when this hex produces resource(s)
+     */
+    public boolean hasResource();
+
+    /*
+     * Can a chit be put on this hex?
+     */
+    public boolean canHaveChit();
+
+    /*
+     * Does this hex have a chit?
+     */
+    public boolean hasChit();
+
+    /*
+     * Returns associated resource of the hex, null if the hex does not support
+     * a resource
+     */
+    public Resource getResource();
+
+    /*
+     * Returns the chit of this hex, null if hex does not have a chit
+     */
+    public Chit getChit();
+
+    /*
+     * Sets the chit of this hex to given when hex supports chits
+     */
+    public Hex setChit(Chit chit);
+
+    public boolean hasPort();
+
+    public Port getPort();
+
+    public Hex setPort(Port port);
 }

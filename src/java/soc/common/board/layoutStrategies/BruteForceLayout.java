@@ -9,8 +9,6 @@ import soc.common.board.ChitList;
 import soc.common.board.HexLocation;
 import soc.common.board.hexes.Hex;
 import soc.common.board.hexes.RandomHex;
-import soc.common.board.hexes.ResourceHex;
-import soc.common.board.hexes.SeaHex;
 import soc.common.board.ports.Port;
 import soc.common.board.ports.PortList;
 import soc.common.board.ports.RandomPort;
@@ -43,7 +41,7 @@ public class BruteForceLayout implements LayoutStrategy
     {
         Board board = game.getBoard();
         Territory territory = board.getTerritories().get(0);
-        List<ResourceHex> hexesToPutChitOn = new ArrayList<ResourceHex>();
+        List<Hex> hexesToPutChitOn = new ArrayList<Hex>();
         PortList supportedPorts = game.getRules().getSupportedPorts();
         Random random = game.getRandom();
         List<HexLocation> randomHexes = new ArrayList<HexLocation>();
@@ -62,8 +60,8 @@ public class BruteForceLayout implements LayoutStrategy
                         .setTerritory(hex.getTerritory()).setLocation(
                                 hex.getLocation());
                 board.getHexes().set(hex.getLocation(), newHex);
-                if (newHex instanceof ResourceHex)
-                    hexesToPutChitOn.add((ResourceHex) newHex);
+                if (newHex.hasResource())
+                    hexesToPutChitOn.add(newHex);
             }
         }
 
@@ -81,45 +79,39 @@ public class BruteForceLayout implements LayoutStrategy
         // Replace all random port placeholders by actual ports
         for (Hex hex : board.getHexes())
         {
-            if (hex instanceof SeaHex)
+            if (hex.hasPort() && hex.getPort() instanceof RandomPort)
             {
-                SeaHex seaHex = (SeaHex) hex;
-                if (seaHex.getPort() != null)
-                {
-                    if (seaHex.getPort() instanceof RandomPort)
-                    {
-                        HexLocation land = seaHex.getPort().getLandLocation();
-                        Hex landHex = board.getHexes().get(land);
-                        Territory t = landHex.getTerritory();
-                        Port newPort = t.grabPort(random, supportedPorts);
-                        newPort.setRotationPosition(seaHex.getPort()
+                HexLocation land = hex.getPort().getLandLocation();
+                Hex landHex = board.getHexes().get(land);
+                Territory t = landHex.getTerritory();
+                Port newPort = t.grabPort(random, supportedPorts);
+                newPort
+                        .setRotationPosition(hex.getPort()
                                 .getRotationPosition());
-                        newPort.setHexLocation(seaHex.getLocation());
-                        seaHex.setPort(newPort);
-                    }
-                }
+                newPort.setHexLocation(hex.getLocation());
+                hex.setPort(newPort);
             }
         }
     }
 
-    private List<ResourceHex> copyResourceHexList(List<ResourceHex> original)
+    private List<Hex> copyResourceHexList(List<Hex> original)
     {
-        List<ResourceHex> copy = new ArrayList<ResourceHex>();
+        List<Hex> copy = new ArrayList<Hex>();
 
-        for (ResourceHex hex : original)
+        for (Hex hex : original)
             copy.add(hex);
 
         return copy;
     }
 
-    private void layoutChits(List<ResourceHex> hexesToPutChitOn,
-            ChitList chits, Random random)
+    private void layoutChits(List<Hex> hexesToPutChitOn, ChitList chits,
+            Random random)
     {
         while (hexesToPutChitOn.size() > 0)
         {
             Chit chit = chits.grabRandom(random);
-            ResourceHex resourceHex = hexesToPutChitOn.get(0);
-            resourceHex.setChit(chit);
+            Hex hex = hexesToPutChitOn.get(0);
+            hex.setChit(chit);
             hexesToPutChitOn.remove(0);
         }
     }
@@ -129,26 +121,23 @@ public class BruteForceLayout implements LayoutStrategy
      * hex, or the source hex number equals 6/8 and the neighbouring hex also
      * equals 6/8.
      */
-    private boolean validateChitsOnBoard(List<ResourceHex> hexesWithChit,
-            Board board)
+    private boolean validateChitsOnBoard(List<Hex> hexesWithChit, Board board)
     {
-        for (ResourceHex resourceHex : hexesWithChit)
+        for (Hex hex : hexesWithChit)
         {
-            List<HexLocation> neighbours = resourceHex.getLocation()
-                    .getNeighbours();
+            List<HexLocation> neighbours = hex.getLocation().getNeighbours();
             for (HexLocation neighbourLocation : neighbours)
             {
-                Hex hex = board.getHexes().get(neighbourLocation);
-                if (hex instanceof ResourceHex)
+                Hex neighbour = board.getHexes().get(neighbourLocation);
+                if (neighbour.hasResource() && neighbour.hasChit())
                 {
-                    ResourceHex neighbour = (ResourceHex) hex;
-                    if (resourceHex.getChit().getNumber() == neighbour
-                            .getChit().getNumber())
+                    if (neighbour.getChit().getNumber() == neighbour.getChit()
+                            .getNumber())
                     {
                         return false;
                     }
-                    if (resourceHex.getChit().getNumber() == 6
-                            || resourceHex.getChit().getNumber() == 8
+                    if (hex.getChit().getNumber() == 6
+                            || hex.getChit().getNumber() == 8
                             && neighbour.getChit().getNumber() == 6
                             || neighbour.getChit().getNumber() == 8)
                     {

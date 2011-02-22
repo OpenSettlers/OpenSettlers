@@ -1,20 +1,19 @@
 package soc.gwtClient.editor;
 
-import soc.common.board.hexes.AbstractHex;
+import soc.common.board.hexes.ClayHex;
 import soc.common.board.hexes.DesertHex;
+import soc.common.board.hexes.DiamondHex;
 import soc.common.board.hexes.DiscoveryHex;
+import soc.common.board.hexes.GoldHex;
+import soc.common.board.hexes.Hex;
 import soc.common.board.hexes.NoneHex;
+import soc.common.board.hexes.OreHex;
 import soc.common.board.hexes.RandomHex;
-import soc.common.board.hexes.ResourceHex;
 import soc.common.board.hexes.SeaHex;
+import soc.common.board.hexes.SheepHex;
+import soc.common.board.hexes.TimberHex;
 import soc.common.board.hexes.VolcanoHex;
-import soc.common.board.resources.Clay;
-import soc.common.board.resources.Diamond;
-import soc.common.board.resources.Gold;
-import soc.common.board.resources.Ore;
-import soc.common.board.resources.Sheep;
-import soc.common.board.resources.Timber;
-import soc.common.board.resources.Wheat;
+import soc.common.board.hexes.WheatHex;
 import soc.gwtClient.game.behaviour.board.SetChitBehaviour;
 import soc.gwtClient.game.behaviour.board.SetHexBehaviour;
 import soc.gwtClient.game.behaviour.board.SetTerritoryBehaviour;
@@ -38,19 +37,19 @@ public class HexPanel extends HorizontalPanel implements HasHandlers
     private SetHexBehaviour editBehaviour;
     private SetTerritoryBehaviour setTerritoryBehaviour;
     private SetChitBehaviour setChitBehaviour;
-    private final AbstractHex wheatHex = new ResourceHex(new Wheat());
-    private final AbstractHex timberHex = new ResourceHex(new Timber());
-    private final AbstractHex oreHex = new ResourceHex(new Ore());
-    private final AbstractHex clayHex = new ResourceHex(new Clay());
-    private final AbstractHex sheepHex = new ResourceHex(new Sheep());
-    private final AbstractHex goldHex = new ResourceHex(new Gold());
-    private final AbstractHex jungleHex = new ResourceHex(new Diamond());
-    private final AbstractHex volcanoHex = new VolcanoHex();
-    private final AbstractHex noneHex = new NoneHex();
-    private final AbstractHex discoveryHex = new DiscoveryHex();
-    private final AbstractHex randomHex = new RandomHex();
-    private final AbstractHex seaHex = new SeaHex();
-    private final AbstractHex desertHex = new DesertHex();
+    private final Hex wheatHex = new WheatHex();
+    private final Hex timberHex = new TimberHex();
+    private final Hex oreHex = new OreHex();
+    private final Hex clayHex = new ClayHex();
+    private final Hex sheepHex = new SheepHex();
+    private final Hex goldHex = new GoldHex();
+    private final Hex jungleHex = new DiamondHex();
+    private final Hex volcanoHex = new VolcanoHex();
+    private final Hex noneHex = new NoneHex();
+    private final Hex discoveryHex = new DiscoveryHex();
+    private final Hex randomHex = new RandomHex();
+    private final Hex seaHex = new SeaHex();
+    private final Hex desertHex = new DesertHex();
 
     private SimpleEventBus eventBus = new SimpleEventBus();
 
@@ -65,14 +64,13 @@ public class HexPanel extends HorizontalPanel implements HasHandlers
 
     }
 
-    private AbstractHex createDefaultHex(AbstractHex hex)
+    private Hex createDefaultHex(Hex hex)
     {
         hex.setTerritory(setTerritoryBehaviour.getTerritory());
-        if (hex instanceof ResourceHex)
-        {
-            ResourceHex resourceHex = (ResourceHex) hex;
-            resourceHex.setChit(setChitBehaviour.getCurrentChit());
-        }
+
+        if (hex.canHaveChit())
+            hex.setChit(setChitBehaviour.getCurrentChit());
+
         return hex;
     }
 

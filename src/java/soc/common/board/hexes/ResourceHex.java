@@ -1,14 +1,12 @@
 package soc.common.board.hexes;
 
 import soc.common.board.Chit;
-import soc.common.board.resources.Resource;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 
-public class ResourceHex extends AbstractHex
+public abstract class ResourceHex extends AbstractHex
 {
-    private Resource resource;
-    private Chit chit;
+    protected Chit chit;
 
     /**
      * @return the chit
@@ -31,52 +29,20 @@ public class ResourceHex extends AbstractHex
         return this;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see soc.common.board.hexes.Hex#Copy()
-     */
-    @Override
-    public AbstractHex copy()
-    {
-        ResourceHex rh = new ResourceHex().setChit(new Chit(5)).setResource(
-                getResource());
-        rh.setTerritory(territory);
-        rh.setChit(chit.copy());
-        return rh;
-    }
-
-    /**
-     * @return the production
-     */
-    public Resource getResource()
-    {
-        return resource;
-    }
-
-    /**
-     * @param resource
-     *            the resource to set
-     */
-    public ResourceHex setResource(Resource resource)
-    {
-        this.resource = resource;
-
-        return this;
-    }
-
-    /*
-     * At init time, we want a resource
-     */
-    public ResourceHex(Resource resource)
-    {
-        super();
-        this.resource = resource;
-    }
-
-    public ResourceHex()
-    {
-    }
+    // /*
+    // * (non-Javadoc)
+    // *
+    // * @see soc.common.board.hexes.Hex#Copy()
+    // */
+    // @Override
+    // public AbstractHex copy()
+    // {
+    // ResourceHex rh = new ResourceHex().setChit(new Chit(5)).setResource(
+    // getResource());
+    // rh.setTerritory(territory);
+    // rh.setChit(chit.copy());
+    // return rh;
+    // }
 
     public HandlerRegistration addChitChangedEventHandler(
             ChitChangedEventHandler handler)
@@ -92,7 +58,7 @@ public class ResourceHex extends AbstractHex
     @Override
     public String getColor()
     {
-        return resource.getColor();
+        return getResource().getColor();
     }
 
     /*
@@ -103,7 +69,7 @@ public class ResourceHex extends AbstractHex
     @Override
     public String getName()
     {
-        return resource.getName() + "Hex";
+        return getResource().getName() + "Hex";
     }
 
     /*
@@ -157,6 +123,24 @@ public class ResourceHex extends AbstractHex
      */
     @Override
     public boolean isRobberPlaceable()
+    {
+        return true;
+    }
+
+    @Override
+    public boolean canHaveChit()
+    {
+        return true;
+    }
+
+    @Override
+    public boolean hasChit()
+    {
+        return chit != null;
+    }
+
+    @Override
+    public boolean hasResource()
     {
         return true;
     }

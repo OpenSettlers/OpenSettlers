@@ -1,11 +1,9 @@
 package soc.common.game.gamePhase.turnPhase;
 
-import java.io.Serializable;
-
 import soc.common.actions.gameAction.GameAction;
 import soc.common.utils.ClassUtils;
 
-public abstract class AbstractTurnPhase implements Serializable, TurnPhase
+public abstract class AbstractTurnPhase implements TurnPhase
 {
     private static final long serialVersionUID = 6519636332497912105L;
 

@@ -1,28 +1,26 @@
 package soc.common.game.variants.rules;
 
+import soc.common.board.hexes.ClayHex;
 import soc.common.board.hexes.DesertHex;
 import soc.common.board.hexes.NoneHex;
+import soc.common.board.hexes.OreHex;
 import soc.common.board.hexes.RandomHex;
-import soc.common.board.hexes.ResourceHex;
 import soc.common.board.hexes.SeaHex;
-import soc.common.board.resources.Clay;
-import soc.common.board.resources.Ore;
-import soc.common.board.resources.Sheep;
-import soc.common.board.resources.Timber;
-import soc.common.board.resources.Wheat;
+import soc.common.board.hexes.SheepHex;
+import soc.common.board.hexes.TimberHex;
+import soc.common.board.hexes.WheatHex;
 import soc.common.game.variants.GameRules;
 
 public class BasicHexes implements GameRule
 {
-
     @Override
     public void set(GameRules rules)
     {
-        rules.getHexTypes().add(new ResourceHex(new Timber()));
-        rules.getHexTypes().add(new ResourceHex(new Wheat()));
-        rules.getHexTypes().add(new ResourceHex(new Ore()));
-        rules.getHexTypes().add(new ResourceHex(new Clay()));
-        rules.getHexTypes().add(new ResourceHex(new Sheep()));
+        rules.getHexTypes().add(new TimberHex());
+        rules.getHexTypes().add(new WheatHex());
+        rules.getHexTypes().add(new OreHex());
+        rules.getHexTypes().add(new ClayHex());
+        rules.getHexTypes().add(new SheepHex());
 
         rules.getHexTypes().add(new NoneHex());
         rules.getHexTypes().add(new RandomHex());

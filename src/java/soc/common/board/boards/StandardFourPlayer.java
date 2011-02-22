@@ -7,12 +7,16 @@ import soc.common.board.ChitList;
 import soc.common.board.HexGrid;
 import soc.common.board.HexLocation;
 import soc.common.board.RotationPosition;
+import soc.common.board.hexes.ClayHex;
 import soc.common.board.hexes.DesertHex;
 import soc.common.board.hexes.Hex;
 import soc.common.board.hexes.NoneHex;
+import soc.common.board.hexes.OreHex;
 import soc.common.board.hexes.RandomHex;
-import soc.common.board.hexes.ResourceHex;
 import soc.common.board.hexes.SeaHex;
+import soc.common.board.hexes.SheepHex;
+import soc.common.board.hexes.TimberHex;
+import soc.common.board.hexes.WheatHex;
 import soc.common.board.ports.RandomPort;
 import soc.common.board.ports.ThreeToOnePort;
 import soc.common.board.ports.TwoToOneResourcePort;
@@ -103,28 +107,28 @@ public class StandardFourPlayer extends Board
                 hex.setTerritory(territory);
 
         territory.getHexes().add(new DesertHex());
-        territory.getHexes().add(new ResourceHex(new Wheat()));
-        territory.getHexes().add(new ResourceHex(new Wheat()));
-        territory.getHexes().add(new ResourceHex(new Wheat()));
-        territory.getHexes().add(new ResourceHex(new Wheat()));
+        territory.getHexes().add(new WheatHex());
+        territory.getHexes().add(new WheatHex());
+        territory.getHexes().add(new WheatHex());
+        territory.getHexes().add(new WheatHex());
 
-        territory.getHexes().add(new ResourceHex(new Timber()));
-        territory.getHexes().add(new ResourceHex(new Timber()));
-        territory.getHexes().add(new ResourceHex(new Timber()));
-        territory.getHexes().add(new ResourceHex(new Timber()));
+        territory.getHexes().add(new TimberHex());
+        territory.getHexes().add(new TimberHex());
+        territory.getHexes().add(new TimberHex());
+        territory.getHexes().add(new TimberHex());
 
-        territory.getHexes().add(new ResourceHex(new Ore()));
-        territory.getHexes().add(new ResourceHex(new Ore()));
-        territory.getHexes().add(new ResourceHex(new Ore()));
+        territory.getHexes().add(new OreHex());
+        territory.getHexes().add(new OreHex());
+        territory.getHexes().add(new OreHex());
 
-        territory.getHexes().add(new ResourceHex(new Clay()));
-        territory.getHexes().add(new ResourceHex(new Clay()));
-        territory.getHexes().add(new ResourceHex(new Clay()));
+        territory.getHexes().add(new ClayHex());
+        territory.getHexes().add(new ClayHex());
+        territory.getHexes().add(new ClayHex());
 
-        territory.getHexes().add(new ResourceHex(new Sheep()));
-        territory.getHexes().add(new ResourceHex(new Sheep()));
-        territory.getHexes().add(new ResourceHex(new Sheep()));
-        territory.getHexes().add(new ResourceHex(new Sheep()));
+        territory.getHexes().add(new SheepHex());
+        territory.getHexes().add(new SheepHex());
+        territory.getHexes().add(new SheepHex());
+        territory.getHexes().add(new SheepHex());
 
         for (Hex hex : hexes)
             hex.setTerritory(territory);

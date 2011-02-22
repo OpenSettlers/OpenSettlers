@@ -1,5 +1,6 @@
 package soc.common.board.hexes;
 
+import soc.common.board.Chit;
 import soc.common.board.ports.Port;
 import soc.common.board.ports.PortChangedEvent;
 import soc.common.board.ports.PortChangedEventHandler;
@@ -32,6 +33,7 @@ public class SeaHex extends AbstractHex
     /**
      * @return the port
      */
+    @Override
     public Port getPort()
     {
         return port;
@@ -41,6 +43,7 @@ public class SeaHex extends AbstractHex
      * @param port
      *            the port to set
      */
+    @Override
     public SeaHex setPort(Port p)
     {
         this.port = p;
@@ -56,7 +59,7 @@ public class SeaHex extends AbstractHex
      * @see soc.common.board.hexes.Hex#Copy()
      */
     @Override
-    public AbstractHex copy()
+    public Hex copy()
     {
         return new SeaHex().setLocation(hexLocation);
     }
@@ -131,5 +134,56 @@ public class SeaHex extends AbstractHex
     public boolean isRobberPlaceable()
     {
         return false;
+    }
+
+    @Override
+    public boolean canHaveChit()
+    {
+        return false;
+    }
+
+    @Override
+    public boolean hasChit()
+    {
+        return false;
+    }
+
+    @Override
+    public boolean hasResource()
+    {
+        return false;
+    }
+
+    /*
+     * Returns null, SeaHexes do not support chits
+     * 
+     * @see soc.common.board.hexes.Hex#getChit()
+     */
+    @Override
+    public Chit getChit()
+    {
+        return null;
+    }
+
+    /*
+     * Does nothing, SeaHexes do not support chits
+     * 
+     * @see soc.common.board.hexes.Hex#setChit(soc.common.board.Chit)
+     */
+    @Override
+    public Hex setChit(Chit chit)
+    {
+        return this;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see soc.common.board.hexes.AbstractHex#hasPort()
+     */
+    @Override
+    public boolean hasPort()
+    {
+        return port != null;
     }
 }

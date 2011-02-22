@@ -1,6 +1,7 @@
 package soc.common.board.hexes;
 
 import soc.common.annotations.SeaFarers;
+import soc.common.board.Chit;
 
 @SeaFarers
 public class DiscoveryHex extends AbstractHex
@@ -11,7 +12,7 @@ public class DiscoveryHex extends AbstractHex
      * @see soc.common.board.hexes.Hex#Copy()
      */
     @Override
-    public AbstractHex copy()
+    public Hex copy()
     {
         DiscoveryHex result = new DiscoveryHex();
 
@@ -84,5 +85,35 @@ public class DiscoveryHex extends AbstractHex
     public boolean isRobberPlaceable()
     {
         return false;
+    }
+
+    @Override
+    public boolean canHaveChit()
+    {
+        return false;
+    }
+
+    @Override
+    public boolean hasChit()
+    {
+        return false;
+    }
+
+    @Override
+    public boolean hasResource()
+    {
+        return false;
+    }
+
+    @Override
+    public Chit getChit()
+    {
+        return null;
+    }
+
+    @Override
+    public Hex setChit(Chit chit)
+    {
+        return this;
     }
 }
