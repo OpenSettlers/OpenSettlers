@@ -23,8 +23,8 @@ public class PlayVictoryPointWidget implements DevelopmentCardWidget
     private HorizontalPanel rootPanel = new HorizontalPanel();
     private Button btnPlay = new Button(I18n.get().constants().play());
 
-    public PlayVictoryPointWidget(VictoryPoint victoryPoint,
-            final GameWidget gameWidget)
+    public PlayVictoryPointWidget(final GameWidget gameWidget,
+            VictoryPoint victoryPoint)
     {
         this.victoryPoint = victoryPoint;
         this.gameWidget = gameWidget;

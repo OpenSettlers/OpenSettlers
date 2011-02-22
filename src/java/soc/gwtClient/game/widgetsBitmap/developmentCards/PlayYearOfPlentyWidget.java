@@ -34,8 +34,8 @@ public class PlayYearOfPlentyWidget implements DevelopmentCardWidget,
     private ResourceList pickedResources = new ResourceList();
     private Button buttonnPlay = new Button(I18n.get().constants().play());
 
-    public PlayYearOfPlentyWidget(final YearOfPlenty yearOfPlenty,
-            final GameWidget gameWidget)
+    public PlayYearOfPlentyWidget(final GameWidget gameWidget,
+            final YearOfPlenty yearOfPlenty)
     {
         this.yearOfPlenty = yearOfPlenty;
         this.gameWidget = gameWidget;

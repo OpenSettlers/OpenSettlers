@@ -23,8 +23,8 @@ public class PlayRoadBuildingWidget implements DevelopmentCardWidget
     private HorizontalPanel rootPanel = new HorizontalPanel();
     private Button btnPlay = new Button(I18n.get().constants().play());
 
-    public PlayRoadBuildingWidget(RoadBuilding roadBuilding,
-            final GameWidget gameWidget)
+    public PlayRoadBuildingWidget(final GameWidget gameWidget,
+            RoadBuilding roadBuilding)
     {
         this.roadBuilding = roadBuilding;
         this.gameWidget = gameWidget;

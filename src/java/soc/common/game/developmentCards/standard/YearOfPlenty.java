@@ -4,12 +4,11 @@ import soc.common.board.resources.ResourceList;
 import soc.common.game.Game;
 import soc.common.game.developmentCards.DevelopmentCard;
 import soc.common.game.player.GamePlayer;
+import soc.gwtClient.game.widgetsInterface.developmentCards.DevelopmentCardWidget;
+import soc.gwtClient.game.widgetsInterface.developmentCards.DevelopmentCardWidgetFactory;
 
 public class YearOfPlenty extends DevelopmentCard
 {
-    /**
-     * 
-     */
     private static final long serialVersionUID = 8598985603470688487L;
     // actual picked resources by player
     private ResourceList goldPick;
@@ -72,6 +71,13 @@ public class YearOfPlenty extends DevelopmentCard
         }
 
         return true;
+    }
+
+    @Override
+    public DevelopmentCardWidget createPlayCardWidget(
+            DevelopmentCardWidgetFactory factory)
+    {
+        return factory.createYearOfPlentyWidget(this);
     }
 
 }

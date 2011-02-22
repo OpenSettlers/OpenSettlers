@@ -1,6 +1,5 @@
 package soc.gwtClient.game.widgetsBitmap.developmentCards;
 
-import soc.common.game.developmentCards.DevelopmentCard;
 import soc.common.game.developmentCards.standard.Monopoly;
 import soc.common.game.developmentCards.standard.RoadBuilding;
 import soc.common.game.developmentCards.standard.Soldier;
@@ -13,33 +12,45 @@ import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 public class DevelopmentCardBitmapWidgetFactory implements
         DevelopmentCardWidgetFactory
 {
+    private GameWidget gameWidget;
+
+    public DevelopmentCardBitmapWidgetFactory(GameWidget gameWidget)
+    {
+        super();
+        this.gameWidget = gameWidget;
+    }
 
     @Override
-    public DevelopmentCardWidget createWidget(DevelopmentCard devCard,
-            GameWidget gameWidget)
+    public DevelopmentCardWidget createMonopolyWidget(Monopoly monopoly)
     {
-        if (devCard instanceof Soldier)
-        {
-            return new PlaySoldierWidget((Soldier) devCard, gameWidget);
-        }
-        if (devCard instanceof YearOfPlenty)
-        {
-            return new PlayYearOfPlentyWidget((YearOfPlenty) devCard, gameWidget);
-        }
-        if (devCard instanceof Monopoly)
-        {
-            return new PlayMonopolyWidget((Monopoly) devCard, gameWidget);
-        }
-        if (devCard instanceof RoadBuilding)
-        {
-            return new PlayRoadBuildingWidget((RoadBuilding) devCard, gameWidget);
-        }
-        if (devCard instanceof VictoryPoint)
-        {
-            return new PlayVictoryPointWidget((VictoryPoint) devCard, gameWidget);
-        }
+        return new PlayMonopolyWidget(gameWidget, monopoly);
+    }
 
-        return null;
+    @Override
+    public DevelopmentCardWidget createRoadBuildingWidget(
+            RoadBuilding roadBuilding)
+    {
+        return new PlayRoadBuildingWidget(gameWidget, roadBuilding);
+    }
+
+    @Override
+    public DevelopmentCardWidget createSoldierWidget(Soldier soldier)
+    {
+        return new PlaySoldierWidget(gameWidget, soldier);
+    }
+
+    @Override
+    public DevelopmentCardWidget createVictoryPointWidget(
+            VictoryPoint victoryPoint)
+    {
+        return new PlayVictoryPointWidget(gameWidget, victoryPoint);
+    }
+
+    @Override
+    public DevelopmentCardWidget createYearOfPlentyWidget(
+            YearOfPlenty yearOfPlenty)
+    {
+        return new PlayYearOfPlentyWidget(gameWidget, yearOfPlenty);
     }
 
 }

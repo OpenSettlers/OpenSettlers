@@ -5,6 +5,8 @@ import soc.common.actions.gameAction.standard.RobPlayer;
 import soc.common.game.Game;
 import soc.common.game.developmentCards.DevelopmentCard;
 import soc.common.game.player.GamePlayer;
+import soc.gwtClient.game.widgetsInterface.developmentCards.DevelopmentCardWidget;
+import soc.gwtClient.game.widgetsInterface.developmentCards.DevelopmentCardWidgetFactory;
 
 /*
  * Represents a soldier from the standard rules development card set.
@@ -57,5 +59,12 @@ public class Soldier extends DevelopmentCard
         message = player.getUser().getName() + " played a soldier";
 
         super.play(game, player);
+    }
+
+    @Override
+    public DevelopmentCardWidget createPlayCardWidget(
+            DevelopmentCardWidgetFactory factory)
+    {
+        return factory.createSoldierWidget(this);
     }
 }

@@ -10,6 +10,8 @@ import soc.common.board.resources.Wheat;
 import soc.common.game.Game;
 import soc.common.game.developmentCards.DevelopmentCard;
 import soc.common.game.player.GamePlayer;
+import soc.gwtClient.game.widgetsInterface.developmentCards.DevelopmentCardWidget;
+import soc.gwtClient.game.widgetsInterface.developmentCards.DevelopmentCardWidgetFactory;
 
 /*
  * Standard monopoly
@@ -118,4 +120,12 @@ public class Monopoly extends DevelopmentCard
 
         super.play(game, player);
     }
+
+    @Override
+    public DevelopmentCardWidget createPlayCardWidget(
+            DevelopmentCardWidgetFactory factory)
+    {
+        return factory.createMonopolyWidget(this);
+    }
+
 }

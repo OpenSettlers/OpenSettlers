@@ -37,7 +37,7 @@ public class PlayDevelopmentCardBitmapWidget implements
             Resources.icons().developmentCardBack()));
     protected Label lblAmountDvelopmentCards = new Label();
     protected boolean isMenubarShown = false;
-    protected DevelopmentCardWidgetFactory devCardWidgetFactory = new DevelopmentCardBitmapWidgetFactory();
+    protected DevelopmentCardWidgetFactory devCardWidgetFactory;
     protected HashMap<DevelopmentCard, DevelopmentCardWidget> devCardsWidgets = new HashMap<DevelopmentCard, DevelopmentCardWidget>();
 
     public PlayDevelopmentCardBitmapWidget(GamePlayer player,
@@ -46,6 +46,9 @@ public class PlayDevelopmentCardBitmapWidget implements
         this.player = player;
         this.gameWidget = gameWidget;
 
+        devCardWidgetFactory = new DevelopmentCardBitmapWidgetFactory(
+                gameWidget);
+
         rootPanel.add(btnPlayDevelopmentCard);
         rootPanel.add(lblAmountDvelopmentCards);
 
@@ -53,8 +56,8 @@ public class PlayDevelopmentCardBitmapWidget implements
 
         for (DevelopmentCard devCard : player.getDevelopmentCards())
         {
-            DevelopmentCardWidget devCardWidget = devCardWidgetFactory
-                    .createWidget(devCard, gameWidget);
+            DevelopmentCardWidget devCardWidget = devCard
+                    .createPlayCardWidget(devCardWidgetFactory);
             verticalPanel.add(devCardWidget);
             devCardsWidgets.put(devCard, devCardWidget);
         }
@@ -97,8 +100,9 @@ public class PlayDevelopmentCardBitmapWidget implements
                 .getDevelopmentCards().size()));
         if (event.getAddedCard() != null)
         {
-            DevelopmentCardWidget devCardWidget = devCardWidgetFactory
-                    .createWidget(event.getAddedCard(), gameWidget);
+            DevelopmentCardWidget devCardWidget = event.getAddedCard()
+                    .createPlayCardWidget(devCardWidgetFactory);
+
             verticalPanel.add(devCardWidget);
             devCardsWidgets.put(event.getAddedCard(), devCardWidget);
         }

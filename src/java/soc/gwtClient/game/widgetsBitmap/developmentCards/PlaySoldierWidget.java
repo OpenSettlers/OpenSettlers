@@ -23,7 +23,7 @@ public class PlaySoldierWidget implements DevelopmentCardWidget
     private HorizontalPanel rootPanel = new HorizontalPanel();
     private Button btnPlay = new Button(I18n.get().constants().play());
 
-    public PlaySoldierWidget(Soldier soldier, final GameWidget gameWidget)
+    public PlaySoldierWidget(final GameWidget gameWidget, Soldier soldier)
     {
         this.soldier = soldier;
         this.gameWidget = gameWidget;

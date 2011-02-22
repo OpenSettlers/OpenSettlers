@@ -34,7 +34,7 @@ public class PlayMonopolyWidget implements DevelopmentCardWidget,
     private ResourcePickerWidget resourcePickerWidget;
     private ResourceList pickedResources = new ResourceList();
 
-    public PlayMonopolyWidget(final Monopoly monopoly, final GameWidget gameWidget)
+    public PlayMonopolyWidget(final GameWidget gameWidget, final Monopoly monopoly)
     {
         this.monopoly = monopoly;
         this.gameWidget = gameWidget;

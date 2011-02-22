@@ -3,6 +3,8 @@ package soc.common.game.developmentCards.standard;
 import soc.common.game.Game;
 import soc.common.game.developmentCards.DevelopmentCard;
 import soc.common.game.player.GamePlayer;
+import soc.gwtClient.game.widgetsInterface.developmentCards.DevelopmentCardWidget;
+import soc.gwtClient.game.widgetsInterface.developmentCards.DevelopmentCardWidgetFactory;
 
 public class RoadBuilding extends DevelopmentCard
 {
@@ -28,6 +30,13 @@ public class RoadBuilding extends DevelopmentCard
         message = player.getUser().getName() + " played a road building card";
 
         super.play(game, player);
+    }
+
+    @Override
+    public DevelopmentCardWidget createPlayCardWidget(
+            DevelopmentCardWidgetFactory factory)
+    {
+        return factory.createRoadBuildingWidget(this);
     }
 
 }
