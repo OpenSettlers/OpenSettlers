@@ -4,8 +4,16 @@ import soc.common.game.Game;
 import soc.common.game.VictoryPointItem;
 import soc.common.game.developmentCards.DevelopmentCard;
 import soc.common.game.player.GamePlayer;
+import soc.common.ui.Graphics;
+import soc.common.ui.Icon;
+import soc.common.ui.IconImpl;
+import soc.common.ui.meta.Meta;
 import soc.gwtClient.game.widgetsInterface.developmentCards.DevelopmentCardWidget;
 import soc.gwtClient.game.widgetsInterface.developmentCards.DevelopmentCardWidgetFactory;
+import soc.gwtClient.game.widgetsInterface.generic.ToolTip;
+import soc.gwtClient.images.Resources;
+
+import com.google.gwt.resources.client.ImageResource;
 
 /*
  * Standard ruleset VictoryPoint development card
@@ -14,6 +22,59 @@ import soc.gwtClient.game.widgetsInterface.developmentCards.DevelopmentCardWidge
  */
 public class VictoryPoint extends DevelopmentCard implements VictoryPointItem
 {
+    private static Meta meta = new Meta()
+    {
+        private Icon icon = new IconImpl(Resources.icons().victoryPoint(),
+                null, null, null);
+        private Graphics graphics = new Graphics()
+        {
+            @Override
+            public ImageResource graphics()
+            {
+                return Resources.images().desertHex();
+            }
+        };
+
+        @Override
+        public Icon icon()
+        {
+            return icon;
+        }
+
+        @Override
+        public Graphics graphics()
+        {
+            return graphics;
+        }
+
+        @Override
+        public String getName()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public String getLocalizedName()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public String getDescription()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public ToolTip createToolTip()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+    };
     private static final long serialVersionUID = -7322456488887068608L;
 
     /*
@@ -89,6 +150,12 @@ public class VictoryPoint extends DevelopmentCard implements VictoryPointItem
             DevelopmentCardWidgetFactory factory)
     {
         return factory.createVictoryPointWidget(this);
+    }
+
+    @Override
+    public Meta getMeta()
+    {
+        return meta;
     }
 
 }

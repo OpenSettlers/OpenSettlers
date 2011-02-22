@@ -6,6 +6,11 @@ import soc.common.board.pieces.abstractPieces.AbstractPlayerPiece;
 import soc.common.board.territories.Territory;
 import soc.common.game.VictoryPointItem;
 import soc.common.game.player.GamePlayer;
+import soc.common.ui.Graphics;
+import soc.common.ui.Icon;
+import soc.common.ui.IconImpl;
+import soc.common.ui.meta.Meta;
+import soc.gwtClient.game.widgetsInterface.generic.ToolTip;
 import soc.gwtClient.game.widgetsInterface.visuals.PieceVisual;
 import soc.gwtClient.game.widgetsInterface.visuals.VisualFactory;
 
@@ -14,6 +19,50 @@ public class IslandBonus extends AbstractPlayerPiece implements
         VictoryPointItem
 {
     private static final long serialVersionUID = -4359339700965121307L;
+    private static Meta meta = new Meta()
+    {
+        private Icon icon = new IconImpl(null, null, null, null);
+
+        @Override
+        public Icon icon()
+        {
+            return icon;
+        }
+
+        @Override
+        public Graphics graphics()
+        {
+            return null;
+        }
+
+        @Override
+        public String getName()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public String getLocalizedName()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public String getDescription()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public ToolTip createToolTip()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+    };
     private Territory territory;
     private HexPoint location;
 
@@ -78,6 +127,12 @@ public class IslandBonus extends AbstractPlayerPiece implements
     public PieceVisual createPiece(VisualFactory visualFactory)
     {
         return visualFactory.createIslandBonus(this);
+    }
+
+    @Override
+    public Meta getMeta()
+    {
+        return meta;
     }
 
 }

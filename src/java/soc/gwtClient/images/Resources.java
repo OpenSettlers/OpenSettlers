@@ -1,17 +1,7 @@
 package soc.gwtClient.images;
 
 import soc.common.board.Chit;
-import soc.common.board.hexes.DesertHex;
-import soc.common.board.hexes.DiscoveryHex;
-import soc.common.board.hexes.Hex;
-import soc.common.board.hexes.NoneHex;
-import soc.common.board.hexes.RandomHex;
-import soc.common.board.hexes.ResourceHex;
-import soc.common.board.hexes.SeaHex;
-import soc.common.board.hexes.VolcanoHex;
-import soc.common.board.pieces.Army;
 import soc.common.board.pieces.City;
-import soc.common.board.pieces.LongestRoad;
 import soc.common.board.pieces.Road;
 import soc.common.board.pieces.Town;
 import soc.common.board.pieces.abstractPieces.PlayerPiece;
@@ -19,16 +9,12 @@ import soc.common.board.ports.Port;
 import soc.common.board.ports.ThreeToOnePort;
 import soc.common.board.ports.TwoToOneResourcePort;
 import soc.common.board.resources.Clay;
-import soc.common.board.resources.Diamond;
-import soc.common.board.resources.Gold;
 import soc.common.board.resources.Ore;
 import soc.common.board.resources.Resource;
 import soc.common.board.resources.Sheep;
 import soc.common.board.resources.Timber;
 import soc.common.board.resources.Wheat;
 import soc.common.bots.Bot;
-import soc.common.game.VictoryPointItem;
-import soc.common.game.developmentCards.standard.VictoryPoint;
 import soc.common.game.gamePhase.DetermineFirstPlayerGamePhase;
 import soc.common.game.gamePhase.EndedGamePhase;
 import soc.common.game.gamePhase.GamePhase;
@@ -205,31 +191,6 @@ public class Resources
         return null;
     }
 
-    public static ImageResource victoryPointItem(VictoryPointItem vp)
-    {
-        if (vp instanceof Town)
-        {
-            return icons.town();
-        }
-        if (vp instanceof City)
-        {
-            return icons.city();
-        }
-        if (vp instanceof VictoryPoint)
-        {
-            return icons.victoryPoint();
-        }
-        if (vp instanceof Army)
-        {
-            return icons.soldier();
-        }
-        if (vp instanceof LongestRoad)
-        {
-            return icons.road();
-        }
-        return null;
-    }
-
     public static ImageResource gamePhase(GamePhase phase)
     {
         if (phase instanceof InitialPlacementGamePhase)
@@ -268,130 +229,6 @@ public class Resources
         {
             return icons.buildingTurnPhase();
         }
-        return null;
-    }
-
-    public static ImageResource hexImage(Hex hex)
-    {
-        if (hex instanceof ResourceHex)
-        {
-            Resource resource = ((ResourceHex) hex).getResource();
-            if (resource instanceof Wheat)
-            {
-                return images.wheatHex();
-            }
-            if (resource instanceof Timber)
-            {
-                return images.timberHex();
-            }
-            if (resource instanceof Ore)
-            {
-                return images.oreHex();
-            }
-            if (resource instanceof Clay)
-            {
-                return images.clayHex();
-            }
-            if (resource instanceof Sheep)
-            {
-                return images.sheepHex();
-            }
-            if (resource instanceof Gold)
-            {
-                return images.goldHex();
-            }
-            if (resource instanceof Diamond)
-            {
-                return images.diamondHex();
-            }
-        }
-        if (hex instanceof DesertHex)
-        {
-            return images.desertHex();
-        }
-        if (hex instanceof SeaHex)
-        {
-            return images.seaHex();
-        }
-        if (hex instanceof VolcanoHex)
-        {
-            return images.volcanoHex();
-        }
-        if (hex instanceof NoneHex)
-        {
-            return images.noneHex();
-        }
-        if (hex instanceof DiscoveryHex)
-        {
-            return images.discoveryHex();
-        }
-        if (hex instanceof RandomHex)
-        {
-            return images.randomHex();
-        }
-
-        return null;
-    }
-
-    public static ImageResource hexIcon(Hex hex)
-    {
-        if (hex instanceof ResourceHex)
-        {
-            Resource resource = ((ResourceHex) hex).getResource();
-            if (resource instanceof Wheat)
-            {
-                return icons.wheatHex();
-            }
-            if (resource instanceof Timber)
-            {
-                return icons.timberHex();
-            }
-            if (resource instanceof Ore)
-            {
-                return icons.oreHex();
-            }
-            if (resource instanceof Clay)
-            {
-                return icons.clayHex();
-            }
-            if (resource instanceof Sheep)
-            {
-                return icons.sheepHex();
-            }
-            if (resource instanceof Gold)
-            {
-                return icons.goldHex();
-            }
-            if (resource instanceof Diamond)
-            {
-                return icons.jungleHex();
-            }
-        }
-        if (hex instanceof DesertHex)
-        {
-            return icons.desertHex();
-        }
-        if (hex instanceof SeaHex)
-        {
-            return icons.seaHex();
-        }
-        if (hex instanceof VolcanoHex)
-        {
-            return icons.volcanoHex();
-        }
-        if (hex instanceof NoneHex)
-        {
-            return icons.noneHex();
-        }
-        if (hex instanceof DiscoveryHex)
-        {
-            return icons.discoveryHex();
-        }
-        if (hex instanceof RandomHex)
-        {
-            return icons.randomHex();
-        }
-
         return null;
     }
 }

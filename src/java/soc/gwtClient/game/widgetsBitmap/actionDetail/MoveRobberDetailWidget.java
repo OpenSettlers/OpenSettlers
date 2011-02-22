@@ -21,7 +21,7 @@ public class MoveRobberDetailWidget extends AbstractActionDetailWidget
         rootPanel.add(new Image(Resources.icons().moveRobberMedium()));
         Hex affectedHex = gameWidget.getGame().getBoard().getHexes().get(
                 placeRobber.getNewLocation());
-        rootPanel.add(new Image(Resources.hexIcon(affectedHex)));
+        rootPanel.add(new Image(affectedHex.getMeta().icon().iconDefault()));
     }
 
     @Override

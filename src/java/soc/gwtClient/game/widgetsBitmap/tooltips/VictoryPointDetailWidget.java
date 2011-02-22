@@ -10,7 +10,6 @@ import soc.common.game.player.GamePlayer;
 import soc.common.utils.NotImplementedException;
 import soc.gwtClient.game.widgetsAbstract.toolTips.AbstractPlayerInfoToolTip;
 import soc.gwtClient.game.widgetsInterface.main.GameWidget;
-import soc.gwtClient.images.Resources;
 
 import com.google.gwt.user.client.ui.Image;
 
@@ -34,7 +33,7 @@ public class VictoryPointDetailWidget extends AbstractPlayerInfoToolTip
     {
         for (VictoryPointItem vp : player.getVictoryPoints())
         {
-            rootPanel.add(new Image(Resources.victoryPointItem(vp)));
+            rootPanel.add(new Image(vp.getMeta().icon().iconDefault()));
         }
     }
 
@@ -43,8 +42,8 @@ public class VictoryPointDetailWidget extends AbstractPlayerInfoToolTip
     {
         if (event.getAddedPoint() != null)
         {
-            rootPanel.add(new Image(Resources.victoryPointItem(event
-                    .getAddedPoint())));
+            rootPanel.add(new Image(event.getAddedPoint().getMeta().icon()
+                    .iconDefault()));
         }
         if (event.getRemovedPoint() != null)
         {

@@ -9,7 +9,6 @@ import soc.gwtClient.game.Point2D;
 import soc.gwtClient.game.widgetsAbstract.visuals.AbstractHexVisual;
 import soc.gwtClient.game.widgetsInterface.visuals.BoardVisual;
 import soc.gwtClient.game.widgetsInterface.visuals.PieceVisual;
-import soc.gwtClient.images.Resources;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -196,10 +195,10 @@ public class HexSvg extends AbstractHexVisual implements MouseMoveHandler,
     protected void updateHexVisual()
     {
         String img = "";
+
         if (hex != null)
-        {
-            img = Resources.hexImage(hex).getURL();
-        }
+            img = hex.getMeta().graphics().graphics().getURL();
+
         String color = hex.getColor();
 
         if (hexImage == null)

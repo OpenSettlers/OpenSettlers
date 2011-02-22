@@ -5,10 +5,11 @@ import soc.common.board.HexLocation;
 import soc.common.board.ports.Port;
 import soc.common.board.resources.Resource;
 import soc.common.board.territories.Territory;
+import soc.common.ui.meta.HasMeta;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 
-public interface Hex
+public interface Hex extends HasMeta
 {
     /*
      * Literal non-translatable name of this Hex

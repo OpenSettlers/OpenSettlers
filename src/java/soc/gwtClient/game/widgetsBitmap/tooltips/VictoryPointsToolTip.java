@@ -9,7 +9,6 @@ import soc.common.game.VictoryPointsChangedEventHandler;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.widgetsAbstract.toolTips.AbstractPlayerInfoToolTip;
 import soc.gwtClient.game.widgetsInterface.main.GameWidget;
-import soc.gwtClient.images.Resources;
 
 import com.google.gwt.user.client.ui.Image;
 
@@ -24,7 +23,7 @@ public class VictoryPointsToolTip extends AbstractPlayerInfoToolTip implements
 
         for (VictoryPointItem vp : player.getVictoryPoints())
         {
-            Image vpImage = new Image(Resources.victoryPointItem(vp));
+            Image vpImage = new Image(vp.getMeta().icon().iconDefault());
             vpImages.put(vp, vpImage);
             rootPanel.add(vpImage);
         }
@@ -37,8 +36,8 @@ public class VictoryPointsToolTip extends AbstractPlayerInfoToolTip implements
     {
         if (event.getAddedPoint() != null)
         {
-            Image vpImage = new Image(Resources.victoryPointItem(event
-                    .getAddedPoint()));
+            Image vpImage = new Image(event.getAddedPoint().getMeta().icon()
+                    .iconDefault());
             vpImages.put(event.getAddedPoint(), vpImage);
             rootPanel.add(vpImage);
         }

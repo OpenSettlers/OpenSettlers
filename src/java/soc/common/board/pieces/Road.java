@@ -15,7 +15,6 @@ import soc.gwtClient.game.widgetsInterface.visuals.VisualFactory;
 public class Road extends AbstractPlayerPiece implements SidePiece
 {
     private static final long serialVersionUID = -6137419255953696891L;
-    public static Road ROAD = new Road();
     private HexSide sideLocation;
 
     @Override

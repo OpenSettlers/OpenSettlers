@@ -2,10 +2,72 @@ package soc.common.board.hexes;
 
 import soc.common.annotations.SeaFarers;
 import soc.common.board.Chit;
+import soc.common.ui.Graphics;
+import soc.common.ui.Icon;
+import soc.common.ui.IconImpl;
+import soc.common.ui.meta.Meta;
+import soc.gwtClient.game.widgetsInterface.generic.ToolTip;
+import soc.gwtClient.images.Resources;
+
+import com.google.gwt.resources.client.ImageResource;
 
 @SeaFarers
 public class DiscoveryHex extends AbstractHex
 {
+    private static Meta meta = new Meta()
+    {
+        private Icon icon = new IconImpl(Resources.icons().discoveryHex(),
+                null, null, null);
+        private Graphics graphics = new Graphics()
+        {
+            @Override
+            public ImageResource graphics()
+            {
+                return Resources.images().discoveryHex();
+            }
+        };
+
+        @Override
+        public Icon icon()
+        {
+            return icon;
+        }
+
+        @Override
+        public Graphics graphics()
+        {
+            return graphics;
+        }
+
+        @Override
+        public String getName()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public String getLocalizedName()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public String getDescription()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public ToolTip createToolTip()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+    };
+
     /*
      * (non-Javadoc)
      * 
@@ -115,5 +177,11 @@ public class DiscoveryHex extends AbstractHex
     public Hex setChit(Chit chit)
     {
         return this;
+    }
+
+    @Override
+    public Meta getMeta()
+    {
+        return meta;
     }
 }
