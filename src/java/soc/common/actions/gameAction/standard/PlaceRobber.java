@@ -5,9 +5,6 @@ import soc.common.board.HexLocation;
 import soc.common.board.hexes.Hex;
 import soc.common.game.Game;
 import soc.common.game.gamePhase.GamePhase;
-import soc.common.game.gamePhase.turnPhase.BeforeDiceRollTurnPhase;
-import soc.common.game.gamePhase.turnPhase.BuildingTurnPhase;
-import soc.common.game.gamePhase.turnPhase.RollDiceTurnPhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
 import soc.common.internationalization.I18n;
 import soc.common.ui.Graphics;
@@ -170,9 +167,8 @@ public class PlaceRobber extends AbstractTurnAction
     @Override
     public boolean isAllowed(TurnPhase turnPhase)
     {
-        return turnPhase instanceof BeforeDiceRollTurnPhase
-                || turnPhase instanceof RollDiceTurnPhase
-                || turnPhase instanceof BuildingTurnPhase;
+        return turnPhase.isBeforeDiceRoll() || turnPhase.isDiceRoll()
+                || turnPhase.isBuilding();
     }
 
     @Override

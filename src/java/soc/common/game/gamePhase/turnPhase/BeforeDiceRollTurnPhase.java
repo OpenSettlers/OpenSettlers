@@ -3,7 +3,7 @@ package soc.common.game.gamePhase.turnPhase;
 import soc.common.actions.gameAction.GameAction;
 import soc.common.game.Game;
 
-public class BeforeDiceRollTurnPhase extends TurnPhase
+public class BeforeDiceRollTurnPhase extends AbstractTurnPhase
 {
     private static final long serialVersionUID = -2334736656517691453L;
 
@@ -28,7 +28,8 @@ public class BeforeDiceRollTurnPhase extends TurnPhase
     @Override
     public TurnPhase processAction(GameAction action, Game game)
     {
-        return super.processAction(action, game);
+        return this;
+        // return super.processAction(action, game);
     }
 
     @Override
@@ -36,6 +37,18 @@ public class BeforeDiceRollTurnPhase extends TurnPhase
     {
         // TODO fix message
         return "Start turn";
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.common.game.gamePhase.turnPhase.AbstractTurnPhase#isBeforeDiceRoll()
+     */
+    @Override
+    public boolean isBeforeDiceRoll()
+    {
+        return true;
     }
 
 }

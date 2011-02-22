@@ -3,7 +3,7 @@ package soc.common.game.gamePhase.turnPhase;
 import soc.common.actions.gameAction.GameAction;
 import soc.common.game.Game;
 
-public class TradingTurnPhase extends TurnPhase
+public class TradingTurnPhase extends AbstractTurnPhase
 {
     /**
      * 
@@ -89,5 +89,16 @@ public class TradingTurnPhase extends TurnPhase
     {
         // TODO fix message
         return "Trade with opponents";
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see soc.common.game.gamePhase.turnPhase.AbstractTurnPhase#isTrading()
+     */
+    @Override
+    public boolean isTrading()
+    {
+        return true;
     }
 }

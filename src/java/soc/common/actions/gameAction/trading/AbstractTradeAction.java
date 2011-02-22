@@ -2,7 +2,6 @@ package soc.common.actions.gameAction.trading;
 
 import soc.common.actions.gameAction.turns.AbstractTurnAction;
 import soc.common.game.gamePhase.GamePhase;
-import soc.common.game.gamePhase.turnPhase.TradingTurnPhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
 
 public abstract class AbstractTradeAction extends AbstractTurnAction
@@ -19,7 +18,7 @@ public abstract class AbstractTradeAction extends AbstractTurnAction
     @Override
     public boolean isAllowed(TurnPhase turnPhase)
     {
-        return turnPhase instanceof TradingTurnPhase;
+        return turnPhase.isTrading();
     }
 
     @Override

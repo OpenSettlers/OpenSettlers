@@ -16,7 +16,6 @@ import soc.common.game.Game;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.InitialPlacementGamePhase;
 import soc.common.game.gamePhase.PlayTurnsGamePhase;
-import soc.common.game.gamePhase.turnPhase.BuildingTurnPhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
 import soc.common.internationalization.I18n;
 import soc.common.ui.Graphics;
@@ -230,7 +229,7 @@ public class BuildTown extends AbstractTurnAction
     @Override
     public boolean isAllowed(TurnPhase turnPhase)
     {
-        return turnPhase instanceof BuildingTurnPhase;
+        return turnPhase.isBuilding();
     }
 
     @Override

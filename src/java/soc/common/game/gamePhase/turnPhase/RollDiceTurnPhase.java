@@ -5,7 +5,7 @@ import soc.common.actions.gameAction.standard.BuildRoad;
 import soc.common.actions.gameAction.standard.RollDice;
 import soc.common.game.Game;
 
-public class RollDiceTurnPhase extends TurnPhase
+public class RollDiceTurnPhase extends AbstractTurnPhase
 {
 
     /**
@@ -128,6 +128,17 @@ public class RollDiceTurnPhase extends TurnPhase
     {
         // TODO fix message
         return "Rolling dice...";
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see soc.common.game.gamePhase.turnPhase.AbstractTurnPhase#isDiceRoll()
+     */
+    @Override
+    public boolean isDiceRoll()
+    {
+        return true;
     }
 
 }

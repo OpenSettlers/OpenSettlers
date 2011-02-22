@@ -6,7 +6,6 @@ import soc.common.board.resources.ResourceList;
 import soc.common.core.Core;
 import soc.common.game.Game;
 import soc.common.game.gamePhase.GamePhase;
-import soc.common.game.gamePhase.turnPhase.TradingTurnPhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
 import soc.common.game.player.GamePlayer;
 import soc.common.game.trading.TradeResponseList;
@@ -193,7 +192,7 @@ public class TradeOffer extends AbstractGameAction
     @Override
     public boolean isAllowed(TurnPhase turnPhase)
     {
-        return turnPhase instanceof TradingTurnPhase;
+        return turnPhase.isTrading();
     }
 
     @Override

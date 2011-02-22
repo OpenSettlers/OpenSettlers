@@ -4,7 +4,7 @@ import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.turns.EndTurn;
 import soc.common.game.Game;
 
-public class BuildingTurnPhase extends TurnPhase
+public class BuildingTurnPhase extends AbstractTurnPhase
 {
     private static final long serialVersionUID = 8241030068782844685L;
     private TradingTurnPhase tradingTurnPhase;
@@ -95,5 +95,16 @@ public class BuildingTurnPhase extends TurnPhase
     {
         // TODO fix message
         return "Build or buy stuff";
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see soc.common.game.gamePhase.turnPhase.AbstractTurnPhase#isBuilding()
+     */
+    @Override
+    public boolean isBuilding()
+    {
+        return true;
     }
 }

@@ -7,7 +7,6 @@ import soc.common.game.Game;
 import soc.common.game.Turn;
 import soc.common.game.TurnImpl;
 import soc.common.game.gamePhase.turnPhase.BeforeDiceRollTurnPhase;
-import soc.common.game.gamePhase.turnPhase.TradingTurnPhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.widgetsBitmap.status.GamePhaseStatusWidget;
@@ -53,8 +52,7 @@ public class PlayTurnsGamePhase extends AbstractGamePhase
     @Override
     public void performAction(GameAction action, Game game)
     {
-        if (turnPhase instanceof TradingTurnPhase
-                && !(action instanceof TradeAction)
+        if (turnPhase.isTrading() && !(action instanceof TradeAction)
                 && !(action instanceof TurnPhaseEnded))
         {
             // Non-trading action detected in trading turn phase, advance phase

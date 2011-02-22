@@ -11,7 +11,7 @@ import soc.common.game.gamePhase.turnPhase.BeforeDiceRollTurnPhase;
 import soc.common.game.gamePhase.turnPhase.BuildingTurnPhase;
 import soc.common.game.gamePhase.turnPhase.RollDiceTurnPhase;
 import soc.common.game.gamePhase.turnPhase.TradingTurnPhase;
-import soc.common.game.gamePhase.turnPhase.TurnPhase;
+import soc.common.game.gamePhase.turnPhase.AbstractTurnPhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhaseChangedEvent;
 import soc.common.game.gamePhase.turnPhase.TurnPhaseChangedHandler;
 import soc.gwtClient.game.widgetsInterface.main.GameWidget;
@@ -33,8 +33,8 @@ public class PlayTurnsBitmapWidget implements GamePhaseStatusWidget,
     private ImageResource icon;
     private Label lblTurnPhaseDescription = new Label();
     private GameWidget gameWidget;
-    private ArrayList<TurnPhase> turnPhases = new ArrayList<TurnPhase>();
-    private Map<TurnPhase, Image> phaseIcons = new HashMap<TurnPhase, Image>();
+    private ArrayList<AbstractTurnPhase> turnPhases = new ArrayList<AbstractTurnPhase>();
+    private Map<AbstractTurnPhase, Image> phaseIcons = new HashMap<AbstractTurnPhase, Image>();
     private Image currentPhaseIcon;
 
     public PlayTurnsBitmapWidget(GameWidget gameWidget,
@@ -54,7 +54,7 @@ public class PlayTurnsBitmapWidget implements GamePhaseStatusWidget,
         turnPhases.add(new TradingTurnPhase());
         turnPhases.add(new BuildingTurnPhase());
 
-        for (TurnPhase turnPhase : turnPhases)
+        for (AbstractTurnPhase turnPhase : turnPhases)
         {
             Image icon = new Image(Resources.turnPhase(turnPhase));
             phaseIcons.put(turnPhase, icon);
@@ -88,7 +88,7 @@ public class PlayTurnsBitmapWidget implements GamePhaseStatusWidget,
         if (currentPhaseIcon != null)
             currentPhaseIcon.setStyleName("phaseNotSelectedIcon");
 
-        for (Entry<TurnPhase, Image> entry : phaseIcons.entrySet())
+        for (Entry<AbstractTurnPhase, Image> entry : phaseIcons.entrySet())
             if (entry.getKey().getClass() == event.getNewPhase().getClass())
                 currentPhaseIcon = entry.getValue();
 

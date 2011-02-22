@@ -4,7 +4,6 @@ import soc.common.actions.gameAction.turns.AbstractTurnAction;
 import soc.common.board.resources.ResourceList;
 import soc.common.game.Game;
 import soc.common.game.gamePhase.GamePhase;
-import soc.common.game.gamePhase.turnPhase.TradingTurnPhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
 import soc.common.game.player.GamePlayer;
 import soc.common.game.trading.TradeResponse;
@@ -182,7 +181,7 @@ public class TradePlayer extends AbstractTurnAction
     @Override
     public boolean isAllowed(TurnPhase turnPhase)
     {
-        return turnPhase instanceof TradingTurnPhase;
+        return turnPhase.isTrading();
     }
 
     @Override

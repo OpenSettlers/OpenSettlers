@@ -4,7 +4,6 @@ import soc.common.actions.gameAction.AbstractGameAction;
 import soc.common.actions.gameAction.GameAction;
 import soc.common.game.Game;
 import soc.common.game.gamePhase.GamePhase;
-import soc.common.game.gamePhase.turnPhase.TradingTurnPhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
 import soc.common.game.trading.TradeResponse;
 import soc.common.ui.Graphics;
@@ -124,7 +123,7 @@ public class RejectTradeOffer extends AbstractGameAction implements
     @Override
     public boolean isAllowed(TurnPhase turnPhase)
     {
-        return turnPhase instanceof TradingTurnPhase;
+        return turnPhase.isTrading();
     }
 
     @Override

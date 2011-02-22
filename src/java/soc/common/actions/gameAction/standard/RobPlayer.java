@@ -8,9 +8,6 @@ import soc.common.board.HexPoint;
 import soc.common.board.resources.Resource;
 import soc.common.game.Game;
 import soc.common.game.gamePhase.GamePhase;
-import soc.common.game.gamePhase.turnPhase.BeforeDiceRollTurnPhase;
-import soc.common.game.gamePhase.turnPhase.BuildingTurnPhase;
-import soc.common.game.gamePhase.turnPhase.RollDiceTurnPhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
 import soc.common.game.player.GamePlayer;
 import soc.common.internationalization.I18n;
@@ -230,9 +227,8 @@ public class RobPlayer extends AbstractTurnAction
     @Override
     public boolean isAllowed(TurnPhase turnPhase)
     {
-        return turnPhase instanceof BeforeDiceRollTurnPhase
-                || turnPhase instanceof RollDiceTurnPhase
-                || turnPhase instanceof BuildingTurnPhase;
+        return turnPhase.isBeforeDiceRoll() || turnPhase.isDiceRoll()
+                || turnPhase.isBuilding();
     }
 
     @Override
