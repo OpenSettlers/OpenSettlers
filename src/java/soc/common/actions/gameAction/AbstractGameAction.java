@@ -9,6 +9,8 @@ import soc.common.game.Turn;
 import soc.common.game.player.GamePlayer;
 import soc.common.game.player.GamePlayerImpl;
 import soc.common.game.statuses.GameStatus;
+import soc.common.server.actions.GameServerActionFactory;
+import soc.common.server.actions.ServerAction;
 import soc.common.utils.ClassUtils;
 import soc.gwtClient.game.widgetsInterface.actions.ActionDetailWidgetFactory;
 import soc.gwtClient.game.widgetsInterface.actions.ActionWidget;
@@ -189,7 +191,8 @@ public abstract class AbstractGameAction extends AbstractAction implements
      * soc.gwtClient.game.widgetsInterface.main.GameWidget)
      */
     @Override
-    public ActionWidget createActionWidget(ActionWidgetFactory actionWidgetFactory)
+    public ActionWidget createActionWidget(
+            ActionWidgetFactory actionWidgetFactory)
     {
         return null;
     }
@@ -204,6 +207,19 @@ public abstract class AbstractGameAction extends AbstractAction implements
             ActionDetailWidgetFactory factory)
     {
         return null;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.common.actions.gameAction.GameAction#createServerAction(soc.common
+     * .server.actions.ServerActionFactory)
+     */
+    @Override
+    public ServerAction createServerAction(GameServerActionFactory factory)
+    {
+        return factory.createDefaultServerAction(this);
     }
 
 }

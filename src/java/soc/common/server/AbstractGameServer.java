@@ -86,8 +86,8 @@ public abstract class AbstractGameServer implements GameServer
             }
 
             // Get associated server side action
-            ServerAction serverAction = serverActionFactory.createServerAction(
-                    action, this);
+            ServerAction serverAction = action
+                    .createServerAction(serverActionFactory);
 
             // Update state of our game instance by performing the action
             serverAction.execute();

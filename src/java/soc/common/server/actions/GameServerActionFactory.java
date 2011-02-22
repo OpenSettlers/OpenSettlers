@@ -1,7 +1,12 @@
 package soc.common.server.actions;
 
 import soc.common.actions.gameAction.GameAction;
-import soc.common.server.GameServer;
+import soc.common.actions.gameAction.HostStartsGame;
+import soc.common.actions.gameAction.standard.BuyDevelopmentCard;
+import soc.common.actions.gameAction.standard.RobPlayer;
+import soc.common.actions.gameAction.standard.RollDice;
+import soc.common.actions.gameAction.trading.TradeOffer;
+import soc.common.actions.gameAction.turns.EndTurn;
 
 /*
  * Creates a server side action for given GameAction. Returning null is not allowed,
@@ -9,9 +14,22 @@ import soc.common.server.GameServer;
  */
 public interface GameServerActionFactory
 {
+    public ServerAction createHostStartsGameServerAction(
+            HostStartsGame hostStartsGame);
+
+    public ServerAction createRobPlayerServerAction(RobPlayer robPlayer);
+
+    public ServerAction createBuyDevelopmentCardServerAction(
+            BuyDevelopmentCard buyDevelopmentCard);
+
+    public ServerAction createRollDiceServerAction(RollDice rollDice);
+
+    public ServerAction createTradeOfferAction(TradeOffer tradeOffer);
+
+    public ServerAction createEndTurnServerAction(EndTurn endTurn);
+
     /*
      * Returns associated server action for given GameAction.
      */
-    public ServerAction createServerAction(GameAction action,
-            GameServer gameServer);
+    public ServerAction createDefaultServerAction(GameAction action);
 }

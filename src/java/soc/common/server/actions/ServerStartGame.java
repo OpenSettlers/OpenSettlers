@@ -13,7 +13,7 @@ public class ServerStartGame implements ServerAction
     HostStartsGame hostStartsGame;
     GameServer gameServer;
 
-    public ServerStartGame(HostStartsGame hostStartsGame, GameServer gameServer)
+    public ServerStartGame(GameServer gameServer, HostStartsGame hostStartsGame)
     {
         super();
         this.hostStartsGame = hostStartsGame;

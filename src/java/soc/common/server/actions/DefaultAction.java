@@ -11,7 +11,7 @@ public class DefaultAction implements ServerAction
     protected GameAction action;
     protected GameServer gameServer;
 
-    public DefaultAction(GameAction action, GameServer gameServer)
+    public DefaultAction(GameServer gameServer, GameAction action)
     {
         this.action = action;
         this.gameServer = gameServer;

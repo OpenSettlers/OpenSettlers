@@ -10,8 +10,8 @@ public class ServerBuyDevelopmentCard implements ServerAction
     private BuyDevelopmentCard buyDevCard;
     private GameServer gameServer;
 
-    public ServerBuyDevelopmentCard(BuyDevelopmentCard buyDevCard,
-            GameServer gameServer)
+    public ServerBuyDevelopmentCard(GameServer gameServer,
+            BuyDevelopmentCard buyDevCard)
     {
         super();
         this.buyDevCard = buyDevCard;

@@ -18,6 +18,8 @@ import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
 import soc.common.game.player.GamePlayer;
 import soc.common.internationalization.I18n;
+import soc.common.server.actions.GameServerActionFactory;
+import soc.common.server.actions.ServerAction;
 import soc.common.ui.Graphics;
 import soc.common.ui.Icon;
 import soc.common.ui.IconImpl;
@@ -382,5 +384,18 @@ public class RollDice extends AbstractTurnAction
             ActionDetailWidgetFactory factory)
     {
         return factory.getRollDiceDetailWidget(this);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.common.actions.gameAction.AbstractGameAction#createServerAction(soc
+     * .common.server.actions.ServerActionFactory)
+     */
+    @Override
+    public ServerAction createServerAction(GameServerActionFactory factory)
+    {
+        return factory.createRollDiceServerAction(this);
     }
 }

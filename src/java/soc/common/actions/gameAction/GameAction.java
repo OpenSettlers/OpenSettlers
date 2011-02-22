@@ -6,6 +6,8 @@ import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
 import soc.common.game.player.GamePlayer;
 import soc.common.game.statuses.GameStatus;
+import soc.common.server.actions.GameServerActionFactory;
+import soc.common.server.actions.ServerAction;
 import soc.gwtClient.game.behaviour.gameWidget.GameBehaviour;
 import soc.gwtClient.game.behaviour.gameWidget.factories.GameBehaviourFactory;
 import soc.gwtClient.game.behaviour.gameWidget.factories.ReceiveGameBehaviourFactory;
@@ -91,8 +93,11 @@ public interface GameAction extends Action
     public GameBehaviour getNextActionBehaviour(
             GameBehaviourFactory gameBehaviourFactory);
 
-    public ActionWidget createActionWidget(ActionWidgetFactory actionWidgetFactory);
+    public ActionWidget createActionWidget(
+            ActionWidgetFactory actionWidgetFactory);
 
     public ActionDetailWidget createActionDetailWidget(
             ActionDetailWidgetFactory factory);
+
+    public ServerAction createServerAction(GameServerActionFactory factory);
 }

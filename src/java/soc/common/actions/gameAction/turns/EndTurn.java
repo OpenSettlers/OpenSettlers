@@ -5,6 +5,8 @@ import soc.common.game.developmentCards.DevelopmentCard;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
 import soc.common.internationalization.I18n;
+import soc.common.server.actions.GameServerActionFactory;
+import soc.common.server.actions.ServerAction;
 import soc.common.ui.Graphics;
 import soc.common.ui.Icon;
 import soc.common.ui.IconImpl;
@@ -160,6 +162,19 @@ public class EndTurn extends AbstractTurnAction
             ActionDetailWidgetFactory factory)
     {
         return factory.getEndTurnDetailWidget(this);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.common.actions.gameAction.AbstractGameAction#createServerAction(soc
+     * .common.server.actions.ServerActionFactory)
+     */
+    @Override
+    public ServerAction createServerAction(GameServerActionFactory factory)
+    {
+        return factory.createEndTurnServerAction(this);
     }
 
 }

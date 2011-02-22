@@ -11,40 +11,57 @@ import soc.common.server.GameServer;
 
 public class ServerActionFactory implements GameServerActionFactory
 {
-    public ServerAction createServerAction(GameAction action,
-            GameServer gameServer)
+    private GameServer gameServer;
+
+    public ServerActionFactory(GameServer gameServer)
     {
-        if (action instanceof HostStartsGame)
-        {
-            return new ServerStartGame((HostStartsGame) action, gameServer);
-        }
+        super();
+        this.gameServer = gameServer;
+    }
 
-        if (action instanceof RobPlayer)
-        {
-            return new ServerRobPlayer((RobPlayer) action, gameServer);
-        }
+    @Override
+    public ServerAction createBuyDevelopmentCardServerAction(
+            BuyDevelopmentCard buyDevelopmentCard)
+    {
+        return new ServerBuyDevelopmentCard(gameServer, buyDevelopmentCard);
+    }
 
-        if (action instanceof BuyDevelopmentCard)
-        {
-            return new ServerBuyDevelopmentCard((BuyDevelopmentCard) action,
-                    gameServer);
-        }
+    @Override
+    public ServerAction createDefaultServerAction(GameAction action)
+    {
+        return new DefaultAction(gameServer, action);
+    }
 
-        if (action instanceof RollDice)
-        {
-            return new ServerRollDice((RollDice) action, gameServer);
-        }
+    @Override
+    public ServerAction createEndTurnServerAction(EndTurn endTurn)
+    {
+        return new ServerEndTurn(gameServer, endTurn);
+    }
 
-        if (action instanceof TradeOffer)
-        {
-            return new ServerHotseatOfferTrade((TradeOffer) action, gameServer);
-        }
+    @Override
+    public ServerAction createHostStartsGameServerAction(
+            HostStartsGame hostStartsGame)
+    {
+        return new ServerStartGame(gameServer, hostStartsGame);
 
-        if (action instanceof EndTurn)
-            return new ServerEndTurn((EndTurn) action, gameServer);
+    }
 
-        // No associated server action found, return null
-        return new DefaultAction(action, gameServer);
+    @Override
+    public ServerAction createRobPlayerServerAction(RobPlayer robPlayer)
+    {
+        return new ServerRobPlayer(gameServer, robPlayer);
+    }
+
+    @Override
+    public ServerAction createRollDiceServerAction(RollDice rollDice)
+    {
+        return new ServerRollDice(gameServer, rollDice);
+    }
+
+    @Override
+    public ServerAction createTradeOfferAction(TradeOffer tradeOffer)
+    {
+        return new ServerHotseatOfferTrade(gameServer, tradeOffer);
     }
 
 }

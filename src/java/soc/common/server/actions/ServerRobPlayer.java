@@ -10,7 +10,7 @@ public class ServerRobPlayer implements ServerAction
     private RobPlayer robPlayer;
     private GameServer gameServer;
 
-    public ServerRobPlayer(RobPlayer robPlayer, GameServer gameServer)
+    public ServerRobPlayer(GameServer gameServer, RobPlayer robPlayer)
     {
         super();
         this.robPlayer = robPlayer;

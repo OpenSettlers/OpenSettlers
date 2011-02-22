@@ -17,7 +17,7 @@ public class ServerHotseatOfferTrade implements ServerAction
     private TradeOffer tradeOffer;
     private GameServer gameServer;
 
-    public ServerHotseatOfferTrade(TradeOffer tradeOffer, GameServer gameServer)
+    public ServerHotseatOfferTrade(GameServer gameServer, TradeOffer tradeOffer)
     {
         super();
         this.tradeOffer = tradeOffer;

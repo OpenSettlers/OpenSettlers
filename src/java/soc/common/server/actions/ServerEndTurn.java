@@ -9,7 +9,7 @@ public class ServerEndTurn implements ServerAction
     private GameServer gameServer;
     private EndTurn endTurn;
 
-    public ServerEndTurn(EndTurn endTurn, GameServer gameServer)
+    public ServerEndTurn(GameServer gameServer, EndTurn endTurn)
     {
         super();
         this.gameServer = gameServer;

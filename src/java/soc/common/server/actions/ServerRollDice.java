@@ -10,7 +10,7 @@ public class ServerRollDice implements ServerAction
     RollDice rollDice;
     GameServer gameServer;
 
-    public ServerRollDice(RollDice rollDice, GameServer gameServer)
+    public ServerRollDice(GameServer gameServer, RollDice rollDice)
     {
         super();
         this.rollDice = rollDice;

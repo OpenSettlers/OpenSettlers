@@ -62,7 +62,7 @@ public class HotSeatServer extends AbstractGameServer
     @Override
     public ServerActionFactory createActionFactory()
     {
-        return new ServerActionFactory();
+        return new ServerActionFactory(this);
     }
 
     @Override
@@ -77,5 +77,4 @@ public class HotSeatServer extends AbstractGameServer
     {
         botTurnHandled = handled;
     }
-
 }
