@@ -4,6 +4,7 @@ import soc.common.game.player.GamePlayer;
 import soc.common.ui.meta.ClientBehaviourFactory;
 import soc.gwtClient.game.widgetsInterface.actions.ActionDetailWidgetFactory;
 import soc.gwtClient.game.widgetsInterface.actions.ActionWidgetFactory;
+import soc.gwtClient.game.widgetsInterface.main.GamePhaseStatusWidgetFactory;
 import soc.gwtClient.game.widgetsInterface.main.GameWidgetFactory;
 
 public interface ClientFactory
@@ -15,4 +16,6 @@ public interface ClientFactory
     public GameWidgetFactory getGameWidgetFactory();
 
     public ActionDetailWidgetFactory getActionDetailWidgetFactory();
+
+    public GamePhaseStatusWidgetFactory getGamePhaseStatusWidgetFactory();
 }

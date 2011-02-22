@@ -7,7 +7,6 @@ import soc.common.actions.gameAction.trading.TradePlayer;
 import soc.common.board.resources.ResourceList;
 import soc.common.game.Game;
 import soc.common.game.gamePhase.GamePhase;
-import soc.common.game.gamePhase.PlayTurnsGamePhase;
 import soc.common.game.gamePhase.turnPhase.TradingTurnPhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
 import soc.common.game.trading.TradeResponse;
@@ -180,7 +179,7 @@ public class CounterTradeOffer extends AbstractGameAction implements
     @Override
     public boolean isAllowed(GamePhase gamePhase)
     {
-        return gamePhase instanceof PlayTurnsGamePhase;
+        return gamePhase.isPlayTurns();
     }
 
     @Override
@@ -204,7 +203,8 @@ public class CounterTradeOffer extends AbstractGameAction implements
     }
 
     @Override
-    public ActionWidget createActionWidget(ActionWidgetFactory actionWidgetFactory)
+    public ActionWidget createActionWidget(
+            ActionWidgetFactory actionWidgetFactory)
     {
         return null;
     }

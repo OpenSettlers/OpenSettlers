@@ -5,7 +5,6 @@ import soc.common.actions.gameAction.turns.AbstractTurnAction;
 import soc.common.board.resources.ResourceList;
 import soc.common.game.Game;
 import soc.common.game.gamePhase.GamePhase;
-import soc.common.game.gamePhase.PlayTurnsGamePhase;
 import soc.common.game.gamePhase.turnPhase.RollDiceTurnPhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
 import soc.common.game.player.GamePlayer;
@@ -196,11 +195,12 @@ public class LooseCards extends AbstractTurnAction
     @Override
     public boolean isAllowed(GamePhase gamePhase)
     {
-        return gamePhase instanceof PlayTurnsGamePhase;
+        return gamePhase.isPlayTurns();
     }
 
     @Override
-    public ActionWidget createActionWidget(ActionWidgetFactory actionWidgetFactory)
+    public ActionWidget createActionWidget(
+            ActionWidgetFactory actionWidgetFactory)
     {
         return null;
     }

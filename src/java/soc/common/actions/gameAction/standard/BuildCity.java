@@ -199,8 +199,7 @@ public class BuildCity extends AbstractTurnAction
     @Override
     public boolean isAllowed(GamePhase gamePhase)
     {
-        return gamePhase instanceof PlayTurnsGamePhase
-                || gamePhase instanceof InitialPlacementGamePhase;
+        return gamePhase.isPlayTurns() || gamePhase.isInitialPlacement();
     }
 
     @Override

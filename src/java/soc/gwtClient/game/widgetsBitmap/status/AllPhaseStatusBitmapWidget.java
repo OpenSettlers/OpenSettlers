@@ -8,12 +8,8 @@ import java.util.Map.Entry;
 
 import soc.common.game.GamePhaseChangedEvent;
 import soc.common.game.GamePhaseChangedEventHandler;
-import soc.common.game.gamePhase.DetermineFirstPlayerGamePhase;
-import soc.common.game.gamePhase.EndedGamePhase;
 import soc.common.game.gamePhase.GamePhase;
-import soc.common.game.gamePhase.InitialPlacementGamePhase;
-import soc.common.game.gamePhase.LobbyGamePhase;
-import soc.common.game.gamePhase.PlayTurnsGamePhase;
+import soc.gwtClient.game.widgetsInterface.main.GamePhaseStatusWidgetFactory;
 import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 import soc.gwtClient.images.Resources;
 
@@ -43,11 +39,15 @@ public class AllPhaseStatusBitmapWidget implements
     {
         this.gameWidget = gameWidget;
 
+        GamePhaseStatusWidgetFactory factory = gameWidget.getClientFactory()
+                .getGamePhaseStatusWidgetFactory();
+
         for (GamePhase gamePhase : gameWidget.getGame().getRules()
                 .getSupportedPhases())
         {
             gamePhaseIcons.add(new Image(Resources.gamePhase(gamePhase)));
-            GamePhaseStatusWidget widget = createWidget(gamePhase);
+            GamePhaseStatusWidget widget = gamePhase
+                    .createGamePhaseStatusWidget(factory);
             phaseWidgets.put(gamePhase, widget);
             currentPhasePanel.add(widget);
             widgets.add(widget);
@@ -66,29 +66,6 @@ public class AllPhaseStatusBitmapWidget implements
         setCurrentPhase();
         rootPanel.setStyleName("allGamePhases");
         currentPhasePanel.setStyleName("phasePanel");
-    }
-
-    public GamePhaseStatusWidget createWidget(GamePhase gamePhase)
-    {
-        if (gamePhase instanceof DetermineFirstPlayerGamePhase)
-            return new DetermineFirstPlayerBitmapWidget(
-                    (DetermineFirstPlayerGamePhase) gamePhase);
-
-        if (gamePhase instanceof InitialPlacementGamePhase)
-            return new InitialPlacementBitmapWidget(
-                    (InitialPlacementGamePhase) gamePhase);
-
-        if (gamePhase instanceof PlayTurnsGamePhase)
-            return new PlayTurnsBitmapWidget(gameWidget,
-                    (PlayTurnsGamePhase) gamePhase);
-
-        if (gamePhase instanceof EndedGamePhase)
-            return new EndedBitmapWidget((EndedGamePhase) gamePhase);
-
-        if (gamePhase instanceof LobbyGamePhase)
-            return new LobbyBitmapWidget((LobbyGamePhase) gamePhase);
-
-        return null;
     }
 
     @Override

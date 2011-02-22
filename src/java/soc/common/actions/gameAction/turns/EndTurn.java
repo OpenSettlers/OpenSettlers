@@ -3,7 +3,6 @@ package soc.common.actions.gameAction.turns;
 import soc.common.game.Game;
 import soc.common.game.developmentCards.DevelopmentCard;
 import soc.common.game.gamePhase.GamePhase;
-import soc.common.game.gamePhase.PlayTurnsGamePhase;
 import soc.common.game.gamePhase.turnPhase.BuildingTurnPhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
 import soc.common.internationalization.I18n;
@@ -100,7 +99,7 @@ public class EndTurn extends AbstractTurnAction
     @Override
     public boolean isAllowed(GamePhase gamePhase)
     {
-        return gamePhase instanceof PlayTurnsGamePhase;
+        return gamePhase.isPlayTurns();
     }
 
     @Override

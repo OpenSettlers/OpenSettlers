@@ -5,6 +5,8 @@ import java.io.Serializable;
 import soc.common.actions.gameAction.GameAction;
 import soc.common.game.Game;
 import soc.common.game.Turn;
+import soc.gwtClient.game.widgetsBitmap.status.GamePhaseStatusWidget;
+import soc.gwtClient.game.widgetsInterface.main.GamePhaseStatusWidgetFactory;
 
 public interface GamePhase extends Serializable
 {
@@ -22,4 +24,18 @@ public interface GamePhase extends Serializable
 
     public String getMessage();
 
+    public boolean isLobby();
+
+    public boolean isInitialPlacement();
+
+    public boolean isPlayTurns();
+
+    public boolean isEnded();
+
+    public boolean isDetermineFirstPlayer();
+
+    public boolean isPlacePorts();
+
+    public GamePhaseStatusWidget createGamePhaseStatusWidget(
+            GamePhaseStatusWidgetFactory factory);
 }

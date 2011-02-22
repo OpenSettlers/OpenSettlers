@@ -95,7 +95,7 @@ public class TurnPhaseEnded extends AbstractGameAction
     @Override
     public boolean isAllowed(GamePhase gamePhase)
     {
-        return gamePhase instanceof PlayTurnsGamePhase;
+        return gamePhase.isPlayTurns();
     }
 
     /*
@@ -124,7 +124,8 @@ public class TurnPhaseEnded extends AbstractGameAction
     }
 
     @Override
-    public ActionWidget createActionWidget(ActionWidgetFactory actionWidgetFactory)
+    public ActionWidget createActionWidget(
+            ActionWidgetFactory actionWidgetFactory)
     {
         return null;
     }

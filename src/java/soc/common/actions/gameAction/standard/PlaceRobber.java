@@ -5,7 +5,6 @@ import soc.common.board.HexLocation;
 import soc.common.board.hexes.Hex;
 import soc.common.game.Game;
 import soc.common.game.gamePhase.GamePhase;
-import soc.common.game.gamePhase.PlayTurnsGamePhase;
 import soc.common.game.gamePhase.turnPhase.BeforeDiceRollTurnPhase;
 import soc.common.game.gamePhase.turnPhase.BuildingTurnPhase;
 import soc.common.game.gamePhase.turnPhase.RollDiceTurnPhase;
@@ -179,7 +178,7 @@ public class PlaceRobber extends AbstractTurnAction
     @Override
     public boolean isAllowed(GamePhase gamePhase)
     {
-        return gamePhase instanceof PlayTurnsGamePhase;
+        return gamePhase.isPlayTurns();
     }
 
     @Override
@@ -195,7 +194,8 @@ public class PlaceRobber extends AbstractTurnAction
     }
 
     @Override
-    public ActionWidget createActionWidget(ActionWidgetFactory actionWidgetFactory)
+    public ActionWidget createActionWidget(
+            ActionWidgetFactory actionWidgetFactory)
     {
         return null;
     }

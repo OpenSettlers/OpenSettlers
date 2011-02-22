@@ -26,7 +26,7 @@ public class AcceptSettings extends AbstractGameAction
     @Override
     public boolean isAllowed(GamePhase gamePhase)
     {
-        return (gamePhase instanceof LobbyGamePhase);
+        return gamePhase.isLobby();
     }
 
     /*
@@ -57,35 +57,40 @@ public class AcceptSettings extends AbstractGameAction
     }
 
     @Override
-    public ActionWidget createActionWidget(ActionWidgetFactory actionWidgetFactory)
+    public ActionWidget createActionWidget(
+            ActionWidgetFactory actionWidgetFactory)
     {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public GameBehaviour getNextActionBehaviour(GameBehaviourFactory gameBehaviourFactory)
+    public GameBehaviour getNextActionBehaviour(
+            GameBehaviourFactory gameBehaviourFactory)
     {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public ReceiveGameBehaviour getOpponentReceiveBehaviour(ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
+    public ReceiveGameBehaviour getOpponentReceiveBehaviour(
+            ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public ReceiveGameBehaviour getReceiveBehaviour(ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
+    public ReceiveGameBehaviour getReceiveBehaviour(
+            ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public GameBehaviour getSendBehaviour(GameBehaviourFactory gameBehaviourFactory)
+    public GameBehaviour getSendBehaviour(
+            GameBehaviourFactory gameBehaviourFactory)
     {
         // TODO Auto-generated method stub
         return null;

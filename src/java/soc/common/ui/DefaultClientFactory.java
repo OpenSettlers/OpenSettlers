@@ -11,6 +11,7 @@ import soc.gwtClient.game.widgetsBitmap.actions.ActionWidgetBitmapFactory;
 import soc.gwtClient.game.widgetsBitmap.main.GameBitmapWidgetFactory;
 import soc.gwtClient.game.widgetsInterface.actions.ActionDetailWidgetFactory;
 import soc.gwtClient.game.widgetsInterface.actions.ActionWidgetFactory;
+import soc.gwtClient.game.widgetsInterface.main.GamePhaseStatusWidgetFactory;
 import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 import soc.gwtClient.game.widgetsInterface.main.GameWidgetFactory;
 
@@ -21,6 +22,7 @@ public class DefaultClientFactory implements ClientFactory
     private GameWidgetFactory gameWidgetFactory;
     private Map<GamePlayer, ActionWidgetFactory> actionWidgetFactories = new HashMap<GamePlayer, ActionWidgetFactory>();
     private ActionDetailWidgetFactory actionDetailWidgetFactory;
+    private GamePhaseStatusWidgetFactory gamePhaseStausWidgetFactory;
 
     public DefaultClientFactory(GameWidget gameWidget)
     {
@@ -60,5 +62,12 @@ public class DefaultClientFactory implements ClientFactory
     public ActionDetailWidgetFactory getActionDetailWidgetFactory()
     {
         return actionDetailWidgetFactory;
+    }
+
+    @Override
+    public GamePhaseStatusWidgetFactory getGamePhaseStatusWidgetFactory()
+    {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

@@ -10,6 +10,8 @@ import soc.common.game.gamePhase.turnPhase.BeforeDiceRollTurnPhase;
 import soc.common.game.gamePhase.turnPhase.TradingTurnPhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
 import soc.common.game.player.GamePlayer;
+import soc.gwtClient.game.widgetsBitmap.status.GamePhaseStatusWidget;
+import soc.gwtClient.game.widgetsInterface.main.GamePhaseStatusWidgetFactory;
 
 public class PlayTurnsGamePhase extends AbstractGamePhase
 {
@@ -125,5 +127,23 @@ public class PlayTurnsGamePhase extends AbstractGamePhase
         }
 
         return newTurn;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see soc.common.game.gamePhase.AbstractGamePhase#isPlayTurns()
+     */
+    @Override
+    public boolean isPlayTurns()
+    {
+        return true;
+    }
+
+    @Override
+    public GamePhaseStatusWidget createGamePhaseStatusWidget(
+            GamePhaseStatusWidgetFactory factory)
+    {
+        return factory.createPlayTurnsStatusWidget(this);
     }
 }

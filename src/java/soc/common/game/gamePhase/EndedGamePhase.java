@@ -2,6 +2,8 @@ package soc.common.game.gamePhase;
 
 import soc.common.game.Game;
 import soc.common.game.Turn;
+import soc.gwtClient.game.widgetsBitmap.status.GamePhaseStatusWidget;
+import soc.gwtClient.game.widgetsInterface.main.GamePhaseStatusWidgetFactory;
 
 public class EndedGamePhase extends AbstractGamePhase
 {
@@ -27,4 +29,16 @@ public class EndedGamePhase extends AbstractGamePhase
         return null;
     }
 
+    @Override
+    public boolean isEnded()
+    {
+        return true;
+    }
+
+    @Override
+    public GamePhaseStatusWidget createGamePhaseStatusWidget(
+            GamePhaseStatusWidgetFactory factory)
+    {
+        return factory.createEndedStatusWidget(this);
+    }
 }

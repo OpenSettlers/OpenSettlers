@@ -2,7 +2,6 @@ package soc.common.actions.gameAction;
 
 import soc.common.game.Game;
 import soc.common.game.gamePhase.GamePhase;
-import soc.common.game.gamePhase.LobbyGamePhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
 import soc.common.internationalization.I18n;
 import soc.common.ui.Graphics;
@@ -114,7 +113,7 @@ public class HostStartsGame extends AbstractGameAction
     @Override
     public boolean isAllowed(GamePhase gamePhase)
     {
-        return gamePhase instanceof LobbyGamePhase;
+        return gamePhase.isLobby();
     }
 
     /*
@@ -137,7 +136,8 @@ public class HostStartsGame extends AbstractGameAction
     }
 
     @Override
-    public ActionWidget createActionWidget(ActionWidgetFactory actionWidgetFactory)
+    public ActionWidget createActionWidget(
+            ActionWidgetFactory actionWidgetFactory)
     {
         return null;
     }

@@ -7,6 +7,8 @@ import soc.common.annotations.SeaFarers;
 import soc.common.board.ports.Port;
 import soc.common.board.territories.Territory;
 import soc.common.game.Game;
+import soc.gwtClient.game.widgetsBitmap.status.GamePhaseStatusWidget;
+import soc.gwtClient.game.widgetsInterface.main.GamePhaseStatusWidgetFactory;
 
 @SeaFarers
 public class PlacePortsGamePhase extends AbstractGamePhase
@@ -95,4 +97,16 @@ public class PlacePortsGamePhase extends AbstractGamePhase
         return "Place ports";
     }
 
+    @Override
+    public boolean isPlacePorts()
+    {
+        return true;
+    }
+
+    @Override
+    public GamePhaseStatusWidget createGamePhaseStatusWidget(
+            GamePhaseStatusWidgetFactory factory)
+    {
+        return factory.createPlacePortsStatusWidget(this);
+    }
 }

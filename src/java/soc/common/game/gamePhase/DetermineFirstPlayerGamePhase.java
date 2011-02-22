@@ -12,6 +12,8 @@ import soc.common.game.Game;
 import soc.common.game.Turn;
 import soc.common.game.TurnImpl;
 import soc.common.game.player.GamePlayer;
+import soc.gwtClient.game.widgetsBitmap.status.GamePhaseStatusWidget;
+import soc.gwtClient.game.widgetsInterface.main.GamePhaseStatusWidgetFactory;
 
 public class DetermineFirstPlayerGamePhase extends AbstractGamePhase
 {
@@ -178,4 +180,16 @@ public class DetermineFirstPlayerGamePhase extends AbstractGamePhase
         return super.nextTurn(game);
     }
 
+    @Override
+    public boolean isDetermineFirstPlayer()
+    {
+        return true;
+    }
+
+    @Override
+    public GamePhaseStatusWidget createGamePhaseStatusWidget(
+            GamePhaseStatusWidgetFactory factory)
+    {
+        return factory.createDetermineFirstPlayerStatusWidget(this);
+    }
 }

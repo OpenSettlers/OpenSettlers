@@ -333,8 +333,7 @@ public class RollDice extends AbstractTurnAction
     @Override
     public boolean isAllowed(GamePhase gamePhase)
     {
-        return gamePhase instanceof PlayTurnsGamePhase
-                || gamePhase instanceof DetermineFirstPlayerGamePhase;
+        return gamePhase.isPlayTurns() || gamePhase.isDetermineFirstPlayer();
     }
 
     @Override

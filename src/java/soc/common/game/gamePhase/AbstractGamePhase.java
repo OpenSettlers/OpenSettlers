@@ -79,4 +79,70 @@ public abstract class AbstractGamePhase implements GamePhase
     {
         return ClassUtils.getSimpleClassName(this.getClass().getName());
     }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see soc.common.game.gamePhase.GamePhase#isDetermineFirstPlayer()
+     */
+    @Override
+    public boolean isDetermineFirstPlayer()
+    {
+        return false;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see soc.common.game.gamePhase.GamePhase#isEnded()
+     */
+    @Override
+    public boolean isEnded()
+    {
+        return false;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see soc.common.game.gamePhase.GamePhase#isInitialPlacement()
+     */
+    @Override
+    public boolean isInitialPlacement()
+    {
+        return false;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see soc.common.game.gamePhase.GamePhase#isLobby()
+     */
+    @Override
+    public boolean isLobby()
+    {
+        return false;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see soc.common.game.gamePhase.GamePhase#isPlacePorts()
+     */
+    @Override
+    public boolean isPlacePorts()
+    {
+        return false;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see soc.common.game.gamePhase.GamePhase#isPlayTurns()
+     */
+    @Override
+    public boolean isPlayTurns()
+    {
+        return false;
+    }
 }

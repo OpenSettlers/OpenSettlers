@@ -6,12 +6,11 @@ import soc.common.actions.gameAction.standard.BuildCity;
 import soc.common.actions.gameAction.standard.BuildRoad;
 import soc.common.actions.gameAction.standard.BuildTown;
 import soc.common.game.Game;
+import soc.gwtClient.game.widgetsBitmap.status.GamePhaseStatusWidget;
+import soc.gwtClient.game.widgetsInterface.main.GamePhaseStatusWidgetFactory;
 
 public class InitialPlacementGamePhase extends AbstractGamePhase
 {
-    /**
-     * 
-     */
     private static final long serialVersionUID = -7144215557160903240L;
     private int actionCount = 0;
 
@@ -111,5 +110,18 @@ public class InitialPlacementGamePhase extends AbstractGamePhase
     {
         // TODO fix message
         return "Place initial towns and roads";
+    }
+
+    @Override
+    public boolean isInitialPlacement()
+    {
+        return true;
+    }
+
+    @Override
+    public GamePhaseStatusWidget createGamePhaseStatusWidget(
+            GamePhaseStatusWidgetFactory factory)
+    {
+        return factory.createInitialPlacementStatusWidget(this);
     }
 }

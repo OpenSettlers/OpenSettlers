@@ -6,7 +6,6 @@ import soc.common.board.resources.ResourceList;
 import soc.common.core.Core;
 import soc.common.game.Game;
 import soc.common.game.gamePhase.GamePhase;
-import soc.common.game.gamePhase.PlayTurnsGamePhase;
 import soc.common.game.gamePhase.turnPhase.TradingTurnPhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
 import soc.common.game.player.GamePlayer;
@@ -200,11 +199,12 @@ public class TradeOffer extends AbstractGameAction
     @Override
     public boolean isAllowed(GamePhase gamePhase)
     {
-        return gamePhase instanceof PlayTurnsGamePhase;
+        return gamePhase.isPlayTurns();
     }
 
     @Override
-    public ActionWidget createActionWidget(ActionWidgetFactory actionWidgetFactory)
+    public ActionWidget createActionWidget(
+            ActionWidgetFactory actionWidgetFactory)
     {
         return Core.get().getClientFactory().getActionWidgetFactory(player)
                 .createTradePlayerWidget();

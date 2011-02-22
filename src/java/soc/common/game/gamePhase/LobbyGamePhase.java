@@ -9,12 +9,11 @@ import soc.common.game.Turn;
 import soc.common.game.TurnImpl;
 import soc.common.game.player.GamePlayer;
 import soc.common.game.player.GamePlayerList;
+import soc.gwtClient.game.widgetsBitmap.status.GamePhaseStatusWidget;
+import soc.gwtClient.game.widgetsInterface.main.GamePhaseStatusWidgetFactory;
 
 public class LobbyGamePhase extends AbstractGamePhase
 {
-    /**
-     * 
-     */
     private static final long serialVersionUID = -2536825366866151136L;
     private List<GamePlayer> playersWhoAcceptedSettings = new ArrayList<GamePlayer>();
 
@@ -85,5 +84,18 @@ public class LobbyGamePhase extends AbstractGamePhase
     public Turn nextTurn(Game game)
     {
         return new TurnImpl(game.getPlayers().get(0));
+    }
+
+    @Override
+    public boolean isLobby()
+    {
+        return true;
+    }
+
+    @Override
+    public GamePhaseStatusWidget createGamePhaseStatusWidget(
+            GamePhaseStatusWidgetFactory factory)
+    {
+        return factory.createLobbyStatusWidget(this);
     }
 }

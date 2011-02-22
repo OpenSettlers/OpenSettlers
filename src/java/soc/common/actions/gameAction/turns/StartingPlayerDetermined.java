@@ -2,7 +2,6 @@ package soc.common.actions.gameAction.turns;
 
 import soc.common.actions.gameAction.AbstractGameAction;
 import soc.common.game.Game;
-import soc.common.game.gamePhase.DetermineFirstPlayerGamePhase;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
 import soc.common.game.player.GamePlayer;
@@ -116,7 +115,7 @@ public class StartingPlayerDetermined extends AbstractGameAction
     @Override
     public boolean isAllowed(GamePhase gamePhase)
     {
-        return gamePhase instanceof DetermineFirstPlayerGamePhase;
+        return gamePhase.isDetermineFirstPlayer();
     }
 
     @Override
@@ -146,7 +145,8 @@ public class StartingPlayerDetermined extends AbstractGameAction
     }
 
     @Override
-    public ActionWidget createActionWidget(ActionWidgetFactory actionWidgetFactory)
+    public ActionWidget createActionWidget(
+            ActionWidgetFactory actionWidgetFactory)
     {
         return null;
     }

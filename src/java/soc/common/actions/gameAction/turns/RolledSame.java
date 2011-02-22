@@ -5,7 +5,6 @@ import java.util.List;
 
 import soc.common.actions.gameAction.AbstractGameAction;
 import soc.common.game.Game;
-import soc.common.game.gamePhase.DetermineFirstPlayerGamePhase;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
 import soc.common.ui.Graphics;
@@ -109,7 +108,7 @@ public class RolledSame extends AbstractGameAction
     @Override
     public boolean isAllowed(GamePhase gamePhase)
     {
-        return gamePhase instanceof DetermineFirstPlayerGamePhase;
+        return gamePhase.isDetermineFirstPlayer();
     }
 
     /*
@@ -138,7 +137,8 @@ public class RolledSame extends AbstractGameAction
     }
 
     @Override
-    public ActionWidget createActionWidget(ActionWidgetFactory actionWidgetFactory)
+    public ActionWidget createActionWidget(
+            ActionWidgetFactory actionWidgetFactory)
     {
         return null;
     }

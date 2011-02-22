@@ -4,7 +4,6 @@ import soc.common.actions.gameAction.turns.AbstractTurnAction;
 import soc.common.game.Game;
 import soc.common.game.developmentCards.DevelopmentCard;
 import soc.common.game.gamePhase.GamePhase;
-import soc.common.game.gamePhase.PlayTurnsGamePhase;
 import soc.common.game.gamePhase.turnPhase.BeforeDiceRollTurnPhase;
 import soc.common.game.gamePhase.turnPhase.BuildingTurnPhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
@@ -185,7 +184,7 @@ public class PlayDevelopmentCard extends AbstractTurnAction
     @Override
     public boolean isAllowed(GamePhase gamePhase)
     {
-        return gamePhase instanceof PlayTurnsGamePhase;
+        return gamePhase.isPlayTurns();
     }
 
     @Override
