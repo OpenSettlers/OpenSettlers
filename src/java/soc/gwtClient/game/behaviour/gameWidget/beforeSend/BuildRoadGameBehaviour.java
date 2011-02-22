@@ -2,7 +2,6 @@ package soc.gwtClient.game.behaviour.gameWidget.beforeSend;
 
 import soc.common.actions.gameAction.standard.BuildRoad;
 import soc.common.board.pieces.Road;
-import soc.common.game.gamePhase.PlayTurnsGamePhase;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.behaviour.gameBoard.BuildRoadBehaviour;
 import soc.gwtClient.game.behaviour.gameWidget.GameBehaviour;
@@ -27,8 +26,8 @@ public class BuildRoadGameBehaviour implements GameBehaviour,
     @Override
     public void finish()
     {
-        buildRoadGameBoardBehaviour.setNeutral(gameWidget.getBoardVisualWidget()
-                .getBoardVisual());
+        buildRoadGameBoardBehaviour.setNeutral(gameWidget
+                .getBoardVisualWidget().getBoardVisual());
     }
 
     @Override
@@ -37,12 +36,12 @@ public class BuildRoadGameBehaviour implements GameBehaviour,
         GamePlayer player = gameWidget.getPlayingPlayer();
         Road road = new Road();
 
-        if (gameWidget.getGame().getCurrentPhase() instanceof PlayTurnsGamePhase)
+        if (gameWidget.getGame().getCurrentPhase().isPlayTurns())
         {
             if (road.canPay(player))
             {
-                gameWidget.getBoardVisualWidget().getBoardVisual().setBehaviour(
-                        buildRoadGameBoardBehaviour);
+                gameWidget.getBoardVisualWidget().getBoardVisual()
+                        .setBehaviour(buildRoadGameBoardBehaviour);
             }
             else
             {
@@ -65,8 +64,8 @@ public class BuildRoadGameBehaviour implements GameBehaviour,
     public void done()
     {
         gameWidget.sendAction(buildRoad);
-        buildRoadGameBoardBehaviour.setNeutral(gameWidget.getBoardVisualWidget()
-                .getBoardVisual());
+        buildRoadGameBoardBehaviour.setNeutral(gameWidget
+                .getBoardVisualWidget().getBoardVisual());
     }
 
     @Override

@@ -10,8 +10,6 @@ import soc.common.board.pieces.Town;
 import soc.common.board.resources.ResourceList;
 import soc.common.game.Game;
 import soc.common.game.gamePhase.GamePhase;
-import soc.common.game.gamePhase.InitialPlacementGamePhase;
-import soc.common.game.gamePhase.PlayTurnsGamePhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
 import soc.common.game.player.GamePlayer;
 import soc.common.internationalization.I18n;
@@ -156,7 +154,7 @@ public class BuildCity extends AbstractTurnAction
         City city = (City) player.getStock().getCities().get(0);
         city.setPoint(pointLocation);
 
-        if (game.getCurrentPhase() instanceof PlayTurnsGamePhase)
+        if (game.getCurrentPhase().isPlayTurns())
         {
             // Pay for the city
             player.getResources().moveTo(game.getBank(), city.getCost());
@@ -165,7 +163,7 @@ public class BuildCity extends AbstractTurnAction
             Town town = player.getTowns().get(pointLocation);
             town.removeFromPlayer(player);
         }
-        if (game.getCurrentPhase() instanceof InitialPlacementGamePhase)
+        if (game.getCurrentPhase().isInitialPlacement())
         {
             // Add resources to player
             ResourceList resourcesFromCity = new ResourceList();

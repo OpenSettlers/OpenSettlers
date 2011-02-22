@@ -5,8 +5,6 @@ import java.util.Set;
 import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.standard.BuildRoad;
 import soc.common.board.routing.GraphSide;
-import soc.common.game.gamePhase.InitialPlacementGamePhase;
-import soc.common.game.gamePhase.PlayTurnsGamePhase;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.behaviour.gameWidget.GameBehaviourCallback;
 import soc.gwtClient.game.widgetsInterface.visuals.GameBoardVisual;
@@ -48,7 +46,7 @@ public class BuildRoadBehaviour extends BuildSideBehaviour
     @Override
     public void start(GameBoardVisual gameVisual)
     {
-        if (gameVisual.getGame().getCurrentPhase() instanceof InitialPlacementGamePhase)
+        if (gameVisual.getGame().getCurrentPhase().isInitialPlacement())
         {
             GamePlayer player = gameVisual.getGame().getCurrentTurn()
                     .getPlayer();
@@ -67,7 +65,7 @@ public class BuildRoadBehaviour extends BuildSideBehaviour
                 gameVisual.getSideVisuals().get(side).setVisible(true);
             }
         }
-        if (gameVisual.getGame().getCurrentPhase() instanceof PlayTurnsGamePhase)
+        if (gameVisual.getGame().getCurrentPhase().isPlayTurns())
         {
             GamePlayer player = gameVisual.getGame().getCurrentTurn()
                     .getPlayer();

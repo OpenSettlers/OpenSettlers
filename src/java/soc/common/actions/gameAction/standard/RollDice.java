@@ -15,9 +15,7 @@ import soc.common.board.pieces.abstractPieces.Producable;
 import soc.common.board.resources.ResourceList;
 import soc.common.game.Game;
 import soc.common.game.dices.StandardDice;
-import soc.common.game.gamePhase.DetermineFirstPlayerGamePhase;
 import soc.common.game.gamePhase.GamePhase;
-import soc.common.game.gamePhase.PlayTurnsGamePhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
 import soc.common.game.player.GamePlayer;
 import soc.common.internationalization.I18n;
@@ -177,11 +175,11 @@ public class RollDice extends AbstractTurnAction
     {
         game.setCurrentDice(dice);
 
-        if (game.getCurrentPhase() instanceof PlayTurnsGamePhase)
+        if (game.getCurrentPhase().isPlayTurns())
         {
             performPlayTurns(game);
         }
-        if (game.getCurrentPhase() instanceof DetermineFirstPlayerGamePhase)
+        if (game.getCurrentPhase().isDetermineFirstPlayer())
         {
             performDetermineGameStarter(game);
         }

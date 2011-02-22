@@ -6,7 +6,6 @@ import soc.common.board.pieces.Road;
 import soc.common.game.Game;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.InitialPlacementGamePhase;
-import soc.common.game.gamePhase.PlayTurnsGamePhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
 import soc.common.game.player.GamePlayer;
 import soc.common.internationalization.I18n;
@@ -147,7 +146,7 @@ public class BuildRoad extends AbstractTurnAction
         road.setSide(sideLocation);
 
         // when in InGame phase, player should pay for road somehow
-        if (game.getCurrentPhase() instanceof PlayTurnsGamePhase)
+        if (game.getCurrentPhase().isPlayTurns())
         {
             int roadBuildingTokens = player.getRoadBuildingTokens();
 
@@ -165,7 +164,7 @@ public class BuildRoad extends AbstractTurnAction
         }
         game.addPiece(road, player);
 
-        if (game.getCurrentPhase() instanceof PlayTurnsGamePhase)
+        if (game.getCurrentPhase().isPlayTurns())
         {
             // Check if the LR should be updated
             // TODO: do LR check

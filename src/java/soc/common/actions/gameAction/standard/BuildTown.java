@@ -14,8 +14,6 @@ import soc.common.board.ports.Port;
 import soc.common.board.resources.ResourceList;
 import soc.common.game.Game;
 import soc.common.game.gamePhase.GamePhase;
-import soc.common.game.gamePhase.InitialPlacementGamePhase;
-import soc.common.game.gamePhase.PlayTurnsGamePhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
 import soc.common.internationalization.I18n;
 import soc.common.ui.Graphics;
@@ -172,12 +170,12 @@ public class BuildTown extends AbstractTurnAction
         town.setPoint(pointLocation);
         game.addPiece(town, player);
 
-        if (game.getCurrentPhase() instanceof PlayTurnsGamePhase)
+        if (game.getCurrentPhase().isPlayTurns())
         {
             // remove players' resources and put them in the bank
             player.getResources().moveTo(game.getBank(), town.getCost());
         }
-        if (game.getCurrentPhase() instanceof InitialPlacementGamePhase
+        if (game.getCurrentPhase().isInitialPlacement()
                 && player.getPointPieces().size() == 2)
         {
             // player gets resources in neighbouring hexes

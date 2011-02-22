@@ -25,8 +25,6 @@ import soc.common.actions.gameAction.turns.QueuedTradeResponse;
 import soc.common.actions.gameAction.turns.RolledSame;
 import soc.common.actions.gameAction.turns.StartingPlayerDetermined;
 import soc.common.actions.gameAction.turns.TurnPhaseEnded;
-import soc.common.game.gamePhase.DetermineFirstPlayerGamePhase;
-import soc.common.game.gamePhase.PlayTurnsGamePhase;
 import soc.gwtClient.game.behaviour.gameWidget.received.ErrorReceivedGameBehaviour;
 import soc.gwtClient.game.behaviour.gameWidget.received.GameOverGameBehaviour;
 import soc.gwtClient.game.behaviour.gameWidget.received.ReceiveGameBehaviour;
@@ -124,11 +122,11 @@ public class ReceivedActionGameBehaviourFactory implements
     @Override
     public ReceiveGameBehaviour createRollDiceBehaviour(RollDice rollDice)
     {
-        if (gameWidget.getGame().getCurrentPhase() instanceof DetermineFirstPlayerGamePhase)
+        if (gameWidget.getGame().getCurrentPhase().isDetermineFirstPlayer())
         {
 
         }
-        if (gameWidget.getGame().getCurrentPhase() instanceof PlayTurnsGamePhase)
+        if (gameWidget.getGame().getCurrentPhase().isPlayTurns())
         {
             return new RollDiceResult(gameWidget, rollDice);
         }
@@ -140,7 +138,8 @@ public class ReceivedActionGameBehaviourFactory implements
     public ReceiveGameBehaviour createAcceptOfferBehaviour(
             AcceptTradeOffer acceptTradeOffer)
     {
-        return new DefaultOpponentReceivedBehaviour(gameWidget, acceptTradeOffer);
+        return new DefaultOpponentReceivedBehaviour(gameWidget,
+                acceptTradeOffer);
     }
 
     @Override
@@ -191,7 +190,8 @@ public class ReceivedActionGameBehaviourFactory implements
     public ReceiveGameBehaviour createRejectOfferBehaviour(
             RejectTradeOffer rejectTradeOffer)
     {
-        return new DefaultOpponentReceivedBehaviour(gameWidget, rejectTradeOffer);
+        return new DefaultOpponentReceivedBehaviour(gameWidget,
+                rejectTradeOffer);
     }
 
     @Override

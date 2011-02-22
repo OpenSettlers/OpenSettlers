@@ -2,7 +2,6 @@ package soc.gwtClient.game.behaviour.gameWidget.beforeSend;
 
 import soc.common.actions.gameAction.standard.BuildTown;
 import soc.common.board.pieces.Town;
-import soc.common.game.gamePhase.PlayTurnsGamePhase;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.behaviour.gameBoard.BuildTownBehaviour;
 import soc.gwtClient.game.behaviour.gameWidget.GameBehaviour;
@@ -35,12 +34,12 @@ public class BuildTownGameBehaviour implements GameBehaviour,
     public void start(GameWidget gameWidget)
     {
         GamePlayer player = gameWidget.getPlayingPlayer();
-        if (gameWidget.getGame().getCurrentPhase() instanceof PlayTurnsGamePhase)
+        if (gameWidget.getGame().getCurrentPhase().isPlayTurns())
         {
             if (player.getResources().hasAtLeast(town.getCost()))
             {
-                gameWidget.getBoardVisualWidget().getBoardVisual().setBehaviour(
-                        buildTownGameBoardBehaviour);
+                gameWidget.getBoardVisualWidget().getBoardVisual()
+                        .setBehaviour(buildTownGameBoardBehaviour);
             }
             else
             {
@@ -64,15 +63,15 @@ public class BuildTownGameBehaviour implements GameBehaviour,
     public void done()
     {
         gameWidget.sendAction(buildTown);
-        buildTownGameBoardBehaviour.setNeutral(gameWidget.getBoardVisualWidget()
-                .getBoardVisual());
+        buildTownGameBoardBehaviour.setNeutral(gameWidget
+                .getBoardVisualWidget().getBoardVisual());
     }
 
     @Override
     public void onCancelTrade()
     {
-        buildTownGameBoardBehaviour.setNeutral(gameWidget.getBoardVisualWidget()
-                .getBoardVisual());
+        buildTownGameBoardBehaviour.setNeutral(gameWidget
+                .getBoardVisualWidget().getBoardVisual());
     }
 
     @Override

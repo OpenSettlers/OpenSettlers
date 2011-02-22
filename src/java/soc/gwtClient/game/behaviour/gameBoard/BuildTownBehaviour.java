@@ -5,8 +5,6 @@ import java.util.Set;
 import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.standard.BuildTown;
 import soc.common.board.routing.GraphPoint;
-import soc.common.game.gamePhase.InitialPlacementGamePhase;
-import soc.common.game.gamePhase.PlayTurnsGamePhase;
 import soc.gwtClient.game.behaviour.gameWidget.GameBehaviourCallback;
 import soc.gwtClient.game.widgetsInterface.visuals.GameBoardVisual;
 import soc.gwtClient.game.widgetsInterface.visuals.PieceVisual;
@@ -49,12 +47,12 @@ public class BuildTownBehaviour extends BuildPointBehaviour
     @Override
     public void start(GameBoardVisual gameVisual)
     {
-        if (gameVisual.getGame().getCurrentPhase() instanceof InitialPlacementGamePhase)
+        if (gameVisual.getGame().getCurrentPhase().isInitialPlacement())
         {
             townCandidates = gameVisual.getBoard().getGraph()
                     .getTownCandidatesFirstTown(null);
         }
-        if (gameVisual.getGame().getCurrentPhase() instanceof PlayTurnsGamePhase)
+        if (gameVisual.getGame().getCurrentPhase().isPlayTurns())
         {
             townCandidates = gameVisual.getBoard().getGraph()
                     .getTownCandidatesTurnPhase(

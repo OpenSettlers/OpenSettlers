@@ -366,7 +366,7 @@ public class Game implements Serializable
 
         // Fire a TurnPhaseChangedEvent when setting new phase to
         // PlayTurnsGamePhase
-        if (currentPhase instanceof PlayTurnsGamePhase)
+        if (currentPhase.isPlayTurns())
         {
             eventBus.fireEvent(new TurnPhaseChangedEvent(
                     ((PlayTurnsGamePhase) currentPhase).getTurnPhase(), null));
