@@ -101,32 +101,6 @@ public class Resources
         return null;
     }
 
-    public static ImageResource card(Resource resource)
-    {
-        if (resource instanceof Wheat)
-        {
-            return icons.wheatCard();
-        }
-        if (resource instanceof Timber)
-        {
-            return icons.timberCard();
-        }
-        if (resource instanceof Ore)
-        {
-            return icons.oreCard();
-        }
-        if (resource instanceof Sheep)
-        {
-            return icons.sheepCard();
-        }
-        if (resource instanceof Clay)
-        {
-            return icons.clayCard();
-        }
-
-        return null;
-    }
-
     public static ImageResource piece(PlayerPiece piece)
     {
         if (piece instanceof City)

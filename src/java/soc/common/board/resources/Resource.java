@@ -2,7 +2,9 @@ package soc.common.board.resources;
 
 import java.io.Serializable;
 
-public interface Resource extends Serializable
+import soc.common.ui.meta.HasMeta;
+
+public interface Resource extends Serializable, HasMeta
 {
     public boolean isTradeable();
 

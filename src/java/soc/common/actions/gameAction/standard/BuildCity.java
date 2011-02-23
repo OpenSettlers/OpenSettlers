@@ -123,17 +123,17 @@ public class BuildCity extends AbstractTurnAction
             return false;
         }
 
-        if (!City.CITY.canBuild(game.getBoard(), player))
-        {
-            invalidMessage = "Player cannot build the city";
-            return false;
-        }
-
-        if (!City.CITY.canPay(player))
-        {
-            invalidMessage = "Player cannot pay for the city";
-            return false;
-        }
+        // if (!City.CITY.canBuild(game.getBoard(), player))
+        // {
+        // invalidMessage = "Player cannot build the city";
+        // return false;
+        // }
+        //
+        // if (!City.CITY.canPay(player))
+        // {
+        // invalidMessage = "Player cannot pay for the city";
+        // return false;
+        // }
 
         return true;
     }

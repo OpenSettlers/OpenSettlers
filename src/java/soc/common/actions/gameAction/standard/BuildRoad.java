@@ -114,17 +114,17 @@ public class BuildRoad extends AbstractTurnAction
 
         if (!(game.getCurrentPhase().isInitialPlacement()))
         {
-            if (!(Road.ROAD.canBuild(game.getBoard(), player)))
-            {
-                invalidMessage = "Player cannot build the road";
-                return false;
-            }
-
-            if (!(Road.ROAD.canPay(player)))
-            {
-                invalidMessage = "Player cannot pay for the road";
-                return false;
-            }
+            // if (!(Road.ROAD.canBuild(game.getBoard(), player)))
+            // {
+            // invalidMessage = "Player cannot build the road";
+            // return false;
+            // }
+            //
+            // if (!(Road.ROAD.canPay(player)))
+            // {
+            // invalidMessage = "Player cannot pay for the road";
+            // return false;
+            // }
         }
 
         return true;

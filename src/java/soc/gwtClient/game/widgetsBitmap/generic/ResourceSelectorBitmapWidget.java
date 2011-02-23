@@ -42,7 +42,8 @@ public class ResourceSelectorBitmapWidget implements ResourceSelectorWidget,
         this.resource = resource;
         this.ports = ports;
 
-        btnResource = new PushButton(new Image(Resources.card(resource)));
+        btnResource = new PushButton(new Image(resource.getMeta().icon()
+                .iconDefault()));
         btnResource.addClickHandler(this);
         imgPort = new Image();
 

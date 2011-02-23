@@ -4,7 +4,6 @@ import soc.common.board.resources.Resource;
 import soc.gwtClient.game.widgetsInterface.generic.ResourceClickedEvent;
 import soc.gwtClient.game.widgetsInterface.generic.ResourceClickedEventHandler;
 import soc.gwtClient.game.widgetsInterface.generic.ResourceWidget;
-import soc.gwtClient.images.Resources;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -26,7 +25,7 @@ public class ResourceBitmapWidget extends AbsolutePanel implements
     {
         super();
         this.resource = resource;
-        image = new Image(Resources.card(resource));
+        image = new Image(resource.getMeta().icon().iconDefault());
         image.addClickHandler(new ClickHandler()
         {
             @Override

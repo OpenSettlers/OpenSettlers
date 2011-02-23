@@ -5,7 +5,6 @@ import soc.common.board.resources.ResourceList;
 import soc.common.board.resources.ResourcesChangedEvent;
 import soc.common.board.resources.ResourcesChangedEventHandler;
 import soc.gwtClient.game.widgetsAbstract.main.AbstractBankStockResourceWidget;
-import soc.gwtClient.images.Resources;
 
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -20,7 +19,7 @@ public class BankStockResourceBitmapWidget extends
     {
         super(bank, resource);
 
-        reourceImage = new Image(Resources.card(resource));
+        reourceImage = new Image(resource.getMeta().icon().iconDefault());
 
         int amount = bank.ofType(resource).size();
         lblResourceAmount.setText(Integer.toString(amount));

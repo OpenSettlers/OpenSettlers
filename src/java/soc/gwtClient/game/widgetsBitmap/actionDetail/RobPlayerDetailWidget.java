@@ -18,7 +18,8 @@ public class RobPlayerDetailWidget extends AbstractActionDetailWidget
         this.robPlayer = robPlayer;
 
         rootPanel.add(new Image(Resources.icons().robber()));
-        rootPanel.add(new Image(Resources.card(robPlayer.getStolenResource())));
+        rootPanel.add(new Image(robPlayer.getStolenResource().getMeta().icon()
+                .iconDefault()));
     }
 
     @Override
