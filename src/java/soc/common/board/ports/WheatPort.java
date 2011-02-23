@@ -63,7 +63,8 @@ public class WheatPort extends TwoToOneResourcePort
     @Override
     public Port copy()
     {
-        return new WheatPort();
+        // TODO Auto-generated method stub
+        return null;
     }
 
     @Override
@@ -81,11 +82,5 @@ public class WheatPort extends TwoToOneResourcePort
     public Resource getResource()
     {
         return wheat;
-    }
-
-    @Override
-    public boolean canTrade(Resource resource)
-    {
-        return resource.isSameType(wheat);
     }
 }

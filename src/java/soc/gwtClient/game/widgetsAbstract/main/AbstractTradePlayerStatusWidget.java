@@ -195,13 +195,10 @@ public class AbstractTradePlayerStatusWidget implements
     @Override
     public void onResourcesChanged(ResourcesChangedEvent resourcesChanged)
     {
-        if (tradeResponse != null)
-        {
-            if (tradeResponse.isCounterOffer())
-                updateCounter((CounterTradeOffer) tradeResponse);
+        if (tradeResponse.isCounterOffer())
+            updateCounter((CounterTradeOffer) tradeResponse);
 
-            if (tradeResponse.isAccepted())
-                updateAccept((AcceptTradeOffer) tradeResponse);
-        }
+        if (tradeResponse.isAccepted())
+            updateAccept((AcceptTradeOffer) tradeResponse);
     }
 }
