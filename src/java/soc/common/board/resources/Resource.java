@@ -13,4 +13,6 @@ public interface Resource extends Serializable, HasMeta
     public String getColor();
 
     public Resource copy();
+
+    public boolean isSameType(Resource resource);
 }

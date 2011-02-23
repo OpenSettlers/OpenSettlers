@@ -83,4 +83,10 @@ public class OrePort extends TwoToOneResourcePort
         return ore;
     }
 
+    @Override
+    public boolean canTrade(Resource resource)
+    {
+        return resource.isSameType(ore);
+    }
+
 }

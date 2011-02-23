@@ -109,6 +109,17 @@ public abstract class AbstractGameServer implements GameServer
             if (game.hasBots())
                 handleBotActions();
         }
+        else
+        {
+            notifyNullActionReceived(action);
+        }
+    }
+
+    private void notifyNullActionReceived(GameAction action)
+    {
+        callback
+                .receive((GameAction) new MessageFromServer()
+                        .setServerMessage("Action was null, can't handle null actions."));
     }
 
     private void handleBotActions()

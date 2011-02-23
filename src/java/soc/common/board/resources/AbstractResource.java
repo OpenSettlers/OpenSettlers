@@ -41,4 +41,16 @@ public abstract class AbstractResource implements Resource
         return obj.getClass() == this.getClass();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.common.board.resources.Resource#isSameType(soc.common.board.resources
+     * .Resource)
+     */
+    @Override
+    public boolean isSameType(Resource resource)
+    {
+        return resource.getClass() == this.getClass();
+    }
 }

@@ -82,4 +82,10 @@ public class SheepPort extends TwoToOneResourcePort
     {
         return sheep;
     }
+
+    @Override
+    public boolean canTrade(Resource resource)
+    {
+        return resource.isSameType(sheep);
+    }
 }

@@ -7,15 +7,19 @@ import soc.gwtClient.game.widgetsBitmap.main.HotSeatGameWidget;
 import soc.gwtClient.lobby.GameLobby;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 
@@ -48,47 +52,70 @@ public class MainWindow implements EntryPoint
     @Override
     public void onModuleLoad()
     {
-        I18n.initialize(new ClientInternationalization());
-        createMenu();
-        mapEditor = new SvgMapEditor();
-        welcomePanel = new WelcomePanel(this);
-        hotseatGame = new HotSeatGameWidget();
-        wikiPage = new WikiPanel();
-        lobby = new GameLobby();
-        javadoc = new JavadocPanel();
-
-        currentWidget = welcomePanel;
-        centerWidget.add(currentWidget.getRootWidget());
-        rootPanel.addNorth(menu, 3);
-        rootMenuBar.setAutoOpen(false);
-        menu.add(rootMenuBar);
-        MenuBar firstMenu = new MenuBar(true);
-
-        rootMenuItem = new MenuItem("New menu", false, firstMenu);
-        rootMenuItem.setHTML("OpenSettlers");
-
-        editorMenutItem = new MenuItem("New item", false, (Command) null);
-        firstMenu.addItem(editorMenutItem);
-        editorMenutItem.setHTML("MapCreator");
-
-        hotseatMenuItem = new MenuItem("New item", false, (Command) null);
-        firstMenu.addItem(hotseatMenuItem);
-        hotseatMenuItem.setHTML("Hotseat game");
-        rootMenuBar.addItem(rootMenuItem);
-
-        PushButton btnWelcomePanel = new PushButton("welcomePanel");
-        btnWelcomePanel.addClickHandler(new ClickHandler()
+        final PopupPanel loadPanel = new PopupPanel();
+        final HTML htmlLoadMessage = new HTML(
+                "<h1 style=\"font-size=4em;\">Loading OpenSettlers...</h1>");
+        loadPanel.add(htmlLoadMessage);
+        loadPanel.center();
+        loadPanel.show();
+        GWT.runAsync(new RunAsyncCallback()
         {
             @Override
-            public void onClick(ClickEvent event)
+            public void onSuccess()
             {
-                setCurrentWidget(welcomePanel);
+                loadPanel.hide();
+                I18n.initialize(new ClientInternationalization());
+                createMenu();
+                mapEditor = new SvgMapEditor();
+                welcomePanel = new WelcomePanel(MainWindow.this);
+                hotseatGame = new HotSeatGameWidget();
+                wikiPage = new WikiPanel();
+                lobby = new GameLobby();
+                javadoc = new JavadocPanel();
+
+                currentWidget = welcomePanel;
+                centerWidget.add(currentWidget.getRootWidget());
+                rootPanel.addNorth(menu, 3);
+                rootMenuBar.setAutoOpen(false);
+                menu.add(rootMenuBar);
+                MenuBar firstMenu = new MenuBar(true);
+
+                rootMenuItem = new MenuItem("New menu", false, firstMenu);
+                rootMenuItem.setHTML("OpenSettlers");
+
+                editorMenutItem = new MenuItem("New item", false,
+                        (Command) null);
+                firstMenu.addItem(editorMenutItem);
+                editorMenutItem.setHTML("MapCreator");
+
+                hotseatMenuItem = new MenuItem("New item", false,
+                        (Command) null);
+                firstMenu.addItem(hotseatMenuItem);
+                hotseatMenuItem.setHTML("Hotseat game");
+                rootMenuBar.addItem(rootMenuItem);
+
+                PushButton btnWelcomePanel = new PushButton("welcomePanel");
+                btnWelcomePanel.addClickHandler(new ClickHandler()
+                {
+                    @Override
+                    public void onClick(ClickEvent event)
+                    {
+                        setCurrentWidget(welcomePanel);
+                    }
+                });
+                menu.add(btnWelcomePanel);
+                rootPanel.add(centerWidget);
+
+                RootLayoutPanel.get().add(rootPanel);
+            }
+
+            @Override
+            public void onFailure(Throwable reason)
+            {
+                htmlLoadMessage
+                        .setText("The interwebs are not with you today. OpenSettlers loading failed, sorry.");
             }
         });
-        menu.add(btnWelcomePanel);
-        rootPanel.add(centerWidget);
-
-        RootLayoutPanel.get().add(rootPanel);
     }
 
     /**

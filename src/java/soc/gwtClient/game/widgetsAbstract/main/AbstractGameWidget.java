@@ -48,6 +48,7 @@ public abstract class AbstractGameWidget implements GameWidget, CenterWidget,
     protected GameServer server;
     protected Game game;
     protected GameBehaviour gameBehaviour;
+    protected GameBehaviour opponentBehaviour;
     protected GamePlayer player;
 
     // Factory to create various stuff
@@ -273,7 +274,9 @@ public abstract class AbstractGameWidget implements GameWidget, CenterWidget,
         }
 
         // Create a behaviour based on our action
-        GameBehaviour gameBehaviour = action.getSendBehaviour(null);
+        GameBehaviourFactory factory = clientFactory.getBehaviourFactory()
+                .getSendBehaviourFactory();
+        GameBehaviour gameBehaviour = action.getSendBehaviour(factory);
 
         if (gameBehaviour != null)
         {
@@ -304,30 +307,37 @@ public abstract class AbstractGameWidget implements GameWidget, CenterWidget,
     @Override
     public void receive(GameAction gameAction)
     {
-        ReceiveGameBehaviour newBehaviour;
         ReceiveGameBehaviourFactory normalReceiveBehaviourFactory = clientFactory
                 .getBehaviourFactory().getReceiveBehaviourFactory();
         ReceiveGameBehaviourFactory opponentReceiveBehaviourFactory = clientFactory
                 .getBehaviourFactory().getOpponentReceiveBehaviourFactory();
 
-        // Grab new game behaviour for received action
+        ReceiveGameBehaviour currentPlayerBehaviour = null;
+        ReceiveGameBehaviour opponentBehaviour = null;
+
+        // Grab new game behaviours for received action
         if (gameAction.getPlayer().equals(player))
-            newBehaviour = gameAction
-                    .getReceiveBehaviour(normalReceiveBehaviourFactory);
-        else
-            newBehaviour = gameAction
-                    .getOpponentReceiveBehaviour(opponentReceiveBehaviourFactory);
-
-        if (newBehaviour != null)
         {
-            setNewGameBehaviour(newBehaviour);
+            currentPlayerBehaviour = gameAction
+                    .getReceiveBehaviour(normalReceiveBehaviourFactory);
+            if (currentPlayerBehaviour != null)
+            {
+                setNewCurrentPlayerGameBehaviour(currentPlayerBehaviour);
 
-            if (!newBehaviour.endsManually())
+                if (!currentPlayerBehaviour.endsManually())
+                    setBehaviourForNextAction();
+            }
+            else
+            {
                 setBehaviourForNextAction();
+            }
         }
         else
         {
-            setBehaviourForNextAction();
+            opponentBehaviour = gameAction
+                    .getOpponentReceiveBehaviour(opponentReceiveBehaviourFactory);
+            if (opponentBehaviour != null)
+                setNewOpponentGameBehaviour(opponentBehaviour);
         }
     }
 
@@ -362,20 +372,33 @@ public abstract class AbstractGameWidget implements GameWidget, CenterWidget,
             GameBehaviour newBehaviour = next.getNextActionBehaviour(factory);
 
             if (newBehaviour != null)
-                setNewGameBehaviour(newBehaviour);
+                setNewCurrentPlayerGameBehaviour(newBehaviour);
         }
     }
 
     /*
      * Updates the current behaviour to given behaviour
      */
-    protected void setNewGameBehaviour(GameBehaviour newGameBehaviour)
+    protected void setNewCurrentPlayerGameBehaviour(
+            GameBehaviour newGameBehaviour)
     {
         if (gameBehaviour != null)
             gameBehaviour.finish();
 
         gameBehaviour = newGameBehaviour;
         gameBehaviour.start(this);
+    }
+
+    /*
+     * Updates the current behaviour to given behaviour
+     */
+    protected void setNewOpponentGameBehaviour(GameBehaviour newGameBehaviour)
+    {
+        if (opponentBehaviour != null)
+            opponentBehaviour.finish();
+
+        opponentBehaviour = newGameBehaviour;
+        opponentBehaviour.start(this);
     }
 
     @Override

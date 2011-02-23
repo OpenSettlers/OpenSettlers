@@ -10,6 +10,7 @@ import soc.gwtClient.game.widgetsBitmap.actionDetail.ActionDetailBitmapWidgetFac
 import soc.gwtClient.game.widgetsBitmap.actions.ActionWidgetBitmapFactory;
 import soc.gwtClient.game.widgetsBitmap.actions.DiceWidgetBitmapFactory;
 import soc.gwtClient.game.widgetsBitmap.main.GameBitmapWidgetFactory;
+import soc.gwtClient.game.widgetsBitmap.main.GamePhaseStatusBitmapWidgetFactory;
 import soc.gwtClient.game.widgetsBitmap.playerInfo.StockItemBitmapWidgetFactory;
 import soc.gwtClient.game.widgetsInterface.actions.ActionDetailWidgetFactory;
 import soc.gwtClient.game.widgetsInterface.actions.ActionWidgetFactory;
@@ -39,6 +40,8 @@ public class DefaultClientFactory implements ClientFactory
                 gameWidget);
         gameWidgetFactory = new GameBitmapWidgetFactory(gameWidget);
         actionDetailWidgetFactory = new ActionDetailBitmapWidgetFactory(
+                gameWidget);
+        gamePhaseStausWidgetFactory = new GamePhaseStatusBitmapWidgetFactory(
                 gameWidget);
     }
 
@@ -73,8 +76,7 @@ public class DefaultClientFactory implements ClientFactory
     @Override
     public GamePhaseStatusWidgetFactory getGamePhaseStatusWidgetFactory()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return gamePhaseStausWidgetFactory;
     }
 
     @Override

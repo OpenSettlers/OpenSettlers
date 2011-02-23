@@ -82,4 +82,10 @@ public class ClayPort extends TwoToOneResourcePort
     {
         return clay;
     }
+
+    @Override
+    public boolean canTrade(Resource resource)
+    {
+        return resource.isSameType(clay);
+    }
 }

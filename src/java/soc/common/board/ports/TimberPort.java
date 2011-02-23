@@ -82,4 +82,10 @@ public class TimberPort extends TwoToOneResourcePort
     {
         return timber;
     }
+
+    @Override
+    public boolean canTrade(Resource resource)
+    {
+        return resource.isSameType(timber);
+    }
 }
