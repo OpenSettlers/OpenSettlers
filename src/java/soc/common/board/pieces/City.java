@@ -6,6 +6,7 @@ import soc.common.board.hexes.Hex;
 import soc.common.board.pieces.abstractPieces.AbstractPlayerPiece;
 import soc.common.board.pieces.abstractPieces.PointPiece;
 import soc.common.board.pieces.abstractPieces.Producable;
+import soc.common.board.pieces.abstractPieces.StockPiece;
 import soc.common.board.resources.Ore;
 import soc.common.board.resources.ResourceList;
 import soc.common.board.resources.Wheat;
@@ -17,12 +18,14 @@ import soc.common.ui.Icon;
 import soc.common.ui.IconImpl;
 import soc.common.ui.meta.Meta;
 import soc.gwtClient.game.widgetsInterface.generic.ToolTip;
+import soc.gwtClient.game.widgetsInterface.playerInfo.StockItemWidget;
+import soc.gwtClient.game.widgetsInterface.playerInfo.StockItemWidgetFactory;
 import soc.gwtClient.game.widgetsInterface.visuals.PieceVisual;
 import soc.gwtClient.game.widgetsInterface.visuals.VisualFactory;
 import soc.gwtClient.images.Resources;
 
 public class City extends AbstractPlayerPiece implements VictoryPointItem,
-        PointPiece, Producable
+        PointPiece, Producable, StockPiece
 {
     private static final long serialVersionUID = 6682481845539642397L;
     private static Meta meta = new Meta()
@@ -198,5 +201,11 @@ public class City extends AbstractPlayerPiece implements VictoryPointItem,
     public Meta getMeta()
     {
         return meta;
+    }
+
+    @Override
+    public StockItemWidget createStockItemWidget(StockItemWidgetFactory factory)
+    {
+        return factory.createCityStockWidget();
     }
 }

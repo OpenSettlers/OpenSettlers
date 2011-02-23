@@ -1,11 +1,10 @@
-package soc.common.actions.gameAction;
+package soc.common.actions.gameAction.meta;
 
+import soc.common.actions.gameAction.AbstractGameAction;
 import soc.common.game.Game;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
 import soc.common.internationalization.I18n;
-import soc.common.server.actions.GameServerActionFactory;
-import soc.common.server.actions.ServerAction;
 import soc.common.ui.Graphics;
 import soc.common.ui.Icon;
 import soc.common.ui.IconImpl;
@@ -18,9 +17,12 @@ import soc.gwtClient.game.widgetsInterface.actions.ActionWidget;
 import soc.gwtClient.game.widgetsInterface.actions.ActionWidgetFactory;
 import soc.gwtClient.game.widgetsInterface.generic.ToolTip;
 
-public class HostStartsGame extends AbstractGameAction
+/*
+ * A player is saying something in this game using a text chat interface
+ */
+public class GameChat extends AbstractGameAction
 {
-    private static final long serialVersionUID = 4729872692877969851L;
+    private static final long serialVersionUID = -3710258112524872173L;
     private static Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(null, null, null, null);
@@ -66,56 +68,42 @@ public class HostStartsGame extends AbstractGameAction
             return null;
         }
     };
-    private Game game;
+    private String chatMessage;
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * soc.common.actions.gameAction.AbstractGameAction#perform(soc.common.game
-     * .Game)
+    /**
+     * @return the chatMessage
      */
-    @Override
-    public void perform(Game game)
+    public String getChatMessage()
     {
-        game.initialize();
-        game.start();
-        game.getActionsQueue().enqueue(
-                (GameAction) new GamePhaseHasEnded().setSender(0), true);
-
-        super.perform(game);
+        return chatMessage;
     }
 
     /**
-     * @return the game
+     * @param chatMessage
+     *            the chatMessage to set
      */
-    public Game getGame()
+    public GameChat setChatMessage(String chatMessage)
     {
-        return game;
-    }
-
-    /**
-     * @param game
-     *            the game to set
-     */
-    public HostStartsGame setGame(Game game)
-    {
-        this.game = game;
+        this.chatMessage = chatMessage;
 
         return this;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * soc.common.actions.gameAction.GameAction#isAllowed(soc.common.game.gamePhase
-     * .GamePhase)
-     */
+    @Override
+    public void perform(Game game)
+    {
+        // Add the chat message to the chat log of this game
+        game.getChatLog().say(this);
+
+        message = ": " + chatMessage;
+
+        super.perform(game);
+    }
+
     @Override
     public boolean isAllowed(GamePhase gamePhase)
     {
-        return gamePhase.isLobby();
+        return true;
     }
 
     /*
@@ -128,7 +116,7 @@ public class HostStartsGame extends AbstractGameAction
     @Override
     public boolean isAllowed(TurnPhase turnPhase)
     {
-        return false;
+        return true;
     }
 
     @Override
@@ -138,8 +126,7 @@ public class HostStartsGame extends AbstractGameAction
     }
 
     @Override
-    public ActionWidget createActionWidget(
-            ActionWidgetFactory actionWidgetFactory)
+    public ActionWidget createActionWidget(ActionWidgetFactory actionWidgetFactory)
     {
         return null;
     }
@@ -148,28 +135,28 @@ public class HostStartsGame extends AbstractGameAction
     public GameBehaviour getNextActionBehaviour(
             GameBehaviourFactory gameBehaviourFactory)
     {
-        return gameBehaviourFactory.createHostStartsBehaviour(this);
+        return gameBehaviourFactory.createGameChatBehaviour(this);
     }
 
     @Override
     public ReceiveGameBehaviour getOpponentReceiveBehaviour(
             ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
-        return receiveGameBehaviourFactory.createHostStartsBehaviour(this);
+        return receiveGameBehaviourFactory.createGameChatBehaviour(this);
     }
 
     @Override
     public ReceiveGameBehaviour getReceiveBehaviour(
             ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
-        return receiveGameBehaviourFactory.createHostStartsBehaviour(this);
+        return receiveGameBehaviourFactory.createGameChatBehaviour(this);
     }
 
     @Override
     public GameBehaviour getSendBehaviour(
             GameBehaviourFactory gameBehaviourFactory)
     {
-        return gameBehaviourFactory.createHostStartsBehaviour(this);
+        return gameBehaviourFactory.createGameChatBehaviour(this);
     }
 
     @Override
@@ -177,18 +164,4 @@ public class HostStartsGame extends AbstractGameAction
     {
         return meta;
     }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * soc.common.actions.gameAction.AbstractGameAction#createServerAction(soc
-     * .common.server.actions.ServerActionFactory)
-     */
-    @Override
-    public ServerAction createServerAction(GameServerActionFactory factory)
-    {
-        return factory.createHostStartsGameServerAction(this);
-    }
-
 }

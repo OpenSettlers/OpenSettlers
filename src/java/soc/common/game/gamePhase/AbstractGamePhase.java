@@ -1,7 +1,7 @@
 package soc.common.game.gamePhase;
 
 import soc.common.actions.gameAction.GameAction;
-import soc.common.actions.gameAction.GamePhaseHasEnded;
+import soc.common.actions.gameAction.turns.GamePhaseHasEnded;
 import soc.common.game.Game;
 import soc.common.game.Turn;
 import soc.common.game.TurnImpl;

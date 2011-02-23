@@ -1,6 +1,6 @@
 package soc.gwtClient.game.widgetsBitmap.main;
 
-import soc.common.actions.gameAction.GameChat;
+import soc.common.actions.gameAction.meta.GameChat;
 import soc.common.game.logs.SaidEvent;
 import soc.common.game.logs.SaidEventHandler;
 import soc.gwtClient.game.widgetsInterface.main.ChatWidget;

@@ -13,7 +13,7 @@ import soc.common.board.pieces.Road;
 import soc.common.board.pieces.Robber;
 import soc.common.board.pieces.Town;
 import soc.common.board.pieces.abstractPieces.Piece;
-import soc.common.board.pieces.abstractPieces.PlayerPiece;
+import soc.common.board.pieces.abstractPieces.StockPiece;
 import soc.common.board.ports.PortList;
 import soc.common.board.resources.Resource;
 import soc.common.game.Game;
@@ -33,7 +33,7 @@ public class GameRulesImpl implements GameRules
     private List<Resource> playableResources = new ArrayList<Resource>();
     private List<Piece> playablePieces = new ArrayList<Piece>();
     private List<Hex> playableHexTypes = new ArrayList<Hex>();
-    private List<PlayerPiece> stockPieceTypes = new ArrayList<PlayerPiece>();
+    private List<StockPiece> stockPieceTypes = new ArrayList<StockPiece>();
     private List<Resource> tradeableResources = new ArrayList<Resource>();
     private DevelopmentCardList devCards;
     private PortList supportedPorts = new PortList(true);
@@ -209,7 +209,7 @@ public class GameRulesImpl implements GameRules
     /**
      * @return the stockPieces
      */
-    public List<PlayerPiece> getStockPieces()
+    public List<StockPiece> getStockPieces()
     {
         return stockPieceTypes;
     }
@@ -283,16 +283,8 @@ public class GameRulesImpl implements GameRules
     private void createStockPieces()
     {
         for (Piece piece : playablePieces)
-        {
-            if (piece instanceof PlayerPiece)
-            {
-                PlayerPiece playerPiece = (PlayerPiece) piece;
-                if (playerPiece.isStockPiece())
-                {
-                    stockPieceTypes.add(playerPiece);
-                }
-            }
-        }
+            if (piece instanceof StockPiece)
+                stockPieceTypes.add((StockPiece) piece);
     }
 
     private void createPlayerStocks()
@@ -314,10 +306,8 @@ public class GameRulesImpl implements GameRules
     private void createTradeableResources()
     {
         for (Resource resource : getSupportedResources())
-        {
             if (resource.isTradeable())
                 tradeableResources.add(resource);
-        }
     }
 
     /*

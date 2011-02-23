@@ -3,7 +3,7 @@ package soc.common.game.logs;
 import java.util.ArrayList;
 import java.util.List;
 
-import soc.common.actions.gameAction.GameChat;
+import soc.common.actions.gameAction.meta.GameChat;
 
 import com.google.gwt.event.shared.SimpleEventBus;
 

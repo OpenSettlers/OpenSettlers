@@ -6,7 +6,6 @@ import soc.common.board.pieces.Road;
 import soc.common.game.Game;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
-import soc.common.game.player.GamePlayer;
 import soc.common.internationalization.I18n;
 import soc.common.ui.Graphics;
 import soc.common.ui.Icon;
@@ -110,8 +109,6 @@ public class BuildRoad extends AbstractTurnAction
             return false;
         }
 
-        GamePlayer player = game.getPlayerByID(sender);
-
         if (!(game.getCurrentPhase().isInitialPlacement()))
         {
             // if (!(Road.ROAD.canBuild(game.getBoard(), player)))
@@ -154,6 +151,7 @@ public class BuildRoad extends AbstractTurnAction
             {
                 // the player has played a road building card this turn
                 player.setRoadBuildingTokens(roadBuildingTokens--);
+                usedRoadbuildingToken = true;
             }
             else
             {

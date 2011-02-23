@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import soc.common.actions.gameAction.GameAction;
-import soc.common.actions.gameAction.MessageFromServer;
+import soc.common.actions.gameAction.meta.MessageFromServer;
 import soc.common.bots.BotPrincipal;
 import soc.common.game.Game;
 import soc.common.game.logs.ActionsQueue;

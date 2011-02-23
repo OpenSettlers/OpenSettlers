@@ -2,8 +2,14 @@ package soc.common.board.pieces;
 
 import soc.common.board.HexLocation;
 import soc.common.board.pieces.abstractPieces.AbstractPiece;
+import soc.common.ui.Graphics;
+import soc.common.ui.Icon;
+import soc.common.ui.IconImpl;
+import soc.common.ui.meta.Meta;
+import soc.gwtClient.game.widgetsInterface.generic.ToolTip;
 import soc.gwtClient.game.widgetsInterface.visuals.PieceVisual;
 import soc.gwtClient.game.widgetsInterface.visuals.VisualFactory;
+import soc.gwtClient.images.Resources;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
@@ -11,6 +17,51 @@ import com.google.gwt.event.shared.SimpleEventBus;
 public class Robber extends AbstractPiece
 {
     private static final long serialVersionUID = 2162591486291994070L;
+    private static Meta meta = new Meta()
+    {
+        private Icon icon = new IconImpl(Resources.icons().robber(), null,
+                null, Resources.icons().robberSmall());
+
+        @Override
+        public Icon icon()
+        {
+            return icon;
+        }
+
+        @Override
+        public Graphics graphics()
+        {
+            return null;
+        }
+
+        @Override
+        public String getName()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public String getLocalizedName()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public String getDescription()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public ToolTip createToolTip()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+    };
     private HexLocation location;
     private transient SimpleEventBus eventBus = new SimpleEventBus();
 
@@ -52,5 +103,11 @@ public class Robber extends AbstractPiece
     public PieceVisual createPiece(VisualFactory visualFactory)
     {
         return visualFactory.createRobberVisual(this);
+    }
+
+    @Override
+    public Meta getMeta()
+    {
+        return meta;
     }
 }

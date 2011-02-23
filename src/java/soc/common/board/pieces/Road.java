@@ -4,17 +4,71 @@ import soc.common.board.Board;
 import soc.common.board.HexSide;
 import soc.common.board.pieces.abstractPieces.AbstractPlayerPiece;
 import soc.common.board.pieces.abstractPieces.SidePiece;
+import soc.common.board.pieces.abstractPieces.StockPiece;
 import soc.common.board.resources.Clay;
 import soc.common.board.resources.ResourceList;
 import soc.common.board.resources.Timber;
 import soc.common.board.routing.GraphPoint;
 import soc.common.game.player.GamePlayer;
+import soc.common.ui.Graphics;
+import soc.common.ui.Icon;
+import soc.common.ui.IconImpl;
+import soc.common.ui.meta.Meta;
+import soc.gwtClient.game.widgetsInterface.generic.ToolTip;
+import soc.gwtClient.game.widgetsInterface.playerInfo.StockItemWidget;
+import soc.gwtClient.game.widgetsInterface.playerInfo.StockItemWidgetFactory;
 import soc.gwtClient.game.widgetsInterface.visuals.PieceVisual;
 import soc.gwtClient.game.widgetsInterface.visuals.VisualFactory;
+import soc.gwtClient.images.Resources;
 
-public class Road extends AbstractPlayerPiece implements SidePiece
+public class Road extends AbstractPlayerPiece implements SidePiece, StockPiece
 {
     private static final long serialVersionUID = -6137419255953696891L;
+    private static Meta meta = new Meta()
+    {
+        private Icon icon = new IconImpl(Resources.icons().road(), null, null,
+                Resources.icons().roadSmall());
+
+        @Override
+        public Icon icon()
+        {
+            return icon;
+        }
+
+        @Override
+        public Graphics graphics()
+        {
+            return null;
+        }
+
+        @Override
+        public String getName()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public String getLocalizedName()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public String getDescription()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public ToolTip createToolTip()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+    };
     private HexSide sideLocation;
 
     @Override
@@ -139,5 +193,17 @@ public class Road extends AbstractPlayerPiece implements SidePiece
     public PieceVisual createPiece(VisualFactory visualFactory)
     {
         return visualFactory.createRoadVisual(this);
+    }
+
+    @Override
+    public Meta getMeta()
+    {
+        return meta;
+    }
+
+    @Override
+    public StockItemWidget createStockItemWidget(StockItemWidgetFactory factory)
+    {
+        return factory.createRoadStockWidget();
     }
 }

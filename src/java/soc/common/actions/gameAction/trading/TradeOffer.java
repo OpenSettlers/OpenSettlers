@@ -3,7 +3,6 @@ package soc.common.actions.gameAction.trading;
 import soc.common.actions.gameAction.AbstractGameAction;
 import soc.common.actions.gameAction.turns.QueuedTradeResponse;
 import soc.common.board.resources.ResourceList;
-import soc.common.core.Core;
 import soc.common.game.Game;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
@@ -207,8 +206,7 @@ public class TradeOffer extends AbstractGameAction
     public ActionWidget createActionWidget(
             ActionWidgetFactory actionWidgetFactory)
     {
-        return Core.get().getClientFactory().getActionWidgetFactory(player)
-                .createTradePlayerWidget();
+        return actionWidgetFactory.createTradePlayerWidget();
     }
 
     @Override

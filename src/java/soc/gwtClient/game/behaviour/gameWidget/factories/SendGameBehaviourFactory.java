@@ -1,9 +1,7 @@
 package soc.gwtClient.game.behaviour.gameWidget.factories;
 
-import soc.common.actions.gameAction.GameChat;
-import soc.common.actions.gameAction.GamePhaseHasEnded;
-import soc.common.actions.gameAction.HostStartsGame;
-import soc.common.actions.gameAction.MessageFromServer;
+import soc.common.actions.gameAction.meta.GameChat;
+import soc.common.actions.gameAction.meta.MessageFromServer;
 import soc.common.actions.gameAction.standard.BuildCity;
 import soc.common.actions.gameAction.standard.BuildRoad;
 import soc.common.actions.gameAction.standard.BuildTown;
@@ -20,6 +18,8 @@ import soc.common.actions.gameAction.trading.TradeBank;
 import soc.common.actions.gameAction.trading.TradeOffer;
 import soc.common.actions.gameAction.trading.TradePlayer;
 import soc.common.actions.gameAction.turns.EndTurn;
+import soc.common.actions.gameAction.turns.GamePhaseHasEnded;
+import soc.common.actions.gameAction.turns.HostStartsGame;
 import soc.common.actions.gameAction.turns.QueuedTradeResponse;
 import soc.common.actions.gameAction.turns.RolledSame;
 import soc.common.actions.gameAction.turns.StartingPlayerDetermined;

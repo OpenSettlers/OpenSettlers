@@ -1,8 +1,5 @@
 package soc.gwtClient.game.widgetsBitmap.actions;
 
-import soc.common.game.dices.CitiesKnightsDice;
-import soc.common.game.dices.Dice;
-import soc.common.game.dices.StandardDice;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.widgetsInterface.actions.DiceWidget;
 import soc.gwtClient.game.widgetsInterface.actions.DiceWidgetFactory;
@@ -11,26 +8,40 @@ import soc.gwtClient.game.widgetsSvg.actions.SvgStandardDiceWidget;
 
 public class DiceWidgetBitmapFactory implements DiceWidgetFactory
 {
+    private GameWidget gameWidget;
     private GamePlayer player;
 
-    public DiceWidgetBitmapFactory(GamePlayer player)
+    public DiceWidgetBitmapFactory(GameWidget gameWidget, GamePlayer player)
     {
         super();
+        this.gameWidget = gameWidget;
         this.player = player;
     }
 
     @Override
-    public DiceWidget createDiceWidget(Dice diceType, GameWidget gameWidget)
+    public DiceWidget createCardsDeckDiceWidget()
     {
-        if (diceType instanceof StandardDice)
-        {
-            return new SvgStandardDiceWidget(gameWidget, player);
-        }
-        if (diceType instanceof CitiesKnightsDice)
-        {
-        }
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-        throw new RuntimeException(
-                "We should either have a StandardDice or CitiesKnightsDice, or a newly implemented dicetype");
+    @Override
+    public DiceWidget createCitiesKnightDiceWidget()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public DiceWidget createStandardDiceWidget()
+    {
+        return new SvgStandardDiceWidget(gameWidget, player);
+    }
+
+    @Override
+    public DiceWidget createVolcanoDiceWidget()
+    {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

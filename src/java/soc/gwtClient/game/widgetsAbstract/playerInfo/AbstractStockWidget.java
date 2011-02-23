@@ -1,8 +1,9 @@
 package soc.gwtClient.game.widgetsAbstract.playerInfo;
 
-import soc.common.board.pieces.abstractPieces.PlayerPiece;
+import soc.common.board.pieces.abstractPieces.StockPiece;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.widgetsInterface.main.GameWidget;
+import soc.gwtClient.game.widgetsInterface.playerInfo.StockItemWidgetFactory;
 import soc.gwtClient.game.widgetsInterface.playerInfo.StockWidget;
 
 import com.google.gwt.user.client.ui.ComplexPanel;
@@ -26,11 +27,12 @@ public abstract class AbstractStockWidget implements StockWidget
 
     private void createStockItemWidgetsList()
     {
-        for (PlayerPiece piece : gameWidget.getGame().getRules()
+        StockItemWidgetFactory factory = gameWidget.getClientFactory()
+                .getStockItemWidgetFactory(player);
+
+        for (StockPiece stockPiece : gameWidget.getGame().getRules()
                 .getStockPieces())
-        {
-            rootPanel.add(createStockItemWidget(piece));
-        }
+            rootPanel.add(stockPiece.createStockItemWidget(factory));
     }
 
     /*

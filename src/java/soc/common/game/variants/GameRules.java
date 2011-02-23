@@ -7,7 +7,7 @@ import soc.common.actions.gameAction.turns.TurnAction;
 import soc.common.board.hexes.Hex;
 import soc.common.board.pieces.Army;
 import soc.common.board.pieces.abstractPieces.Piece;
-import soc.common.board.pieces.abstractPieces.PlayerPiece;
+import soc.common.board.pieces.abstractPieces.StockPiece;
 import soc.common.board.ports.PortList;
 import soc.common.board.resources.Resource;
 import soc.common.game.Game;
@@ -55,7 +55,7 @@ public interface GameRules extends Serializable
      * Returns a list of piece types allowed in stock along with amount of items
      * maximum in stock for any player
      */
-    public List<PlayerPiece> getStockPieces();
+    public List<StockPiece> getStockPieces();
 
     /*
      * Returns a list of TurnAction types allowed to be played during a turn

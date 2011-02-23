@@ -17,14 +17,13 @@ import soc.common.board.hexes.SeaHex;
 import soc.common.board.hexes.SheepHex;
 import soc.common.board.hexes.TimberHex;
 import soc.common.board.hexes.WheatHex;
+import soc.common.board.ports.ClayPort;
+import soc.common.board.ports.OrePort;
 import soc.common.board.ports.RandomPort;
+import soc.common.board.ports.SheepPort;
 import soc.common.board.ports.ThreeToOnePort;
-import soc.common.board.ports.TwoToOneResourcePort;
-import soc.common.board.resources.Clay;
-import soc.common.board.resources.Ore;
-import soc.common.board.resources.Sheep;
-import soc.common.board.resources.Timber;
-import soc.common.board.resources.Wheat;
+import soc.common.board.ports.TimberPort;
+import soc.common.board.ports.WheatPort;
 import soc.common.board.territories.Territory;
 import soc.common.game.variants.Standard;
 
@@ -141,11 +140,11 @@ public class StandardFourPlayer extends Board
         mainlaind.getPorts().add(new ThreeToOnePort());
         mainlaind.getPorts().add(new ThreeToOnePort());
         mainlaind.getPorts().add(new ThreeToOnePort());
-        mainlaind.getPorts().add(new TwoToOneResourcePort(new Timber()));
-        mainlaind.getPorts().add(new TwoToOneResourcePort(new Wheat()));
-        mainlaind.getPorts().add(new TwoToOneResourcePort(new Ore()));
-        mainlaind.getPorts().add(new TwoToOneResourcePort(new Clay()));
-        mainlaind.getPorts().add(new TwoToOneResourcePort(new Sheep()));
+        mainlaind.getPorts().add(new TimberPort());
+        mainlaind.getPorts().add(new WheatPort());
+        mainlaind.getPorts().add(new OrePort());
+        mainlaind.getPorts().add(new ClayPort());
+        mainlaind.getPorts().add(new SheepPort());
 
         ((SeaHex) hexes.get(1, 0)).setPort(new RandomPort(hexes.get(1, 0)
                 .getLocation(), RotationPosition.DEG120));

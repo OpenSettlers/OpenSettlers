@@ -1,7 +1,7 @@
 package soc.common.server.actions;
 
 import soc.common.actions.gameAction.AbstractGameAction;
-import soc.common.actions.gameAction.HostStartsGame;
+import soc.common.actions.gameAction.turns.HostStartsGame;
 import soc.common.board.Board;
 import soc.common.game.developmentCards.DevelopmentCardList;
 import soc.common.game.player.GamePlayerImpl;

@@ -21,7 +21,8 @@ public class ActionWidgetBitmapFactory implements ActionWidgetFactory
         this.player = player;
         this.gameWidget = gameWidget;
 
-        diceWidgetFactory = new DiceWidgetBitmapFactory(player);
+        diceWidgetFactory = gameWidget.getClientFactory().getDiceWidgetFactory(
+                player);
     }
 
     @Override
@@ -69,8 +70,8 @@ public class ActionWidgetBitmapFactory implements ActionWidgetFactory
     @Override
     public ActionWidget createRollDiceWidget()
     {
-        return diceWidgetFactory.createDiceWidget(gameWidget.getGame()
-                .getRules().getDiceType(), gameWidget);
+        return gameWidget.getGame().getRules().getDiceType().createDiceWidget(
+                diceWidgetFactory);
     }
 
     @Override

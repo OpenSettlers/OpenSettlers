@@ -27,9 +27,6 @@ public class SetPortBehaviour implements BoardBehaviour
     public SetPortBehaviour setPort(Port p)
     {
         this.port = p;
-
-        // Enables fluent interface usage
-        // http://en.wikipedia.org/wiki/Fluent_interface
         return this;
     }
 

@@ -10,6 +10,11 @@ import soc.common.board.resources.Sheep;
 import soc.common.board.resources.Timber;
 import soc.common.board.routing.GraphPoint;
 import soc.common.game.player.GamePlayer;
+import soc.common.ui.Graphics;
+import soc.common.ui.Icon;
+import soc.common.ui.IconImpl;
+import soc.common.ui.meta.Meta;
+import soc.gwtClient.game.widgetsInterface.generic.ToolTip;
 import soc.gwtClient.game.widgetsInterface.visuals.PieceVisual;
 import soc.gwtClient.game.widgetsInterface.visuals.VisualFactory;
 
@@ -17,7 +22,50 @@ import soc.gwtClient.game.widgetsInterface.visuals.VisualFactory;
 public class Ship extends AbstractPlayerPiece implements SidePiece
 {
     private static final long serialVersionUID = -8125317569107776067L;
-    public static Ship SHIP = new Ship();
+    private static Meta meta = new Meta()
+    {
+        private Icon icon = new IconImpl(null, null, null, null);
+
+        @Override
+        public Icon icon()
+        {
+            return icon;
+        }
+
+        @Override
+        public Graphics graphics()
+        {
+            return null;
+        }
+
+        @Override
+        public String getName()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public String getLocalizedName()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public String getDescription()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public ToolTip createToolTip()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+    };
     private HexSide sideLocation;
 
     /*
@@ -156,6 +204,12 @@ public class Ship extends AbstractPlayerPiece implements SidePiece
     public PieceVisual createPiece(VisualFactory visualFactory)
     {
         return visualFactory.createShipVisual(this);
+    }
+
+    @Override
+    public Meta getMeta()
+    {
+        return meta;
     }
 
 }

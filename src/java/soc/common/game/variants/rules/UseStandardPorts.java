@@ -1,12 +1,11 @@
 package soc.common.game.variants.rules;
 
+import soc.common.board.ports.ClayPort;
+import soc.common.board.ports.OrePort;
+import soc.common.board.ports.SheepPort;
 import soc.common.board.ports.ThreeToOnePort;
-import soc.common.board.ports.TwoToOneResourcePort;
-import soc.common.board.resources.Clay;
-import soc.common.board.resources.Ore;
-import soc.common.board.resources.Sheep;
-import soc.common.board.resources.Timber;
-import soc.common.board.resources.Wheat;
+import soc.common.board.ports.TimberPort;
+import soc.common.board.ports.WheatPort;
 import soc.common.game.variants.GameRules;
 
 public class UseStandardPorts implements GameRule
@@ -22,11 +21,11 @@ public class UseStandardPorts implements GameRule
     @Override
     public void set(GameRules rules)
     {
-        rules.getSupportedPorts().add(new TwoToOneResourcePort(new Timber()));
-        rules.getSupportedPorts().add(new TwoToOneResourcePort(new Wheat()));
-        rules.getSupportedPorts().add(new TwoToOneResourcePort(new Ore()));
-        rules.getSupportedPorts().add(new TwoToOneResourcePort(new Clay()));
-        rules.getSupportedPorts().add(new TwoToOneResourcePort(new Sheep()));
+        rules.getSupportedPorts().add(new TimberPort());
+        rules.getSupportedPorts().add(new WheatPort());
+        rules.getSupportedPorts().add(new OrePort());
+        rules.getSupportedPorts().add(new ClayPort());
+        rules.getSupportedPorts().add(new SheepPort());
         rules.getSupportedPorts().add(new ThreeToOnePort());
     }
 

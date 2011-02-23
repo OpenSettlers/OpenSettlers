@@ -1,10 +1,10 @@
 package soc.common.game.gamePhase;
 
 import soc.common.actions.gameAction.GameAction;
-import soc.common.actions.gameAction.GamePhaseHasEnded;
 import soc.common.actions.gameAction.standard.BuildCity;
 import soc.common.actions.gameAction.standard.BuildRoad;
 import soc.common.actions.gameAction.standard.BuildTown;
+import soc.common.actions.gameAction.turns.GamePhaseHasEnded;
 import soc.common.game.Game;
 import soc.gwtClient.game.widgetsBitmap.status.GamePhaseStatusWidget;
 import soc.gwtClient.game.widgetsInterface.main.GamePhaseStatusWidgetFactory;

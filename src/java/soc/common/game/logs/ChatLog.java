@@ -2,7 +2,7 @@ package soc.common.game.logs;
 
 import java.io.Serializable;
 
-import soc.common.actions.gameAction.GameChat;
+import soc.common.actions.gameAction.meta.GameChat;
 
 public interface ChatLog extends Serializable
 {

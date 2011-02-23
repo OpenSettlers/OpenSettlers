@@ -1,7 +1,7 @@
 package soc.gwtClient.game.widgetsBitmap.main;
 
 import soc.common.actions.gameAction.GameAction;
-import soc.common.actions.gameAction.HostStartsGame;
+import soc.common.actions.gameAction.turns.HostStartsGame;
 import soc.common.game.Game;
 import soc.common.game.TurnChangedEvent;
 import soc.common.game.TurnChangedEventHandler;

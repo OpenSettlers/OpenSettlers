@@ -1,10 +1,6 @@
 package soc.gwtClient.images;
 
 import soc.common.board.Chit;
-import soc.common.board.pieces.City;
-import soc.common.board.pieces.Road;
-import soc.common.board.pieces.Town;
-import soc.common.board.pieces.abstractPieces.PlayerPiece;
 import soc.common.bots.Bot;
 import soc.common.game.gamePhase.DetermineFirstPlayerGamePhase;
 import soc.common.game.gamePhase.EndedGamePhase;
@@ -88,20 +84,6 @@ public class Resources
         case 12:
             return icons.chit12();
         }
-
-        return null;
-    }
-
-    public static ImageResource piece(PlayerPiece piece)
-    {
-        if (piece instanceof City)
-            return icons.city();
-
-        if (piece instanceof Town)
-            return icons.town();
-
-        if (piece instanceof Road)
-            return icons.road();
 
         return null;
     }

@@ -1,6 +1,6 @@
 package soc.gwtClient.game.widgetsBitmap.generic;
 
-import soc.common.actions.gameAction.MessageFromServer;
+import soc.common.actions.gameAction.meta.MessageFromServer;
 
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.safehtml.shared.SafeHtml;

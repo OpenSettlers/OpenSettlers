@@ -1,6 +1,6 @@
 package soc.gwtClient.game.behaviour.gameWidget.received;
 
-import soc.common.actions.gameAction.MessageFromServer;
+import soc.common.actions.gameAction.meta.MessageFromServer;
 import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 
 public class ErrorReceivedGameBehaviour implements ReceiveGameBehaviour

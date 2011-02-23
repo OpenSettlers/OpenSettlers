@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import soc.common.actions.gameAction.GameAction;
-import soc.common.actions.gameAction.GamePhaseHasEnded;
 import soc.common.actions.gameAction.standard.RollDice;
+import soc.common.actions.gameAction.turns.GamePhaseHasEnded;
 import soc.common.actions.gameAction.turns.RolledSame;
 import soc.common.actions.gameAction.turns.StartingPlayerDetermined;
 import soc.common.game.Game;

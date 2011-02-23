@@ -1,12 +1,11 @@
 package soc.common.game.dices;
 
 import soc.common.server.randomization.Random;
+import soc.gwtClient.game.widgetsInterface.actions.DiceWidget;
+import soc.gwtClient.game.widgetsInterface.actions.DiceWidgetFactory;
 
 public class StandardDice implements Dice
 {
-    /**
-     * 
-     */
     private static final long serialVersionUID = -3562069307843936600L;
     private int dice1;
     private int dice2;
@@ -31,9 +30,6 @@ public class StandardDice implements Dice
     public StandardDice setDice1(int dice1)
     {
         this.dice1 = dice1;
-
-        // Enables fluent interface usage
-        // http://en.wikipedia.org/wiki/Fluent_interface
         return this;
     }
 
@@ -64,10 +60,13 @@ public class StandardDice implements Dice
     public StandardDice setDice2(int dice2)
     {
         this.dice2 = dice2;
-
-        // Enables fluent interface usage
-        // http://en.wikipedia.org/wiki/Fluent_interface
         return this;
+    }
+
+    @Override
+    public DiceWidget createDiceWidget(DiceWidgetFactory factory)
+    {
+        return factory.createStandardDiceWidget();
     }
 
 }

@@ -86,8 +86,8 @@ public class TradeBankDialog extends PopupPanel implements BankTradeWidget,
     {
         // Player can trade when amount of gold resources equals amount of
         // picked resources
-        btnTrade.setEnabled(gameWidget.getPlayingPlayer().getPorts().amountGold(
-                giveResources) == wantResources.size()
+        btnTrade.setEnabled(gameWidget.getPlayingPlayer().getPorts()
+                .amountGold(giveResources) == wantResources.size()
                 && wantResources.size() > 0);
     }
 
@@ -147,7 +147,8 @@ public class TradeBankDialog extends PopupPanel implements BankTradeWidget,
                     .getCost()));
 
             // Update image
-            imgPiece.setUrl(Resources.piece(pieceToTradeFor).getURL());
+            imgPiece.setUrl(pieceToTradeFor.getMeta().icon().iconDefault()
+                    .getURL());
             lblTradeForA.setText(I18n.get().ui().bankTradeForA()
                     + I18n.piece(pieceToTradeFor));
             panelPieceTrade.setVisible(true);
@@ -332,7 +333,8 @@ public class TradeBankDialog extends PopupPanel implements BankTradeWidget,
     @Override
     public void show()
     {
-        Point2D location = gameWidget.getPlayersInfoWidget().getTopRightLocation();
+        Point2D location = gameWidget.getPlayersInfoWidget()
+                .getTopRightLocation();
         setPopupPosition(location.getX(), location.getY());
 
         super.show();

@@ -1,12 +1,12 @@
 package soc.common.server.actions;
 
 import soc.common.actions.gameAction.GameAction;
-import soc.common.actions.gameAction.HostStartsGame;
 import soc.common.actions.gameAction.standard.BuyDevelopmentCard;
 import soc.common.actions.gameAction.standard.RobPlayer;
 import soc.common.actions.gameAction.standard.RollDice;
 import soc.common.actions.gameAction.trading.TradeOffer;
 import soc.common.actions.gameAction.turns.EndTurn;
+import soc.common.actions.gameAction.turns.HostStartsGame;
 
 /*
  * Creates a server side action for given GameAction. Returning null is not allowed,

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import soc.common.server.randomization.Random;
+import soc.gwtClient.game.widgetsInterface.actions.DiceWidget;
+import soc.gwtClient.game.widgetsInterface.actions.DiceWidgetFactory;
 
 /*
  * Represents a deck of 36 cards, shuffled at start. When a player "rolls", a card from 
@@ -19,6 +21,12 @@ public class CardsDeckDice implements Dice
     @Override
     public void roll(Random random)
     {
+    }
+
+    @Override
+    public DiceWidget createDiceWidget(DiceWidgetFactory factory)
+    {
+        return factory.createCardsDeckDiceWidget();
     }
 
 }

@@ -1,9 +1,13 @@
-package soc.common.actions.gameAction;
+package soc.common.actions.gameAction.turns;
 
+import soc.common.actions.gameAction.AbstractGameAction;
+import soc.common.actions.gameAction.GameAction;
 import soc.common.game.Game;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
 import soc.common.internationalization.I18n;
+import soc.common.server.actions.GameServerActionFactory;
+import soc.common.server.actions.ServerAction;
 import soc.common.ui.Graphics;
 import soc.common.ui.Icon;
 import soc.common.ui.IconImpl;
@@ -16,12 +20,9 @@ import soc.gwtClient.game.widgetsInterface.actions.ActionWidget;
 import soc.gwtClient.game.widgetsInterface.actions.ActionWidgetFactory;
 import soc.gwtClient.game.widgetsInterface.generic.ToolTip;
 
-/*
- * Announces a gamephase which has been ended
- */
-public class GamePhaseHasEnded extends AbstractGameAction
+public class HostStartsGame extends AbstractGameAction
 {
-    private static final long serialVersionUID = 3377193429519428414L;
+    private static final long serialVersionUID = 4729872692877969851L;
     private static Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(null, null, null, null);
@@ -67,66 +68,69 @@ public class GamePhaseHasEnded extends AbstractGameAction
             return null;
         }
     };
-    private GamePhase endedGamePhase;
-    private GamePhase newPhase;
+    private Game game;
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.common.actions.gameAction.AbstractGameAction#perform(soc.common.game
+     * .Game)
+     */
+    @Override
+    public void perform(Game game)
+    {
+        game.initialize();
+        game.start();
+        game.getActionsQueue().enqueue(
+                (GameAction) new GamePhaseHasEnded().setSender(0), true);
+
+        super.perform(game);
+    }
 
     /**
-     * @return the newPhase
+     * @return the game
      */
-    public GamePhase getNewPhase()
+    public Game getGame()
     {
-        return newPhase;
+        return game;
+    }
+
+    /**
+     * @param game
+     *            the game to set
+     */
+    public HostStartsGame setGame(Game game)
+    {
+        this.game = game;
+
+        return this;
     }
 
     /*
      * (non-Javadoc)
      * 
      * @see
-     * soc.common.actions.gameAction.GameAction#perform(soc.common.game.Game)
+     * soc.common.actions.gameAction.GameAction#isAllowed(soc.common.game.gamePhase
+     * .GamePhase)
      */
-    @Override
-    public void perform(Game game)
-    {
-        endedGamePhase = game.getCurrentPhase();
-        game.advanceGamePhase();
-        newPhase = game.getCurrentPhase();
-
-        // TODO: fix message
-        message = endedGamePhase.getName() + " has ended, entering"
-                + newPhase.getName();
-
-        super.perform(game);
-    }
-
-    /**
-     * @return the endedGamePhase
-     */
-    public GamePhase getEndedGamePhase()
-    {
-        return endedGamePhase;
-    }
-
-    /**
-     * @param endedGamePhase
-     *            the endedGamePhase to set
-     */
-    public GamePhaseHasEnded setEndedGamePhase(GamePhase endedGamePhase)
-    {
-        this.endedGamePhase = endedGamePhase;
-
-        return this;
-    }
-
-    @Override
-    public boolean isAllowed(TurnPhase turnPhase)
-    {
-        return true;
-    }
-
     @Override
     public boolean isAllowed(GamePhase gamePhase)
     {
-        return true;
+        return gamePhase.isLobby();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.common.actions.gameAction.GameAction#isAllowed(soc.common.game.gamePhase
+     * .turnPhase.TurnPhase)
+     */
+    @Override
+    public boolean isAllowed(TurnPhase turnPhase)
+    {
+        return false;
     }
 
     @Override
@@ -136,7 +140,8 @@ public class GamePhaseHasEnded extends AbstractGameAction
     }
 
     @Override
-    public ActionWidget createActionWidget(ActionWidgetFactory actionWidgetFactory)
+    public ActionWidget createActionWidget(
+            ActionWidgetFactory actionWidgetFactory)
     {
         return null;
     }
@@ -145,30 +150,28 @@ public class GamePhaseHasEnded extends AbstractGameAction
     public GameBehaviour getNextActionBehaviour(
             GameBehaviourFactory gameBehaviourFactory)
     {
-        return gameBehaviourFactory.createGamePhaseHasEndedBehaviour(this);
+        return gameBehaviourFactory.createHostStartsBehaviour(this);
     }
 
     @Override
     public ReceiveGameBehaviour getOpponentReceiveBehaviour(
             ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
-        return receiveGameBehaviourFactory
-                .createGamePhaseHasEndedBehaviour(this);
+        return receiveGameBehaviourFactory.createHostStartsBehaviour(this);
     }
 
     @Override
     public ReceiveGameBehaviour getReceiveBehaviour(
             ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
-        return receiveGameBehaviourFactory
-                .createGamePhaseHasEndedBehaviour(this);
+        return receiveGameBehaviourFactory.createHostStartsBehaviour(this);
     }
 
     @Override
     public GameBehaviour getSendBehaviour(
             GameBehaviourFactory gameBehaviourFactory)
     {
-        return gameBehaviourFactory.createGamePhaseHasEndedBehaviour(this);
+        return gameBehaviourFactory.createHostStartsBehaviour(this);
     }
 
     @Override
@@ -176,4 +179,18 @@ public class GamePhaseHasEnded extends AbstractGameAction
     {
         return meta;
     }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.common.actions.gameAction.AbstractGameAction#createServerAction(soc
+     * .common.server.actions.ServerActionFactory)
+     */
+    @Override
+    public ServerAction createServerAction(GameServerActionFactory factory)
+    {
+        return factory.createHostStartsGameServerAction(this);
+    }
+
 }

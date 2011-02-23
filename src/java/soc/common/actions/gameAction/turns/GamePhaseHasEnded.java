@@ -1,5 +1,6 @@
-package soc.common.actions.gameAction;
+package soc.common.actions.gameAction.turns;
 
+import soc.common.actions.gameAction.AbstractGameAction;
 import soc.common.game.Game;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
@@ -17,11 +18,11 @@ import soc.gwtClient.game.widgetsInterface.actions.ActionWidgetFactory;
 import soc.gwtClient.game.widgetsInterface.generic.ToolTip;
 
 /*
- * A player is saying something in this game using a text chat interface
+ * Announces a gamephase which has been ended
  */
-public class GameChat extends AbstractGameAction
+public class GamePhaseHasEnded extends AbstractGameAction
 {
-    private static final long serialVersionUID = -3710258112524872173L;
+    private static final long serialVersionUID = 3377193429519428414L;
     private static Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(null, null, null, null);
@@ -67,53 +68,64 @@ public class GameChat extends AbstractGameAction
             return null;
         }
     };
-    private String chatMessage;
+    private GamePhase endedGamePhase;
+    private GamePhase newPhase;
 
     /**
-     * @return the chatMessage
+     * @return the newPhase
      */
-    public String getChatMessage()
+    public GamePhase getNewPhase()
     {
-        return chatMessage;
-    }
-
-    /**
-     * @param chatMessage
-     *            the chatMessage to set
-     */
-    public GameChat setChatMessage(String chatMessage)
-    {
-        this.chatMessage = chatMessage;
-
-        return this;
-    }
-
-    @Override
-    public void perform(Game game)
-    {
-        // Add the chat message to the chat log of this game
-        game.getChatLog().say(this);
-
-        message = ": " + chatMessage;
-
-        super.perform(game);
-    }
-
-    @Override
-    public boolean isAllowed(GamePhase gamePhase)
-    {
-        return true;
+        return newPhase;
     }
 
     /*
      * (non-Javadoc)
      * 
      * @see
-     * soc.common.actions.gameAction.GameAction#isAllowed(soc.common.game.gamePhase
-     * .turnPhase.TurnPhase)
+     * soc.common.actions.gameAction.GameAction#perform(soc.common.game.Game)
      */
     @Override
+    public void perform(Game game)
+    {
+        endedGamePhase = game.getCurrentPhase();
+        game.advanceGamePhase();
+        newPhase = game.getCurrentPhase();
+
+        // TODO: fix message
+        message = endedGamePhase.getName() + " has ended, entering"
+                + newPhase.getName();
+
+        super.perform(game);
+    }
+
+    /**
+     * @return the endedGamePhase
+     */
+    public GamePhase getEndedGamePhase()
+    {
+        return endedGamePhase;
+    }
+
+    /**
+     * @param endedGamePhase
+     *            the endedGamePhase to set
+     */
+    public GamePhaseHasEnded setEndedGamePhase(GamePhase endedGamePhase)
+    {
+        this.endedGamePhase = endedGamePhase;
+
+        return this;
+    }
+
+    @Override
     public boolean isAllowed(TurnPhase turnPhase)
+    {
+        return true;
+    }
+
+    @Override
+    public boolean isAllowed(GamePhase gamePhase)
     {
         return true;
     }
@@ -134,28 +146,30 @@ public class GameChat extends AbstractGameAction
     public GameBehaviour getNextActionBehaviour(
             GameBehaviourFactory gameBehaviourFactory)
     {
-        return gameBehaviourFactory.createGameChatBehaviour(this);
+        return gameBehaviourFactory.createGamePhaseHasEndedBehaviour(this);
     }
 
     @Override
     public ReceiveGameBehaviour getOpponentReceiveBehaviour(
             ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
-        return receiveGameBehaviourFactory.createGameChatBehaviour(this);
+        return receiveGameBehaviourFactory
+                .createGamePhaseHasEndedBehaviour(this);
     }
 
     @Override
     public ReceiveGameBehaviour getReceiveBehaviour(
             ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
-        return receiveGameBehaviourFactory.createGameChatBehaviour(this);
+        return receiveGameBehaviourFactory
+                .createGamePhaseHasEndedBehaviour(this);
     }
 
     @Override
     public GameBehaviour getSendBehaviour(
             GameBehaviourFactory gameBehaviourFactory)
     {
-        return gameBehaviourFactory.createGameChatBehaviour(this);
+        return gameBehaviourFactory.createGamePhaseHasEndedBehaviour(this);
     }
 
     @Override

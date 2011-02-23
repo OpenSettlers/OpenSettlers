@@ -2,6 +2,8 @@ package soc.common.game.dices;
 
 import soc.common.annotations.SeaFarers;
 import soc.common.server.randomization.Random;
+import soc.gwtClient.game.widgetsInterface.actions.DiceWidget;
+import soc.gwtClient.game.widgetsInterface.actions.DiceWidgetFactory;
 
 /*
  * Represents a single 6-sided dice. Rolled when a volcano produces resources by
@@ -18,9 +20,6 @@ import soc.common.server.randomization.Random;
 @SeaFarers
 public class VolcanoDice implements Dice
 {
-    /**
-     * 
-     */
     private static final long serialVersionUID = -4243164420585542860L;
     private int dice = 0;
 
@@ -52,6 +51,12 @@ public class VolcanoDice implements Dice
         this.dice = dice;
 
         return this;
+    }
+
+    @Override
+    public DiceWidget createDiceWidget(DiceWidgetFactory factory)
+    {
+        return factory.createVolcanoDiceWidget();
     }
 
 }

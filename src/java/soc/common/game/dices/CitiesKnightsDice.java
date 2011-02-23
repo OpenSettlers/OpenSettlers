@@ -2,6 +2,8 @@ package soc.common.game.dices;
 
 import soc.common.annotations.CitiesKnights;
 import soc.common.server.randomization.Random;
+import soc.gwtClient.game.widgetsInterface.actions.DiceWidget;
+import soc.gwtClient.game.widgetsInterface.actions.DiceWidgetFactory;
 
 @CitiesKnights
 public class CitiesKnightsDice implements Dice
@@ -13,5 +15,11 @@ public class CitiesKnightsDice implements Dice
     {
         // TODO Auto-generated method stub
 
+    }
+
+    @Override
+    public DiceWidget createDiceWidget(DiceWidgetFactory factory)
+    {
+        return factory.createCitiesKnightDiceWidget();
     }
 }
