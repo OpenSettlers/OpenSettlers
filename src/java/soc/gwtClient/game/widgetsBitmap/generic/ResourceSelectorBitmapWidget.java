@@ -9,7 +9,6 @@ import soc.common.board.resources.ResourcesChangedEventHandler;
 import soc.gwtClient.game.widgetsInterface.generic.ResourceClickedEvent;
 import soc.gwtClient.game.widgetsInterface.generic.ResourceClickedEventHandler;
 import soc.gwtClient.game.widgetsInterface.generic.ResourceSelectorWidget;
-import soc.gwtClient.images.Resources;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -94,7 +93,7 @@ public class ResourceSelectorBitmapWidget implements ResourceSelectorWidget,
             Port port = ports.getBestPortForResource(resource, true);
             if (port != null)
             {
-                imgPort.setUrl(Resources.port(port).getURL());
+                imgPort.setUrl(port.getMeta().icon().iconDefault().getURL());
             }
         }
 

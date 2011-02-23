@@ -2,10 +2,62 @@ package soc.common.board.ports;
 
 import soc.common.board.resources.Resource;
 import soc.common.board.resources.ResourceList;
+import soc.common.ui.Graphics;
+import soc.common.ui.Icon;
+import soc.common.ui.IconImpl;
+import soc.common.ui.meta.Meta;
+import soc.gwtClient.game.widgetsInterface.generic.ToolTip;
+import soc.gwtClient.images.Resources;
 
 public class ThreeToOnePort extends AbstractPort
 {
     private static final long serialVersionUID = -2264455291636281867L;
+    private static Meta meta = new Meta()
+    {
+        private Icon icon = new IconImpl(Resources.icons().threeToOnePort(),
+                null, null, null);
+
+        @Override
+        public Icon icon()
+        {
+            return icon;
+        }
+
+        @Override
+        public Graphics graphics()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public String getName()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public String getLocalizedName()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public String getDescription()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public ToolTip createToolTip()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+    };
 
     /*
      * Performs a 3:1 trade on a list of resources
@@ -62,5 +114,17 @@ public class ThreeToOnePort extends AbstractPort
     public String getColor()
     {
         return "White";
+    }
+
+    @Override
+    public Meta getMeta()
+    {
+        return meta;
+    }
+
+    @Override
+    public boolean hasResource()
+    {
+        return false;
     }
 }

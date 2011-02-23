@@ -2,6 +2,7 @@ package soc.common.board.ports;
 
 import soc.common.board.HexLocation;
 import soc.common.board.RotationPosition;
+import soc.common.ui.meta.Meta;
 
 /*
  * Represents a port which can be placed on the board.
@@ -30,5 +31,18 @@ public class PossiblePort extends AbstractPort
     public String getColor()
     {
         return "White";
+    }
+
+    @Override
+    public Meta getMeta()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public boolean hasResource()
+    {
+        return false;
     }
 }

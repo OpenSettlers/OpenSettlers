@@ -1,7 +1,7 @@
 package soc.common.board.ports;
 
-import soc.common.board.HexLocation;
-import soc.common.board.RotationPosition;
+import soc.common.board.resources.Ore;
+import soc.common.board.resources.Resource;
 import soc.common.ui.Graphics;
 import soc.common.ui.Icon;
 import soc.common.ui.IconImpl;
@@ -9,15 +9,13 @@ import soc.common.ui.meta.Meta;
 import soc.gwtClient.game.widgetsInterface.generic.ToolTip;
 import soc.gwtClient.images.Resources;
 
-/*
- * Placeholder for replacement of random ports at board preperation
- */
-public class RandomPort extends AbstractPort
+public class OrePort extends TwoToOneResourcePort
 {
-    private static final long serialVersionUID = 5964428508404257705L;
+    private static final long serialVersionUID = 1142423242419232130L;
+    private static Ore ore = new Ore();
     private static Meta meta = new Meta()
     {
-        private Icon icon = new IconImpl(Resources.icons().randomPort(), null,
+        private Icon icon = new IconImpl(Resources.icons().orePort(), null,
                 null, null);
 
         @Override
@@ -62,26 +60,10 @@ public class RandomPort extends AbstractPort
         }
     };
 
-    public RandomPort(HexLocation hexLocation, RotationPosition rotationPosition)
-    {
-        super(hexLocation, rotationPosition);
-    }
-
-    public RandomPort()
-    {
-
-    }
-
     @Override
     public Port copy()
     {
-        return new RandomPort();
-    }
-
-    @Override
-    public String getColor()
-    {
-        return "Gray";
+        return new OrePort();
     }
 
     @Override
@@ -90,9 +72,15 @@ public class RandomPort extends AbstractPort
         return meta;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see soc.common.board.ports.AbstractPort#getResource()
+     */
     @Override
-    public boolean hasResource()
+    public Resource getResource()
     {
-        return false;
+        return ore;
     }
+
 }

@@ -1,6 +1,9 @@
 package soc.common.board.ports;
 
 import soc.common.annotations.OpenSettlers;
+import soc.common.board.resources.Diamond;
+import soc.common.board.resources.Resource;
+import soc.common.ui.meta.Meta;
 
 /*
  * Imaginary 2:5 port for diamonds.
@@ -11,6 +14,7 @@ import soc.common.annotations.OpenSettlers;
 public class FivetoTwoJunglePort extends AbstractPort
 {
     private static final long serialVersionUID = 5264443650140189402L;
+    private static Diamond diamond = new Diamond();
 
     @Override
     public Port copy()
@@ -24,4 +28,27 @@ public class FivetoTwoJunglePort extends AbstractPort
         return "DarkGray";
     }
 
+    @Override
+    public Meta getMeta()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public boolean hasResource()
+    {
+        return true;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see soc.common.board.ports.AbstractPort#getResource()
+     */
+    @Override
+    public Resource getResource()
+    {
+        return diamond;
+    }
 }

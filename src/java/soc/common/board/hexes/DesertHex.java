@@ -174,7 +174,7 @@ public class DesertHex extends AbstractHex
     @Override
     public Hex setChit(Chit chit)
     {
-        return null;
+        return this;
     }
 
     @Override

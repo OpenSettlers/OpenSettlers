@@ -7,8 +7,9 @@ import soc.common.board.HexSide;
 import soc.common.board.RotationPosition;
 import soc.common.board.resources.Resource;
 import soc.common.board.resources.ResourceList;
+import soc.common.ui.meta.HasMeta;
 
-public interface Port extends Serializable
+public interface Port extends Serializable, HasMeta
 {
 
     /**
@@ -65,4 +66,9 @@ public interface Port extends Serializable
     public Port copy();
 
     public String getColor();
+
+    /*
+     * Returns true when this port has a resource associated with it
+     */
+    public boolean hasResource();
 }

@@ -2,6 +2,7 @@ package soc.common.board.ports;
 
 import soc.common.board.resources.Resource;
 import soc.common.board.resources.ResourceList;
+import soc.common.ui.meta.Meta;
 
 public class FourToOnePort extends AbstractPort
 {
@@ -66,4 +67,15 @@ public class FourToOnePort extends AbstractPort
         return "White";
     }
 
+    @Override
+    public Meta getMeta()
+    {
+        return null;
+    }
+
+    @Override
+    public boolean hasResource()
+    {
+        return false;
+    }
 }

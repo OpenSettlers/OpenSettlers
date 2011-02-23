@@ -3,25 +3,10 @@ package soc.common.board.ports;
 import soc.common.board.resources.Resource;
 import soc.common.board.resources.ResourceList;
 
-public class TwoToOneResourcePort extends AbstractPort
+public abstract class TwoToOneResourcePort extends AbstractPort
 {
     private static final long serialVersionUID = 2615564785346537011L;
     private Resource resource;
-
-    public TwoToOneResourcePort(Resource r)
-    {
-        resource = r;
-    }
-
-    /**
-     * @param resource
-     *            the resource to set
-     */
-    public TwoToOneResourcePort setResource(Resource resource)
-    {
-        this.resource = resource;
-        return this;
-    }
 
     /*
      * (non-Javadoc)
@@ -46,17 +31,6 @@ public class TwoToOneResourcePort extends AbstractPort
     }
 
     /*
-     * Resource this port trades against
-     * 
-     * @see soc.common.board.ports.Port#getResource()
-     */
-    @Override
-    public Resource getResource()
-    {
-        return resource;
-    }
-
-    /*
      * Returns amount of gold gained by given list of resources
      * 
      * @see
@@ -69,27 +43,15 @@ public class TwoToOneResourcePort extends AbstractPort
         return resources.size() / getInAmount();
     }
 
-    /*
-     * Returns true when given resource type quals resource type of this port
-     * 
-     * @see
-     * soc.common.board.ports.Port#canTrade(soc.common.board.resources.Resource)
-     */
-    @Override
-    public boolean canTrade(Resource resource)
-    {
-        return resource.getClass() == this.resource.getClass();
-    }
-
-    @Override
-    public Port copy()
-    {
-        return new TwoToOneResourcePort(resource);
-    }
-
     @Override
     public String getColor()
     {
-        return resource.getColor();
+        return getResource().getColor();
+    }
+
+    @Override
+    public boolean hasResource()
+    {
+        return true;
     }
 }

@@ -10,7 +10,6 @@ import soc.common.board.ports.PortListChangedEventHandler;
 import soc.common.game.player.GamePlayer;
 import soc.gwtClient.game.widgetsAbstract.toolTips.AbstractPlayerInfoToolTip;
 import soc.gwtClient.game.widgetsInterface.main.GameWidget;
-import soc.gwtClient.images.Resources;
 
 import com.google.gwt.user.client.ui.Image;
 
@@ -27,7 +26,7 @@ public class PortListToolTip extends AbstractPlayerInfoToolTip implements
         {
             if (!(port instanceof FourToOnePort))
             {
-                Image portImage = new Image(Resources.port(port));
+                Image portImage = new Image(port.getMeta().icon().iconDefault());
                 portImages.put(port, portImage);
                 rootPanel.add(portImage);
             }
@@ -42,7 +41,8 @@ public class PortListToolTip extends AbstractPlayerInfoToolTip implements
         if (event.getAddedPort() != null
                 && !(event.getAddedPort() instanceof FourToOnePort))
         {
-            Image portImage = new Image(Resources.port(event.getAddedPort()));
+            Image portImage = new Image(event.getAddedPort().getMeta().icon()
+                    .iconDefault());
             portImages.put(event.getAddedPort(), portImage);
             rootPanel.add(portImage);
         }

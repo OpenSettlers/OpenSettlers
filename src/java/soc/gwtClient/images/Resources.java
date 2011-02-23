@@ -5,15 +5,6 @@ import soc.common.board.pieces.City;
 import soc.common.board.pieces.Road;
 import soc.common.board.pieces.Town;
 import soc.common.board.pieces.abstractPieces.PlayerPiece;
-import soc.common.board.ports.Port;
-import soc.common.board.ports.ThreeToOnePort;
-import soc.common.board.ports.TwoToOneResourcePort;
-import soc.common.board.resources.Clay;
-import soc.common.board.resources.Ore;
-import soc.common.board.resources.Resource;
-import soc.common.board.resources.Sheep;
-import soc.common.board.resources.Timber;
-import soc.common.board.resources.Wheat;
 import soc.common.bots.Bot;
 import soc.common.game.gamePhase.DetermineFirstPlayerGamePhase;
 import soc.common.game.gamePhase.EndedGamePhase;
@@ -125,42 +116,6 @@ public class Resources
 
         if (user instanceof Bot)
             return Resources.icons().botMedium();
-
-        return null;
-    }
-
-    public static ImageResource port(Port port)
-    {
-        if (port instanceof ThreeToOnePort)
-        {
-            return Resources.icons().threeToOnePort();
-        }
-        if (port instanceof TwoToOneResourcePort)
-        {
-            TwoToOneResourcePort twoToOneResourcePort = (TwoToOneResourcePort) port;
-            Resource resource = twoToOneResourcePort.getResource();
-
-            if (resource instanceof Wheat)
-            {
-                return icons.wheatPort();
-            }
-            if (resource instanceof Timber)
-            {
-                return icons.timberPort();
-            }
-            if (resource instanceof Ore)
-            {
-                return icons.orePort();
-            }
-            if (resource instanceof Sheep)
-            {
-                return icons.sheepPort();
-            }
-            if (resource instanceof Clay)
-            {
-                return icons.clayPort();
-            }
-        }
 
         return null;
     }
