@@ -1,8 +1,8 @@
 package soc.common.game.dices;
 
 import soc.common.server.randomization.Random;
-import soc.gwtClient.game.widgetsInterface.actions.DiceWidget;
-import soc.gwtClient.game.widgetsInterface.actions.DiceWidgetFactory;
+import soc.common.views.widgetsInterface.actions.DiceWidget;
+import soc.common.views.widgetsInterface.actions.DiceWidgetFactory;
 
 public class StandardDice implements Dice
 {

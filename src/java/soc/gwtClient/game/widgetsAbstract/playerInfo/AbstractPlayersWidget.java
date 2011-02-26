@@ -5,9 +5,9 @@ import java.util.HashMap;
 import soc.common.game.player.GamePlayer;
 import soc.common.game.player.OrderChangedEvent;
 import soc.common.game.player.OrderChangedEventHandler;
-import soc.gwtClient.game.widgetsInterface.main.GameWidget;
-import soc.gwtClient.game.widgetsInterface.playerInfo.PlayerInfoWidget;
-import soc.gwtClient.game.widgetsInterface.playerInfo.PlayersInfoWidget;
+import soc.common.views.widgetsInterface.main.GameWidget;
+import soc.common.views.widgetsInterface.payerInfo.PlayerInfoWidget;
+import soc.common.views.widgetsInterface.payerInfo.PlayersInfoWidget;
 
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;

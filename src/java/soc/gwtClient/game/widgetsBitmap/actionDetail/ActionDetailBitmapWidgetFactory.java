@@ -13,9 +13,9 @@ import soc.common.actions.gameAction.trading.TradeBank;
 import soc.common.actions.gameAction.trading.TradePlayer;
 import soc.common.actions.gameAction.turns.EndTurn;
 import soc.common.actions.gameAction.turns.RolledSame;
-import soc.gwtClient.game.widgetsInterface.actions.ActionDetailWidgetFactory;
-import soc.gwtClient.game.widgetsInterface.main.GameWidget;
-import soc.gwtClient.game.widgetsInterface.playerInfo.ActionDetailWidget;
+import soc.common.views.widgetsInterface.actions.ActionDetailWidgetFactory;
+import soc.common.views.widgetsInterface.main.GameWidget;
+import soc.common.views.widgetsInterface.payerInfo.ActionDetailWidget;
 
 public class ActionDetailBitmapWidgetFactory implements
         ActionDetailWidgetFactory

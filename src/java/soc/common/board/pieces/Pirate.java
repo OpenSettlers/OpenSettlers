@@ -3,13 +3,13 @@ package soc.common.board.pieces;
 import soc.common.annotations.SeaFarers;
 import soc.common.board.HexLocation;
 import soc.common.board.pieces.abstractPieces.AbstractPiece;
-import soc.common.ui.Graphics;
-import soc.common.ui.Icon;
-import soc.common.ui.IconImpl;
-import soc.common.ui.meta.Meta;
-import soc.gwtClient.game.widgetsInterface.generic.ToolTip;
-import soc.gwtClient.game.widgetsInterface.visuals.PieceVisual;
-import soc.gwtClient.game.widgetsInterface.visuals.VisualFactory;
+import soc.common.views.meta.Graphics;
+import soc.common.views.meta.Icon;
+import soc.common.views.meta.IconImpl;
+import soc.common.views.meta.Meta;
+import soc.common.views.widgetsInterface.generic.ToolTip;
+import soc.common.views.widgetsInterface.visuals.PieceVisual;
+import soc.common.views.widgetsInterface.visuals.VisualFactory;
 
 @SeaFarers
 public class Pirate extends AbstractPiece

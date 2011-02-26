@@ -8,11 +8,11 @@ import soc.common.board.resources.ResourcesChangedEvent;
 import soc.common.board.resources.ResourcesChangedEventHandler;
 import soc.common.game.player.GamePlayer;
 import soc.common.game.trading.TradeResponse;
+import soc.common.views.widgetsInterface.dialogs.TradePlayerDialog;
+import soc.common.views.widgetsInterface.main.GameWidget;
+import soc.common.views.widgetsInterface.main.TradeListWidget;
+import soc.common.views.widgetsInterface.main.TradePlayerStatusWidget;
 import soc.gwtClient.game.widgetsBitmap.main.TradeListBitmapWidget;
-import soc.gwtClient.game.widgetsInterface.dialogs.TradePlayerDialog;
-import soc.gwtClient.game.widgetsInterface.main.GameWidget;
-import soc.gwtClient.game.widgetsInterface.main.TradeListWidget;
-import soc.gwtClient.game.widgetsInterface.main.TradePlayerStatusWidget;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -195,10 +195,13 @@ public class AbstractTradePlayerStatusWidget implements
     @Override
     public void onResourcesChanged(ResourcesChangedEvent resourcesChanged)
     {
-        if (tradeResponse.isCounterOffer())
-            updateCounter((CounterTradeOffer) tradeResponse);
+        if (tradeResponse != null)
+        {
+            if (tradeResponse.isCounterOffer())
+                updateCounter((CounterTradeOffer) tradeResponse);
 
-        if (tradeResponse.isAccepted())
-            updateAccept((AcceptTradeOffer) tradeResponse);
+            if (tradeResponse.isAccepted())
+                updateAccept((AcceptTradeOffer) tradeResponse);
+        }
     }
 }

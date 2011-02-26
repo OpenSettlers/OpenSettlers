@@ -11,18 +11,17 @@ import soc.common.board.pieces.Town;
 import soc.common.board.pieces.Wall;
 import soc.common.board.routing.GraphPoint;
 import soc.common.board.routing.GraphSide;
-import soc.gwtClient.game.widgetsInterface.visuals.BoardVisual;
-import soc.gwtClient.game.widgetsInterface.visuals.CityVisual;
-import soc.gwtClient.game.widgetsInterface.visuals.IslandBonusVisual;
-import soc.gwtClient.game.widgetsInterface.visuals.PirateVisual;
-import soc.gwtClient.game.widgetsInterface.visuals.PointVisual;
-import soc.gwtClient.game.widgetsInterface.visuals.RoadVisual;
-import soc.gwtClient.game.widgetsInterface.visuals.RobberVisual;
-import soc.gwtClient.game.widgetsInterface.visuals.ShipVisual;
-import soc.gwtClient.game.widgetsInterface.visuals.SideVisual;
-import soc.gwtClient.game.widgetsInterface.visuals.TownVisual;
-import soc.gwtClient.game.widgetsInterface.visuals.VisualFactory;
-import soc.gwtClient.game.widgetsInterface.visuals.WallVisual;
+import soc.common.views.widgetsInterface.visuals.BoardVisual;
+import soc.common.views.widgetsInterface.visuals.CityVisual;
+import soc.common.views.widgetsInterface.visuals.IslandBonusVisual;
+import soc.common.views.widgetsInterface.visuals.PirateVisual;
+import soc.common.views.widgetsInterface.visuals.RoadVisual;
+import soc.common.views.widgetsInterface.visuals.RobberVisual;
+import soc.common.views.widgetsInterface.visuals.ShipVisual;
+import soc.common.views.widgetsInterface.visuals.TownVisual;
+import soc.common.views.widgetsInterface.visuals.VisualFactory;
+import soc.common.views.widgetsInterface.visuals.WallVisual;
+import soc.gwtClient.game.widgetsAbstract.visuals.SideVisual;
 
 public class SvgVisualFactory implements VisualFactory
 {

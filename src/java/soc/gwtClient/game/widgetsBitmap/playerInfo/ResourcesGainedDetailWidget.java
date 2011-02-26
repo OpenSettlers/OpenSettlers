@@ -3,10 +3,10 @@ package soc.gwtClient.game.widgetsBitmap.playerInfo;
 import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.standard.RollDice;
 import soc.common.board.resources.ResourceList;
+import soc.common.views.widgetsInterface.generic.ResourceListWidget;
+import soc.common.views.widgetsInterface.main.GameWidget;
 import soc.gwtClient.game.widgetsAbstract.actionDetail.AbstractActionDetailWidget;
 import soc.gwtClient.game.widgetsBitmap.generic.ResourceListBitmapWidget;
-import soc.gwtClient.game.widgetsInterface.generic.ResourceListWidget;
-import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 
 /*
  * Displays a list of resources the player gained by a player action,

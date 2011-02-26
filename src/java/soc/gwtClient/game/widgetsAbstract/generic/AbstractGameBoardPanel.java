@@ -1,7 +1,7 @@
 package soc.gwtClient.game.widgetsAbstract.generic;
 
-import soc.gwtClient.game.widgetsInterface.main.GameBoardWidget;
-import soc.gwtClient.game.widgetsInterface.visuals.GameBoardVisual;
+import soc.common.views.widgetsInterface.main.GameBoardWidget;
+import soc.common.views.widgetsInterface.visuals.GameBoardVisual;
 
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;

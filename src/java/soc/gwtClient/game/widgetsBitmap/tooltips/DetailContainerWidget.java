@@ -3,11 +3,11 @@ package soc.gwtClient.game.widgetsBitmap.tooltips;
 import org.adamtacy.client.ui.effects.impl.Fade;
 
 import soc.common.game.player.GamePlayer;
-import soc.gwtClient.game.Point2D;
+import soc.common.views.widgetsInterface.generic.Point2D;
+import soc.common.views.widgetsInterface.main.GameWidget;
+import soc.common.views.widgetsInterface.payerInfo.ActionDetailWidget;
+import soc.common.views.widgetsInterface.payerInfo.PlayerDetailContainerWidget;
 import soc.gwtClient.game.widgetsBitmap.playerInfo.ResourcesGainedDetailWidget;
-import soc.gwtClient.game.widgetsInterface.main.GameWidget;
-import soc.gwtClient.game.widgetsInterface.playerInfo.ActionDetailWidget;
-import soc.gwtClient.game.widgetsInterface.playerInfo.PlayerDetailContainerWidget;
 
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DeferredCommand;

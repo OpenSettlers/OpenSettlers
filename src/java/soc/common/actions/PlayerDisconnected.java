@@ -2,7 +2,7 @@ package soc.common.actions;
 
 import java.util.Date;
 
-import soc.common.ui.meta.Meta;
+import soc.common.views.meta.Meta;
 
 public class PlayerDisconnected extends AbstractAction
 {

@@ -3,8 +3,8 @@ package soc.gwtClient.game.widgetsBitmap.main;
 import soc.common.actions.gameAction.meta.GameChat;
 import soc.common.game.logs.SaidEvent;
 import soc.common.game.logs.SaidEventHandler;
-import soc.gwtClient.game.widgetsInterface.main.ChatWidget;
-import soc.gwtClient.game.widgetsInterface.main.GameWidget;
+import soc.common.views.widgetsInterface.main.ChatWidget;
+import soc.common.views.widgetsInterface.main.GameWidget;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.KeyUpEvent;

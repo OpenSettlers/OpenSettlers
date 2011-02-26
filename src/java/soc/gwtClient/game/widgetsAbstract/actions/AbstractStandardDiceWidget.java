@@ -1,8 +1,8 @@
 package soc.gwtClient.game.widgetsAbstract.actions;
 
 import soc.common.game.player.GamePlayer;
-import soc.gwtClient.game.widgetsInterface.actions.StandardDiceWidget;
-import soc.gwtClient.game.widgetsInterface.main.GameWidget;
+import soc.common.views.widgetsInterface.actions.StandardDiceWidget;
+import soc.common.views.widgetsInterface.main.GameWidget;
 
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.ComplexPanel;

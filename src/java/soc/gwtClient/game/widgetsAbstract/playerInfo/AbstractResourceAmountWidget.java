@@ -3,7 +3,7 @@ package soc.gwtClient.game.widgetsAbstract.playerInfo;
 import soc.common.board.resources.ResourcesChangedEvent;
 import soc.common.board.resources.ResourcesChangedEventHandler;
 import soc.common.game.player.GamePlayer;
-import soc.gwtClient.game.widgetsInterface.playerInfo.ResourceAmountWidget;
+import soc.common.views.widgetsInterface.payerInfo.ResourceAmountWidget;
 
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;

@@ -3,7 +3,7 @@ package soc.common.board.ports;
 import soc.common.annotations.OpenSettlers;
 import soc.common.board.resources.Diamond;
 import soc.common.board.resources.Resource;
-import soc.common.ui.meta.Meta;
+import soc.common.views.meta.Meta;
 
 /*
  * Imaginary 2:5 port for diamonds.

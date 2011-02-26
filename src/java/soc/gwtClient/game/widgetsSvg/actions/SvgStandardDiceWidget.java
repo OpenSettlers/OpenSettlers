@@ -9,10 +9,10 @@ import soc.common.game.dices.StandardDice;
 import soc.common.game.gamePhase.turnPhase.TurnPhaseChangedEvent;
 import soc.common.game.gamePhase.turnPhase.TurnPhaseChangedHandler;
 import soc.common.game.player.GamePlayer;
-import soc.gwtClient.game.Point2D;
+import soc.common.views.widgetsInterface.actions.ActionWidget;
+import soc.common.views.widgetsInterface.generic.Point2D;
+import soc.common.views.widgetsInterface.main.GameWidget;
 import soc.gwtClient.game.widgetsAbstract.actions.AbstractStandardDiceWidget;
-import soc.gwtClient.game.widgetsInterface.actions.ActionWidget;
-import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.ComplexPanel;

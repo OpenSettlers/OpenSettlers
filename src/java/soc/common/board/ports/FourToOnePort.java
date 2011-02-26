@@ -2,7 +2,7 @@ package soc.common.board.ports;
 
 import soc.common.board.resources.Resource;
 import soc.common.board.resources.ResourceList;
-import soc.common.ui.meta.Meta;
+import soc.common.views.meta.Meta;
 
 public class FourToOnePort extends AbstractPort
 {

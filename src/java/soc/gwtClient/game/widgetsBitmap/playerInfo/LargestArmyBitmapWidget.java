@@ -3,10 +3,10 @@ package soc.gwtClient.game.widgetsBitmap.playerInfo;
 import soc.common.game.developmentCards.DevelopmentCardsChangedEvent;
 import soc.common.game.developmentCards.standard.Soldier;
 import soc.common.game.player.GamePlayer;
+import soc.common.views.widgetsInterface.generic.ToolTip;
+import soc.common.views.widgetsInterface.main.GameWidget;
 import soc.gwtClient.game.widgetsAbstract.playerInfo.AbstractLargestArmyWidget;
 import soc.gwtClient.game.widgetsBitmap.tooltips.SoldiersToolTip;
-import soc.gwtClient.game.widgetsInterface.generic.ToolTip;
-import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.event.dom.client.MouseOutEvent;

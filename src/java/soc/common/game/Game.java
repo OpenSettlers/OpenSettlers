@@ -56,8 +56,7 @@ public class Game implements Serializable
     private transient SimpleEventBus eventBus = new SimpleEventBus();
     private transient Random random = new ClientRandom();
 
-    // Lists of actions, logs & future actions
-    private ActionsQueue actionsQueue = new ActionsQueueImpl();
+    // Logs
     private GameLog gameLog = new GameLogImpl();
     private ChatLog chatLog = new ChatLogImpl();
 
@@ -81,6 +80,7 @@ public class Game implements Serializable
     private GamePlayer gameStarter;
 
     // State
+    private ActionsQueue actionsQueue = new ActionsQueueImpl();
     private GamePhase currentPhase = new LobbyGamePhase();
     private Turn currentTurn;
     private GameStatus currentStatus = new Playing();

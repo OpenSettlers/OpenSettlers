@@ -1,7 +1,7 @@
 package soc.gwtClient.game.widgetsAbstract.visuals;
 
 import soc.common.board.pieces.Pirate;
-import soc.gwtClient.game.widgetsInterface.visuals.PirateVisual;
+import soc.common.views.widgetsInterface.visuals.PirateVisual;
 
 public class AbstractPirateVisual extends AbstractPieceVisual implements
         PirateVisual

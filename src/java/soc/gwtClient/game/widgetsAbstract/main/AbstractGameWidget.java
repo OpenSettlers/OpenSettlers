@@ -6,37 +6,37 @@ import soc.common.game.Game;
 import soc.common.game.player.GamePlayer;
 import soc.common.server.GameServer;
 import soc.common.server.GameServerCallback;
-import soc.common.ui.ClientFactory;
-import soc.common.ui.DefaultClientFactory;
-import soc.gwtClient.game.DetailContainerManager;
-import soc.gwtClient.game.Point2D;
-import soc.gwtClient.game.behaviour.gameWidget.GameBehaviour;
-import soc.gwtClient.game.behaviour.gameWidget.factories.GameBehaviourFactory;
-import soc.gwtClient.game.behaviour.gameWidget.factories.ReceiveGameBehaviourFactory;
-import soc.gwtClient.game.behaviour.gameWidget.received.ReceiveGameBehaviour;
+import soc.common.views.behaviour.gameWidget.GameBehaviour;
+import soc.common.views.behaviour.gameWidget.factories.GameBehaviourFactory;
+import soc.common.views.behaviour.gameWidget.factories.ReceiveGameBehaviourFactory;
+import soc.common.views.behaviour.gameWidget.received.ReceiveGameBehaviour;
+import soc.common.views.widgetsInterface.actions.ActionsWidget;
+import soc.common.views.widgetsInterface.dialogs.GameOverDialog;
+import soc.common.views.widgetsInterface.dialogs.LooseCardsDialog;
+import soc.common.views.widgetsInterface.dialogs.StealCardWidget;
+import soc.common.views.widgetsInterface.dialogs.TradePlayerDialog;
+import soc.common.views.widgetsInterface.generic.Point2D;
+import soc.common.views.widgetsInterface.generic.ToolTipManager;
+import soc.common.views.widgetsInterface.main.BankStockWidget;
+import soc.common.views.widgetsInterface.main.BankTradeWidget;
+import soc.common.views.widgetsInterface.main.BoardVisualWidget;
+import soc.common.views.widgetsInterface.main.ChatWidget;
+import soc.common.views.widgetsInterface.main.ClientFactory;
+import soc.common.views.widgetsInterface.main.DebugWidget;
+import soc.common.views.widgetsInterface.main.GameDetailsWidget;
+import soc.common.views.widgetsInterface.main.GamePanelLayoutWidget;
+import soc.common.views.widgetsInterface.main.GameWidget;
+import soc.common.views.widgetsInterface.main.GameWidgetFactory;
+import soc.common.views.widgetsInterface.main.HistoryWidget;
+import soc.common.views.widgetsInterface.main.PlayerStuffWidget;
+import soc.common.views.widgetsInterface.main.QueueWidget;
+import soc.common.views.widgetsInterface.main.ResourcesGainedWidget;
+import soc.common.views.widgetsInterface.main.StatusWidget;
+import soc.common.views.widgetsInterface.payerInfo.PlayersInfoWidget;
+import soc.gwtClient.game.DefaultClientFactory;
+import soc.gwtClient.game.DetailContainerManagerImpl;
 import soc.gwtClient.game.widgetsBitmap.main.DesktopGamePanelLayout;
-import soc.gwtClient.game.widgetsBitmap.main.GameDetailsWidget;
 import soc.gwtClient.game.widgetsBitmap.main.ToolTipManagerImpl;
-import soc.gwtClient.game.widgetsInterface.actions.ActionsWidget;
-import soc.gwtClient.game.widgetsInterface.dialogs.GameOverDialog;
-import soc.gwtClient.game.widgetsInterface.dialogs.LooseCardsDialog;
-import soc.gwtClient.game.widgetsInterface.dialogs.StealCardWidget;
-import soc.gwtClient.game.widgetsInterface.dialogs.TradePlayerDialog;
-import soc.gwtClient.game.widgetsInterface.generic.ToolTipManager;
-import soc.gwtClient.game.widgetsInterface.main.BankStockWidget;
-import soc.gwtClient.game.widgetsInterface.main.BankTradeWidget;
-import soc.gwtClient.game.widgetsInterface.main.BoardVisualWidget;
-import soc.gwtClient.game.widgetsInterface.main.ChatWidget;
-import soc.gwtClient.game.widgetsInterface.main.DebugWidget;
-import soc.gwtClient.game.widgetsInterface.main.GamePanelLayoutWidget;
-import soc.gwtClient.game.widgetsInterface.main.GameWidget;
-import soc.gwtClient.game.widgetsInterface.main.GameWidgetFactory;
-import soc.gwtClient.game.widgetsInterface.main.HistoryWidget;
-import soc.gwtClient.game.widgetsInterface.main.PlayerStuffWidget;
-import soc.gwtClient.game.widgetsInterface.main.QueueWidget;
-import soc.gwtClient.game.widgetsInterface.main.ResourcesGainedWidget;
-import soc.gwtClient.game.widgetsInterface.main.StatusWidget;
-import soc.gwtClient.game.widgetsInterface.playerInfo.PlayersInfoWidget;
 import soc.gwtClient.main.CenterWidget;
 
 import com.google.gwt.user.client.ui.Widget;
@@ -78,7 +78,7 @@ public abstract class AbstractGameWidget implements GameWidget, CenterWidget,
     protected ActionsWidget actionsWidget;
 
     protected PlayerStuffWidget playerStuff;
-    protected DetailContainerManager detailContainerManager;
+    protected DetailContainerManagerImpl detailContainerManager;
     protected ToolTipManager toolTipManager;
 
     public AbstractGameWidget()
@@ -114,7 +114,7 @@ public abstract class AbstractGameWidget implements GameWidget, CenterWidget,
         chatPanel = gameWidgetFactory.createChatWidget();
         queueWidget = gameWidgetFactory.createQueueWidget();
         debugWidget = gameWidgetFactory.createDebugWidget();
-        detailContainerManager = new DetailContainerManager(this);
+        detailContainerManager = new DetailContainerManagerImpl(this);
         toolTipManager = new ToolTipManagerImpl();
     }
 
@@ -142,7 +142,7 @@ public abstract class AbstractGameWidget implements GameWidget, CenterWidget,
     }
 
     @Override
-    public DetailContainerManager getDetailContainerManager()
+    public DetailContainerManagerImpl getDetailContainerManager()
     {
         return detailContainerManager;
     }

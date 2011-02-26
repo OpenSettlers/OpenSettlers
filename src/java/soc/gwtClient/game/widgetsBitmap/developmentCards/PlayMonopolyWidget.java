@@ -6,12 +6,12 @@ import soc.common.board.resources.ResourcesChangedEvent;
 import soc.common.board.resources.ResourcesChangedEventHandler;
 import soc.common.game.developmentCards.standard.Monopoly;
 import soc.common.internationalization.I18n;
+import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidget;
+import soc.common.views.widgetsInterface.generic.ResourceListWidget;
+import soc.common.views.widgetsInterface.generic.ResourcePickerWidget;
+import soc.common.views.widgetsInterface.main.GameWidget;
 import soc.gwtClient.game.widgetsBitmap.generic.ResourceListBitmapWidget;
 import soc.gwtClient.game.widgetsBitmap.generic.ResourcePickerBitmapWidget;
-import soc.gwtClient.game.widgetsInterface.developmentCards.DevelopmentCardWidget;
-import soc.gwtClient.game.widgetsInterface.generic.ResourceListWidget;
-import soc.gwtClient.game.widgetsInterface.generic.ResourcePickerWidget;
-import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.event.dom.client.ClickEvent;

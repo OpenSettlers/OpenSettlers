@@ -1,10 +1,10 @@
 package soc.gwtClient.game.widgetsBitmap.actions;
 
 import soc.common.game.player.GamePlayer;
-import soc.gwtClient.game.widgetsInterface.actions.ActionWidget;
-import soc.gwtClient.game.widgetsInterface.actions.ActionWidgetFactory;
-import soc.gwtClient.game.widgetsInterface.actions.DiceWidgetFactory;
-import soc.gwtClient.game.widgetsInterface.main.GameWidget;
+import soc.common.views.widgetsInterface.actions.ActionWidget;
+import soc.common.views.widgetsInterface.actions.ActionWidgetFactory;
+import soc.common.views.widgetsInterface.actions.DiceWidgetFactory;
+import soc.common.views.widgetsInterface.main.GameWidget;
 
 /*
  * Constructs game UI using bitmap UI elements like png icons

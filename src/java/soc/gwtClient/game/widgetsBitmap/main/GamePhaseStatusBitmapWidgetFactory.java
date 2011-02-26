@@ -6,14 +6,14 @@ import soc.common.game.gamePhase.InitialPlacementGamePhase;
 import soc.common.game.gamePhase.LobbyGamePhase;
 import soc.common.game.gamePhase.PlacePortsGamePhase;
 import soc.common.game.gamePhase.PlayTurnsGamePhase;
+import soc.common.views.widgetsInterface.main.GamePhaseStatusWidget;
+import soc.common.views.widgetsInterface.main.GamePhaseStatusWidgetFactory;
+import soc.common.views.widgetsInterface.main.GameWidget;
 import soc.gwtClient.game.widgetsBitmap.status.DetermineFirstPlayerBitmapWidget;
 import soc.gwtClient.game.widgetsBitmap.status.EndedBitmapWidget;
-import soc.gwtClient.game.widgetsBitmap.status.GamePhaseStatusWidget;
 import soc.gwtClient.game.widgetsBitmap.status.InitialPlacementBitmapWidget;
 import soc.gwtClient.game.widgetsBitmap.status.LobbyBitmapWidget;
 import soc.gwtClient.game.widgetsBitmap.status.PlayTurnsBitmapWidget;
-import soc.gwtClient.game.widgetsInterface.main.GamePhaseStatusWidgetFactory;
-import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 
 public class GamePhaseStatusBitmapWidgetFactory implements
         GamePhaseStatusWidgetFactory

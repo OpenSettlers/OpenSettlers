@@ -1,12 +1,12 @@
 package soc.gwtClient.game.widgetsBitmap.main;
 
 import soc.common.game.player.GamePlayer;
-import soc.gwtClient.game.Point2D;
+import soc.common.views.widgetsInterface.actions.ActionsWidget;
+import soc.common.views.widgetsInterface.generic.Point2D;
+import soc.common.views.widgetsInterface.main.GameWidget;
+import soc.common.views.widgetsInterface.main.HandCardsWidget;
+import soc.common.views.widgetsInterface.main.PlayerStuffWidget;
 import soc.gwtClient.game.widgetsBitmap.actions.ActionsBitmapWidget;
-import soc.gwtClient.game.widgetsInterface.actions.ActionsWidget;
-import soc.gwtClient.game.widgetsInterface.main.GameWidget;
-import soc.gwtClient.game.widgetsInterface.main.HandCardsWidget;
-import soc.gwtClient.game.widgetsInterface.main.PlayerStuffWidget;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
 

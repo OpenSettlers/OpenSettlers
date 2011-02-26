@@ -4,12 +4,12 @@ import java.util.HashMap;
 
 import soc.common.actions.gameAction.turns.TurnAction;
 import soc.common.game.player.GamePlayer;
-import soc.gwtClient.game.Point2D;
-import soc.gwtClient.game.widgetsInterface.actions.ActionWidget;
-import soc.gwtClient.game.widgetsInterface.actions.ActionWidgetFactory;
-import soc.gwtClient.game.widgetsInterface.actions.ActionsWidget;
-import soc.gwtClient.game.widgetsInterface.actions.DiceWidget;
-import soc.gwtClient.game.widgetsInterface.main.GameWidget;
+import soc.common.views.widgetsInterface.actions.ActionWidget;
+import soc.common.views.widgetsInterface.actions.ActionWidgetFactory;
+import soc.common.views.widgetsInterface.actions.ActionsWidget;
+import soc.common.views.widgetsInterface.actions.DiceWidget;
+import soc.common.views.widgetsInterface.generic.Point2D;
+import soc.common.views.widgetsInterface.main.GameWidget;
 
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.Label;

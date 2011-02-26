@@ -2,9 +2,9 @@ package soc.gwtClient.game.widgetsAbstract.main;
 
 import soc.common.game.StatusChangedEventHandler;
 import soc.common.game.TurnChangedEventHandler;
+import soc.common.views.widgetsInterface.main.GameWidget;
+import soc.common.views.widgetsInterface.main.StatusWidget;
 import soc.gwtClient.game.widgetsBitmap.status.AllPhaseStatusBitmapWidget;
-import soc.gwtClient.game.widgetsInterface.main.GameWidget;
-import soc.gwtClient.game.widgetsInterface.main.StatusWidget;
 
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.ComplexPanel;

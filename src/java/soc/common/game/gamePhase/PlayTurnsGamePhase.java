@@ -9,8 +9,8 @@ import soc.common.game.TurnImpl;
 import soc.common.game.gamePhase.turnPhase.BeforeDiceRollTurnPhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
 import soc.common.game.player.GamePlayer;
-import soc.gwtClient.game.widgetsBitmap.status.GamePhaseStatusWidget;
-import soc.gwtClient.game.widgetsInterface.main.GamePhaseStatusWidgetFactory;
+import soc.common.views.widgetsInterface.main.GamePhaseStatusWidget;
+import soc.common.views.widgetsInterface.main.GamePhaseStatusWidgetFactory;
 
 public class PlayTurnsGamePhase extends AbstractGamePhase
 {

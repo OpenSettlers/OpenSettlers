@@ -5,10 +5,10 @@ import soc.common.board.resources.AbstractResource;
 import soc.common.board.resources.Resource;
 import soc.common.board.resources.ResourceList;
 import soc.common.game.player.GamePlayerImpl;
+import soc.common.views.widgetsInterface.generic.ResourcePickerWidget;
+import soc.common.views.widgetsInterface.generic.ResourceSelectorWidget;
+import soc.common.views.widgetsInterface.main.GameWidget;
 import soc.gwtClient.game.widgetsAbstract.generic.AbstractResourcePickerWidget;
-import soc.gwtClient.game.widgetsInterface.generic.ResourcePickerWidget;
-import soc.gwtClient.game.widgetsInterface.generic.ResourceSelectorWidget;
-import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.IsWidget;

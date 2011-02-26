@@ -2,7 +2,7 @@ package soc.common.board.resources;
 
 import java.io.Serializable;
 
-import soc.common.ui.meta.HasMeta;
+import soc.common.views.meta.HasMeta;
 
 public interface Resource extends Serializable, HasMeta
 {

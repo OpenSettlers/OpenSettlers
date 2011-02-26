@@ -1,7 +1,7 @@
 package soc.gwtClient.game.widgetsBitmap.main;
 
-import soc.gwtClient.game.widgetsInterface.generic.ToolTip;
-import soc.gwtClient.game.widgetsInterface.generic.ToolTipManager;
+import soc.common.views.widgetsInterface.generic.ToolTip;
+import soc.common.views.widgetsInterface.generic.ToolTipManager;
 
 import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
 

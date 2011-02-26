@@ -7,8 +7,8 @@ import soc.common.board.pieces.ArmyChangedEvent;
 import soc.common.board.pieces.ArmyChangedEventHandler;
 import soc.common.game.developmentCards.standard.Soldier;
 import soc.common.game.player.GamePlayer;
+import soc.common.views.widgetsInterface.main.GameWidget;
 import soc.gwtClient.game.widgetsAbstract.toolTips.AbstractPlayerInfoToolTip;
-import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.user.client.ui.Image;

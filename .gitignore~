@@ -6,8 +6,11 @@ target/lib
 target/lib/*
 target/classes
 target/classes/*
-war/mapcreator/*
-war/WEB-INF/*
+war/OpenSettlers/*
+war/Documentation/*
+war/WEB-INF/lib/*
+war/WEB-INF/classes/*
+war/soc.common.OSCommon.JUnit/*
 .gwt/*
 .svn
 .svn/*

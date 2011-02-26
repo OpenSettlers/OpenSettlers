@@ -1,9 +1,9 @@
 package soc.gwtClient.game.widgetsBitmap.main;
 
 import soc.common.actions.gameAction.meta.MessageFromServer;
+import soc.common.views.widgetsInterface.main.DebugWidget;
+import soc.common.views.widgetsInterface.main.GameWidget;
 import soc.gwtClient.game.widgetsBitmap.generic.StringErrorCell;
-import soc.gwtClient.game.widgetsInterface.main.DebugWidget;
-import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 
 import com.google.gwt.user.cellview.client.CellList;
 import com.google.gwt.user.client.ui.ScrollPanel;

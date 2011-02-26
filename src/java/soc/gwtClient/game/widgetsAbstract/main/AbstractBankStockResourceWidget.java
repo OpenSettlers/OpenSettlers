@@ -3,7 +3,7 @@ package soc.gwtClient.game.widgetsAbstract.main;
 import soc.common.board.resources.AbstractResource;
 import soc.common.board.resources.Resource;
 import soc.common.board.resources.ResourceList;
-import soc.gwtClient.game.widgetsInterface.main.BankStockResourceWidget;
+import soc.common.views.widgetsInterface.main.BankStockResourceWidget;
 
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;

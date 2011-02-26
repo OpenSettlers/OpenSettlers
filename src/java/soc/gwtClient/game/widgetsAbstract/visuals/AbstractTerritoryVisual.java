@@ -1,8 +1,8 @@
 package soc.gwtClient.game.widgetsAbstract.visuals;
 
 import soc.common.board.territories.Territory;
-import soc.gwtClient.game.widgetsInterface.visuals.BoardVisual;
-import soc.gwtClient.game.widgetsInterface.visuals.TerritoryVisual;
+import soc.common.views.widgetsInterface.visuals.BoardVisual;
+import soc.common.views.widgetsInterface.visuals.TerritoryVisual;
 
 public abstract class AbstractTerritoryVisual extends AbstractPieceVisual implements
         TerritoryVisual

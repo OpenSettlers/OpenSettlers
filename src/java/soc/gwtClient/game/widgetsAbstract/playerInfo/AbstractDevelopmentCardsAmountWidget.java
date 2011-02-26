@@ -3,7 +3,7 @@ package soc.gwtClient.game.widgetsAbstract.playerInfo;
 import soc.common.game.developmentCards.DevelopmentCardsChangedEvent;
 import soc.common.game.developmentCards.DevelopmentCardsChangedEventHandler;
 import soc.common.game.player.GamePlayer;
-import soc.gwtClient.game.widgetsInterface.playerInfo.DevelopmentCardsAmountWidget;
+import soc.common.views.widgetsInterface.payerInfo.DevelopmentCardsAmountWidget;
 
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;

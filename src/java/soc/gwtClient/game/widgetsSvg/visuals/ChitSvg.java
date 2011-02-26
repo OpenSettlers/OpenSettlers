@@ -4,9 +4,9 @@ import org.vaadin.gwtgraphics.client.Image;
 import org.vaadin.gwtgraphics.client.VectorObject;
 
 import soc.common.board.Chit;
-import soc.gwtClient.game.Point2D;
+import soc.common.views.widgetsInterface.generic.Point2D;
+import soc.common.views.widgetsInterface.visuals.BoardVisual;
 import soc.gwtClient.game.widgetsAbstract.visuals.AbstractChitVisual;
-import soc.gwtClient.game.widgetsInterface.visuals.BoardVisual;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.event.dom.client.ClickEvent;

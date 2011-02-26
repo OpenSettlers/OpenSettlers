@@ -1,6 +1,6 @@
 package soc.gwtClient.editor;
 
-import soc.gwtClient.game.behaviour.board.BoardBehaviour;
+import soc.common.views.behaviour.board.BoardBehaviour;
 
 import com.google.gwt.event.shared.GwtEvent;
 

@@ -5,9 +5,9 @@ import java.util.List;
 import soc.common.board.Board;
 import soc.common.server.entities.BoardProvider;
 import soc.common.server.entities.ConstructorBoardProvider;
-import soc.gwtClient.game.widgetsInterface.generic.BoardChangedEvent;
-import soc.gwtClient.game.widgetsInterface.generic.BoardChangedEventHandler;
-import soc.gwtClient.game.widgetsInterface.generic.BoardPicker;
+import soc.common.views.widgetsInterface.generic.BoardChangedEvent;
+import soc.common.views.widgetsInterface.generic.BoardChangedEventHandler;
+import soc.common.views.widgetsInterface.generic.BoardPicker;
 import soc.gwtClient.game.widgetsSvg.BoardViewerSvgWidget;
 
 import com.google.gwt.cell.client.NumberCell;

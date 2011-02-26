@@ -1,7 +1,7 @@
 package soc.gwtClient.game.widgetsAbstract.playerInfo;
 
 import soc.common.game.player.GamePlayer;
-import soc.gwtClient.game.widgetsInterface.playerInfo.LongestRoadDetailWidget;
+import soc.common.views.widgetsInterface.payerInfo.LongestRoadDetailWidget;
 
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;

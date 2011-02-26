@@ -1,9 +1,9 @@
 package soc.gwtClient.game.widgetsBitmap.main;
 
-import soc.gwtClient.game.Point2D;
-import soc.gwtClient.game.behaviour.gameWidget.received.RollDiceResult;
-import soc.gwtClient.game.widgetsInterface.main.GameWidget;
-import soc.gwtClient.game.widgetsInterface.main.ResourcesGainedWidget;
+import soc.common.views.behaviour.gameWidget.received.RollDiceResult;
+import soc.common.views.widgetsInterface.generic.Point2D;
+import soc.common.views.widgetsInterface.main.GameWidget;
+import soc.common.views.widgetsInterface.main.ResourcesGainedWidget;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

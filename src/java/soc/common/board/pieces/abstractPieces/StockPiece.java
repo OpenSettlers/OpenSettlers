@@ -1,7 +1,7 @@
 package soc.common.board.pieces.abstractPieces;
 
-import soc.gwtClient.game.widgetsInterface.playerInfo.StockItemWidget;
-import soc.gwtClient.game.widgetsInterface.playerInfo.StockItemWidgetFactory;
+import soc.common.views.widgetsInterface.payerInfo.StockItemWidget;
+import soc.common.views.widgetsInterface.payerInfo.StockItemWidgetFactory;
 
 public interface StockPiece
 {

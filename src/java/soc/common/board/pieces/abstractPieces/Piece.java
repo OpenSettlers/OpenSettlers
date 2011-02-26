@@ -2,9 +2,9 @@ package soc.common.board.pieces.abstractPieces;
 
 import java.io.Serializable;
 
-import soc.common.ui.meta.HasMeta;
-import soc.gwtClient.game.widgetsInterface.visuals.PieceVisual;
-import soc.gwtClient.game.widgetsInterface.visuals.VisualFactory;
+import soc.common.views.meta.HasMeta;
+import soc.common.views.widgetsInterface.visuals.PieceVisual;
+import soc.common.views.widgetsInterface.visuals.VisualFactory;
 
 public interface Piece extends Serializable, HasMeta
 {

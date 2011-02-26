@@ -1,8 +1,8 @@
 package soc.gwtClient.game.widgetsSvg;
 
-import soc.gwtClient.game.widgetsInterface.main.BoardVisualWidget;
-import soc.gwtClient.game.widgetsInterface.main.GameWidget;
-import soc.gwtClient.game.widgetsInterface.visuals.GameBoardVisual;
+import soc.common.views.widgetsInterface.main.BoardVisualWidget;
+import soc.common.views.widgetsInterface.main.GameWidget;
+import soc.common.views.widgetsInterface.visuals.GameBoardVisual;
 import soc.gwtClient.game.widgetsSvg.visuals.GameBoardSvg;
 
 import com.google.gwt.user.client.ui.LayoutPanel;

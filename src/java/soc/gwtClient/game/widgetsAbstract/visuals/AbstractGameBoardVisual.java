@@ -11,18 +11,18 @@ import soc.common.board.routing.GraphPoint;
 import soc.common.board.routing.GraphSide;
 import soc.common.board.routing.Route;
 import soc.common.game.Game;
-import soc.gwtClient.game.behaviour.board.ProxyBehaviour;
-import soc.gwtClient.game.behaviour.gameBoard.GameBoardBehaviour;
-import soc.gwtClient.game.behaviour.gameBoard.NoBehaviour;
-import soc.gwtClient.game.widgetsInterface.visuals.BoardVisual;
-import soc.gwtClient.game.widgetsInterface.visuals.GameBoardVisual;
-import soc.gwtClient.game.widgetsInterface.visuals.HexVisual;
-import soc.gwtClient.game.widgetsInterface.visuals.PieceVisual;
-import soc.gwtClient.game.widgetsInterface.visuals.PirateVisual;
-import soc.gwtClient.game.widgetsInterface.visuals.PointVisual;
-import soc.gwtClient.game.widgetsInterface.visuals.RobberVisual;
-import soc.gwtClient.game.widgetsInterface.visuals.SideVisual;
-import soc.gwtClient.game.widgetsInterface.visuals.VisualFactory;
+import soc.common.views.behaviour.board.ProxyBehaviour;
+import soc.common.views.behaviour.gameBoard.GameBoardBehaviour;
+import soc.common.views.behaviour.gameBoard.NoBehaviour;
+import soc.common.views.widgetsInterface.visuals.BoardVisual;
+import soc.common.views.widgetsInterface.visuals.GameBoardVisual;
+import soc.common.views.widgetsInterface.visuals.HexVisual;
+import soc.common.views.widgetsInterface.visuals.IPointVisual;
+import soc.common.views.widgetsInterface.visuals.ISideVisual;
+import soc.common.views.widgetsInterface.visuals.PieceVisual;
+import soc.common.views.widgetsInterface.visuals.PirateVisual;
+import soc.common.views.widgetsInterface.visuals.RobberVisual;
+import soc.common.views.widgetsInterface.visuals.VisualFactory;
 
 import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.user.client.ui.Widget;
@@ -36,8 +36,8 @@ public abstract class AbstractGameBoardVisual extends AbstractBoardVisual
     protected RobberVisual robber;
     protected PirateVisual pirate;
     protected Map<Piece, PieceVisual> playerPieceVisuals = new HashMap<Piece, PieceVisual>();
-    protected Map<GraphPoint, PointVisual> pointVisuals = new HashMap<GraphPoint, PointVisual>();
-    protected Map<GraphSide, SideVisual> sideVisuals = new HashMap<GraphSide, SideVisual>();
+    protected Map<GraphPoint, IPointVisual> pointVisuals = new HashMap<GraphPoint, IPointVisual>();
+    protected Map<GraphSide, ISideVisual> sideVisuals = new HashMap<GraphSide, ISideVisual>();
     protected GameBoardBehaviour gameBehaviour;
     protected SimpleEventBus eventBus = new SimpleEventBus();
     protected ProxyBehaviour proxyBehaviour;
@@ -133,7 +133,7 @@ public abstract class AbstractGameBoardVisual extends AbstractBoardVisual
     /**
      * @return the sideVisuals
      */
-    public Map<GraphPoint, PointVisual> getPointVisuals()
+    public Map<GraphPoint, IPointVisual> getPointVisuals()
     {
         return pointVisuals;
     }
@@ -141,7 +141,7 @@ public abstract class AbstractGameBoardVisual extends AbstractBoardVisual
     /**
      * @return the pointVisuals
      */
-    public Map<GraphSide, SideVisual> getSideVisuals()
+    public Map<GraphSide, ISideVisual> getSideVisuals()
     {
         return sideVisuals;
     }

@@ -1,5 +1,8 @@
 package soc.common.board;
 
+import soc.common.board.HexLocation;
+import soc.common.board.HexPoint;
+
 import com.google.gwt.junit.client.GWTTestCase;
 
 public class HexLocationtest extends GWTTestCase

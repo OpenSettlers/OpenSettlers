@@ -3,7 +3,7 @@ package soc.common.actions;
 import java.io.Serializable;
 import java.util.Date;
 
-import soc.common.ui.meta.HasMeta;
+import soc.common.views.meta.HasMeta;
 
 public interface Action extends Serializable, HasMeta
 {

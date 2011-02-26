@@ -2,8 +2,8 @@ package soc.common.game.dices;
 
 import soc.common.annotations.SeaFarers;
 import soc.common.server.randomization.Random;
-import soc.gwtClient.game.widgetsInterface.actions.DiceWidget;
-import soc.gwtClient.game.widgetsInterface.actions.DiceWidgetFactory;
+import soc.common.views.widgetsInterface.actions.DiceWidget;
+import soc.common.views.widgetsInterface.actions.DiceWidgetFactory;
 
 /*
  * Represents a single 6-sided dice. Rolled when a volcano produces resources by

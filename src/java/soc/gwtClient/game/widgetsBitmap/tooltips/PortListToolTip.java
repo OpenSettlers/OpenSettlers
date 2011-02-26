@@ -8,8 +8,8 @@ import soc.common.board.ports.Port;
 import soc.common.board.ports.PortListChangedEvent;
 import soc.common.board.ports.PortListChangedEventHandler;
 import soc.common.game.player.GamePlayer;
+import soc.common.views.widgetsInterface.main.GameWidget;
 import soc.gwtClient.game.widgetsAbstract.toolTips.AbstractPlayerInfoToolTip;
-import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 
 import com.google.gwt.user.client.ui.Image;
 

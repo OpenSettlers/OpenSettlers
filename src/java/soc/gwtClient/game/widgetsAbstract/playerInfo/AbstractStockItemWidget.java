@@ -1,9 +1,9 @@
 package soc.gwtClient.game.widgetsAbstract.playerInfo;
 
 import soc.common.game.player.GamePlayer;
-import soc.gwtClient.game.widgetsInterface.generic.ToolTip;
-import soc.gwtClient.game.widgetsInterface.main.GameWidget;
-import soc.gwtClient.game.widgetsInterface.playerInfo.StockItemWidget;
+import soc.common.views.widgetsInterface.generic.ToolTip;
+import soc.common.views.widgetsInterface.main.GameWidget;
+import soc.common.views.widgetsInterface.payerInfo.StockItemWidget;
 
 import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;

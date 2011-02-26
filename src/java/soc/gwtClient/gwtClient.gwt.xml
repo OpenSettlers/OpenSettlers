@@ -8,7 +8,7 @@
   <!-- <inherits name='com.google.gwt.user.theme.chrome.Chrome'/> -->
   <!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/>-->     
 
-  <inherits name='soc.common.OSCommon' />
+  <inherits name='soc.common.OsCommon' />
   <inherits name='org.vaadin.gwtgraphics.GWTGraphics' />
   <inherits name='net.zschech.gwt.comet.Comet' />
   <inherits name='org.adamtacy.GWTEffects' />
@@ -20,5 +20,4 @@
   <source path='images'/>
   <source path='lobby'/>
   <source path='editor'/>
-
 </module>

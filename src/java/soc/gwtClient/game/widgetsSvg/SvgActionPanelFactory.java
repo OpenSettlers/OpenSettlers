@@ -1,7 +1,7 @@
 package soc.gwtClient.game.widgetsSvg;
 
-import soc.gwtClient.game.widgetsInterface.actions.ActionWidget;
-import soc.gwtClient.game.widgetsInterface.actions.ActionWidgetFactory;
+import soc.common.views.widgetsInterface.actions.ActionWidget;
+import soc.common.views.widgetsInterface.actions.ActionWidgetFactory;
 
 public class SvgActionPanelFactory implements ActionWidgetFactory
 {

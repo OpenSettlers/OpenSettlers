@@ -1,10 +1,10 @@
 package soc.gwtClient.game.widgetsAbstract.playerInfo;
 
 import soc.common.game.player.GamePlayer;
+import soc.common.views.widgetsInterface.generic.ToolTip;
+import soc.common.views.widgetsInterface.main.GameWidget;
+import soc.common.views.widgetsInterface.payerInfo.VictoryPointAmountWidget;
 import soc.gwtClient.game.widgetsBitmap.tooltips.VictoryPointsToolTip;
-import soc.gwtClient.game.widgetsInterface.generic.ToolTip;
-import soc.gwtClient.game.widgetsInterface.main.GameWidget;
-import soc.gwtClient.game.widgetsInterface.playerInfo.VictoryPointAmountWidget;
 
 import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;

@@ -6,12 +6,12 @@ import soc.common.board.hexes.ResourceHex;
 import soc.common.board.hexes.SeaHex;
 import soc.common.board.hexes.TerritoryChangedEvent;
 import soc.common.board.ports.PortChangedEvent;
-import soc.gwtClient.game.widgetsInterface.visuals.BoardVisual;
-import soc.gwtClient.game.widgetsInterface.visuals.ChitVisual;
-import soc.gwtClient.game.widgetsInterface.visuals.HexVisual;
-import soc.gwtClient.game.widgetsInterface.visuals.PortPossibilitiesVisual;
-import soc.gwtClient.game.widgetsInterface.visuals.PortVisual;
-import soc.gwtClient.game.widgetsInterface.visuals.TerritoryVisual;
+import soc.common.views.widgetsInterface.visuals.BoardVisual;
+import soc.common.views.widgetsInterface.visuals.ChitVisual;
+import soc.common.views.widgetsInterface.visuals.HexVisual;
+import soc.common.views.widgetsInterface.visuals.PortPossibilitiesVisual;
+import soc.common.views.widgetsInterface.visuals.PortVisual;
+import soc.common.views.widgetsInterface.visuals.TerritoryVisual;
 
 public abstract class AbstractHexVisual extends AbstractPieceVisual implements
         HexVisual

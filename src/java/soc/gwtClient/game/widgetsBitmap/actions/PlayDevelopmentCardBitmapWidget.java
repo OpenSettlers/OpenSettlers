@@ -6,12 +6,12 @@ import soc.common.game.developmentCards.DevelopmentCard;
 import soc.common.game.developmentCards.DevelopmentCardsChangedEvent;
 import soc.common.game.developmentCards.DevelopmentCardsChangedEventHandler;
 import soc.common.game.player.GamePlayer;
+import soc.common.views.widgetsInterface.actions.ActionWidget;
+import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidget;
+import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidgetFactory;
+import soc.common.views.widgetsInterface.main.GameWidget;
+import soc.common.views.widgetsInterface.main.PlayDevelopmentCardWidget;
 import soc.gwtClient.game.widgetsBitmap.developmentCards.DevelopmentCardBitmapWidgetFactory;
-import soc.gwtClient.game.widgetsInterface.actions.ActionWidget;
-import soc.gwtClient.game.widgetsInterface.developmentCards.DevelopmentCardWidget;
-import soc.gwtClient.game.widgetsInterface.developmentCards.DevelopmentCardWidgetFactory;
-import soc.gwtClient.game.widgetsInterface.main.GameWidget;
-import soc.gwtClient.game.widgetsInterface.main.PlayDevelopmentCardWidget;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.event.dom.client.ClickEvent;

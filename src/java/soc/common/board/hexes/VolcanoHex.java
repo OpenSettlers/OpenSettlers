@@ -4,12 +4,12 @@ import soc.common.annotations.Sea3D;
 import soc.common.board.Chit;
 import soc.common.board.resources.Gold;
 import soc.common.board.resources.Resource;
-import soc.common.ui.Graphics;
-import soc.common.ui.Icon;
-import soc.common.ui.IconImpl;
-import soc.common.ui.meta.Meta;
 import soc.common.utils.ClassUtils;
-import soc.gwtClient.game.widgetsInterface.generic.ToolTip;
+import soc.common.views.meta.Graphics;
+import soc.common.views.meta.Icon;
+import soc.common.views.meta.IconImpl;
+import soc.common.views.meta.Meta;
+import soc.common.views.widgetsInterface.generic.ToolTip;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.resources.client.ImageResource;

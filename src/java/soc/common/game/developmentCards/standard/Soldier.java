@@ -5,8 +5,8 @@ import soc.common.actions.gameAction.standard.RobPlayer;
 import soc.common.game.Game;
 import soc.common.game.developmentCards.DevelopmentCard;
 import soc.common.game.player.GamePlayer;
-import soc.gwtClient.game.widgetsInterface.developmentCards.DevelopmentCardWidget;
-import soc.gwtClient.game.widgetsInterface.developmentCards.DevelopmentCardWidgetFactory;
+import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidget;
+import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidgetFactory;
 
 /*
  * Represents a soldier from the standard rules development card set.

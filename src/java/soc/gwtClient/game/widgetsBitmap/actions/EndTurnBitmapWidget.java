@@ -9,8 +9,8 @@ import soc.common.game.TurnChangedEventHandler;
 import soc.common.game.gamePhase.turnPhase.TurnPhaseChangedEvent;
 import soc.common.game.gamePhase.turnPhase.TurnPhaseChangedHandler;
 import soc.common.game.player.GamePlayer;
+import soc.common.views.widgetsInterface.main.GameWidget;
 import soc.gwtClient.game.widgetsAbstract.actions.AbstractActionWidget;
-import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.event.dom.client.ClickEvent;

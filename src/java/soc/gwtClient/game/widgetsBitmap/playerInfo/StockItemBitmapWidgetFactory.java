@@ -1,9 +1,9 @@
 package soc.gwtClient.game.widgetsBitmap.playerInfo;
 
 import soc.common.game.player.GamePlayer;
-import soc.gwtClient.game.widgetsInterface.main.GameWidget;
-import soc.gwtClient.game.widgetsInterface.playerInfo.StockItemWidget;
-import soc.gwtClient.game.widgetsInterface.playerInfo.StockItemWidgetFactory;
+import soc.common.views.widgetsInterface.main.GameWidget;
+import soc.common.views.widgetsInterface.payerInfo.StockItemWidget;
+import soc.common.views.widgetsInterface.payerInfo.StockItemWidgetFactory;
 
 public class StockItemBitmapWidgetFactory implements StockItemWidgetFactory
 {

@@ -4,9 +4,9 @@ import soc.common.board.ports.PortList;
 import soc.common.board.resources.Resource;
 import soc.common.board.resources.ResourceList;
 import soc.common.board.resources.ResourcesChangedEvent;
-import soc.gwtClient.game.widgetsInterface.generic.ResourceClickedEvent;
-import soc.gwtClient.game.widgetsInterface.generic.ResourceListWidget;
-import soc.gwtClient.game.widgetsInterface.generic.ResourceWidget;
+import soc.common.views.widgetsInterface.generic.ResourceClickedEvent;
+import soc.common.views.widgetsInterface.generic.ResourceListWidget;
+import soc.common.views.widgetsInterface.generic.ResourceWidget;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.ComplexPanel;

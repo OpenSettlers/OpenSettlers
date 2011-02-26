@@ -1,8 +1,8 @@
 package soc.gwtClient.game.widgetsBitmap.main;
 
-import soc.gwtClient.game.widgetsInterface.main.GamePanelLayoutWidget;
-import soc.gwtClient.game.widgetsInterface.main.GameWidget;
-import soc.gwtClient.game.widgetsInterface.main.GameWidgetFactory;
+import soc.common.views.widgetsInterface.main.GamePanelLayoutWidget;
+import soc.common.views.widgetsInterface.main.GameWidget;
+import soc.common.views.widgetsInterface.main.GameWidgetFactory;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.DockLayoutPanel;

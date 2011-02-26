@@ -1,9 +1,9 @@
 package soc.common.game.settings;
 
-import soc.common.ui.Graphics;
-import soc.common.ui.Icon;
-import soc.common.ui.meta.Meta;
-import soc.gwtClient.game.widgetsInterface.generic.ToolTip;
+import soc.common.views.meta.Graphics;
+import soc.common.views.meta.Icon;
+import soc.common.views.meta.Meta;
+import soc.common.views.widgetsInterface.generic.ToolTip;
 
 public class NoSevensFirstRound implements Setting
 {

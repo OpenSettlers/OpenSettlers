@@ -1,7 +1,7 @@
 package soc.gwtClient.game.widgetsAbstract.visuals;
 
 import soc.common.board.pieces.Town;
-import soc.gwtClient.game.widgetsInterface.visuals.TownVisual;
+import soc.common.views.widgetsInterface.visuals.TownVisual;
 
 public class AbstractTownVisual extends AbstractPieceVisual implements
         TownVisual

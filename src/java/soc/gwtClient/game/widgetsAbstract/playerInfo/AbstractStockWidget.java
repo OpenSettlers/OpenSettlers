@@ -2,9 +2,9 @@ package soc.gwtClient.game.widgetsAbstract.playerInfo;
 
 import soc.common.board.pieces.abstractPieces.StockPiece;
 import soc.common.game.player.GamePlayer;
-import soc.gwtClient.game.widgetsInterface.main.GameWidget;
-import soc.gwtClient.game.widgetsInterface.playerInfo.StockItemWidgetFactory;
-import soc.gwtClient.game.widgetsInterface.playerInfo.StockWidget;
+import soc.common.views.widgetsInterface.main.GameWidget;
+import soc.common.views.widgetsInterface.payerInfo.StockItemWidgetFactory;
+import soc.common.views.widgetsInterface.payerInfo.StockWidget;
 
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;

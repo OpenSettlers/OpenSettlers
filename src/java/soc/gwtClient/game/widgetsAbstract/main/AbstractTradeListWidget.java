@@ -1,9 +1,9 @@
 package soc.gwtClient.game.widgetsAbstract.main;
 
 import soc.common.board.resources.ResourceList;
+import soc.common.views.widgetsInterface.generic.ResourceListWidget;
+import soc.common.views.widgetsInterface.main.TradeListWidget;
 import soc.gwtClient.game.widgetsBitmap.generic.ResourceListBitmapWidget;
-import soc.gwtClient.game.widgetsInterface.generic.ResourceListWidget;
-import soc.gwtClient.game.widgetsInterface.main.TradeListWidget;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;

@@ -9,14 +9,14 @@ import soc.common.game.player.GamePlayerImpl;
 import soc.common.server.entities.Player;
 import soc.common.server.randomization.ClientRandom;
 import soc.common.utils.ClassUtils;
+import soc.common.views.widgetsInterface.generic.BoardChangedEvent;
+import soc.common.views.widgetsInterface.generic.BoardChangedEventHandler;
+import soc.common.views.widgetsInterface.generic.BoardPicker;
+import soc.common.views.widgetsInterface.generic.LimitedColorPicker;
 import soc.gwtClient.game.widgetsBitmap.generic.BoardPickerBitmapWidget;
 import soc.gwtClient.game.widgetsBitmap.generic.ColorCell;
 import soc.gwtClient.game.widgetsBitmap.generic.LimitedColorPickerBitmapWidget;
 import soc.gwtClient.game.widgetsBitmap.generic.LimitedColorPickerBitmapWidget.OnColorChanged;
-import soc.gwtClient.game.widgetsInterface.generic.BoardChangedEvent;
-import soc.gwtClient.game.widgetsInterface.generic.BoardChangedEventHandler;
-import soc.gwtClient.game.widgetsInterface.generic.BoardPicker;
-import soc.gwtClient.game.widgetsInterface.generic.LimitedColorPicker;
 import soc.gwtClient.images.Resources;
 import soc.gwtClient.main.MainWindow;
 

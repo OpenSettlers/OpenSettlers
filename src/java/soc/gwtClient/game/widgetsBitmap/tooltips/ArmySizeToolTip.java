@@ -1,8 +1,8 @@
 package soc.gwtClient.game.widgetsBitmap.tooltips;
 
 import soc.common.game.player.GamePlayer;
+import soc.common.views.widgetsInterface.main.GameWidget;
 import soc.gwtClient.game.widgetsAbstract.toolTips.AbstractPlayerInfoToolTip;
-import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 
 public class ArmySizeToolTip extends AbstractPlayerInfoToolTip
 {

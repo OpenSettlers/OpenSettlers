@@ -5,8 +5,8 @@ import java.util.HashMap;
 import soc.common.board.territories.TerritoriesChangedEvent;
 import soc.common.board.territories.TerritoriesChangedEventHandler;
 import soc.common.board.territories.Territory;
-import soc.gwtClient.game.behaviour.board.SetTerritoryBehaviour;
-import soc.gwtClient.game.widgetsInterface.visuals.BoardVisual;
+import soc.common.views.behaviour.board.SetTerritoryBehaviour;
+import soc.common.views.widgetsInterface.visuals.BoardVisual;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -23,7 +23,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-@SuppressWarnings("deprecation")
 public class TerritoryPanel extends VerticalPanel implements
         TerritoriesChangedEventHandler
 {

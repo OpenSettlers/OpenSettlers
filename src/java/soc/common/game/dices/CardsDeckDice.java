@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import soc.common.server.randomization.Random;
-import soc.gwtClient.game.widgetsInterface.actions.DiceWidget;
-import soc.gwtClient.game.widgetsInterface.actions.DiceWidgetFactory;
+import soc.common.views.widgetsInterface.actions.DiceWidget;
+import soc.common.views.widgetsInterface.actions.DiceWidgetFactory;
 
 /*
  * Represents a deck of 36 cards, shuffled at start. When a player "rolls", a card from 

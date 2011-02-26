@@ -4,9 +4,9 @@ import org.vaadin.gwtgraphics.client.VectorObject;
 import org.vaadin.gwtgraphics.client.shape.Circle;
 
 import soc.common.board.HexLocation;
-import soc.gwtClient.game.widgetsInterface.visuals.BoardVisual;
-import soc.gwtClient.game.widgetsInterface.visuals.PieceVisual;
-import soc.gwtClient.game.widgetsInterface.visuals.PortPossibilitiesVisual;
+import soc.common.views.widgetsInterface.visuals.BoardVisual;
+import soc.common.views.widgetsInterface.visuals.PieceVisual;
+import soc.common.views.widgetsInterface.visuals.PortPossibilitiesVisual;
 
 public class DummyPortPossibilitiesSvg implements PortPossibilitiesVisual,
         SvgVisual

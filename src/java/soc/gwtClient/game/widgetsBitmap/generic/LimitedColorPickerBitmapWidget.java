@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import soc.gwtClient.game.widgetsInterface.generic.LimitedColorPicker;
+import soc.common.views.widgetsInterface.generic.LimitedColorPicker;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;

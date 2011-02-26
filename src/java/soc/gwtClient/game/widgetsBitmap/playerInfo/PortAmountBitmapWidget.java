@@ -3,9 +3,9 @@ package soc.gwtClient.game.widgetsBitmap.playerInfo;
 import soc.common.board.ports.PortListChangedEvent;
 import soc.common.board.ports.PortListChangedEventHandler;
 import soc.common.game.player.GamePlayer;
+import soc.common.views.widgetsInterface.main.GameWidget;
+import soc.common.views.widgetsInterface.payerInfo.PortAmountWidget;
 import soc.gwtClient.game.widgetsBitmap.tooltips.PortListToolTip;
-import soc.gwtClient.game.widgetsInterface.main.GameWidget;
-import soc.gwtClient.game.widgetsInterface.playerInfo.PortAmountWidget;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.event.dom.client.MouseOutEvent;

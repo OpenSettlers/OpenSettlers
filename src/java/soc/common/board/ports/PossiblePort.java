@@ -2,7 +2,7 @@ package soc.common.board.ports;
 
 import soc.common.board.HexLocation;
 import soc.common.board.RotationPosition;
-import soc.common.ui.meta.Meta;
+import soc.common.views.meta.Meta;
 
 /*
  * Represents a port which can be placed on the board.

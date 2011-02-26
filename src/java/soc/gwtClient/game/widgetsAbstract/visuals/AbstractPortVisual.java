@@ -1,8 +1,8 @@
 package soc.gwtClient.game.widgetsAbstract.visuals;
 
 import soc.common.board.ports.Port;
-import soc.gwtClient.game.widgetsInterface.visuals.BoardVisual;
-import soc.gwtClient.game.widgetsInterface.visuals.PortVisual;
+import soc.common.views.widgetsInterface.visuals.BoardVisual;
+import soc.common.views.widgetsInterface.visuals.PortVisual;
 
 public abstract class AbstractPortVisual extends AbstractPieceVisual implements PortVisual
 {

@@ -14,9 +14,9 @@ import soc.common.board.hexes.SheepHex;
 import soc.common.board.hexes.TimberHex;
 import soc.common.board.hexes.VolcanoHex;
 import soc.common.board.hexes.WheatHex;
-import soc.gwtClient.game.behaviour.board.SetChitBehaviour;
-import soc.gwtClient.game.behaviour.board.SetHexBehaviour;
-import soc.gwtClient.game.behaviour.board.SetTerritoryBehaviour;
+import soc.common.views.behaviour.board.SetChitBehaviour;
+import soc.common.views.behaviour.board.SetHexBehaviour;
+import soc.common.views.behaviour.board.SetTerritoryBehaviour;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.event.dom.client.ClickEvent;

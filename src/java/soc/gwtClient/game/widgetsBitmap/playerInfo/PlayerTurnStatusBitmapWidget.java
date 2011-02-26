@@ -3,7 +3,7 @@ package soc.gwtClient.game.widgetsBitmap.playerInfo;
 import soc.common.game.Game;
 import soc.common.game.TurnChangedEvent;
 import soc.common.game.player.GamePlayer;
-import soc.gwtClient.game.widgetsInterface.playerInfo.PlayerTurnStatusWidget;
+import soc.common.views.widgetsInterface.payerInfo.PlayerTurnStatusWidget;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.user.client.ui.AbsolutePanel;

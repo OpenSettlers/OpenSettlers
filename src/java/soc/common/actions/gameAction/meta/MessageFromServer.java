@@ -4,15 +4,15 @@ import soc.common.actions.gameAction.AbstractGameAction;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
 import soc.common.internationalization.I18n;
-import soc.common.ui.Graphics;
-import soc.common.ui.Icon;
-import soc.common.ui.IconImpl;
-import soc.common.ui.meta.Meta;
-import soc.gwtClient.game.behaviour.gameWidget.GameBehaviour;
-import soc.gwtClient.game.behaviour.gameWidget.factories.GameBehaviourFactory;
-import soc.gwtClient.game.behaviour.gameWidget.factories.ReceiveGameBehaviourFactory;
-import soc.gwtClient.game.behaviour.gameWidget.received.ReceiveGameBehaviour;
-import soc.gwtClient.game.widgetsInterface.generic.ToolTip;
+import soc.common.views.behaviour.gameWidget.GameBehaviour;
+import soc.common.views.behaviour.gameWidget.factories.GameBehaviourFactory;
+import soc.common.views.behaviour.gameWidget.factories.ReceiveGameBehaviourFactory;
+import soc.common.views.behaviour.gameWidget.received.ReceiveGameBehaviour;
+import soc.common.views.meta.Graphics;
+import soc.common.views.meta.Icon;
+import soc.common.views.meta.IconImpl;
+import soc.common.views.meta.Meta;
+import soc.common.views.widgetsInterface.generic.ToolTip;
 
 /*
  * A generic message from the server. Currently used as error message

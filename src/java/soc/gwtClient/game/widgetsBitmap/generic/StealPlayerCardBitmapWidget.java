@@ -1,8 +1,8 @@
 package soc.gwtClient.game.widgetsBitmap.generic;
 
 import soc.common.game.player.GamePlayer;
-import soc.gwtClient.game.widgetsInterface.dialogs.StealCardWidget;
-import soc.gwtClient.game.widgetsInterface.main.StealPlayerCardWidget;
+import soc.common.views.widgetsInterface.dialogs.StealCardWidget;
+import soc.common.views.widgetsInterface.main.StealPlayerCardWidget;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.event.dom.client.ClickEvent;

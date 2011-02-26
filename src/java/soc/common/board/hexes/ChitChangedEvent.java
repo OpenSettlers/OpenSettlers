@@ -8,11 +8,12 @@ public class ChitChangedEvent extends GwtEvent<ChitChangedEventHandler>
 {
     public static Type<ChitChangedEventHandler> TYPE = new Type<ChitChangedEventHandler>();
     private Chit chit;
-    
+
     public ChitChangedEvent(Chit c)
     {
-        this.chit=c;
+        this.chit = c;
     }
+
     /**
      * @return the chit
      */

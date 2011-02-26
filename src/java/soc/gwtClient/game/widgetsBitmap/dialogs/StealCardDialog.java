@@ -6,11 +6,11 @@ import soc.common.actions.gameAction.standard.RobPlayer;
 import soc.common.game.Game;
 import soc.common.game.player.GamePlayer;
 import soc.common.game.player.GamePlayerList;
-import soc.gwtClient.game.behaviour.gameWidget.beforeSend.RobPlayerGameBehaviour;
+import soc.common.views.behaviour.gameWidget.beforeSend.RobPlayerGameBehaviour;
+import soc.common.views.widgetsInterface.dialogs.StealCardWidget;
+import soc.common.views.widgetsInterface.main.GameWidget;
+import soc.common.views.widgetsInterface.main.StealPlayerCardWidget;
 import soc.gwtClient.game.widgetsBitmap.generic.StealPlayerCardBitmapWidget;
-import soc.gwtClient.game.widgetsInterface.dialogs.StealCardWidget;
-import soc.gwtClient.game.widgetsInterface.main.GameWidget;
-import soc.gwtClient.game.widgetsInterface.main.StealPlayerCardWidget;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

@@ -5,10 +5,10 @@ import org.vaadin.gwtgraphics.client.Image;
 import org.vaadin.gwtgraphics.client.shape.Path;
 
 import soc.common.board.hexes.Hex;
-import soc.gwtClient.game.Point2D;
+import soc.common.views.widgetsInterface.generic.Point2D;
+import soc.common.views.widgetsInterface.visuals.BoardVisual;
+import soc.common.views.widgetsInterface.visuals.PieceVisual;
 import soc.gwtClient.game.widgetsAbstract.visuals.AbstractHexVisual;
-import soc.gwtClient.game.widgetsInterface.visuals.BoardVisual;
-import soc.gwtClient.game.widgetsInterface.visuals.PieceVisual;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

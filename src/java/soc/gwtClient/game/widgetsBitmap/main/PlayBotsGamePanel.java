@@ -1,9 +1,9 @@
 package soc.gwtClient.game.widgetsBitmap.main;
 
+import soc.common.views.widgetsInterface.actions.ActionsWidget;
+import soc.common.views.widgetsInterface.generic.ToolTipManager;
+import soc.common.views.widgetsInterface.main.GameWidgetFactory;
 import soc.gwtClient.game.widgetsAbstract.main.AbstractGameWidget;
-import soc.gwtClient.game.widgetsInterface.actions.ActionsWidget;
-import soc.gwtClient.game.widgetsInterface.generic.ToolTipManager;
-import soc.gwtClient.game.widgetsInterface.main.GameWidgetFactory;
 
 public class PlayBotsGamePanel extends AbstractGameWidget
 {

@@ -8,14 +8,14 @@ import soc.common.game.player.GamePlayer;
 import soc.common.game.statuses.GameStatus;
 import soc.common.server.actions.GameServerActionFactory;
 import soc.common.server.actions.ServerAction;
-import soc.gwtClient.game.behaviour.gameWidget.GameBehaviour;
-import soc.gwtClient.game.behaviour.gameWidget.factories.GameBehaviourFactory;
-import soc.gwtClient.game.behaviour.gameWidget.factories.ReceiveGameBehaviourFactory;
-import soc.gwtClient.game.behaviour.gameWidget.received.ReceiveGameBehaviour;
-import soc.gwtClient.game.widgetsInterface.actions.ActionDetailWidgetFactory;
-import soc.gwtClient.game.widgetsInterface.actions.ActionWidget;
-import soc.gwtClient.game.widgetsInterface.actions.ActionWidgetFactory;
-import soc.gwtClient.game.widgetsInterface.playerInfo.ActionDetailWidget;
+import soc.common.views.behaviour.gameWidget.GameBehaviour;
+import soc.common.views.behaviour.gameWidget.factories.GameBehaviourFactory;
+import soc.common.views.behaviour.gameWidget.factories.ReceiveGameBehaviourFactory;
+import soc.common.views.behaviour.gameWidget.received.ReceiveGameBehaviour;
+import soc.common.views.widgetsInterface.actions.ActionDetailWidgetFactory;
+import soc.common.views.widgetsInterface.actions.ActionWidget;
+import soc.common.views.widgetsInterface.actions.ActionWidgetFactory;
+import soc.common.views.widgetsInterface.payerInfo.ActionDetailWidget;
 
 public interface GameAction extends Action
 {

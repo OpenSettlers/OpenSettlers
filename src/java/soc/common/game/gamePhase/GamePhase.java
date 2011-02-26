@@ -5,8 +5,8 @@ import java.io.Serializable;
 import soc.common.actions.gameAction.GameAction;
 import soc.common.game.Game;
 import soc.common.game.Turn;
-import soc.gwtClient.game.widgetsBitmap.status.GamePhaseStatusWidget;
-import soc.gwtClient.game.widgetsInterface.main.GamePhaseStatusWidgetFactory;
+import soc.common.views.widgetsInterface.main.GamePhaseStatusWidget;
+import soc.common.views.widgetsInterface.main.GamePhaseStatusWidgetFactory;
 
 public interface GamePhase extends Serializable
 {

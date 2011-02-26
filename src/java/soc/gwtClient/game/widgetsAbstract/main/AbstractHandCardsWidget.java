@@ -4,8 +4,8 @@ import java.util.HashMap;
 
 import soc.common.board.resources.Resource;
 import soc.common.game.player.GamePlayer;
-import soc.gwtClient.game.widgetsInterface.generic.ResourceWidget;
-import soc.gwtClient.game.widgetsInterface.main.HandCardsWidget;
+import soc.common.views.widgetsInterface.generic.ResourceWidget;
+import soc.common.views.widgetsInterface.main.HandCardsWidget;
 
 import com.google.gwt.user.client.ui.ComplexPanel;
 

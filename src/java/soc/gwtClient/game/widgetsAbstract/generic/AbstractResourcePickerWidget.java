@@ -5,10 +5,10 @@ import java.util.HashMap;
 import soc.common.board.ports.PortList;
 import soc.common.board.resources.Resource;
 import soc.common.board.resources.ResourceList;
-import soc.gwtClient.game.widgetsInterface.generic.ResourceClickedEvent;
-import soc.gwtClient.game.widgetsInterface.generic.ResourcePickerWidget;
-import soc.gwtClient.game.widgetsInterface.generic.ResourceSelectorWidget;
-import soc.gwtClient.game.widgetsInterface.main.GameWidget;
+import soc.common.views.widgetsInterface.generic.ResourceClickedEvent;
+import soc.common.views.widgetsInterface.generic.ResourcePickerWidget;
+import soc.common.views.widgetsInterface.generic.ResourceSelectorWidget;
+import soc.common.views.widgetsInterface.main.GameWidget;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;

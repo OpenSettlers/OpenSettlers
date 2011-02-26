@@ -10,13 +10,13 @@ import soc.common.board.resources.Sheep;
 import soc.common.board.resources.Timber;
 import soc.common.board.routing.GraphPoint;
 import soc.common.game.player.GamePlayer;
-import soc.common.ui.Graphics;
-import soc.common.ui.Icon;
-import soc.common.ui.IconImpl;
-import soc.common.ui.meta.Meta;
-import soc.gwtClient.game.widgetsInterface.generic.ToolTip;
-import soc.gwtClient.game.widgetsInterface.visuals.PieceVisual;
-import soc.gwtClient.game.widgetsInterface.visuals.VisualFactory;
+import soc.common.views.meta.Graphics;
+import soc.common.views.meta.Icon;
+import soc.common.views.meta.IconImpl;
+import soc.common.views.meta.Meta;
+import soc.common.views.widgetsInterface.generic.ToolTip;
+import soc.common.views.widgetsInterface.visuals.PieceVisual;
+import soc.common.views.widgetsInterface.visuals.VisualFactory;
 
 @SeaFarers
 public class Ship extends AbstractPlayerPiece implements SidePiece

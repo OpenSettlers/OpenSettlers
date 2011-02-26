@@ -1,7 +1,7 @@
 package soc.gwtClient.game.widgetsSvg;
 
 import soc.common.board.Board;
-import soc.gwtClient.game.widgetsInterface.generic.BoardViewerWidget;
+import soc.common.views.widgetsInterface.generic.BoardViewerWidget;
 import soc.gwtClient.game.widgetsSvg.visuals.BoardSvg;
 
 import com.google.gwt.user.client.ui.IsWidget;

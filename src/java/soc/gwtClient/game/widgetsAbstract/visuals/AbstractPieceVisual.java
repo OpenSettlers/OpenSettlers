@@ -1,6 +1,6 @@
 package soc.gwtClient.game.widgetsAbstract.visuals;
 
-import soc.gwtClient.game.widgetsInterface.visuals.PieceVisual;
+import soc.common.views.widgetsInterface.visuals.PieceVisual;
   
 /*
  * Base implementation of visual representation of a board object.

@@ -7,7 +7,7 @@ import soc.common.board.HexSide;
 import soc.common.board.RotationPosition;
 import soc.common.board.resources.Resource;
 import soc.common.board.resources.ResourceList;
-import soc.common.ui.meta.HasMeta;
+import soc.common.views.meta.HasMeta;
 
 public interface Port extends Serializable, HasMeta
 {

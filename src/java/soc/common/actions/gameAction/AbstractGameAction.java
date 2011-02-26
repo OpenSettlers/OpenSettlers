@@ -12,10 +12,10 @@ import soc.common.game.statuses.GameStatus;
 import soc.common.server.actions.GameServerActionFactory;
 import soc.common.server.actions.ServerAction;
 import soc.common.utils.ClassUtils;
-import soc.gwtClient.game.widgetsInterface.actions.ActionDetailWidgetFactory;
-import soc.gwtClient.game.widgetsInterface.actions.ActionWidget;
-import soc.gwtClient.game.widgetsInterface.actions.ActionWidgetFactory;
-import soc.gwtClient.game.widgetsInterface.playerInfo.ActionDetailWidget;
+import soc.common.views.widgetsInterface.actions.ActionDetailWidgetFactory;
+import soc.common.views.widgetsInterface.actions.ActionWidget;
+import soc.common.views.widgetsInterface.actions.ActionWidgetFactory;
+import soc.common.views.widgetsInterface.payerInfo.ActionDetailWidget;
 
 /*
  * A GameAction performed in a game

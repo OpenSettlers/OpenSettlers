@@ -11,8 +11,8 @@ import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
 import soc.common.game.player.GamePlayer;
 import soc.common.utils.ClassUtils;
-import soc.gwtClient.game.widgetsInterface.developmentCards.DevelopmentCardWidget;
-import soc.gwtClient.game.widgetsInterface.developmentCards.DevelopmentCardWidgetFactory;
+import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidget;
+import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidgetFactory;
 
 public abstract class DevelopmentCard implements Serializable
 {

@@ -10,8 +10,8 @@ import soc.common.board.resources.Wheat;
 import soc.common.game.Game;
 import soc.common.game.developmentCards.DevelopmentCard;
 import soc.common.game.player.GamePlayer;
-import soc.gwtClient.game.widgetsInterface.developmentCards.DevelopmentCardWidget;
-import soc.gwtClient.game.widgetsInterface.developmentCards.DevelopmentCardWidgetFactory;
+import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidget;
+import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidgetFactory;
 
 /*
  * Standard monopoly

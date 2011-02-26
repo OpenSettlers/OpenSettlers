@@ -8,7 +8,7 @@ import soc.common.board.ports.SheepPort;
 import soc.common.board.ports.ThreeToOnePort;
 import soc.common.board.ports.TimberPort;
 import soc.common.board.ports.WheatPort;
-import soc.gwtClient.game.behaviour.board.SetPortBehaviour;
+import soc.common.views.behaviour.board.SetPortBehaviour;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.event.dom.client.ClickEvent;

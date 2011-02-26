@@ -6,13 +6,14 @@ import soc.common.game.Game;
 import soc.common.game.TurnChangedEvent;
 import soc.common.game.TurnChangedEventHandler;
 import soc.common.server.HotSeatServer;
-import soc.gwtClient.game.behaviour.gameBoard.DisabledMap;
+import soc.common.views.behaviour.gameBoard.DisabledMap;
+import soc.common.views.widgetsInterface.actions.ActionsWidget;
+import soc.common.views.widgetsInterface.actions.HotSeatActionsPlayersWidget;
+import soc.common.views.widgetsInterface.dialogs.TradePlayerDialog;
+import soc.common.views.widgetsInterface.main.GameWidgetFactory;
+import soc.common.views.widgetsInterface.main.HotSeatTradePlayersWidget;
+import soc.common.views.widgetsInterface.main.PlayerStuffWidget;
 import soc.gwtClient.game.widgetsAbstract.main.AbstractGameWidget;
-import soc.gwtClient.game.widgetsBitmap.actions.HotSeatActionsPlayersWidget;
-import soc.gwtClient.game.widgetsInterface.actions.ActionsWidget;
-import soc.gwtClient.game.widgetsInterface.dialogs.TradePlayerDialog;
-import soc.gwtClient.game.widgetsInterface.main.GameWidgetFactory;
-import soc.gwtClient.game.widgetsInterface.main.PlayerStuffWidget;
 import soc.gwtClient.main.CenterWidget;
 
 import com.google.gwt.user.client.ui.Panel;
@@ -114,13 +115,14 @@ public class HotSeatGameWidget extends AbstractGameWidget implements
     @Override
     public TradePlayerDialog getTradePlayerUI()
     {
-        return hotseatTradePlayersWidget.getPlayerTradeUI(player);
+        return hotseatTradePlayersWidget.getPlayerTradeWidget(player);
     }
 
     @Override
     public PlayerStuffWidget getPlayerStuffWidget()
     {
-        return playersActionsWidget;
+        // return playersActionsWidget;
+        return null;
     }
 
 }

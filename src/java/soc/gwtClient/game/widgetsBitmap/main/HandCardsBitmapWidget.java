@@ -3,9 +3,9 @@ package soc.gwtClient.game.widgetsBitmap.main;
 import soc.common.board.resources.Resource;
 import soc.common.board.resources.ResourcesChangedEvent;
 import soc.common.game.player.GamePlayer;
+import soc.common.views.widgetsInterface.generic.ResourceWidget;
 import soc.gwtClient.game.widgetsAbstract.main.AbstractHandCardsWidget;
 import soc.gwtClient.game.widgetsBitmap.generic.ResourceBitmapWidget;
-import soc.gwtClient.game.widgetsInterface.generic.ResourceWidget;
 
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;

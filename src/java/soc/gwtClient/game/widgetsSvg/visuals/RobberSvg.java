@@ -7,7 +7,7 @@ import org.vaadin.gwtgraphics.client.shape.Circle;
 import soc.common.board.pieces.MovedEvent;
 import soc.common.board.pieces.MovedEventHandler;
 import soc.common.board.pieces.Robber;
-import soc.gwtClient.game.Point2D;
+import soc.common.views.widgetsInterface.generic.Point2D;
 import soc.gwtClient.game.widgetsAbstract.visuals.AbstractRobberVisual;
 
 public class RobberSvg extends AbstractRobberVisual implements SvgVisual,

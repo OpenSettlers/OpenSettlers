@@ -6,8 +6,8 @@ import org.vaadin.gwtgraphics.client.animation.Animate;
 import org.vaadin.gwtgraphics.client.shape.Rectangle;
 
 import soc.common.board.HexSide;
-import soc.gwtClient.game.Point2D;
-import soc.gwtClient.game.widgetsInterface.visuals.SideVisual;
+import soc.common.views.widgetsInterface.generic.Point2D;
+import soc.gwtClient.game.widgetsAbstract.visuals.SideVisual;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

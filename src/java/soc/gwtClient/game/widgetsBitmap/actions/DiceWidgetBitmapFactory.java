@@ -1,9 +1,9 @@
 package soc.gwtClient.game.widgetsBitmap.actions;
 
 import soc.common.game.player.GamePlayer;
-import soc.gwtClient.game.widgetsInterface.actions.DiceWidget;
-import soc.gwtClient.game.widgetsInterface.actions.DiceWidgetFactory;
-import soc.gwtClient.game.widgetsInterface.main.GameWidget;
+import soc.common.views.widgetsInterface.actions.DiceWidget;
+import soc.common.views.widgetsInterface.actions.DiceWidgetFactory;
+import soc.common.views.widgetsInterface.main.GameWidget;
 import soc.gwtClient.game.widgetsSvg.actions.SvgStandardDiceWidget;
 
 public class DiceWidgetBitmapFactory implements DiceWidgetFactory

@@ -5,8 +5,8 @@ import soc.common.game.StatusChangedEvent;
 import soc.common.game.Turn;
 import soc.common.game.TurnChangedEvent;
 import soc.common.game.logs.ActionQueueChangedEvent;
+import soc.common.views.widgetsInterface.main.GameWidget;
 import soc.gwtClient.game.widgetsAbstract.main.AbstractStatusPanel;
-import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;

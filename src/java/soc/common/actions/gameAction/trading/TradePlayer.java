@@ -8,17 +8,17 @@ import soc.common.game.gamePhase.turnPhase.TurnPhase;
 import soc.common.game.player.GamePlayer;
 import soc.common.game.trading.TradeResponse;
 import soc.common.internationalization.I18n;
-import soc.common.ui.Graphics;
-import soc.common.ui.Icon;
-import soc.common.ui.IconImpl;
-import soc.common.ui.meta.Meta;
-import soc.gwtClient.game.behaviour.gameWidget.GameBehaviour;
-import soc.gwtClient.game.behaviour.gameWidget.factories.GameBehaviourFactory;
-import soc.gwtClient.game.behaviour.gameWidget.factories.ReceiveGameBehaviourFactory;
-import soc.gwtClient.game.behaviour.gameWidget.received.ReceiveGameBehaviour;
-import soc.gwtClient.game.widgetsInterface.actions.ActionWidget;
-import soc.gwtClient.game.widgetsInterface.actions.ActionWidgetFactory;
-import soc.gwtClient.game.widgetsInterface.generic.ToolTip;
+import soc.common.views.behaviour.gameWidget.GameBehaviour;
+import soc.common.views.behaviour.gameWidget.factories.GameBehaviourFactory;
+import soc.common.views.behaviour.gameWidget.factories.ReceiveGameBehaviourFactory;
+import soc.common.views.behaviour.gameWidget.received.ReceiveGameBehaviour;
+import soc.common.views.meta.Graphics;
+import soc.common.views.meta.Icon;
+import soc.common.views.meta.IconImpl;
+import soc.common.views.meta.Meta;
+import soc.common.views.widgetsInterface.actions.ActionWidget;
+import soc.common.views.widgetsInterface.actions.ActionWidgetFactory;
+import soc.common.views.widgetsInterface.generic.ToolTip;
 import soc.gwtClient.images.Resources;
 
 public class TradePlayer extends AbstractTurnAction

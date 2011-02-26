@@ -2,10 +2,10 @@ package soc.gwtClient.game.widgetsAbstract.main;
 
 import soc.common.board.resources.Resource;
 import soc.common.game.Game;
+import soc.common.views.widgetsInterface.main.BankStockResourceWidget;
+import soc.common.views.widgetsInterface.main.BankStockWidget;
+import soc.common.views.widgetsInterface.payerInfo.DevelopmentCardsAmountWidget;
 import soc.gwtClient.game.widgetsBitmap.playerInfo.BankStockResourceBitmapWidget;
-import soc.gwtClient.game.widgetsInterface.main.BankStockWidget;
-import soc.gwtClient.game.widgetsInterface.main.BankStockResourceWidget;
-import soc.gwtClient.game.widgetsInterface.playerInfo.DevelopmentCardsAmountWidget;
 
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;

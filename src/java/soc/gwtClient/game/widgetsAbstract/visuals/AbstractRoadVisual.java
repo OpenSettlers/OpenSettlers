@@ -1,7 +1,7 @@
 package soc.gwtClient.game.widgetsAbstract.visuals;
 
 import soc.common.board.pieces.Road;
-import soc.gwtClient.game.widgetsInterface.visuals.RoadVisual;
+import soc.common.views.widgetsInterface.visuals.RoadVisual;
 
 public abstract class AbstractRoadVisual extends AbstractPieceVisual implements
         RoadVisual

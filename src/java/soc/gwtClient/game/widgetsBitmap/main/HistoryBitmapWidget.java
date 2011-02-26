@@ -3,9 +3,9 @@ package soc.gwtClient.game.widgetsBitmap.main;
 import soc.common.actions.gameAction.GameAction;
 import soc.common.game.logs.ActionPerformedEvent;
 import soc.common.game.logs.ActionPerformedEventHandler;
+import soc.common.views.widgetsInterface.main.GameWidget;
+import soc.common.views.widgetsInterface.main.HistoryWidget;
 import soc.gwtClient.game.widgetsBitmap.generic.StringActionCell;
-import soc.gwtClient.game.widgetsInterface.main.GameWidget;
-import soc.gwtClient.game.widgetsInterface.main.HistoryWidget;
 
 import com.google.gwt.user.cellview.client.CellList;
 import com.google.gwt.user.client.ui.ScrollPanel;

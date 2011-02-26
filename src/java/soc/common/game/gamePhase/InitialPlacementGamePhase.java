@@ -6,8 +6,8 @@ import soc.common.actions.gameAction.standard.BuildRoad;
 import soc.common.actions.gameAction.standard.BuildTown;
 import soc.common.actions.gameAction.turns.GamePhaseHasEnded;
 import soc.common.game.Game;
-import soc.gwtClient.game.widgetsBitmap.status.GamePhaseStatusWidget;
-import soc.gwtClient.game.widgetsInterface.main.GamePhaseStatusWidgetFactory;
+import soc.common.views.widgetsInterface.main.GamePhaseStatusWidget;
+import soc.common.views.widgetsInterface.main.GamePhaseStatusWidgetFactory;
 
 public class InitialPlacementGamePhase extends AbstractGamePhase
 {

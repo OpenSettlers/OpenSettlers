@@ -1,8 +1,8 @@
 package soc.gwtClient.game.widgetsAbstract.visuals;
 
 import soc.common.board.Chit;
-import soc.gwtClient.game.widgetsInterface.visuals.BoardVisual;
-import soc.gwtClient.game.widgetsInterface.visuals.ChitVisual;
+import soc.common.views.widgetsInterface.visuals.BoardVisual;
+import soc.common.views.widgetsInterface.visuals.ChitVisual;
 
 public abstract class AbstractChitVisual extends AbstractPieceVisual implements
         ChitVisual

@@ -1,7 +1,7 @@
 package soc.gwtClient.game.widgetsBitmap.dialogs;
 
-import soc.gwtClient.game.behaviour.gameWidget.received.GameOverGameBehaviour;
-import soc.gwtClient.game.widgetsInterface.dialogs.GameOverDialog;
+import soc.common.views.behaviour.gameWidget.received.GameOverGameBehaviour;
+import soc.common.views.widgetsInterface.dialogs.GameOverDialog;
 
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;

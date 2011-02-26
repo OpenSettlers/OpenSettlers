@@ -1,8 +1,8 @@
 package soc.gwtClient.game.widgetsBitmap.playerInfo;
 
 import soc.common.game.player.GamePlayer;
+import soc.common.views.widgetsInterface.main.GameWidget;
 import soc.gwtClient.game.widgetsAbstract.playerInfo.AbstractStockWidget;
-import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 
 import com.google.gwt.user.client.ui.Widget;
 

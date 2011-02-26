@@ -1,6 +1,6 @@
 package soc.common.game.settings;
 
-import soc.common.ui.meta.Meta;
+import soc.common.views.meta.Meta;
 
 public class No2VpPlayersRobbing implements Setting
 {

@@ -1,6 +1,6 @@
 package soc.common.game;
 
-import soc.common.ui.meta.HasMeta;
+import soc.common.views.meta.HasMeta;
 
 /*
  * Any item which generates (a) VictoryPoint(s) implements this interface

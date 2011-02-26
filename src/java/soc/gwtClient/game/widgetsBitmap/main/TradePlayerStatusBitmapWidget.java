@@ -1,9 +1,9 @@
 package soc.gwtClient.game.widgetsBitmap.main;
 
 import soc.common.game.player.GamePlayer;
+import soc.common.views.widgetsInterface.dialogs.TradePlayerDialog;
+import soc.common.views.widgetsInterface.main.GameWidget;
 import soc.gwtClient.game.widgetsAbstract.main.AbstractTradePlayerStatusWidget;
-import soc.gwtClient.game.widgetsInterface.dialogs.TradePlayerDialog;
-import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 
 public class TradePlayerStatusBitmapWidget extends
         AbstractTradePlayerStatusWidget

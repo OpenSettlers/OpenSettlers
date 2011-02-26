@@ -5,8 +5,8 @@ import org.vaadin.gwtgraphics.client.Group;
 import org.vaadin.gwtgraphics.client.shape.Circle;
 import org.vaadin.gwtgraphics.client.shape.Rectangle;
 
-import soc.gwtClient.game.widgetsInterface.actions.SingleDiceWidget;
-import soc.gwtClient.game.widgetsInterface.actions.StandardDiceWidget;
+import soc.common.views.widgetsInterface.actions.SingleDiceWidget;
+import soc.common.views.widgetsInterface.actions.StandardDiceWidget;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

@@ -6,7 +6,7 @@ import org.jgrapht.Graph;
 
 import soc.common.board.territories.Territory;
 import soc.common.game.player.GamePlayer;
-import soc.common.ui.meta.Meta;
+import soc.common.views.meta.Meta;
 
 /*
  * Represents a route from Territory A to Territory B. 

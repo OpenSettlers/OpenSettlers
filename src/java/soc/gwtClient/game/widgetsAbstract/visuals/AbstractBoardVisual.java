@@ -4,13 +4,13 @@ import java.util.HashMap;
 
 import soc.common.board.Board;
 import soc.common.board.hexes.Hex;
+import soc.common.views.behaviour.board.BoardBehaviour;
+import soc.common.views.behaviour.board.DefaultBehaviour;
+import soc.common.views.widgetsInterface.visuals.BoardVisual;
+import soc.common.views.widgetsInterface.visuals.HexVisual;
+import soc.common.views.widgetsInterface.visuals.PieceVisual;
 import soc.gwtClient.editor.BehaviourChanged;
 import soc.gwtClient.editor.BehaviourChangedHandler;
-import soc.gwtClient.game.behaviour.board.BoardBehaviour;
-import soc.gwtClient.game.behaviour.board.DefaultBehaviour;
-import soc.gwtClient.game.widgetsInterface.visuals.BoardVisual;
-import soc.gwtClient.game.widgetsInterface.visuals.HexVisual;
-import soc.gwtClient.game.widgetsInterface.visuals.PieceVisual;
 
 public abstract class AbstractBoardVisual extends AbstractPieceVisual implements
         BoardVisual, BehaviourChangedHandler

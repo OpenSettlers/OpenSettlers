@@ -2,8 +2,8 @@ package soc.gwtClient.game.widgetsBitmap.actionDetail;
 
 import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.standard.RollDice;
+import soc.common.views.widgetsInterface.main.GameWidget;
 import soc.gwtClient.game.widgetsAbstract.actionDetail.AbstractActionDetailWidget;
-import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 
 import com.google.gwt.user.client.ui.Label;
 

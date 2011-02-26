@@ -3,8 +3,8 @@ package soc.common.game.developmentCards.standard;
 import soc.common.game.Game;
 import soc.common.game.developmentCards.DevelopmentCard;
 import soc.common.game.player.GamePlayer;
-import soc.gwtClient.game.widgetsInterface.developmentCards.DevelopmentCardWidget;
-import soc.gwtClient.game.widgetsInterface.developmentCards.DevelopmentCardWidgetFactory;
+import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidget;
+import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidgetFactory;
 
 public class RoadBuilding extends DevelopmentCard
 {

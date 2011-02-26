@@ -1,9 +1,9 @@
 package soc.gwtClient.game.widgetsBitmap.generic;
 
 import soc.common.board.resources.Resource;
-import soc.gwtClient.game.widgetsInterface.generic.ResourceClickedEvent;
-import soc.gwtClient.game.widgetsInterface.generic.ResourceClickedEventHandler;
-import soc.gwtClient.game.widgetsInterface.generic.ResourceWidget;
+import soc.common.views.widgetsInterface.generic.ResourceClickedEvent;
+import soc.common.views.widgetsInterface.generic.ResourceClickedEventHandler;
+import soc.common.views.widgetsInterface.generic.ResourceWidget;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

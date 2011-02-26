@@ -6,9 +6,9 @@ import soc.common.board.resources.Resource;
 import soc.common.board.resources.ResourceList;
 import soc.common.board.resources.ResourcesChangedEvent;
 import soc.common.board.resources.ResourcesChangedEventHandler;
-import soc.gwtClient.game.widgetsInterface.generic.ResourceClickedEvent;
-import soc.gwtClient.game.widgetsInterface.generic.ResourceClickedEventHandler;
-import soc.gwtClient.game.widgetsInterface.generic.ResourceSelectorWidget;
+import soc.common.views.widgetsInterface.generic.ResourceClickedEvent;
+import soc.common.views.widgetsInterface.generic.ResourceClickedEventHandler;
+import soc.common.views.widgetsInterface.generic.ResourceSelectorWidget;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

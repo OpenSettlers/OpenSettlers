@@ -29,21 +29,6 @@ public abstract class ResourceHex extends AbstractHex
         return this;
     }
 
-    // /*
-    // * (non-Javadoc)
-    // *
-    // * @see soc.common.board.hexes.Hex#Copy()
-    // */
-    // @Override
-    // public AbstractHex copy()
-    // {
-    // ResourceHex rh = new ResourceHex().setChit(new Chit(5)).setResource(
-    // getResource());
-    // rh.setTerritory(territory);
-    // rh.setChit(chit.copy());
-    // return rh;
-    // }
-
     public HandlerRegistration addChitChangedEventHandler(
             ChitChangedEventHandler handler)
     {

@@ -7,9 +7,9 @@ import soc.common.board.HexLocation;
 import soc.common.board.RotationPosition;
 import soc.common.board.ports.AbstractPort;
 import soc.common.board.ports.PossiblePort;
-import soc.gwtClient.game.widgetsInterface.visuals.BoardVisual;
-import soc.gwtClient.game.widgetsInterface.visuals.PortPossibilitiesVisual;
-import soc.gwtClient.game.widgetsInterface.visuals.PortVisual;
+import soc.common.views.widgetsInterface.visuals.BoardVisual;
+import soc.common.views.widgetsInterface.visuals.PortPossibilitiesVisual;
+import soc.common.views.widgetsInterface.visuals.PortVisual;
 
 public abstract class AbstractPortPossibilitiesVisual extends AbstractPieceVisual implements
         PortPossibilitiesVisual

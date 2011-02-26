@@ -4,11 +4,11 @@ import soc.common.board.resources.ResourceList;
 import soc.common.board.resources.ResourcesChangedEvent;
 import soc.common.board.resources.ResourcesChangedEventHandler;
 import soc.common.game.player.GamePlayer;
+import soc.common.views.widgetsInterface.dialogs.LooseCardsDialog;
+import soc.common.views.widgetsInterface.dialogs.LooseCardsWidget;
+import soc.common.views.widgetsInterface.generic.ResourceListWidget;
+import soc.common.views.widgetsInterface.main.GameWidget;
 import soc.gwtClient.game.widgetsBitmap.generic.ResourceListBitmapWidget;
-import soc.gwtClient.game.widgetsInterface.dialogs.LooseCardsDialog;
-import soc.gwtClient.game.widgetsInterface.dialogs.LooseCardsWidget;
-import soc.gwtClient.game.widgetsInterface.generic.ResourceListWidget;
-import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

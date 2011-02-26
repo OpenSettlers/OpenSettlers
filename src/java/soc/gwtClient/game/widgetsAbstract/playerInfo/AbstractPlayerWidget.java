@@ -1,16 +1,16 @@
 package soc.gwtClient.game.widgetsAbstract.playerInfo;
 
 import soc.common.game.player.GamePlayer;
-import soc.gwtClient.game.widgetsInterface.main.GameWidget;
-import soc.gwtClient.game.widgetsInterface.playerInfo.DevelopmentCardsAmountWidget;
-import soc.gwtClient.game.widgetsInterface.playerInfo.LargestArmyDetailWidget;
-import soc.gwtClient.game.widgetsInterface.playerInfo.LongestRoadDetailWidget;
-import soc.gwtClient.game.widgetsInterface.playerInfo.PlayerInfoWidget;
-import soc.gwtClient.game.widgetsInterface.playerInfo.PlayerTurnStatusWidget;
-import soc.gwtClient.game.widgetsInterface.playerInfo.PortAmountWidget;
-import soc.gwtClient.game.widgetsInterface.playerInfo.ResourceAmountWidget;
-import soc.gwtClient.game.widgetsInterface.playerInfo.StockWidget;
-import soc.gwtClient.game.widgetsInterface.playerInfo.VictoryPointAmountWidget;
+import soc.common.views.widgetsInterface.main.GameWidget;
+import soc.common.views.widgetsInterface.payerInfo.DevelopmentCardsAmountWidget;
+import soc.common.views.widgetsInterface.payerInfo.LargestArmyDetailWidget;
+import soc.common.views.widgetsInterface.payerInfo.LongestRoadDetailWidget;
+import soc.common.views.widgetsInterface.payerInfo.PlayerInfoWidget;
+import soc.common.views.widgetsInterface.payerInfo.PlayerTurnStatusWidget;
+import soc.common.views.widgetsInterface.payerInfo.PortAmountWidget;
+import soc.common.views.widgetsInterface.payerInfo.ResourceAmountWidget;
+import soc.common.views.widgetsInterface.payerInfo.StockWidget;
+import soc.common.views.widgetsInterface.payerInfo.VictoryPointAmountWidget;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;

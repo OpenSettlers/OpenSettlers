@@ -5,9 +5,9 @@ import soc.common.game.developmentCards.standard.RoadBuilding;
 import soc.common.game.developmentCards.standard.Soldier;
 import soc.common.game.developmentCards.standard.VictoryPoint;
 import soc.common.game.developmentCards.standard.YearOfPlenty;
-import soc.gwtClient.game.widgetsInterface.developmentCards.DevelopmentCardWidget;
-import soc.gwtClient.game.widgetsInterface.developmentCards.DevelopmentCardWidgetFactory;
-import soc.gwtClient.game.widgetsInterface.main.GameWidget;
+import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidget;
+import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidgetFactory;
+import soc.common.views.widgetsInterface.main.GameWidget;
 
 public class DevelopmentCardBitmapWidgetFactory implements
         DevelopmentCardWidgetFactory

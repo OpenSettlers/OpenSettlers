@@ -3,8 +3,8 @@ package soc.gwtClient.game.widgetsBitmap.developmentCards;
 import soc.common.actions.gameAction.standard.PlayDevelopmentCard;
 import soc.common.game.developmentCards.standard.Soldier;
 import soc.common.internationalization.I18n;
-import soc.gwtClient.game.widgetsInterface.developmentCards.DevelopmentCardWidget;
-import soc.gwtClient.game.widgetsInterface.main.GameWidget;
+import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidget;
+import soc.common.views.widgetsInterface.main.GameWidget;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.event.dom.client.ClickEvent;

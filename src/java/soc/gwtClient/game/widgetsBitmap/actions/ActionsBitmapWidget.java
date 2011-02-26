@@ -1,9 +1,9 @@
 package soc.gwtClient.game.widgetsBitmap.actions;
 
 import soc.common.game.player.GamePlayer;
+import soc.common.views.widgetsInterface.actions.ActionWidget;
+import soc.common.views.widgetsInterface.main.GameWidget;
 import soc.gwtClient.game.widgetsAbstract.actions.AbstractActionsWidget;
-import soc.gwtClient.game.widgetsInterface.actions.ActionWidget;
-import soc.gwtClient.game.widgetsInterface.main.GameWidget;
 
 public class ActionsBitmapWidget extends AbstractActionsWidget
 {

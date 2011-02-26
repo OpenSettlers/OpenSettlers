@@ -7,8 +7,8 @@ import soc.common.annotations.SeaFarers;
 import soc.common.board.ports.Port;
 import soc.common.board.territories.Territory;
 import soc.common.game.Game;
-import soc.gwtClient.game.widgetsBitmap.status.GamePhaseStatusWidget;
-import soc.gwtClient.game.widgetsInterface.main.GamePhaseStatusWidgetFactory;
+import soc.common.views.widgetsInterface.main.GamePhaseStatusWidget;
+import soc.common.views.widgetsInterface.main.GamePhaseStatusWidgetFactory;
 
 @SeaFarers
 public class PlacePortsGamePhase extends AbstractGamePhase

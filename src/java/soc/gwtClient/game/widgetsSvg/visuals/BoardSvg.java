@@ -11,10 +11,10 @@ import soc.common.board.HexPoint;
 import soc.common.board.HexPointType;
 import soc.common.board.HexSide;
 import soc.common.board.hexes.Hex;
+import soc.common.views.widgetsInterface.generic.Point2D;
+import soc.common.views.widgetsInterface.visuals.HexVisual;
 import soc.gwtClient.editor.BehaviourChanged;
-import soc.gwtClient.game.Point2D;
 import soc.gwtClient.game.widgetsAbstract.visuals.AbstractBoardVisual;
-import soc.gwtClient.game.widgetsInterface.visuals.HexVisual;
 
 import com.google.gwt.user.client.ui.Widget;
 

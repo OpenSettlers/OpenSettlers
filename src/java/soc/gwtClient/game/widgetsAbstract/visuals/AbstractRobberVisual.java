@@ -1,7 +1,7 @@
 package soc.gwtClient.game.widgetsAbstract.visuals;
 
 import soc.common.board.pieces.Robber;
-import soc.gwtClient.game.widgetsInterface.visuals.RobberVisual;
+import soc.common.views.widgetsInterface.visuals.RobberVisual;
 
 public class AbstractRobberVisual extends AbstractPieceVisual implements
         RobberVisual
