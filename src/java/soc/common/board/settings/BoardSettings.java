@@ -32,20 +32,16 @@ public class BoardSettings implements Serializable, Iterable<BoardSetting>
 
     // Non-nullable settings
     private AmountPlayers amountPlayers = new AmountPlayers();
-    private MaximumCardsInHandWhen7 maximumCardsInHandWhenSeven = new MaximumCardsInHandWhen7();
     private VpToWin vpToWin = new VpToWin();
 
     // Nullable settings
-    private TournamentStart tournamentStart = null;
     private UsesTradeRoutes useTradeRoutes = null;
     private UsePlacePortsPhase usePlacePortsPhase = null;
 
     public BoardSettings()
     {
         settings.add(amountPlayers);
-        settings.add(maximumCardsInHandWhenSeven);
         settings.add(vpToWin);
-        settings.add(tournamentStart);
 
         supportedVariants.add(Standard.class);
     }
@@ -128,38 +124,10 @@ public class BoardSettings implements Serializable, Iterable<BoardSetting>
     }
 
     /**
-     * @return the maximumCardsInHandWhenSeven
-     */
-    public MaximumCardsInHandWhen7 getMaximumCardsInHandWhenSeven()
-    {
-        return maximumCardsInHandWhenSeven;
-    }
-
-    /**
      * @return the vpToWin
      */
     public VpToWin getVpToWin()
     {
         return vpToWin;
-    }
-
-    /**
-     * @return the tournamentStart
-     */
-    public TournamentStart getTournamentStart()
-    {
-        return tournamentStart;
-    }
-
-    /**
-     * @param tournamentStart
-     *            the tournamentStart to set
-     */
-    public BoardSettings setTournamentStart(TournamentStart tournamentStart)
-    {
-        removeSetting(this.tournamentStart);
-        this.tournamentStart = tournamentStart;
-        addSetting(tournamentStart);
-        return this;
     }
 }

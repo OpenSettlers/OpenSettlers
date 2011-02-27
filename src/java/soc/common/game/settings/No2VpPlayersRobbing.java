@@ -2,7 +2,7 @@ package soc.common.game.settings;
 
 import soc.common.views.meta.Meta;
 
-public class No2VpPlayersRobbing implements Setting
+public class No2VpPlayersRobbing implements GameSetting
 {
     private static final long serialVersionUID = 4221708430742151374L;
     private boolean no2VpPlayersRobbing = true;
@@ -30,6 +30,12 @@ public class No2VpPlayersRobbing implements Setting
     public Meta getMeta()
     {
         return null;
+    }
+
+    @Override
+    public void executeGameSetting(GameSettings gameSettings)
+    {
+        gameSettings.setNo2vpPlayersRobbing(this);
     }
 
 }

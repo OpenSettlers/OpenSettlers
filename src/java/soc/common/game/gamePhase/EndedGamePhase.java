@@ -41,4 +41,10 @@ public class EndedGamePhase extends AbstractGamePhase
     {
         return factory.createEndedStatusWidget(this);
     }
+
+    @Override
+    public GamePhase next(Game game)
+    {
+        return null;
+    }
 }

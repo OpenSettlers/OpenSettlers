@@ -85,6 +85,10 @@ public class Game implements Serializable
     private Turn currentTurn;
     private GameStatus currentStatus = new Playing();
 
+    // Misc properties
+    private String name = "New Game";
+    private int host;
+
     public Game()
     {
         gameRules = new GameRulesImpl(this);
@@ -519,6 +523,14 @@ public class Game implements Serializable
     {
         this.board = board;
         return this;
+    }
+
+    /**
+     * @return the name
+     */
+    public String getName()
+    {
+        return name;
     }
 
     public GameStatus getStatus()

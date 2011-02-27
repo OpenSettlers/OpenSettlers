@@ -13,7 +13,7 @@ public class GameCell extends AbstractCell<Game>
     public void render(com.google.gwt.cell.client.Cell.Context context,
             Game value, SafeHtmlBuilder sb)
     {
-        sb.append(SafeHtmlUtils.fromString(value.getGameSettings().getName()));
+        sb.append(SafeHtmlUtils.fromString(value.getName()));
     }
 
 }

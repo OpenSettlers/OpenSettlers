@@ -2,63 +2,60 @@ package soc.common.game.settings;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-import soc.common.annotations.Sea3D;
-import soc.common.board.Board;
 import soc.common.board.settings.BoardSettings;
 
-public class GameSettings implements Serializable
+public class GameSettings implements Serializable, Iterable<GameSetting>
 {
     private static final long serialVersionUID = -258750633772212293L;
 
-    private static List<Setting> supportedSettings = new ArrayList<Setting>();
+    private static List<GameSetting> supportedSettings = new ArrayList<GameSetting>();
+    private List<GameSetting> settings = new ArrayList<GameSetting>();
 
     // Game boardsettings may be overridden by the user
     // This implies not having a ladder game (where settings should equal
     // original boardsettings)
     private BoardSettings boardSettings = new BoardSettings();
 
-    // Whether or not deserts will be replaced by jungles
-    @Sea3D
-    private boolean replaceDesertWithJungles = false;
+    // Non-nullable settings
+    private MaxCardsInHandWhen7 maxCardsInHandWhen7 = new MaxCardsInHandWhen7();
 
-    // Whether or not deserts will b replaces by volcanos
-    @Sea3D
-    private boolean replaceDesertWithVolcanos = false;
-
-    // If selected, the build phase's second town will be a city,
-    // and a third road is added
-    private boolean tournamentStart = false;
-
-    // Whether or not first round has sevens
-    private int noSevensFirstRound = 0;
-
-    // Whether or not robbing from players with 2vp is allowed
-    private boolean no2VPPlayersRobbing = false;
-
-    // Whether or not players can trade after they entered the build phase
-    private boolean tradingAfterBuilding = false;
-
-    // Players do not see the chitnumbers before initial placement
-    // TODO:implement
-    private boolean showChitsAfterPlacing = false;
-
-    private int maximumTradesPerTurn = 2;
-    private String name = "New Game";
-    private int host;
-
-    private String boardGuid;
-    private boolean isLadder = true;
-    private Board board;
+    // Nullable settings
+    private IsLadder isLadder = null;
+    private MaximumTradesPerTurn maximumTradesPerTurn = null;
+    private No2VpPlayersRobbing no2vpPlayersRobbing = null;
+    private NoSevenRounds noSevenRounds = null;
+    private ReplaceDeserts replaceDeserts = null;
+    private ShowChitsAfterPlacing showChitsAfterPlacing = null;
+    private TournamentStart tournamentStart = null;
+    private TradingAfterBuilding tradingAfterBuilding = null;
 
     static
     {
         supportedSettings.add(new No2VpPlayersRobbing());
-        supportedSettings.add(new NoSevensFirstRound());
+        // supportedSettings.add(new NoSevensFirstRound());
     }
 
-    public static List<Setting> getSupportedSettings()
+    @Override
+    public Iterator<GameSetting> iterator()
+    {
+        return settings.iterator();
+    }
+
+    private void addSetting(GameSetting gameSetting)
+    {
+        settings.add(gameSetting);
+    }
+
+    private void removeSetting(GameSetting gameSetting)
+    {
+        if (settings.contains(gameSetting))
+            settings.remove(gameSetting);
+    }
+
+    public static List<GameSetting> getSupportedSettings()
     {
         return supportedSettings;
     }
@@ -80,143 +77,174 @@ public class GameSettings implements Serializable
         this.boardSettings = boardSettings;
     }
 
-    @Sea3D
-    public boolean isReplaceDesertWithJungles()
+    /**
+     * @return the maxCardsInHandWhen7
+     */
+    public MaxCardsInHandWhen7 getMaxCardsInHandWhen7()
     {
-        return replaceDesertWithJungles;
+        return maxCardsInHandWhen7;
     }
 
-    @Sea3D
-    public void setReplaceDesertWithJungles(boolean replaceDesertWithJungles)
-    {
-        this.replaceDesertWithJungles = replaceDesertWithJungles;
-    }
-
-    @Sea3D
-    public boolean isReplaceDesertWithVolcanos()
-    {
-        return replaceDesertWithVolcanos;
-    }
-
-    @Sea3D
-    public void setReplaceDesertWithVolcanos(boolean replaceDesertWithVolcanos)
-    {
-        this.replaceDesertWithVolcanos = replaceDesertWithVolcanos;
-    }
-
-    public boolean isTournamentStart()
-    {
-        return tournamentStart;
-    }
-
-    public void setTournamentStart(boolean tournamentStart)
-    {
-        this.tournamentStart = tournamentStart;
-    }
-
-    public int getNoSevensFirstRound()
-    {
-        return noSevensFirstRound;
-    }
-
-    public void setNoSevensFirstRound(int noSevensFirstRound)
-    {
-        this.noSevensFirstRound = noSevensFirstRound;
-    }
-
-    public boolean isNo2VPPlayersRobbing()
-    {
-        return no2VPPlayersRobbing;
-    }
-
-    public void setNo2VPPlayersRobbing(boolean no2vpPlayersRobbing)
-    {
-        no2VPPlayersRobbing = no2vpPlayersRobbing;
-    }
-
-    public boolean isTradingAfterBuilding()
-    {
-        return tradingAfterBuilding;
-    }
-
-    public void setTradingAfterBuilding(boolean tradingAfterBuilding)
-    {
-        this.tradingAfterBuilding = tradingAfterBuilding;
-    }
-
-    public boolean isShowChitsAfterPlacing()
-    {
-        return showChitsAfterPlacing;
-    }
-
-    public void setShowChitsAfterPlacing(boolean showChitsAfterPlacing)
-    {
-        this.showChitsAfterPlacing = showChitsAfterPlacing;
-    }
-
-    public int getMaximumTradesPerTurn()
-    {
-        return maximumTradesPerTurn;
-    }
-
-    public void setMaximumTradesPerTurn(int maximumTradesPerTurn)
-    {
-        this.maximumTradesPerTurn = maximumTradesPerTurn;
-    }
-
-    public int getHost()
-    {
-        return host;
-    }
-
-    public void setHost(int host)
-    {
-        this.host = host;
-    }
-
-    public String getBoardGuid()
-    {
-        return boardGuid;
-    }
-
-    public void setBoardGuid(String boardGuid)
-    {
-        this.boardGuid = boardGuid;
-    }
-
-    public boolean isLadder()
+    /**
+     * @return the isLadder
+     */
+    public IsLadder getIsLadder()
     {
         return isLadder;
     }
 
-    public void setLadder(boolean isLadder)
+    /**
+     * @param isLadder
+     *            the isLadder to set
+     */
+    public GameSettings setIsLadder(IsLadder isLadder)
     {
         this.isLadder = isLadder;
-    }
-
-    public Board getBoard()
-    {
-        return board;
-    }
-
-    public void setBoard(Board board)
-    {
-        this.board = board;
-    }
-
-    public String getName()
-    {
-        return name;
+        return this;
     }
 
     /**
-     * @param name
-     *            the name to set
+     * @return the maximumTradesPerTurn
      */
-    public GameSettings setName(String name)
+    public MaximumTradesPerTurn getMaximumTradesPerTurn()
     {
-        this.name = name;
+        return maximumTradesPerTurn;
+    }
 
+    /**
+     * @param maximumTradesPerTurn
+     *            the maximumTradesPerTurn to set
+     */
+    public GameSettings setMaximumTradesPerTurn(
+            MaximumTradesPerTurn maximumTradesPerTurn)
+    {
+        removeSetting(this.maximumTradesPerTurn);
+        this.maximumTradesPerTurn = maximumTradesPerTurn;
+        addSetting(maximumTradesPerTurn);
         return this;
     }
+
+    /**
+     * @return the no2vpPlayersRobbing
+     */
+    public No2VpPlayersRobbing getNo2vpPlayersRobbing()
+    {
+        return no2vpPlayersRobbing;
+    }
+
+    /**
+     * @param no2vpPlayersRobbing
+     *            the no2vpPlayersRobbing to set
+     */
+    public GameSettings setNo2vpPlayersRobbing(
+            No2VpPlayersRobbing no2vpPlayersRobbing)
+    {
+        removeSetting(this.no2vpPlayersRobbing);
+        this.no2vpPlayersRobbing = no2vpPlayersRobbing;
+        addSetting(no2vpPlayersRobbing);
+        return this;
+    }
+
+    /**
+     * @return the noSevenRounds
+     */
+    public NoSevenRounds getNoSevenRounds()
+    {
+        return noSevenRounds;
+    }
+
+    /**
+     * @param noSevenRounds
+     *            the noSevenRounds to set
+     */
+    public GameSettings setNoSevenRounds(NoSevenRounds noSevenRounds)
+    {
+        removeSetting(this.noSevenRounds);
+        this.noSevenRounds = noSevenRounds;
+        addSetting(noSevenRounds);
+        return this;
+    }
+
+    /**
+     * @return the replaceDeserts
+     */
+    public ReplaceDeserts getReplaceDeserts()
+    {
+        return replaceDeserts;
+    }
+
+    /**
+     * @param replaceDeserts
+     *            the replaceDeserts to set
+     */
+    public GameSettings setReplaceDeserts(ReplaceDeserts replaceDeserts)
+    {
+        removeSetting(this.replaceDeserts);
+        this.replaceDeserts = replaceDeserts;
+        addSetting(replaceDeserts);
+        return this;
+    }
+
+    /**
+     * @return the showChitsAfterPlacing
+     */
+    public ShowChitsAfterPlacing getShowChitsAfterPlacing()
+    {
+        return showChitsAfterPlacing;
+    }
+
+    /**
+     * @param showChitsAfterPlacing
+     *            the showChitsAfterPlacing to set
+     */
+    public GameSettings setShowChitsAfterPlacing(
+            ShowChitsAfterPlacing showChitsAfterPlacing)
+    {
+        removeSetting(showChitsAfterPlacing);
+        this.showChitsAfterPlacing = showChitsAfterPlacing;
+        addSetting(showChitsAfterPlacing);
+        return this;
+    }
+
+    /**
+     * @return the tournamentStart
+     */
+    public TournamentStart getTournamentStart()
+    {
+        return tournamentStart;
+    }
+
+    /**
+     * @param tournamentStart
+     *            the tournamentStart to set
+     */
+    public GameSettings setTournamentStart(TournamentStart tournamentStart)
+    {
+        removeSetting(this.tournamentStart);
+        this.tournamentStart = tournamentStart;
+        addSetting(tournamentStart);
+        return this;
+    }
+
+    /**
+     * @return the tradingAfterBuilding
+     */
+    public TradingAfterBuilding getTradingAfterBuilding()
+    {
+        return tradingAfterBuilding;
+    }
+
+    /**
+     * @param tradingAfterBuilding
+     *            the tradingAfterBuilding to set
+     */
+    public GameSettings setTradingAfterBuilding(
+            TradingAfterBuilding tradingAfterBuilding)
+    {
+        removeSetting(this.tradingAfterBuilding);
+        this.tradingAfterBuilding = tradingAfterBuilding;
+        addSetting(tradingAfterBuilding);
+        return this;
+    }
+
 }

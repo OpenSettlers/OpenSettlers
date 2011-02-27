@@ -9,7 +9,6 @@ import soc.common.views.widgetsInterface.main.GamePhaseStatusWidgetFactory;
 public class InitialPlacementGamePhase extends AbstractGamePhase
 {
     private static final long serialVersionUID = -7144215557160903240L;
-    private int actionCount = 0;
     private InitialPlacementStrategy placementStrategy = new DefaultInitialPlacementStrategy();
 
     @Override
@@ -26,14 +25,13 @@ public class InitialPlacementGamePhase extends AbstractGamePhase
     public void performAction(GameAction gameAction, Game game)
     {
         gameAction.perform(game);
-        actionCount++;
-        if (actionCount < (game.getPlayers().size() * 4))
-        {
-            if (actionCount % 2 == 0)
-            {
-                game.advanceTurn();
-            }
-        }
+
+        // Advance turn when need to
+        GameAction next = game.getActionsQueue().peek();
+
+        if (!next.isServer()
+                && !next.getPlayer().equals(game.getCurrentTurn().getPlayer()))
+            game.advanceTurn();
     }
 
     @Override

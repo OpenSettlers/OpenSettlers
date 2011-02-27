@@ -1,0 +1,23 @@
+package soc.common.game.settings;
+
+import soc.common.views.meta.Meta;
+
+public class TournamentStart implements GameSetting
+{
+    private static final long serialVersionUID = 4004918830693058740L;
+
+    @Override
+    public void executeGameSetting(GameSettings gameSettings)
+    {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public Meta getMeta()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+}

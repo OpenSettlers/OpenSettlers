@@ -51,16 +51,6 @@ public abstract class AbstractGamePhase implements GamePhase
     /*
      * (non-Javadoc)
      * 
-     * @see soc.common.game.gamePhase.GamePhase#next(soc.common.game.Game)
-     */
-    public GamePhase next(Game game)
-    {
-        throw new RuntimeException();
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
      * @see
      * soc.common.game.gamePhase.GamePhase#isAllowed(soc.common.actions.gameAction
      * .GameAction)

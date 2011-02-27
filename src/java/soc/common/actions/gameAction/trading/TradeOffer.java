@@ -155,7 +155,8 @@ public class TradeOffer extends AbstractGameAction
         }
 
         if (game.getCurrentTurn().getTradeOffers().size() >= game
-                .getGameSettings().getMaximumTradesPerTurn())
+                .getGameSettings().getMaximumTradesPerTurn()
+                .getMaxTradesPerTurn())
         {
             invalidMessage = "Already used all possible trade offers";
             return false;
