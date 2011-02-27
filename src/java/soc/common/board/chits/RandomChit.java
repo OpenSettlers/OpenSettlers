@@ -2,6 +2,7 @@ package soc.common.board.chits;
 
 public class RandomChit implements Chit
 {
+    private static final long serialVersionUID = 4450530964160694813L;
 
     @Override
     public Chit copy()

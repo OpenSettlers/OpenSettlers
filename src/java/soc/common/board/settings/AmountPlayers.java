@@ -1,7 +1,10 @@
 package soc.common.board.settings;
 
+import soc.common.views.meta.Meta;
+
 public class AmountPlayers implements BoardSetting
 {
+    private static final long serialVersionUID = 1333406066412406728L;
     private int amountPlayers = 4;
 
     @Override
@@ -29,4 +32,10 @@ public class AmountPlayers implements BoardSetting
         return this;
     }
 
+    @Override
+    public Meta getMeta()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

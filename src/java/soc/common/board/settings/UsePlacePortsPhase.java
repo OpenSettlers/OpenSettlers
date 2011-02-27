@@ -1,7 +1,10 @@
 package soc.common.board.settings;
 
+import soc.common.views.meta.Meta;
+
 public class UsePlacePortsPhase implements BoardSetting
 {
+    private static final long serialVersionUID = -3005152446968216259L;
     private boolean placePortsPhase;
 
     @Override
@@ -23,6 +26,13 @@ public class UsePlacePortsPhase implements BoardSetting
     public boolean isPlacePortsPhase()
     {
         return placePortsPhase;
+    }
+
+    @Override
+    public Meta getMeta()
+    {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }
