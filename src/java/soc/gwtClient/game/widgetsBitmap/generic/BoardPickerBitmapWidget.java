@@ -42,7 +42,7 @@ public class BoardPickerBitmapWidget extends Composite implements BoardPicker
         @Override
         public Object getKey(Board item)
         {
-            return item == null ? null : item.getBoardSettings().getId();
+            return item == null ? null : item.getId();
         }
     };
 
@@ -87,7 +87,7 @@ public class BoardPickerBitmapWidget extends Composite implements BoardPicker
             @Override
             public Number getValue(Board object)
             {
-                return object.getBoardSettings().getVpToWin();
+                return object.getBoardSettings().getVpToWin().getVpToWin();
             }
         };
         cellTable.addColumn(columnVP, "Points");
@@ -97,7 +97,7 @@ public class BoardPickerBitmapWidget extends Composite implements BoardPicker
             @Override
             public String getValue(Board object)
             {
-                return object.getBoardSettings().getDesigner();
+                return object.getDesigner();
             }
         };
         cellTable.addColumn(designerColumn, "Designer");
@@ -107,7 +107,7 @@ public class BoardPickerBitmapWidget extends Composite implements BoardPicker
             @Override
             public String getValue(Board object)
             {
-                return object.getBoardSettings().getName();
+                return object.getName();
             }
         };
         cellTable.addColumn(nameColumn, "Name");
@@ -117,13 +117,8 @@ public class BoardPickerBitmapWidget extends Composite implements BoardPicker
             @Override
             public String getValue(Board object)
             {
-                if (object.getBoardSettings().getMinPlayers() == object
-                        .getBoardSettings().getMaxPlayers())
-                    return Integer.toString(object.getBoardSettings()
-                            .getMinPlayers());
-                else
-                    return object.getBoardSettings().getMinPlayers() + " - "
-                            + object.getBoardSettings().getMaxPlayers();
+                return Integer.toString(object.getBoardSettings()
+                        .getAmountPlayers().getAmountPlayers());
             }
         };
         cellTable.addColumn(amountPlayersColumn, "# players");

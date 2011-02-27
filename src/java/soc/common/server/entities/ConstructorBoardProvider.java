@@ -25,7 +25,7 @@ public class ConstructorBoardProvider implements BoardProvider
     public Board getBoardByID(String id)
     {
         for (Board board : boards)
-            if (board.getBoardSettings().getId().equals(id))
+            if (board.getId().equals(id))
                 return board;
 
         return null;
@@ -35,7 +35,7 @@ public class ConstructorBoardProvider implements BoardProvider
     public Board getBoardByName(String name)
     {
         for (Board board : boards)
-            if (board.getBoardSettings().getName().equals(name))
+            if (board.getName().equals(name))
                 return board;
 
         return null;
@@ -47,7 +47,7 @@ public class ConstructorBoardProvider implements BoardProvider
         List<Board> boardsDesignedByUser = new ArrayList<Board>();
 
         for (Board board : boards)
-            if (board.getBoardSettings().getDesigner().equals(user.getName()))
+            if (board.getDesigner().equals(user.getName()))
                 boardsDesignedByUser.add(board);
 
         return boardsDesignedByUser;

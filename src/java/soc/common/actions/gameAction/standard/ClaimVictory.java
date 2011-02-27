@@ -98,7 +98,7 @@ public class ClaimVictory extends AbstractTurnAction
         }
 
         if (player.getVictoryPoints().getTotalPoints() < game.getBoard()
-                .getBoardSettings().getVpToWin())
+                .getBoardSettings().getVpToWin().getVpToWin())
         {
             invalidMessage = "Player does not have enough victory points to win";
             return false;

@@ -1,11 +1,10 @@
 package soc.common.board.boards;
 
 import soc.common.board.Board;
-import soc.common.board.BoardSettings;
 import soc.common.board.HexGrid;
 import soc.common.board.HexLocation;
 import soc.common.board.RotationPosition;
-import soc.common.board.chits.AbstractChit;
+import soc.common.board.chits.Chit;
 import soc.common.board.chits.ChitList;
 import soc.common.board.hexes.AbstractHex;
 import soc.common.board.hexes.ClayHex;
@@ -25,8 +24,8 @@ import soc.common.board.ports.SheepPort;
 import soc.common.board.ports.ThreeToOnePort;
 import soc.common.board.ports.TimberPort;
 import soc.common.board.ports.WheatPort;
+import soc.common.board.settings.BoardSettings;
 import soc.common.board.territories.Territory;
-import soc.common.game.variants.Standard;
 
 public class StandardFourPlayer extends Board
 {
@@ -133,7 +132,8 @@ public class StandardFourPlayer extends Board
         for (Hex hex : hexes)
             hex.setTerritory(territory);
 
-        for (AbstractChit chit : ChitList.newStandardList())
+        ChitList standardChitList = ChitList.newStandardList();
+        for (Chit chit : standardChitList)
             territory.getChits().add(chit);
 
         Territory mainlaind = territories.get(0);
@@ -166,17 +166,9 @@ public class StandardFourPlayer extends Board
         ((AbstractHex) hexes.get(3, 6)).setPort(new RandomPort(hexes.get(3, 6)
                 .getLocation(), RotationPosition.DEG300));
 
-        setSettings();
+        setDesigner("Ruud Poutsma");
+        setId("8232fc96-2adb-4ce6-b721-fcdf8b712dbf");
+        setName("Standard 4 player");
+        boardSettings = new BoardSettings();
     }
-
-    private void setSettings()
-    {
-        boardSettings = new BoardSettings().setMinPlayers(4).setMaxPlayers(4)
-                .setDesigner("Ruud Poutsma").setId(
-                        "8232fc96-2adb-4ce6-b721-fcdf8b712dbf").setName(
-                        "Standard 4 player").setVpToWin(10);
-
-        boardSettings.getSupportedVariants().add(Standard.class);
-    }
-
 }

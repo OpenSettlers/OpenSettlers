@@ -20,7 +20,7 @@ public class BoardList implements BoardProvider
     {
         for (Board board : boards)
         {
-            if (board.getBoardSettings().getId().equals(id))
+            if (board.getId().equals(id))
             {
                 return board;
             }
@@ -36,7 +36,7 @@ public class BoardList implements BoardProvider
 
         for (Board board : boards)
         {
-            if (board.getBoardSettings().getName().equals(user.getName()))
+            if (board.getName().equals(user.getName()))
             {
                 result.add(board);
             }

@@ -23,9 +23,9 @@ public class NoNameDesignRule implements DesignRule
     @Override
     public boolean invoke(Board b)
     {
-        if (b.getBoardSettings().getName() != null)
+        if (b.getName() != null)
         {
-            if (b.getBoardSettings().getName().length() > 0)
+            if (b.getName().length() > 0)
             {
                 return true;
             }

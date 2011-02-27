@@ -11,6 +11,7 @@ import soc.common.board.ports.PossiblePort;
 import soc.common.board.routing.BoardGraph;
 import soc.common.board.routing.GraphPoint;
 import soc.common.board.routing.GraphSide;
+import soc.common.board.settings.BoardSettings;
 import soc.common.board.territories.TerritoryImpl;
 import soc.common.board.territories.TerritoryList;
 import soc.common.server.randomization.ClientRandom;
@@ -62,6 +63,14 @@ public class Board implements Serializable
 
     protected transient Random random = new ClientRandom();
 
+    // Name of the designer of the board
+    private String designer = "Unknown player";
+
+    // Global unique identifier for this board (UUID/GUID)
+    private String id;
+
+    // data fields
+    private String name = "New Board";
     /*
      * List of territories associated with this board
      */
@@ -262,6 +271,60 @@ public class Board implements Serializable
     public TerritoryList getTerritories()
     {
         return territories;
+    }
+
+    /**
+     * @return the designer
+     */
+    public String getDesigner()
+    {
+        return designer;
+    }
+
+    /**
+     * @param designer
+     *            the designer to set
+     */
+    public Board setDesigner(String designer)
+    {
+        this.designer = designer;
+        return this;
+    }
+
+    /**
+     * @return the id
+     */
+    public String getId()
+    {
+        return id;
+    }
+
+    /**
+     * @param id
+     *            the id to set
+     */
+    public Board setId(String id)
+    {
+        this.id = id;
+        return this;
+    }
+
+    /**
+     * @return the name
+     */
+    public String getName()
+    {
+        return name;
+    }
+
+    /**
+     * @param name
+     *            the name to set
+     */
+    public Board setName(String name)
+    {
+        this.name = name;
+        return this;
     }
 
     /**

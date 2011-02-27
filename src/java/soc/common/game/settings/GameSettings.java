@@ -6,7 +6,7 @@ import java.util.List;
 
 import soc.common.annotations.Sea3D;
 import soc.common.board.Board;
-import soc.common.board.BoardSettings;
+import soc.common.board.settings.BoardSettings;
 
 public class GameSettings implements Serializable
 {
@@ -17,7 +17,7 @@ public class GameSettings implements Serializable
     // Game boardsettings may be overridden by the user
     // This implies not having a ladder game (where settings should equal
     // original boardsettings)
-    private BoardSettings boardSettings = BoardSettings.standard();
+    private BoardSettings boardSettings = new BoardSettings();
 
     // Whether or not deserts will be replaced by jungles
     @Sea3D

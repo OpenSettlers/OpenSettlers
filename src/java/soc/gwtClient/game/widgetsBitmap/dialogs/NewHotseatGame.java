@@ -346,7 +346,8 @@ public class NewHotseatGame extends Composite implements OnColorChanged,
     {
         return boardPicker.hasBoardSelected()
                 && boardPicker.getSelectedBoard().getBoardSettings()
-                        .getMaxPlayers() > playerProvider.getList().size();
+                        .getAmountPlayers().getAmountPlayers() > playerProvider
+                        .getList().size();
     }
 
     private void addBot(Class<? extends Bot> botType)
@@ -399,8 +400,8 @@ public class NewHotseatGame extends Composite implements OnColorChanged,
     {
         int numPlayers = playerProvider.getList().size();
         Board selectedBoard = boardPicker.getSelectedBoard();
-        return selectedBoard.getBoardSettings().getMinPlayers() >= numPlayers
-                && selectedBoard.getBoardSettings().getMaxPlayers() <= numPlayers;
+        return selectedBoard.getBoardSettings().getAmountPlayers()
+                .getAmountPlayers() == numPlayers;
     }
 
     private boolean canStartGame()
@@ -456,8 +457,7 @@ public class NewHotseatGame extends Composite implements OnColorChanged,
     {
         if (event.getNewBoard() != null)
         {
-            lblSelectedBoard.setText(event.getNewBoard().getBoardSettings()
-                    .getName());
+            lblSelectedBoard.setText(event.getNewBoard().getName());
         }
         else
         {
