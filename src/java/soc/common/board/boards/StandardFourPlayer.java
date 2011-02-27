@@ -2,11 +2,12 @@ package soc.common.board.boards;
 
 import soc.common.board.Board;
 import soc.common.board.BoardSettings;
-import soc.common.board.Chit;
-import soc.common.board.ChitList;
 import soc.common.board.HexGrid;
 import soc.common.board.HexLocation;
 import soc.common.board.RotationPosition;
+import soc.common.board.chits.AbstractChit;
+import soc.common.board.chits.ChitList;
+import soc.common.board.hexes.AbstractHex;
 import soc.common.board.hexes.ClayHex;
 import soc.common.board.hexes.DesertHex;
 import soc.common.board.hexes.Hex;
@@ -132,7 +133,7 @@ public class StandardFourPlayer extends Board
         for (Hex hex : hexes)
             hex.setTerritory(territory);
 
-        for (Chit chit : ChitList.getStandardList())
+        for (AbstractChit chit : ChitList.newStandardList())
             territory.getChits().add(chit);
 
         Territory mainlaind = territories.get(0);
@@ -146,23 +147,23 @@ public class StandardFourPlayer extends Board
         mainlaind.getPorts().add(new ClayPort());
         mainlaind.getPorts().add(new SheepPort());
 
-        ((SeaHex) hexes.get(1, 0)).setPort(new RandomPort(hexes.get(1, 0)
+        ((AbstractHex) hexes.get(1, 0)).setPort(new RandomPort(hexes.get(1, 0)
                 .getLocation(), RotationPosition.DEG120));
-        ((SeaHex) hexes.get(3, 0)).setPort(new RandomPort(hexes.get(3, 0)
+        ((AbstractHex) hexes.get(3, 0)).setPort(new RandomPort(hexes.get(3, 0)
                 .getLocation(), RotationPosition.DEG120));
-        ((SeaHex) hexes.get(0, 2)).setPort(new RandomPort(hexes.get(0, 2)
+        ((AbstractHex) hexes.get(0, 2)).setPort(new RandomPort(hexes.get(0, 2)
                 .getLocation(), RotationPosition.DEG60));
-        ((SeaHex) hexes.get(6, 3)).setPort(new RandomPort(hexes.get(6, 3)
+        ((AbstractHex) hexes.get(6, 3)).setPort(new RandomPort(hexes.get(6, 3)
                 .getLocation(), RotationPosition.DEG240));
-        ((SeaHex) hexes.get(0, 4)).setPort(new RandomPort(hexes.get(0, 4)
+        ((AbstractHex) hexes.get(0, 4)).setPort(new RandomPort(hexes.get(0, 4)
                 .getLocation(), RotationPosition.DEG60));
-        ((SeaHex) hexes.get(5, 5)).setPort(new RandomPort(hexes.get(5, 5)
+        ((AbstractHex) hexes.get(5, 5)).setPort(new RandomPort(hexes.get(5, 5)
                 .getLocation(), RotationPosition.DEG300));
-        ((SeaHex) hexes.get(5, 1)).setPort(new RandomPort(hexes.get(5, 1)
+        ((AbstractHex) hexes.get(5, 1)).setPort(new RandomPort(hexes.get(5, 1)
                 .getLocation(), RotationPosition.DEG180));
-        ((SeaHex) hexes.get(1, 6)).setPort(new RandomPort(hexes.get(1, 6)
+        ((AbstractHex) hexes.get(1, 6)).setPort(new RandomPort(hexes.get(1, 6)
                 .getLocation(), RotationPosition.DEG0));
-        ((SeaHex) hexes.get(3, 6)).setPort(new RandomPort(hexes.get(3, 6)
+        ((AbstractHex) hexes.get(3, 6)).setPort(new RandomPort(hexes.get(3, 6)
                 .getLocation(), RotationPosition.DEG300));
 
         setSettings();

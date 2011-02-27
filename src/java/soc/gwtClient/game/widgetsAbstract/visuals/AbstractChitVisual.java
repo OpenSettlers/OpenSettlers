@@ -1,6 +1,6 @@
 package soc.gwtClient.game.widgetsAbstract.visuals;
 
-import soc.common.board.Chit;
+import soc.common.board.chits.Chit;
 import soc.common.views.widgetsInterface.visuals.BoardVisual;
 import soc.common.views.widgetsInterface.visuals.ChitVisual;
 
@@ -33,6 +33,19 @@ public abstract class AbstractChitVisual extends AbstractPieceVisual implements
 
         updateChit();
 
+        return this;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.gwtClient.game.widgetsAbstract.visuals.AbstractPieceVisual#getChitVisual
+     * ()
+     */
+    @Override
+    public ChitVisual getChitVisual()
+    {
         return this;
     }
 }

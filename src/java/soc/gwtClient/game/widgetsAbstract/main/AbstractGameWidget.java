@@ -11,6 +11,7 @@ import soc.common.views.behaviour.gameWidget.factories.GameBehaviourFactory;
 import soc.common.views.behaviour.gameWidget.factories.ReceiveGameBehaviourFactory;
 import soc.common.views.behaviour.gameWidget.received.ReceiveGameBehaviour;
 import soc.common.views.widgetsInterface.actions.ActionsWidget;
+import soc.common.views.widgetsInterface.dialogs.BankTradeWidget;
 import soc.common.views.widgetsInterface.dialogs.GameOverDialog;
 import soc.common.views.widgetsInterface.dialogs.LooseCardsDialog;
 import soc.common.views.widgetsInterface.dialogs.StealCardWidget;
@@ -18,7 +19,6 @@ import soc.common.views.widgetsInterface.dialogs.TradePlayerDialog;
 import soc.common.views.widgetsInterface.generic.Point2D;
 import soc.common.views.widgetsInterface.generic.ToolTipManager;
 import soc.common.views.widgetsInterface.main.BankStockWidget;
-import soc.common.views.widgetsInterface.main.BankTradeWidget;
 import soc.common.views.widgetsInterface.main.BoardVisualWidget;
 import soc.common.views.widgetsInterface.main.ChatWidget;
 import soc.common.views.widgetsInterface.main.ClientFactory;
@@ -160,7 +160,7 @@ public abstract class AbstractGameWidget implements GameWidget, CenterWidget,
     }
 
     @Override
-    public BankTradeWidget getBankTradeUI()
+    public BankTradeWidget getBankTradeDialog()
     {
         return bankTradeWidget;
     }

@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import soc.common.board.Board;
-import soc.common.board.Chit;
-import soc.common.board.ChitList;
 import soc.common.board.HexLocation;
+import soc.common.board.chits.Chit;
+import soc.common.board.chits.ChitList;
 import soc.common.board.hexes.Hex;
 import soc.common.board.hexes.RandomHex;
 import soc.common.board.ports.Port;

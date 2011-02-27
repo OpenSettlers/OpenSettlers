@@ -4,8 +4,8 @@ import soc.common.board.territories.Territory;
 import soc.common.views.widgetsInterface.visuals.BoardVisual;
 import soc.common.views.widgetsInterface.visuals.TerritoryVisual;
 
-public abstract class AbstractTerritoryVisual extends AbstractPieceVisual implements
-        TerritoryVisual
+public abstract class AbstractTerritoryVisual extends AbstractPieceVisual
+        implements TerritoryVisual
 {
     protected Territory territory;
 
@@ -28,6 +28,18 @@ public abstract class AbstractTerritoryVisual extends AbstractPieceVisual implem
 
         updateTerritory();
 
+        return this;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @seesoc.gwtClient.game.widgetsAbstract.visuals.AbstractPieceVisual#
+     * getTerritoryVisual()
+     */
+    @Override
+    public TerritoryVisual getTerritoryVisual()
+    {
         return this;
     }
 }

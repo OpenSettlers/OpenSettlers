@@ -98,16 +98,11 @@ public class PlaceRobberBehaviour implements GameBoardBehaviour
      */
     private boolean possiblePosition(PieceVisual pieceVisual)
     {
-        if (pieceVisual instanceof HexVisual)
-        {
-            HexVisual hexVisual = (HexVisual) pieceVisual;
-
-            if (possibleNewLocations.contains(hexVisual))
-            {
-                return true;
-            }
-        }
-        return false;
+        HexVisual hexVisual = pieceVisual.getHexVisual();
+        if (hexVisual != null && possibleNewLocations.contains(hexVisual))
+            return true;
+        else
+            return false;
     }
 
     @Override

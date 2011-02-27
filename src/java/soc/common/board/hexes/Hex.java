@@ -1,8 +1,10 @@
 package soc.common.board.hexes;
 
-import soc.common.board.Chit;
 import soc.common.board.HexLocation;
+import soc.common.board.chits.Chit;
 import soc.common.board.ports.Port;
+import soc.common.board.ports.PortChangedEvent;
+import soc.common.board.ports.PortChangedEventHandler;
 import soc.common.board.resources.Resource;
 import soc.common.board.territories.Territory;
 import soc.common.views.meta.HasMeta;
@@ -105,4 +107,8 @@ public interface Hex extends HasMeta
     public Port getPort();
 
     public Hex setPort(Port port);
+
+    public HandlerRegistration addChitChangedEventHandler(ChitChangedEventHandler handler);
+
+    public HandlerRegistration addPortChangedEventHandler(PortChangedEventHandler handler);
 }

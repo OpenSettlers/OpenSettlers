@@ -1,28 +1,26 @@
 package soc.common.views.behaviour.board;
 
-import soc.common.board.Chit;
+import soc.common.board.chits.Chit;
+import soc.common.board.chits.Chit2;
 import soc.common.board.hexes.Hex;
-import soc.common.board.hexes.ResourceHex;
 import soc.common.views.widgetsInterface.visuals.BoardVisual;
 import soc.common.views.widgetsInterface.visuals.HexVisual;
 import soc.common.views.widgetsInterface.visuals.PieceVisual;
 
 public class SetChitBehaviour implements BoardBehaviour
 {
-    private Chit currentChit = new Chit(2);
+    private Chit currentChit = new Chit2();
 
     @Override
     public void clicked(PieceVisual pieceVisual, BoardVisual board)
     {
-        if (pieceVisual instanceof HexVisual)
+        HexVisual hexVisual = pieceVisual.getHexVisual();
+        if (hexVisual != null)
         {
-            HexVisual hexVisual = (HexVisual) pieceVisual;
             Hex hex = hexVisual.getHex();
-            if (hex instanceof ResourceHex)
-            {
-                ResourceHex resourceHex = (ResourceHex) hex;
-                resourceHex.setChit(currentChit);
-            }
+
+            if (hex.hasResource())
+                hex.setChit(currentChit);
         }
     }
 
@@ -41,23 +39,16 @@ public class SetChitBehaviour implements BoardBehaviour
     public SetChitBehaviour setCurrentChit(Chit currentChit)
     {
         this.currentChit = currentChit;
-
-        // Enables fluent interface usage
-        // http://en.wikipedia.org/wiki/Fluent_interface
         return this;
     }
 
     @Override
     public void mouseEnter(PieceVisual pieceVisual, BoardVisual board)
     {
-        if (pieceVisual instanceof HexVisual)
-        {
-            HexVisual hexVisual = (HexVisual) pieceVisual;
-            if (hexVisual.getHex() instanceof ResourceHex)
-            {
-                pieceVisual.setSelected(true);
-            }
-        }
+        HexVisual hexVisual = pieceVisual.getHexVisual();
+
+        if (hexVisual != null && hexVisual.getHex().hasResource())
+            pieceVisual.setSelected(true);
     }
 
     @Override

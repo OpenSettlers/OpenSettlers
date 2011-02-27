@@ -48,9 +48,9 @@ public class BuildCityBehaviour extends BuildPointBehaviour
     @Override
     public void clicked(PieceVisual pieceVisual, GameBoardVisual board)
     {
-        if (pieceVisual instanceof IPointVisual)
+        IPointVisual pointVisual = pieceVisual.getPointVisual();
+        if (pointVisual != null)
         {
-            IPointVisual pointVisual = (IPointVisual) pieceVisual;
             buildCity.setLocation(pointVisual.getHexPoint());
             callback.done();
         }

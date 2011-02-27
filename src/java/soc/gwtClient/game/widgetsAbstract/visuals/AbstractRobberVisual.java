@@ -20,4 +20,15 @@ public class AbstractRobberVisual extends AbstractPieceVisual implements
         return robber;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @seesoc.gwtClient.game.widgetsAbstract.visuals.AbstractPieceVisual#
+     * getRobberVisual()
+     */
+    @Override
+    public RobberVisual getRobberVisual()
+    {
+        return this;
+    }
 }

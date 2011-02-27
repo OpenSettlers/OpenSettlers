@@ -22,4 +22,17 @@ public abstract class AbstractRoadVisual extends AbstractPieceVisual implements
         return road;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.gwtClient.game.widgetsAbstract.visuals.AbstractPieceVisual#getRoadVisual
+     * ()
+     */
+    @Override
+    public RoadVisual getRoadVisual()
+    {
+        return this;
+    }
+
 }

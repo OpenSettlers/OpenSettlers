@@ -10,10 +10,10 @@ import soc.common.game.developmentCards.DevelopmentCard;
 import soc.common.game.player.GamePlayer;
 import soc.common.internationalization.I18n;
 import soc.common.views.behaviour.gameWidget.beforeSend.TradeFirst;
+import soc.common.views.widgetsInterface.dialogs.BankTradeWidget;
 import soc.common.views.widgetsInterface.generic.Point2D;
 import soc.common.views.widgetsInterface.generic.ResourceListWidget;
 import soc.common.views.widgetsInterface.generic.ResourcePickerWidget;
-import soc.common.views.widgetsInterface.main.BankTradeWidget;
 import soc.common.views.widgetsInterface.main.GameWidget;
 import soc.gwtClient.game.widgetsBitmap.generic.ResourceListBitmapWidget;
 import soc.gwtClient.game.widgetsBitmap.generic.ResourcePickerBitmapWidget;
@@ -150,7 +150,7 @@ public class TradeBankDialog extends PopupPanel implements BankTradeWidget,
             imgPiece.setUrl(pieceToTradeFor.getMeta().icon().iconDefault()
                     .getURL());
             lblTradeForA.setText(I18n.get().ui().bankTradeForA()
-                    + I18n.piece(pieceToTradeFor));
+                    + pieceToTradeFor.getMeta().getLocalizedName());
             panelPieceTrade.setVisible(true);
         }
         else

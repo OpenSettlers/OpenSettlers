@@ -20,4 +20,17 @@ public class AbstractCityVisual extends AbstractPieceVisual implements
         return city;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.gwtClient.game.widgetsAbstract.visuals.AbstractPieceVisual#getCityVisual
+     * ()
+     */
+    @Override
+    public CityVisual getCityVisual()
+    {
+        return this;
+    }
+
 }

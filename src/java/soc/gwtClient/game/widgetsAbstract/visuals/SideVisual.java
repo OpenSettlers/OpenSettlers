@@ -26,4 +26,17 @@ public abstract class SideVisual extends AbstractPieceVisual implements
         return hexSide;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.gwtClient.game.widgetsAbstract.visuals.AbstractPieceVisual#getSideVisual
+     * ()
+     */
+    @Override
+    public ISideVisual getSideVisual()
+    {
+        return this;
+    }
+
 }

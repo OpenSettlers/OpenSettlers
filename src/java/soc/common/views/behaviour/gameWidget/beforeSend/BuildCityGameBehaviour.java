@@ -42,7 +42,7 @@ public class BuildCityGameBehaviour implements GameBehaviour,
         }
         else
         {
-            gameWidget.getBankTradeUI().setPieceToTradeFor(city, this);
+            gameWidget.getBankTradeDialog().setPieceToTradeFor(city, this);
         }
     }
 

@@ -13,7 +13,7 @@ public class BuildTownGameBehaviour implements GameBehaviour,
 {
     private BuildTown buildTown;
     private BuildTownBehaviour buildTownGameBoardBehaviour;
-    GameWidget gameWidget;
+    private GameWidget gameWidget;
     private Town town = new Town();
 
     public BuildTownGameBehaviour(GameWidget gameWidget, BuildTown buildTown)
@@ -43,7 +43,7 @@ public class BuildTownGameBehaviour implements GameBehaviour,
             }
             else
             {
-                gameWidget.getBankTradeUI().setPieceToTradeFor(town, this);
+                gameWidget.getBankTradeDialog().setPieceToTradeFor(town, this);
             }
         }
         else

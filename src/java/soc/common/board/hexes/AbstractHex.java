@@ -2,6 +2,8 @@ package soc.common.board.hexes;
 
 import soc.common.board.HexLocation;
 import soc.common.board.ports.Port;
+import soc.common.board.ports.PortChangedEvent;
+import soc.common.board.ports.PortChangedEventHandler;
 import soc.common.board.resources.Resource;
 import soc.common.board.territories.Territory;
 import soc.common.utils.ClassUtils;
@@ -120,5 +122,15 @@ public abstract class AbstractHex implements Hex
     public Hex setPort(Port port)
     {
         return this;
+    }
+
+    public HandlerRegistration addChitChangedEventHandler(ChitChangedEventHandler handler)
+    {
+        return eventBus.addHandler(ChitChangedEvent.TYPE, handler);
+    }
+
+    public HandlerRegistration addPortChangedEventHandler(PortChangedEventHandler handler)
+    {
+        return eventBus.addHandler(PortChangedEvent.TYPE, handler);
     }
 }

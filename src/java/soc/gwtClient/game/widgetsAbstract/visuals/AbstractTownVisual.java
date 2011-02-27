@@ -20,4 +20,17 @@ public class AbstractTownVisual extends AbstractPieceVisual implements
         this.town = town;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.gwtClient.game.widgetsAbstract.visuals.AbstractPieceVisual#getTownVisual
+     * ()
+     */
+    @Override
+    public TownVisual getTownVisual()
+    {
+        return this;
+    }
+
 }

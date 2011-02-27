@@ -31,9 +31,9 @@ public class SetHexBehaviour implements BoardBehaviour
     @Override
     public void clicked(PieceVisual pieceVisual, BoardVisual board)
     {
-        if (pieceVisual instanceof HexVisual)
+        HexVisual hexVisual = pieceVisual.getHexVisual();
+        if (hexVisual != null)
         {
-            HexVisual hexVisual = (HexVisual) pieceVisual;
             Hex newHex = hex.copy();
             newHex.setLocation(hexVisual.getHex().getLocation());
             board.getBoard().getHexes().set(hexVisual.getHex().getLocation(),

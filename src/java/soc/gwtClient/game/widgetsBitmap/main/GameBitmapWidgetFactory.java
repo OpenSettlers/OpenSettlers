@@ -1,12 +1,12 @@
 package soc.gwtClient.game.widgetsBitmap.main;
 
 import soc.common.game.player.GamePlayer;
+import soc.common.views.widgetsInterface.dialogs.BankTradeWidget;
 import soc.common.views.widgetsInterface.dialogs.GameOverDialog;
 import soc.common.views.widgetsInterface.dialogs.HotseatLooseCardsDialog;
 import soc.common.views.widgetsInterface.dialogs.LooseCardsDialog;
 import soc.common.views.widgetsInterface.dialogs.StealCardWidget;
 import soc.common.views.widgetsInterface.main.BankStockWidget;
-import soc.common.views.widgetsInterface.main.BankTradeWidget;
 import soc.common.views.widgetsInterface.main.ChatWidget;
 import soc.common.views.widgetsInterface.main.DebugWidget;
 import soc.common.views.widgetsInterface.main.GameDetailsWidget;

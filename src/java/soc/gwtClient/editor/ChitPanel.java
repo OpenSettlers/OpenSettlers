@@ -1,6 +1,17 @@
 package soc.gwtClient.editor;
 
-import soc.common.board.Chit;
+import soc.common.board.chits.Chit;
+import soc.common.board.chits.Chit10;
+import soc.common.board.chits.Chit11;
+import soc.common.board.chits.Chit12;
+import soc.common.board.chits.Chit2;
+import soc.common.board.chits.Chit3;
+import soc.common.board.chits.Chit4;
+import soc.common.board.chits.Chit5;
+import soc.common.board.chits.Chit6;
+import soc.common.board.chits.Chit8;
+import soc.common.board.chits.Chit9;
+import soc.common.board.chits.RandomChit;
 import soc.common.views.behaviour.board.SetChitBehaviour;
 import soc.gwtClient.images.Resources;
 
@@ -19,17 +30,17 @@ public class ChitPanel extends HorizontalPanel implements HasHandlers
     private VerticalPanel panel1 = new VerticalPanel();
     private VerticalPanel panel2 = new VerticalPanel();
     private SetChitBehaviour editBehaviour;
-    private final Chit chit2 = new Chit(2);
-    private final Chit chit3 = new Chit(3);
-    private final Chit chit4 = new Chit(4);
-    private final Chit chit5 = new Chit(5);
-    private final Chit chit6 = new Chit(6);
-    private final Chit chit8 = new Chit(8);
-    private final Chit chit9 = new Chit(9);
-    private final Chit chit10 = new Chit(10);
-    private final Chit chit11 = new Chit(11);
-    private final Chit chit12 = new Chit(12);
-    private final Chit chitRandom = new Chit(0);
+    private final Chit chit2 = new Chit2();
+    private final Chit chit3 = new Chit3();
+    private final Chit chit4 = new Chit4();
+    private final Chit chit5 = new Chit5();
+    private final Chit chit6 = new Chit6();
+    private final Chit chit8 = new Chit8();
+    private final Chit chit9 = new Chit9();
+    private final Chit chit10 = new Chit10();
+    private final Chit chit11 = new Chit11();
+    private final Chit chit12 = new Chit12();
+    private final Chit chitRandom = new RandomChit();
 
     private SimpleEventBus eventBus = new SimpleEventBus();
 

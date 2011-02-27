@@ -19,4 +19,16 @@ public class AbstractPirateVisual extends AbstractPieceVisual implements
     {
         return pirate;
     }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @seesoc.gwtClient.game.widgetsAbstract.visuals.AbstractPieceVisual#
+     * getPirateVisual()
+     */
+    @Override
+    public PirateVisual getPirateVisual()
+    {
+        return this;
+    }
 }

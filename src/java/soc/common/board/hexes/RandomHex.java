@@ -1,6 +1,6 @@
 package soc.common.board.hexes;
 
-import soc.common.board.Chit;
+import soc.common.board.chits.Chit;
 import soc.common.views.meta.Graphics;
 import soc.common.views.meta.Icon;
 import soc.common.views.meta.IconImpl;

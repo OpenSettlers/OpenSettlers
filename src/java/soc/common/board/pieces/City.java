@@ -13,6 +13,7 @@ import soc.common.board.resources.Wheat;
 import soc.common.game.VictoryPointItem;
 import soc.common.game.player.GamePlayer;
 import soc.common.game.variants.GameRules;
+import soc.common.internationalization.I18n;
 import soc.common.views.meta.Graphics;
 import soc.common.views.meta.Icon;
 import soc.common.views.meta.IconImpl;
@@ -55,8 +56,7 @@ public class City extends AbstractPlayerPiece implements VictoryPointItem,
         @Override
         public String getLocalizedName()
         {
-            // TODO Auto-generated method stub
-            return null;
+            return I18n.get().constants().city();
         }
 
         @Override

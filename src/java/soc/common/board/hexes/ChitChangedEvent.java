@@ -1,6 +1,6 @@
 package soc.common.board.hexes;
 
-import soc.common.board.Chit;
+import soc.common.board.chits.Chit;
 
 import com.google.gwt.event.shared.GwtEvent;
 

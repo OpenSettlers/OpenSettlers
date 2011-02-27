@@ -103,9 +103,9 @@ public class BuildRoadBehaviour extends BuildSideBehaviour
     @Override
     public void clicked(PieceVisual pieceVisual, GameBoardVisual board)
     {
-        if (pieceVisual instanceof ISideVisual)
+        ISideVisual sideVisual = pieceVisual.getSideVisual();
+        if (sideVisual != null)
         {
-            ISideVisual sideVisual = (ISideVisual) pieceVisual;
             buildRoad.setSideLocation(sideVisual.getHexSide());
             callback.done();
         }

@@ -3,7 +3,7 @@ package soc.gwtClient.game.widgetsSvg.visuals;
 import org.vaadin.gwtgraphics.client.Image;
 import org.vaadin.gwtgraphics.client.VectorObject;
 
-import soc.common.board.Chit;
+import soc.common.board.chits.Chit;
 import soc.common.views.widgetsInterface.generic.Point2D;
 import soc.common.views.widgetsInterface.visuals.BoardVisual;
 import soc.gwtClient.game.widgetsAbstract.visuals.AbstractChitVisual;
@@ -105,5 +105,4 @@ public class ChitSvg extends AbstractChitVisual implements MouseMoveHandler,
     {
         return chitImage;
     }
-
 }

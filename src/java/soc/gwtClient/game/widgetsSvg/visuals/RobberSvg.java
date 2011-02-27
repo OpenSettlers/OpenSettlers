@@ -14,7 +14,7 @@ public class RobberSvg extends AbstractRobberVisual implements SvgVisual,
         MovedEventHandler
 {
     private Group group = new Group();
-    GameBoardSvg parent;
+    private GameBoardSvg parent;
     private Circle head;
     private Circle body;
 

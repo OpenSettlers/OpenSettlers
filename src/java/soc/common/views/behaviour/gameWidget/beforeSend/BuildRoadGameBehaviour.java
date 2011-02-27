@@ -45,7 +45,7 @@ public class BuildRoadGameBehaviour implements GameBehaviour,
             }
             else
             {
-                gameWidget.getBankTradeUI().setPieceToTradeFor(road, this);
+                gameWidget.getBankTradeDialog().setPieceToTradeFor(road, this);
             }
         }
         else

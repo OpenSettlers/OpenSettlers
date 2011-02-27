@@ -17,7 +17,7 @@ import soc.common.game.player.GamePlayer;
 /*
  * A PlayerGraph is a graph containing all edges and vertices of a player.
  * The PlayerGraph does not contain edges of opponents, but it can contain
- * vertices from opponents. 
+ * vertices (cities, towns, knights) from opponents. 
  */
 public class PlayerGraph
 {

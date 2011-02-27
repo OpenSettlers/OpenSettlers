@@ -1,7 +1,7 @@
 package soc.common.board.territories;
 
 import soc.common.annotations.SeaFarers;
-import soc.common.board.ChitList;
+import soc.common.board.chits.ChitList;
 import soc.common.board.hexes.HexList;
 import soc.common.board.ports.Port;
 import soc.common.board.ports.PortList;

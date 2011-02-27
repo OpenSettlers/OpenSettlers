@@ -4,6 +4,7 @@ import soc.common.actions.gameAction.GameAction;
 import soc.common.game.Game;
 import soc.common.game.player.GamePlayer;
 import soc.common.views.widgetsInterface.actions.ActionsWidget;
+import soc.common.views.widgetsInterface.dialogs.BankTradeWidget;
 import soc.common.views.widgetsInterface.dialogs.GameOverDialog;
 import soc.common.views.widgetsInterface.dialogs.LooseCardsDialog;
 import soc.common.views.widgetsInterface.dialogs.StealCardWidget;
@@ -51,7 +52,7 @@ public interface GameWidget
 
     public LooseCardsDialog getLooseCardsDialog();
 
-    public BankTradeWidget getBankTradeUI();
+    public BankTradeWidget getBankTradeDialog();
 
     public TradePlayerDialog getTradePlayerUI();
 

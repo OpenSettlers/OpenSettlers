@@ -12,14 +12,11 @@ public class SetTerritoryBehaviour implements BoardBehaviour
     @Override
     public void clicked(PieceVisual pieceVisual, BoardVisual board)
     {
-        if (pieceVisual instanceof HexVisual)
+        HexVisual hexVisual = pieceVisual.getHexVisual();
+        if (hexVisual != null && hexVisual.getHex().getTerritory() != null)
         {
-            HexVisual hexVisual = (HexVisual) pieceVisual;
-            if (hexVisual.getHex().getTerritory() != null)
-            {
-                hexVisual.getTerritory().setTerritory(territory);
-                hexVisual.getPortPossibilitiesVisual().updatePossibilities();
-            }
+            hexVisual.getTerritory().setTerritory(territory);
+            hexVisual.getPortPossibilitiesVisual().updatePossibilities();
         }
     }
 
@@ -43,11 +40,9 @@ public class SetTerritoryBehaviour implements BoardBehaviour
 
     public void mouseEnter(PieceVisual pieceVisual, BoardVisual board)
     {
-        if (pieceVisual instanceof HexVisual)
-        {
-            HexVisual hexVisual = (HexVisual) pieceVisual;
+        HexVisual hexVisual = pieceVisual.getHexVisual();
+        if (hexVisual != null)
             hexVisual.setSelected(hexVisual.getTerritory() != null);
-        }
     }
 
     @Override

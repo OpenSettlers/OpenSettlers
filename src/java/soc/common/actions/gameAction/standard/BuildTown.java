@@ -6,8 +6,10 @@ import java.util.List;
 import soc.common.actions.gameAction.turns.AbstractTurnAction;
 import soc.common.board.HexLocation;
 import soc.common.board.HexPoint;
+import soc.common.board.HexSide;
 import soc.common.board.hexes.Hex;
 import soc.common.board.pieces.Town;
+import soc.common.board.pieces.pieceLists.PointPieceList;
 import soc.common.board.ports.Port;
 import soc.common.board.resources.ResourceList;
 import soc.common.game.Game;
@@ -118,31 +120,46 @@ public class BuildTown extends AbstractTurnAction
             return false;
         }
 
-        // TODO: add neighbors check
         if (game.getAllPointPieces().contains(pointLocation))
         {
             invalidMessage = "The spot and its neighbours is already used by anyone";
             return false;
         }
 
+        if (!game.getCurrentPhase().isInitialPlacement())
+        {
+            boolean hasNeighbour = false;
+            PointPieceList allPointPieces = game.getAllPointPieces();
+            for (HexPoint point : pointLocation.getNeighbours())
+                if (allPointPieces.contains(point))
+                    hasNeighbour = true;
+
+            if (hasNeighbour)
+            {
+                invalidMessage = "A neighbouring pointpiece was found. You can build here";
+                return false;
+            }
+        }
+
         // player should have a ship or road at some neighbour
-        // if (!(game.getCurrentPhase() instanceof InitialPlacementGamePhase))
-        // {
-        // boolean contains = true;
-        // for (HexSide neighbour : pointLocation.getNeighbourSides())
-        // {
-        // if (player.getBuildPieces().getSidePieces().contains(neighbour))
-        // {
-        // contains = false;
-        // break;
-        // }
-        // }
-        // if (!contains)
-        // {
-        // invalidMessage = "No neighbouring ship or road found";
-        // return false;
-        // }
-        // }
+        if (!(game.getCurrentPhase().isInitialPlacement()))
+        {
+            boolean contains = true;
+            for (HexSide neighbour : pointLocation.getNeighbourSides())
+            {
+                if (player.getSidePieces().contains(neighbour))
+                {
+                    contains = false;
+                    break;
+                }
+            }
+
+            if (!contains)
+            {
+                invalidMessage = "No neighbouring ship or road found";
+                return false;
+            }
+        }
 
         // check if location is suitable (hexpoint neighbours can't be
         // already built on)

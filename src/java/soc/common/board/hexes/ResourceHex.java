@@ -1,8 +1,7 @@
 package soc.common.board.hexes;
 
-import soc.common.board.Chit;
+import soc.common.board.chits.Chit;
 
-import com.google.gwt.event.shared.HandlerRegistration;
 
 public abstract class ResourceHex extends AbstractHex
 {
@@ -20,19 +19,13 @@ public abstract class ResourceHex extends AbstractHex
      * @param chit
      *            the chit to set
      */
-    public ResourceHex setChit(Chit c)
+    public AbstractHex setChit(Chit c)
     {
         this.chit = c;
 
         eventBus.fireEvent(new ChitChangedEvent(c));
 
         return this;
-    }
-
-    public HandlerRegistration addChitChangedEventHandler(
-            ChitChangedEventHandler handler)
-    {
-        return eventBus.addHandler(ChitChangedEvent.TYPE, handler);
     }
 
     /*

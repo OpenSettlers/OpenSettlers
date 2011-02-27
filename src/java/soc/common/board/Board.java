@@ -182,7 +182,7 @@ public class Board implements Serializable
         return true;
     }
 
-    public PortList getAllowedPorts(SeaHex seaHex)
+    public PortList getAllowedPorts(AbstractHex seaHex)
     {
         PortList result = new PortList();
 

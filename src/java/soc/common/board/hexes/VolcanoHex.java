@@ -1,7 +1,6 @@
 package soc.common.board.hexes;
 
 import soc.common.annotations.Sea3D;
-import soc.common.board.Chit;
 import soc.common.board.resources.Gold;
 import soc.common.board.resources.Resource;
 import soc.common.utils.ClassUtils;
@@ -116,7 +115,6 @@ public class VolcanoHex extends ResourceHex
     {
         VolcanoHex result = new VolcanoHex();
 
-        result.setChit(new Chit(5));
         result.setTerritory(territory);
 
         return result;

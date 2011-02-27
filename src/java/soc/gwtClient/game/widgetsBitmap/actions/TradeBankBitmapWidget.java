@@ -105,7 +105,7 @@ public class TradeBankBitmapWidget extends AbstractActionWidget implements
     @Override
     public void onClick(ClickEvent arg0)
     {
-        gameWidget.getBankTradeUI().setPieceToTradeFor(null, null);
+        gameWidget.getBankTradeDialog().setPieceToTradeFor(null, null);
     }
 
 }

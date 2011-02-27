@@ -2,6 +2,7 @@ package soc.common.views.widgetsInterface.main;
 
 import soc.common.game.player.GamePlayer;
 import soc.common.views.widgetsInterface.actions.HotSeatActionsPlayersWidget;
+import soc.common.views.widgetsInterface.dialogs.BankTradeWidget;
 import soc.common.views.widgetsInterface.dialogs.GameOverDialog;
 import soc.common.views.widgetsInterface.dialogs.HotseatLooseCardsDialog;
 import soc.common.views.widgetsInterface.dialogs.LooseCardsDialog;

@@ -1,9 +1,8 @@
 package soc.gwtClient.game.widgetsAbstract.visuals;
 
+import soc.common.board.hexes.AbstractHex;
 import soc.common.board.hexes.ChitChangedEvent;
 import soc.common.board.hexes.Hex;
-import soc.common.board.hexes.ResourceHex;
-import soc.common.board.hexes.SeaHex;
 import soc.common.board.hexes.TerritoryChangedEvent;
 import soc.common.board.ports.PortChangedEvent;
 import soc.common.views.widgetsInterface.visuals.BoardVisual;
@@ -40,12 +39,12 @@ public abstract class AbstractHexVisual extends AbstractPieceVisual implements
 
     protected void updatePortVisual()
     {
-        port.setPort(((SeaHex) hex).getPort());
+        port.setPort(((AbstractHex) hex).getPort());
     }
 
     protected void updateChitVisual()
     {
-        chit.setChit(((ResourceHex) hex).getChit());
+        chit.setChit(((AbstractHex) hex).getChit());
     }
 
     protected void updateTerritoryVisual()
@@ -89,10 +88,9 @@ public abstract class AbstractHexVisual extends AbstractPieceVisual implements
         updateHexVisual();
 
         // Update hex specific visuals
-        if (hex instanceof ResourceHex)
+        if (hex.hasChit())
         {
-            ResourceHex resourceHex = (ResourceHex) hex;
-            resourceHex.addChitChangedEventHandler(this);
+            hex.addChitChangedEventHandler(this);
             chit.setVisible(true);
             updateChitVisual();
         }
@@ -101,10 +99,9 @@ public abstract class AbstractHexVisual extends AbstractPieceVisual implements
             chit.setVisible(false);
         }
 
-        if (hex instanceof SeaHex)
+        if (hex.hasPort())
         {
-            SeaHex seaHex = (SeaHex) hex;
-            seaHex.addPortChangedEventHandler(this);
+            hex.addPortChangedEventHandler(this);
             port.setVisible(true);
             updatePortVisual();
         }
@@ -160,5 +157,18 @@ public abstract class AbstractHexVisual extends AbstractPieceVisual implements
     public void onPortChanged(PortChangedEvent event)
     {
         updatePortVisual();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.gwtClient.game.widgetsAbstract.visuals.AbstractPieceVisual#getHexVisual
+     * ()
+     */
+    @Override
+    public HexVisual getHexVisual()
+    {
+        return this;
     }
 }

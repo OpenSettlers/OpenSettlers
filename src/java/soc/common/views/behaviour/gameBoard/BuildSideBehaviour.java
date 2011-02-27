@@ -25,14 +25,16 @@ public abstract class BuildSideBehaviour implements GameBoardBehaviour
     @Override
     public void mouseEnter(PieceVisual pieceVisual, GameBoardVisual board)
     {
-        if (pieceVisual instanceof ISideVisual)
+        ISideVisual sideVisual = pieceVisual.getSideVisual();
+        if (sideVisual != null)
             pieceVisual.setSelected(true);
     }
 
     @Override
     public void mouseOut(PieceVisual pieceVisual, GameBoardVisual board)
     {
-        if (pieceVisual instanceof ISideVisual)
+        ISideVisual sideVisual = pieceVisual.getSideVisual();
+        if (sideVisual != null)
             pieceVisual.setSelected(false);
     }
 }

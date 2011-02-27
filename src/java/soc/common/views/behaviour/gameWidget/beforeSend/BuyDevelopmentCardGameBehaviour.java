@@ -35,7 +35,7 @@ public class BuyDevelopmentCardGameBehaviour implements GameBehaviour,
         }
         else
         {
-            gameWidget.getBankTradeUI().setDevcardTrade(this);
+            gameWidget.getBankTradeDialog().setDevcardTrade(this);
         }
     }
 

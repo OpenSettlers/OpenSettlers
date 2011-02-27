@@ -15,7 +15,8 @@ public abstract class BuildPointBehaviour implements GameBoardBehaviour
     @Override
     public void mouseEnter(PieceVisual pieceVisual, GameBoardVisual board)
     {
-        if (pieceVisual instanceof IPointVisual)
+        IPointVisual pointVisual = pieceVisual.getPointVisual();
+        if (pointVisual != null)
         {
             IPointVisual hexPointVisual = (IPointVisual) pieceVisual;
             hexPointVisual.setSelected(true);
@@ -25,7 +26,8 @@ public abstract class BuildPointBehaviour implements GameBoardBehaviour
     @Override
     public void mouseOut(PieceVisual pieceVisual, GameBoardVisual board)
     {
-        if (pieceVisual instanceof IPointVisual)
+        IPointVisual pointVisual = pieceVisual.getPointVisual();
+        if (pointVisual != null)
         {
             IPointVisual hexPointVisual = (IPointVisual) pieceVisual;
             hexPointVisual.setSelected(false);

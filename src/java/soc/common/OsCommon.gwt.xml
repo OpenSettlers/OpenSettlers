@@ -15,4 +15,5 @@
   <source path='core'/>  
   <source path='views'/>  
   <inherits name="com.google.gwt.event.Event"/>
+  <inherits name="com.google.gwt.resources.Resources"/>
 </module>

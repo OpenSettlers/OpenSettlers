@@ -1,6 +1,6 @@
 package soc.common.views.widgetsInterface.visuals;
 
-import soc.common.board.Chit;
+import soc.common.board.chits.Chit;
 
 public interface ChitVisual extends PieceVisual
 {

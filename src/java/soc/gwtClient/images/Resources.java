@@ -1,6 +1,6 @@
 package soc.gwtClient.images;
 
-import soc.common.board.Chit;
+import soc.common.board.chits.Chit;
 import soc.common.bots.Bot;
 import soc.common.game.gamePhase.DetermineFirstPlayerGamePhase;
 import soc.common.game.gamePhase.EndedGamePhase;

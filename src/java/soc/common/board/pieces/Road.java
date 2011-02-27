@@ -10,6 +10,7 @@ import soc.common.board.resources.ResourceList;
 import soc.common.board.resources.Timber;
 import soc.common.board.routing.GraphPoint;
 import soc.common.game.player.GamePlayer;
+import soc.common.internationalization.I18n;
 import soc.common.views.meta.Graphics;
 import soc.common.views.meta.Icon;
 import soc.common.views.meta.IconImpl;
@@ -51,8 +52,7 @@ public class Road extends AbstractPlayerPiece implements SidePiece, StockPiece
         @Override
         public String getLocalizedName()
         {
-            // TODO Auto-generated method stub
-            return null;
+            return I18n.get().constants().road();
         }
 
         @Override

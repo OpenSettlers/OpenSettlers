@@ -1,9 +1,8 @@
 package soc.common.board.hexes;
 
-import soc.common.board.Chit;
+import soc.common.board.chits.Chit;
 import soc.common.board.ports.Port;
 import soc.common.board.ports.PortChangedEvent;
-import soc.common.board.ports.PortChangedEventHandler;
 import soc.common.board.territories.Territory;
 import soc.common.views.meta.Graphics;
 import soc.common.views.meta.Icon;
@@ -12,7 +11,6 @@ import soc.common.views.meta.Meta;
 import soc.common.views.widgetsInterface.generic.ToolTip;
 import soc.gwtClient.images.Resources;
 
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.resources.client.ImageResource;
 
@@ -75,7 +73,7 @@ public class SeaHex extends AbstractHex
     private Port port;
 
     // Event notification instance
-    private SimpleEventBus eventBus = new SimpleEventBus();
+    SimpleEventBus eventBus = new SimpleEventBus();
 
     /*
      * Has no effect on a SeaHex, sea hexes do not have a territory
@@ -104,7 +102,7 @@ public class SeaHex extends AbstractHex
      *            the port to set
      */
     @Override
-    public SeaHex setPort(Port p)
+    public AbstractHex setPort(Port p)
     {
         this.port = p;
 
@@ -133,12 +131,6 @@ public class SeaHex extends AbstractHex
     public String getColor()
     {
         return "DarkBlue";
-    }
-
-    public HandlerRegistration addPortChangedEventHandler(
-            PortChangedEventHandler handler)
-    {
-        return eventBus.addHandler(PortChangedEvent.TYPE, handler);
     }
 
     /*

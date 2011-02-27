@@ -17,4 +17,32 @@ public interface PieceVisual
     public PieceVisual setVisible(boolean visible);
 
     public boolean isVisible();
+
+    public ChitVisual getChitVisual();
+
+    public CityVisual getCityVisual();
+
+    public HexVisual getHexVisual();
+
+    public IPointVisual getPointVisual();
+
+    public ISideVisual getSideVisual();
+
+    public IslandBonusVisual getIslandBonusVisual();
+
+    public PirateVisual getPirateVisual();
+
+    public PortVisual getPortVisual();
+
+    public RoadVisual getRoadVisual();
+
+    public RobberVisual getRobberVisual();
+
+    public ShipVisual getShipVisual();
+
+    public TerritoryVisual getTerritoryVisual();
+
+    public TownVisual getTownVisual();
+
+    public WallVisual getWallVisual();
 }

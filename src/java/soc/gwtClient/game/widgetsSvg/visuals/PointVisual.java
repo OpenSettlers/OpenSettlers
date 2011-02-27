@@ -30,4 +30,18 @@ public abstract class PointVisual extends AbstractPieceVisual implements
     {
         return hexPoint;
     }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.gwtClient.game.widgetsAbstract.visuals.AbstractPieceVisual#getPointVisual
+     * ()
+     */
+    @Override
+    public IPointVisual getPointVisual()
+    {
+        return this;
+    }
+
 }
