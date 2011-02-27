@@ -9,8 +9,7 @@ public class TournamentStart implements GameSetting
     @Override
     public void executeGameSetting(GameSettings gameSettings)
     {
-        // TODO Auto-generated method stub
-
+        gameSettings.setTournamentStart(this);
     }
 
     @Override

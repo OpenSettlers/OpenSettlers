@@ -9,8 +9,7 @@ public class ShowChitsAfterPlacing implements GameSetting
     @Override
     public void executeGameSetting(GameSettings gameSettings)
     {
-        // TODO Auto-generated method stub
-
+        gameSettings.setShowChitsAfterPlacing(this);
     }
 
     @Override
