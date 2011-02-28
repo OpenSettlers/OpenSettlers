@@ -169,7 +169,7 @@ public class BuildCity extends AbstractTurnAction
             for (HexLocation hexLocation : pointLocation.getHexLocations())
             {
                 Hex hex = game.getBoard().getHexes().get(hexLocation);
-                if (hex.hasResource())
+                if (hex.canHaveResource())
                 {
                     resourcesFromCity.add(hex.getResource());
                 }

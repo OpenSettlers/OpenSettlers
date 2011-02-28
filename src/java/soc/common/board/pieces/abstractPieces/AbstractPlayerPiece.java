@@ -31,7 +31,6 @@ public abstract class AbstractPlayerPiece extends AbstractPiece implements
     public PlayerPiece setPlayer(GamePlayer player)
     {
         this.player = player;
-
         return this;
     }
 

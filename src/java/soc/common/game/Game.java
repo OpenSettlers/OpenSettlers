@@ -8,8 +8,8 @@ import soc.common.board.Board;
 import soc.common.board.HexLocation;
 import soc.common.board.hexes.DesertHex;
 import soc.common.board.hexes.Hex;
-import soc.common.board.layoutStrategies.BruteForceLayout;
 import soc.common.board.layoutStrategies.LayoutStrategy;
+import soc.common.board.layoutStrategies.RedsFirstLayout;
 import soc.common.board.pieces.Army;
 import soc.common.board.pieces.LongestRoad;
 import soc.common.board.pieces.Pirate;
@@ -62,7 +62,7 @@ public class Game implements Serializable
 
     // Abstracted rules
     private GameRules gameRules;
-    private transient LayoutStrategy layoutStrategy = new BruteForceLayout(30);
+    private transient LayoutStrategy layoutStrategy = new RedsFirstLayout();
 
     private GamePlayerList players = new GamePlayerList();
     private UserList spectators = new UserList();

@@ -88,7 +88,7 @@ public abstract class AbstractHexVisual extends AbstractPieceVisual implements
         updateHexVisual();
 
         // Update hex specific visuals
-        if (hex.hasChit())
+        if (hex.canHaveChit())
         {
             hex.addChitChangedEventHandler(this);
             chit.setVisible(true);
@@ -99,7 +99,7 @@ public abstract class AbstractHexVisual extends AbstractPieceVisual implements
             chit.setVisible(false);
         }
 
-        if (hex.hasPort())
+        if (hex.canHavePort())
         {
             hex.addPortChangedEventHandler(this);
             port.setVisible(true);

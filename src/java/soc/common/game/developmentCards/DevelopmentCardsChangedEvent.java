@@ -6,7 +6,7 @@ public class DevelopmentCardsChangedEvent extends GwtEvent<DevelopmentCardsChang
 {
     public static Type<DevelopmentCardsChangedEventHandler> TYPE = new Type<DevelopmentCardsChangedEventHandler>();
     private DevelopmentCard removedCard;
-    private DevelopmentCard addedCard;
+    private AbstractDevelopmentCard addedCard;
     
     /**
      * @return the removedCard
@@ -19,12 +19,12 @@ public class DevelopmentCardsChangedEvent extends GwtEvent<DevelopmentCardsChang
     /**
      * @return the addedCard
      */
-    public DevelopmentCard getAddedCard()
+    public AbstractDevelopmentCard getAddedCard()
     {
         return addedCard;
     }
 
-    public DevelopmentCardsChangedEvent(DevelopmentCard addedCard,
+    public DevelopmentCardsChangedEvent(AbstractDevelopmentCard addedCard,
             DevelopmentCard removedCard)
     {
         super();

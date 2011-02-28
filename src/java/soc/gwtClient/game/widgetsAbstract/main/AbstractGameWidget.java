@@ -1,7 +1,6 @@
 package soc.gwtClient.game.widgetsAbstract.main;
 
 import soc.common.actions.gameAction.GameAction;
-import soc.common.actions.gameAction.turns.TurnAction;
 import soc.common.game.Game;
 import soc.common.game.player.GamePlayer;
 import soc.common.server.GameServer;
@@ -353,8 +352,7 @@ public abstract class AbstractGameWidget implements GameWidget, CenterWidget,
 
         // Make sure the next action is meant to be played with the player
         // playing in this GamePanel
-        if (next != null && next instanceof TurnAction
-                && next.getPlayer().equals(player))
+        if (next != null && next.getPlayer().equals(player))
         {
             GameBehaviourFactory factory = clientFactory.getBehaviourFactory()
                     .getNextActionBehaviourFactory();

@@ -8,7 +8,7 @@ import soc.common.board.resources.Sheep;
 import soc.common.board.resources.Timber;
 import soc.common.board.resources.Wheat;
 import soc.common.game.Game;
-import soc.common.game.developmentCards.DevelopmentCard;
+import soc.common.game.developmentCards.AbstractDevelopmentCard;
 import soc.common.game.player.GamePlayer;
 import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidget;
 import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidgetFactory;
@@ -17,7 +17,7 @@ import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidgetF
  * Standard monopoly
  * Steals all resources of a chosen type from all opponents
  */
-public class Monopoly extends DevelopmentCard
+public class Monopoly extends AbstractDevelopmentCard
 {
     private static final long serialVersionUID = 7740748478927741890L;
     public static ResourceList staticMonoPolyableResources = new ResourceList();

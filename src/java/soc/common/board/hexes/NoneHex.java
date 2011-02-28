@@ -159,7 +159,7 @@ public class NoneHex extends AbstractHex
     }
 
     @Override
-    public boolean hasResource()
+    public boolean canHaveResource()
     {
         return false;
     }

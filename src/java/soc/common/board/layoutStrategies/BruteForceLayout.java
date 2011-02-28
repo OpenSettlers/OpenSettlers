@@ -22,7 +22,7 @@ import soc.common.server.randomization.Random;
  * found.
  * 
  */
-public class BruteForceLayout implements LayoutStrategy
+public class BruteForceLayout extends AbstractLayoutStrategy
 {
     private int maxTries = 1;
 
@@ -60,7 +60,7 @@ public class BruteForceLayout implements LayoutStrategy
                         .setTerritory(hex.getTerritory()).setLocation(
                                 hex.getLocation());
                 board.getHexes().set(hex.getLocation(), newHex);
-                if (newHex.hasResource())
+                if (newHex.canHaveResource())
                     hexesToPutChitOn.add(newHex);
             }
         }
@@ -79,7 +79,7 @@ public class BruteForceLayout implements LayoutStrategy
         // Replace all random port placeholders by actual ports
         for (Hex hex : board.getHexes())
         {
-            if (hex.hasPort() && hex.getPort() instanceof RandomPort)
+            if (hex.canHavePort() && hex.getPort() instanceof RandomPort)
             {
                 HexLocation land = hex.getPort().getLandLocation();
                 Hex landHex = board.getHexes().get(land);
@@ -129,17 +129,14 @@ public class BruteForceLayout implements LayoutStrategy
             for (HexLocation neighbourLocation : neighbours)
             {
                 Hex neighbour = board.getHexes().get(neighbourLocation);
-                if (neighbour.hasResource() && neighbour.hasChit())
+                if (neighbour.canHaveResource() && neighbour.hasChit())
                 {
                     if (neighbour.getChit().getNumber() == neighbour.getChit()
                             .getNumber())
                     {
                         return false;
                     }
-                    if (hex.getChit().getNumber() == 6
-                            || hex.getChit().getNumber() == 8
-                            && neighbour.getChit().getNumber() == 6
-                            || neighbour.getChit().getNumber() == 8)
+                    if (hex.getChit().isRed() && neighbour.getChit().isRed())
                     {
                         return false;
                     }

@@ -108,7 +108,7 @@ public abstract class AbstractHex implements Hex
      * @see soc.common.board.hexes.Hex#hasPort()
      */
     @Override
-    public boolean hasPort()
+    public boolean canHavePort()
     {
         return false;
     }

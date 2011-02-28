@@ -55,12 +55,8 @@ public class LobbyGamePhase extends AbstractGamePhase
         // Create a list of players to remove
         GamePlayerList playersToRemove = new GamePlayerList();
         for (GamePlayer player : playersWhoAcceptedSettings)
-        {
             if (player != playerChangingSettings)
-            {
                 playersToRemove.add(player);
-            }
-        }
 
         // Invalidate players
         playersWhoAcceptedSettings.clear();

@@ -1,7 +1,7 @@
 package soc.common.views.behaviour.gameWidget.beforeSend;
 
 import soc.common.actions.gameAction.standard.BuyDevelopmentCard;
-import soc.common.game.developmentCards.DevelopmentCard;
+import soc.common.game.developmentCards.AbstractDevelopmentCard;
 import soc.common.game.player.GamePlayer;
 import soc.common.views.behaviour.gameWidget.GameBehaviour;
 import soc.common.views.widgetsInterface.main.GameWidget;
@@ -29,7 +29,7 @@ public class BuyDevelopmentCardGameBehaviour implements GameBehaviour,
     public void start(GameWidget gameWidget)
     {
         GamePlayer player = gameWidget.getPlayingPlayer();
-        if (player.getResources().hasAtLeast(DevelopmentCard.getCost()))
+        if (player.getResources().hasAtLeast(AbstractDevelopmentCard.getCost()))
         {
             gameWidget.sendAction(buyDev);
         }

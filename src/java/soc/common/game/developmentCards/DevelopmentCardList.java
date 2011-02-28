@@ -14,11 +14,11 @@ import soc.common.game.developmentCards.standard.YearOfPlenty;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
 
-public class DevelopmentCardList implements Iterable<DevelopmentCard>,
+public class DevelopmentCardList implements Iterable<AbstractDevelopmentCard>,
         Serializable
 {
     private static final long serialVersionUID = 3119667710831059077L;
-    private List<DevelopmentCard> devCards = new ArrayList<DevelopmentCard>();
+    private List<AbstractDevelopmentCard> devCards = new ArrayList<AbstractDevelopmentCard>();
     private transient SimpleEventBus eventBus;
 
     private void safelyFireEvent(DevelopmentCardsChangedEvent event)
@@ -29,7 +29,7 @@ public class DevelopmentCardList implements Iterable<DevelopmentCard>,
         }
     }
 
-    public void add(DevelopmentCard card)
+    public void add(AbstractDevelopmentCard card)
     {
         devCards.add(card);
         safelyFireEvent(new DevelopmentCardsChangedEvent(card, null));
@@ -85,11 +85,11 @@ public class DevelopmentCardList implements Iterable<DevelopmentCard>,
         return result;
     }
 
-    public ArrayList<DevelopmentCard> ofType(DevelopmentCard type)
+    public ArrayList<AbstractDevelopmentCard> ofType(DevelopmentCard type)
     {
-        ArrayList<DevelopmentCard> result = new ArrayList<DevelopmentCard>();
+        ArrayList<AbstractDevelopmentCard> result = new ArrayList<AbstractDevelopmentCard>();
 
-        for (DevelopmentCard devcard : this)
+        for (AbstractDevelopmentCard devcard : this)
         {
             if (devcard.getClass() == type.getClass())
                 result.add(devcard);
@@ -99,7 +99,7 @@ public class DevelopmentCardList implements Iterable<DevelopmentCard>,
     }
 
     @Override
-    public Iterator<DevelopmentCard> iterator()
+    public Iterator<AbstractDevelopmentCard> iterator()
     {
         return devCards.iterator();
     }

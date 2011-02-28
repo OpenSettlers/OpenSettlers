@@ -5,9 +5,6 @@ import soc.common.game.Game;
 
 public class TradingTurnPhase extends AbstractTurnPhase
 {
-    /**
-     * 
-     */
     private static final long serialVersionUID = -6990539284724565304L;
     private BuildingTurnPhase buildPhase;
 

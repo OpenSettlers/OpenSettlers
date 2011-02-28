@@ -156,7 +156,7 @@ public class RandomHex extends AbstractHex
     }
 
     @Override
-    public boolean hasResource()
+    public boolean canHaveResource()
     {
         return false;
     }

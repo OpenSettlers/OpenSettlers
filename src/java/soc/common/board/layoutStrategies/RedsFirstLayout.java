@@ -63,8 +63,7 @@ public class RedsFirstLayout implements LayoutStrategy
             if (chits != null)
             {
                 // Lay each chit of current group on the board, trying
-                // to prevent
-                // neighbours with chits equal to their chance
+                // to prevent neighbours with chits equal to their chance
                 List<Hex> allowedHexes = copyResourceHexList(hexesToPutChitOn);
                 for (Chit chit : chits)
                 {
@@ -78,8 +77,7 @@ public class RedsFirstLayout implements LayoutStrategy
                                 hexesToPutChitOn.size(), false));
                     else
                         // There are spots left where chit does not
-                        // neighbour
-                        // another chit with the same probablity of
+                        // neighbour another chit with the same probablity of
                         // being rolled
                         hex = allowedHexes.get(random.nextInt(allowedHexes
                                 .size(), false));
@@ -115,7 +113,7 @@ public class RedsFirstLayout implements LayoutStrategy
             board.getHexes().set(hex.getLocation(), newHex);
 
             // Add to list of hexes to put a chit on, if needing a chit
-            if (newHex.hasChit())
+            if (newHex.canHaveChit())
                 hexesToPutChitOn.add(newHex);
         }
     }

@@ -35,12 +35,8 @@ public class BoardList implements BoardProvider
         List<Board> result = new ArrayList<Board>();
 
         for (Board board : boards)
-        {
             if (board.getName().equals(user.getName()))
-            {
                 result.add(board);
-            }
-        }
 
         return result;
     }

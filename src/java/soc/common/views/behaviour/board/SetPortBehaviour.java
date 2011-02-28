@@ -49,7 +49,7 @@ public class SetPortBehaviour implements BoardBehaviour
     public void mouseEnter(PieceVisual pieceVisual, BoardVisual board)
     {
         HexVisual hexVisual = pieceVisual.getHexVisual();
-        if (hexVisual != null && hexVisual.getHex().hasPort())
+        if (hexVisual != null && hexVisual.getHex().canHavePort())
         {
             hexVisual.setSelected(true);
             hexVisual.getPortPossibilitiesVisual().setVisible(true);
@@ -66,7 +66,7 @@ public class SetPortBehaviour implements BoardBehaviour
     public void mouseOut(PieceVisual pieceVisual, BoardVisual board)
     {
         HexVisual hexVisual = pieceVisual.getHexVisual();
-        if (hexVisual != null && hexVisual.getHex().hasPort())
+        if (hexVisual != null && hexVisual.getHex().canHavePort())
         {
             hexVisual.setSelected(false);
             hexVisual.getPortPossibilitiesVisual().setVisible(false);

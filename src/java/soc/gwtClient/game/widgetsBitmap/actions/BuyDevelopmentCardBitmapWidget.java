@@ -7,7 +7,7 @@ import soc.common.game.GamePhaseChangedEvent;
 import soc.common.game.GamePhaseChangedEventHandler;
 import soc.common.game.TurnChangedEvent;
 import soc.common.game.TurnChangedEventHandler;
-import soc.common.game.developmentCards.DevelopmentCard;
+import soc.common.game.developmentCards.AbstractDevelopmentCard;
 import soc.common.game.gamePhase.turnPhase.TurnPhaseChangedEvent;
 import soc.common.game.gamePhase.turnPhase.TurnPhaseChangedHandler;
 import soc.common.game.player.GamePlayer;
@@ -60,7 +60,7 @@ public class BuyDevelopmentCardBitmapWidget extends AbstractActionWidget
             public void onClick(ClickEvent event)
             {
                 gameWidget.startAction(new BuyDevelopmentCard().setResources(
-                        DevelopmentCard.getCost()).setPlayer(player));
+                        AbstractDevelopmentCard.getCost()).setPlayer(player));
             }
         });
     }
@@ -110,7 +110,7 @@ public class BuyDevelopmentCardBitmapWidget extends AbstractActionWidget
         if (enabled && player.isOnTurn())
         {
             if (gameWidget.getGame().isAllowed(buyDevelopmentCard)
-                    && DevelopmentCard.canPay(player))
+                    && AbstractDevelopmentCard.canPay(player))
             {
                 enableUI();
                 return;
@@ -133,10 +133,10 @@ public class BuyDevelopmentCardBitmapWidget extends AbstractActionWidget
 
     private void setTradesNeededToBuild()
     {
-        if (DevelopmentCard.canPay(player))
+        if (AbstractDevelopmentCard.canPay(player))
         {
             int amountTradesNeeded = player.getResources().getNeededResources(
-                    DevelopmentCard.getCost()).size();
+                    AbstractDevelopmentCard.getCost()).size();
             trade1.setVisible(amountTradesNeeded >= 1);
             trade2.setVisible(amountTradesNeeded >= 2);
             trade3.setVisible(amountTradesNeeded >= 3);

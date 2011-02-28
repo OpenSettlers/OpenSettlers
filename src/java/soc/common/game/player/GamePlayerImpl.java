@@ -15,7 +15,7 @@ import soc.common.bots.Bot;
 import soc.common.game.RoadTokensChangedEvent;
 import soc.common.game.RoadTokensChangedEventHandler;
 import soc.common.game.VictoryPointsList;
-import soc.common.game.developmentCards.DevelopmentCard;
+import soc.common.game.developmentCards.AbstractDevelopmentCard;
 import soc.common.game.developmentCards.DevelopmentCardList;
 import soc.common.server.entities.User;
 
@@ -157,7 +157,7 @@ public class GamePlayerImpl implements GamePlayer
      * @seesoc.common.game.GamePlayer#useDevelopmentCard(soc.common.game.
      * developmentCards.DevelopmentCard)
      */
-    public void useDevelopmentCard(DevelopmentCard developmentCard)
+    public void useDevelopmentCard(AbstractDevelopmentCard developmentCard)
     {
         // Get rid of the card in our list of devcards
         developmentCards.remove(developmentCard);
@@ -175,7 +175,7 @@ public class GamePlayerImpl implements GamePlayer
      * @seesoc.common.game.GamePlayer#addDevelopmentCard(soc.common.game.
      * developmentCards.DevelopmentCard)
      */
-    public void addDevelopmentCard(DevelopmentCard developmentCard)
+    public void addDevelopmentCard(AbstractDevelopmentCard developmentCard)
     {
         developmentCards.add(developmentCard);
     }

@@ -3,7 +3,7 @@ package soc.common.game.developmentCards.standard;
 import soc.common.actions.gameAction.standard.PlaceRobber;
 import soc.common.actions.gameAction.standard.RobPlayer;
 import soc.common.game.Game;
-import soc.common.game.developmentCards.DevelopmentCard;
+import soc.common.game.developmentCards.AbstractDevelopmentCard;
 import soc.common.game.player.GamePlayer;
 import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidget;
 import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidgetFactory;
@@ -11,11 +11,8 @@ import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidgetF
 /*
  * Represents a soldier from the standard rules development card set.
  */
-public class Soldier extends DevelopmentCard
+public class Soldier extends AbstractDevelopmentCard
 {
-    /**
-     * 
-     */
     private static final long serialVersionUID = 3097762985301413120L;
 
     /*

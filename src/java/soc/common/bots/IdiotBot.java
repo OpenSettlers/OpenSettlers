@@ -163,19 +163,34 @@ public class IdiotBot extends AbstractBot
                 .setPlayer(player);
     }
 
+    /*
+     * Creates a list of possible responses, then answers with random response
+     * from that list
+     * 
+     * @see
+     * soc.common.bots.Bot#respondToTrade(soc.common.actions.gameAction.trading
+     * .TradeOffer)
+     */
     @Override
     public GameAction respondToTrade(TradeOffer tradeOffer)
     {
         boolean canAccept = player.getResources().hasAtLeast(
                 tradeOffer.getRequestedResources());
         boolean canCounter = player.getResources().size() > 0;
+
+        // Keep track of possible responses
         List<GameAction> responses = new ArrayList<GameAction>();
 
+        // Add the possible responses to the list
+
+        // Reject is always possible
         responses.add(new RejectTradeOffer());
 
+        // We have resources to accept?
         if (canAccept)
             responses.add(new AcceptTradeOffer());
 
+        // Have alternative resources to counter offer?
         if (canCounter)
         {
             CounterTradeOffer counter = new CounterTradeOffer();
@@ -185,11 +200,15 @@ public class IdiotBot extends AbstractBot
                     player.getResources().getRandom(random));
             responses.add(counter);
         }
-        int size = responses.size();
-        size = size == 0 ? 0 : size + 1;
-        int randomResponse = random.nextInt(size, false);
 
-        GameAction response = responses.get(randomResponse);
+        GameAction response = null;
+        if (responses.size() == 1)
+            response = responses.get(0);
+        else
+        {
+            int randomResponse = random.nextInt(responses.size(), false);
+            response = responses.get(randomResponse);
+        }
         response.setPlayer(player);
         ((TradeResponse) response).setOriginatingOffer(tradeOffer);
 

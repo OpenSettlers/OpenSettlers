@@ -1,210 +1,66 @@
 package soc.common.game.developmentCards;
 
-import java.io.Serializable;
-
-import soc.common.board.resources.Ore;
-import soc.common.board.resources.ResourceList;
-import soc.common.board.resources.Sheep;
-import soc.common.board.resources.Wheat;
 import soc.common.game.Game;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
 import soc.common.game.player.GamePlayer;
-import soc.common.utils.ClassUtils;
 import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidget;
 import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidgetFactory;
 
-public abstract class DevelopmentCard implements Serializable
+public interface DevelopmentCard
 {
-    private static final long serialVersionUID = 3192052784726040369L;
-    protected String invalidMessage;
-    protected String message = "No message implemented yet for Devcard"
-            + toString();
-    protected int turnBought = 0;
-    private int id = 0;
-    private boolean isPlayable = false;
-    private static ResourceList cost = new ResourceList();
 
-    static
-    {
-        cost.add(new Wheat());
-        cost.add(new Ore());
-        cost.add(new Sheep());
-    }
-
-    public boolean isLimitOnePerTurn()
-    {
-        return true;
-    }
+    public boolean isLimitOnePerTurn();
 
     /**
      * @return the hasSummoningSickness
      */
-    public boolean isHasSummoningSickness()
-    {
-        return true;
-    }
+    public boolean isHasSummoningSickness();
 
-    public static boolean canPay(GamePlayer player)
-    {
-        // TODO: add diamonds support
-        // First, create a copy so we can safely remove resources from it
-        ResourceList copy = player.getResources().copy();
+    public void play(Game game, GamePlayer player);
 
-        // Pay resources player can simply pay for
-        copy.subtractResources(getCost());
-
-        // Calculate amount of gold we need
-        int neededGold =
-        // amount of resources this piece needs, minus...
-        getCost().size() -
-        // the resources the player can simply pay for
-                (player.getResources().size() - copy.size());
-
-        // Player can pay given piece if he can trade exactly or more gold as
-        // needed
-        return player.getPorts().amountGold(copy) >= neededGold;
-    }
-
-    public static ResourceList getCost()
-    {
-        return cost;
-    }
-
-    public void play(Game game, GamePlayer player)
-    {
-        isPlayable = false;
-        player.getPlayedDevelopmentCards().add(this);
-        player.getDevelopmentCards().remove(this);
-    }
-
-    public boolean isValid(Game game)
-    {
-        return true;
-    }
+    public boolean isValid(Game game);
 
     /*
      * Default is not to keep the DevelopmentCard in stock
      */
-    public boolean keepInStock()
-    {
-        return false;
-    }
+    public boolean keepInStock();
 
     /*
      * Returns true if player is allowed to play this card in given TurnPhase
      */
-    public boolean isAllowed(TurnPhase turnPhase)
-    {
-        throw new RuntimeException();
-    }
+    public boolean isAllowed(TurnPhase turnPhase);
 
     /*
      * Returns true if player is allowed to play this card in given GamePhase
      */
-    public boolean isAllowed(GamePhase turnPhase)
-    {
-        throw new RuntimeException();
-    }
+    public boolean isAllowed(GamePhase turnPhase);
 
-    public String getInvalidMessage()
-    {
-        return invalidMessage;
-    }
+    public String getInvalidMessage();
 
-    public void setInvalidMessage(String invalidMessage)
-    {
-        this.invalidMessage = invalidMessage;
-    }
+    public void setInvalidMessage(String invalidMessage);
 
-    public String getMessage()
-    {
-        return message;
-    }
+    public String getMessage();
 
-    public void setMessage(String message)
-    {
-        this.message = message;
-    }
+    public void setMessage(String message);
 
-    public int getTurnBought()
-    {
-        return turnBought;
-    }
+    public int getTurnBought();
 
-    public void setTurnBought(int turnBought)
-    {
-        this.turnBought = turnBought;
-    }
+    public void setTurnBought(int turnBought);
 
-    public int getId()
-    {
-        return id;
-    }
+    public int getId();
 
-    public void setId(int id)
-    {
-        this.id = id;
-    }
+    public void setId(int id);
 
-    public boolean isPlayable()
-    {
-        return isPlayable;
-    }
+    public boolean isPlayable();
 
-    public void setPlayable(boolean isPlayable)
-    {
-        this.isPlayable = isPlayable;
-    }
+    public void setPlayable(boolean isPlayable);
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString()
-    {
-        return ClassUtils.getSimpleClassName(this.getClass().getName());
-    }
+    public int hashCode();
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#hashCode()
-     */
+    public String getName();
 
-    @Override
-    public int hashCode()
-    {
-        return id;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        DevelopmentCard other = (DevelopmentCard) obj;
-        if (id != other.id)
-            return false;
-        return true;
-    }
-
-    public String getName()
-    {
-        return ClassUtils.getSimpleClassName(this.getClass().getName());
-    }
-
-    public abstract DevelopmentCardWidget createPlayCardWidget(
+    public DevelopmentCardWidget createPlayCardWidget(
             DevelopmentCardWidgetFactory factory);
+
 }

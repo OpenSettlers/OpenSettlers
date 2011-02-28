@@ -2,7 +2,7 @@ package soc.common.game.developmentCards.standard;
 
 import soc.common.game.Game;
 import soc.common.game.VictoryPointItem;
-import soc.common.game.developmentCards.DevelopmentCard;
+import soc.common.game.developmentCards.AbstractDevelopmentCard;
 import soc.common.game.player.GamePlayer;
 import soc.common.views.meta.Graphics;
 import soc.common.views.meta.Icon;
@@ -20,7 +20,7 @@ import com.google.gwt.resources.client.ImageResource;
  * Playable any time during a players' turn and not immediately played when
  * receiving the card
  */
-public class VictoryPoint extends DevelopmentCard implements VictoryPointItem
+public class VictoryPoint extends AbstractDevelopmentCard implements VictoryPointItem
 {
     private static Meta meta = new Meta()
     {

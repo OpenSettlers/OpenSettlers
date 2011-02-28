@@ -6,7 +6,7 @@ import soc.common.board.ports.PortList;
 import soc.common.board.resources.ResourceList;
 import soc.common.board.resources.ResourcesChangedEvent;
 import soc.common.board.resources.ResourcesChangedEventHandler;
-import soc.common.game.developmentCards.DevelopmentCard;
+import soc.common.game.developmentCards.AbstractDevelopmentCard;
 import soc.common.game.player.GamePlayer;
 import soc.common.internationalization.I18n;
 import soc.common.views.behaviour.gameWidget.beforeSend.TradeFirst;
@@ -313,7 +313,7 @@ public class TradeBankDialog extends PopupPanel implements BankTradeWidget,
         wantedResourcesPickerWidget.setEnabled(false);
 
         // Add needed resources
-        wantResources.addList(playerHand.getNeededResources(DevelopmentCard
+        wantResources.addList(playerHand.getNeededResources(AbstractDevelopmentCard
                 .getCost()));
 
         // Update image

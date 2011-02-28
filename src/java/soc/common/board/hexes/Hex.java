@@ -2,8 +2,8 @@ package soc.common.board.hexes;
 
 import soc.common.board.HexLocation;
 import soc.common.board.chits.Chit;
+import soc.common.board.layouts.HasLocation;
 import soc.common.board.ports.Port;
-import soc.common.board.ports.PortChangedEvent;
 import soc.common.board.ports.PortChangedEventHandler;
 import soc.common.board.resources.Resource;
 import soc.common.board.territories.Territory;
@@ -11,7 +11,7 @@ import soc.common.views.meta.HasMeta;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 
-public interface Hex extends HasMeta
+public interface Hex extends HasMeta, HasLocation
 {
     /*
      * Literal non-translatable name of this Hex
@@ -74,12 +74,7 @@ public interface Hex extends HasMeta
     /*
      * Returns true when this hex produces resource(s)
      */
-    public boolean hasResource();
-
-    /*
-     * Can a chit be put on this hex?
-     */
-    public boolean canHaveChit();
+    public boolean canHaveResource();
 
     /*
      * Does this hex have a chit?
@@ -93,6 +88,11 @@ public interface Hex extends HasMeta
     public Resource getResource();
 
     /*
+     * Can a chit be put on this hex?
+     */
+    public boolean canHaveChit();
+
+    /*
      * Returns the chit of this hex, null if hex does not have a chit
      */
     public Chit getChit();
@@ -102,13 +102,15 @@ public interface Hex extends HasMeta
      */
     public Hex setChit(Chit chit);
 
-    public boolean hasPort();
+    public boolean canHavePort();
 
     public Port getPort();
 
     public Hex setPort(Port port);
 
-    public HandlerRegistration addChitChangedEventHandler(ChitChangedEventHandler handler);
+    public HandlerRegistration addChitChangedEventHandler(
+            ChitChangedEventHandler handler);
 
-    public HandlerRegistration addPortChangedEventHandler(PortChangedEventHandler handler);
+    public HandlerRegistration addPortChangedEventHandler(
+            PortChangedEventHandler handler);
 }

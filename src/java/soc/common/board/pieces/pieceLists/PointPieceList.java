@@ -52,4 +52,9 @@ public class PointPieceList implements Iterable<PointPiece>, Serializable
     {
         return points;
     }
+
+    public PointPiece get(int i)
+    {
+        return pointPieces.get(0);
+    }
 }

@@ -198,7 +198,7 @@ public class BuildTown extends AbstractTurnAction
             for (HexLocation loc : pointLocation.getHexLocations())
             {
                 Hex hex = game.getBoard().getHexes().get(loc);
-                if (hex.hasResource())
+                if (hex.canHaveResource())
                 {
                     resourcesFromPlacement.add(hex.getResource());
                 }
@@ -215,7 +215,7 @@ public class BuildTown extends AbstractTurnAction
         for (HexLocation locaction : pointLocation.getHexLocations())
         {
             Hex hex = game.getBoard().getHexes().get(locaction);
-            if (hex.hasPort())
+            if (hex.canHavePort())
                 ports.add(hex.getPort());
         }
         for (Port port : ports)

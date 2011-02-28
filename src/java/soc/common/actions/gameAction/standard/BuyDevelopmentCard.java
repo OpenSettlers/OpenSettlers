@@ -3,6 +3,7 @@ package soc.common.actions.gameAction.standard;
 import soc.common.actions.gameAction.turns.AbstractTurnAction;
 import soc.common.board.resources.ResourceList;
 import soc.common.game.Game;
+import soc.common.game.developmentCards.AbstractDevelopmentCard;
 import soc.common.game.developmentCards.DevelopmentCard;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
@@ -73,7 +74,7 @@ public class BuyDevelopmentCard extends AbstractTurnAction
         }
     };
     private ResourceList resources;
-    private DevelopmentCard devCard;
+    private AbstractDevelopmentCard devCard;
 
     /**
      * @return the devCard
@@ -87,7 +88,7 @@ public class BuyDevelopmentCard extends AbstractTurnAction
      * @param devCard
      *            the devCard to set
      */
-    public BuyDevelopmentCard setDevCard(DevelopmentCard devCard)
+    public BuyDevelopmentCard setDevCard(AbstractDevelopmentCard devCard)
     {
         this.devCard = devCard;
 

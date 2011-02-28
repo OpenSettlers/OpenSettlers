@@ -19,7 +19,7 @@ public class SetChitBehaviour implements BoardBehaviour
         {
             Hex hex = hexVisual.getHex();
 
-            if (hex.hasResource())
+            if (hex.canHaveResource())
                 hex.setChit(currentChit);
         }
     }
@@ -47,7 +47,7 @@ public class SetChitBehaviour implements BoardBehaviour
     {
         HexVisual hexVisual = pieceVisual.getHexVisual();
 
-        if (hexVisual != null && hexVisual.getHex().hasResource())
+        if (hexVisual != null && hexVisual.getHex().canHaveResource())
             pieceVisual.setSelected(true);
     }
 

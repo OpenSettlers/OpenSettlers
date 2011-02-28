@@ -1,7 +1,6 @@
 package soc.common.board.boards;
 
 import soc.common.board.Board;
-import soc.common.board.HexGrid;
 import soc.common.board.HexLocation;
 import soc.common.board.RotationPosition;
 import soc.common.board.chits.Chit;
@@ -17,6 +16,7 @@ import soc.common.board.hexes.SeaHex;
 import soc.common.board.hexes.SheepHex;
 import soc.common.board.hexes.TimberHex;
 import soc.common.board.hexes.WheatHex;
+import soc.common.board.layouts.HexGrid;
 import soc.common.board.ports.ClayPort;
 import soc.common.board.ports.OrePort;
 import soc.common.board.ports.RandomPort;

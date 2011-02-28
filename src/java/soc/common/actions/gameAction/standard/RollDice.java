@@ -213,7 +213,7 @@ public class RollDice extends AbstractTurnAction
             List<Hex> rolledHexes = new ArrayList<Hex>();
             for (Hex hex : game.getBoard().getHexes())
             {
-                if (hex.hasResource() && hex.hasChit()
+                if (hex.canHaveResource() && hex.getChit() != null
                         && hex.getChit().getNumber() == dice.getDiceTotal())
                     rolledHexes.add(hex);
             }

@@ -133,7 +133,7 @@ public class VolcanoHex extends ResourceHex
     }
 
     @Override
-    public boolean hasResource()
+    public boolean canHaveResource()
     {
         return true;
     }

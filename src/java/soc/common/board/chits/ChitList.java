@@ -113,10 +113,8 @@ public class ChitList extends ArrayList<Chit>
         int result = 0;
 
         for (Chit chit : this)
-        {
             if (chit.getNumber() == number)
                 result++;
-        }
 
         return result;
     }

@@ -2,12 +2,12 @@ package soc.common.game.developmentCards.standard;
 
 import soc.common.board.resources.ResourceList;
 import soc.common.game.Game;
-import soc.common.game.developmentCards.DevelopmentCard;
+import soc.common.game.developmentCards.AbstractDevelopmentCard;
 import soc.common.game.player.GamePlayer;
 import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidget;
 import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidgetFactory;
 
-public class YearOfPlenty extends DevelopmentCard
+public class YearOfPlenty extends AbstractDevelopmentCard
 {
     private static final long serialVersionUID = 8598985603470688487L;
     // actual picked resources by player

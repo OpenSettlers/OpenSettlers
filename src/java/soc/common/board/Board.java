@@ -5,6 +5,8 @@ import java.io.Serializable;
 import soc.common.board.hexes.AbstractHex;
 import soc.common.board.hexes.Hex;
 import soc.common.board.hexes.SeaHex;
+import soc.common.board.layouts.HexGrid;
+import soc.common.board.layouts.HexLayout;
 import soc.common.board.ports.Port;
 import soc.common.board.ports.PortList;
 import soc.common.board.ports.PossiblePort;
@@ -183,7 +185,7 @@ public class Board implements Serializable
             landHexLocation = hex2;
             seaHexLocation = hex1;
         }
-        if (seaHexLocation != null && seaHexLocation.hasPort())
+        if (seaHexLocation != null && seaHexLocation.canHavePort())
         {
             // A port found, invalid spot
             return false;
@@ -244,7 +246,7 @@ public class Board implements Serializable
     /**
      * @return the hexes
      */
-    public HexGrid getHexes()
+    public HexLayout getHexes()
     {
         return hexes;
     }

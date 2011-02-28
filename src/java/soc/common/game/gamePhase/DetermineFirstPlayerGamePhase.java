@@ -39,10 +39,8 @@ public class DetermineFirstPlayerGamePhase extends AbstractGamePhase
         int result = 2;
 
         for (RollDice rollDice : rolledDices)
-        {
             if (rollDice.getDice().getDiceTotal() > result)
                 result = rollDice.getDice().getDiceTotal();
-        }
 
         return result;
     }

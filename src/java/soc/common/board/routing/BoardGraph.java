@@ -16,6 +16,7 @@ import soc.common.board.hexes.Hex;
 import soc.common.board.pieces.City;
 import soc.common.board.pieces.Road;
 import soc.common.board.pieces.Town;
+import soc.common.board.pieces.abstractPieces.PointPiece;
 import soc.common.board.routing.longestRoadStrategies.LongestRoadStrategy;
 import soc.common.board.routing.longestRoadStrategies.ReduceStrategy;
 import soc.common.game.Game;
@@ -259,10 +260,10 @@ public class BoardGraph
     public Set<GraphSide> getRoadCandidatesFirstTown(GamePlayer player)
     {
         // Assuming the player has built only one piece, which is his first town
-        Town town = (Town) player.getTowns().get(0);
+        PointPiece first = player.getPointPieces().get(0);
 
         // Grab the GraphPoint where the town resides
-        GraphPoint townPoint = findGraphPoint(town.getPoint());
+        GraphPoint townPoint = findGraphPoint(first.getPoint());
 
         // We assume it's safe to return all edges, because an opponent can't
         // build on a neighbour, since the opponent needs two roads for that.
@@ -274,17 +275,21 @@ public class BoardGraph
      */
     public Set<GraphSide> getRoadCandidatesSecondTown(GamePlayer player)
     {
+        Set<GraphSide> candidates = new HashSet<GraphSide>();
         // Assuming the player has built two pieces, and the second one in the
         // list of pieces is indeed the actual second built piece.
         // TODO: add support for Tournament Starting Rules
-        Town town = (Town) player.getTowns().get(1);
+        PointPiece second = player.getPointPieces().get(1);
 
         // Grab the GraphPoint where the town resides
-        GraphPoint townPoint = findGraphPoint(town.getPoint());
+        GraphPoint townPoint = findGraphPoint(second.getPoint());
+        for (GraphSide side : graph.edgesOf(townPoint))
+            if (board.isBuildableLand(side.getSide()))
+                candidates.add(side);
 
         // We assume it's safe to return all edges, because an opponent can't
         // build on a neighbour, since the opponent needs two roads for that.
-        return graph.edgesOf(townPoint);
+        return candidates;
     }
 
     /*

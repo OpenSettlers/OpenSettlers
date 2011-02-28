@@ -2,6 +2,7 @@ package soc.common.actions.gameAction.standard;
 
 import soc.common.actions.gameAction.turns.AbstractTurnAction;
 import soc.common.game.Game;
+import soc.common.game.developmentCards.AbstractDevelopmentCard;
 import soc.common.game.developmentCards.DevelopmentCard;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
@@ -69,7 +70,7 @@ public class PlayDevelopmentCard extends AbstractTurnAction
             return null;
         }
     };
-    private DevelopmentCard developmentCard;
+    private AbstractDevelopmentCard developmentCard;
 
     /**
      * @return the development card
@@ -84,7 +85,7 @@ public class PlayDevelopmentCard extends AbstractTurnAction
      *            the development card to set
      */
     public PlayDevelopmentCard setDevelopmentcard(
-            DevelopmentCard developmentcard)
+            AbstractDevelopmentCard developmentcard)
     {
         this.developmentCard = developmentcard;
         return this;

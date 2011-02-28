@@ -201,7 +201,7 @@ public class SeaHex extends AbstractHex
     }
 
     @Override
-    public boolean hasResource()
+    public boolean canHaveResource()
     {
         return false;
     }
@@ -234,7 +234,7 @@ public class SeaHex extends AbstractHex
      * @see soc.common.board.hexes.AbstractHex#hasPort()
      */
     @Override
-    public boolean hasPort()
+    public boolean canHavePort()
     {
         return port != null;
     }

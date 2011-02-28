@@ -118,7 +118,7 @@ public abstract class ResourceHex extends AbstractHex
     }
 
     @Override
-    public boolean hasResource()
+    public boolean canHaveResource()
     {
         return true;
     }
