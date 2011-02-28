@@ -2,12 +2,13 @@ package soc.common.game.developmentCards;
 
 import com.google.gwt.event.shared.GwtEvent;
 
-public class DevelopmentCardsChangedEvent extends GwtEvent<DevelopmentCardsChangedEventHandler>
+public class DevelopmentCardsChangedEvent extends
+        GwtEvent<DevelopmentCardsChangedEventHandler>
 {
     public static Type<DevelopmentCardsChangedEventHandler> TYPE = new Type<DevelopmentCardsChangedEventHandler>();
     private DevelopmentCard removedCard;
-    private AbstractDevelopmentCard addedCard;
-    
+    private DevelopmentCard addedCard;
+
     /**
      * @return the removedCard
      */
@@ -19,12 +20,12 @@ public class DevelopmentCardsChangedEvent extends GwtEvent<DevelopmentCardsChang
     /**
      * @return the addedCard
      */
-    public AbstractDevelopmentCard getAddedCard()
+    public DevelopmentCard getAddedCard()
     {
         return addedCard;
     }
 
-    public DevelopmentCardsChangedEvent(AbstractDevelopmentCard addedCard,
+    public DevelopmentCardsChangedEvent(DevelopmentCard addedCard,
             DevelopmentCard removedCard)
     {
         super();

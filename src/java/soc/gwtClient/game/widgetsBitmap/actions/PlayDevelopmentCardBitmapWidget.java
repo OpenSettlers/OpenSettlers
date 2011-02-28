@@ -2,7 +2,7 @@ package soc.gwtClient.game.widgetsBitmap.actions;
 
 import java.util.HashMap;
 
-import soc.common.game.developmentCards.AbstractDevelopmentCard;
+import soc.common.game.developmentCards.DevelopmentCard;
 import soc.common.game.developmentCards.DevelopmentCardsChangedEvent;
 import soc.common.game.developmentCards.DevelopmentCardsChangedEventHandler;
 import soc.common.game.player.GamePlayer;
@@ -38,7 +38,7 @@ public class PlayDevelopmentCardBitmapWidget implements
     protected Label lblAmountDvelopmentCards = new Label();
     protected boolean isMenubarShown = false;
     protected DevelopmentCardWidgetFactory devCardWidgetFactory;
-    protected HashMap<AbstractDevelopmentCard, DevelopmentCardWidget> devCardsWidgets = new HashMap<AbstractDevelopmentCard, DevelopmentCardWidget>();
+    protected HashMap<DevelopmentCard, DevelopmentCardWidget> devCardsWidgets = new HashMap<DevelopmentCard, DevelopmentCardWidget>();
 
     public PlayDevelopmentCardBitmapWidget(GamePlayer player,
             GameWidget gameWidget)
@@ -54,7 +54,7 @@ public class PlayDevelopmentCardBitmapWidget implements
 
         menuBar.add(verticalPanel);
 
-        for (AbstractDevelopmentCard devCard : player.getDevelopmentCards())
+        for (DevelopmentCard devCard : player.getDevelopmentCards())
         {
             DevelopmentCardWidget devCardWidget = devCard
                     .createPlayCardWidget(devCardWidgetFactory);
