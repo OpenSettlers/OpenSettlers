@@ -195,7 +195,7 @@ public abstract class AbstractBoardVisual extends AbstractPieceVisual implements
 
     protected void calculateHexSizes()
     {
-        // TODO: come up with descriptive name for h
+        // TODO: come up with descriptive name for "h"
         h = Math.sin(degreesToRadians(30)) * sideLength;
         halfWidth = Math.cos(degreesToRadians(30)) * sideLength;
         height = sideLength + (2 * h);

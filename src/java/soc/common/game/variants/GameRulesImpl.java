@@ -20,6 +20,8 @@ import soc.common.game.Game;
 import soc.common.game.developmentCards.DevelopmentCardList;
 import soc.common.game.dices.Dice;
 import soc.common.game.gamePhase.GamePhase;
+import soc.common.game.gamePhase.setupStrategies.InitialPlacementStrategy;
+import soc.common.game.gamePhase.setupStrategies.TwoTowns;
 import soc.common.game.player.GamePlayer;
 
 public class GameRulesImpl implements GameRules
@@ -56,6 +58,8 @@ public class GameRulesImpl implements GameRules
 
     // State of last rolled dice
     private Dice diceType;
+
+    private InitialPlacementStrategy placementStrategy = new TwoTowns();
 
     public GameRulesImpl(Game game)
     {
@@ -423,6 +427,20 @@ public class GameRulesImpl implements GameRules
     public List<GamePhase> getSupportedPhases()
     {
         return supportedGamePhases;
+    }
+
+    @Override
+    public InitialPlacementStrategy getInitialPlacementStrategy()
+    {
+        return placementStrategy;
+    }
+
+    @Override
+    public GameRules setInitialPlacementStrategy(
+            InitialPlacementStrategy strategy)
+    {
+        this.placementStrategy = strategy;
+        return this;
     }
 
 }

@@ -3,7 +3,6 @@ package soc.common.actions.gameAction.standard;
 import soc.common.actions.gameAction.turns.AbstractTurnAction;
 import soc.common.board.resources.ResourceList;
 import soc.common.game.Game;
-import soc.common.game.developmentCards.AbstractDevelopmentCard;
 import soc.common.game.developmentCards.DevelopmentCard;
 import soc.common.game.gamePhase.GamePhase;
 import soc.common.game.gamePhase.turnPhase.TurnPhase;
@@ -74,7 +73,7 @@ public class BuyDevelopmentCard extends AbstractTurnAction
         }
     };
     private ResourceList resources;
-    private AbstractDevelopmentCard devCard;
+    private DevelopmentCard devCard;
 
     /**
      * @return the devCard
@@ -88,7 +87,7 @@ public class BuyDevelopmentCard extends AbstractTurnAction
      * @param devCard
      *            the devCard to set
      */
-    public BuyDevelopmentCard setDevCard(AbstractDevelopmentCard devCard)
+    public BuyDevelopmentCard setDevCard(DevelopmentCard devCard)
     {
         this.devCard = devCard;
 
@@ -146,9 +145,6 @@ public class BuyDevelopmentCard extends AbstractTurnAction
             invalidMessage = "Player needs three resources to buy a development card";
             return false;
         }
-
-        // TODO: check if resources are valid
-        // if (resources.ofType(Diamond.class) > 2) return true;
 
         GamePlayer player = game.getPlayerByID(sender);
 

@@ -3,8 +3,8 @@ package soc.common.game.gamePhase;
 import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.turns.GamePhaseHasEnded;
 import soc.common.game.Game;
-import soc.common.game.gamePhase.placementStrategies.TwoTowns;
-import soc.common.game.gamePhase.placementStrategies.InitialPlacementStrategy;
+import soc.common.game.gamePhase.setupStrategies.InitialPlacementStrategy;
+import soc.common.game.gamePhase.setupStrategies.TwoTowns;
 import soc.common.views.widgetsInterface.main.GamePhaseStatusWidget;
 import soc.common.views.widgetsInterface.main.GamePhaseStatusWidgetFactory;
 
@@ -12,6 +12,18 @@ public class InitialPlacementGamePhase extends AbstractGamePhase
 {
     private static final long serialVersionUID = -7144215557160903240L;
     private InitialPlacementStrategy placementStrategy = new TwoTowns();
+
+    /*
+     * Empty default constructor
+     */
+    public InitialPlacementGamePhase()
+    {
+    }
+
+    public InitialPlacementGamePhase(InitialPlacementStrategy strategy)
+    {
+        this.placementStrategy = strategy;
+    }
 
     @Override
     public void start(Game game)

@@ -14,6 +14,7 @@ import soc.common.game.Game;
 import soc.common.game.developmentCards.DevelopmentCardList;
 import soc.common.game.dices.Dice;
 import soc.common.game.gamePhase.GamePhase;
+import soc.common.game.gamePhase.setupStrategies.InitialPlacementStrategy;
 
 /*
  * Abstracted properties for game {@see IRuleSet} to modify
@@ -104,4 +105,9 @@ public interface GameRules extends Serializable
     public PortList getSupportedPorts();
 
     public List<GamePhase> getSupportedPhases();
+
+    public InitialPlacementStrategy getInitialPlacementStrategy();
+
+    public GameRules setInitialPlacementStrategy(
+            InitialPlacementStrategy strategy);
 }

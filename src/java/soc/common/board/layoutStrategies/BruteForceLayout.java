@@ -129,7 +129,7 @@ public class BruteForceLayout extends AbstractLayoutStrategy
             for (HexLocation neighbourLocation : neighbours)
             {
                 Hex neighbour = board.getHexes().get(neighbourLocation);
-                if (neighbour.canHaveResource() && neighbour.hasChit())
+                if (neighbour.canHaveResource() && neighbour.getChit() != null)
                 {
                     if (neighbour.getChit().getNumber() == neighbour.getChit()
                             .getNumber())

@@ -7,10 +7,6 @@ import soc.common.game.Game;
 
 public class RollDiceTurnPhase extends AbstractTurnPhase
 {
-
-    /**
-     * 
-     */
     private static final long serialVersionUID = 707404714054630828L;
 
     /*

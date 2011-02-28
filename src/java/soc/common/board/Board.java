@@ -127,9 +127,7 @@ public class Board implements Serializable
 
         // loop through new sized matrix.
         for (int h = 0; h < newHeight; h++)
-        {
             for (int w = 0; w < newWidth; w++)
-            {
                 // when width or height is bigger then original, add hexes
                 if (w >= hexes.getWidth() || h >= hexes.getHeight())
                 {
@@ -163,8 +161,6 @@ public class Board implements Serializable
                     newboard.set(w, h, hexes.get(w, h).copy());
                 }
 
-            }
-        }
         hexes = newboard;
     }
 
@@ -223,13 +219,9 @@ public class Board implements Serializable
 
             // The location must be exist on the board
             if (!hexes.isValid(land))
-            {
                 // A port is placeable when the land location is actual land
                 if (this.hexes.get(land).isBuildableLand())
-                {
                     result.add(possibility);
-                }
-            }
         }
 
         return result;
@@ -362,13 +354,9 @@ public class Board implements Serializable
 
         // Hex should be able to build either sea or land on
         for (HexLocation neighbour : point.getHexLocations())
-        {
             if (hexes.get(neighbour).isBuildableLand()
                     && hexes.get(neighbour).isBuildableSea())
-            {
                 return false;
-            }
-        }
 
         return true;
     }
@@ -388,6 +376,7 @@ public class Board implements Serializable
         Hex hex1 = hexes.get(possibleCandidate.getPoint().getHex1());
         Hex hex2 = hexes.get(possibleCandidate.getPoint().getHex2());
         Hex hex3 = hexes.get(possibleCandidate.getPoint().getHex3());
+
         if (!hex1.isBuildableLand() && !hex2.isBuildableLand()
                 && !hex3.isBuildableLand())
             return false;
@@ -401,8 +390,11 @@ public class Board implements Serializable
      */
     public boolean isRoadBuildable(GraphSide neighbour)
     {
+        // Grab both hexes
         Hex hex1 = hexes.get(neighbour.getSide().getHex1());
         Hex hex2 = hexes.get(neighbour.getSide().getHex2());
+
+        // Return true when either hex is capable of hosting land side pieces
         return hex1.isBuildableLand() || hex2.isBuildableLand();
     }
 }

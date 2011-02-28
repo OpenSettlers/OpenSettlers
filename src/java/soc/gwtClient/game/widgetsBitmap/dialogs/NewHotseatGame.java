@@ -14,16 +14,15 @@ import soc.common.views.widgetsInterface.generic.BoardChangedEventHandler;
 import soc.common.views.widgetsInterface.generic.BoardPicker;
 import soc.common.views.widgetsInterface.generic.LimitedColorPicker;
 import soc.gwtClient.game.widgetsBitmap.generic.BoardPickerBitmapWidget;
-import soc.gwtClient.game.widgetsBitmap.generic.ColorCell;
 import soc.gwtClient.game.widgetsBitmap.generic.LimitedColorPickerBitmapWidget;
+import soc.gwtClient.game.widgetsBitmap.generic.PlayerListWidget;
+import soc.gwtClient.game.widgetsBitmap.generic.PlayerListWidgetImpl;
+import soc.gwtClient.game.widgetsBitmap.generic.PlayersChangedEvent;
+import soc.gwtClient.game.widgetsBitmap.generic.PlayersChangedEventHandler;
 import soc.gwtClient.game.widgetsBitmap.generic.LimitedColorPickerBitmapWidget.OnColorChanged;
 import soc.gwtClient.images.Resources;
 import soc.gwtClient.main.MainWindow;
 
-import com.google.gwt.cell.client.ButtonCell;
-import com.google.gwt.cell.client.FieldUpdater;
-import com.google.gwt.cell.client.ImageResourceCell;
-import com.google.gwt.cell.client.NumberCell;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -31,10 +30,7 @@ import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.cellview.client.CellTable;
-import com.google.gwt.user.cellview.client.Column;
-import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -46,21 +42,20 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.view.client.ListDataProvider;
 
 public class NewHotseatGame extends Composite implements OnColorChanged,
-        BoardChangedEventHandler
+        BoardChangedEventHandler, PlayersChangedEventHandler
 {
     private Game newGame = new Game();
-    private ListDataProvider<GamePlayer> playerProvider = new ListDataProvider<GamePlayer>();
     private int userID = 0;
     private TextBox textboxPlayerName;
     private Button buttonAddPlayer;
-    private Label lblSelectedBoard;
     private Button buttonStartGame;
     private MainWindow mainWindow;
     private LimitedColorPicker limitedColorPicker = new LimitedColorPickerBitmapWidget();
     private BoardPicker boardPicker = new BoardPickerBitmapWidget();
+    private PlayerListWidget playerListWidget = new PlayerListWidgetImpl();
+    private Label lblSelectedBoard;
 
     /**
      * @wbp.parser.constructor
@@ -72,61 +67,55 @@ public class NewHotseatGame extends Composite implements OnColorChanged,
         initWidget(scrollPanel);
         scrollPanel.setSize("100%", "100%");
 
-        VerticalPanel verticalPanel_3 = new VerticalPanel();
-        scrollPanel.setWidget(verticalPanel_3);
-        verticalPanel_3.setSize("100%", "100%");
+        VerticalPanel panelRoot = new VerticalPanel();
+        scrollPanel.setWidget(panelRoot);
+        panelRoot.setSize("100%", "100%");
 
-        HorizontalPanel horizontalPanel = new HorizontalPanel();
-        verticalPanel_3.add(horizontalPanel);
+        HorizontalPanel panelTitle = new HorizontalPanel();
+        panelRoot.add(panelTitle);
 
         Label lblNewHotseatGame = new Label("New hotseat game");
         lblNewHotseatGame.setStyleName("label-title");
-        horizontalPanel.add(lblNewHotseatGame);
+        panelTitle.add(lblNewHotseatGame);
 
-        VerticalPanel verticalPanel_2 = new VerticalPanel();
-        verticalPanel_3.add(verticalPanel_2);
-        verticalPanel_2.setSpacing(5);
-        verticalPanel_2.setWidth("100%");
+        VerticalPanel panelBoards = new VerticalPanel();
+        panelRoot.add(panelBoards);
+        panelBoards.setSpacing(5);
+        panelBoards.setWidth("100%");
 
-        HorizontalPanel horizontalPanel_5 = new HorizontalPanel();
-        horizontalPanel_5
-                .setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-        verticalPanel_2.add(horizontalPanel_5);
+        HorizontalPanel panelBoardTitle = new HorizontalPanel();
+        panelBoardTitle.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+        panelBoards.add(panelBoardTitle);
 
         Label lblBoard = new Label("Board ");
-        horizontalPanel_5.add(lblBoard);
+        panelBoardTitle.add(lblBoard);
         lblBoard.setStyleName("header-label");
 
-        lblSelectedBoard = new Label("[none selected]");
-        horizontalPanel_5.add(lblSelectedBoard);
+        HorizontalPanel panelAddPlayer = new HorizontalPanel();
+        panelAddPlayer.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+        panelAddPlayer.setSpacing(5);
 
-        verticalPanel_3.add(boardPicker);
+        lblSelectedBoard = new Label("[none selected]");
+        panelBoardTitle.add(lblSelectedBoard);
+
+        panelRoot.add(boardPicker);
 
         VerticalPanel verticalPanel_4 = new VerticalPanel();
-        verticalPanel_2.add(verticalPanel_4);
+        panelBoards.add(verticalPanel_4);
 
         HorizontalPanel horizontalPanel_1 = new HorizontalPanel();
-        verticalPanel_3.add(horizontalPanel_1);
+        panelRoot.add(horizontalPanel_1);
 
-        VerticalPanel verticalPanel_1 = new VerticalPanel();
-        verticalPanel_1.setSpacing(5);
-        horizontalPanel_1.add(verticalPanel_1);
-        verticalPanel_1.setWidth("100%");
+        VerticalPanel panelPlayersTitle = new VerticalPanel();
+        panelPlayersTitle.setSpacing(5);
+        horizontalPanel_1.add(panelPlayersTitle);
+        panelPlayersTitle.setWidth("100%");
 
         Label lblPlayers = new Label("Players");
         lblPlayers.setStyleName("header-label");
-        verticalPanel_1.add(lblPlayers);
+        panelPlayersTitle.add(lblPlayers);
 
-        VerticalPanel verticalPanel = new VerticalPanel();
-        verticalPanel.setStyleName("common-panel");
-        verticalPanel_1.add(verticalPanel);
-        verticalPanel.setWidth("100%");
-
-        HorizontalPanel horizontalPanel_2 = new HorizontalPanel();
-        horizontalPanel_2
-                .setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-        verticalPanel.add(horizontalPanel_2);
-        horizontalPanel_2.setSpacing(5);
+        // panelPlayersTitle.add(verticalPanel);
 
         textboxPlayerName = new TextBox();
         textboxPlayerName.setText("Myself");
@@ -149,10 +138,11 @@ public class NewHotseatGame extends Composite implements OnColorChanged,
                     canAddPlayer();
             }
         });
+        VerticalPanel playersPanel = new VerticalPanel();
 
         Image image = new Image(Resources.icons().playerMedium());
-        horizontalPanel_2.add(image);
-        horizontalPanel_2.add(textboxPlayerName);
+        panelAddPlayer.add(image);
+        panelAddPlayer.add(textboxPlayerName);
 
         buttonAddPlayer = new Button("New button");
         buttonAddPlayer.setEnabled(false);
@@ -165,26 +155,24 @@ public class NewHotseatGame extends Composite implements OnColorChanged,
             }
         });
 
-        horizontalPanel_2.add(limitedColorPicker);
+        panelAddPlayer.add(limitedColorPicker);
 
         buttonAddPlayer.setText("add player");
-        horizontalPanel_2.add(buttonAddPlayer);
+        panelAddPlayer.add(buttonAddPlayer);
 
-        HorizontalPanel horizontalPanel_4 = new HorizontalPanel();
-        horizontalPanel_4
-                .setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-        verticalPanel.add(horizontalPanel_4);
-        horizontalPanel_4.setSpacing(5);
+        HorizontalPanel panelAddBot = new HorizontalPanel();
+        panelAddBot.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+        panelAddBot.setSpacing(5);
 
-        Image image_1 = new Image(Resources.icons().botMedium());
-        horizontalPanel_4.add(image_1);
+        Image imageBot = new Image(Resources.icons().botMedium());
+        panelAddBot.add(imageBot);
 
         final ListBox comboBox = new ListBox();
-        horizontalPanel_4.add(comboBox);
+        panelAddBot.add(comboBox);
         comboBox.setWidth("201px");
 
-        Button button_1 = new Button("New button");
-        button_1.addClickHandler(new ClickHandler()
+        Button buttonAddBot = new Button("add bot");
+        buttonAddBot.addClickHandler(new ClickHandler()
         {
             public void onClick(ClickEvent event)
             {
@@ -193,94 +181,16 @@ public class NewHotseatGame extends Composite implements OnColorChanged,
             }
 
         });
-        horizontalPanel_4.add(button_1);
-        button_1.setText("add bot");
+        panelAddBot.add(buttonAddBot);
+
+        playersPanel.add(panelAddBot);
+        playersPanel.add(panelAddPlayer);
 
         CellTable<GamePlayer> celltablePlayers = new CellTable<GamePlayer>(8);
         celltablePlayers.setFocus(false);
-        verticalPanel.add(celltablePlayers);
-
-        Column<GamePlayer, ?> columnID = new Column<GamePlayer, Number>(
-                new NumberCell())
-        {
-            @Override
-            public Number getValue(GamePlayer object)
-            {
-                return object.getUser().getId();
-            }
-        };
-        celltablePlayers.addColumn(columnID, "Id");
-
-        Column<GamePlayer, ImageResource> columnBotHuman = new Column<GamePlayer, ImageResource>(
-                new ImageResourceCell())
-        {
-            @Override
-            public ImageResource getValue(GamePlayer object)
-            {
-                return object.getBot() == null ? Resources.icons()
-                        .playerSmall() : Resources.icons().botSmall();
-            }
-        };
-        celltablePlayers.addColumn(columnBotHuman, "Bot/Human");
-
-        TextColumn columnPlayerType = new TextColumn<GamePlayer>()
-        {
-            @Override
-            public String getValue(GamePlayer object)
-            {
-                return object.getBot() == null ? "Human" : ClassUtils
-                        .getSimpleClassName(object.getBot().getClass()
-                                .getName());
-            }
-        };
-        celltablePlayers.addColumn(columnPlayerType, "Type");
-
-        Column<GamePlayer, String> colorColumn = new Column<GamePlayer, String>(
-                new ColorCell())
-        {
-            @Override
-            public String getValue(GamePlayer object)
-            {
-                return object.getColor();
-            }
-        };
-        celltablePlayers.addColumn(colorColumn, "Color");
-
-        TextColumn columnName = new TextColumn<GamePlayer>()
-        {
-            @Override
-            public String getValue(GamePlayer object)
-            {
-                return object.getUser().getName();
-            }
-        };
-        celltablePlayers.addColumn(columnName, "Name");
-
-        Column<GamePlayer, String> columnRemove = new Column<GamePlayer, String>(
-                new ButtonCell())
-        {
-            @Override
-            public String getValue(GamePlayer object)
-            {
-                return "Remove";
-            }
-        };
-
-        columnRemove.setFieldUpdater(new FieldUpdater<GamePlayer, String>()
-        {
-            @Override
-            public void update(int index, GamePlayer object, String value)
-            {
-                removePlayer(object);
-            }
-        });
-        celltablePlayers.addColumn(columnRemove, "Remove");
-        celltablePlayers.setSize("100%", "20em");
-
-        playerProvider.addDataDisplay(celltablePlayers);
 
         HorizontalPanel panelOkCancel = new HorizontalPanel();
-        verticalPanel_3.add(panelOkCancel);
+        panelRoot.add(panelOkCancel);
         panelOkCancel.setWidth("100%");
         panelOkCancel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
         panelOkCancel.setSpacing(10);
@@ -310,6 +220,8 @@ public class NewHotseatGame extends Composite implements OnColorChanged,
 
         for (Class bot : GameUtils.getAllBots())
             comboBox.addItem(ClassUtils.getSimpleClassName(bot.getName()));
+
+        playerListWidget.addPlayersChangedEventHandler(this);
     }
 
     public NewHotseatGame(MainWindow mainWindow)
@@ -327,18 +239,10 @@ public class NewHotseatGame extends Composite implements OnColorChanged,
         user.setName(textboxPlayerName.getText());
         user.setId(userID);
         newPlayer.setUser(user);
-        playerProvider.getList().add(newPlayer);
+        playerListWidget.addPlayer(newPlayer);
 
         limitedColorPicker.setCurrentSelectedColorDisabled();
         limitedColorPicker.selectNextColorIfAvailable();
-        updateUI();
-    }
-
-    private void removePlayer(GamePlayer playerToRemove)
-    {
-        limitedColorPicker.enableColor(playerToRemove.getColor());
-        playerProvider.getList().remove(playerToRemove);
-
         updateUI();
     }
 
@@ -346,8 +250,8 @@ public class NewHotseatGame extends Composite implements OnColorChanged,
     {
         return boardPicker.hasBoardSelected()
                 && boardPicker.getSelectedBoard().getBoardSettings()
-                        .getAmountPlayers().getAmountPlayers() > playerProvider
-                        .getList().size();
+                        .getAmountPlayers().getAmountPlayers() > playerListWidget
+                        .amountPlayers();
     }
 
     private void addBot(Class<? extends Bot> botType)
@@ -361,7 +265,7 @@ public class NewHotseatGame extends Composite implements OnColorChanged,
 
         String color = limitedColorPicker.getAnyAvailableColor();
         newPlayer.setColor(color);
-        playerProvider.getList().add(newPlayer);
+        playerListWidget.addPlayer(newPlayer);
 
         limitedColorPicker.disableColor(color);
         limitedColorPicker.selectNextColorIfAvailable();
@@ -389,7 +293,7 @@ public class NewHotseatGame extends Composite implements OnColorChanged,
     private boolean isUniqueName()
     {
         String name = textboxPlayerName.getText().toLowerCase();
-        for (GamePlayer player : playerProvider.getList())
+        for (GamePlayer player : playerListWidget.getPlayers())
             if (player.getUser().getName().toLowerCase().equals(name))
                 return false;
 
@@ -398,7 +302,7 @@ public class NewHotseatGame extends Composite implements OnColorChanged,
 
     private boolean hasEnoughPlayers()
     {
-        int numPlayers = playerProvider.getList().size();
+        int numPlayers = playerListWidget.amountPlayers();
         Board selectedBoard = boardPicker.getSelectedBoard();
         return selectedBoard.getBoardSettings().getAmountPlayers()
                 .getAmountPlayers() == numPlayers;
@@ -418,7 +322,7 @@ public class NewHotseatGame extends Composite implements OnColorChanged,
     private boolean isSelectedColor()
     {
         String color = limitedColorPicker.getSelectedColor();
-        for (GamePlayer player : playerProvider.getList())
+        for (GamePlayer player : playerListWidget.getPlayers())
             if (player.getColor().toLowerCase().equals(color))
                 return false;
 
@@ -439,7 +343,7 @@ public class NewHotseatGame extends Composite implements OnColorChanged,
     private void startGame()
     {
         newGame.setBoard(boardPicker.getSelectedBoard());
-        for (GamePlayer player : playerProvider.getList())
+        for (GamePlayer player : playerListWidget.getPlayers())
             newGame.getPlayers().add(player);
 
         mainWindow.getHotseatGame().startGame(newGame);
@@ -456,13 +360,19 @@ public class NewHotseatGame extends Composite implements OnColorChanged,
     public void onBoardChanged(BoardChangedEvent event)
     {
         if (event.getNewBoard() != null)
-        {
             lblSelectedBoard.setText(event.getNewBoard().getName());
-        }
         else
-        {
             lblSelectedBoard.setText("[none selected]");
-        }
+
         canAddPlayer();
+    }
+
+    @Override
+    public void onPlayersChanged(PlayersChangedEvent event)
+    {
+        if (event.getPlayerRemoved() != null)
+            limitedColorPicker.enableColor(event.getPlayerRemoved().getColor());
+
+        updateUI();
     }
 }
