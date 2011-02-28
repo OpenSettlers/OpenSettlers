@@ -16,7 +16,6 @@ import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.TextColumn;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.ListDataProvider;
 
@@ -26,7 +25,6 @@ public class PlayerListWidgetImpl extends VerticalPanel implements
     private CellTable<GamePlayer> celltablePlayers = new CellTable<GamePlayer>(
             8);
     private ListDataProvider<GamePlayer> playerProvider = new ListDataProvider<GamePlayer>();
-    private Label lblSelectedBoard;
     private SimpleEventBus eventBus = new SimpleEventBus();
 
     public PlayerListWidgetImpl()

@@ -19,6 +19,8 @@ import soc.common.game.VictoryPointsList;
 import soc.common.game.developmentCards.DevelopmentCardList;
 import soc.common.server.entities.User;
 
+import com.google.gwt.event.shared.HandlerRegistration;
+
 public interface GamePlayer extends Serializable
 {
     public User getUser();
@@ -67,7 +69,7 @@ public interface GamePlayer extends Serializable
 
     public ResourceList getResources();
 
-    public void addRoadTokenChangedEventHandler(
+    public HandlerRegistration addRoadTokenChangedEventHandler(
             RoadTokensChangedEventHandler handler);
 
     public Army getArmy();

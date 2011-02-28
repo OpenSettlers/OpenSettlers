@@ -212,11 +212,10 @@ public class RollDice extends AbstractTurnAction
             // gather all resource hexes without the robber
             List<Hex> rolledHexes = new ArrayList<Hex>();
             for (Hex hex : game.getBoard().getHexes())
-            {
                 if (hex.canHaveResource() && hex.getChit() != null
                         && hex.getChit().getNumber() == dice.getDiceTotal())
                     rolledHexes.add(hex);
-            }
+
             // Iterate over all hexes with resources
             for (Hex hex : rolledHexes)
             {

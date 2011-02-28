@@ -8,6 +8,8 @@ import soc.common.actions.gameAction.standard.RollDice;
 import soc.common.game.Game;
 import soc.common.game.player.GamePlayer;
 
+import com.google.gwt.event.shared.HandlerRegistration;
+
 /*
  * List of GameActions which occurred during a game
  */
@@ -33,6 +35,6 @@ public interface GameLog extends Iterable<GameAction>, Serializable
     /*
      * Adds an actionPerformed event listener to this gamelog
      */
-    public void addActionPerformedEventHandler(
+    public HandlerRegistration addActionPerformedEventHandler(
             ActionPerformedEventHandler handler);
 }

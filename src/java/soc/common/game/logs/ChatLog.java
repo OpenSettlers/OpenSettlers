@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import soc.common.actions.gameAction.meta.GameChat;
 
+import com.google.gwt.event.shared.HandlerRegistration;
+
 public interface ChatLog extends Serializable
 {
     // A player said something
@@ -13,5 +15,5 @@ public interface ChatLog extends Serializable
     public ChatLog copy();
 
     // Ability for listeners to register themselves
-    public void addSaidEventHandler(SaidEventHandler handler);
+    public HandlerRegistration addSaidEventHandler(SaidEventHandler handler);
 }

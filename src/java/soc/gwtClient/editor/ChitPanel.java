@@ -215,4 +215,5 @@ public class ChitPanel extends HorizontalPanel implements HasHandlers
         });
         panel2.add(btnChitNull);
     }
+
 }

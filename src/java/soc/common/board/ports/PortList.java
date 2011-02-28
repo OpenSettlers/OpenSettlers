@@ -8,6 +8,7 @@ import java.util.List;
 import soc.common.board.resources.Resource;
 import soc.common.board.resources.ResourceList;
 
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
 
 public class PortList implements Iterable<Port>, Serializable
@@ -122,10 +123,10 @@ public class PortList implements Iterable<Port>, Serializable
         return ports.iterator();
     }
 
-    public void addPortListChangedEventHandler(
+    public HandlerRegistration addPortListChangedEventHandler(
             PortListChangedEventHandler handler)
     {
-        getEventBus().addHandler(PortListChangedEvent.TYPE, handler);
+        return getEventBus().addHandler(PortListChangedEvent.TYPE, handler);
     }
 
     /*

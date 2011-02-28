@@ -19,6 +19,7 @@ import soc.common.game.developmentCards.AbstractDevelopmentCard;
 import soc.common.game.developmentCards.DevelopmentCardList;
 import soc.common.server.entities.User;
 
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
 
 /*
@@ -364,10 +365,10 @@ public class GamePlayerImpl implements GamePlayer
      * soc.common.game.GamePlayer#addRoadTokenChangedEventHandler(soc.common
      * .game.RoadTokensChangedEventHandler)
      */
-    public void addRoadTokenChangedEventHandler(
+    public HandlerRegistration addRoadTokenChangedEventHandler(
             RoadTokensChangedEventHandler handler)
     {
-        eventBus.addHandler(RoadTokensChangedEvent.TYPE, handler);
+        return eventBus.addHandler(RoadTokensChangedEvent.TYPE, handler);
     }
 
     /*

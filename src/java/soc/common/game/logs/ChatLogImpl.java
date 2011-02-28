@@ -5,6 +5,7 @@ import java.util.List;
 
 import soc.common.actions.gameAction.meta.GameChat;
 
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
 
 public class ChatLogImpl implements ChatLog
@@ -45,9 +46,9 @@ public class ChatLogImpl implements ChatLog
     }
 
     @Override
-    public void addSaidEventHandler(SaidEventHandler handler)
+    public HandlerRegistration addSaidEventHandler(SaidEventHandler handler)
     {
-        getEventBus().addHandler(SaidEvent.TYPE, handler);
+        return getEventBus().addHandler(SaidEvent.TYPE, handler);
     }
 
 }

@@ -10,6 +10,7 @@ import soc.common.actions.gameAction.turns.RolledSame;
 import soc.common.game.Game;
 import soc.common.game.player.GamePlayer;
 
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
 
 public class GameLogImpl implements GameLog
@@ -101,9 +102,9 @@ public class GameLogImpl implements GameLog
     }
 
     @Override
-    public void addActionPerformedEventHandler(
+    public HandlerRegistration addActionPerformedEventHandler(
             ActionPerformedEventHandler handler)
     {
-        getEventBus().addHandler(ActionPerformedEvent.TYPE, handler);
+        return getEventBus().addHandler(ActionPerformedEvent.TYPE, handler);
     }
 }

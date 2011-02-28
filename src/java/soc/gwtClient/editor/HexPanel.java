@@ -24,7 +24,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.HasHandlers;
 import com.google.gwt.event.shared.SimpleEventBus;
-import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PushButton;
@@ -57,11 +56,6 @@ public class HexPanel extends HorizontalPanel implements HasHandlers
             BehaviourChangedHandler handler)
     {
         return eventBus.addHandler(BehaviourChanged.TYPE, handler);
-    }
-
-    public void addActivatedHandler(Event event)
-    {
-
     }
 
     private Hex createDefaultHex(Hex hex)
