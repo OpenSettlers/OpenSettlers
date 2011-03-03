@@ -1,6 +1,6 @@
 package soc.common.views.widgetsInterface.main;
 
-import soc.common.game.gamePhase.GamePhase;
+import soc.common.game.phases.GamePhase;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.IsWidget;

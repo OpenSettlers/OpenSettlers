@@ -2,16 +2,13 @@ package soc.common.game.developmentCards.standard;
 
 import soc.common.game.Game;
 import soc.common.game.developmentCards.AbstractDevelopmentCard;
+import soc.common.game.phases.turnPhase.TurnPhase;
 import soc.common.game.player.GamePlayer;
 import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidget;
 import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidgetFactory;
 
 public class RoadBuilding extends AbstractDevelopmentCard
 {
-
-    /**
-     * 
-     */
     private static final long serialVersionUID = 5867545725527745220L;
 
     /*
@@ -37,6 +34,12 @@ public class RoadBuilding extends AbstractDevelopmentCard
             DevelopmentCardWidgetFactory factory)
     {
         return factory.createRoadBuildingWidget(this);
+    }
+
+    @Override
+    public boolean isAllowed(TurnPhase turnPhase)
+    {
+        return turnPhase.isBuilding();
     }
 
 }

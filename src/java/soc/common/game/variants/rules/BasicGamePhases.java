@@ -1,10 +1,10 @@
 package soc.common.game.variants.rules;
 
-import soc.common.game.gamePhase.DetermineFirstPlayerGamePhase;
-import soc.common.game.gamePhase.EndedGamePhase;
-import soc.common.game.gamePhase.InitialPlacementGamePhase;
-import soc.common.game.gamePhase.LobbyGamePhase;
-import soc.common.game.gamePhase.PlayTurnsGamePhase;
+import soc.common.game.phases.DetermineFirstPlayerGamePhase;
+import soc.common.game.phases.EndedGamePhase;
+import soc.common.game.phases.InitialPlacementGamePhase;
+import soc.common.game.phases.LobbyGamePhase;
+import soc.common.game.phases.PlayTurnsGamePhase;
 import soc.common.game.variants.GameRules;
 
 public class BasicGamePhases implements GameRule

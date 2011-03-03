@@ -50,6 +50,8 @@ public interface Territory extends Serializable
 
     public ChitList getChits();
 
+    public Territory setChits(ChitList chits);
+
     public HexList getHexes();
 
     public Port grabPort(Random random, PortList supportedPorts);

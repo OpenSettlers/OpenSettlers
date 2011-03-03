@@ -2,8 +2,8 @@ package soc.common.actions.gameAction.seaFarers;
 
 import soc.common.actions.gameAction.AbstractGameAction;
 import soc.common.board.ports.Port;
-import soc.common.game.gamePhase.GamePhase;
-import soc.common.game.gamePhase.turnPhase.TurnPhase;
+import soc.common.game.phases.GamePhase;
+import soc.common.game.phases.turnPhase.TurnPhase;
 import soc.common.internationalization.I18n;
 import soc.common.views.behaviour.gameWidget.GameBehaviour;
 import soc.common.views.behaviour.gameWidget.factories.GameBehaviourFactory;
@@ -58,15 +58,13 @@ public class PlacePort extends AbstractGameAction
     @Override
     public boolean isAllowed(TurnPhase turnPhase)
     {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public boolean isAllowed(GamePhase gamePhase)
     {
-        // TODO Auto-generated method stub
-        return false;
+        return gamePhase.isPlacePorts();
     }
 
     @Override
@@ -76,35 +74,40 @@ public class PlacePort extends AbstractGameAction
     }
 
     @Override
-    public ActionWidget createActionWidget(ActionWidgetFactory actionWidgetFactory)
+    public ActionWidget createActionWidget(
+            ActionWidgetFactory actionWidgetFactory)
     {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public GameBehaviour getNextActionBehaviour(GameBehaviourFactory gameBehaviourFactory)
+    public GameBehaviour getNextActionBehaviour(
+            GameBehaviourFactory gameBehaviourFactory)
     {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public ReceiveGameBehaviour getOpponentReceiveBehaviour(ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
+    public ReceiveGameBehaviour getOpponentReceiveBehaviour(
+            ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public ReceiveGameBehaviour getReceiveBehaviour(ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
+    public ReceiveGameBehaviour getReceiveBehaviour(
+            ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public GameBehaviour getSendBehaviour(GameBehaviourFactory gameBehaviourFactory)
+    public GameBehaviour getSendBehaviour(
+            GameBehaviourFactory gameBehaviourFactory)
     {
         // TODO Auto-generated method stub
         return null;

@@ -1,6 +1,7 @@
 package soc.common.game;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import soc.common.actions.Action;
 import soc.common.actions.gameAction.GameAction;
@@ -8,8 +9,6 @@ import soc.common.board.Board;
 import soc.common.board.HexLocation;
 import soc.common.board.hexes.DesertHex;
 import soc.common.board.hexes.Hex;
-import soc.common.board.layoutStrategies.LayoutStrategy;
-import soc.common.board.layoutStrategies.RedsFirstLayout;
 import soc.common.board.pieces.Army;
 import soc.common.board.pieces.LongestRoad;
 import soc.common.board.pieces.Pirate;
@@ -23,18 +22,18 @@ import soc.common.board.resources.ResourceList;
 import soc.common.board.routing.Route;
 import soc.common.game.developmentCards.DevelopmentCardList;
 import soc.common.game.dices.Dice;
-import soc.common.game.gamePhase.GamePhase;
-import soc.common.game.gamePhase.LobbyGamePhase;
-import soc.common.game.gamePhase.PlayTurnsGamePhase;
-import soc.common.game.gamePhase.turnPhase.TurnPhase;
-import soc.common.game.gamePhase.turnPhase.TurnPhaseChangedEvent;
-import soc.common.game.gamePhase.turnPhase.TurnPhaseChangedHandler;
 import soc.common.game.logs.ActionsQueue;
 import soc.common.game.logs.ActionsQueueImpl;
 import soc.common.game.logs.ChatLog;
 import soc.common.game.logs.ChatLogImpl;
 import soc.common.game.logs.GameLog;
 import soc.common.game.logs.GameLogImpl;
+import soc.common.game.phases.GamePhase;
+import soc.common.game.phases.LobbyGamePhase;
+import soc.common.game.phases.PlayTurnsGamePhase;
+import soc.common.game.phases.turnPhase.TurnPhase;
+import soc.common.game.phases.turnPhase.TurnPhaseChangedEvent;
+import soc.common.game.phases.turnPhase.TurnPhaseChangedHandler;
 import soc.common.game.player.GamePlayer;
 import soc.common.game.player.GamePlayerList;
 import soc.common.game.settings.GameSettings;
@@ -62,7 +61,6 @@ public class Game implements Serializable
 
     // Abstracted rules
     private GameRules gameRules;
-    private transient LayoutStrategy layoutStrategy = new RedsFirstLayout();
 
     private GamePlayerList players = new GamePlayerList();
     private UserList spectators = new UserList();
@@ -88,6 +86,8 @@ public class Game implements Serializable
     // Misc properties
     private String name = "New Game";
     private int host;
+    private int id;
+    private Date startedDateTime;
 
     public Game()
     {
@@ -188,7 +188,7 @@ public class Game implements Serializable
     public void start()
     {
         gameRules.setRules(this);
-        layoutStrategy.layoutBoard(this);
+        board.layoutBoard(this);
     }
 
     /*
@@ -277,7 +277,8 @@ public class Game implements Serializable
     }
 
     /*
-     * Calculates longest road and updates LongestRoad if necessary
+     * Calculates longest road and updates LongestRoad if necessary TODO:
+     * implement oldInvalid
      */
     public void calculateLongestRoad()
     {
@@ -341,17 +342,11 @@ public class Game implements Serializable
 
         // Check all opponents
         for (GamePlayer player : players.getOpponents(skipPlayer))
-        {
             // If a PointPiece has given HexLocation contained, add the player
             // to the list of players having a town or city at given HexLocation
             for (PointPiece pointPiece : player.getPointPieces())
-            {
                 if (pointPiece.getPoint().hasLocation(hexLocation))
-                {
                     playersAtHex.add(player);
-                }
-            }
-        }
 
         return playersAtHex;
     }
@@ -522,6 +517,42 @@ public class Game implements Serializable
     public Game setBoard(Board board)
     {
         this.board = board;
+        return this;
+    }
+
+    /**
+     * @return the id
+     */
+    public int getId()
+    {
+        return id;
+    }
+
+    /**
+     * @param id
+     *            the id to set
+     */
+    public Game setId(int id)
+    {
+        this.id = id;
+        return this;
+    }
+
+    /**
+     * @return the startedDateTime
+     */
+    public Date getStartedDateTime()
+    {
+        return startedDateTime;
+    }
+
+    /**
+     * @param startedDateTime
+     *            the startedDateTime to set
+     */
+    public Game setStartedDateTime(Date startedDateTime)
+    {
+        this.startedDateTime = startedDateTime;
         return this;
     }
 

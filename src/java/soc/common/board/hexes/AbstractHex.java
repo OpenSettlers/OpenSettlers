@@ -45,7 +45,7 @@ public abstract class AbstractHex implements Hex
         name = ClassUtils.getSimpleClassName(this.getClass().getName());
     }
 
-    public AbstractHex setLocation(HexLocation hexLocation)
+    public Hex setLocation(HexLocation hexLocation)
     {
         this.hexLocation = hexLocation;
 
@@ -124,12 +124,14 @@ public abstract class AbstractHex implements Hex
         return this;
     }
 
-    public HandlerRegistration addChitChangedEventHandler(ChitChangedEventHandler handler)
+    public HandlerRegistration addChitChangedEventHandler(
+            ChitChangedEventHandler handler)
     {
         return eventBus.addHandler(ChitChangedEvent.TYPE, handler);
     }
 
-    public HandlerRegistration addPortChangedEventHandler(PortChangedEventHandler handler)
+    public HandlerRegistration addPortChangedEventHandler(
+            PortChangedEventHandler handler)
     {
         return eventBus.addHandler(PortChangedEvent.TYPE, handler);
     }

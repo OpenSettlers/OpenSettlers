@@ -22,5 +22,4 @@ public class ReplaceDeserts implements GameSetting
         // TODO Auto-generated method stub
         return null;
     }
-
 }

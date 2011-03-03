@@ -4,6 +4,7 @@ import soc.common.actions.gameAction.standard.PlaceRobber;
 import soc.common.actions.gameAction.standard.RobPlayer;
 import soc.common.game.Game;
 import soc.common.game.developmentCards.AbstractDevelopmentCard;
+import soc.common.game.phases.turnPhase.TurnPhase;
 import soc.common.game.player.GamePlayer;
 import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidget;
 import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidgetFactory;
@@ -63,5 +64,11 @@ public class Soldier extends AbstractDevelopmentCard
             DevelopmentCardWidgetFactory factory)
     {
         return factory.createSoldierWidget(this);
+    }
+
+    @Override
+    public boolean isAllowed(TurnPhase turnPhase)
+    {
+        return turnPhase.isBeforeDiceRoll() || turnPhase.isBuilding();
     }
 }

@@ -7,4 +7,35 @@
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
   </welcome-file-list>
+  
+  
+    <!-- Listener for shutting down the comet processor when the ServletContext is destroyed -->
+  <listener>
+    <listener-class>net.zschech.gwt.comet.server.CometServletContextListener</listener-class>
+  </listener>
+  
+  <!-- Listener for invalidating CometSessions when HTTPSessions are invalidated -->
+  <listener>
+    <listener-class>net.zschech.gwt.comet.server.CometHttpSessionListener</listener-class>
+  </listener>
+ <!-- the RPC service called by the client -->
+  <servlet>
+    <servlet-name>greetService</servlet-name>
+    <servlet-class>soc.gwtServer.GreetingServiceImpl</servlet-class>
+  </servlet>
+
+  <!-- the comet servlet for streaming messages to the client -->
+  <servlet>
+    <servlet-name>chatComet</servlet-name>
+    <servlet-class>net.zschech.gwt.comet.server.CometServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>greetService</servlet-name>
+    <url-pattern>/OpenSettlers/chat</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>chatComet</servlet-name>
+    <url-pattern>/OpenSettlers/comet</url-pattern>
+  </servlet-mapping>
 -</web-app>

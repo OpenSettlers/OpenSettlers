@@ -9,10 +9,17 @@ import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 
 public class StringErrorCell extends AbstractCell<MessageFromServer>
 {
+    //
+    // @Override
+    // public void render(com.google.gwt.cell.client.Cell.Context context,
+    // MessageFromServer value, SafeHtmlBuilder sb)
+    // {
+    // SafeHtml safeValue = SafeHtmlUtils.fromString(value.getServerMessage());
+    // sb.append(safeValue);
+    // }
 
     @Override
-    public void render(com.google.gwt.cell.client.Cell.Context context,
-            MessageFromServer value, SafeHtmlBuilder sb)
+    public void render(MessageFromServer value, Object key, SafeHtmlBuilder sb)
     {
         SafeHtml safeValue = SafeHtmlUtils.fromString(value.getServerMessage());
         sb.append(safeValue);

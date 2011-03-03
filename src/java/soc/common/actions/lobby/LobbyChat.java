@@ -35,6 +35,7 @@ public class LobbyChat extends AbstractLobbyAction
     @Override
     public void perform(Lobby lobby)
     {
-        lobby.say(player, chatMessage);
+        lobby.getLog().addAction(this);
     }
+
 }

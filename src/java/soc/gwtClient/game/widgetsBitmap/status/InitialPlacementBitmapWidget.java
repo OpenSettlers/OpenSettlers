@@ -1,7 +1,7 @@
 package soc.gwtClient.game.widgetsBitmap.status;
 
-import soc.common.game.gamePhase.GamePhase;
-import soc.common.game.gamePhase.InitialPlacementGamePhase;
+import soc.common.game.phases.GamePhase;
+import soc.common.game.phases.InitialPlacementGamePhase;
 import soc.common.views.widgetsInterface.main.GamePhaseStatusWidget;
 import soc.gwtClient.images.Resources;
 

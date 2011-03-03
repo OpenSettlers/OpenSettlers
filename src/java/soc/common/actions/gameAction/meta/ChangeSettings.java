@@ -2,9 +2,9 @@ package soc.common.actions.gameAction.meta;
 
 import soc.common.actions.gameAction.AbstractGameAction;
 import soc.common.game.Game;
-import soc.common.game.gamePhase.GamePhase;
-import soc.common.game.gamePhase.LobbyGamePhase;
-import soc.common.game.gamePhase.turnPhase.TurnPhase;
+import soc.common.game.phases.GamePhase;
+import soc.common.game.phases.LobbyGamePhase;
+import soc.common.game.phases.turnPhase.TurnPhase;
 import soc.common.internationalization.I18n;
 import soc.common.views.behaviour.gameWidget.GameBehaviour;
 import soc.common.views.behaviour.gameWidget.factories.GameBehaviourFactory;

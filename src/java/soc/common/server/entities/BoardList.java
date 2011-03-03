@@ -19,12 +19,8 @@ public class BoardList implements BoardProvider
     public Board getBoardByID(String id)
     {
         for (Board board : boards)
-        {
             if (board.getId().equals(id))
-            {
                 return board;
-            }
-        }
 
         return null;
     }

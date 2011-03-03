@@ -5,8 +5,10 @@ import java.util.List;
 
 import net.zschech.gwt.comet.client.CometListener;
 import soc.common.game.Game;
-import soc.common.game.logs.ChatLog;
+import soc.common.game.UserList;
+import soc.common.server.GameList;
 import soc.common.server.Lobby;
+import soc.common.server.LobbyLog;
 import soc.common.server.entities.Player;
 import soc.gwtClient.main.CenterWidget;
 
@@ -80,52 +82,6 @@ public class GameLobby extends Composite implements Lobby, CometListener,
     }
 
     @Override
-    public void addPlayer(Player player)
-    {
-        players.getList().add(player);
-    }
-
-    @Override
-    public void createGame(Game game)
-    {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public ChatLog getChatLog()
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public List<Game> getGames()
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public List<Player> getPlayers()
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public void removePlayer(Player player)
-    {
-        players.getList().remove(player);
-    }
-
-    @Override
-    public void say(Player player, String chatMessage)
-    {
-
-    }
-
-    @Override
     public void onConnected(int heartbeat)
     {
 
@@ -169,6 +125,27 @@ public class GameLobby extends Composite implements Lobby, CometListener,
     public Widget getRootWidget()
     {
         return this;
+    }
+
+    @Override
+    public UserList getUsers()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public LobbyLog getLog()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public GameList getGames()
+    {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

@@ -1,6 +1,6 @@
 package soc.common.game;
 
-import soc.common.game.gamePhase.turnPhase.TurnPhase;
+import soc.common.game.phases.turnPhase.TurnPhase;
 import soc.common.game.player.GamePlayer;
 import soc.common.game.trading.TradeOfferList;
 

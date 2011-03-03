@@ -11,7 +11,7 @@ import soc.common.actions.gameAction.standard.LooseCards;
 import soc.common.actions.gameAction.standard.PlaceRobber;
 import soc.common.actions.gameAction.standard.RobPlayer;
 import soc.common.actions.gameAction.standard.RollDice;
-import soc.common.actions.gameAction.turns.QueuedTradeResponse;
+import soc.common.actions.gameAction.trading.QueuedTradeResponse;
 import soc.common.game.player.GamePlayer;
 import soc.common.server.GameServer;
 

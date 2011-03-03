@@ -68,9 +68,6 @@ public interface Hex extends HasMeta, HasLocation
      */
     public Hex copy();
 
-    public HandlerRegistration addTerritoryChangedEventHandler(
-            TerritoryChangedEventHandler handler);
-
     /*
      * Returns true when this hex produces resource(s)
      */
@@ -113,4 +110,7 @@ public interface Hex extends HasMeta, HasLocation
 
     public HandlerRegistration addPortChangedEventHandler(
             PortChangedEventHandler handler);
+
+    public HandlerRegistration addTerritoryChangedEventHandler(
+            TerritoryChangedEventHandler handler);
 }

@@ -25,7 +25,7 @@ import soc.common.board.routing.GraphPoint;
 import soc.common.board.routing.GraphSide;
 import soc.common.bots.strategies.naming.IdioticNames;
 import soc.common.game.Game;
-import soc.common.game.gamePhase.turnPhase.TurnPhase;
+import soc.common.game.phases.turnPhase.TurnPhase;
 import soc.common.game.player.GamePlayer;
 import soc.common.game.player.GamePlayerList;
 import soc.common.game.trading.TradeResponse;

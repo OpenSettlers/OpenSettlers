@@ -10,11 +10,13 @@
 
   <inherits name='soc.common.OsCommon' />
   <inherits name='org.vaadin.gwtgraphics.GWTGraphics' />
-  <inherits name='net.zschech.gwt.comet.Comet' />
+<!--   <inherits name='net.zschech.gwt.comet.Comet' /> -->
   <inherits name='org.adamtacy.GWTEffects' />
+  <inherits name="com.google.gwt.rpc.RPC" />
   
-  <entry-point class='soc.gwtClient.main.MainWindow'/>
-
+  <!-- <entry-point class='soc.gwtClient.lobby.'/>-->
+  <entry-point class='soc.gwtClient.lobby.OpenSettlersWebsite'/>
+    <servlet class="soc.gwtServer.GreetingServiceImpl" path="/chat"/>
   <source path='game'/>
   <source path='main'/>
   <source path='images'/>

@@ -29,7 +29,6 @@ public class RedsFirstLayout implements LayoutStrategy
     {
         Board board = game.getBoard();
         for (Territory territory : game.getBoard().getTerritories())
-        {
             // Only mainland is supported for now
             if (territory.isMainland())
             {
@@ -43,7 +42,6 @@ public class RedsFirstLayout implements LayoutStrategy
                 replaceRandomHexes(board, randomHexes, territory);
                 layoutChits(board, territory);
             }
-        }
     }
 
     /*
@@ -79,8 +77,8 @@ public class RedsFirstLayout implements LayoutStrategy
                         // There are spots left where chit does not
                         // neighbour another chit with the same probablity of
                         // being rolled
-                        hex = allowedHexes.get(random.nextInt(allowedHexes
-                                .size(), false));
+                        hex = allowedHexes.get(random.nextInt(
+                                allowedHexes.size(), false));
 
                     // Put the chit on the hex
                     hex.setChit(chit);
@@ -106,8 +104,9 @@ public class RedsFirstLayout implements LayoutStrategy
         for (Hex hex : randomHexes)
         {
             // Grab another hex
-            Hex newHex = territory.getHexes().grabRandom(random).setTerritory(
-                    hex.getTerritory()).setLocation(hex.getLocation());
+            Hex newHex = territory.getHexes().grabRandom(random)
+                    .setTerritory(hex.getTerritory())
+                    .setLocation(hex.getLocation());
 
             // Put it on the board
             board.getHexes().set(hex.getLocation(), newHex);

@@ -1,8 +1,8 @@
 package soc.common.actions.gameAction.trading;
 
 import soc.common.actions.gameAction.turns.AbstractTurnAction;
-import soc.common.game.gamePhase.GamePhase;
-import soc.common.game.gamePhase.turnPhase.TurnPhase;
+import soc.common.game.phases.GamePhase;
+import soc.common.game.phases.turnPhase.TurnPhase;
 
 public abstract class AbstractTradeAction extends AbstractTurnAction
 {

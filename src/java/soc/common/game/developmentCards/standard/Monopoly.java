@@ -9,6 +9,7 @@ import soc.common.board.resources.Timber;
 import soc.common.board.resources.Wheat;
 import soc.common.game.Game;
 import soc.common.game.developmentCards.AbstractDevelopmentCard;
+import soc.common.game.phases.turnPhase.TurnPhase;
 import soc.common.game.player.GamePlayer;
 import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidget;
 import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidgetFactory;
@@ -126,6 +127,12 @@ public class Monopoly extends AbstractDevelopmentCard
             DevelopmentCardWidgetFactory factory)
     {
         return factory.createMonopolyWidget(this);
+    }
+
+    @Override
+    public boolean isAllowed(TurnPhase turnPhase)
+    {
+        return turnPhase.isBuilding();
     }
 
 }

@@ -6,9 +6,15 @@ import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 
 public class ChatCell extends AbstractCell<String>
 {
+    // @Override
+    // public void render(com.google.gwt.cell.client.Cell.Context context,
+    // String value, SafeHtmlBuilder sb)
+    // {
+    // sb.append(SafeHtmlUtils.fromString(value));
+    // }
+
     @Override
-    public void render(com.google.gwt.cell.client.Cell.Context context,
-            String value, SafeHtmlBuilder sb)
+    public void render(String value, Object key, SafeHtmlBuilder sb)
     {
         sb.append(SafeHtmlUtils.fromString(value));
     }

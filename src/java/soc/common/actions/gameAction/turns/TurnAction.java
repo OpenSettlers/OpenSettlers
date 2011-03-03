@@ -1,7 +1,7 @@
 package soc.common.actions.gameAction.turns;
 
 import soc.common.actions.gameAction.GameAction;
-import soc.common.game.gamePhase.turnPhase.TurnPhase;
+import soc.common.game.phases.turnPhase.TurnPhase;
 
 public interface TurnAction extends GameAction
 {

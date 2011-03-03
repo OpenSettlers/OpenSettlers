@@ -13,7 +13,7 @@ public class PlayerLeft extends AbstractLobbyAction
     @Override
     public void perform(Lobby lobby)
     {
-        lobby.removePlayer(player);
+        // lobby.getUsers().re.removePlayer(player);
     }
 
     @Override

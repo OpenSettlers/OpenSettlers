@@ -6,4 +6,5 @@ import soc.common.views.widgetsInterface.payerInfo.StockItemWidgetFactory;
 public interface StockPiece
 {
     public StockItemWidget createStockItemWidget(StockItemWidgetFactory factory);
+
 }

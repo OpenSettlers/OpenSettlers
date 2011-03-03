@@ -8,8 +8,8 @@ import soc.common.board.pieces.City;
 import soc.common.board.pieces.Town;
 import soc.common.board.resources.ResourceList;
 import soc.common.game.Game;
-import soc.common.game.gamePhase.GamePhase;
-import soc.common.game.gamePhase.turnPhase.TurnPhase;
+import soc.common.game.phases.GamePhase;
+import soc.common.game.phases.turnPhase.TurnPhase;
 import soc.common.game.player.GamePlayer;
 import soc.common.internationalization.I18n;
 import soc.common.views.behaviour.gameWidget.GameBehaviour;
@@ -44,29 +44,25 @@ public class BuildCity extends AbstractTurnAction
         @Override
         public Graphics graphics()
         {
-            // TODO Auto-generated method stub
             return null;
         }
 
         @Override
         public String getName()
         {
-            // TODO Auto-generated method stub
-            return null;
+            return "BuildCity";
         }
 
         @Override
         public String getLocalizedName()
         {
-            // TODO Auto-generated method stub
-            return null;
+            return I18n.get().constants().city();
         }
 
         @Override
         public String getDescription()
         {
-            // TODO Auto-generated method stub
-            return null;
+            return null;// I18n.get().constants().getc
         }
 
         @Override

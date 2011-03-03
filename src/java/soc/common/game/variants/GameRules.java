@@ -13,8 +13,8 @@ import soc.common.board.resources.Resource;
 import soc.common.game.Game;
 import soc.common.game.developmentCards.DevelopmentCardList;
 import soc.common.game.dices.Dice;
-import soc.common.game.gamePhase.GamePhase;
-import soc.common.game.gamePhase.setupStrategies.InitialPlacementStrategy;
+import soc.common.game.phases.GamePhase;
+import soc.common.game.phases.setupStrategies.InitialPlacementStrategy;
 
 /*
  * Abstracted properties for game {@see IRuleSet} to modify

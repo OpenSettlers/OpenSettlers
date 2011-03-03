@@ -24,4 +24,11 @@ public abstract class AbstractLobbyAction implements LobbyAction
     {
         return message;
     }
+
+    @Override
+    public LobbyAction setPlayer(Player player)
+    {
+        this.player = player;
+        return this;
+    }
 }

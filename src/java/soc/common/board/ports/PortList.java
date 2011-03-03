@@ -19,6 +19,22 @@ public class PortList implements Iterable<Port>, Serializable
     private transient SimpleEventBus eventBus;
     private List<Port> ports = new ArrayList<Port>();
 
+    public static PortList newMain4p()
+    {
+        PortList result = new PortList();
+
+        for (int i = 0; i < 4; i++)
+            result.add(new ThreeToOnePort());
+
+        result.add(new TimberPort());
+        result.add(new WheatPort());
+        result.add(new OrePort());
+        result.add(new ClayPort());
+        result.add(new SheepPort());
+
+        return result;
+    }
+
     private SimpleEventBus getEventBus()
     {
         if (eventBus == null)

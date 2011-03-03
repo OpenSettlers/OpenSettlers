@@ -8,7 +8,7 @@ import java.util.Map.Entry;
 
 import soc.common.game.GamePhaseChangedEvent;
 import soc.common.game.GamePhaseChangedEventHandler;
-import soc.common.game.gamePhase.GamePhase;
+import soc.common.game.phases.GamePhase;
 import soc.common.views.widgetsInterface.main.GamePhaseStatusWidget;
 import soc.common.views.widgetsInterface.main.GamePhaseStatusWidgetFactory;
 import soc.common.views.widgetsInterface.main.GameWidget;

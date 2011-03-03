@@ -5,6 +5,8 @@ import java.io.Serializable;
 import soc.common.board.hexes.AbstractHex;
 import soc.common.board.hexes.Hex;
 import soc.common.board.hexes.SeaHex;
+import soc.common.board.layoutStrategies.LayoutStrategy;
+import soc.common.board.layoutStrategies.RedsFirstLayout;
 import soc.common.board.layouts.HexGrid;
 import soc.common.board.layouts.HexLayout;
 import soc.common.board.ports.Port;
@@ -16,6 +18,7 @@ import soc.common.board.routing.GraphSide;
 import soc.common.board.settings.BoardSettings;
 import soc.common.board.territories.TerritoryImpl;
 import soc.common.board.territories.TerritoryList;
+import soc.common.game.Game;
 import soc.common.server.randomization.ClientRandom;
 import soc.common.server.randomization.Random;
 
@@ -48,6 +51,8 @@ import soc.common.server.randomization.Random;
  *  
  * The last hexes of each even row in a 'Sea3D compatible' configuration
  *  should be made invisible, and/or locked.
+ *  
+ *  Each board should be designed for a fixed amount of players
  */
 
 public class Board implements Serializable
@@ -64,6 +69,8 @@ public class Board implements Serializable
     protected BoardSettings boardSettings;
 
     protected transient Random random = new ClientRandom();
+
+    private transient LayoutStrategy layoutStrategy = new RedsFirstLayout();
 
     // Name of the designer of the board
     private String designer = "Unknown player";
@@ -116,9 +123,7 @@ public class Board implements Serializable
 
         // return if there is nothing to resize
         if (hexes.getWidth() == newWidth && hexes.getHeight() == newHeight)
-        {
             return;
-        }
 
         // Instantiate a new board
         HexGrid newboard = new HexGrid(newWidth, newHeight);
@@ -396,5 +401,10 @@ public class Board implements Serializable
 
         // Return true when either hex is capable of hosting land side pieces
         return hex1.isBuildableLand() || hex2.isBuildableLand();
+    }
+
+    public void layoutBoard(Game game)
+    {
+        layoutStrategy.layoutBoard(game);
     }
 }

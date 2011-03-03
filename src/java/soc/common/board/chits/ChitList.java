@@ -3,6 +3,7 @@ package soc.common.board.chits;
 import java.util.ArrayList;
 
 import soc.common.annotations.SeaFarers;
+import soc.common.core.Core;
 import soc.common.server.randomization.Random;
 
 /*
@@ -13,9 +14,9 @@ public class ChitList extends ArrayList<Chit>
     private static final long serialVersionUID = -6385792842493976623L;
 
     /*
-     * Returns a chitlist from standard settlers ruleset
+     * Returns a chitlist from standard settlers ruleset Returns 18 chits
      */
-    public static ChitList newStandardList()
+    public static ChitList newStandard4p()
     {
         ChitList result = new ChitList();
 
@@ -41,6 +42,45 @@ public class ChitList extends ArrayList<Chit>
         result.add(new Chit6());
         result.add(new Chit8());
         result.add(new Chit8());
+
+        return result;
+    }
+
+    /*
+     * Returns standard 4vp list, minus one 6/8 and one 3/11 Returns 16 chits
+     */
+    public static ChitList newStandard3p()
+    {
+        ChitList result = new ChitList();
+
+        result.add(new Chit2());
+        result.add(new Chit12());
+
+        result.add(new Chit3());
+        result.add(new Chit11());
+
+        if (Core.get().getRandom().nextInt(1, false) == 0)
+            result.add(new Chit3());
+        else
+            result.add(new Chit11());
+
+        result.add(new Chit4());
+        result.add(new Chit4());
+        result.add(new Chit10());
+        result.add(new Chit10());
+
+        result.add(new Chit5());
+        result.add(new Chit5());
+        result.add(new Chit9());
+        result.add(new Chit9());
+
+        result.add(new Chit6());
+        result.add(new Chit8());
+
+        if (Core.get().getRandom().nextInt(1, false) == 0)
+            result.add(new Chit6());
+        else
+            result.add(new Chit8());
 
         return result;
     }

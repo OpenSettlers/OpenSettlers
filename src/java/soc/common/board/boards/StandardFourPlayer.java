@@ -3,27 +3,15 @@ package soc.common.board.boards;
 import soc.common.board.Board;
 import soc.common.board.HexLocation;
 import soc.common.board.RotationPosition;
-import soc.common.board.chits.Chit;
 import soc.common.board.chits.ChitList;
-import soc.common.board.hexes.AbstractHex;
-import soc.common.board.hexes.ClayHex;
-import soc.common.board.hexes.DesertHex;
 import soc.common.board.hexes.Hex;
+import soc.common.board.hexes.HexList;
 import soc.common.board.hexes.NoneHex;
-import soc.common.board.hexes.OreHex;
 import soc.common.board.hexes.RandomHex;
 import soc.common.board.hexes.SeaHex;
-import soc.common.board.hexes.SheepHex;
-import soc.common.board.hexes.TimberHex;
-import soc.common.board.hexes.WheatHex;
 import soc.common.board.layouts.HexGrid;
-import soc.common.board.ports.ClayPort;
-import soc.common.board.ports.OrePort;
+import soc.common.board.ports.PortList;
 import soc.common.board.ports.RandomPort;
-import soc.common.board.ports.SheepPort;
-import soc.common.board.ports.ThreeToOnePort;
-import soc.common.board.ports.TimberPort;
-import soc.common.board.ports.WheatPort;
 import soc.common.board.settings.BoardSettings;
 import soc.common.board.territories.Territory;
 
@@ -36,6 +24,8 @@ public class StandardFourPlayer extends Board
         super();
 
         this.hexes = new HexGrid(7, 7);
+
+        // Layout board manually row by row.
 
         // Row 1
         hexes.add(new NoneHex().setLocation(new HexLocation(0, 0)));
@@ -100,71 +90,43 @@ public class StandardFourPlayer extends Board
         hexes.add(new NoneHex().setLocation(new HexLocation(5, 6)));
         hexes.add(new NoneHex().setLocation(new HexLocation(6, 6)));
 
-        Territory territory = territories.get(0);
-        for (Hex hex : hexes)
-            if (hex instanceof RandomHex)
-                hex.setTerritory(territory);
-
-        territory.getHexes().add(new DesertHex());
-        territory.getHexes().add(new WheatHex());
-        territory.getHexes().add(new WheatHex());
-        territory.getHexes().add(new WheatHex());
-        territory.getHexes().add(new WheatHex());
-
-        territory.getHexes().add(new TimberHex());
-        territory.getHexes().add(new TimberHex());
-        territory.getHexes().add(new TimberHex());
-        territory.getHexes().add(new TimberHex());
-
-        territory.getHexes().add(new OreHex());
-        territory.getHexes().add(new OreHex());
-        territory.getHexes().add(new OreHex());
-
-        territory.getHexes().add(new ClayHex());
-        territory.getHexes().add(new ClayHex());
-        territory.getHexes().add(new ClayHex());
-
-        territory.getHexes().add(new SheepHex());
-        territory.getHexes().add(new SheepHex());
-        territory.getHexes().add(new SheepHex());
-        territory.getHexes().add(new SheepHex());
-
-        for (Hex hex : hexes)
-            hex.setTerritory(territory);
-
-        ChitList standardChitList = ChitList.newStandardList();
-        for (Chit chit : standardChitList)
-            territory.getChits().add(chit);
-
+        // Make all random hexes at mainland
         Territory mainlaind = territories.get(0);
-        mainlaind.getPorts().add(new ThreeToOnePort());
-        mainlaind.getPorts().add(new ThreeToOnePort());
-        mainlaind.getPorts().add(new ThreeToOnePort());
-        mainlaind.getPorts().add(new ThreeToOnePort());
-        mainlaind.getPorts().add(new TimberPort());
-        mainlaind.getPorts().add(new WheatPort());
-        mainlaind.getPorts().add(new OrePort());
-        mainlaind.getPorts().add(new ClayPort());
-        mainlaind.getPorts().add(new SheepPort());
+        for (Hex hex : hexes)
+            hex.setTerritory(mainlaind);
 
-        ((AbstractHex) hexes.get(1, 0)).setPort(new RandomPort(hexes.get(1, 0)
-                .getLocation(), RotationPosition.DEG120));
-        ((AbstractHex) hexes.get(3, 0)).setPort(new RandomPort(hexes.get(3, 0)
-                .getLocation(), RotationPosition.DEG120));
-        ((AbstractHex) hexes.get(0, 2)).setPort(new RandomPort(hexes.get(0, 2)
-                .getLocation(), RotationPosition.DEG60));
-        ((AbstractHex) hexes.get(6, 3)).setPort(new RandomPort(hexes.get(6, 3)
-                .getLocation(), RotationPosition.DEG240));
-        ((AbstractHex) hexes.get(0, 4)).setPort(new RandomPort(hexes.get(0, 4)
-                .getLocation(), RotationPosition.DEG60));
-        ((AbstractHex) hexes.get(5, 5)).setPort(new RandomPort(hexes.get(5, 5)
-                .getLocation(), RotationPosition.DEG300));
-        ((AbstractHex) hexes.get(5, 1)).setPort(new RandomPort(hexes.get(5, 1)
-                .getLocation(), RotationPosition.DEG180));
-        ((AbstractHex) hexes.get(1, 6)).setPort(new RandomPort(hexes.get(1, 6)
-                .getLocation(), RotationPosition.DEG0));
-        ((AbstractHex) hexes.get(3, 6)).setPort(new RandomPort(hexes.get(3, 6)
-                .getLocation(), RotationPosition.DEG300));
+        // Add a standard list of hexes for 4 player games
+        mainlaind.getHexes().addList(HexList.newMainIsland4p());
+        mainlaind.setChits(ChitList.newStandard4p());
+        mainlaind.setPorts(PortList.newMain4p());
+
+        hexes.get(1, 0).setPort(
+                new RandomPort(hexes.get(1, 0).getLocation(),
+                        RotationPosition.DEG120));
+        hexes.get(3, 0).setPort(
+                new RandomPort(hexes.get(3, 0).getLocation(),
+                        RotationPosition.DEG120));
+        hexes.get(0, 2).setPort(
+                new RandomPort(hexes.get(0, 2).getLocation(),
+                        RotationPosition.DEG60));
+        hexes.get(6, 3).setPort(
+                new RandomPort(hexes.get(6, 3).getLocation(),
+                        RotationPosition.DEG240));
+        hexes.get(0, 4).setPort(
+                new RandomPort(hexes.get(0, 4).getLocation(),
+                        RotationPosition.DEG60));
+        hexes.get(5, 5).setPort(
+                new RandomPort(hexes.get(5, 5).getLocation(),
+                        RotationPosition.DEG300));
+        hexes.get(5, 1).setPort(
+                new RandomPort(hexes.get(5, 1).getLocation(),
+                        RotationPosition.DEG180));
+        hexes.get(1, 6).setPort(
+                new RandomPort(hexes.get(1, 6).getLocation(),
+                        RotationPosition.DEG0));
+        hexes.get(3, 6).setPort(
+                new RandomPort(hexes.get(3, 6).getLocation(),
+                        RotationPosition.DEG300));
 
         setDesigner("Ruud Poutsma");
         setId("8232fc96-2adb-4ce6-b721-fcdf8b712dbf");

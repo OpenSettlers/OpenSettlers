@@ -1,8 +1,8 @@
 package soc.common.game.developmentCards;
 
 import soc.common.game.Game;
-import soc.common.game.gamePhase.GamePhase;
-import soc.common.game.gamePhase.turnPhase.TurnPhase;
+import soc.common.game.phases.GamePhase;
+import soc.common.game.phases.turnPhase.TurnPhase;
 import soc.common.game.player.GamePlayer;
 import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidget;
 import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidgetFactory;

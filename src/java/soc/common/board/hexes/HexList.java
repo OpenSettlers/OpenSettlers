@@ -13,6 +13,74 @@ public class HexList implements Collection<Hex>, Serializable
     private static final long serialVersionUID = 1628486402283426134L;
     private List<Hex> hexes = new ArrayList<Hex>();
 
+    public static HexList newMainIsland4p()
+    {
+        HexList result = new HexList();
+
+        result.add(new DesertHex());
+
+        result.add(new WheatHex());
+        result.add(new WheatHex());
+        result.add(new WheatHex());
+        result.add(new WheatHex());
+
+        result.add(new TimberHex());
+        result.add(new TimberHex());
+        result.add(new TimberHex());
+        result.add(new TimberHex());
+
+        result.add(new OreHex());
+        result.add(new OreHex());
+        result.add(new OreHex());
+
+        result.add(new ClayHex());
+        result.add(new ClayHex());
+        result.add(new ClayHex());
+
+        result.add(new SheepHex());
+        result.add(new SheepHex());
+        result.add(new SheepHex());
+        result.add(new SheepHex());
+
+        return result;
+    }
+
+    /*
+     * Returns new list of mainland for 3 players. Same as MainLand4p, but 1
+     * TimberHex and 1 SheepHex replaced for 2 DesertHexes.
+     */
+    public static HexList newMainLand3p()
+    {
+        HexList result = new HexList();
+
+        result.add(new DesertHex());
+        result.add(new DesertHex());
+        result.add(new DesertHex());
+
+        result.add(new WheatHex());
+        result.add(new WheatHex());
+        result.add(new WheatHex());
+        result.add(new WheatHex());
+
+        result.add(new TimberHex());
+        result.add(new TimberHex());
+        result.add(new TimberHex());
+
+        result.add(new OreHex());
+        result.add(new OreHex());
+        result.add(new OreHex());
+
+        result.add(new ClayHex());
+        result.add(new ClayHex());
+        result.add(new ClayHex());
+
+        result.add(new SheepHex());
+        result.add(new SheepHex());
+        result.add(new SheepHex());
+
+        return result;
+    }
+
     public boolean add(Hex hex)
     {
         return hexes.add(hex);

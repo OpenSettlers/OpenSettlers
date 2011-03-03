@@ -16,9 +16,6 @@ import soc.common.server.randomization.Random;
 @SeaFarers
 public class TerritoryImpl implements Territory
 {
-    /**
-     * 
-     */
     private static final long serialVersionUID = 4568924008718927137L;
     private String name;
     private int ID;
@@ -205,5 +202,12 @@ public class TerritoryImpl implements Territory
             return supportedPorts.get(
                     random.nextInt(supportedPorts.size(), false)).copy();
         }
+    }
+
+    @Override
+    public Territory setChits(ChitList chits)
+    {
+        this.chits = chits;
+        return this;
     }
 }

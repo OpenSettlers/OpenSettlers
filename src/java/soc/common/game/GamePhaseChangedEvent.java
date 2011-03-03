@@ -1,6 +1,6 @@
 package soc.common.game;
 
-import soc.common.game.gamePhase.GamePhase;
+import soc.common.game.phases.GamePhase;
 
 import com.google.gwt.event.shared.GwtEvent;
 

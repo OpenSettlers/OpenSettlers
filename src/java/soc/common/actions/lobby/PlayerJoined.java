@@ -19,7 +19,7 @@ public class PlayerJoined extends AbstractLobbyAction
     @Override
     public void perform(Lobby lobby)
     {
-        lobby.addPlayer(player);
+        lobby.getUsers().addUser(player);
     }
 
 }

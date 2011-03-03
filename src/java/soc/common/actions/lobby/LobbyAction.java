@@ -12,4 +12,6 @@ public interface LobbyAction extends Serializable
     public Player getPlayer();
 
     public String getMessage();
+
+    public LobbyAction setPlayer(Player player);
 }

@@ -1,11 +1,10 @@
 package soc.common.actions.gameAction.trading;
 
 import soc.common.actions.gameAction.AbstractGameAction;
-import soc.common.actions.gameAction.turns.QueuedTradeResponse;
 import soc.common.board.resources.ResourceList;
 import soc.common.game.Game;
-import soc.common.game.gamePhase.GamePhase;
-import soc.common.game.gamePhase.turnPhase.TurnPhase;
+import soc.common.game.phases.GamePhase;
+import soc.common.game.phases.turnPhase.TurnPhase;
 import soc.common.game.player.GamePlayer;
 import soc.common.game.trading.TradeResponseList;
 import soc.common.server.actions.GameServerActionFactory;

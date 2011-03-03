@@ -22,6 +22,28 @@ public class FivetoTwoJunglePort extends AbstractPort
         return new FivetoTwoJunglePort();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see soc.common.board.ports.AbstractPort#getInAmount()
+     */
+    @Override
+    public int getInAmount()
+    {
+        return 5;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see soc.common.board.ports.AbstractPort#getOutAmount()
+     */
+    @Override
+    public int getOutAmount()
+    {
+        return 2;
+    }
+
     @Override
     public String getColor()
     {

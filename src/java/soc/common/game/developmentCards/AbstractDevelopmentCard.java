@@ -7,14 +7,14 @@ import soc.common.board.resources.ResourceList;
 import soc.common.board.resources.Sheep;
 import soc.common.board.resources.Wheat;
 import soc.common.game.Game;
-import soc.common.game.gamePhase.GamePhase;
-import soc.common.game.gamePhase.turnPhase.TurnPhase;
+import soc.common.game.phases.GamePhase;
 import soc.common.game.player.GamePlayer;
 import soc.common.utils.ClassUtils;
 import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidget;
 import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidgetFactory;
 
-public abstract class AbstractDevelopmentCard implements Serializable, DevelopmentCard
+public abstract class AbstractDevelopmentCard implements Serializable,
+        DevelopmentCard
 {
     private static final long serialVersionUID = 3192052784726040369L;
     protected String invalidMessage;
@@ -32,7 +32,9 @@ public abstract class AbstractDevelopmentCard implements Serializable, Developme
         cost.add(new Sheep());
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.game.developmentCards.DevelopmentCard#isLimitOnePerTurn()
      */
     public boolean isLimitOnePerTurn()
@@ -40,8 +42,24 @@ public abstract class AbstractDevelopmentCard implements Serializable, Developme
         return true;
     }
 
-    /* (non-Javadoc)
-     * @see soc.common.game.developmentCards.DevelopmentCard#isHasSummoningSickness()
+    /*
+     * Returns true when the given phase is in PlayTurns
+     * 
+     * @see
+     * soc.common.game.developmentCards.DevelopmentCard#isAllowed(soc.common
+     * .game.phases.GamePhase)
+     */
+    @Override
+    public boolean isAllowed(GamePhase turnPhase)
+    {
+        return turnPhase.isPlayTurns();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.common.game.developmentCards.DevelopmentCard#isHasSummoningSickness()
      */
     public boolean isHasSummoningSickness()
     {
@@ -74,8 +92,12 @@ public abstract class AbstractDevelopmentCard implements Serializable, Developme
         return cost;
     }
 
-    /* (non-Javadoc)
-     * @see soc.common.game.developmentCards.DevelopmentCard#play(soc.common.game.Game, soc.common.game.player.GamePlayer)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.common.game.developmentCards.DevelopmentCard#play(soc.common.game
+     * .Game, soc.common.game.player.GamePlayer)
      */
     public void play(Game game, GamePlayer player)
     {
@@ -84,8 +106,12 @@ public abstract class AbstractDevelopmentCard implements Serializable, Developme
         player.getDevelopmentCards().remove(this);
     }
 
-    /* (non-Javadoc)
-     * @see soc.common.game.developmentCards.DevelopmentCard#isValid(soc.common.game.Game)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.common.game.developmentCards.DevelopmentCard#isValid(soc.common.game
+     * .Game)
      */
     public boolean isValid(Game game)
     {
@@ -95,7 +121,9 @@ public abstract class AbstractDevelopmentCard implements Serializable, Developme
     /*
      * Default is not to keep the DevelopmentCard in stock
      */
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.game.developmentCards.DevelopmentCard#keepInStock()
      */
     public boolean keepInStock()
@@ -104,28 +132,8 @@ public abstract class AbstractDevelopmentCard implements Serializable, Developme
     }
 
     /*
-     * Returns true if player is allowed to play this card in given TurnPhase
-     */
-    /* (non-Javadoc)
-     * @see soc.common.game.developmentCards.DevelopmentCard#isAllowed(soc.common.game.gamePhase.turnPhase.TurnPhase)
-     */
-    public boolean isAllowed(TurnPhase turnPhase)
-    {
-        throw new RuntimeException();
-    }
-
-    /*
-     * Returns true if player is allowed to play this card in given GamePhase
-     */
-    /* (non-Javadoc)
-     * @see soc.common.game.developmentCards.DevelopmentCard#isAllowed(soc.common.game.gamePhase.GamePhase)
-     */
-    public boolean isAllowed(GamePhase turnPhase)
-    {
-        throw new RuntimeException();
-    }
-
-    /* (non-Javadoc)
+     * (non-Javadoc)
+     * 
      * @see soc.common.game.developmentCards.DevelopmentCard#getInvalidMessage()
      */
     public String getInvalidMessage()
@@ -133,15 +141,21 @@ public abstract class AbstractDevelopmentCard implements Serializable, Developme
         return invalidMessage;
     }
 
-    /* (non-Javadoc)
-     * @see soc.common.game.developmentCards.DevelopmentCard#setInvalidMessage(java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.common.game.developmentCards.DevelopmentCard#setInvalidMessage(java
+     * .lang.String)
      */
     public void setInvalidMessage(String invalidMessage)
     {
         this.invalidMessage = invalidMessage;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.game.developmentCards.DevelopmentCard#getMessage()
      */
     public String getMessage()
@@ -149,15 +163,21 @@ public abstract class AbstractDevelopmentCard implements Serializable, Developme
         return message;
     }
 
-    /* (non-Javadoc)
-     * @see soc.common.game.developmentCards.DevelopmentCard#setMessage(java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.common.game.developmentCards.DevelopmentCard#setMessage(java.lang
+     * .String)
      */
     public void setMessage(String message)
     {
         this.message = message;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.game.developmentCards.DevelopmentCard#getTurnBought()
      */
     public int getTurnBought()
@@ -165,7 +185,9 @@ public abstract class AbstractDevelopmentCard implements Serializable, Developme
         return turnBought;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.game.developmentCards.DevelopmentCard#setTurnBought(int)
      */
     public void setTurnBought(int turnBought)
@@ -173,7 +195,9 @@ public abstract class AbstractDevelopmentCard implements Serializable, Developme
         this.turnBought = turnBought;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.game.developmentCards.DevelopmentCard#getId()
      */
     public int getId()
@@ -181,7 +205,9 @@ public abstract class AbstractDevelopmentCard implements Serializable, Developme
         return id;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.game.developmentCards.DevelopmentCard#setId(int)
      */
     public void setId(int id)
@@ -189,7 +215,9 @@ public abstract class AbstractDevelopmentCard implements Serializable, Developme
         this.id = id;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.game.developmentCards.DevelopmentCard#isPlayable()
      */
     public boolean isPlayable()
@@ -197,8 +225,11 @@ public abstract class AbstractDevelopmentCard implements Serializable, Developme
         return isPlayable;
     }
 
-    /* (non-Javadoc)
-     * @see soc.common.game.developmentCards.DevelopmentCard#setPlayable(boolean)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.common.game.developmentCards.DevelopmentCard#setPlayable(boolean)
      */
     public void setPlayable(boolean isPlayable)
     {
@@ -219,10 +250,6 @@ public abstract class AbstractDevelopmentCard implements Serializable, Developme
     /*
      * (non-Javadoc)
      * 
-     * @see java.lang.Object#hashCode()
-     */
-
-    /* (non-Javadoc)
      * @see soc.common.game.developmentCards.DevelopmentCard#hashCode()
      */
     @Override
@@ -251,7 +278,9 @@ public abstract class AbstractDevelopmentCard implements Serializable, Developme
         return true;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see soc.common.game.developmentCards.DevelopmentCard#getName()
      */
     public String getName()
@@ -259,8 +288,14 @@ public abstract class AbstractDevelopmentCard implements Serializable, Developme
         return ClassUtils.getSimpleClassName(this.getClass().getName());
     }
 
-    /* (non-Javadoc)
-     * @see soc.common.game.developmentCards.DevelopmentCard#createPlayCardWidget(soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidgetFactory)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.common.game.developmentCards.DevelopmentCard#createPlayCardWidget
+     * (soc.
+     * common.views.widgetsInterface.developmentCards.DevelopmentCardWidgetFactory
+     * )
      */
     public abstract DevelopmentCardWidget createPlayCardWidget(
             DevelopmentCardWidgetFactory factory);

@@ -19,9 +19,9 @@ import soc.common.board.resources.Resource;
 import soc.common.game.Game;
 import soc.common.game.developmentCards.DevelopmentCardList;
 import soc.common.game.dices.Dice;
-import soc.common.game.gamePhase.GamePhase;
-import soc.common.game.gamePhase.setupStrategies.InitialPlacementStrategy;
-import soc.common.game.gamePhase.setupStrategies.TwoTowns;
+import soc.common.game.phases.GamePhase;
+import soc.common.game.phases.setupStrategies.InitialPlacementStrategy;
+import soc.common.game.phases.setupStrategies.TwoTowns;
 import soc.common.game.player.GamePlayer;
 
 public class GameRulesImpl implements GameRules
