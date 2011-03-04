@@ -3,22 +3,24 @@ package soc.common.server;
 import java.util.ArrayList;
 import java.util.List;
 
-import soc.common.server.entities.User;
+import soc.common.game.UserList;
+import soc.common.lobby.GameInfo;
+import soc.common.lobby.LoginResponse;
 
 public class LoginResponseImpl implements LoginResponse
 {
     private static final long serialVersionUID = -1979935151683745494L;
-    private List<LobbyGame> games = new ArrayList<LobbyGame>();
-    private List<User> users = new ArrayList<User>();
+    private List<GameInfo> games = new ArrayList<GameInfo>();
+    private UserList users = new UserList();
 
     @Override
-    public List<LobbyGame> getLobbyGames()
+    public List<GameInfo> getLobbyGames()
     {
         return games;
     }
 
     @Override
-    public List<User> getLoggedInUsers()
+    public UserList getLoggedInUsers()
     {
         return users;
     }
@@ -27,7 +29,7 @@ public class LoginResponseImpl implements LoginResponse
     {
     }
 
-    public LoginResponseImpl(List<LobbyGame> games, List<User> users)
+    public LoginResponseImpl(List<GameInfo> games, UserList users)
     {
         this.games = games;
         this.users = users;

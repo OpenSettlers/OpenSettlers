@@ -1,7 +1,7 @@
 package soc.common.views.behaviour.gameBoard;
 
 import soc.common.views.widgetsInterface.visuals.GameBoardVisual;
-import soc.common.views.widgetsInterface.visuals.ISideVisual;
+import soc.common.views.widgetsInterface.visuals.SideVisual;
 import soc.common.views.widgetsInterface.visuals.PieceVisual;
 
 /*
@@ -25,7 +25,7 @@ public abstract class BuildSideBehaviour implements GameBoardBehaviour
     @Override
     public void mouseEnter(PieceVisual pieceVisual, GameBoardVisual board)
     {
-        ISideVisual sideVisual = pieceVisual.getSideVisual();
+        SideVisual sideVisual = pieceVisual.getSideVisual();
         if (sideVisual != null)
             pieceVisual.setSelected(true);
     }
@@ -33,7 +33,7 @@ public abstract class BuildSideBehaviour implements GameBoardBehaviour
     @Override
     public void mouseOut(PieceVisual pieceVisual, GameBoardVisual board)
     {
-        ISideVisual sideVisual = pieceVisual.getSideVisual();
+        SideVisual sideVisual = pieceVisual.getSideVisual();
         if (sideVisual != null)
             pieceVisual.setSelected(false);
     }

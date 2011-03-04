@@ -1,6 +1,6 @@
 package soc.common.actions.lobby;
 
-import soc.common.server.Lobby;
+import soc.common.lobby.Lobby;
 
 public class LobbyChat extends AbstractLobbyAction
 {

@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 
 import soc.common.actions.lobby.LobbyAction;
+import soc.common.lobby.Lobby;
 import soc.common.server.GreetingServiceAsync;
-import soc.common.server.Lobby;
 import soc.common.server.NewNetworkGameBitmapWidget;
 import soc.common.server.entities.Player;
 import soc.common.views.widgetsInterface.lobby.ChatBoxWidget;

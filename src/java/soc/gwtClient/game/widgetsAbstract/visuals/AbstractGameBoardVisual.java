@@ -17,8 +17,8 @@ import soc.common.views.behaviour.gameBoard.NoBehaviour;
 import soc.common.views.widgetsInterface.visuals.BoardVisual;
 import soc.common.views.widgetsInterface.visuals.GameBoardVisual;
 import soc.common.views.widgetsInterface.visuals.HexVisual;
-import soc.common.views.widgetsInterface.visuals.IPointVisual;
-import soc.common.views.widgetsInterface.visuals.ISideVisual;
+import soc.common.views.widgetsInterface.visuals.PointVisual;
+import soc.common.views.widgetsInterface.visuals.SideVisual;
 import soc.common.views.widgetsInterface.visuals.PieceVisual;
 import soc.common.views.widgetsInterface.visuals.PirateVisual;
 import soc.common.views.widgetsInterface.visuals.RobberVisual;
@@ -36,8 +36,8 @@ public abstract class AbstractGameBoardVisual extends AbstractBoardVisual
     protected RobberVisual robber;
     protected PirateVisual pirate;
     protected Map<Piece, PieceVisual> playerPieceVisuals = new HashMap<Piece, PieceVisual>();
-    protected Map<GraphPoint, IPointVisual> pointVisuals = new HashMap<GraphPoint, IPointVisual>();
-    protected Map<GraphSide, ISideVisual> sideVisuals = new HashMap<GraphSide, ISideVisual>();
+    protected Map<GraphPoint, PointVisual> pointVisuals = new HashMap<GraphPoint, PointVisual>();
+    protected Map<GraphSide, SideVisual> sideVisuals = new HashMap<GraphSide, SideVisual>();
     protected GameBoardBehaviour gameBehaviour;
     protected SimpleEventBus eventBus = new SimpleEventBus();
     protected ProxyBehaviour proxyBehaviour;
@@ -133,7 +133,7 @@ public abstract class AbstractGameBoardVisual extends AbstractBoardVisual
     /**
      * @return the sideVisuals
      */
-    public Map<GraphPoint, IPointVisual> getPointVisuals()
+    public Map<GraphPoint, PointVisual> getPointVisuals()
     {
         return pointVisuals;
     }
@@ -141,7 +141,7 @@ public abstract class AbstractGameBoardVisual extends AbstractBoardVisual
     /**
      * @return the pointVisuals
      */
-    public Map<GraphSide, ISideVisual> getSideVisuals()
+    public Map<GraphSide, SideVisual> getSideVisuals()
     {
         return sideVisuals;
     }

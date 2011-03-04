@@ -1,6 +1,6 @@
 package soc.gwtClient.lobby;
 
-import soc.common.server.LoginResponse;
+import soc.common.lobby.LoginResponse;
 
 import com.google.gwt.event.shared.GwtEvent;
 

@@ -12,7 +12,7 @@ public interface PlayerGameResult
 
     public boolean hasLostGame();
 
-    public Playerrrrr getPlayer();
+    public PlayerInfo getPlayer();
 
     public int getVictoryPoints();
 

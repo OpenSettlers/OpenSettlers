@@ -1,6 +1,7 @@
 package soc.common.server;
 
 import soc.common.actions.lobby.LobbyAction;
+import soc.common.lobby.LoginResponse;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 

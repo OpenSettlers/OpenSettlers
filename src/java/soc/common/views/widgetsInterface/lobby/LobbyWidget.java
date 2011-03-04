@@ -2,7 +2,7 @@ package soc.common.views.widgetsInterface.lobby;
 
 import net.zschech.gwt.comet.client.CometListener;
 import soc.common.actions.lobby.LobbyAction;
-import soc.common.server.Lobby;
+import soc.common.lobby.Lobby;
 import soc.common.server.entities.Player;
 
 import com.google.gwt.user.client.ui.IsWidget;

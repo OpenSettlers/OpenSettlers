@@ -2,7 +2,7 @@ package soc.gwtClient.lobby;
 
 import java.util.List;
 
-import soc.common.server.GameInfo;
+import soc.common.lobby.GameInfo;
 import soc.common.views.widgetsInterface.lobby.GameListWidget;
 import soc.common.views.widgetsInterface.lobby.LobbyWidget;
 import soc.common.views.widgetsInterface.lobby.NetworkGameDetailsWidget;

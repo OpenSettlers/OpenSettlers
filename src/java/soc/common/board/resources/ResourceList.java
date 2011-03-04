@@ -18,7 +18,7 @@ public class ResourceList implements Iterable<Resource>, Serializable
     private transient SimpleEventBus eventBus;
 
     // Encapsulated list of resources
-    private final List<Resource> resources = new ArrayList<Resource>();
+    private List<Resource> resources = new ArrayList<Resource>();
 
     private SimpleEventBus getEventBus()
     {

@@ -1,9 +1,9 @@
 package soc.gwtClient.lobby;
 
 import soc.common.game.UserList;
-import soc.common.server.GameList;
-import soc.common.server.Lobby;
-import soc.common.server.LobbyLog;
+import soc.common.lobby.GameList;
+import soc.common.lobby.Lobby;
+import soc.common.lobby.LobbyLog;
 
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.SimpleEventBus;

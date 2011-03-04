@@ -9,7 +9,7 @@ import soc.common.utils.ClassUtils;
 public abstract class AbstractResource implements Resource
 {
     private static final long serialVersionUID = 9035129584531194942L;
-    final String name;
+    private transient String name;
 
     public AbstractResource()
     {

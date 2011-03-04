@@ -1,7 +1,9 @@
 package soc.common.actions.lobby;
 
-import soc.common.server.GameInfo;
-import soc.common.server.Lobby;
+import soc.common.lobby.GameInfo;
+import soc.common.lobby.Lobby;
+import soc.common.server.lobbyActions.ServerLobbyAction;
+import soc.common.server.lobbyActions.ServerLobbyActionFactory;
 
 public class CreateGame extends AbstractLobbyAction
 {
@@ -30,5 +32,19 @@ public class CreateGame extends AbstractLobbyAction
     public void perform(Lobby lobby)
     {
         lobby.getGames().addGame(gameInfo);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.common.actions.lobby.AbstractLobbyAction#createServerLobbyAction(
+     * soc.common.server.lobbyActions.ServerLobbyActionFactory)
+     */
+    @Override
+    public ServerLobbyAction createServerLobbyAction(
+            ServerLobbyActionFactory factory)
+    {
+        return factory.createNewGameAction();
     }
 }

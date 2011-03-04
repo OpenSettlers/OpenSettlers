@@ -21,7 +21,7 @@ import soc.common.views.widgetsInterface.visuals.ShipVisual;
 import soc.common.views.widgetsInterface.visuals.TownVisual;
 import soc.common.views.widgetsInterface.visuals.VisualFactory;
 import soc.common.views.widgetsInterface.visuals.WallVisual;
-import soc.gwtClient.game.widgetsAbstract.visuals.SideVisual;
+import soc.gwtClient.game.widgetsAbstract.visuals.AbstractSideVisual;
 
 public class SvgVisualFactory implements VisualFactory
 {
@@ -69,14 +69,14 @@ public class SvgVisualFactory implements VisualFactory
     }
 
     @Override
-    public PointVisual createPointVisual(GraphPoint point)
+    public AbstractPointVisual createPointVisual(GraphPoint point)
     {
         return new PointSvg(parent, point.getPoint(), parent.getBoardSvg()
                 .calculatePosition(point.getPoint()));
     }
 
     @Override
-    public SideVisual createSideVisual(GraphSide side)
+    public AbstractSideVisual createSideVisual(GraphSide side)
     {
         return new SideSvg(parent, side.getSide());
     }

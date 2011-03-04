@@ -21,9 +21,9 @@ public interface GameBoardVisual extends BoardVisual
 
     public Map<Piece, PieceVisual> getPlayerPieceVisuals();
 
-    public Map<GraphPoint, IPointVisual> getPointVisuals();
+    public Map<GraphPoint, PointVisual> getPointVisuals();
 
-    public Map<GraphSide, ISideVisual> getSideVisuals();
+    public Map<GraphSide, SideVisual> getSideVisuals();
 
     public void stopBehaviour();
 

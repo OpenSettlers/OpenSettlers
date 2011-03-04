@@ -1,7 +1,7 @@
 package soc.common.actions.lobby;
 
 import soc.common.internationalization.I18n;
-import soc.common.server.Lobby;
+import soc.common.lobby.Lobby;
 
 /*
  * A player has disconnected and left the server

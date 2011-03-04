@@ -7,7 +7,7 @@ import org.vaadin.gwtgraphics.client.shape.Rectangle;
 
 import soc.common.board.HexSide;
 import soc.common.views.widgetsInterface.generic.Point2D;
-import soc.gwtClient.game.widgetsAbstract.visuals.SideVisual;
+import soc.gwtClient.game.widgetsAbstract.visuals.AbstractSideVisual;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -19,7 +19,7 @@ import com.google.gwt.event.dom.client.MouseOutHandler;
 /*
  * Represents an HexSide drawn using SVG web technology
  */
-public class SideSvg extends SideVisual implements SvgVisual,
+public class SideSvg extends AbstractSideVisual implements SvgVisual,
         ClickHandler, MouseOutHandler, MouseMoveHandler
 {
     private Point2D location;

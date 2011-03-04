@@ -12,7 +12,8 @@
   <source path='server'/>  
   <source path='internationalization'/>    
   <source path='bots'/>  
-  <source path='core'/>  
+  <source path='core'/>    
+  <source path='lobby'/>  
   <source path='views'/>  
   <inherits name="com.google.gwt.event.Event"/>
   <inherits name="com.google.gwt.resources.Resources"/>

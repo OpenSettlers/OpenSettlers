@@ -10,11 +10,17 @@ import javax.servlet.http.HttpSession;
 import net.zschech.gwt.comet.server.CometServlet;
 import net.zschech.gwt.comet.server.CometSession;
 import soc.common.actions.lobby.LobbyAction;
+import soc.common.lobby.Lobby;
+import soc.common.lobby.LoginResponse;
 import soc.common.server.GreetingService;
-import soc.common.server.LoginResponse;
+import soc.common.server.JoinResult;
+import soc.common.server.LobbyServer;
 import soc.common.server.LoginResponseImpl;
+import soc.common.server.UserCredentials;
 import soc.common.server.entities.Player;
 import soc.common.server.entities.User;
+import soc.common.server.lobbyActions.ServerLobbyAction;
+import soc.common.server.lobbyActions.ServerLobbyActionFactory;
 
 import com.db4o.ObjectContainer;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -24,10 +30,12 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  */
 @SuppressWarnings("serial")
 public class GreetingServiceImpl extends RemoteServiceServlet implements
-        GreetingService
+        GreetingService, LobbyServer
 {
-    ObjectContainer database;
+    private ObjectContainer database;
     private static int userid = 0;
+    private ServerLobbyActionFactory factory;
+    private Lobby lobby;
 
     /*
      * (non-Javadoc)
@@ -63,11 +71,20 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
             // ChatException("not logged in: no http session username");
         }
 
-        // create the chat message
+        executeLobbyAction(action);
+    }
+
+    public void sendToAll(LobbyAction action)
+    {
         for (Map.Entry<User, CometSession> entry : users.entrySet())
-        {
             entry.getValue().enqueue(action);
-        }
+    }
+
+    public void sendToAllExcept(User excludedUser, LobbyAction action)
+    {
+        for (Map.Entry<User, CometSession> entry : users.entrySet())
+            if (!entry.getValue().equals(excludedUser))
+                entry.getValue().enqueue(action);
     }
 
     @Override
@@ -99,9 +116,40 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
     {
         LoginResponse response = new LoginResponseImpl();
         for (Map.Entry<User, CometSession> entry : users.entrySet())
-            response.getLoggedInUsers().add(entry.getKey());
+            response.getLoggedInUsers().addUser(entry.getKey());
 
         return response;
+    }
+
+    @Override
+    public JoinResult join(UserCredentials credentials)
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void leave()
+    {
+        // TODO Auto-generated method stub
+
+    }
+
+    /*
+     * Create a server action, perform it and send it to clients
+     */
+    @Override
+    public void executeLobbyAction(LobbyAction action)
+    {
+        // Grab ServerLobbyAction assocaited by the factory
+        ServerLobbyAction serverLobbyAction = action
+                .createServerLobbyAction(factory);
+
+        // Actualize lobby by performing the LobbyAction
+        serverLobbyAction.perform(lobby);
+
+        // Notify clients
+        serverLobbyAction.sendToClients();
     }
 
 }

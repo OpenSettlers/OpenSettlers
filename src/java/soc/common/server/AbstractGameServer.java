@@ -8,8 +8,8 @@ import soc.common.actions.gameAction.meta.MessageFromServer;
 import soc.common.bots.BotPrincipal;
 import soc.common.game.Game;
 import soc.common.game.logs.ActionsQueue;
-import soc.common.server.actions.GameServerActionFactory;
-import soc.common.server.actions.ServerAction;
+import soc.common.server.gameActions.GameServerActionFactory;
+import soc.common.server.gameActions.ServerAction;
 import soc.common.server.randomization.Random;
 
 /*

@@ -20,6 +20,11 @@ public class TurnImpl implements Turn
         this.turnPhase = turnPhase;
     }
 
+    public TurnImpl()
+    {
+        // Empty default instantiable constructor
+    }
+
     public TurnImpl(GamePlayer player)
     {
         super();

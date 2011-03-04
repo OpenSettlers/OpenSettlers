@@ -24,6 +24,11 @@ public class HexLocation implements Serializable
         return h;
     }
 
+    public HexLocation()
+    {
+        // Empty default instantiable constructor
+    }
+
     public HexLocation(int w, int h)
     {
         this.w = w;

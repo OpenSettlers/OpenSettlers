@@ -71,12 +71,8 @@ public class GamePlayerList implements Iterable<GamePlayer>, Serializable
         GamePlayerList opponents = new GamePlayerList();
 
         for (GamePlayer opponent : players)
-        {
             if (!opponent.equals(ofPlayer))
-            {
                 opponents.add(opponent);
-            }
-        }
 
         return opponents;
     }

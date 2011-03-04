@@ -2,9 +2,9 @@ package soc.common.board.hexes;
 
 import soc.common.board.chits.Chit;
 
-
 public abstract class ResourceHex extends AbstractHex
 {
+    private static final long serialVersionUID = 7086634587082441341L;
     protected Chit chit;
 
     /**

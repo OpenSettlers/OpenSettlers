@@ -185,11 +185,10 @@ public class BuildTown extends AbstractTurnAction
         town.setPoint(pointLocation);
         game.addPiece(town, player);
 
+        // remove players' resources and put them in the bank
         if (game.getCurrentPhase().isPlayTurns())
-        {
-            // remove players' resources and put them in the bank
             player.getResources().moveTo(game.getBank(), town.getCost());
-        }
+
         if (game.getCurrentPhase().isInitialPlacement()
                 && player.getPointPieces().size() == 2)
         {
@@ -198,10 +197,9 @@ public class BuildTown extends AbstractTurnAction
             for (HexLocation loc : pointLocation.getHexLocations())
             {
                 Hex hex = game.getBoard().getHexes().get(loc);
+
                 if (hex.canHaveResource())
-                {
                     resourcesFromPlacement.add(hex.getResource());
-                }
             }
             player.getResources().swapResourcesFrom(resourcesFromPlacement,
                     game.getBank());
@@ -218,14 +216,12 @@ public class BuildTown extends AbstractTurnAction
             if (hex.canHavePort())
                 ports.add(hex.getPort());
         }
+
+        // Grab port if available on this spot and add it to player when found
         for (Port port : ports)
-        {
             if (port.getHexSide().getHexPoint1().equals(pointLocation)
                     || port.getHexSide().getHexPoint2().equals(pointLocation))
-            {
                 player.getPorts().add(port);
-            }
-        }
 
         message = I18n.get().actions().builtTown(player.getUser().getName());
 

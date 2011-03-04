@@ -24,9 +24,9 @@ public interface PieceVisual
 
     public HexVisual getHexVisual();
 
-    public IPointVisual getPointVisual();
+    public PointVisual getPointVisual();
 
-    public ISideVisual getSideVisual();
+    public SideVisual getSideVisual();
 
     public IslandBonusVisual getIslandBonusVisual();
 

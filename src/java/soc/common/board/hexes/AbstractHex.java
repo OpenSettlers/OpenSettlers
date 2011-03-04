@@ -17,6 +17,7 @@ import com.google.gwt.event.shared.SimpleEventBus;
  */
 public abstract class AbstractHex implements Hex
 {
+    private static final long serialVersionUID = -1737108038985903164L;
     protected HexLocation hexLocation;
     protected Territory territory;
     protected SimpleEventBus eventBus = new SimpleEventBus();

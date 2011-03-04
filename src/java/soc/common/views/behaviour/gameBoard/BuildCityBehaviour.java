@@ -10,7 +10,7 @@ import soc.common.board.routing.GraphPoint;
 import soc.common.game.player.GamePlayer;
 import soc.common.views.behaviour.gameWidget.GameBehaviourCallback;
 import soc.common.views.widgetsInterface.visuals.GameBoardVisual;
-import soc.common.views.widgetsInterface.visuals.IPointVisual;
+import soc.common.views.widgetsInterface.visuals.PointVisual;
 import soc.common.views.widgetsInterface.visuals.PieceVisual;
 
 public class BuildCityBehaviour extends BuildPointBehaviour
@@ -18,7 +18,7 @@ public class BuildCityBehaviour extends BuildPointBehaviour
     BuildCity buildCity;
     GamePlayer player;
     GameBehaviourCallback callback;
-    Set<IPointVisual> pointVisuals = new HashSet<IPointVisual>();
+    Set<PointVisual> pointVisuals = new HashSet<PointVisual>();
 
     public BuildCityBehaviour(BuildCity buildCity, GamePlayer player,
             GameBehaviourCallback callback)
@@ -48,7 +48,7 @@ public class BuildCityBehaviour extends BuildPointBehaviour
     @Override
     public void clicked(PieceVisual pieceVisual, GameBoardVisual board)
     {
-        IPointVisual pointVisual = pieceVisual.getPointVisual();
+        PointVisual pointVisual = pieceVisual.getPointVisual();
         if (pointVisual != null)
         {
             buildCity.setLocation(pointVisual.getHexPoint());
@@ -59,7 +59,7 @@ public class BuildCityBehaviour extends BuildPointBehaviour
     @Override
     public void setNeutral(GameBoardVisual visual)
     {
-        for (IPointVisual pointVisual : pointVisuals)
+        for (PointVisual pointVisual : pointVisuals)
         {
             pointVisual.setVisible(false);
         }
@@ -72,7 +72,7 @@ public class BuildCityBehaviour extends BuildPointBehaviour
         {
             GraphPoint graphPoint = gameVisual.getBoard().getGraph()
                     .findGraphPoint(town.getPoint());
-            IPointVisual pointVisual = gameVisual.getPointVisuals().get(
+            PointVisual pointVisual = gameVisual.getPointVisuals().get(
                     graphPoint);
             pointVisual.setVisible(true);
             pointVisuals.add(pointVisual);

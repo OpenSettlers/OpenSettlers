@@ -17,7 +17,7 @@ import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 
-public class PointSvg extends PointVisual implements SvgVisual,
+public class PointSvg extends AbstractPointVisual implements SvgVisual,
         MouseMoveHandler, MouseOutHandler, ClickHandler
 {
     private Point2D location;

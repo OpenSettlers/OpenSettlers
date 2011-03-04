@@ -13,6 +13,7 @@ import com.google.gwt.resources.client.ImageResource;
 
 public class TimberHex extends ResourceHex
 {
+    private static final long serialVersionUID = 34740915606830388L;
     private static Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().timberHex(), null,

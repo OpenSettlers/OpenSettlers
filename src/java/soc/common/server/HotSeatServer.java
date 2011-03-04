@@ -3,7 +3,7 @@ package soc.common.server;
 import soc.common.actions.gameAction.GameAction;
 import soc.common.bots.BotPrincipalImpl;
 import soc.common.game.Game;
-import soc.common.server.actions.ServerActionFactory;
+import soc.common.server.gameActions.ServerActionFactory;
 import soc.common.server.randomization.ClientRandom;
 
 import com.google.gwt.user.client.Timer;

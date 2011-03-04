@@ -1,8 +1,8 @@
 package soc.common.server;
 
-import soc.common.actions.lobby.AbstractLobbyAction;
+import soc.common.actions.lobby.LobbyAction;
 
 public interface LobbyServer extends Server
 {
-    public void sendLobbyAction(AbstractLobbyAction action);
+    public void executeLobbyAction(LobbyAction lobbyAction);
 }

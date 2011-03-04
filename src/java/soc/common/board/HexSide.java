@@ -44,6 +44,11 @@ public class HexSide implements Serializable
         return hexPoint2;
     }
 
+    public HexSide()
+    {
+        // Empty default instantiable constructor
+    }
+
     HexSide(HexLocation hex1, HexLocation hex2)
     {
         this.hex1 = hex1;

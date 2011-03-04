@@ -13,6 +13,7 @@ import com.google.gwt.resources.client.ImageResource;
 
 public class OreHex extends ResourceHex
 {
+    private static final long serialVersionUID = -2594315235125762897L;
     private static Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().oreHex(), null,

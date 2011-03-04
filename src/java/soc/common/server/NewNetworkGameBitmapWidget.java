@@ -2,6 +2,8 @@ package soc.common.server;
 
 import soc.common.actions.lobby.CreateGame;
 import soc.common.game.settings.GameSettings;
+import soc.common.lobby.GameInfo;
+import soc.common.lobby.GameInfoImpl;
 import soc.common.views.widgetsInterface.lobby.LobbyWidget;
 import soc.common.views.widgetsInterface.lobby.NewNetworkGameWidget;
 

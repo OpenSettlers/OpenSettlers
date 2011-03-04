@@ -16,6 +16,8 @@ import com.google.gwt.resources.client.ImageResource;
 @Sea3D
 public class VolcanoHex extends ResourceHex
 {
+    private static final long serialVersionUID = 9066964176287866076L;
+
     private static Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().volcanoHex(), null,

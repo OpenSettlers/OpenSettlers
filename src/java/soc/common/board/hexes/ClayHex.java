@@ -13,6 +13,7 @@ import com.google.gwt.resources.client.ImageResource;
 
 public class ClayHex extends ResourceHex
 {
+    private static final long serialVersionUID = -4833059372095423603L;
     private static Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().clayHex(), null,

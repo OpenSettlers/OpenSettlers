@@ -1,5 +1,7 @@
 package soc.common.board.hexes;
 
+import java.io.Serializable;
+
 import soc.common.board.HexLocation;
 import soc.common.board.chits.Chit;
 import soc.common.board.layouts.HasLocation;
@@ -11,7 +13,7 @@ import soc.common.views.meta.HasMeta;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 
-public interface Hex extends HasMeta, HasLocation
+public interface Hex extends HasMeta, HasLocation, Serializable
 {
     /*
      * Literal non-translatable name of this Hex

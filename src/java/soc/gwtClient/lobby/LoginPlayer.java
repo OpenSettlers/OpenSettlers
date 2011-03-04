@@ -1,7 +1,7 @@
 package soc.gwtClient.lobby;
 
+import soc.common.lobby.LoginResponse;
 import soc.common.server.GreetingServiceAsync;
-import soc.common.server.LoginResponse;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

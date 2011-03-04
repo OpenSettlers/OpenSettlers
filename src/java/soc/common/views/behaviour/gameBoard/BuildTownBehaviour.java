@@ -7,7 +7,7 @@ import soc.common.actions.gameAction.standard.BuildTown;
 import soc.common.board.routing.GraphPoint;
 import soc.common.views.behaviour.gameWidget.GameBehaviourCallback;
 import soc.common.views.widgetsInterface.visuals.GameBoardVisual;
-import soc.common.views.widgetsInterface.visuals.IPointVisual;
+import soc.common.views.widgetsInterface.visuals.PointVisual;
 import soc.common.views.widgetsInterface.visuals.PieceVisual;
 
 public class BuildTownBehaviour extends BuildPointBehaviour
@@ -27,7 +27,7 @@ public class BuildTownBehaviour extends BuildPointBehaviour
     @Override
     public void clicked(PieceVisual pieceVisual, GameBoardVisual board)
     {
-        IPointVisual pointVisual = pieceVisual.getPointVisual();
+        PointVisual pointVisual = pieceVisual.getPointVisual();
         if (pointVisual != null)
         {
             buildTown.setPointLocation(pointVisual.getHexPoint());
@@ -38,7 +38,7 @@ public class BuildTownBehaviour extends BuildPointBehaviour
     @Override
     public void setNeutral(GameBoardVisual gameVisual)
     {
-        for (IPointVisual pointVisual : gameVisual.getPointVisuals().values())
+        for (PointVisual pointVisual : gameVisual.getPointVisuals().values())
         {
             pointVisual.setVisible(false);
         }

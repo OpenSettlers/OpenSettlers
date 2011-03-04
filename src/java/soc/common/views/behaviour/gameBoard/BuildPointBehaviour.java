@@ -5,7 +5,7 @@ import java.util.List;
 
 import soc.common.board.HexPoint;
 import soc.common.views.widgetsInterface.visuals.GameBoardVisual;
-import soc.common.views.widgetsInterface.visuals.IPointVisual;
+import soc.common.views.widgetsInterface.visuals.PointVisual;
 import soc.common.views.widgetsInterface.visuals.PieceVisual;
 
 public abstract class BuildPointBehaviour implements GameBoardBehaviour
@@ -15,10 +15,10 @@ public abstract class BuildPointBehaviour implements GameBoardBehaviour
     @Override
     public void mouseEnter(PieceVisual pieceVisual, GameBoardVisual board)
     {
-        IPointVisual pointVisual = pieceVisual.getPointVisual();
+        PointVisual pointVisual = pieceVisual.getPointVisual();
         if (pointVisual != null)
         {
-            IPointVisual hexPointVisual = (IPointVisual) pieceVisual;
+            PointVisual hexPointVisual = (PointVisual) pieceVisual;
             hexPointVisual.setSelected(true);
         }
     }
@@ -26,10 +26,10 @@ public abstract class BuildPointBehaviour implements GameBoardBehaviour
     @Override
     public void mouseOut(PieceVisual pieceVisual, GameBoardVisual board)
     {
-        IPointVisual pointVisual = pieceVisual.getPointVisual();
+        PointVisual pointVisual = pieceVisual.getPointVisual();
         if (pointVisual != null)
         {
-            IPointVisual hexPointVisual = (IPointVisual) pieceVisual;
+            PointVisual hexPointVisual = (PointVisual) pieceVisual;
             hexPointVisual.setSelected(false);
         }
     }

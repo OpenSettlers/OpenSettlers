@@ -27,9 +27,9 @@ public interface VisualFactory
 
     public BoardVisual createBoardVisual(Board board);
 
-    public ISideVisual createSideVisual(GraphSide side);
+    public SideVisual createSideVisual(GraphSide side);
 
-    public IPointVisual createPointVisual(GraphPoint point);
+    public PointVisual createPointVisual(GraphPoint point);
 
     public IslandBonusVisual createIslandBonus(IslandBonus islandBonus);
 

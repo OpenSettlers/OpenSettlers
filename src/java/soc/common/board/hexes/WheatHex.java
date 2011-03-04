@@ -13,6 +13,7 @@ import com.google.gwt.resources.client.ImageResource;
 
 public class WheatHex extends ResourceHex
 {
+    private static final long serialVersionUID = 2329772028245348633L;
     private static Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().wheatHex(), null,

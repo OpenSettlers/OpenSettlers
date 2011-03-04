@@ -16,6 +16,7 @@ import com.google.gwt.resources.client.ImageResource;
 
 public class SeaHex extends AbstractHex
 {
+    private static final long serialVersionUID = -8018622446925340186L;
     private static Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().seaHex(), null,

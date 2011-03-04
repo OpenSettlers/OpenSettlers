@@ -3,8 +3,8 @@ package soc.gwtClient.game.widgetsAbstract.visuals;
 import soc.common.views.widgetsInterface.visuals.ChitVisual;
 import soc.common.views.widgetsInterface.visuals.CityVisual;
 import soc.common.views.widgetsInterface.visuals.HexVisual;
-import soc.common.views.widgetsInterface.visuals.IPointVisual;
-import soc.common.views.widgetsInterface.visuals.ISideVisual;
+import soc.common.views.widgetsInterface.visuals.PointVisual;
+import soc.common.views.widgetsInterface.visuals.SideVisual;
 import soc.common.views.widgetsInterface.visuals.IslandBonusVisual;
 import soc.common.views.widgetsInterface.visuals.PieceVisual;
 import soc.common.views.widgetsInterface.visuals.PirateVisual;
@@ -153,7 +153,7 @@ public abstract class AbstractPieceVisual implements PieceVisual
      * soc.common.views.widgetsInterface.visuals.PieceVisual#getPointVisual()
      */
     @Override
-    public IPointVisual getPointVisual()
+    public PointVisual getPointVisual()
     {
         return null;
     }
@@ -213,7 +213,7 @@ public abstract class AbstractPieceVisual implements PieceVisual
      * soc.common.views.widgetsInterface.visuals.PieceVisual#getSideVisual()
      */
     @Override
-    public ISideVisual getSideVisual()
+    public SideVisual getSideVisual()
     {
         return null;
     }

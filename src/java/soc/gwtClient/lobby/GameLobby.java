@@ -6,9 +6,9 @@ import java.util.List;
 import net.zschech.gwt.comet.client.CometListener;
 import soc.common.game.Game;
 import soc.common.game.UserList;
-import soc.common.server.GameList;
-import soc.common.server.Lobby;
-import soc.common.server.LobbyLog;
+import soc.common.lobby.GameList;
+import soc.common.lobby.Lobby;
+import soc.common.lobby.LobbyLog;
 import soc.common.server.entities.Player;
 import soc.gwtClient.main.CenterWidget;
 

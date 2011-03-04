@@ -14,8 +14,8 @@ import soc.common.game.LongestRoadChangedEventHandler;
 import soc.common.game.player.GamePlayer;
 import soc.common.views.behaviour.board.ProxyBehaviour;
 import soc.common.views.widgetsInterface.visuals.HexVisual;
-import soc.common.views.widgetsInterface.visuals.IPointVisual;
-import soc.common.views.widgetsInterface.visuals.ISideVisual;
+import soc.common.views.widgetsInterface.visuals.PointVisual;
+import soc.common.views.widgetsInterface.visuals.SideVisual;
 import soc.common.views.widgetsInterface.visuals.PieceVisual;
 import soc.common.views.widgetsInterface.visuals.VisualFactory;
 import soc.gwtClient.game.widgetsAbstract.visuals.AbstractGameBoardVisual;
@@ -44,7 +44,7 @@ public class GameBoardSvg extends AbstractGameBoardVisual implements
 
         for (GraphSide side : board.getGraph().getSides())
         {
-            ISideVisual sideVisual = visualFactory.createSideVisual(side);
+            SideVisual sideVisual = visualFactory.createSideVisual(side);
             sideVisuals.put(side, sideVisual);
             boardSvg.getDrawingArea().add(
                     ((SvgVisual) sideVisual).getVectorObject());
@@ -52,7 +52,7 @@ public class GameBoardSvg extends AbstractGameBoardVisual implements
 
         for (GraphPoint point : board.getGraph().getPoints())
         {
-            IPointVisual pointVisual = visualFactory.createPointVisual(point);
+            PointVisual pointVisual = visualFactory.createPointVisual(point);
             pointVisuals.put(point, pointVisual);
             boardSvg.getDrawingArea().add(
                     ((SvgVisual) pointVisual).getVectorObject());
