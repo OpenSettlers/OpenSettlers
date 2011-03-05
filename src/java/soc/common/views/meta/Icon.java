@@ -4,11 +4,26 @@ import com.google.gwt.resources.client.ImageResource;
 
 public interface Icon
 {
-    public ImageResource iconSmall();
+    public ImageResource icon16();
 
-    public ImageResource iconMedium();
+    public ImageResource icon24();
 
-    public ImageResource iconLarge();
+    public ImageResource icon32();
+
+    public ImageResource icon48();
+
+    public ImageResource icon64();
+
+    public ImageResource icon96();
+
+    public ImageResource icon128();
+
+    public ImageResource icon192();
+
+    public ImageResource icon256();
 
     public ImageResource iconDefault();
+
+    // Not yet supported by GWT
+    // public ImageResource iconSvg();
 }

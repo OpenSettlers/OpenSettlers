@@ -16,6 +16,7 @@ import soc.common.game.phases.turnPhase.TurnPhase;
 import soc.common.server.entities.Player;
 import soc.common.server.entities.ServerUser;
 import soc.common.server.entities.User;
+import soc.common.views.meta.Meta;
 import soc.gwtClient.images.defaultTheme.Icons;
 import soc.gwtClient.images.defaultTheme.Images;
 
@@ -35,6 +36,21 @@ public class Resources
     public static Icons icons()
     {
         return icons;
+    }
+
+    public ImageResource smallIcon(Meta meta)
+    {
+        return meta.icon().icon16();
+    }
+
+    public ImageResource mediumIcon(Meta meta)
+    {
+        return meta.icon().icon32();
+    }
+
+    public ImageResource largeIcon(Meta meta)
+    {
+        return meta.icon().icon48();
     }
 
     public static ImageResource island(int id)

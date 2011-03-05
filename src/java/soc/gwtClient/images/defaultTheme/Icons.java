@@ -16,13 +16,33 @@ public interface Icons extends ClientBundle
     public ImageResource moveRobberMedium();
 
     @Source("size16/Unavailable.png")
-    public ImageResource unavailableSmall();
+    public ImageResource unavailable16();
 
     @Source("size32/Unavailable.png")
-    public ImageResource unavailableMedium();
+    public ImageResource unavailable24();
+
+    @Source("size32/Unavailable.png")
+    public ImageResource unavailable32();
 
     @Source("size48/Unavailable.png")
-    public ImageResource unavailableLarge();
+    public ImageResource unavailable48();
+
+    @Source("size64/Unavailable.png")
+    public ImageResource unavailable64();
+
+    // 192 not yet supported
+    @Source("size64/Unavailable.png")
+    public ImageResource unavailable96();
+
+    @Source("size128/Unavailable.png")
+    public ImageResource unavailable128();
+
+    // 192 not yet supported
+    @Source("size128/Unavailable.png")
+    public ImageResource unavailable192();
+
+    @Source("size256/Unavailable.png")
+    public ImageResource unavailable256();
 
     @Source("size48/Build.png")
     public ImageResource buildLarge();
