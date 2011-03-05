@@ -49,6 +49,78 @@ public interface OpenSettlersConstants extends Constants
     @DefaultStringValue("Card to advance game development")
     String developmentCardDescription();
 
+    @DefaultStringValue("Wheat hex")
+    String wheatHex();
+
+    @DefaultStringValue("Produces wheat, to built settlements, cities and buy development cards")
+    String wheatHexDescription();
+
+    @DefaultStringValue("Timber hex")
+    String timberHex();
+
+    @DefaultStringValue("Produces timber, to built roads & settlements")
+    String timberHexDescription();
+
+    @DefaultStringValue("Ore hex")
+    String oreHex();
+
+    @DefaultStringValue("Produces ore, to buy cities &, development cards")
+    String oreHexDescription();
+
+    @DefaultStringValue("Clay hex")
+    String clayHex();
+
+    @DefaultStringValue("Produces clay, to use for roads & settlements")
+    String clayHexDescription();
+
+    @DefaultStringValue("Sheep hex")
+    String sheepHex();
+
+    @DefaultStringValue("Sheep needed for settlements, development cards and ")
+    String sheepHexDescription();
+
+    @DefaultStringValue("Placeholder hex")
+    String noneHex();
+
+    @DefaultStringValue("Does nothing, design-time hex to specify a position should not be rendered in the game")
+    String noneHexDescription();
+
+    @DefaultStringValue("Random hex")
+    String randomHex();
+
+    @DefaultStringValue("At game start, replaced by any random hex from it's territory's list of hexes")
+    String randomHexDescription();
+
+    @DefaultStringValue("Volcano hex")
+    String volcanoHex();
+
+    @DefaultStringValue("Produces gold, 1:6 chance this volcano will erupt every time it's chit number is rolled")
+    String volcanoHexDescription();
+
+    @DefaultStringValue("Desert hex")
+    String desertHex();
+
+    @DefaultStringValue("Produces nothing, starting position for the robber")
+    String desertHexDescription();
+
+    @DefaultStringValue("Sea hex")
+    String seaHex();
+
+    @DefaultStringValue("Sea hex, can have a port")
+    String seaHexDescription();
+
+    @DefaultStringValue("Discovery hex")
+    String discoveryHex();
+
+    @DefaultStringValue("Build a road or ship adjacent to this hex to flip it")
+    String discoveryHexDescription();
+
+    @DefaultStringValue("Gold hex")
+    String goldHex();
+
+    @DefaultStringValue("Produces gold")
+    String goldHexDescription();
+
     @DefaultStringValue("Wheat")
     String wheat();
 
@@ -78,6 +150,18 @@ public interface OpenSettlersConstants extends Constants
 
     @DefaultStringValue("Sheep needed for settlements, development cards and ")
     String sheepDescription();
+
+    @DefaultStringValue("Gold")
+    String gold();
+
+    @DefaultStringValue("Exchange a gold resource for any tradeable resource")
+    String goldDescription();
+
+    @DefaultStringValue("Diamond")
+    String diamond();
+
+    @DefaultStringValue("Use diamonds as gold when buying a development card")
+    String diamondDescription();
 
     @DefaultStringValue("Soldier")
     String soldier();

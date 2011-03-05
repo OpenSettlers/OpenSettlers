@@ -29,8 +29,8 @@ public class City extends AbstractPlayerPiece implements VictoryPointItem,
     private static final long serialVersionUID = 6682481845539642397L;
     private static Meta meta = new Meta()
     {
-        private Icon icon = new IconImpl(Resources.icons().city(), null, null,
-                        Resources.icons().citySmall());
+        private Icon icon = new IconImpl(Resources.icons().citySmall(), null,
+                        null, Resources.icons().city());
 
         @Override
         public Icon icon()
@@ -54,8 +54,7 @@ public class City extends AbstractPlayerPiece implements VictoryPointItem,
         @Override
         public String getDescription()
         {
-            // TODO Auto-generated method stub
-            return null;
+            return I18n.get().constants().cityDescription();
         }
     };
     private HexPoint pointLocation;

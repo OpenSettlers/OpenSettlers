@@ -18,4 +18,5 @@
   <inherits name="com.google.gwt.event.Event"/>
   <inherits name="com.google.gwt.resources.Resources"/>
   <inherits name="net.zschech.gwt.comet.Comet"/>
+  <inherits name="com.google.gwt.junit.JUnit"/>
 </module>

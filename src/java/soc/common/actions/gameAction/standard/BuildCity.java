@@ -30,8 +30,8 @@ public class BuildCity extends AbstractTurnAction
     private static final long serialVersionUID = -2767352130887235545L;
     private static Meta meta = new Meta()
     {
-        private Icon icon = new IconImpl(Resources.icons().city(), null, null,
-                        Resources.icons().citySmall());
+        private Icon icon = new IconImpl(Resources.icons().citySmall(), null,
+                        null, null);
 
         @Override
         public Icon icon()

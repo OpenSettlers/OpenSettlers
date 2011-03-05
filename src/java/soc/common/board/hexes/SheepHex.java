@@ -2,6 +2,7 @@ package soc.common.board.hexes;
 
 import soc.common.board.resources.Clay;
 import soc.common.board.resources.Resource;
+import soc.common.internationalization.I18n;
 import soc.common.views.meta.Icon;
 import soc.common.views.meta.IconImpl;
 import soc.common.views.meta.Meta;
@@ -26,22 +27,19 @@ public class SheepHex extends ResourceHex
         @Override
         public String getName()
         {
-            // TODO Auto-generated method stub
-            return null;
+            return "SheepHex";
         }
 
         @Override
         public String getLocalizedName()
         {
-            // TODO Auto-generated method stub
-            return null;
+            return I18n.get().constants().sheepHex();
         }
 
         @Override
         public String getDescription()
         {
-            // TODO Auto-generated method stub
-            return null;
+            return I18n.get().constants().sheepHexDescription();
         }
 
     };

@@ -34,9 +34,14 @@ public class DefaultServerLobbyAction implements ServerLobbyAction
     @Override
     public void sendToClients()
     {
-        lobbyServer.executeLobbyAction(lobbyAction);
+        lobbyServer.sendToAll(lobbyAction);
     }
 
+    /*
+     * Calls perform on the encapsualted LobbyAction
+     * 
+     * @see soc.common.server.lobbyActions.ServerLobbyAction#perform(soc.common.lobby.Lobby)
+     */
     @Override
     public void perform(Lobby lobby)
     {

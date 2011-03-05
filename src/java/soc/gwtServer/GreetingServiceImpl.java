@@ -69,12 +69,14 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
         executeLobbyAction(action);
     }
 
+    @Override
     public void sendToAll(LobbyAction action)
     {
         for (Map.Entry<User, CometSession> entry : users.entrySet())
             entry.getValue().enqueue(action);
     }
 
+    @Override
     public void sendToAllExcept(User excludedUser, LobbyAction action)
     {
         for (Map.Entry<User, CometSession> entry : users.entrySet())

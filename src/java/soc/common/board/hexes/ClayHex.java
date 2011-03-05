@@ -2,6 +2,7 @@ package soc.common.board.hexes;
 
 import soc.common.board.resources.Clay;
 import soc.common.board.resources.Resource;
+import soc.common.internationalization.I18n;
 import soc.common.views.meta.Icon;
 import soc.common.views.meta.IconImpl;
 import soc.common.views.meta.Meta;
@@ -25,22 +26,19 @@ public class ClayHex extends ResourceHex
 
         public String getName()
         {
-            // TODO Auto-generated method stub
-            return null;
+            return "ClayHex";
         }
 
         @Override
         public String getLocalizedName()
         {
-            // TODO Auto-generated method stub
-            return null;
+            return I18n.get().constants().clayHex();
         }
 
         @Override
         public String getDescription()
         {
-            // TODO Auto-generated method stub
-            return null;
+            return I18n.get().constants().clayHexDescription();
         }
 
     };

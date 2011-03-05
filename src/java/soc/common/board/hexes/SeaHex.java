@@ -4,17 +4,21 @@ import soc.common.board.chits.Chit;
 import soc.common.board.ports.Port;
 import soc.common.board.ports.PortChangedEvent;
 import soc.common.board.territories.Territory;
+import soc.common.internationalization.I18n;
 import soc.common.views.meta.Icon;
 import soc.common.views.meta.IconImpl;
 import soc.common.views.meta.Meta;
 import soc.gwtClient.images.Resources;
 
-import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.resources.client.ImageResource;
 
 public class SeaHex extends AbstractHex
 {
     private static final long serialVersionUID = -8018622446925340186L;
+
+    // A SeaHex may have a port associated with it
+    private Port port;
+
     private static Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().seaHex(), null,
@@ -29,30 +33,20 @@ public class SeaHex extends AbstractHex
         @Override
         public String getName()
         {
-            // TODO Auto-generated method stub
-            return null;
+            return "SeaHex";
         }
 
         @Override
         public String getLocalizedName()
         {
-            // TODO Auto-generated method stub
-            return null;
+            return I18n.get().constants().seaHex();
         }
-
         @Override
         public String getDescription()
         {
-            // TODO Auto-generated method stub
-            return null;
+            return I18n.get().constants().seaHexDescription();
         }
-
     };
-    // A SeaHex may have a port associated with it
-    private Port port;
-
-    // Event notification instance
-    SimpleEventBus eventBus = new SimpleEventBus();
 
     /*
      * Has no effect on a SeaHex, sea hexes do not have a territory

@@ -3,6 +3,7 @@ package soc.common.board.hexes;
 import soc.common.annotations.Sea3D;
 import soc.common.board.resources.Gold;
 import soc.common.board.resources.Resource;
+import soc.common.internationalization.I18n;
 import soc.common.utils.ClassUtils;
 import soc.common.views.meta.Icon;
 import soc.common.views.meta.IconImpl;
@@ -18,8 +19,8 @@ public class VolcanoHex extends ResourceHex
 
     private static Meta meta = new Meta()
     {
-        private Icon icon = new IconImpl(Resources.icons().volcanoHex32(),
-                        null, null, null);
+        private Icon icon = new IconImpl(null, null, Resources.icons()
+                        .volcanoHex32(), null);
 
         @Override
         public Icon icon()
@@ -30,22 +31,19 @@ public class VolcanoHex extends ResourceHex
         @Override
         public String getName()
         {
-            // TODO Auto-generated method stub
-            return null;
+            return "VolcanoHex";
         }
 
         @Override
         public String getLocalizedName()
         {
-            // TODO Auto-generated method stub
-            return null;
+            return I18n.get().constants().volcanoHex();
         }
 
         @Override
         public String getDescription()
         {
-            // TODO Auto-generated method stub
-            return null;
+            return I18n.get().constants().volcanoHexDescription();
         }
 
     };

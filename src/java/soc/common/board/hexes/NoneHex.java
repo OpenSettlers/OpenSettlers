@@ -1,6 +1,7 @@
 package soc.common.board.hexes;
 
 import soc.common.board.chits.Chit;
+import soc.common.internationalization.I18n;
 import soc.common.views.meta.Icon;
 import soc.common.views.meta.IconImpl;
 import soc.common.views.meta.Meta;
@@ -28,22 +29,19 @@ public class NoneHex extends AbstractHex
         @Override
         public String getName()
         {
-            // TODO Auto-generated method stub
-            return null;
+            return "NoneHex";
         }
 
         @Override
         public String getLocalizedName()
         {
-            // TODO Auto-generated method stub
-            return null;
+            return I18n.get().constants().noneHex();
         }
 
         @Override
         public String getDescription()
         {
-            // TODO Auto-generated method stub
-            return null;
+            return I18n.get().constants().noneHexDescription();
         }
 
     };

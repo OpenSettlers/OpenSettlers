@@ -28,17 +28,17 @@ import soc.common.game.player.GamePlayer;
  * 
  * Designed such that it should easily support variants. A couple things to note:
  * - Knights may split a road like a town
- * - Volcano's may split a road, when a town blows up and the town connected a ship 
- *   and a road. 
+ * - Volcano's may split a road, when a town blows up and the town connected a ship
+ * and a road.
  * 
  * A dot (HexPoint) is called a vertex. A line (HexSide) is called
- * an edge.  
+ * an edge.
  */
 public class BoardGraph
 {
     private Board board;
     private ListenableUndirectedGraph<GraphPoint, GraphSide> graph = new ListenableUndirectedGraph<GraphPoint, GraphSide>(
-            GraphSide.class);
+                    GraphSide.class);
 
     private LongestRoadStrategy longestRoadStrategy;
 
@@ -60,9 +60,7 @@ public class BoardGraph
         return graph.vertexSet();
     }
 
-    /**
-     * @return the graph
-     */
+    /** @return the graph */
     public ListenableUndirectedGraph<GraphPoint, GraphSide> getGraph()
     {
         return graph;
@@ -77,29 +75,23 @@ public class BoardGraph
     {
         // Iterate over all hexes in the board
         for (Hex hex : board.getHexes())
-        {
             // Iterate over all 6 possible HexPoint of a hex
             for (HexPoint point : hex.getLocation().getNeighbourHexPoints())
-            {
+
                 // The HexPoint should be within the board bounds
                 if (board.includeInGame(point))
                 {
                     GraphPoint newGraphPoint = new GraphPointImpl()
-                            .setPoint(point);
+                                    .setPoint(point);
 
                     if (!graph.vertexSet().contains(newGraphPoint))
-                    {
                         graph.addVertex(newGraphPoint);
-                    }
                 }
-            }
-        }
 
         // All the HexPoints are in place. Add the sides.
 
         // Iterate over all points in the graph
         for (GraphPoint point : graph.vertexSet())
-        {
             // Each point has three sides. Add them when they fall within the
             // bounds of the board
             for (HexSide side : point.getPoint().getNeighbourSides())
@@ -108,11 +100,11 @@ public class BoardGraph
                 GraphSide graphSide = new GraphSideImpl(side);
 
                 // Side should be on the inner map space
-                if (side.fallsWithinBoardBounds(board.getWidth(), board
-                        .getHeight())
-                        &&
-                        // undirected graph, only need to add the edge once
-                        !graph.edgeSet().contains(graphSide))
+                if (side.fallsWithinBoardBounds(board.getWidth(),
+                                board.getHeight())
+                                &&
+                                // undirected graph, only need to add the edge once
+                                !graph.edgeSet().contains(graphSide))
                 {
                     // Get the other point
                     HexPoint otherPoint = side.getOtherPoint(point.getPoint());
@@ -120,12 +112,9 @@ public class BoardGraph
                     // get the other GraphPoint
                     GraphPoint otherGraphPoint = findGraphPoint(otherPoint);
                     if (otherGraphPoint != null)
-                    {
                         graph.addEdge(otherGraphPoint, point, graphSide);
-                    }
                 }
-            }
-        }
+            } // for side
     }
 
     public GraphSide findGraphSide(HexSide side)
@@ -186,7 +175,7 @@ public class BoardGraph
     {
         GraphPoint otherPoint = graph.getEdgeSource(side);
         return ignore.equals(otherPoint) ? graph.getEdgeTarget(side)
-                : otherPoint;
+                        : otherPoint;
     }
 
     /*
@@ -198,40 +187,39 @@ public class BoardGraph
     {
         longestRoadStrategy = new ReduceStrategy();
         return longestRoadStrategy.calculateLongestRoad(currentLongest, this,
-                game);
+                        game);
     }
 
+    /*
+     * Returns set of points to place a town on during PlayTurns GamePhase
+     */
     public Set<GraphPoint> getTownCandidatesTurnPhase(GamePlayer forPlayer)
     {
-        Set<GraphPoint> result = new HashSet<GraphPoint>();
+        Set<GraphPoint> candidates = new HashSet<GraphPoint>();
+
+        // Get list of sides from a player
         List<GraphSide> sides = new ArrayList<GraphSide>();
         for (GraphSide side : graph.edgeSet())
-        {
             if (forPlayer.equals(side.getPlayer()))
-            {
                 sides.add(side);
-            }
-        }
+
+        // Put every source/target in list, if not already contained in list
         List<GraphPoint> points = new ArrayList<GraphPoint>();
         for (GraphSide side : sides)
         {
             if (!points.contains(graph.getEdgeSource(side)))
-            {
                 points.add(graph.getEdgeSource(side));
-            }
+
             if (!points.contains(graph.getEdgeTarget(side)))
-            {
                 points.add(graph.getEdgeTarget(side));
-            }
         }
 
+        // Filter list of adjacent points on ability to put town there
         for (GraphPoint point : points)
-        {
             if (point.isTownBuildable())
-                result.add(point);
-        }
+                candidates.add(point);
 
-        return result;
+        return candidates;
     }
 
     /*
@@ -243,13 +231,9 @@ public class BoardGraph
         Set<GraphPoint> result = new HashSet<GraphPoint>();
 
         for (GraphPoint possibleCandidate : graph.vertexSet())
-        {
             if (board.isTownBuildable(possibleCandidate)
-                    && possibleCandidate.isTownBuildable())
-            {
+                            && possibleCandidate.isTownBuildable())
                 result.add(possibleCandidate);
-            }
-        }
 
         return result;
     }
@@ -297,31 +281,26 @@ public class BoardGraph
      */
     public Set<GraphSide> getRoadCandidates(GamePlayer player)
     {
-        Set<GraphSide> result = new HashSet<GraphSide>();
+        Set<GraphSide> candidates = new HashSet<GraphSide>();
         List<GraphSide> currentSidePieces = new ArrayList<GraphSide>();
 
         // Compile a list of GraphSides owned by the player
         for (GraphSide side : graph.edgeSet())
-        {
             if (side.getPlayer() != null && side.getPlayer().equals(player))
                 currentSidePieces.add(side);
-        }
 
+        // Filter list by ability to build road on
         for (GraphSide side : currentSidePieces)
-        {
             for (GraphSide neighbour : getNeighbours(side, player))
-            {
                 // Only add neighbour when not yet present, and another player
                 // does not own it yet
                 if ((neighbour.getPlayer() == null || neighbour.getPlayer()
-                        .equals(player))
-                        && !result.contains(neighbour)
-                        && board.isRoadBuildable(neighbour))
-                    result.add(neighbour);
-            }
-        }
+                                .equals(player))
+                                && !candidates.contains(neighbour)
+                                && board.isRoadBuildable(neighbour))
+                    candidates.add(neighbour);
 
-        return result;
+        return candidates;
     }
 
     public Set<GraphSide> getShipBuildCandidates(GamePlayer player)
@@ -364,12 +343,12 @@ public class BoardGraph
         if (source.getPlayer() == null || source.getPlayer().equals(player))
         {
             for (GraphPoint neighbourPoint : Graphs.neighborListOf(graph,
-                    source))
+                            source))
             {
                 if (!neighbourPoint.equals(target))
                 {
                     result.add(graph.getAllEdges(source, neighbourPoint)
-                            .iterator().next());
+                                    .iterator().next());
                 }
             }
         }
@@ -380,12 +359,12 @@ public class BoardGraph
         if (source.getPlayer() == null || source.getPlayer().equals(player))
         {
             for (GraphPoint neighbourPoint : Graphs.neighborListOf(graph,
-                    target))
+                            target))
             {
                 if (!neighbourPoint.equals(source))
                 {
                     result.add(graph.getAllEdges(target, neighbourPoint)
-                            .iterator().next());
+                                    .iterator().next());
                 }
             }
         }
