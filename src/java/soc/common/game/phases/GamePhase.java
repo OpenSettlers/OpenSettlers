@@ -5,10 +5,11 @@ import java.io.Serializable;
 import soc.common.actions.gameAction.GameAction;
 import soc.common.game.Game;
 import soc.common.game.Turn;
+import soc.common.views.meta.HasMeta;
 import soc.common.views.widgetsInterface.main.GamePhaseStatusWidget;
 import soc.common.views.widgetsInterface.main.GamePhaseStatusWidgetFactory;
 
-public interface GamePhase extends Serializable
+public interface GamePhase extends Serializable, HasMeta
 {
     public void performAction(GameAction action, Game game);
 
@@ -37,5 +38,5 @@ public interface GamePhase extends Serializable
     public boolean isPlacePorts();
 
     public GamePhaseStatusWidget createGamePhaseStatusWidget(
-            GamePhaseStatusWidgetFactory factory);
+                    GamePhaseStatusWidgetFactory factory);
 }

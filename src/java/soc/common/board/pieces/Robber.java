@@ -2,11 +2,9 @@ package soc.common.board.pieces;
 
 import soc.common.board.HexLocation;
 import soc.common.board.pieces.abstractPieces.AbstractPiece;
-import soc.common.views.meta.Graphics;
 import soc.common.views.meta.Icon;
 import soc.common.views.meta.IconImpl;
 import soc.common.views.meta.Meta;
-import soc.common.views.widgetsInterface.generic.ToolTip;
 import soc.common.views.widgetsInterface.visuals.PieceVisual;
 import soc.common.views.widgetsInterface.visuals.VisualFactory;
 import soc.gwtClient.images.Resources;
@@ -20,18 +18,12 @@ public class Robber extends AbstractPiece
     private static Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().robber(), null,
-                null, Resources.icons().robberSmall());
+                        null, Resources.icons().robberSmall());
 
         @Override
         public Icon icon()
         {
             return icon;
-        }
-
-        @Override
-        public Graphics graphics()
-        {
-            return null;
         }
 
         @Override
@@ -54,13 +46,6 @@ public class Robber extends AbstractPiece
             // TODO Auto-generated method stub
             return null;
         }
-
-        @Override
-        public ToolTip createToolTip()
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
     };
     private HexLocation location;
     private transient SimpleEventBus eventBus = new SimpleEventBus();
@@ -70,18 +55,14 @@ public class Robber extends AbstractPiece
         this.location = hexLocation;
     }
 
-    /**
-     * @return the location
-     */
+    /** @return the location */
     public HexLocation getLocation()
     {
         return location;
     }
 
-    /**
-     * @param location
-     *            the location to set
-     */
+    /** @param location
+     *            the location to set */
     public Robber setLocation(HexLocation location)
     {
         if (!this.location.equals(location))

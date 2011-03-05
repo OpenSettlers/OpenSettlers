@@ -11,14 +11,12 @@ import soc.common.views.behaviour.gameWidget.GameBehaviour;
 import soc.common.views.behaviour.gameWidget.factories.GameBehaviourFactory;
 import soc.common.views.behaviour.gameWidget.factories.ReceiveGameBehaviourFactory;
 import soc.common.views.behaviour.gameWidget.received.ReceiveGameBehaviour;
-import soc.common.views.meta.Graphics;
 import soc.common.views.meta.Icon;
 import soc.common.views.meta.IconImpl;
 import soc.common.views.meta.Meta;
 import soc.common.views.widgetsInterface.actions.ActionDetailWidgetFactory;
 import soc.common.views.widgetsInterface.actions.ActionWidget;
 import soc.common.views.widgetsInterface.actions.ActionWidgetFactory;
-import soc.common.views.widgetsInterface.generic.ToolTip;
 import soc.common.views.widgetsInterface.payerInfo.ActionDetailWidget;
 import soc.gwtClient.images.Resources;
 
@@ -28,19 +26,12 @@ public class TradeBank extends AbstractTurnAction
     private static Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().bankTrade(), null,
-                null, null);
+                        null, null);
 
         @Override
         public Icon icon()
         {
             return icon;
-        }
-
-        @Override
-        public Graphics graphics()
-        {
-            // TODO Auto-generated method stub
-            return null;
         }
 
         @Override
@@ -63,29 +54,18 @@ public class TradeBank extends AbstractTurnAction
             // TODO Auto-generated method stub
             return null;
         }
-
-        @Override
-        public ToolTip createToolTip()
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
     };
     private ResourceList wantedResources;
     private ResourceList offeredResources;
 
-    /**
-     * @return the wantedResources
-     */
+    /** @return the wantedResources */
     public ResourceList getWantedResources()
     {
         return wantedResources;
     }
 
-    /**
-     * @param wantedResources
-     *            the wantedResources to set
-     */
+    /** @param wantedResources
+     *            the wantedResources to set */
     public TradeBank setWantedResources(ResourceList wantedResources)
     {
         this.wantedResources = wantedResources;
@@ -93,18 +73,14 @@ public class TradeBank extends AbstractTurnAction
         return this;
     }
 
-    /**
-     * @return the offeredResources
-     */
+    /** @return the offeredResources */
     public ResourceList getOfferedResources()
     {
         return offeredResources;
     }
 
-    /**
-     * @param offeredResources
-     *            the offeredResources to set
-     */
+    /** @param offeredResources
+     *            the offeredResources to set */
     public TradeBank setOfferedResources(ResourceList offeredResources)
     {
         this.offeredResources = offeredResources;
@@ -168,19 +144,19 @@ public class TradeBank extends AbstractTurnAction
             if (amountOfType > 0)
             {
                 int amountNeeded = player.getPorts().amountNeededToTrade(
-                        resource);
+                                resource);
                 if ((amountOfType % amountNeeded) != 0)
                 {
                     invalidMessage = "For " + resource.getName()
-                            + " you need to offer a multiple of "
-                            + amountNeeded;
+                                    + " you need to offer a multiple of "
+                                    + amountNeeded;
                     return false;
                 }
             }
         }
 
         if (player.getPorts().amountGold(offeredResources) != wantedResources
-                .size())
+                        .size())
         {
             invalidMessage = "Amount of desired resources should match offered resources divided by portdiveder";
             return false;
@@ -207,8 +183,8 @@ public class TradeBank extends AbstractTurnAction
         game.getBank().subtractResources(wantedResources);
 
         message = player.getUser().getName() + " exchanges "
-                + offeredResources.toString() + " for "
-                + wantedResources.toString() + ".";
+                        + offeredResources.toString() + " for "
+                        + wantedResources.toString() + ".";
 
         super.perform(game);
     }
@@ -233,35 +209,35 @@ public class TradeBank extends AbstractTurnAction
 
     @Override
     public ActionWidget createActionWidget(
-            ActionWidgetFactory actionWidgetFactory)
+                    ActionWidgetFactory actionWidgetFactory)
     {
         return actionWidgetFactory.createTradeBankWidget();
     }
 
     @Override
     public GameBehaviour getNextActionBehaviour(
-            GameBehaviourFactory gameBehaviourFactory)
+                    GameBehaviourFactory gameBehaviourFactory)
     {
         return gameBehaviourFactory.createTradeBankBehaviour(this);
     }
 
     @Override
     public ReceiveGameBehaviour getOpponentReceiveBehaviour(
-            ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
+                    ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
         return receiveGameBehaviourFactory.createTradeBankBehaviour(this);
     }
 
     @Override
     public ReceiveGameBehaviour getReceiveBehaviour(
-            ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
+                    ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
         return receiveGameBehaviourFactory.createTradeBankBehaviour(this);
     }
 
     @Override
     public GameBehaviour getSendBehaviour(
-            GameBehaviourFactory gameBehaviourFactory)
+                    GameBehaviourFactory gameBehaviourFactory)
     {
         return gameBehaviourFactory.createTradeBankBehaviour(this);
     }
@@ -281,7 +257,7 @@ public class TradeBank extends AbstractTurnAction
      */
     @Override
     public ActionDetailWidget createActionDetailWidget(
-            ActionDetailWidgetFactory factory)
+                    ActionDetailWidgetFactory factory)
     {
         return factory.getTradeBankDetailWidget(this);
     }

@@ -75,19 +75,19 @@ public interface Icons extends ClientBundle
     public ImageResource playerMedium();
 
     @Source("size32/EndedGamePhase.png")
-    public ImageResource endedGamePhase();
+    public ImageResource endedGamePhase32();
 
     @Source("size32/PlayTurnsGamePhase.png")
-    public ImageResource playTurnsGamePhase();
+    public ImageResource playTurnsGamePhase32();
 
     @Source("size32/InitialPlacementGamePhase.png")
-    public ImageResource initialPlacementGamePhase();
+    public ImageResource initialPlacementGamePhase32();
 
     @Source("size32/DetermineFirstPlayerGamePhase.png")
-    public ImageResource determineFirstPlayerGamePhase();
+    public ImageResource determineFirstPlayerGamePhase32();
 
     @Source("size32/LobbyGamePhase.png")
-    public ImageResource lobbyGamePhase();
+    public ImageResource lobbyGamePhase32();
 
     @Source("size32/BeforeRollDiceTurnPhase.png")
     public ImageResource beforeRollDiceTurnPhase();
@@ -261,10 +261,10 @@ public interface Icons extends ClientBundle
     public ImageResource jungleHex();
 
     @Source("size32/DiscoveryHex.png")
-    public ImageResource discoveryHex();
+    public ImageResource discoveryHex32();
 
     @Source("size32/EndTurn.png")
-    public ImageResource endTurn();
+    public ImageResource endTurn32();
 
     @Source("size32/GoldCard.png")
     public ImageResource goldCard();
@@ -345,10 +345,10 @@ public interface Icons extends ClientBundle
     public ImageResource timberHex();
 
     @Source("size32/TimberPort.png")
-    public ImageResource timberPort();
+    public ImageResource timberPort32();
 
     @Source("size32/VolcanoHex.png")
-    public ImageResource volcanoHex();
+    public ImageResource volcanoHex32();
 
     @Source("size32/WheatCard.png")
     public ImageResource wheatCard();

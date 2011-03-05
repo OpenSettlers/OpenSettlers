@@ -38,17 +38,17 @@ public class Resources
         return icons;
     }
 
-    public ImageResource smallIcon(Meta meta)
+    public static ImageResource smallIcon(Meta meta)
     {
         return meta.icon().icon16();
     }
 
-    public ImageResource mediumIcon(Meta meta)
+    public static ImageResource mediumIcon(Meta meta)
     {
         return meta.icon().icon32();
     }
 
-    public ImageResource largeIcon(Meta meta)
+    public static ImageResource largeIcon(Meta meta)
     {
         return meta.icon().icon48();
     }
@@ -57,18 +57,18 @@ public class Resources
     {
         switch (id)
         {
-        case 1:
-            return icons.island1();
-        case 2:
-            return icons.island2();
-        case 3:
-            return icons.island3();
-        case 4:
-            return icons.island4();
-        case 5:
-            return icons.island5();
-        case 6:
-            return icons.island6();
+            case 1:
+                return icons.island1();
+            case 2:
+                return icons.island2();
+            case 3:
+                return icons.island3();
+            case 4:
+                return icons.island4();
+            case 5:
+                return icons.island5();
+            case 6:
+                return icons.island6();
         }
         return null;
     }
@@ -77,28 +77,28 @@ public class Resources
     {
         switch (chit.getNumber())
         {
-        case 0:
-            return icons.randomChit();
-        case 2:
-            return icons.chit2();
-        case 3:
-            return icons.chit3();
-        case 4:
-            return icons.chit4();
-        case 5:
-            return icons.chit5();
-        case 6:
-            return icons.chit6();
-        case 8:
-            return icons.chit8();
-        case 9:
-            return icons.chit9();
-        case 10:
-            return icons.chit10();
-        case 11:
-            return icons.chit11();
-        case 12:
-            return icons.chit12();
+            case 0:
+                return icons.randomChit();
+            case 2:
+                return icons.chit2();
+            case 3:
+                return icons.chit3();
+            case 4:
+                return icons.chit4();
+            case 5:
+                return icons.chit5();
+            case 6:
+                return icons.chit6();
+            case 8:
+                return icons.chit8();
+            case 9:
+                return icons.chit9();
+            case 10:
+                return icons.chit10();
+            case 11:
+                return icons.chit11();
+            case 12:
+                return icons.chit12();
         }
 
         return null;
@@ -121,19 +121,19 @@ public class Resources
     public static ImageResource gamePhase(GamePhase phase)
     {
         if (phase instanceof InitialPlacementGamePhase)
-            return icons.initialPlacementGamePhase();
+            return icons.initialPlacementGamePhase32();
 
         if (phase instanceof DetermineFirstPlayerGamePhase)
-            return icons.determineFirstPlayerGamePhase();
+            return icons.determineFirstPlayerGamePhase32();
 
         if (phase instanceof PlayTurnsGamePhase)
-            return icons.playTurnsGamePhase();
+            return icons.playTurnsGamePhase32();
 
         if (phase instanceof EndedGamePhase)
-            return icons.endedGamePhase();
+            return icons.endedGamePhase32();
 
         if (phase instanceof LobbyGamePhase)
-            return icons.lobbyGamePhase();
+            return icons.lobbyGamePhase32();
 
         return null;
     }

@@ -6,11 +6,9 @@ import soc.common.game.LongestRoadChangedEvent;
 import soc.common.game.LongestRoadChangedEventHandler;
 import soc.common.game.VictoryPointItem;
 import soc.common.game.player.GamePlayer;
-import soc.common.views.meta.Graphics;
 import soc.common.views.meta.Icon;
 import soc.common.views.meta.IconImpl;
 import soc.common.views.meta.Meta;
-import soc.common.views.widgetsInterface.generic.ToolTip;
 import soc.common.views.widgetsInterface.visuals.PieceVisual;
 import soc.common.views.widgetsInterface.visuals.VisualFactory;
 import soc.gwtClient.images.Resources;
@@ -19,24 +17,18 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
 
 public class LongestRoad extends AbstractPlayerPiece implements
-        VictoryPointItem
+                VictoryPointItem
 {
     private static final long serialVersionUID = -1851490325447009277L;
     private static Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().longestRoad(), null,
-                null, Resources.icons().longestRoadSmall());
+                        null, Resources.icons().longestRoadSmall());
 
         @Override
         public Icon icon()
         {
             return icon;
-        }
-
-        @Override
-        public Graphics graphics()
-        {
-            return null;
         }
 
         @Override
@@ -60,12 +52,6 @@ public class LongestRoad extends AbstractPlayerPiece implements
             return null;
         }
 
-        @Override
-        public ToolTip createToolTip()
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
     };
     private Route route;
     private transient SimpleEventBus eventBus = new SimpleEventBus();
@@ -75,10 +61,8 @@ public class LongestRoad extends AbstractPlayerPiece implements
         return route;
     }
 
-    /**
-     * @param route
-     *            the route to set
-     */
+    /** @param route
+     *            the route to set */
     public LongestRoad setRoute(Route route)
     {
         Route oldRoute = route;
@@ -113,7 +97,7 @@ public class LongestRoad extends AbstractPlayerPiece implements
     }
 
     public HandlerRegistration addLongestRoadChangedEventHandler(
-            LongestRoadChangedEventHandler handler)
+                    LongestRoadChangedEventHandler handler)
     {
         return eventBus.addHandler(LongestRoadChangedEvent.TYPE, handler);
     }

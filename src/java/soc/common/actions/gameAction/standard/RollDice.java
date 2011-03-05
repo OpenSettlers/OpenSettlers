@@ -24,14 +24,12 @@ import soc.common.views.behaviour.gameWidget.GameBehaviour;
 import soc.common.views.behaviour.gameWidget.factories.GameBehaviourFactory;
 import soc.common.views.behaviour.gameWidget.factories.ReceiveGameBehaviourFactory;
 import soc.common.views.behaviour.gameWidget.received.ReceiveGameBehaviour;
-import soc.common.views.meta.Graphics;
 import soc.common.views.meta.Icon;
 import soc.common.views.meta.IconImpl;
 import soc.common.views.meta.Meta;
 import soc.common.views.widgetsInterface.actions.ActionDetailWidgetFactory;
 import soc.common.views.widgetsInterface.actions.ActionWidget;
 import soc.common.views.widgetsInterface.actions.ActionWidgetFactory;
-import soc.common.views.widgetsInterface.generic.ToolTip;
 import soc.common.views.widgetsInterface.payerInfo.ActionDetailWidget;
 
 public class RollDice extends AbstractTurnAction
@@ -46,14 +44,6 @@ public class RollDice extends AbstractTurnAction
         {
             return icon;
         }
-
-        @Override
-        public Graphics graphics()
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
         @Override
         public String getName()
         {
@@ -74,13 +64,6 @@ public class RollDice extends AbstractTurnAction
             // TODO Auto-generated method stub
             return null;
         }
-
-        @Override
-        public ToolTip createToolTip()
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
     };
     private StandardDice dice;
     private List<Integer> looserPlayers = new ArrayList<Integer>();
@@ -88,33 +71,25 @@ public class RollDice extends AbstractTurnAction
     private boolean robberBlockingProduction;
     private HashMap<GamePlayer, ResourceList> playersResources = new HashMap<GamePlayer, ResourceList>();
 
-    /**
-     * @return the playersResources
-     */
+    /** @return the playersResources */
     public HashMap<GamePlayer, ResourceList> getPlayersResources()
     {
         return playersResources;
     }
 
-    /**
-     * @return the robberBlockingProduction
-     */
+    /** @return the robberBlockingProduction */
     public boolean isRobberBlockingProduction()
     {
         return robberBlockingProduction;
     }
 
-    /**
-     * @return the looserPlayers
-     */
+    /** @return the looserPlayers */
     public List<Integer> getLooserPlayers()
     {
         return looserPlayers;
     }
 
-    /**
-     * @return the dice
-     */
+    /** @return the dice */
     public StandardDice getDice()
     {
         return dice;
@@ -125,18 +100,14 @@ public class RollDice extends AbstractTurnAction
         return dice.getDiceTotal() == 7;
     }
 
-    /**
-     * @return the hexesAffected
-     */
+    /** @return the hexesAffected */
     public List<HexLocation> getHexesAffected()
     {
         return hexesAffected;
     }
 
-    /**
-     * @param dice
-     *            the dice to set
-     */
+    /** @param dice
+     *            the dice to set */
     public RollDice setDice(StandardDice dice)
     {
         this.dice = dice;
@@ -190,8 +161,10 @@ public class RollDice extends AbstractTurnAction
 
     private void performDetermineGameStarter(Game game)
     {
-        message = I18n.get().actions().rollDice(player.getUser().getName(),
-                dice.getDiceTotal());
+        message = I18n.get()
+                        .actions()
+                        .rollDice(player.getUser().getName(),
+                                        dice.getDiceTotal());
     }
 
     private void performPlayTurns(Game game)
@@ -199,7 +172,7 @@ public class RollDice extends AbstractTurnAction
         // Switch to new DiceRollGamePhase, end current BeforeDiceRoll
         // turn phase
         TurnPhaseEnded beforeDiceRollEnded = (TurnPhaseEnded) new TurnPhaseEnded()
-                .setSender(0);
+                        .setSender(0);
         game.performAction(beforeDiceRollEnded);
 
         for (GamePlayer p : game.getPlayers())
@@ -212,8 +185,10 @@ public class RollDice extends AbstractTurnAction
             // gather all resource hexes without the robber
             List<Hex> rolledHexes = new ArrayList<Hex>();
             for (Hex hex : game.getBoard().getHexes())
-                if (hex.canHaveResource() && hex.getChit() != null
-                        && hex.getChit().getNumber() == dice.getDiceTotal())
+                if (hex.canHaveResource()
+                                && hex.getChit() != null
+                                && hex.getChit().getNumber() == dice
+                                                .getDiceTotal())
                     rolledHexes.add(hex);
 
             // Iterate over all hexes with resources
@@ -224,13 +199,14 @@ public class RollDice extends AbstractTurnAction
                 if (!hex.getLocation().equals(robber))
                 {
                     for (Entry<GamePlayer, ResourceList> entry : playersResources
-                            .entrySet())
+                                    .entrySet())
                     {
                         for (Producable producable : entry.getKey()
-                                .getProducables().producablesAtHex(hex))
+                                        .getProducables().producablesAtHex(hex))
                         {
                             entry.getValue().addList(
-                                    producable.produce(hex, game.getRules()));
+                                            producable.produce(hex,
+                                                            game.getRules()));
                         }
 
                         if (entry.getValue().size() > 0)
@@ -248,19 +224,18 @@ public class RollDice extends AbstractTurnAction
 
             // Add the resources to each player and remove them from the bank
             for (Entry<GamePlayer, ResourceList> entry : playersResources
-                    .entrySet())
+                            .entrySet())
             {
                 ResourceList gainedResources = entry.getValue();
                 if (gainedResources.size() > 0)
                 {
                     game.getBank().moveTo(entry.getKey().getResources(),
-                            gainedResources);
+                                    gainedResources);
                     message += entry.getKey().getUser().getName() + " gained "
-                            + gainedResources.toString();
+                                    + gainedResources.toString();
                 }
             }
-        }
-        else
+        } else
         {
             // Rolled a 7, create list of players to loose cards
             String playerList = "";
@@ -268,12 +243,13 @@ public class RollDice extends AbstractTurnAction
             for (GamePlayer p1 : game.getPlayers())
             {
                 if (p1.getResources().size() > p1
-                        .getMaximumCardsInHandWhenSeven())
+                                .getMaximumCardsInHandWhenSeven())
                 {
                     looserPlayers.add(p1.getUser().getId());
                     // Add comma and playername to message
                     playerList += looserPlayers.size() > 0 ? ", "
-                            + p1.getUser().getName() : p1.getUser().getName();
+                                    + p1.getUser().getName() : p1.getUser()
+                                    .getName();
                 }
             }
 
@@ -282,25 +258,24 @@ public class RollDice extends AbstractTurnAction
             {
                 GamePlayer player = game.getPlayerByID(playerID);
                 game.getActionsQueue().enqueue(
-                        new LooseCards().setPlayer(player), false);
+                                new LooseCards().setPlayer(player), false);
             }
 
             // Enqueue moving the robber
             game.getActionsQueue().enqueue(new PlaceRobber().setPlayer(player),
-                    true);
+                            true);
 
             // Enqueue robbing a player
             game.getActionsQueue().enqueue(new RobPlayer().setPlayer(player),
-                    true);
+                            true);
 
             message = player.getUser().getName() + " rolled a 7. ";
 
             if (looserPlayers.size() > 0)
             {
                 message = message + playerList
-                        + " loose half of their resources";
-            }
-            else
+                                + " loose half of their resources";
+            } else
             {
                 message += "No players lost any cards.";
             }
@@ -309,7 +284,7 @@ public class RollDice extends AbstractTurnAction
         // After rolling the dice and all intermediate actions such as move
         // robber, pick gold, etc we switch to the next turn phase
         game.getActionsQueue().enqueue(
-                (GameAction) new TurnPhaseEnded().setSender(0), true);
+                        (GameAction) new TurnPhaseEnded().setSender(0), true);
     }
 
     @Override
@@ -332,35 +307,35 @@ public class RollDice extends AbstractTurnAction
 
     @Override
     public ActionWidget createActionWidget(
-            ActionWidgetFactory actionWidgetFactory)
+                    ActionWidgetFactory actionWidgetFactory)
     {
         return actionWidgetFactory.createRollDiceWidget();
     }
 
     @Override
     public GameBehaviour getNextActionBehaviour(
-            GameBehaviourFactory gameBehaviourFactory)
+                    GameBehaviourFactory gameBehaviourFactory)
     {
         return gameBehaviourFactory.createRollDiceBehaviour(this);
     }
 
     @Override
     public ReceiveGameBehaviour getOpponentReceiveBehaviour(
-            ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
+                    ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
         return receiveGameBehaviourFactory.createRollDiceBehaviour(this);
     }
 
     @Override
     public ReceiveGameBehaviour getReceiveBehaviour(
-            ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
+                    ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
         return receiveGameBehaviourFactory.createRollDiceBehaviour(this);
     }
 
     @Override
     public GameBehaviour getSendBehaviour(
-            GameBehaviourFactory gameBehaviourFactory)
+                    GameBehaviourFactory gameBehaviourFactory)
     {
         return gameBehaviourFactory.createRollDiceBehaviour(this);
     }
@@ -380,7 +355,7 @@ public class RollDice extends AbstractTurnAction
      */
     @Override
     public ActionDetailWidget createActionDetailWidget(
-            ActionDetailWidgetFactory factory)
+                    ActionDetailWidgetFactory factory)
     {
         return factory.getRollDiceDetailWidget(this);
     }

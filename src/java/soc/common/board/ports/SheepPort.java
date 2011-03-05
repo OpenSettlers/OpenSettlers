@@ -2,11 +2,9 @@ package soc.common.board.ports;
 
 import soc.common.board.resources.Resource;
 import soc.common.board.resources.Sheep;
-import soc.common.views.meta.Graphics;
 import soc.common.views.meta.Icon;
 import soc.common.views.meta.IconImpl;
 import soc.common.views.meta.Meta;
-import soc.common.views.widgetsInterface.generic.ToolTip;
 import soc.gwtClient.images.Resources;
 
 public class SheepPort extends TwoToOneResourcePort
@@ -16,19 +14,12 @@ public class SheepPort extends TwoToOneResourcePort
     private static Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().sheepPort(), null,
-                null, null);
+                        null, null);
 
         @Override
         public Icon icon()
         {
             return icon;
-        }
-
-        @Override
-        public Graphics graphics()
-        {
-            // TODO Auto-generated method stub
-            return null;
         }
 
         @Override
@@ -52,12 +43,6 @@ public class SheepPort extends TwoToOneResourcePort
             return null;
         }
 
-        @Override
-        public ToolTip createToolTip()
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
     };
 
     @Override

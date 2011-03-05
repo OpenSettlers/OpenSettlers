@@ -12,6 +12,7 @@ import soc.common.board.territories.Territory;
 import soc.common.views.meta.HasMeta;
 
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.resources.client.ImageResource;
 
 public interface Hex extends HasMeta, HasLocation, Serializable
 {
@@ -108,11 +109,13 @@ public interface Hex extends HasMeta, HasLocation, Serializable
     public Hex setPort(Port port);
 
     public HandlerRegistration addChitChangedEventHandler(
-            ChitChangedEventHandler handler);
+                    ChitChangedEventHandler handler);
 
     public HandlerRegistration addPortChangedEventHandler(
-            PortChangedEventHandler handler);
+                    PortChangedEventHandler handler);
 
     public HandlerRegistration addTerritoryChangedEventHandler(
-            TerritoryChangedEventHandler handler);
+                    TerritoryChangedEventHandler handler);
+
+    public ImageResource getTexture();
 }

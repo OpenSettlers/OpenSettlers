@@ -4,13 +4,16 @@ import soc.common.actions.lobby.LobbyAction;
 import soc.common.lobby.Lobby;
 import soc.common.server.LobbyServer;
 
+/*
+ * Default implementation for a ServerLobbyAction
+ */
 public class DefaultServerLobbyAction implements ServerLobbyAction
 {
     private LobbyAction lobbyAction;
     private LobbyServer lobbyServer;
 
     public DefaultServerLobbyAction(LobbyAction lobbyAction,
-            LobbyServer lobbyServer)
+                    LobbyServer lobbyServer)
     {
         super();
         this.lobbyAction = lobbyAction;
@@ -39,5 +42,4 @@ public class DefaultServerLobbyAction implements ServerLobbyAction
     {
         lobbyAction.perform(lobby);
     }
-
 }

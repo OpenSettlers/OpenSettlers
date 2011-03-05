@@ -11,13 +11,11 @@ import soc.common.views.behaviour.gameWidget.GameBehaviour;
 import soc.common.views.behaviour.gameWidget.factories.GameBehaviourFactory;
 import soc.common.views.behaviour.gameWidget.factories.ReceiveGameBehaviourFactory;
 import soc.common.views.behaviour.gameWidget.received.ReceiveGameBehaviour;
-import soc.common.views.meta.Graphics;
 import soc.common.views.meta.Icon;
 import soc.common.views.meta.IconImpl;
 import soc.common.views.meta.Meta;
 import soc.common.views.widgetsInterface.actions.ActionWidget;
 import soc.common.views.widgetsInterface.actions.ActionWidgetFactory;
-import soc.common.views.widgetsInterface.generic.ToolTip;
 
 public class RolledSame extends AbstractGameAction
 {
@@ -30,13 +28,6 @@ public class RolledSame extends AbstractGameAction
         public Icon icon()
         {
             return icon;
-        }
-
-        @Override
-        public Graphics graphics()
-        {
-            // TODO Auto-generated method stub
-            return null;
         }
 
         @Override
@@ -60,28 +51,18 @@ public class RolledSame extends AbstractGameAction
             return null;
         }
 
-        @Override
-        public ToolTip createToolTip()
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
     };
     private int highRoll;
     private List<Integer> sameRollPlayers = new ArrayList<Integer>();
 
-    /**
-     * @return the highRoll
-     */
+    /** @return the highRoll */
     public int getHighRoll()
     {
         return highRoll;
     }
 
-    /**
-     * @param highRoll
-     *            the highRoll to set
-     */
+    /** @param highRoll
+     *            the highRoll to set */
     public RolledSame setHighRoll(int highRoll)
     {
         this.highRoll = highRoll;
@@ -138,35 +119,35 @@ public class RolledSame extends AbstractGameAction
 
     @Override
     public ActionWidget createActionWidget(
-            ActionWidgetFactory actionWidgetFactory)
+                    ActionWidgetFactory actionWidgetFactory)
     {
         return null;
     }
 
     @Override
     public GameBehaviour getNextActionBehaviour(
-            GameBehaviourFactory gameBehaviourFactory)
+                    GameBehaviourFactory gameBehaviourFactory)
     {
         return gameBehaviourFactory.createRolledSameBehaviour(this);
     }
 
     @Override
     public ReceiveGameBehaviour getOpponentReceiveBehaviour(
-            ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
+                    ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
         return receiveGameBehaviourFactory.createRolledSameBehaviour(this);
     }
 
     @Override
     public ReceiveGameBehaviour getReceiveBehaviour(
-            ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
+                    ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
         return receiveGameBehaviourFactory.createRolledSameBehaviour(this);
     }
 
     @Override
     public GameBehaviour getSendBehaviour(
-            GameBehaviourFactory gameBehaviourFactory)
+                    GameBehaviourFactory gameBehaviourFactory)
     {
         return gameBehaviourFactory.createRolledSameBehaviour(this);
     }

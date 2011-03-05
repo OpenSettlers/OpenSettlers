@@ -12,13 +12,11 @@ import soc.common.views.behaviour.gameWidget.GameBehaviour;
 import soc.common.views.behaviour.gameWidget.factories.GameBehaviourFactory;
 import soc.common.views.behaviour.gameWidget.factories.ReceiveGameBehaviourFactory;
 import soc.common.views.behaviour.gameWidget.received.ReceiveGameBehaviour;
-import soc.common.views.meta.Graphics;
 import soc.common.views.meta.Icon;
 import soc.common.views.meta.IconImpl;
 import soc.common.views.meta.Meta;
 import soc.common.views.widgetsInterface.actions.ActionWidget;
 import soc.common.views.widgetsInterface.actions.ActionWidgetFactory;
-import soc.common.views.widgetsInterface.generic.ToolTip;
 import soc.gwtClient.images.Resources;
 
 public class PlayDevelopmentCard extends AbstractTurnAction
@@ -27,21 +25,13 @@ public class PlayDevelopmentCard extends AbstractTurnAction
     private static Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons()
-                .developmentCardBack(), null, null, null);
+                        .developmentCardBack(), null, null, null);
 
         @Override
         public Icon icon()
         {
             return icon;
         }
-
-        @Override
-        public Graphics graphics()
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
         @Override
         public String getName()
         {
@@ -62,30 +52,19 @@ public class PlayDevelopmentCard extends AbstractTurnAction
             // TODO Auto-generated method stub
             return null;
         }
-
-        @Override
-        public ToolTip createToolTip()
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
     };
     private AbstractDevelopmentCard developmentCard;
 
-    /**
-     * @return the development card
-     */
+    /** @return the development card */
     public DevelopmentCard getDevelopmentcard()
     {
         return developmentCard;
     }
 
-    /**
-     * @param developmentcard
-     *            the development card to set
-     */
+    /** @param developmentcard
+     *            the development card to set */
     public PlayDevelopmentCard setDevelopmentcard(
-            AbstractDevelopmentCard developmentcard)
+                    AbstractDevelopmentCard developmentcard)
     {
         this.developmentCard = developmentcard;
         return this;
@@ -117,8 +96,8 @@ public class PlayDevelopmentCard extends AbstractTurnAction
         }
 
         if (developmentCard.isHasSummoningSickness()
-                && developmentCard.getTurnBought() == game.getCurrentTurn()
-                        .getID())
+                        && developmentCard.getTurnBought() == game
+                                        .getCurrentTurn().getID())
         {
             invalidMessage = "Development card is not playable. Wait one turn";
         }
@@ -126,7 +105,7 @@ public class PlayDevelopmentCard extends AbstractTurnAction
         if (!developmentCard.isValid(game))
         {
             invalidMessage = "Development card is not valid. Reason: "
-                    + developmentCard.getInvalidMessage();
+                            + developmentCard.getInvalidMessage();
             return false;
         }
 
@@ -193,37 +172,37 @@ public class PlayDevelopmentCard extends AbstractTurnAction
 
     @Override
     public ActionWidget createActionWidget(
-            ActionWidgetFactory actionWidgetFactory)
+                    ActionWidgetFactory actionWidgetFactory)
     {
         return actionWidgetFactory.createPlayDevelopmentCardWidget();
     }
 
     @Override
     public GameBehaviour getNextActionBehaviour(
-            GameBehaviourFactory gameBehaviourFactory)
+                    GameBehaviourFactory gameBehaviourFactory)
     {
         return gameBehaviourFactory.createPlayDevelopmentCardBehaviour(this);
     }
 
     @Override
     public ReceiveGameBehaviour getOpponentReceiveBehaviour(
-            ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
+                    ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
         return receiveGameBehaviourFactory
-                .createPlayDevelopmentCardBehaviour(this);
+                        .createPlayDevelopmentCardBehaviour(this);
     }
 
     @Override
     public ReceiveGameBehaviour getReceiveBehaviour(
-            ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
+                    ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
         return receiveGameBehaviourFactory
-                .createPlayDevelopmentCardBehaviour(this);
+                        .createPlayDevelopmentCardBehaviour(this);
     }
 
     @Override
     public GameBehaviour getSendBehaviour(
-            GameBehaviourFactory gameBehaviourFactory)
+                    GameBehaviourFactory gameBehaviourFactory)
     {
         return gameBehaviourFactory.createPlayDevelopmentCardBehaviour(this);
     }

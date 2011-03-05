@@ -10,13 +10,11 @@ import soc.common.views.behaviour.gameWidget.GameBehaviour;
 import soc.common.views.behaviour.gameWidget.factories.GameBehaviourFactory;
 import soc.common.views.behaviour.gameWidget.factories.ReceiveGameBehaviourFactory;
 import soc.common.views.behaviour.gameWidget.received.ReceiveGameBehaviour;
-import soc.common.views.meta.Graphics;
 import soc.common.views.meta.Icon;
 import soc.common.views.meta.IconImpl;
 import soc.common.views.meta.Meta;
 import soc.common.views.widgetsInterface.actions.ActionWidget;
 import soc.common.views.widgetsInterface.actions.ActionWidgetFactory;
-import soc.common.views.widgetsInterface.generic.ToolTip;
 
 public class StartingPlayerDetermined extends AbstractGameAction
 {
@@ -29,13 +27,6 @@ public class StartingPlayerDetermined extends AbstractGameAction
         public Icon icon()
         {
             return icon;
-        }
-
-        @Override
-        public Graphics graphics()
-        {
-            // TODO Auto-generated method stub
-            return null;
         }
 
         @Override
@@ -59,28 +50,18 @@ public class StartingPlayerDetermined extends AbstractGameAction
             return null;
         }
 
-        @Override
-        public ToolTip createToolTip()
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
     };
     private int diceRoll;
     private GamePlayer gameStarter;
 
-    /**
-     * @return the gameStarter
-     */
+    /** @return the gameStarter */
     public GamePlayer getGameStarter()
     {
         return gameStarter;
     }
 
-    /**
-     * @param gameStarter
-     *            the gameStarter to set
-     */
+    /** @param gameStarter
+     *            the gameStarter to set */
     public StartingPlayerDetermined setGameStarter(GamePlayer gameStarter)
     {
         this.gameStarter = gameStarter;
@@ -88,18 +69,14 @@ public class StartingPlayerDetermined extends AbstractGameAction
         return this;
     }
 
-    /**
-     * @return the diceRoll
-     */
+    /** @return the diceRoll */
     public int getDiceRoll()
     {
         return diceRoll;
     }
 
-    /**
-     * @param diceRoll
-     *            the diceRoll to set
-     */
+    /** @param diceRoll
+     *            the diceRoll to set */
     public StartingPlayerDetermined setDiceRoll(int diceRoll)
     {
         this.diceRoll = diceRoll;
@@ -140,47 +117,47 @@ public class StartingPlayerDetermined extends AbstractGameAction
         game.setStartPlayer(gameStarter);
         game.advanceTurn();
         message = "Starting player determined: "
-                + game.getStartPlayer().getUser().getName();
+                        + game.getStartPlayer().getUser().getName();
         super.perform(game);
     }
 
     @Override
     public ActionWidget createActionWidget(
-            ActionWidgetFactory actionWidgetFactory)
+                    ActionWidgetFactory actionWidgetFactory)
     {
         return null;
     }
 
     @Override
     public GameBehaviour getNextActionBehaviour(
-            GameBehaviourFactory gameBehaviourFactory)
+                    GameBehaviourFactory gameBehaviourFactory)
     {
         return gameBehaviourFactory
-                .createStartingPlayerDeterminedBehaviour(this);
+                        .createStartingPlayerDeterminedBehaviour(this);
     }
 
     @Override
     public ReceiveGameBehaviour getOpponentReceiveBehaviour(
-            ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
+                    ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
         return receiveGameBehaviourFactory
-                .createStartingPlayerDeterminedBehaviour(this);
+                        .createStartingPlayerDeterminedBehaviour(this);
     }
 
     @Override
     public ReceiveGameBehaviour getReceiveBehaviour(
-            ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
+                    ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
         return receiveGameBehaviourFactory
-                .createStartingPlayerDeterminedBehaviour(this);
+                        .createStartingPlayerDeterminedBehaviour(this);
     }
 
     @Override
     public GameBehaviour getSendBehaviour(
-            GameBehaviourFactory gameBehaviourFactory)
+                    GameBehaviourFactory gameBehaviourFactory)
     {
         return gameBehaviourFactory
-                .createStartingPlayerDeterminedBehaviour(this);
+                        .createStartingPlayerDeterminedBehaviour(this);
     }
 
     @Override

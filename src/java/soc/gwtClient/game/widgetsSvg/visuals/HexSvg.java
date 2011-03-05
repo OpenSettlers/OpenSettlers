@@ -18,7 +18,7 @@ import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 
 public class HexSvg extends AbstractHexVisual implements MouseMoveHandler,
-        ClickHandler, MouseOutHandler
+                ClickHandler, MouseOutHandler
 {
     private Group group = new Group();
     private Point2D point;
@@ -40,8 +40,8 @@ public class HexSvg extends AbstractHexVisual implements MouseMoveHandler,
         // create the visuals
         this.chit = new ChitSvg(null, parent, getMiddlePoint(point));
         this.territory = new TerritorySvg(parent, null, point);
-        this.portPossibilities = new DummyPortPossibilitiesSvg(hex
-                .getLocation(), (BoardSvg) parent);
+        this.portPossibilities = new DummyPortPossibilitiesSvg(
+                        hex.getLocation(), (BoardSvg) parent);
         this.port = new PortSvg(null, parent, getMiddlePoint(point));
 
         this.chit.setVisible(false);
@@ -73,18 +73,14 @@ public class HexSvg extends AbstractHexVisual implements MouseMoveHandler,
         this.setHex(hex);
     }
 
-    /**
-     * @return the group
-     */
+    /** @return the group */
     public Group getGroup()
     {
         return group;
     }
 
-    /**
-     * @param selected
-     *            the selected to set
-     */
+    /** @param selected
+     *            the selected to set */
     @Override
     public PieceVisual setSelected(boolean selected)
     {
@@ -93,8 +89,7 @@ public class HexSvg extends AbstractHexVisual implements MouseMoveHandler,
         {
             path.setFillOpacity(0.5);
             path.setStrokeWidth(15);
-        }
-        else
+        } else
         {
             path.setFillOpacity(0);
             path.setStrokeWidth(5);
@@ -169,24 +164,24 @@ public class HexSvg extends AbstractHexVisual implements MouseMoveHandler,
 
     private Point2D getMiddlePoint(Point2D point)
     {
-        return new Point2D((int) point.getX(), (int) (point.getY() + parent
-                .getHalfHeight()));
+        return new Point2D((int) point.getX(),
+                        (int) (point.getY() + parent.getHalfHeight()));
     }
 
     private Path createPath()
     {
         Path result = new Path(point.getX(), point.getY());
 
-        result.lineRelativelyTo((int) parent.getHalfWidth(), (int) parent
-                .getBottomHeight());
+        result.lineRelativelyTo((int) parent.getHalfWidth(),
+                        (int) parent.getBottomHeight());
         result.lineRelativelyTo(0, (int) parent.getSize());
-        result.lineRelativelyTo((int) -parent.getHalfWidth(), (int) parent
-                .getBottomHeight());
-        result.lineRelativelyTo((int) -parent.getHalfWidth(), (int) -parent
-                .getBottomHeight());
+        result.lineRelativelyTo((int) -parent.getHalfWidth(),
+                        (int) parent.getBottomHeight());
+        result.lineRelativelyTo((int) -parent.getHalfWidth(),
+                        (int) -parent.getBottomHeight());
         result.lineRelativelyTo(0, (int) -parent.getSize());
-        result.lineRelativelyTo((int) parent.getHalfWidth(), (int) -parent
-                .getBottomHeight());
+        result.lineRelativelyTo((int) parent.getHalfWidth(),
+                        (int) -parent.getBottomHeight());
 
         return result;
     }
@@ -197,16 +192,15 @@ public class HexSvg extends AbstractHexVisual implements MouseMoveHandler,
         String img = "";
 
         if (hex != null)
-            img = hex.getMeta().graphics().graphics().getURL();
+            img = hex.getTexture().getURL();
 
         String color = hex.getColor();
 
         if (hexImage == null)
         {
             hexImage = new Image(point.getX() - parent.getSize(), point.getY(),
-                    parent.getSize() * 2, parent.getSize() * 2, img);
-        }
-        else
+                            parent.getSize() * 2, parent.getSize() * 2, img);
+        } else
         {
             hexImage.setHref(img);
         }

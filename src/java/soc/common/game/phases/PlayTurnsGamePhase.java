@@ -9,18 +9,53 @@ import soc.common.game.TurnImpl;
 import soc.common.game.phases.turnPhase.BeforeDiceRollTurnPhase;
 import soc.common.game.phases.turnPhase.TurnPhase;
 import soc.common.game.player.GamePlayer;
+import soc.common.views.meta.Icon;
+import soc.common.views.meta.IconImpl;
+import soc.common.views.meta.Meta;
 import soc.common.views.widgetsInterface.main.GamePhaseStatusWidget;
 import soc.common.views.widgetsInterface.main.GamePhaseStatusWidgetFactory;
+import soc.gwtClient.images.Resources;
 
 public class PlayTurnsGamePhase extends AbstractGamePhase
 {
     private static final long serialVersionUID = 7286330376523360257L;
     // Current phase of the player on turn
     private TurnPhase turnPhase = new BeforeDiceRollTurnPhase();
+    private static transient Meta meta = new Meta()
+    {
+        private Icon icon = new IconImpl(null, null, Resources.icons()
+                        .playTurnsGamePhase32());
 
-    /**
-     * @return the turnPhase
-     */
+        @Override
+        public Icon icon()
+        {
+            return icon;
+        }
+
+        @Override
+        public String getName()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public String getLocalizedName()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public String getDescription()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+    };
+
+    /** @return the turnPhase */
     public TurnPhase getTurnPhase()
     {
         return turnPhase;
@@ -53,11 +88,11 @@ public class PlayTurnsGamePhase extends AbstractGamePhase
     public void performAction(GameAction action, Game game)
     {
         if (turnPhase.isTrading() && !(action instanceof TradeAction)
-                && !(action instanceof TurnPhaseEnded))
+                        && !(action instanceof TurnPhaseEnded))
         {
             // Non-trading action detected in trading turn phase, advance phase
             TurnPhaseEnded endedTradePhase = (TurnPhaseEnded) new TurnPhaseEnded()
-                    .setSender(0);
+                            .setSender(0);
             game.performAction(endedTradePhase);
         }
 
@@ -105,12 +140,11 @@ public class PlayTurnsGamePhase extends AbstractGamePhase
         {
             // First turn in PlayTurnsGamePhase has always ID=1
             newTurn = new TurnImpl(game.getPlayers().get(0), 1, turnPhase);
-        }
-        else
+        } else
         {
             // Determine index of next player
             int nextPlayerIndex = game.getPlayers().indexOf(
-                    game.getCurrentTurn().getPlayer()) + 1;
+                            game.getCurrentTurn().getPlayer()) + 1;
             if (nextPlayerIndex == game.getPlayers().size())
             {
                 nextPlayerIndex = 0;
@@ -121,7 +155,7 @@ public class PlayTurnsGamePhase extends AbstractGamePhase
 
             // Create a new turn with increased ID numer
             newTurn = new TurnImpl(newPlayerOnTurn, game.getCurrentTurn()
-                    .getID() + 1, turnPhase);
+                            .getID() + 1, turnPhase);
         }
 
         return newTurn;
@@ -140,8 +174,14 @@ public class PlayTurnsGamePhase extends AbstractGamePhase
 
     @Override
     public GamePhaseStatusWidget createGamePhaseStatusWidget(
-            GamePhaseStatusWidgetFactory factory)
+                    GamePhaseStatusWidgetFactory factory)
     {
         return factory.createPlayTurnsStatusWidget(this);
+    }
+
+    @Override
+    public Meta getMeta()
+    {
+        return meta;
     }
 }

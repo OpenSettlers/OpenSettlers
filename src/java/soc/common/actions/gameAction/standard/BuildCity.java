@@ -16,14 +16,12 @@ import soc.common.views.behaviour.gameWidget.GameBehaviour;
 import soc.common.views.behaviour.gameWidget.factories.GameBehaviourFactory;
 import soc.common.views.behaviour.gameWidget.factories.ReceiveGameBehaviourFactory;
 import soc.common.views.behaviour.gameWidget.received.ReceiveGameBehaviour;
-import soc.common.views.meta.Graphics;
 import soc.common.views.meta.Icon;
 import soc.common.views.meta.IconImpl;
 import soc.common.views.meta.Meta;
 import soc.common.views.widgetsInterface.actions.ActionDetailWidgetFactory;
 import soc.common.views.widgetsInterface.actions.ActionWidget;
 import soc.common.views.widgetsInterface.actions.ActionWidgetFactory;
-import soc.common.views.widgetsInterface.generic.ToolTip;
 import soc.common.views.widgetsInterface.payerInfo.ActionDetailWidget;
 import soc.gwtClient.images.Resources;
 
@@ -33,18 +31,12 @@ public class BuildCity extends AbstractTurnAction
     private static Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().city(), null, null,
-                Resources.icons().citySmall());
+                        Resources.icons().citySmall());
 
         @Override
         public Icon icon()
         {
             return icon;
-        }
-
-        @Override
-        public Graphics graphics()
-        {
-            return null;
         }
 
         @Override
@@ -65,27 +57,17 @@ public class BuildCity extends AbstractTurnAction
             return null;// I18n.get().constants().getc
         }
 
-        @Override
-        public ToolTip createToolTip()
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
     };
     private HexPoint pointLocation;
 
-    /**
-     * @return the location
-     */
+    /** @return the location */
     public HexPoint getPointLocation()
     {
         return pointLocation;
     }
 
-    /**
-     * @param location
-     *            the location to set
-     */
+    /** @param location
+     *            the location to set */
     public BuildCity setLocation(HexPoint pointLocation)
     {
         this.pointLocation = pointLocation;
@@ -208,35 +190,35 @@ public class BuildCity extends AbstractTurnAction
 
     @Override
     public ActionWidget createActionWidget(
-            ActionWidgetFactory actionWidgetFactory)
+                    ActionWidgetFactory actionWidgetFactory)
     {
         return actionWidgetFactory.createBuildCityWidget();
     }
 
     @Override
     public GameBehaviour getNextActionBehaviour(
-            GameBehaviourFactory gameBehaviourFactory)
+                    GameBehaviourFactory gameBehaviourFactory)
     {
         return gameBehaviourFactory.createBuildCityBehaviour(this);
     }
 
     @Override
     public ReceiveGameBehaviour getOpponentReceiveBehaviour(
-            ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
+                    ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
         return receiveGameBehaviourFactory.createBuildCityBehaviour(this);
     }
 
     @Override
     public ReceiveGameBehaviour getReceiveBehaviour(
-            ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
+                    ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
         return receiveGameBehaviourFactory.createBuildCityBehaviour(this);
     }
 
     @Override
     public GameBehaviour getSendBehaviour(
-            GameBehaviourFactory gameBehaviourFactory)
+                    GameBehaviourFactory gameBehaviourFactory)
     {
         return gameBehaviourFactory.createBuildCityBehaviour(this);
     }
@@ -250,7 +232,7 @@ public class BuildCity extends AbstractTurnAction
      */
     @Override
     public ActionDetailWidget createActionDetailWidget(
-            ActionDetailWidgetFactory factory)
+                    ActionDetailWidgetFactory factory)
     {
         return factory.getBuildCityDetailWidget(this);
     }

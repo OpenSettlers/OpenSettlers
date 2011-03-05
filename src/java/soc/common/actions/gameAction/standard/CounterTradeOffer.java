@@ -13,35 +13,26 @@ import soc.common.views.behaviour.gameWidget.GameBehaviour;
 import soc.common.views.behaviour.gameWidget.factories.GameBehaviourFactory;
 import soc.common.views.behaviour.gameWidget.factories.ReceiveGameBehaviourFactory;
 import soc.common.views.behaviour.gameWidget.received.ReceiveGameBehaviour;
-import soc.common.views.meta.Graphics;
 import soc.common.views.meta.Icon;
 import soc.common.views.meta.IconImpl;
 import soc.common.views.meta.Meta;
 import soc.common.views.widgetsInterface.actions.ActionWidget;
 import soc.common.views.widgetsInterface.actions.ActionWidgetFactory;
-import soc.common.views.widgetsInterface.generic.ToolTip;
 import soc.gwtClient.images.Resources;
 
 public class CounterTradeOffer extends AbstractGameAction implements
-        TradeResponse
+                TradeResponse
 {
     private static final long serialVersionUID = 7506550189521999145L;
     private static Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().tradeCountered(),
-                null, null, null);
+                        null, null, null);
 
         @Override
         public Icon icon()
         {
             return icon;
-        }
-
-        @Override
-        public Graphics graphics()
-        {
-            // TODO Auto-generated method stub
-            return null;
         }
 
         @Override
@@ -60,13 +51,6 @@ public class CounterTradeOffer extends AbstractGameAction implements
 
         @Override
         public String getDescription()
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public ToolTip createToolTip()
         {
             // TODO Auto-generated method stub
             return null;
@@ -203,37 +187,37 @@ public class CounterTradeOffer extends AbstractGameAction implements
 
     @Override
     public ActionWidget createActionWidget(
-            ActionWidgetFactory actionWidgetFactory)
+                    ActionWidgetFactory actionWidgetFactory)
     {
         return null;
     }
 
     @Override
     public GameBehaviour getNextActionBehaviour(
-            GameBehaviourFactory gameBehaviourFactory)
+                    GameBehaviourFactory gameBehaviourFactory)
     {
         return gameBehaviourFactory.createCounterTradeOfferBehaviour(this);
     }
 
     @Override
     public ReceiveGameBehaviour getOpponentReceiveBehaviour(
-            ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
+                    ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
         return receiveGameBehaviourFactory
-                .createCounterTradeOfferBehaviour(this);
+                        .createCounterTradeOfferBehaviour(this);
     }
 
     @Override
     public ReceiveGameBehaviour getReceiveBehaviour(
-            ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
+                    ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
         return receiveGameBehaviourFactory
-                .createCounterTradeOfferBehaviour(this);
+                        .createCounterTradeOfferBehaviour(this);
     }
 
     @Override
     public GameBehaviour getSendBehaviour(
-            GameBehaviourFactory gameBehaviourFactory)
+                    GameBehaviourFactory gameBehaviourFactory)
     {
         return gameBehaviourFactory.createCounterTradeOfferBehaviour(this);
     }

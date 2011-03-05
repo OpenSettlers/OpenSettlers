@@ -14,13 +14,11 @@ import soc.common.views.behaviour.gameWidget.GameBehaviour;
 import soc.common.views.behaviour.gameWidget.factories.GameBehaviourFactory;
 import soc.common.views.behaviour.gameWidget.factories.ReceiveGameBehaviourFactory;
 import soc.common.views.behaviour.gameWidget.received.ReceiveGameBehaviour;
-import soc.common.views.meta.Graphics;
 import soc.common.views.meta.Icon;
 import soc.common.views.meta.IconImpl;
 import soc.common.views.meta.Meta;
 import soc.common.views.widgetsInterface.actions.ActionWidget;
 import soc.common.views.widgetsInterface.actions.ActionWidgetFactory;
-import soc.common.views.widgetsInterface.generic.ToolTip;
 import soc.gwtClient.images.Resources;
 
 public class BuyDevelopmentCard extends AbstractTurnAction
@@ -29,19 +27,12 @@ public class BuyDevelopmentCard extends AbstractTurnAction
     private static Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().buyDvelopmentCard(),
-                null, null, null);
+                        null, null, null);
 
         @Override
         public Icon icon()
         {
             return icon;
-        }
-
-        @Override
-        public Graphics graphics()
-        {
-            // TODO Auto-generated method stub
-            return null;
         }
 
         @Override
@@ -64,29 +55,18 @@ public class BuyDevelopmentCard extends AbstractTurnAction
             // TODO Auto-generated method stub
             return null;
         }
-
-        @Override
-        public ToolTip createToolTip()
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
     };
     private ResourceList resources;
     private DevelopmentCard devCard;
 
-    /**
-     * @return the devCard
-     */
+    /** @return the devCard */
     public DevelopmentCard getDevCard()
     {
         return devCard;
     }
 
-    /**
-     * @param devCard
-     *            the devCard to set
-     */
+    /** @param devCard
+     *            the devCard to set */
     public BuyDevelopmentCard setDevCard(DevelopmentCard devCard)
     {
         this.devCard = devCard;
@@ -94,18 +74,14 @@ public class BuyDevelopmentCard extends AbstractTurnAction
         return this;
     }
 
-    /**
-     * @return the resources
-     */
+    /** @return the resources */
     public ResourceList getResources()
     {
         return resources;
     }
 
-    /**
-     * @param resources
-     *            the resources to set
-     */
+    /** @param resources
+     *            the resources to set */
     public BuyDevelopmentCard setResources(ResourceList resources)
     {
         this.resources = resources;
@@ -205,37 +181,37 @@ public class BuyDevelopmentCard extends AbstractTurnAction
 
     @Override
     public ActionWidget createActionWidget(
-            ActionWidgetFactory actionWidgetFactory)
+                    ActionWidgetFactory actionWidgetFactory)
     {
         return actionWidgetFactory.createBuyDevelopmentCardWidget();
     }
 
     @Override
     public GameBehaviour getNextActionBehaviour(
-            GameBehaviourFactory gameBehaviourFactory)
+                    GameBehaviourFactory gameBehaviourFactory)
     {
         return gameBehaviourFactory.createBuyDevelopmentcardBehaviour(this);
     }
 
     @Override
     public ReceiveGameBehaviour getOpponentReceiveBehaviour(
-            ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
+                    ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
         return receiveGameBehaviourFactory
-                .createPlayDevelopmentCardBehaviour(this);
+                        .createPlayDevelopmentCardBehaviour(this);
     }
 
     @Override
     public ReceiveGameBehaviour getReceiveBehaviour(
-            ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
+                    ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
         return receiveGameBehaviourFactory
-                .createPlayDevelopmentCardBehaviour(this);
+                        .createPlayDevelopmentCardBehaviour(this);
     }
 
     @Override
     public GameBehaviour getSendBehaviour(
-            GameBehaviourFactory gameBehaviourFactory)
+                    GameBehaviourFactory gameBehaviourFactory)
     {
         return gameBehaviourFactory.createBuyDevelopmentcardBehaviour(this);
     }

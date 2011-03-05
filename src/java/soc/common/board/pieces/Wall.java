@@ -7,11 +7,9 @@ import soc.common.board.HexPoint;
 import soc.common.board.pieces.abstractPieces.AbstractPlayerPiece;
 import soc.common.board.pieces.abstractPieces.PointPiece;
 import soc.common.game.player.GamePlayer;
-import soc.common.views.meta.Graphics;
 import soc.common.views.meta.Icon;
 import soc.common.views.meta.IconImpl;
 import soc.common.views.meta.Meta;
-import soc.common.views.widgetsInterface.generic.ToolTip;
 import soc.common.views.widgetsInterface.visuals.PieceVisual;
 import soc.common.views.widgetsInterface.visuals.VisualFactory;
 
@@ -31,12 +29,6 @@ public class Wall extends AbstractPlayerPiece implements PointPiece
         }
 
         @Override
-        public Graphics graphics()
-        {
-            return null;
-        }
-
-        @Override
         public String getName()
         {
             // TODO Auto-generated method stub
@@ -52,13 +44,6 @@ public class Wall extends AbstractPlayerPiece implements PointPiece
 
         @Override
         public String getDescription()
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public ToolTip createToolTip()
         {
             // TODO Auto-generated method stub
             return null;

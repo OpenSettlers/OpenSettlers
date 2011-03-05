@@ -1,7 +1,5 @@
 package soc.common.views.meta;
 
-import soc.common.views.widgetsInterface.generic.ToolTip;
-
 public interface Meta
 {
     public String getName();
@@ -11,8 +9,4 @@ public interface Meta
     public String getDescription();
 
     public Icon icon();
-
-    public Graphics graphics();
-
-    public ToolTip createToolTip();
 }

@@ -11,13 +11,11 @@ import soc.common.views.behaviour.gameWidget.GameBehaviour;
 import soc.common.views.behaviour.gameWidget.factories.GameBehaviourFactory;
 import soc.common.views.behaviour.gameWidget.factories.ReceiveGameBehaviourFactory;
 import soc.common.views.behaviour.gameWidget.received.ReceiveGameBehaviour;
-import soc.common.views.meta.Graphics;
 import soc.common.views.meta.Icon;
 import soc.common.views.meta.IconImpl;
 import soc.common.views.meta.Meta;
 import soc.common.views.widgetsInterface.actions.ActionWidget;
 import soc.common.views.widgetsInterface.actions.ActionWidgetFactory;
-import soc.common.views.widgetsInterface.generic.ToolTip;
 import soc.gwtClient.images.Resources;
 
 public class ClaimVictory extends AbstractTurnAction
@@ -26,19 +24,12 @@ public class ClaimVictory extends AbstractTurnAction
     private static Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().claimVictory(),
-                null, null, null);
+                        null, null, null);
 
         @Override
         public Icon icon()
         {
             return icon;
-        }
-
-        @Override
-        public Graphics graphics()
-        {
-            // TODO Auto-generated method stub
-            return null;
         }
 
         @Override
@@ -57,13 +48,6 @@ public class ClaimVictory extends AbstractTurnAction
 
         @Override
         public String getDescription()
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public ToolTip createToolTip()
         {
             // TODO Auto-generated method stub
             return null;
@@ -98,7 +82,7 @@ public class ClaimVictory extends AbstractTurnAction
         }
 
         if (player.getVictoryPoints().getTotalPoints() < game.getBoard()
-                .getBoardSettings().getVpToWin().getVpToWin())
+                        .getBoardSettings().getVpToWin().getVpToWin())
         {
             invalidMessage = "Player does not have enough victory points to win";
             return false;
@@ -117,8 +101,10 @@ public class ClaimVictory extends AbstractTurnAction
     @Override
     public void perform(Game game)
     {
-        game.getActionsQueue().enqueue(
-                (GameAction) new GamePhaseHasEnded().setSender(0), true);
+        game.getActionsQueue()
+                        .enqueue((GameAction) new GamePhaseHasEnded()
+                                        .setSender(0),
+                                        true);
 
         super.perform(game);
     }
@@ -127,40 +113,40 @@ public class ClaimVictory extends AbstractTurnAction
     public String getToDoMessage()
     {
         return I18n.get().actions()
-                .claimVictoryToDo(player.getUser().getName());
+                        .claimVictoryToDo(player.getUser().getName());
     }
 
     @Override
     public ActionWidget createActionWidget(
-            ActionWidgetFactory actionWidgetFactory)
+                    ActionWidgetFactory actionWidgetFactory)
     {
         return actionWidgetFactory.createClaimVictoryWidget();
     }
 
     @Override
     public GameBehaviour getNextActionBehaviour(
-            GameBehaviourFactory gameBehaviourFactory)
+                    GameBehaviourFactory gameBehaviourFactory)
     {
         return gameBehaviourFactory.createClaimVictoryBehaviour(this);
     }
 
     @Override
     public ReceiveGameBehaviour getOpponentReceiveBehaviour(
-            ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
+                    ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
         return receiveGameBehaviourFactory.createClaimVictoryBehaviour(this);
     }
 
     @Override
     public ReceiveGameBehaviour getReceiveBehaviour(
-            ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
+                    ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
         return receiveGameBehaviourFactory.createClaimVictoryBehaviour(this);
     }
 
     @Override
     public GameBehaviour getSendBehaviour(
-            GameBehaviourFactory gameBehaviourFactory)
+                    GameBehaviourFactory gameBehaviourFactory)
     {
         return gameBehaviourFactory.createClaimVictoryBehaviour(this);
     }

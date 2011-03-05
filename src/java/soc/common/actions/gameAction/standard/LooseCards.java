@@ -12,13 +12,11 @@ import soc.common.views.behaviour.gameWidget.GameBehaviour;
 import soc.common.views.behaviour.gameWidget.factories.GameBehaviourFactory;
 import soc.common.views.behaviour.gameWidget.factories.ReceiveGameBehaviourFactory;
 import soc.common.views.behaviour.gameWidget.received.ReceiveGameBehaviour;
-import soc.common.views.meta.Graphics;
 import soc.common.views.meta.Icon;
 import soc.common.views.meta.IconImpl;
 import soc.common.views.meta.Meta;
 import soc.common.views.widgetsInterface.actions.ActionWidget;
 import soc.common.views.widgetsInterface.actions.ActionWidgetFactory;
-import soc.common.views.widgetsInterface.generic.ToolTip;
 
 public class LooseCards extends AbstractTurnAction
 {
@@ -31,13 +29,6 @@ public class LooseCards extends AbstractTurnAction
         public Icon icon()
         {
             return icon;
-        }
-
-        @Override
-        public Graphics graphics()
-        {
-            // TODO Auto-generated method stub
-            return null;
         }
 
         @Override
@@ -56,13 +47,6 @@ public class LooseCards extends AbstractTurnAction
 
         @Override
         public String getDescription()
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public ToolTip createToolTip()
         {
             // TODO Auto-generated method stub
             return null;
@@ -88,18 +72,14 @@ public class LooseCards extends AbstractTurnAction
         return this;
     }
 
-    /**
-     * @return the lostCards
-     */
+    /** @return the lostCards */
     public ResourceList getLostCards()
     {
         return lostCards;
     }
 
-    /**
-     * @param lostCards
-     *            the lostCards to set
-     */
+    /** @param lostCards
+     *            the lostCards to set */
     public LooseCards setLostCards(ResourceList lostCards)
     {
         this.lostCards = lostCards;
@@ -107,18 +87,14 @@ public class LooseCards extends AbstractTurnAction
         return this;
     }
 
-    /**
-     * @return the amountCardsToLoose
-     */
+    /** @return the amountCardsToLoose */
     public int getAmountCardsToLoose()
     {
         return amountCardsToLoose;
     }
 
-    /**
-     * @param amountCardsToLoose
-     *            the amountCardsToLoose to set
-     */
+    /** @param amountCardsToLoose
+     *            the amountCardsToLoose to set */
     public LooseCards setAmountCardsToLoose(int amountCardsToLoose)
     {
         this.amountCardsToLoose = amountCardsToLoose;
@@ -181,8 +157,10 @@ public class LooseCards extends AbstractTurnAction
     @Override
     public String getToDoMessage()
     {
-        return I18n.get().actions().looseCardsToDo(player.getUser().getName(),
-                amountCardsToLoose);
+        return I18n.get()
+                        .actions()
+                        .looseCardsToDo(player.getUser().getName(),
+                                        amountCardsToLoose);
     }
 
     @Override
@@ -199,35 +177,35 @@ public class LooseCards extends AbstractTurnAction
 
     @Override
     public ActionWidget createActionWidget(
-            ActionWidgetFactory actionWidgetFactory)
+                    ActionWidgetFactory actionWidgetFactory)
     {
         return null;
     }
 
     @Override
     public GameBehaviour getNextActionBehaviour(
-            GameBehaviourFactory gameBehaviourFactory)
+                    GameBehaviourFactory gameBehaviourFactory)
     {
         return gameBehaviourFactory.createLooseCardsBehaviour(this);
     }
 
     @Override
     public ReceiveGameBehaviour getOpponentReceiveBehaviour(
-            ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
+                    ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
         return receiveGameBehaviourFactory.createLooseCardsBehaviour(this);
     }
 
     @Override
     public ReceiveGameBehaviour getReceiveBehaviour(
-            ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
+                    ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
         return receiveGameBehaviourFactory.createLooseCardsBehaviour(this);
     }
 
     @Override
     public GameBehaviour getSendBehaviour(
-            GameBehaviourFactory gameBehaviourFactory)
+                    GameBehaviourFactory gameBehaviourFactory)
     {
         return gameBehaviourFactory.createLooseCardsBehaviour(this);
     }

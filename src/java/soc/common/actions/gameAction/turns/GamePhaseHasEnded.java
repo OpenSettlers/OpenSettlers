@@ -9,13 +9,11 @@ import soc.common.views.behaviour.gameWidget.GameBehaviour;
 import soc.common.views.behaviour.gameWidget.factories.GameBehaviourFactory;
 import soc.common.views.behaviour.gameWidget.factories.ReceiveGameBehaviourFactory;
 import soc.common.views.behaviour.gameWidget.received.ReceiveGameBehaviour;
-import soc.common.views.meta.Graphics;
 import soc.common.views.meta.Icon;
 import soc.common.views.meta.IconImpl;
 import soc.common.views.meta.Meta;
 import soc.common.views.widgetsInterface.actions.ActionWidget;
 import soc.common.views.widgetsInterface.actions.ActionWidgetFactory;
-import soc.common.views.widgetsInterface.generic.ToolTip;
 
 /*
  * Announces a gamephase which has been ended
@@ -31,13 +29,6 @@ public class GamePhaseHasEnded extends AbstractGameAction
         public Icon icon()
         {
             return icon;
-        }
-
-        @Override
-        public Graphics graphics()
-        {
-            // TODO Auto-generated method stub
-            return null;
         }
 
         @Override
@@ -61,19 +52,11 @@ public class GamePhaseHasEnded extends AbstractGameAction
             return null;
         }
 
-        @Override
-        public ToolTip createToolTip()
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
     };
     private GamePhase endedGamePhase;
     private GamePhase newPhase;
 
-    /**
-     * @return the newPhase
-     */
+    /** @return the newPhase */
     public GamePhase getNewPhase()
     {
         return newPhase;
@@ -94,23 +77,19 @@ public class GamePhaseHasEnded extends AbstractGameAction
 
         // TODO: fix message
         message = endedGamePhase.getName() + " has ended, entering"
-                + newPhase.getName();
+                        + newPhase.getName();
 
         super.perform(game);
     }
 
-    /**
-     * @return the endedGamePhase
-     */
+    /** @return the endedGamePhase */
     public GamePhase getEndedGamePhase()
     {
         return endedGamePhase;
     }
 
-    /**
-     * @param endedGamePhase
-     *            the endedGamePhase to set
-     */
+    /** @param endedGamePhase
+     *            the endedGamePhase to set */
     public GamePhaseHasEnded setEndedGamePhase(GamePhase endedGamePhase)
     {
         this.endedGamePhase = endedGamePhase;
@@ -137,37 +116,38 @@ public class GamePhaseHasEnded extends AbstractGameAction
     }
 
     @Override
-    public ActionWidget createActionWidget(ActionWidgetFactory actionWidgetFactory)
+    public ActionWidget createActionWidget(
+                    ActionWidgetFactory actionWidgetFactory)
     {
         return null;
     }
 
     @Override
     public GameBehaviour getNextActionBehaviour(
-            GameBehaviourFactory gameBehaviourFactory)
+                    GameBehaviourFactory gameBehaviourFactory)
     {
         return gameBehaviourFactory.createGamePhaseHasEndedBehaviour(this);
     }
 
     @Override
     public ReceiveGameBehaviour getOpponentReceiveBehaviour(
-            ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
+                    ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
         return receiveGameBehaviourFactory
-                .createGamePhaseHasEndedBehaviour(this);
+                        .createGamePhaseHasEndedBehaviour(this);
     }
 
     @Override
     public ReceiveGameBehaviour getReceiveBehaviour(
-            ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
+                    ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
         return receiveGameBehaviourFactory
-                .createGamePhaseHasEndedBehaviour(this);
+                        .createGamePhaseHasEndedBehaviour(this);
     }
 
     @Override
     public GameBehaviour getSendBehaviour(
-            GameBehaviourFactory gameBehaviourFactory)
+                    GameBehaviourFactory gameBehaviourFactory)
     {
         return gameBehaviourFactory.createGamePhaseHasEndedBehaviour(this);
     }

@@ -6,17 +6,15 @@ import soc.common.board.pieces.abstractPieces.AbstractPlayerPiece;
 import soc.common.board.territories.Territory;
 import soc.common.game.VictoryPointItem;
 import soc.common.game.player.GamePlayer;
-import soc.common.views.meta.Graphics;
 import soc.common.views.meta.Icon;
 import soc.common.views.meta.IconImpl;
 import soc.common.views.meta.Meta;
-import soc.common.views.widgetsInterface.generic.ToolTip;
 import soc.common.views.widgetsInterface.visuals.PieceVisual;
 import soc.common.views.widgetsInterface.visuals.VisualFactory;
 
 @SeaFarers
 public class IslandBonus extends AbstractPlayerPiece implements
-        VictoryPointItem
+                VictoryPointItem
 {
     private static final long serialVersionUID = -4359339700965121307L;
     private static Meta meta = new Meta()
@@ -27,12 +25,6 @@ public class IslandBonus extends AbstractPlayerPiece implements
         public Icon icon()
         {
             return icon;
-        }
-
-        @Override
-        public Graphics graphics()
-        {
-            return null;
         }
 
         @Override
@@ -56,36 +48,24 @@ public class IslandBonus extends AbstractPlayerPiece implements
             return null;
         }
 
-        @Override
-        public ToolTip createToolTip()
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
     };
     private Territory territory;
     private HexPoint location;
 
-    /**
-     * @return the location
-     */
+    /** @return the location */
     public HexPoint getLocation()
     {
         return location;
     }
 
-    /**
-     * @return the territory
-     */
+    /** @return the territory */
     public Territory getTerritory()
     {
         return territory;
     }
 
-    /**
-     * @param territory
-     *            the territory to set
-     */
+    /** @param territory
+     *            the territory to set */
     public IslandBonus setTerritory(Territory territory)
     {
         this.territory = territory;

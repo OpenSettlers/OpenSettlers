@@ -11,7 +11,6 @@ import soc.common.views.meta.IconImpl;
 import soc.common.views.meta.Meta;
 import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidget;
 import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidgetFactory;
-import soc.common.views.widgetsInterface.generic.ToolTip;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.resources.client.ImageResource;
@@ -22,12 +21,12 @@ import com.google.gwt.resources.client.ImageResource;
  * receiving the card
  */
 public class VictoryPoint extends AbstractDevelopmentCard implements
-        VictoryPointItem
+                VictoryPointItem
 {
     private static Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().victoryPoint(),
-                null, null, null);
+                        null, null, null);
         private Graphics graphics = new Graphics()
         {
             @Override
@@ -41,12 +40,6 @@ public class VictoryPoint extends AbstractDevelopmentCard implements
         public Icon icon()
         {
             return icon;
-        }
-
-        @Override
-        public Graphics graphics()
-        {
-            return graphics;
         }
 
         @Override
@@ -65,13 +58,6 @@ public class VictoryPoint extends AbstractDevelopmentCard implements
 
         @Override
         public String getDescription()
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public ToolTip createToolTip()
         {
             // TODO Auto-generated method stub
             return null;
@@ -149,7 +135,7 @@ public class VictoryPoint extends AbstractDevelopmentCard implements
 
     @Override
     public DevelopmentCardWidget createPlayCardWidget(
-            DevelopmentCardWidgetFactory factory)
+                    DevelopmentCardWidgetFactory factory)
     {
         return factory.createVictoryPointWidget(this);
     }

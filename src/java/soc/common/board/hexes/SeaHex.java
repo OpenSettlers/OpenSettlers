@@ -4,11 +4,9 @@ import soc.common.board.chits.Chit;
 import soc.common.board.ports.Port;
 import soc.common.board.ports.PortChangedEvent;
 import soc.common.board.territories.Territory;
-import soc.common.views.meta.Graphics;
 import soc.common.views.meta.Icon;
 import soc.common.views.meta.IconImpl;
 import soc.common.views.meta.Meta;
-import soc.common.views.widgetsInterface.generic.ToolTip;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.event.shared.SimpleEventBus;
@@ -20,26 +18,12 @@ public class SeaHex extends AbstractHex
     private static Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().seaHex(), null,
-                null, null);
-        private Graphics graphics = new Graphics()
-        {
-            @Override
-            public ImageResource graphics()
-            {
-                return Resources.images().seaHex();
-            }
-        };
+                        null, null);
 
         @Override
         public Icon icon()
         {
             return icon;
-        }
-
-        @Override
-        public Graphics graphics()
-        {
-            return graphics;
         }
 
         @Override
@@ -63,12 +47,6 @@ public class SeaHex extends AbstractHex
             return null;
         }
 
-        @Override
-        public ToolTip createToolTip()
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
     };
     // A SeaHex may have a port associated with it
     private Port port;
@@ -89,19 +67,15 @@ public class SeaHex extends AbstractHex
         return this;
     }
 
-    /**
-     * @return the port
-     */
+    /** @return the port */
     @Override
     public Port getPort()
     {
         return port;
     }
 
-    /**
-     * @param port
-     *            the port to set
-     */
+    /** @param port
+     *            the port to set */
     @Override
     public AbstractHex setPort(Port p)
     {
@@ -244,5 +218,11 @@ public class SeaHex extends AbstractHex
     public Meta getMeta()
     {
         return meta;
+    }
+
+    @Override
+    public ImageResource getTexture()
+    {
+        return Resources.images().seaHex();
     }
 }

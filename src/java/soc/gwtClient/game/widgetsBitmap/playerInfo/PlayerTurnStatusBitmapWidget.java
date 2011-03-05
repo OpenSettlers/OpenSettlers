@@ -15,7 +15,7 @@ public class PlayerTurnStatusBitmapWidget implements PlayerTurnStatusWidget
     private AbsolutePanel rootPanel = new AbsolutePanel();
     private GamePlayer player;
     private Game game;
-    private Image turnImage = new Image(Resources.icons().endTurn());
+    private Image turnImage = new Image(Resources.icons().endTurn32());
 
     public PlayerTurnStatusBitmapWidget(GamePlayer player, Game game)
     {

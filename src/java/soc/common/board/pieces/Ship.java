@@ -10,11 +10,9 @@ import soc.common.board.resources.Sheep;
 import soc.common.board.resources.Timber;
 import soc.common.board.routing.GraphPoint;
 import soc.common.game.player.GamePlayer;
-import soc.common.views.meta.Graphics;
 import soc.common.views.meta.Icon;
 import soc.common.views.meta.IconImpl;
 import soc.common.views.meta.Meta;
-import soc.common.views.widgetsInterface.generic.ToolTip;
 import soc.common.views.widgetsInterface.visuals.PieceVisual;
 import soc.common.views.widgetsInterface.visuals.VisualFactory;
 
@@ -33,12 +31,6 @@ public class Ship extends AbstractPlayerPiece implements SidePiece
         }
 
         @Override
-        public Graphics graphics()
-        {
-            return null;
-        }
-
-        @Override
         public String getName()
         {
             // TODO Auto-generated method stub
@@ -54,13 +46,6 @@ public class Ship extends AbstractPlayerPiece implements SidePiece
 
         @Override
         public String getDescription()
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public ToolTip createToolTip()
         {
             // TODO Auto-generated method stub
             return null;
@@ -179,7 +164,7 @@ public class Ship extends AbstractPlayerPiece implements SidePiece
     public boolean canConnect(GraphPoint graphPoint, SidePiece otherPiece)
     {
         return (player.equals(graphPoint.getPlayer()) || graphPoint.getPlayer() == null)
-                && otherPiece.connectsWithShip();
+                        && otherPiece.connectsWithShip();
     }
 
     @Override

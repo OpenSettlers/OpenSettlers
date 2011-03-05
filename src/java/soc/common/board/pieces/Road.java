@@ -11,11 +11,9 @@ import soc.common.board.resources.Timber;
 import soc.common.board.routing.GraphPoint;
 import soc.common.game.player.GamePlayer;
 import soc.common.internationalization.I18n;
-import soc.common.views.meta.Graphics;
 import soc.common.views.meta.Icon;
 import soc.common.views.meta.IconImpl;
 import soc.common.views.meta.Meta;
-import soc.common.views.widgetsInterface.generic.ToolTip;
 import soc.common.views.widgetsInterface.payerInfo.StockItemWidget;
 import soc.common.views.widgetsInterface.payerInfo.StockItemWidgetFactory;
 import soc.common.views.widgetsInterface.visuals.PieceVisual;
@@ -28,18 +26,12 @@ public class Road extends AbstractPlayerPiece implements SidePiece, StockPiece
     private static Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().road(), null, null,
-                Resources.icons().roadSmall());
+                        Resources.icons().roadSmall());
 
         @Override
         public Icon icon()
         {
             return icon;
-        }
-
-        @Override
-        public Graphics graphics()
-        {
-            return null;
         }
 
         @Override
@@ -62,12 +54,6 @@ public class Road extends AbstractPlayerPiece implements SidePiece, StockPiece
             return null;
         }
 
-        @Override
-        public ToolTip createToolTip()
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
     };
     private HexSide sideLocation;
 
@@ -168,7 +154,7 @@ public class Road extends AbstractPlayerPiece implements SidePiece, StockPiece
     public boolean canConnect(GraphPoint graphPoint, SidePiece otherPiece)
     {
         return (player.equals(graphPoint.getPlayer()) || graphPoint.getPlayer() == null)
-                && otherPiece.connectsWithRoad();
+                        && otherPiece.connectsWithRoad();
     }
 
     @Override

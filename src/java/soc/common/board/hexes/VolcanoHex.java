@@ -4,11 +4,9 @@ import soc.common.annotations.Sea3D;
 import soc.common.board.resources.Gold;
 import soc.common.board.resources.Resource;
 import soc.common.utils.ClassUtils;
-import soc.common.views.meta.Graphics;
 import soc.common.views.meta.Icon;
 import soc.common.views.meta.IconImpl;
 import soc.common.views.meta.Meta;
-import soc.common.views.widgetsInterface.generic.ToolTip;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.resources.client.ImageResource;
@@ -20,27 +18,13 @@ public class VolcanoHex extends ResourceHex
 
     private static Meta meta = new Meta()
     {
-        private Icon icon = new IconImpl(Resources.icons().volcanoHex(), null,
-                null, null);
-        private Graphics graphics = new Graphics()
-        {
-            @Override
-            public ImageResource graphics()
-            {
-                return Resources.images().volcanoHex();
-            }
-        };
+        private Icon icon = new IconImpl(Resources.icons().volcanoHex32(),
+                        null, null, null);
 
         @Override
         public Icon icon()
         {
             return icon;
-        }
-
-        @Override
-        public Graphics graphics()
-        {
-            return graphics;
         }
 
         @Override
@@ -64,12 +48,6 @@ public class VolcanoHex extends ResourceHex
             return null;
         }
 
-        @Override
-        public ToolTip createToolTip()
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
     };
 
     private Resource resource = new Gold();
@@ -144,5 +122,11 @@ public class VolcanoHex extends ResourceHex
     public Meta getMeta()
     {
         return meta;
+    }
+
+    @Override
+    public ImageResource getTexture()
+    {
+        return Resources.images().volcanoHex();
     }
 }

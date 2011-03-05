@@ -2,23 +2,22 @@ package soc.common.actions.lobby;
 
 import soc.common.lobby.Lobby;
 
+/*
+ * Chat action in the lobby
+ */
 public class LobbyChat extends AbstractLobbyAction
 {
     private static final long serialVersionUID = -722899871562057226L;
     private String chatMessage;
 
-    /**
-     * @return the chatMessage
-     */
+    /** @return the chatMessage */
     public String getChatMessage()
     {
         return chatMessage;
     }
 
-    /**
-     * @param chatMessage
-     *            the chatMessage to set
-     */
+    /** @param chatMessage
+     *            the chatMessage to set */
     public LobbyChat setChatMessage(String chatMessage)
     {
         this.chatMessage = chatMessage;

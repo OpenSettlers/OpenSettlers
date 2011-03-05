@@ -12,12 +12,48 @@ import soc.common.game.Game;
 import soc.common.game.Turn;
 import soc.common.game.TurnImpl;
 import soc.common.game.player.GamePlayer;
+import soc.common.views.meta.Icon;
+import soc.common.views.meta.IconImpl;
+import soc.common.views.meta.Meta;
 import soc.common.views.widgetsInterface.main.GamePhaseStatusWidget;
 import soc.common.views.widgetsInterface.main.GamePhaseStatusWidgetFactory;
+import soc.gwtClient.images.Resources;
 
 public class DetermineFirstPlayerGamePhase extends AbstractGamePhase
 {
     private static final long serialVersionUID = 6144523951649998903L;
+    private static transient Meta meta = new Meta()
+    {
+        private Icon icon = new IconImpl(null, null, Resources.icons()
+                        .determineFirstPlayerGamePhase32(), null);
+
+        @Override
+        public Icon icon()
+        {
+            return icon;
+        }
+
+        @Override
+        public String getName()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public String getLocalizedName()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public String getDescription()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+    };
 
     @Override
     public void start(Game game)
@@ -27,11 +63,13 @@ public class DetermineFirstPlayerGamePhase extends AbstractGamePhase
         for (GamePlayer player : game.getPlayers())
         {
             game.getActionsQueue().enqueue(new RollDice().setPlayer(player),
-                    true);
+                            true);
         }
 
-        game.getActionsQueue().enqueue(
-                (GameAction) new GamePhaseHasEnded().setSender(0), true);
+        game.getActionsQueue()
+                        .enqueue((GameAction) new GamePhaseHasEnded()
+                                        .setSender(0),
+                                        true);
     }
 
     private int getHighRoll(List<RollDice> rolledDices)
@@ -58,7 +96,7 @@ public class DetermineFirstPlayerGamePhase extends AbstractGamePhase
             {
                 // Make a list of rolls in this round
                 List<RollDice> rolledDices = game.getGameLog()
-                        .getCurrentRoundRolls(game);
+                                .getCurrentRoundRolls(game);
 
                 // highroll dice number
                 int highRoll = getHighRoll(rolledDices);
@@ -67,21 +105,22 @@ public class DetermineFirstPlayerGamePhase extends AbstractGamePhase
                 // between winners until
                 // winner is determined
                 GamePlayer gameStarter = game.getGameLog()
-                        .firstPlayerIsDetermined(game, highRoll);
+                                .firstPlayerIsDetermined(game, highRoll);
                 if (gameStarter != null)
                 {
                     // We have a starting player
-                    game.getActionsQueue().enqueuePriority(
-                            (GameAction) new StartingPlayerDetermined()
-                            // winning dice
-                                    .setDiceRoll(highRoll)
-                                    // The starter of the
-                                    // placement/portplacement/turnactionsgamephase
-                                    .setGameStarter(gameStarter)
-                                    // Server will send this message
-                                    .setSender(0), true);
-                }
-                else
+                    game.getActionsQueue()
+                                    .enqueuePriority(
+                                                    (GameAction) new StartingPlayerDetermined()
+                                                    // winning dice
+                                                                    .setDiceRoll(highRoll)
+                                                                    // The starter of the
+                                                                    // placement/portplacement/turnactionsgamephase
+                                                                    .setGameStarter(gameStarter)
+                                                                    // Server will send this message
+                                                                    .setSender(0),
+                                                    true);
+                } else
                 {
                     // Starting player is not determined.
 
@@ -94,22 +133,28 @@ public class DetermineFirstPlayerGamePhase extends AbstractGamePhase
                     {
                         if (sameRoll.getDice().getDiceTotal() == highRoll)
                         {
-                            game.getActionsQueue().enqueuePriority(
-                                    new RollDice().setPlayer(sameRoll
-                                            .getPlayer()), true);
+                            game.getActionsQueue()
+                                            .enqueuePriority(
+                                                            new RollDice().setPlayer(sameRoll
+                                                                            .getPlayer()),
+                                                            true);
                             sameRollingPlayers.add(sameRoll.getPlayer()
-                                    .getUser().getId());
+                                            .getUser().getId());
                         }
                     }
 
                     // First execute a RolledSame action
-                    game.getActionsQueue().enqueuePriority(
-                            (GameAction) new RolledSame()
-                                    // Pass on the highest diceroll
-                                    .setHighRoll(highRoll)
-                                    .setSameRollingPlayers(sameRollingPlayers)
-                                    // Server says dice rolled the same
-                                    .setSender(0), true);
+                    game.getActionsQueue()
+                                    .enqueuePriority(
+                                                    (GameAction) new RolledSame()
+                                                                    // Pass on the highest diceroll
+                                                                    .setHighRoll(highRoll)
+                                                                    .setSameRollingPlayers(
+                                                                                    sameRollingPlayers)
+                                                                    // Server says dice rolled the
+                                                                    // same
+                                                                    .setSender(0),
+                                                    true);
                 }
             }
 
@@ -186,8 +231,14 @@ public class DetermineFirstPlayerGamePhase extends AbstractGamePhase
 
     @Override
     public GamePhaseStatusWidget createGamePhaseStatusWidget(
-            GamePhaseStatusWidgetFactory factory)
+                    GamePhaseStatusWidgetFactory factory)
     {
         return factory.createDetermineFirstPlayerStatusWidget(this);
+    }
+
+    @Override
+    public Meta getMeta()
+    {
+        return meta;
     }
 }

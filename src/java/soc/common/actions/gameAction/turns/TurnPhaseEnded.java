@@ -9,13 +9,11 @@ import soc.common.views.behaviour.gameWidget.GameBehaviour;
 import soc.common.views.behaviour.gameWidget.factories.GameBehaviourFactory;
 import soc.common.views.behaviour.gameWidget.factories.ReceiveGameBehaviourFactory;
 import soc.common.views.behaviour.gameWidget.received.ReceiveGameBehaviour;
-import soc.common.views.meta.Graphics;
 import soc.common.views.meta.Icon;
 import soc.common.views.meta.IconImpl;
 import soc.common.views.meta.Meta;
 import soc.common.views.widgetsInterface.actions.ActionWidget;
 import soc.common.views.widgetsInterface.actions.ActionWidgetFactory;
-import soc.common.views.widgetsInterface.generic.ToolTip;
 
 public class TurnPhaseEnded extends AbstractGameAction
 {
@@ -28,13 +26,6 @@ public class TurnPhaseEnded extends AbstractGameAction
         public Icon icon()
         {
             return icon;
-        }
-
-        @Override
-        public Graphics graphics()
-        {
-            // TODO Auto-generated method stub
-            return null;
         }
 
         @Override
@@ -58,12 +49,6 @@ public class TurnPhaseEnded extends AbstractGameAction
             return null;
         }
 
-        @Override
-        public ToolTip createToolTip()
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
     };
 
     /*
@@ -109,7 +94,7 @@ public class TurnPhaseEnded extends AbstractGameAction
     public void perform(Game game)
     {
         PlayTurnsGamePhase playTurns = (PlayTurnsGamePhase) game
-                .getCurrentPhase();
+                        .getCurrentPhase();
 
         TurnPhase oldPhase = playTurns.getTurnPhase();
         if (game.advanceTurnPhase())
@@ -117,7 +102,7 @@ public class TurnPhaseEnded extends AbstractGameAction
             TurnPhase newPhase = playTurns.getTurnPhase();
 
             message = "Ended " + oldPhase.getName() + ", started "
-                    + newPhase.getName();
+                            + newPhase.getName();
 
             super.perform(game);
         }
@@ -125,35 +110,35 @@ public class TurnPhaseEnded extends AbstractGameAction
 
     @Override
     public ActionWidget createActionWidget(
-            ActionWidgetFactory actionWidgetFactory)
+                    ActionWidgetFactory actionWidgetFactory)
     {
         return null;
     }
 
     @Override
     public GameBehaviour getNextActionBehaviour(
-            GameBehaviourFactory gameBehaviourFactory)
+                    GameBehaviourFactory gameBehaviourFactory)
     {
         return gameBehaviourFactory.createTurnPhaseEndedBehaviour(this);
     }
 
     @Override
     public ReceiveGameBehaviour getOpponentReceiveBehaviour(
-            ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
+                    ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
         return receiveGameBehaviourFactory.createTurnPhaseEndedBehaviour(this);
     }
 
     @Override
     public ReceiveGameBehaviour getReceiveBehaviour(
-            ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
+                    ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
         return receiveGameBehaviourFactory.createTurnPhaseEndedBehaviour(this);
     }
 
     @Override
     public GameBehaviour getSendBehaviour(
-            GameBehaviourFactory gameBehaviourFactory)
+                    GameBehaviourFactory gameBehaviourFactory)
     {
         return gameBehaviourFactory.createTurnPhaseEndedBehaviour(this);
     }

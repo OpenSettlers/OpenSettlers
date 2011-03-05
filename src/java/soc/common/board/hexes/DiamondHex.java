@@ -2,11 +2,9 @@ package soc.common.board.hexes;
 
 import soc.common.board.resources.Diamond;
 import soc.common.board.resources.Resource;
-import soc.common.views.meta.Graphics;
 import soc.common.views.meta.Icon;
 import soc.common.views.meta.IconImpl;
 import soc.common.views.meta.Meta;
-import soc.common.views.widgetsInterface.generic.ToolTip;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.resources.client.ImageResource;
@@ -17,26 +15,12 @@ public class DiamondHex extends ResourceHex
     private static Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().jungleHex(), null,
-                null, null);
-        private Graphics graphics = new Graphics()
-        {
-            @Override
-            public ImageResource graphics()
-            {
-                return Resources.images().diamondHex();
-            }
-        };
+                        null, null);
 
         @Override
         public Icon icon()
         {
             return icon;
-        }
-
-        @Override
-        public Graphics graphics()
-        {
-            return graphics;
         }
 
         @Override
@@ -60,12 +44,6 @@ public class DiamondHex extends ResourceHex
             return null;
         }
 
-        @Override
-        public ToolTip createToolTip()
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
     };
 
     /*
@@ -98,5 +76,11 @@ public class DiamondHex extends ResourceHex
     public Meta getMeta()
     {
         return meta;
+    }
+
+    @Override
+    public ImageResource getTexture()
+    {
+        return Resources.images().diamondHex();
     }
 }

@@ -1,9 +1,7 @@
 package soc.common.game.settings;
 
-import soc.common.views.meta.Graphics;
 import soc.common.views.meta.Icon;
 import soc.common.views.meta.Meta;
-import soc.common.views.widgetsInterface.generic.ToolTip;
 
 public class NoSevenRounds implements GameSetting
 {
@@ -12,13 +10,6 @@ public class NoSevenRounds implements GameSetting
     {
         @Override
         public Icon icon()
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public Graphics graphics()
         {
             // TODO Auto-generated method stub
             return null;
@@ -45,12 +36,6 @@ public class NoSevenRounds implements GameSetting
             return null;
         }
 
-        @Override
-        public ToolTip createToolTip()
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
     };
 
     private int noSevenRounds = 0;

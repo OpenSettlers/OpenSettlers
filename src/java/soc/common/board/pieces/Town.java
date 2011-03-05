@@ -16,11 +16,9 @@ import soc.common.game.VictoryPointItem;
 import soc.common.game.player.GamePlayer;
 import soc.common.game.variants.GameRules;
 import soc.common.internationalization.I18n;
-import soc.common.views.meta.Graphics;
 import soc.common.views.meta.Icon;
 import soc.common.views.meta.IconImpl;
 import soc.common.views.meta.Meta;
-import soc.common.views.widgetsInterface.generic.ToolTip;
 import soc.common.views.widgetsInterface.payerInfo.StockItemWidget;
 import soc.common.views.widgetsInterface.payerInfo.StockItemWidgetFactory;
 import soc.common.views.widgetsInterface.visuals.PieceVisual;
@@ -28,24 +26,18 @@ import soc.common.views.widgetsInterface.visuals.VisualFactory;
 import soc.gwtClient.images.Resources;
 
 public class Town extends AbstractPlayerPiece implements VictoryPointItem,
-        PointPiece, Producable, StockPiece
+                PointPiece, Producable, StockPiece
 {
     private static final long serialVersionUID = -2696233711789990786L;
     private static Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().town(), null, null,
-                Resources.icons().townSmall());
+                        Resources.icons().townSmall());
 
         @Override
         public Icon icon()
         {
             return icon;
-        }
-
-        @Override
-        public Graphics graphics()
-        {
-            return null;
         }
 
         @Override
@@ -68,12 +60,6 @@ public class Town extends AbstractPlayerPiece implements VictoryPointItem,
             return null;
         }
 
-        @Override
-        public ToolTip createToolTip()
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
     };
     private HexPoint pointLocation;
 

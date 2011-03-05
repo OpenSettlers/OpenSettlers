@@ -25,13 +25,12 @@ import soc.common.server.lobbyActions.ServerLobbyActionFactory;
 import com.db4o.ObjectContainer;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
-/**
- * The server side implementation of the RPC service.
- */
+/** The server side implementation of the RPC service. */
 @SuppressWarnings("serial")
 public class GreetingServiceImpl extends RemoteServiceServlet implements
-        GreetingService, LobbyServer
+                GreetingService, LobbyServer
 {
+    private ConcurrentMap<User, CometSession> users = new ConcurrentHashMap<User, CometSession>();
     private ObjectContainer database;
     private static int userid = 0;
     private ServerLobbyActionFactory factory;
@@ -48,11 +47,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
         // database =
     }
 
-    private ConcurrentMap<User, CometSession> users = new ConcurrentHashMap<User, CometSession>();
-
-    /**
-     * @see net.zschech.gwt.chat.client.ChatService#send(java.lang.String)
-     */
+    /** @see net.zschech.gwt.chat.client.ChatService#send(java.lang.String) */
     @Override
     public void send(LobbyAction action)
     {
@@ -143,7 +138,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
     {
         // Grab ServerLobbyAction assocaited by the factory
         ServerLobbyAction serverLobbyAction = action
-                .createServerLobbyAction(factory);
+                        .createServerLobbyAction(factory);
 
         // Actualize lobby by performing the LobbyAction
         serverLobbyAction.perform(lobby);

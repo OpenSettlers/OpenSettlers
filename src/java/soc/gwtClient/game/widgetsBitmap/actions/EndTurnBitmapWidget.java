@@ -24,7 +24,7 @@ public class EndTurnBitmapWidget extends AbstractActionWidget implements
         TurnPhaseChangedHandler
 {
     public PushButton btnEndTurn = new PushButton(new Image(Resources.icons()
-            .endTurn()));
+            .endTurn32()));
     private EndTurn endTurn = new EndTurn();
 
     public EndTurnBitmapWidget(final GameWidget gameWidget,

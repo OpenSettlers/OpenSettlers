@@ -1,11 +1,9 @@
 package soc.common.board.hexes;
 
 import soc.common.board.chits.Chit;
-import soc.common.views.meta.Graphics;
 import soc.common.views.meta.Icon;
 import soc.common.views.meta.IconImpl;
 import soc.common.views.meta.Meta;
-import soc.common.views.widgetsInterface.generic.ToolTip;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.resources.client.ImageResource;
@@ -16,26 +14,12 @@ public class DesertHex extends AbstractHex
     private static Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().desertHex(), null,
-                null, null);
-        private Graphics graphics = new Graphics()
-        {
-            @Override
-            public ImageResource graphics()
-            {
-                return Resources.images().desertHex();
-            }
-        };
+                        null, null);
 
         @Override
         public Icon icon()
         {
             return icon;
-        }
-
-        @Override
-        public Graphics graphics()
-        {
-            return graphics;
         }
 
         @Override
@@ -59,12 +43,6 @@ public class DesertHex extends AbstractHex
             return null;
         }
 
-        @Override
-        public ToolTip createToolTip()
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
     };
 
     /*
@@ -182,6 +160,12 @@ public class DesertHex extends AbstractHex
     public Meta getMeta()
     {
         return meta;
+    }
+
+    @Override
+    public ImageResource getTexture()
+    {
+        return Resources.images().desertHex();
     }
 
 }

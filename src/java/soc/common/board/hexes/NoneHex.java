@@ -1,17 +1,15 @@
 package soc.common.board.hexes;
 
 import soc.common.board.chits.Chit;
-import soc.common.views.meta.Graphics;
 import soc.common.views.meta.Icon;
 import soc.common.views.meta.IconImpl;
 import soc.common.views.meta.Meta;
-import soc.common.views.widgetsInterface.generic.ToolTip;
 import soc.gwtClient.images.Resources;
 
 import com.google.gwt.resources.client.ImageResource;
 
 /*
- * Represents a hex removed at gamestart, acting as design-time placeholder 
+ * Represents a hex removed at gamestart, acting as design-time placeholder
  */
 public class NoneHex extends AbstractHex
 {
@@ -19,26 +17,12 @@ public class NoneHex extends AbstractHex
     private static Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().noneHex(), null,
-                null, null);
-        private Graphics graphics = new Graphics()
-        {
-            @Override
-            public ImageResource graphics()
-            {
-                return Resources.images().noneHex();
-            }
-        };
+                        null, null);
 
         @Override
         public Icon icon()
         {
             return icon;
-        }
-
-        @Override
-        public Graphics graphics()
-        {
-            return graphics;
         }
 
         @Override
@@ -62,12 +46,6 @@ public class NoneHex extends AbstractHex
             return null;
         }
 
-        @Override
-        public ToolTip createToolTip()
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
     };
 
     /*
@@ -181,6 +159,12 @@ public class NoneHex extends AbstractHex
     public Meta getMeta()
     {
         return meta;
+    }
+
+    @Override
+    public ImageResource getTexture()
+    {
+        return Resources.images().noneHex();
     }
 
 }

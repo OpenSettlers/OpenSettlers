@@ -17,13 +17,11 @@ import soc.common.views.behaviour.gameWidget.GameBehaviour;
 import soc.common.views.behaviour.gameWidget.factories.GameBehaviourFactory;
 import soc.common.views.behaviour.gameWidget.factories.ReceiveGameBehaviourFactory;
 import soc.common.views.behaviour.gameWidget.received.ReceiveGameBehaviour;
-import soc.common.views.meta.Graphics;
 import soc.common.views.meta.Icon;
 import soc.common.views.meta.IconImpl;
 import soc.common.views.meta.Meta;
 import soc.common.views.widgetsInterface.actions.ActionWidget;
 import soc.common.views.widgetsInterface.actions.ActionWidgetFactory;
-import soc.common.views.widgetsInterface.generic.ToolTip;
 
 /*
  * An opponent is robbed of one resource caused by a 7 roll or a
@@ -41,13 +39,6 @@ public class RobPlayer extends AbstractTurnAction
         public Icon icon()
         {
             return icon;
-        }
-
-        @Override
-        public Graphics graphics()
-        {
-            // TODO Auto-generated method stub
-            return null;
         }
 
         @Override
@@ -70,13 +61,6 @@ public class RobPlayer extends AbstractTurnAction
             // TODO Auto-generated method stub
             return null;
         }
-
-        @Override
-        public ToolTip createToolTip()
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
     };
     // By default, the robbing player robs no one (0)
     private int victimID = 0;
@@ -87,18 +71,14 @@ public class RobPlayer extends AbstractTurnAction
     // Server-assigned random resource taken from the robbed player
     private Resource stolenResource;
 
-    /**
-     * @return Resource stolen from the player being robbed
-     */
+    /** @return Resource stolen from the player being robbed */
     public Resource getStolenResource()
     {
         return stolenResource;
     }
 
-    /**
-     * @param stolenResource
-     *            the stolenResource to set
-     */
+    /** @param stolenResource
+     *            the stolenResource to set */
     public RobPlayer setStolenResource(Resource stolenResource)
     {
         this.stolenResource = stolenResource;
@@ -106,18 +86,14 @@ public class RobPlayer extends AbstractTurnAction
         return this;
     }
 
-    /**
-     * @return Player being robbed a resource of
-     */
+    /** @return Player being robbed a resource of */
     public GamePlayer getRobbedPlayer()
     {
         return robbedPlayer;
     }
 
-    /**
-     * @param robbedPlayer
-     *            the robbedPlayer to set
-     */
+    /** @param robbedPlayer
+     *            the robbedPlayer to set */
     public RobPlayer setRobbedPlayer(GamePlayer robbedPlayer)
     {
         this.robbedPlayer = robbedPlayer;
@@ -125,8 +101,7 @@ public class RobPlayer extends AbstractTurnAction
         if (robbedPlayer == null)
         {
             victimID = 0;
-        }
-        else
+        } else
         {
             victimID = robbedPlayer.getUser().getId();
         }
@@ -162,7 +137,7 @@ public class RobPlayer extends AbstractTurnAction
             // Check if the robbed player has a town or city on one of the 6
             // points
             List<HexPoint> possiblePoints = game.getRobber().getLocation()
-                    .getNeighbourHexPoints();
+                            .getNeighbourHexPoints();
 
             boolean containsTownOrCity = false;
             for (HexPoint point : possiblePoints)
@@ -177,7 +152,7 @@ public class RobPlayer extends AbstractTurnAction
             if (!containsTownOrCity)
             {
                 invalidMessage = "Robbed opponent does not have a town or city at Hexlocation"
-                        + game.getRobber().toString();
+                                + game.getRobber().toString();
                 return false;
             }
 
@@ -214,13 +189,12 @@ public class RobPlayer extends AbstractTurnAction
             robbedPlayer.getResources().remove(stolenResource);
 
             message = player.getUser().getName() + " stole one "
-                    + stolenResource.toString() + " from "
-                    + robbedPlayer.getUser().getName();
-        }
-        else
+                            + stolenResource.toString() + " from "
+                            + robbedPlayer.getUser().getName();
+        } else
         {
             message = player.getUser().getName()
-                    + " stole nothing! How refreshing";
+                            + " stole nothing! How refreshing";
         }
 
         super.perform(game);
@@ -230,7 +204,7 @@ public class RobPlayer extends AbstractTurnAction
     public boolean isAllowed(TurnPhase turnPhase)
     {
         return turnPhase.isBeforeDiceRoll() || turnPhase.isDiceRoll()
-                || turnPhase.isBuilding();
+                        || turnPhase.isBuilding();
     }
 
     @Override
@@ -253,28 +227,28 @@ public class RobPlayer extends AbstractTurnAction
 
     @Override
     public GameBehaviour getNextActionBehaviour(
-            GameBehaviourFactory gameBehaviourFactory)
+                    GameBehaviourFactory gameBehaviourFactory)
     {
         return gameBehaviourFactory.createRobPlayerBehaviour(this);
     }
 
     @Override
     public ReceiveGameBehaviour getOpponentReceiveBehaviour(
-            ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
+                    ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
         return receiveGameBehaviourFactory.createRobPlayerBehaviour(this);
     }
 
     @Override
     public ReceiveGameBehaviour getReceiveBehaviour(
-            ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
+                    ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
         return receiveGameBehaviourFactory.createRobPlayerBehaviour(this);
     }
 
     @Override
     public GameBehaviour getSendBehaviour(
-            GameBehaviourFactory gameBehaviourFactory)
+                    GameBehaviourFactory gameBehaviourFactory)
     {
         return gameBehaviourFactory.createRobPlayerBehaviour(this);
     }
@@ -287,7 +261,7 @@ public class RobPlayer extends AbstractTurnAction
 
     @Override
     public ActionWidget createActionWidget(
-            ActionWidgetFactory actionWidgetFactory)
+                    ActionWidgetFactory actionWidgetFactory)
     {
         return null;
     }

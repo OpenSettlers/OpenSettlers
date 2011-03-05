@@ -8,11 +8,9 @@ import soc.common.views.behaviour.gameWidget.GameBehaviour;
 import soc.common.views.behaviour.gameWidget.factories.GameBehaviourFactory;
 import soc.common.views.behaviour.gameWidget.factories.ReceiveGameBehaviourFactory;
 import soc.common.views.behaviour.gameWidget.received.ReceiveGameBehaviour;
-import soc.common.views.meta.Graphics;
 import soc.common.views.meta.Icon;
 import soc.common.views.meta.IconImpl;
 import soc.common.views.meta.Meta;
-import soc.common.views.widgetsInterface.generic.ToolTip;
 
 /*
  * A generic message from the server. Currently used as error message
@@ -30,13 +28,6 @@ public class MessageFromServer extends AbstractGameAction
         public Icon icon()
         {
             return icon;
-        }
-
-        @Override
-        public Graphics graphics()
-        {
-            // TODO Auto-generated method stub
-            return null;
         }
 
         @Override
@@ -59,28 +50,17 @@ public class MessageFromServer extends AbstractGameAction
             // TODO Auto-generated method stub
             return null;
         }
-
-        @Override
-        public ToolTip createToolTip()
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
     };
     private String serverMessage;
 
-    /**
-     * @return the serverMessage
-     */
+    /** @return the serverMessage */
     public String getServerMessage()
     {
         return serverMessage;
     }
 
-    /**
-     * @param serverMessage
-     *            the serverMessage to set
-     */
+    /** @param serverMessage
+     *            the serverMessage to set */
     public MessageFromServer setServerMessage(String serverMessage)
     {
         this.serverMessage = serverMessage;
@@ -122,30 +102,30 @@ public class MessageFromServer extends AbstractGameAction
 
     @Override
     public GameBehaviour getNextActionBehaviour(
-            GameBehaviourFactory gameBehaviourFactory)
+                    GameBehaviourFactory gameBehaviourFactory)
     {
         return gameBehaviourFactory.createMessageFromServerBehaviour(this);
     }
 
     @Override
     public ReceiveGameBehaviour getOpponentReceiveBehaviour(
-            ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
+                    ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
         return receiveGameBehaviourFactory
-                .createMessageFromServerBehaviour(this);
+                        .createMessageFromServerBehaviour(this);
     }
 
     @Override
     public ReceiveGameBehaviour getReceiveBehaviour(
-            ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
+                    ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
         return receiveGameBehaviourFactory
-                .createMessageFromServerBehaviour(this);
+                        .createMessageFromServerBehaviour(this);
     }
 
     @Override
     public GameBehaviour getSendBehaviour(
-            GameBehaviourFactory gameBehaviourFactory)
+                    GameBehaviourFactory gameBehaviourFactory)
     {
         return gameBehaviourFactory.createMessageFromServerBehaviour(this);
     }

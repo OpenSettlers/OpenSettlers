@@ -10,15 +10,13 @@ import soc.common.views.behaviour.gameWidget.GameBehaviour;
 import soc.common.views.behaviour.gameWidget.factories.GameBehaviourFactory;
 import soc.common.views.behaviour.gameWidget.factories.ReceiveGameBehaviourFactory;
 import soc.common.views.behaviour.gameWidget.received.ReceiveGameBehaviour;
-import soc.common.views.meta.Graphics;
 import soc.common.views.meta.Icon;
 import soc.common.views.meta.Meta;
 import soc.common.views.widgetsInterface.actions.ActionWidget;
 import soc.common.views.widgetsInterface.actions.ActionWidgetFactory;
-import soc.common.views.widgetsInterface.generic.ToolTip;
 
 public class AcceptTradeOffer extends AbstractGameAction implements
-        TradeResponse
+                TradeResponse
 {
     private static final long serialVersionUID = -1794721147505851423L;
     private static Meta meta = new Meta()
@@ -26,13 +24,6 @@ public class AcceptTradeOffer extends AbstractGameAction implements
 
         @Override
         public Icon icon()
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public Graphics graphics()
         {
             // TODO Auto-generated method stub
             return null;
@@ -59,12 +50,6 @@ public class AcceptTradeOffer extends AbstractGameAction implements
             return null;
         }
 
-        @Override
-        public ToolTip createToolTip()
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
     };
 
     private TradeOffer originatingOffer;
@@ -121,9 +106,9 @@ public class AcceptTradeOffer extends AbstractGameAction implements
     public void setTradeResources(TradePlayer tradePlayer)
     {
         tradePlayer.getOfferedResources().addList(
-                originatingOffer.getOfferedResources());
+                        originatingOffer.getOfferedResources());
         tradePlayer.getRequestedResources().addList(
-                originatingOffer.getRequestedResources());
+                        originatingOffer.getRequestedResources());
     }
 
     /*
@@ -147,21 +132,21 @@ public class AcceptTradeOffer extends AbstractGameAction implements
 
     @Override
     public ActionWidget createActionWidget(
-            ActionWidgetFactory actionWidgetFactory)
+                    ActionWidgetFactory actionWidgetFactory)
     {
         return null;
     }
 
     @Override
     public GameBehaviour getNextActionBehaviour(
-            GameBehaviourFactory gameBehaviourFactory)
+                    GameBehaviourFactory gameBehaviourFactory)
     {
         return null;
     }
 
     @Override
     public ReceiveGameBehaviour getOpponentReceiveBehaviour(
-            ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
+                    ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
         return receiveGameBehaviourFactory.createAcceptOfferBehaviour(this);
 
@@ -169,14 +154,14 @@ public class AcceptTradeOffer extends AbstractGameAction implements
 
     @Override
     public ReceiveGameBehaviour getReceiveBehaviour(
-            ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
+                    ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
         return receiveGameBehaviourFactory.createAcceptOfferBehaviour(this);
     }
 
     @Override
     public GameBehaviour getSendBehaviour(
-            GameBehaviourFactory gameBehaviourFactory)
+                    GameBehaviourFactory gameBehaviourFactory)
     {
         return null;
     }

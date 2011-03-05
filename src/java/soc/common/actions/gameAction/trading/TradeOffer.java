@@ -13,13 +13,11 @@ import soc.common.views.behaviour.gameWidget.GameBehaviour;
 import soc.common.views.behaviour.gameWidget.factories.GameBehaviourFactory;
 import soc.common.views.behaviour.gameWidget.factories.ReceiveGameBehaviourFactory;
 import soc.common.views.behaviour.gameWidget.received.ReceiveGameBehaviour;
-import soc.common.views.meta.Graphics;
 import soc.common.views.meta.Icon;
 import soc.common.views.meta.IconImpl;
 import soc.common.views.meta.Meta;
 import soc.common.views.widgetsInterface.actions.ActionWidget;
 import soc.common.views.widgetsInterface.actions.ActionWidgetFactory;
-import soc.common.views.widgetsInterface.generic.ToolTip;
 import soc.gwtClient.images.Resources;
 
 public class TradeOffer extends AbstractGameAction
@@ -28,19 +26,12 @@ public class TradeOffer extends AbstractGameAction
     private static Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().trade(), null, null,
-                null);
+                        null);
 
         @Override
         public Icon icon()
         {
             return icon;
-        }
-
-        @Override
-        public Graphics graphics()
-        {
-            // TODO Auto-generated method stub
-            return null;
         }
 
         @Override
@@ -64,12 +55,6 @@ public class TradeOffer extends AbstractGameAction
             return null;
         }
 
-        @Override
-        public ToolTip createToolTip()
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
     };
     private ResourceList offeredResources = new ResourceList();
     private ResourceList requestedResources = new ResourceList();
@@ -102,18 +87,14 @@ public class TradeOffer extends AbstractGameAction
         offerID = id;
     }
 
-    /**
-     * @return the responsesCompleted
-     */
+    /** @return the responsesCompleted */
     public boolean isResponsesCompleted()
     {
         return responsesCompleted;
     }
 
-    /**
-     * @param responsesCompleted
-     *            the responsesCompleted to set
-     */
+    /** @param responsesCompleted
+     *            the responsesCompleted to set */
     public TradeOffer setResponsesCompleted(boolean responsesCompleted)
     {
         this.responsesCompleted = responsesCompleted;
@@ -154,8 +135,8 @@ public class TradeOffer extends AbstractGameAction
         }
 
         if (game.getCurrentTurn().getTradeOffers().size() >= game
-                .getGameSettings().getMaximumTradesPerTurn()
-                .getMaxTradesPerTurn())
+                        .getGameSettings().getMaximumTradesPerTurn()
+                        .getMaxTradesPerTurn())
         {
             invalidMessage = "Already used all possible trade offers";
             return false;
@@ -178,7 +159,7 @@ public class TradeOffer extends AbstractGameAction
 
         for (GamePlayer player : game.getPlayers())
             game.getActionsQueue().enqueue(
-                    new QueuedTradeResponse().setPlayer(player), false);
+                            new QueuedTradeResponse().setPlayer(player), false);
 
         super.perform(game);
     }
@@ -204,35 +185,35 @@ public class TradeOffer extends AbstractGameAction
 
     @Override
     public ActionWidget createActionWidget(
-            ActionWidgetFactory actionWidgetFactory)
+                    ActionWidgetFactory actionWidgetFactory)
     {
         return actionWidgetFactory.createTradePlayerWidget();
     }
 
     @Override
     public GameBehaviour getNextActionBehaviour(
-            GameBehaviourFactory gameBehaviourFactory)
+                    GameBehaviourFactory gameBehaviourFactory)
     {
         return gameBehaviourFactory.createTradeOfferBehaviour(this);
     }
 
     @Override
     public ReceiveGameBehaviour getOpponentReceiveBehaviour(
-            ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
+                    ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
         return receiveGameBehaviourFactory.createTradeOfferBehaviour(this);
     }
 
     @Override
     public ReceiveGameBehaviour getReceiveBehaviour(
-            ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
+                    ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
         return receiveGameBehaviourFactory.createTradeOfferBehaviour(this);
     }
 
     @Override
     public GameBehaviour getSendBehaviour(
-            GameBehaviourFactory gameBehaviourFactory)
+                    GameBehaviourFactory gameBehaviourFactory)
     {
         return gameBehaviourFactory.createTradeOfferBehaviour(this);
     }

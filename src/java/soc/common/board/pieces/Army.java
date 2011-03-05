@@ -7,11 +7,9 @@ import soc.common.board.pieces.abstractPieces.AbstractPlayerPiece;
 import soc.common.game.VictoryPointItem;
 import soc.common.game.developmentCards.standard.Soldier;
 import soc.common.game.player.GamePlayer;
-import soc.common.views.meta.Graphics;
 import soc.common.views.meta.Icon;
 import soc.common.views.meta.IconImpl;
 import soc.common.views.meta.Meta;
-import soc.common.views.widgetsInterface.generic.ToolTip;
 import soc.common.views.widgetsInterface.visuals.PieceVisual;
 import soc.common.views.widgetsInterface.visuals.VisualFactory;
 import soc.gwtClient.images.Resources;
@@ -25,18 +23,12 @@ public class Army extends AbstractPlayerPiece implements VictoryPointItem
     private static Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().soldier(), null,
-                null, null);
+                        null, null);
 
         @Override
         public Icon icon()
         {
             return icon;
-        }
-
-        @Override
-        public Graphics graphics()
-        {
-            return null;
         }
 
         @Override
@@ -60,21 +52,13 @@ public class Army extends AbstractPlayerPiece implements VictoryPointItem
             return null;
         }
 
-        @Override
-        public ToolTip createToolTip()
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
     };
     public static Army LARGESTARMY = new Army();
     private List<Soldier> soldiers = new ArrayList<Soldier>();
     private boolean isLargest = false;
     private transient SimpleEventBus eventBus = new SimpleEventBus();
 
-    /**
-     * @return the soldiers
-     */
+    /** @return the soldiers */
     public List<Soldier> getSoldiers()
     {
         return soldiers;
@@ -97,7 +81,7 @@ public class Army extends AbstractPlayerPiece implements VictoryPointItem
         int oldSoldierAmount = getSoldiersAmount();
         soldiers.add(soldier);
         ArmyChangedEvent event = new ArmyChangedEvent(getSoldiersAmount(),
-                isLargest, wasLargest, oldSoldierAmount, null, soldier);
+                        isLargest, wasLargest, oldSoldierAmount, null, soldier);
         eventBus.fireEvent(event);
     }
 
@@ -139,7 +123,7 @@ public class Army extends AbstractPlayerPiece implements VictoryPointItem
     }
 
     public HandlerRegistration addSoldiersChangedEventHandler(
-            ArmyChangedEventHandler handler)
+                    ArmyChangedEventHandler handler)
     {
         return eventBus.addHandler(ArmyChangedEvent.TYPE, handler);
     }

@@ -1,11 +1,9 @@
 package soc.common.board.resources;
 
 import soc.common.annotations.Sea3D;
-import soc.common.views.meta.Graphics;
 import soc.common.views.meta.Icon;
 import soc.common.views.meta.IconImpl;
 import soc.common.views.meta.Meta;
-import soc.common.views.widgetsInterface.generic.ToolTip;
 
 @Sea3D
 public class Diamond extends AbstractResource
@@ -19,13 +17,6 @@ public class Diamond extends AbstractResource
         public Icon icon()
         {
             return icon;
-        }
-
-        @Override
-        public Graphics graphics()
-        {
-            // TODO Auto-generated method stub
-            return null;
         }
 
         @Override
@@ -49,12 +40,6 @@ public class Diamond extends AbstractResource
             return null;
         }
 
-        @Override
-        public ToolTip createToolTip()
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
     };
 
     /*

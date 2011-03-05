@@ -20,14 +20,12 @@ import soc.common.views.behaviour.gameWidget.GameBehaviour;
 import soc.common.views.behaviour.gameWidget.factories.GameBehaviourFactory;
 import soc.common.views.behaviour.gameWidget.factories.ReceiveGameBehaviourFactory;
 import soc.common.views.behaviour.gameWidget.received.ReceiveGameBehaviour;
-import soc.common.views.meta.Graphics;
 import soc.common.views.meta.Icon;
 import soc.common.views.meta.IconImpl;
 import soc.common.views.meta.Meta;
 import soc.common.views.widgetsInterface.actions.ActionDetailWidgetFactory;
 import soc.common.views.widgetsInterface.actions.ActionWidget;
 import soc.common.views.widgetsInterface.actions.ActionWidgetFactory;
-import soc.common.views.widgetsInterface.generic.ToolTip;
 import soc.common.views.widgetsInterface.payerInfo.ActionDetailWidget;
 import soc.gwtClient.images.Resources;
 
@@ -37,19 +35,12 @@ public class BuildTown extends AbstractTurnAction
     private static transient Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().town(), null, null,
-                Resources.icons().townSmall());
+                        Resources.icons().townSmall());
 
         @Override
         public Icon icon()
         {
             return icon;
-        }
-
-        @Override
-        public Graphics graphics()
-        {
-            // TODO Auto-generated method stub
-            return null;
         }
 
         @Override
@@ -72,28 +63,17 @@ public class BuildTown extends AbstractTurnAction
             // TODO Auto-generated method stub
             return null;
         }
-
-        @Override
-        public ToolTip createToolTip()
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
     };
     private HexPoint pointLocation;
 
-    /**
-     * @return the pointLocation
-     */
+    /** @return the pointLocation */
     public HexPoint getPointLocation()
     {
         return pointLocation;
     }
 
-    /**
-     * @param pointLocation
-     *            the pointLocation to set
-     */
+    /** @param pointLocation
+     *            the pointLocation to set */
     public BuildTown setPointLocation(HexPoint pointLocation)
     {
         this.pointLocation = pointLocation;
@@ -190,7 +170,7 @@ public class BuildTown extends AbstractTurnAction
             player.getResources().moveTo(game.getBank(), town.getCost());
 
         if (game.getCurrentPhase().isInitialPlacement()
-                && player.getPointPieces().size() == 2)
+                        && player.getPointPieces().size() == 2)
         {
             // player gets resources in neighbouring hexes
             ResourceList resourcesFromPlacement = new ResourceList();
@@ -202,7 +182,7 @@ public class BuildTown extends AbstractTurnAction
                     resourcesFromPlacement.add(hex.getResource());
             }
             player.getResources().swapResourcesFrom(resourcesFromPlacement,
-                    game.getBank());
+                            game.getBank());
         }
 
         // Check if the town is built on a port, if so, add port
@@ -220,7 +200,8 @@ public class BuildTown extends AbstractTurnAction
         // Grab port if available on this spot and add it to player when found
         for (Port port : ports)
             if (port.getHexSide().getHexPoint1().equals(pointLocation)
-                    || port.getHexSide().getHexPoint2().equals(pointLocation))
+                            || port.getHexSide().getHexPoint2()
+                                            .equals(pointLocation))
                 player.getPorts().add(port);
 
         message = I18n.get().actions().builtTown(player.getUser().getName());
@@ -248,35 +229,35 @@ public class BuildTown extends AbstractTurnAction
 
     @Override
     public ActionWidget createActionWidget(
-            ActionWidgetFactory actionWidgetFactory)
+                    ActionWidgetFactory actionWidgetFactory)
     {
         return actionWidgetFactory.createBuildTownWidget();
     }
 
     @Override
     public GameBehaviour getNextActionBehaviour(
-            GameBehaviourFactory gameBehaviourFactory)
+                    GameBehaviourFactory gameBehaviourFactory)
     {
         return gameBehaviourFactory.createBuildTownBehaviour(this);
     }
 
     @Override
     public ReceiveGameBehaviour getOpponentReceiveBehaviour(
-            ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
+                    ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
         return receiveGameBehaviourFactory.createBuildTownBehaviour(this);
     }
 
     @Override
     public ReceiveGameBehaviour getReceiveBehaviour(
-            ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
+                    ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
         return receiveGameBehaviourFactory.createBuildTownBehaviour(this);
     }
 
     @Override
     public GameBehaviour getSendBehaviour(
-            GameBehaviourFactory gameBehaviourFactory)
+                    GameBehaviourFactory gameBehaviourFactory)
     {
         return gameBehaviourFactory.createBuildTownBehaviour(this);
     }
@@ -296,7 +277,7 @@ public class BuildTown extends AbstractTurnAction
      */
     @Override
     public ActionDetailWidget createActionDetailWidget(
-            ActionDetailWidgetFactory factory)
+                    ActionDetailWidgetFactory factory)
     {
         return factory.getBuildTownDetailWidget(this);
     }

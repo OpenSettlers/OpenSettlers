@@ -17,7 +17,7 @@ public class EndTurnDetailWidget extends AbstractActionDetailWidget
         super(gameWidget, endTurn.getPlayer());
         this.endTurn = endTurn;
 
-        rootPanel.add(new Image(Resources.icons().endTurn()));
+        rootPanel.add(new Image(Resources.icons().endTurn32()));
     }
 
     @Override

@@ -12,13 +12,11 @@ import soc.common.views.behaviour.gameWidget.GameBehaviour;
 import soc.common.views.behaviour.gameWidget.factories.GameBehaviourFactory;
 import soc.common.views.behaviour.gameWidget.factories.ReceiveGameBehaviourFactory;
 import soc.common.views.behaviour.gameWidget.received.ReceiveGameBehaviour;
-import soc.common.views.meta.Graphics;
 import soc.common.views.meta.Icon;
 import soc.common.views.meta.IconImpl;
 import soc.common.views.meta.Meta;
 import soc.common.views.widgetsInterface.actions.ActionWidget;
 import soc.common.views.widgetsInterface.actions.ActionWidgetFactory;
-import soc.common.views.widgetsInterface.generic.ToolTip;
 
 public class HostStartsGame extends AbstractGameAction
 {
@@ -31,13 +29,6 @@ public class HostStartsGame extends AbstractGameAction
         public Icon icon()
         {
             return icon;
-        }
-
-        @Override
-        public Graphics graphics()
-        {
-            // TODO Auto-generated method stub
-            return null;
         }
 
         @Override
@@ -61,12 +52,6 @@ public class HostStartsGame extends AbstractGameAction
             return null;
         }
 
-        @Override
-        public ToolTip createToolTip()
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
     };
     private Game game;
 
@@ -82,24 +67,22 @@ public class HostStartsGame extends AbstractGameAction
     {
         game.initialize();
         game.start();
-        game.getActionsQueue().enqueue(
-                (GameAction) new GamePhaseHasEnded().setSender(0), true);
+        game.getActionsQueue()
+                        .enqueue((GameAction) new GamePhaseHasEnded()
+                                        .setSender(0),
+                                        true);
 
         super.perform(game);
     }
 
-    /**
-     * @return the game
-     */
+    /** @return the game */
     public Game getGame()
     {
         return game;
     }
 
-    /**
-     * @param game
-     *            the game to set
-     */
+    /** @param game
+     *            the game to set */
     public HostStartsGame setGame(Game game)
     {
         this.game = game;
@@ -141,35 +124,35 @@ public class HostStartsGame extends AbstractGameAction
 
     @Override
     public ActionWidget createActionWidget(
-            ActionWidgetFactory actionWidgetFactory)
+                    ActionWidgetFactory actionWidgetFactory)
     {
         return null;
     }
 
     @Override
     public GameBehaviour getNextActionBehaviour(
-            GameBehaviourFactory gameBehaviourFactory)
+                    GameBehaviourFactory gameBehaviourFactory)
     {
         return gameBehaviourFactory.createHostStartsBehaviour(this);
     }
 
     @Override
     public ReceiveGameBehaviour getOpponentReceiveBehaviour(
-            ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
+                    ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
         return receiveGameBehaviourFactory.createHostStartsBehaviour(this);
     }
 
     @Override
     public ReceiveGameBehaviour getReceiveBehaviour(
-            ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
+                    ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
         return receiveGameBehaviourFactory.createHostStartsBehaviour(this);
     }
 
     @Override
     public GameBehaviour getSendBehaviour(
-            GameBehaviourFactory gameBehaviourFactory)
+                    GameBehaviourFactory gameBehaviourFactory)
     {
         return gameBehaviourFactory.createHostStartsBehaviour(this);
     }

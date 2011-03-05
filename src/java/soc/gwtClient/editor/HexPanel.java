@@ -178,7 +178,7 @@ public class HexPanel extends HorizontalPanel implements HasHandlers
         panel2.add(btnJungle);
 
         PushButton btnVolcano = new PushButton(new Image(Resources.icons()
-                .volcanoHex()));
+                .volcanoHex32()));
         btnVolcano.addClickHandler(new ClickHandler()
         {
             @Override
@@ -243,7 +243,7 @@ public class HexPanel extends HorizontalPanel implements HasHandlers
         panel2.add(btnRandom);
 
         PushButton btnDiscovery = new PushButton(new Image(Resources.icons()
-                .discoveryHex()));
+                .discoveryHex32()));
         btnDiscovery.addClickHandler(new ClickHandler()
         {
             @Override
