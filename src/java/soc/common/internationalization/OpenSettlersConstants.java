@@ -280,4 +280,70 @@ public interface OpenSettlersConstants extends Constants
     @DefaultStringValue("Placeholder for a valid place to put a port")
     String possiblePortDescription();
 
+    @DefaultStringValue("2 chit")
+    String chit2();
+
+    @DefaultStringValue("Chance of 1:36 of being rolled by dice, 12 has equal chances")
+    String chit2Description();
+
+    @DefaultStringValue("3 chit")
+    String chit3();
+
+    @DefaultStringValue("Chance of 2:36 of being rolled by dice, 11 has equal chances")
+    String chit3Description();
+
+    @DefaultStringValue("4 chit")
+    String chit4();
+
+    @DefaultStringValue("Chance of 3:36 of being rolled by dice, 10 has equal chances")
+    String chit4Description();
+
+    @DefaultStringValue("5 chit")
+    String chit5();
+
+    @DefaultStringValue("Chance of 4:36 of being rolled by dice, 9 has equal chances")
+    String chit5Description();
+
+    @DefaultStringValue("6 chit")
+    String chit6();
+
+    @DefaultStringValue("Chance of 5:36 of being rolled by dice, 8 has equal chances")
+    String chit6Description();
+
+    @DefaultStringValue("8 chit")
+    String chit8();
+
+    @DefaultStringValue("Chance of 5:36 of being rolled by dice, 6 has equal chances")
+    String chit8Description();
+
+    @DefaultStringValue("9 chit")
+    String chit9();
+
+    @DefaultStringValue("Chance of 4:36 of being rolled by dice, 5 has equal chances")
+    String chit9Description();
+
+    @DefaultStringValue("10 chit")
+    String chit10();
+
+    @DefaultStringValue("Chance of 3:36 of being rolled by dice, 4 has equal chances")
+    String chit10Description();
+
+    @DefaultStringValue("11 chit")
+    String chit11();
+
+    @DefaultStringValue("Chance of 2:36 of being rolled by dice, 3 has equal chances")
+    String chit11Description();
+
+    @DefaultStringValue("12 chit")
+    String chit12();
+
+    @DefaultStringValue("Chance of 1:36 of being rolled by dice, 2 has equal chances")
+    String chit12Description();
+
+    @DefaultStringValue("Random chit")
+    String chitRandom();
+
+    @DefaultStringValue("Placeholder, replaced at game start by a chit from it's territory's list of chits")
+    String chitRandomDescription();
+
 }

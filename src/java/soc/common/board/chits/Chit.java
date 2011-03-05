@@ -2,13 +2,13 @@ package soc.common.board.chits;
 
 import java.io.Serializable;
 
-public interface Chit extends Serializable
+import soc.common.views.meta.HasMeta;
+
+public interface Chit extends Serializable, HasMeta
 {
     public Chit copy();
 
-    /**
-     * @return the number
-     */
+    /** @return the number */
     public int getNumber();
 
     public boolean isRed();
