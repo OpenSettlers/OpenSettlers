@@ -37,21 +37,19 @@ public class Road extends AbstractPlayerPiece implements SidePiece, StockPiece
         @Override
         public String getName()
         {
-            // TODO Auto-generated method stub
-            return null;
+            return "Road";
         }
 
         @Override
         public String getLocalizedName()
         {
-            return I18n.get().constants().road();
+            return I18n.get().constants().longestRoad();
         }
 
         @Override
         public String getDescription()
         {
-            // TODO Auto-generated method stub
-            return null;
+            return I18n.get().constants().longestRoadDescription();
         }
 
     };

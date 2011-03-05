@@ -41,8 +41,7 @@ public class City extends AbstractPlayerPiece implements VictoryPointItem,
         @Override
         public String getName()
         {
-            // TODO Auto-generated method stub
-            return null;
+            return "City";
         }
 
         @Override

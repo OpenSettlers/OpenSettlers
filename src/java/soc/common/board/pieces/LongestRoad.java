@@ -6,6 +6,7 @@ import soc.common.game.LongestRoadChangedEvent;
 import soc.common.game.LongestRoadChangedEventHandler;
 import soc.common.game.VictoryPointItem;
 import soc.common.game.player.GamePlayer;
+import soc.common.internationalization.I18n;
 import soc.common.views.meta.Icon;
 import soc.common.views.meta.IconImpl;
 import soc.common.views.meta.Meta;
@@ -34,22 +35,19 @@ public class LongestRoad extends AbstractPlayerPiece implements
         @Override
         public String getName()
         {
-            // TODO Auto-generated method stub
-            return null;
+            return "LongestRoad";
         }
 
         @Override
         public String getLocalizedName()
         {
-            // TODO Auto-generated method stub
-            return null;
+            return I18n.get().constants().longestRoad();
         }
 
         @Override
         public String getDescription()
         {
-            // TODO Auto-generated method stub
-            return null;
+            return I18n.get().constants().longestRoadDescription();
         }
 
     };

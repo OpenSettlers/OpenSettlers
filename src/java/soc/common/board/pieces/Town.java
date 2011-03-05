@@ -43,8 +43,7 @@ public class Town extends AbstractPlayerPiece implements VictoryPointItem,
         @Override
         public String getName()
         {
-            // TODO Auto-generated method stub
-            return null;
+            return "Town";
         }
 
         @Override
@@ -56,8 +55,7 @@ public class Town extends AbstractPlayerPiece implements VictoryPointItem,
         @Override
         public String getDescription()
         {
-            // TODO Auto-generated method stub
-            return null;
+            return I18n.get().constants().townDescription();
         }
 
     };

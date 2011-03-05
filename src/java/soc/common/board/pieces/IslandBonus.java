@@ -6,6 +6,7 @@ import soc.common.board.pieces.abstractPieces.AbstractPlayerPiece;
 import soc.common.board.territories.Territory;
 import soc.common.game.VictoryPointItem;
 import soc.common.game.player.GamePlayer;
+import soc.common.internationalization.I18n;
 import soc.common.views.meta.Icon;
 import soc.common.views.meta.IconImpl;
 import soc.common.views.meta.Meta;
@@ -30,22 +31,19 @@ public class IslandBonus extends AbstractPlayerPiece implements
         @Override
         public String getName()
         {
-            // TODO Auto-generated method stub
-            return null;
+            return "IslandBonus";
         }
 
         @Override
         public String getLocalizedName()
         {
-            // TODO Auto-generated method stub
-            return null;
+            return I18n.get().constants().islandBonus();
         }
 
         @Override
         public String getDescription()
         {
-            // TODO Auto-generated method stub
-            return null;
+            return I18n.get().constants().islandBonusDescription();
         }
 
     };

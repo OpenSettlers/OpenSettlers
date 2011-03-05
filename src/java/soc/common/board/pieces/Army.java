@@ -7,6 +7,7 @@ import soc.common.board.pieces.abstractPieces.AbstractPlayerPiece;
 import soc.common.game.VictoryPointItem;
 import soc.common.game.developmentCards.standard.Soldier;
 import soc.common.game.player.GamePlayer;
+import soc.common.internationalization.I18n;
 import soc.common.views.meta.Icon;
 import soc.common.views.meta.IconImpl;
 import soc.common.views.meta.Meta;
@@ -34,22 +35,19 @@ public class Army extends AbstractPlayerPiece implements VictoryPointItem
         @Override
         public String getName()
         {
-            // TODO Auto-generated method stub
-            return null;
+            return "Army";
         }
 
         @Override
         public String getLocalizedName()
         {
-            // TODO Auto-generated method stub
-            return null;
+            return I18n.get().constants().army();
         }
 
         @Override
         public String getDescription()
         {
-            // TODO Auto-generated method stub
-            return null;
+            return I18n.get().constants().armyDescription();
         }
 
     };

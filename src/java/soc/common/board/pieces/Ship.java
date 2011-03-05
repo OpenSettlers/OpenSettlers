@@ -10,6 +10,7 @@ import soc.common.board.resources.Sheep;
 import soc.common.board.resources.Timber;
 import soc.common.board.routing.GraphPoint;
 import soc.common.game.player.GamePlayer;
+import soc.common.internationalization.I18n;
 import soc.common.views.meta.Icon;
 import soc.common.views.meta.IconImpl;
 import soc.common.views.meta.Meta;
@@ -33,22 +34,19 @@ public class Ship extends AbstractPlayerPiece implements SidePiece
         @Override
         public String getName()
         {
-            // TODO Auto-generated method stub
-            return null;
+            return "Ship";
         }
 
         @Override
         public String getLocalizedName()
         {
-            // TODO Auto-generated method stub
-            return null;
+            return I18n.get().constants().ship();
         }
 
         @Override
         public String getDescription()
         {
-            // TODO Auto-generated method stub
-            return null;
+            return I18n.get().constants().shipDescription();
         }
     };
     private HexSide sideLocation;

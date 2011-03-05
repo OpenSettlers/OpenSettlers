@@ -10,6 +10,30 @@ public interface OpenSettlersConstants extends Constants
     @DefaultStringValue("Player")
     String player();
 
+    @DefaultStringValue("Army")
+    String army();
+
+    @DefaultStringValue("Earn 2 points by having the largest amount of soldiers")
+    String armyDescription();
+
+    @DefaultStringValue("Longest road")
+    String longestRoad();
+
+    @DefaultStringValue("Earn 2 points by having the longest unbroken sequence of roads, towns and ships")
+    String longestRoadDescription();
+
+    @DefaultStringValue("Longest road")
+    String wall();
+
+    @DefaultStringValue("Earn 2 points by having the longest unbroken sequence of roads, towns and ships")
+    String wallDescription();
+
+    @DefaultStringValue("Island bonus point")
+    String islandBonus();
+
+    @DefaultStringValue("Earn one point by building on a newly discovered island")
+    String islandBonusDescription();
+
     @DefaultStringValue("Game")
     String game();
 
@@ -40,8 +64,14 @@ public interface OpenSettlersConstants extends Constants
     @DefaultStringValue("Road")
     String road();
 
-    @DefaultStringValue("Piece to discover new places")
+    @DefaultStringValue("Piece to discover new places on land")
     String roadDescription();
+
+    @DefaultStringValue("Ship")
+    String ship();
+
+    @DefaultStringValue("Piece to discover new places on sea")
+    String shipDescription();
 
     @DefaultStringValue("Development card")
     String developmentCard();
@@ -195,4 +225,59 @@ public interface OpenSettlersConstants extends Constants
 
     @DefaultStringValue("Play")
     String play();
+
+    @DefaultStringValue("Clay port")
+    String clayPort();
+
+    @DefaultStringValue("Trade 2 clay to the  bank for 1 resource")
+    String clayPortDescription();
+
+    @DefaultStringValue("Sheep port")
+    String sheepPort();
+
+    @DefaultStringValue("Trade 2 sheep to the bank for 1 resource")
+    String sheepPortDescription();
+
+    @DefaultStringValue("Wheat port")
+    String wheatPort();
+
+    @DefaultStringValue("Trade 2 wheat to the bank for 1 resource")
+    String wheatPortDescription();
+
+    @DefaultStringValue("Timber port")
+    String timberPort();
+
+    @DefaultStringValue("Trade 2 timber to the bank for 1 resource")
+    String timberPortDescription();
+
+    @DefaultStringValue("Ore port")
+    String orePort();
+
+    @DefaultStringValue("Trade 2 ore to the bank for 1 resource")
+    String orePortDescription();
+
+    @DefaultStringValue("3:1 port")
+    String threeToOnePort();
+
+    @DefaultStringValue("Trade 3 of the same resources to the bank for 1 resource")
+    String threeToOnePortDescription();
+
+    @DefaultStringValue("4:1 bank port")
+    String fourToOnePort();
+
+    @DefaultStringValue("Trade 4 of the same resources to the bank for 1 resource")
+    String fourToOnePortDescription();
+
+    @DefaultStringValue("Random port")
+    String randomPort();
+
+    @DefaultStringValue("Placeholder for another port")
+    String randomPortDescription();
+
+    @DefaultStringValue("Possible location for a port")
+    String possiblePort();
+
+    @DefaultStringValue("Placeholder for a valid place to put a port")
+    String possiblePortDescription();
+
 }
