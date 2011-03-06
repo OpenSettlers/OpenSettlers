@@ -17,8 +17,7 @@ public class TradeBankDetailWidget extends AbstractActionDetailWidget
         super(gameWidget, tradeBank.getPlayer());
         this.tradeBank = tradeBank;
 
-        rootPanel.add(new Image(Resources.icons().bankTrade()));
-        // TODO: add resources
+        rootPanel.add(new Image(Resources.mediumIcon(tradeBank)));
     }
 
     @Override

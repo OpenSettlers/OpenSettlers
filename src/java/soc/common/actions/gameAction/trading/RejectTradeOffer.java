@@ -23,8 +23,9 @@ public class RejectTradeOffer extends AbstractGameAction implements
     private static final long serialVersionUID = 3831905224550592802L;
     private static Meta meta = new Meta()
     {
-        private Icon icon = new IconImpl(Resources.icons().tradeRejected(),
-                        null, null, null);
+        private Icon icon = new IconImpl(Resources.icons().tradeRejected16(),
+                        Resources.icons().tradeRejected32(), Resources.icons()
+                                        .tradeRejected48());
 
         @Override
         public Icon icon()

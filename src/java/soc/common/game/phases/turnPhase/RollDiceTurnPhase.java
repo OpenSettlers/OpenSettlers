@@ -4,10 +4,49 @@ import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.standard.BuildRoad;
 import soc.common.actions.gameAction.standard.RollDice;
 import soc.common.game.Game;
+import soc.common.views.meta.Icon;
+import soc.common.views.meta.IconImpl;
+import soc.common.views.meta.Meta;
+import soc.gwtClient.images.Resources;
 
 public class RollDiceTurnPhase extends AbstractTurnPhase
 {
     private static final long serialVersionUID = 707404714054630828L;
+    private static transient Meta meta = new Meta()
+    {
+        private Icon icon = new IconImpl(Resources.icons()
+                        .rollDiceTurnPhase16(), Resources.icons()
+                        .rollDiceTurnPhase32(), Resources.icons()
+                        .rollDiceTurnPhase48());
+
+        @Override
+        public Icon icon()
+        {
+            return icon;
+        }
+
+        @Override
+        public String getName()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public String getLocalizedName()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public String getDescription()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+    };
 
     /*
      * (non-Javadoc)
@@ -58,9 +97,9 @@ public class RollDiceTurnPhase extends AbstractTurnPhase
                     {
                         game.getActionsQueue().enqueue(new BuildRoad(), true
                         // TODO: port to java
-                                // new LooseCardsAction()
-                                // .setPlayer(game.getPlayer(i));
-                                );
+                        // new LooseCardsAction()
+                        // .setPlayer(game.getPlayer(i));
+                                        );
                     }
 
                     // Expect player to place robber/pirate and rob a player
@@ -79,8 +118,7 @@ public class RollDiceTurnPhase extends AbstractTurnPhase
                 if (game.getActionsQueue().size() == 0)
                 {
                     return new TradingTurnPhase();
-                }
-                else
+                } else
                 {
                     return this;
                 }
@@ -99,8 +137,7 @@ public class RollDiceTurnPhase extends AbstractTurnPhase
 
             // Return current state
             return this;
-        }
-        else
+        } else
         // Action is not allowed in rollDice phase. Check if it is allowed in
         // subsequent phases,
         // then return that phase
@@ -135,6 +172,13 @@ public class RollDiceTurnPhase extends AbstractTurnPhase
     public boolean isDiceRoll()
     {
         return true;
+    }
+
+    @Override
+    public Meta getMeta()
+    {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

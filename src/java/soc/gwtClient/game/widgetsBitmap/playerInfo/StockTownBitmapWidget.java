@@ -17,9 +17,9 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 
 public class StockTownBitmapWidget extends AbstractStockItemWidget implements
-        PlayerPieceListChangedEventHandler<Road>
+                PlayerPieceListChangedEventHandler<Road>
 {
-    private Image townImage = new Image(Resources.icons().townSmall());
+    private Image townImage = new Image(Resources.icons().town16());
     private Label townAmount = new Label();
     private Town town = new Town();
     protected ActionDetailWidget townStockDetail;
@@ -46,7 +46,7 @@ public class StockTownBitmapWidget extends AbstractStockItemWidget implements
     private void updateUI()
     {
         townAmount.setText(Integer
-                .toString(player.getStock().getTowns().size()));
+                        .toString(player.getStock().getTowns().size()));
     }
 
     @Override

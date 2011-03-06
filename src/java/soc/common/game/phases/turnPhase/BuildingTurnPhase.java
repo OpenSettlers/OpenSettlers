@@ -3,11 +3,50 @@ package soc.common.game.phases.turnPhase;
 import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.turns.EndTurn;
 import soc.common.game.Game;
+import soc.common.views.meta.Icon;
+import soc.common.views.meta.IconImpl;
+import soc.common.views.meta.Meta;
+import soc.gwtClient.images.Resources;
 
 public class BuildingTurnPhase extends AbstractTurnPhase
 {
     private static final long serialVersionUID = 8241030068782844685L;
     private TradingTurnPhase tradingTurnPhase;
+    private static transient Meta meta = new Meta()
+    {
+        private Icon icon = new IconImpl(Resources.icons()
+                        .buildingTurnPhase16(), Resources.icons()
+                        .buildingTurnPhase32(), Resources.icons()
+                        .buildingTurnPhase48());
+
+        @Override
+        public Icon icon()
+        {
+            return icon;
+        }
+
+        @Override
+        public String getName()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public String getLocalizedName()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public String getDescription()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+    };
 
     public BuildingTurnPhase()
     {
@@ -51,8 +90,7 @@ public class BuildingTurnPhase extends AbstractTurnPhase
 
             // Players may build anything they can pay for in a turnphase
             return this;
-        }
-        else
+        } else
         {
             // Look if the action is allowed in the tradingPhase, and if we may
             // go back
@@ -61,8 +99,7 @@ public class BuildingTurnPhase extends AbstractTurnPhase
             {
                 tradingTurnPhase.processAction(action, game);
                 return tradingTurnPhase;
-            }
-            else
+            } else
             {
                 throw new RuntimeException("We should not reach this code");
             }
@@ -82,8 +119,7 @@ public class BuildingTurnPhase extends AbstractTurnPhase
         if (action.isAllowed(this))
         {
             return true;
-        }
-        else
+        } else
         {
             // TODO: add chck for game setting
             return action.isAllowed(tradingTurnPhase);
@@ -106,5 +142,11 @@ public class BuildingTurnPhase extends AbstractTurnPhase
     public boolean isBuilding()
     {
         return true;
+    }
+
+    @Override
+    public Meta getMeta()
+    {
+        return meta;
     }
 }

@@ -23,8 +23,10 @@ public class PlayTurnsGamePhase extends AbstractGamePhase
     private TurnPhase turnPhase = new BeforeDiceRollTurnPhase();
     private static transient Meta meta = new Meta()
     {
-        private Icon icon = new IconImpl(null, null, Resources.icons()
-                        .playTurnsGamePhase32());
+        private Icon icon = new IconImpl(Resources.icons()
+                        .playTurnsGamePhase16(), Resources.icons()
+                        .playTurnsGamePhase32(), Resources.icons()
+                        .playTurnsGamePhase48());
 
         @Override
         public Icon icon()

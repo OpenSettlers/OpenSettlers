@@ -205,6 +205,12 @@ public interface OpenSettlersConstants extends Constants
     @DefaultStringValue("Gain 2 gold resources")
     String yearOfPlentyDescription();
 
+    @DefaultStringValue("Dummy development card")
+    String dummyDevelopmentCard();
+
+    @DefaultStringValue("You don't know what's inside")
+    String dummyDevelopmentCardDescription();
+
     @DefaultStringValue("Monopoly")
     String monopoly();
 

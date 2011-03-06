@@ -2,6 +2,7 @@ package soc.gwtClient.game.widgetsBitmap.actionDetail;
 
 import soc.common.actions.gameAction.GameAction;
 import soc.common.actions.gameAction.standard.RobPlayer;
+import soc.common.board.resources.Resource;
 import soc.common.views.widgetsInterface.main.GameWidget;
 import soc.gwtClient.game.widgetsAbstract.actionDetail.AbstractActionDetailWidget;
 import soc.gwtClient.images.Resources;
@@ -17,9 +18,9 @@ public class RobPlayerDetailWidget extends AbstractActionDetailWidget
         super(gameWidget, robPlayer.getPlayer());
         this.robPlayer = robPlayer;
 
-        rootPanel.add(new Image(Resources.icons().robber()));
-        rootPanel.add(new Image(robPlayer.getStolenResource().getMeta().icon()
-                .iconDefault()));
+        rootPanel.add(new Image(Resources.mediumIcon(robPlayer)));
+        Resource stolenResource = robPlayer.getStolenResource();
+        rootPanel.add(new Image(Resources.mediumIcon(stolenResource)));
     }
 
     @Override

@@ -11,8 +11,8 @@ public class Wheat extends AbstractResource
     private static final long serialVersionUID = -7393820454171830461L;
     private static Meta meta = new Meta()
     {
-        private Icon icon = new IconImpl(Resources.icons().wheatCard(), null,
-                        null, null);
+        private Icon icon = new IconImpl(Resources.icons().wheat16(), Resources
+                        .icons().wheat32(), Resources.icons().wheat48());
 
         @Override
         public Icon icon()
@@ -37,7 +37,6 @@ public class Wheat extends AbstractResource
         {
             return I18n.get().constants().wheatDescription();
         }
-
     };
 
     /*

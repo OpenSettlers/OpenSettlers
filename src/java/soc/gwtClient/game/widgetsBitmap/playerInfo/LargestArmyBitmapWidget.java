@@ -17,9 +17,9 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 
 public class LargestArmyBitmapWidget extends AbstractLargestArmyWidget
-        implements MouseOutHandler, MouseOverHandler
+                implements MouseOutHandler, MouseOverHandler
 {
-    Image largestAmryImage = new Image(Resources.icons().robberSmall());
+    Image largestAmryImage = new Image(Resources.icons().robber16());
     Label amountSoldiers = new Label();
     Soldier soldier = new Soldier();
     ToolTip toolTip;
@@ -31,7 +31,8 @@ public class LargestArmyBitmapWidget extends AbstractLargestArmyWidget
         toolTip = new SoldiersToolTip(gameWidget, player);
 
         amountSoldiers.setText(Integer.toString(player
-                .getPlayedDevelopmentCards().ofType(new Soldier()).size()));
+                        .getPlayedDevelopmentCards().ofType(new Soldier())
+                        .size()));
         largestAmryImage.setSize("16px", "16px");
 
         rootPanel.add(largestAmryImage);
@@ -45,7 +46,7 @@ public class LargestArmyBitmapWidget extends AbstractLargestArmyWidget
     public void onDevelopmentCardsChanged(DevelopmentCardsChangedEvent event)
     {
         amountSoldiers.setText(Integer.toString(player
-                .getPlayedDevelopmentCards().ofType(soldier).size()));
+                        .getPlayedDevelopmentCards().ofType(soldier).size()));
     }
 
     @Override

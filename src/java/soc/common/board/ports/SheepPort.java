@@ -14,8 +14,9 @@ public class SheepPort extends TwoToOneResourcePort
     private static Sheep sheep = new Sheep();
     private static Meta meta = new Meta()
     {
-        private Icon icon = new IconImpl(Resources.icons().sheepPort(), null,
-                        null, null);
+        private Icon icon = new IconImpl(Resources.icons().sheepPort16(),
+                        Resources.icons().sheepPort32(), Resources.icons()
+                                        .sheepPort48());
 
         @Override
         public Icon icon()

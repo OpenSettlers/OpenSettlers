@@ -25,23 +25,24 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class BuildRoadBitmapWidget extends AbstractActionWidget implements
-        ResourcesChangedEventHandler, GamePhaseChangedEventHandler,
-        RoadTokensChangedEventHandler, PlayerPieceListChangedEventHandler<Road>
+                ResourcesChangedEventHandler, GamePhaseChangedEventHandler,
+                RoadTokensChangedEventHandler,
+                PlayerPieceListChangedEventHandler<Road>
 {
     AbsolutePanel absolutePanel = new AbsolutePanel();
     VerticalPanel tradesPanel = new VerticalPanel();
     VerticalPanel roadTokensPanel = new VerticalPanel();
     Road road = new Road();
-    PushButton btnBuildRoad = new PushButton(
-            new Image(Resources.icons().road()));
-    Image trade1 = new Image(Resources.icons().trade());
-    Image trade2 = new Image(Resources.icons().trade());
-    Image roadToken1 = new Image(Resources.icons().roadToken());
-    Image roadToken2 = new Image(Resources.icons().roadToken());
+    PushButton btnBuildRoad = new PushButton(new Image(Resources.icons()
+                    .road48()));
+    Image trade1 = new Image(Resources.icons().trade16());
+    Image trade2 = new Image(Resources.icons().trade16());
+    Image roadToken1 = new Image(Resources.icons().roadToken16());
+    Image roadToken2 = new Image(Resources.icons().roadToken16());
     BuildRoad buildRoad;
 
     public BuildRoadBitmapWidget(final GameWidget gameWidget,
-            final GamePlayer player)
+                    final GamePlayer player)
     {
         super(gameWidget, player);
 
@@ -129,10 +130,11 @@ public class BuildRoadBitmapWidget extends AbstractActionWidget implements
             Game game = gameWidget.getGame();
 
             if (game.isAllowed(buildRoad) && // current phase
-                    // must be OK
-                    road.canBuild(game.getBoard(), player) && // we need space
-                    road.canPay(player) && // we need resources
-                    game.getBoard().getGraph().getRoadCandidates(player).size() > 0)
+                            // must be OK
+                            road.canBuild(game.getBoard(), player) && // we need space
+                            road.canPay(player) && // we need resources
+                            game.getBoard().getGraph()
+                                            .getRoadCandidates(player).size() > 0)
             {
                 enableUI();
                 return;
@@ -151,12 +153,11 @@ public class BuildRoadBitmapWidget extends AbstractActionWidget implements
     {
         if (road.canPay(player) && player.getRoadBuildingTokens() == 0)
         {
-            int amountTradesNeeded = player.getResources().getNeededResources(
-                    road.getCost()).size();
+            int amountTradesNeeded = player.getResources()
+                            .getNeededResources(road.getCost()).size();
             trade1.setVisible(amountTradesNeeded >= 1);
             trade2.setVisible(amountTradesNeeded >= 2);
-        }
-        else
+        } else
         {
             trade1.setVisible(false);
             trade2.setVisible(false);

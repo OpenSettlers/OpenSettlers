@@ -23,8 +23,9 @@ public class LongestRoad extends AbstractPlayerPiece implements
     private static final long serialVersionUID = -1851490325447009277L;
     private static Meta meta = new Meta()
     {
-        private Icon icon = new IconImpl(Resources.icons().longestRoad(), null,
-                        null, Resources.icons().longestRoadSmall());
+        private Icon icon = new IconImpl(Resources.icons().longestRoad16(),
+                        Resources.icons().longestRoad32(), null, Resources
+                                        .icons().longestRoad48());
 
         @Override
         public Icon icon()

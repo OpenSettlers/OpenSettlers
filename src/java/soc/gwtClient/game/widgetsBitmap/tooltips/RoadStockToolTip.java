@@ -14,7 +14,7 @@ import soc.gwtClient.images.Resources;
 import com.google.gwt.user.client.ui.Image;
 
 public class RoadStockToolTip extends AbstractPlayerInfoToolTip implements
-        PlayerPieceListChangedEventHandler<Road>
+                PlayerPieceListChangedEventHandler<Road>
 {
     private Map<Road, Image> roadImages = new HashMap<Road, Image>();
 
@@ -24,7 +24,7 @@ public class RoadStockToolTip extends AbstractPlayerInfoToolTip implements
 
         for (Road road : player.getStock().getRoads())
         {
-            Image roadImage = new Image(Resources.icons().roadSmall());
+            Image roadImage = new Image(Resources.icons().road16());
             roadImages.put(road, roadImage);
             rootPanel.add(roadImage);
         }
@@ -42,7 +42,7 @@ public class RoadStockToolTip extends AbstractPlayerInfoToolTip implements
         }
         if (event.getAddedPiece() != null)
         {
-            Image roadImage = new Image(Resources.icons().roadSmall());
+            Image roadImage = new Image(Resources.icons().road16());
             roadImages.put(event.getAddedPiece(), roadImage);
             rootPanel.add(roadImage);
         }

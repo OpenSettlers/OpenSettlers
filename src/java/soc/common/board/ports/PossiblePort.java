@@ -16,8 +16,8 @@ public class PossiblePort extends AbstractPort
     private static final long serialVersionUID = 5430147957433152867L;
     private static Meta meta = new Meta()
     {
-        private Icon icon = new IconImpl(Resources.icons().randomPort(), null,
-                        null, null);
+        private Icon icon = new IconImpl(Resources.icons().port16(), Resources
+                        .icons().port32(), Resources.icons().port48());
 
         @Override
         public Icon icon()

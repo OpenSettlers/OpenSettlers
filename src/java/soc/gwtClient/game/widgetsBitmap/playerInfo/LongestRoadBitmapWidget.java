@@ -10,7 +10,7 @@ import com.google.gwt.user.client.ui.Label;
 public class LongestRoadBitmapWidget extends AbstractLongestRoadWidget
 {
     private Image longestRoadImage = new Image(Resources.icons()
-            .longestRoadSmall());
+                    .longestRoad16());
     private Label lblLongestRoadLength = new Label();
 
     public LongestRoadBitmapWidget(GamePlayer player)

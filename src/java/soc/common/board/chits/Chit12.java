@@ -11,8 +11,9 @@ public class Chit12 extends AbstractChit
     private static final long serialVersionUID = -2356981320798618769L;
     private static Meta meta = new Meta()
     {
-        private Icon icon = new IconImpl(Resources.icons().soldier(), null,
-                        null, null);
+        private Icon icon = new IconImpl(Resources.icons().chit1216(),
+                        Resources.icons().chit1232(), Resources.icons()
+                                        .chit1248());
 
         @Override
         public Icon icon()

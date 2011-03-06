@@ -25,7 +25,9 @@ public class PlayDevelopmentCard extends AbstractTurnAction
     private static Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons()
-                        .developmentCardBack(), null, null, null);
+                        .developmentCardBack16(), Resources.icons()
+                        .developmentCardBack32(), Resources.icons()
+                        .developmentCardBack48());
 
         @Override
         public Icon icon()

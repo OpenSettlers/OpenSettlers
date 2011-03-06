@@ -23,7 +23,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 public class PlayYearOfPlentyWidget implements DevelopmentCardWidget,
-        ResourcesChangedEventHandler
+                ResourcesChangedEventHandler
 {
     private YearOfPlenty yearOfPlenty;
     private GameWidget gameWidget;
@@ -35,19 +35,19 @@ public class PlayYearOfPlentyWidget implements DevelopmentCardWidget,
     private Button buttonnPlay = new Button(I18n.get().constants().play());
 
     public PlayYearOfPlentyWidget(final GameWidget gameWidget,
-            final YearOfPlenty yearOfPlenty)
+                    final YearOfPlenty yearOfPlenty)
     {
         this.yearOfPlenty = yearOfPlenty;
         this.gameWidget = gameWidget;
 
         resourceListWidget = new ResourceListBitmapWidget(pickedResources,
-                gameWidget.getGame().getBank().copy(), null);
+                        gameWidget.getGame().getBank().copy(), null);
         resourceListWidget.setHeight("3em");
         resourcePickerWidget = new ResourcePickerBitmapWidget(pickedResources,
-                null, gameWidget.getGame().getBank().copy(), gameWidget);
+                        null, gameWidget.getGame().getBank().copy(), gameWidget);
 
         rootPanel.setSpacing(5);
-        rootPanel.add(new Image(Resources.icons().yearOfPlenty()));
+        rootPanel.add(new Image(Resources.largeIcon(yearOfPlenty)));
         rootPanel.add(new Label(I18n.get().constants().yearOfPlenty()));
         rootPanel.add(resourcePickerWidget);
         rootPanel.add(resourceListWidget);

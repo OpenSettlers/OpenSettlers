@@ -18,8 +18,10 @@ public class InitialPlacementGamePhase extends AbstractGamePhase
     private InitialPlacementStrategy placementStrategy = new TwoTowns();
     private static transient Meta meta = new Meta()
     {
-        private Icon icon = new IconImpl(null, null, Resources.icons()
-                        .initialPlacementGamePhase32());
+        private Icon icon = new IconImpl(Resources.icons()
+                        .initialPlacementGamePhase16(), Resources.icons()
+                        .initialPlacementGamePhase32(), Resources.icons()
+                        .initialPlacementGamePhase48());
 
         @Override
         public Icon icon()

@@ -14,7 +14,7 @@ import soc.gwtClient.images.Resources;
 import com.google.gwt.user.client.ui.Image;
 
 public class SoldiersToolTip extends AbstractPlayerInfoToolTip implements
-        ArmyChangedEventHandler
+                ArmyChangedEventHandler
 {
     private Map<Soldier, Image> soldierImages = new HashMap<Soldier, Image>();
 
@@ -24,7 +24,7 @@ public class SoldiersToolTip extends AbstractPlayerInfoToolTip implements
 
         for (Soldier soldier : player.getArmy().getSoldiers())
         {
-            Image soldierImage = new Image(Resources.icons().soldier());
+            Image soldierImage = new Image(Resources.mediumIcon(soldier));
             soldierImages.put(soldier, soldierImage);
             rootPanel.add(soldierImage);
         }
@@ -37,10 +37,10 @@ public class SoldiersToolTip extends AbstractPlayerInfoToolTip implements
     {
         if (event.getAddedSoldier() != null)
         {
-            Image soldierImage = new Image(Resources.icons().soldier());
+            Image soldierImage = new Image(Resources.mediumIcon(event
+                            .getAddedSoldier()));
             soldierImages.put(event.getAddedSoldier(), soldierImage);
             rootPanel.add(soldierImage);
         }
     }
-
 }

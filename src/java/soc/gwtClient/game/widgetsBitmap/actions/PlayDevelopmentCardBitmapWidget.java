@@ -25,8 +25,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class PlayDevelopmentCardBitmapWidget implements
-        PlayDevelopmentCardWidget, DevelopmentCardsChangedEventHandler,
-        ActionWidget
+                PlayDevelopmentCardWidget, DevelopmentCardsChangedEventHandler,
+                ActionWidget
 {
     protected AbsolutePanel rootPanel = new AbsolutePanel();
     protected PopupPanel menuBar = new PopupPanel();
@@ -34,20 +34,20 @@ public class PlayDevelopmentCardBitmapWidget implements
     protected GamePlayer player;
     protected GameWidget gameWidget;
     protected PushButton btnPlayDevelopmentCard = new PushButton(new Image(
-            Resources.icons().developmentCardBack()));
+                    Resources.icons().developmentCardBack48()));
     protected Label lblAmountDvelopmentCards = new Label();
     protected boolean isMenubarShown = false;
     protected DevelopmentCardWidgetFactory devCardWidgetFactory;
     protected HashMap<DevelopmentCard, DevelopmentCardWidget> devCardsWidgets = new HashMap<DevelopmentCard, DevelopmentCardWidget>();
 
     public PlayDevelopmentCardBitmapWidget(GamePlayer player,
-            GameWidget gameWidget)
+                    GameWidget gameWidget)
     {
         this.player = player;
         this.gameWidget = gameWidget;
 
         devCardWidgetFactory = new DevelopmentCardBitmapWidgetFactory(
-                gameWidget);
+                        gameWidget);
 
         rootPanel.add(btnPlayDevelopmentCard);
         rootPanel.add(lblAmountDvelopmentCards);
@@ -57,12 +57,12 @@ public class PlayDevelopmentCardBitmapWidget implements
         for (DevelopmentCard devCard : player.getDevelopmentCards())
         {
             DevelopmentCardWidget devCardWidget = devCard
-                    .createPlayCardWidget(devCardWidgetFactory);
+                            .createPlayCardWidget(devCardWidgetFactory);
             verticalPanel.add(devCardWidget);
             devCardsWidgets.put(devCard, devCardWidget);
         }
         player.getDevelopmentCards().addDevelopmentCardsChangedEventHandler(
-                this);
+                        this);
 
         btnPlayDevelopmentCard.addClickHandler(new ClickHandler()
         {
@@ -72,13 +72,12 @@ public class PlayDevelopmentCardBitmapWidget implements
                 if (isMenubarShown)
                 {
                     menuBar.hide();
-                }
-                else
+                } else
                 {
-                    menuBar.setPopupPosition(btnPlayDevelopmentCard
-                            .getOffsetWidth(), btnPlayDevelopmentCard
-                            .getOffsetHeight()
-                            - menuBar.getAbsoluteTop());
+                    menuBar.setPopupPosition(
+                                    btnPlayDevelopmentCard.getOffsetWidth(),
+                                    btnPlayDevelopmentCard.getOffsetHeight()
+                                                    - menuBar.getAbsoluteTop());
                     menuBar.show();
                 }
                 isMenubarShown = !isMenubarShown;
@@ -97,11 +96,11 @@ public class PlayDevelopmentCardBitmapWidget implements
     {
         // Update label showing amount of cards player currently has
         lblAmountDvelopmentCards.setText(Integer.toString(player
-                .getDevelopmentCards().size()));
+                        .getDevelopmentCards().size()));
         if (event.getAddedCard() != null)
         {
             DevelopmentCardWidget devCardWidget = event.getAddedCard()
-                    .createPlayCardWidget(devCardWidgetFactory);
+                            .createPlayCardWidget(devCardWidgetFactory);
 
             verticalPanel.add(devCardWidget);
             devCardsWidgets.put(event.getAddedCard(), devCardWidget);
@@ -109,7 +108,7 @@ public class PlayDevelopmentCardBitmapWidget implements
         if (event.getRemovedCard() != null)
         {
             DevelopmentCardWidget widget = devCardsWidgets.get(event
-                    .getRemovedCard());
+                            .getRemovedCard());
             verticalPanel.remove(widget);
         }
     }

@@ -24,7 +24,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class AllPhaseStatusBitmapWidget implements
-        GamePhaseChangedEventHandler, IsWidget
+                GamePhaseChangedEventHandler, IsWidget
 {
     private HorizontalPanel rootPanel = new HorizontalPanel();
     private VerticalPanel phasesRootPanel = new VerticalPanel();
@@ -41,14 +41,14 @@ public class AllPhaseStatusBitmapWidget implements
         this.gameWidget = gameWidget;
 
         GamePhaseStatusWidgetFactory factory = gameWidget.getClientFactory()
-                .getGamePhaseStatusWidgetFactory();
+                        .getGamePhaseStatusWidgetFactory();
 
         for (GamePhase gamePhase : gameWidget.getGame().getRules()
-                .getSupportedPhases())
+                        .getSupportedPhases())
         {
-            gamePhaseIcons.add(new Image(Resources.gamePhase(gamePhase)));
+            gamePhaseIcons.add(new Image(Resources.mediumIcon(gamePhase)));
             GamePhaseStatusWidget widget = gamePhase
-                    .createGamePhaseStatusWidget(factory);
+                            .createGamePhaseStatusWidget(factory);
             phaseWidgets.put(gamePhase, widget);
             currentPhasePanel.add(widget);
             widgets.add(widget);
@@ -84,7 +84,7 @@ public class AllPhaseStatusBitmapWidget implements
 
         GamePhaseStatusWidget widget = null;
         for (Entry<GamePhase, GamePhaseStatusWidget> entry : phaseWidgets
-                .entrySet())
+                        .entrySet())
             if (entry.getKey().getClass() == newPhase.getClass())
             {
                 widget = entry.getValue();

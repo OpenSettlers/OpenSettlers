@@ -26,24 +26,25 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class BuildCityBitmapWidget extends AbstractActionWidget implements
-        ResourcesChangedEventHandler, GamePhaseChangedEventHandler,
-        TurnPhaseChangedHandler, PlayerPieceListChangedEventHandler<City>
+                ResourcesChangedEventHandler, GamePhaseChangedEventHandler,
+                TurnPhaseChangedHandler,
+                PlayerPieceListChangedEventHandler<City>
 {
     private AbsolutePanel absolutePanel = new AbsolutePanel();
     private VerticalPanel tradesPanel1 = new VerticalPanel();
     private VerticalPanel tradesPanel2 = new VerticalPanel();
     private PushButton btnCity = new PushButton(new Image(Resources.icons()
-            .city()));
+                    .city48()));
     private City city = new City();
-    private Image trade1 = new Image(Resources.icons().trade());
-    private Image trade2 = new Image(Resources.icons().trade());
-    private Image trade3 = new Image(Resources.icons().trade());
-    private Image trade4 = new Image(Resources.icons().trade());
-    private Image trade5 = new Image(Resources.icons().trade());
+    private Image trade1 = new Image(Resources.icons().trade16());
+    private Image trade2 = new Image(Resources.icons().trade16());
+    private Image trade3 = new Image(Resources.icons().trade16());
+    private Image trade4 = new Image(Resources.icons().trade16());
+    private Image trade5 = new Image(Resources.icons().trade16());
     private BuildCity buildCity = new BuildCity();
 
     public BuildCityBitmapWidget(final GameWidget gameWidget,
-            final GamePlayer player)
+                    final GamePlayer player)
     {
         super(gameWidget, player);
 
@@ -55,14 +56,15 @@ public class BuildCityBitmapWidget extends AbstractActionWidget implements
         gameWidget.getGame().addGamePhaseChangedEventHandler(this);
         gameWidget.getGame().addTurnPhaseChangedHandler(this);
         player.getTowns().addTownsChangedEventHandler(
-                new PlayerPieceListChangedEventHandler<Town>()
-                {
-                    @Override
-                    public void onPlayerPieceListChanged(PlayerPieceListChangedEvent<Town> event)
-                    {
-                        checkEnabled();
-                    }
-                });
+                        new PlayerPieceListChangedEventHandler<Town>()
+                        {
+                            @Override
+                            public void onPlayerPieceListChanged(
+                                            PlayerPieceListChangedEvent<Town> event)
+                            {
+                                checkEnabled();
+                            }
+                        });
 
         tradesPanel1.add(trade1);
         tradesPanel1.add(trade2);
@@ -139,9 +141,9 @@ public class BuildCityBitmapWidget extends AbstractActionWidget implements
             Game game = gameWidget.getGame();
 
             if (game.getCurrentPhase().isAllowed(buildCity) && // current phase
-                    // must be OK
-                    city.canBuild(game.getBoard(), player) && // we need space
-                    city.canPay(player)) // we need resources
+                            // must be OK
+                            city.canBuild(game.getBoard(), player) && // we need space
+                            city.canPay(player)) // we need resources
             {
                 enableUI();
                 setTradesNeededToBuild();
@@ -159,8 +161,8 @@ public class BuildCityBitmapWidget extends AbstractActionWidget implements
 
     private void setTradesNeededToBuild()
     {
-        int amountTradesNeeded = player.getResources().getNeededResources(
-                city.getCost()).size();
+        int amountTradesNeeded = player.getResources()
+                        .getNeededResources(city.getCost()).size();
         trade1.setVisible(amountTradesNeeded >= 1);
         trade2.setVisible(amountTradesNeeded >= 2);
         trade3.setVisible(amountTradesNeeded >= 3);

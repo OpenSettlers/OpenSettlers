@@ -24,7 +24,7 @@ import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class TerritoryPanel extends VerticalPanel implements
-        TerritoriesChangedEventHandler
+                TerritoriesChangedEventHandler
 {
     SetTerritoryBehaviour behaviour;
     BoardVisual board;
@@ -40,7 +40,7 @@ public class TerritoryPanel extends VerticalPanel implements
     }
 
     public HandlerRegistration addBehaviourChangedEventHandler(
-            BehaviourChangedHandler handler)
+                    BehaviourChangedHandler handler)
     {
         return handlerManager.addHandler(BehaviourChanged.TYPE, handler);
     }
@@ -55,14 +55,14 @@ public class TerritoryPanel extends VerticalPanel implements
         createAddTerritoryWindow();
         createPanel();
 
-        board.getBoard().getTerritories().addTerritoriesChangedEventHandler(
-                this);
+        board.getBoard().getTerritories()
+                        .addTerritoriesChangedEventHandler(this);
     }
 
     private void createPanel()
     {
         PushButton btnShowTerritories = new PushButton(new Image(Resources
-                .icons().showTerritories()));
+                        .icons().showTerritories32()));
         btnShowTerritories.addClickHandler(new ClickHandler()
         {
             @Override
@@ -75,7 +75,7 @@ public class TerritoryPanel extends VerticalPanel implements
         this.add(btnShowTerritories);
 
         PushButton btnHideTerritories = new PushButton(new Image(Resources
-                .icons().hideTerritories()));
+                        .icons().hideTerritories32()));
         btnHideTerritories.addClickHandler(new ClickHandler()
         {
             @Override
@@ -88,7 +88,7 @@ public class TerritoryPanel extends VerticalPanel implements
         this.add(btnHideTerritories);
 
         PushButton btnAddTerritory = new PushButton(new Image(Resources.icons()
-                .addTerritory()));
+                        .addTerritory()));
         btnAddTerritory.addClickHandler(new ClickHandler()
         {
             @Override
@@ -100,7 +100,7 @@ public class TerritoryPanel extends VerticalPanel implements
         this.add(btnAddTerritory);
 
         PushButton btnRemoveTerritory = new PushButton(new Image(Resources
-                .icons().removeTerritory()));
+                        .icons().removeTerritory32()));
         btnRemoveTerritory.addClickHandler(new ClickHandler()
         {
             @Override
@@ -124,30 +124,29 @@ public class TerritoryPanel extends VerticalPanel implements
 
         if (territory.isMainland())
         {
-            img = Resources.icons().mainland();
-        }
-        else
+            img = Resources.icons().mainland32();
+        } else
         {
             switch (territory.getID())
             {
-            case 1:
-                img = Resources.icons().island1();
-                break;
-            case 2:
-                img = Resources.icons().island2();
-                break;
-            case 3:
-                img = Resources.icons().island3();
-                break;
-            case 4:
-                img = Resources.icons().island4();
-                break;
-            case 5:
-                img = Resources.icons().island5();
-                break;
-            case 6:
-                img = Resources.icons().island6();
-                break;
+                case 1:
+                    img = Resources.icons().island132();
+                    break;
+                case 2:
+                    img = Resources.icons().island232();
+                    break;
+                case 3:
+                    img = Resources.icons().island332();
+                    break;
+                case 4:
+                    img = Resources.icons().island432();
+                    break;
+                case 5:
+                    img = Resources.icons().island532();
+                    break;
+                case 6:
+                    img = Resources.icons().island632();
+                    break;
             }
         }
 

@@ -11,10 +11,10 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 
 public class VictoryPointsBitmapWidget extends AbstractVictoryPointsWidget
-        implements VictoryPointsChangedEventHandler
+                implements VictoryPointsChangedEventHandler
 {
     private Image victoryPointsImage = new Image(Resources.icons()
-            .victoryPointsSmall());
+                    .victoryPoints16());
     private Label lblVictoryPointsAmount = new Label();
 
     public VictoryPointsBitmapWidget(GameWidget gameWidget, GamePlayer player)
@@ -23,7 +23,7 @@ public class VictoryPointsBitmapWidget extends AbstractVictoryPointsWidget
 
         victoryPointsImage.setSize("16px", "16px");
         lblVictoryPointsAmount.setText(Integer.toString(player
-                .getVictoryPoints().getTotalPoints()));
+                        .getVictoryPoints().getTotalPoints()));
 
         rootPanel.add(victoryPointsImage);
         rootPanel.add(lblVictoryPointsAmount);
@@ -35,7 +35,7 @@ public class VictoryPointsBitmapWidget extends AbstractVictoryPointsWidget
     public void onVictoryPointsChanged(VictoryPointsChangedEvent event)
     {
         lblVictoryPointsAmount.setText(Integer.toString(player
-                .getVictoryPoints().getTotalPoints()));
+                        .getVictoryPoints().getTotalPoints()));
     }
 
 }

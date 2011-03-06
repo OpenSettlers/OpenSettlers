@@ -2,11 +2,50 @@ package soc.common.game.phases.turnPhase;
 
 import soc.common.actions.gameAction.GameAction;
 import soc.common.game.Game;
+import soc.common.views.meta.Icon;
+import soc.common.views.meta.IconImpl;
+import soc.common.views.meta.Meta;
+import soc.gwtClient.images.Resources;
 
 public class TradingTurnPhase extends AbstractTurnPhase
 {
     private static final long serialVersionUID = -6990539284724565304L;
     private BuildingTurnPhase buildPhase;
+    private static transient Meta meta = new Meta()
+    {
+        private Icon icon = new IconImpl(
+                        Resources.icons().tradingTurnPhase16(), Resources
+                                        .icons().tradingTurnPhase32(),
+                        Resources.icons().tradingTurnPhase48());
+
+        @Override
+        public Icon icon()
+        {
+            return icon;
+        }
+
+        @Override
+        public String getName()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public String getLocalizedName()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public String getDescription()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+    };
 
     public TradingTurnPhase()
     {
@@ -26,14 +65,12 @@ public class TradingTurnPhase extends AbstractTurnPhase
         if (action.isAllowed(this))
         {
             return true;
-        }
-        else
+        } else
         {
             if (action.isAllowed(buildPhase))
             {
                 return true;
-            }
-            else
+            } else
             {
                 return false;
             }
@@ -66,8 +103,7 @@ public class TradingTurnPhase extends AbstractTurnPhase
         {
             action.perform(game);
             return this;
-        }
-        else
+        } else
         // If action is not allowed to execute, check if buildphase allows it.
         // If so, move to
         // buildphase
@@ -97,5 +133,11 @@ public class TradingTurnPhase extends AbstractTurnPhase
     public boolean isTrading()
     {
         return true;
+    }
+
+    @Override
+    public Meta getMeta()
+    {
+        return meta;
     }
 }

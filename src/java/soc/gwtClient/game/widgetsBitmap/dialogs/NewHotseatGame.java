@@ -15,11 +15,11 @@ import soc.common.views.widgetsInterface.generic.BoardPicker;
 import soc.common.views.widgetsInterface.generic.LimitedColorPicker;
 import soc.gwtClient.game.widgetsBitmap.generic.BoardPickerBitmapWidget;
 import soc.gwtClient.game.widgetsBitmap.generic.LimitedColorPickerBitmapWidget;
+import soc.gwtClient.game.widgetsBitmap.generic.LimitedColorPickerBitmapWidget.OnColorChanged;
 import soc.gwtClient.game.widgetsBitmap.generic.PlayerListWidget;
 import soc.gwtClient.game.widgetsBitmap.generic.PlayerListWidgetImpl;
 import soc.gwtClient.game.widgetsBitmap.generic.PlayersChangedEvent;
 import soc.gwtClient.game.widgetsBitmap.generic.PlayersChangedEventHandler;
-import soc.gwtClient.game.widgetsBitmap.generic.LimitedColorPickerBitmapWidget.OnColorChanged;
 import soc.gwtClient.images.Resources;
 import soc.gwtClient.main.MainWindow;
 
@@ -44,7 +44,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class NewHotseatGame extends Composite implements OnColorChanged,
-        BoardChangedEventHandler, PlayersChangedEventHandler
+                BoardChangedEventHandler, PlayersChangedEventHandler
 {
     private Game newGame = new Game();
     private int userID = 0;
@@ -57,9 +57,7 @@ public class NewHotseatGame extends Composite implements OnColorChanged,
     private PlayerListWidget playerListWidget = new PlayerListWidgetImpl();
     private Label lblSelectedBoard;
 
-    /**
-     * @wbp.parser.constructor
-     */
+    /** @wbp.parser.constructor */
     public NewHotseatGame()
     {
         ScrollPanel scrollPanel = new ScrollPanel();
@@ -132,7 +130,7 @@ public class NewHotseatGame extends Composite implements OnColorChanged,
             public void onKeyUp(KeyUpEvent event)
             {
                 if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER
-                        && canAddPlayer())
+                                && canAddPlayer())
                     addPlayer();
                 else
                     canAddPlayer();
@@ -140,7 +138,7 @@ public class NewHotseatGame extends Composite implements OnColorChanged,
         });
         VerticalPanel playersPanel = new VerticalPanel();
 
-        Image image = new Image(Resources.icons().playerMedium());
+        Image image = new Image(Resources.icons().player32());
         panelAddPlayer.add(image);
         panelAddPlayer.add(textboxPlayerName);
 
@@ -164,7 +162,7 @@ public class NewHotseatGame extends Composite implements OnColorChanged,
         panelAddBot.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
         panelAddBot.setSpacing(5);
 
-        Image imageBot = new Image(Resources.icons().botMedium());
+        Image imageBot = new Image(Resources.icons().bot32());
         panelAddBot.add(imageBot);
 
         final ListBox comboBox = new ListBox();
@@ -194,8 +192,7 @@ public class NewHotseatGame extends Composite implements OnColorChanged,
         panelOkCancel.setWidth("100%");
         panelOkCancel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
         panelOkCancel.setSpacing(10);
-        panelOkCancel
-                .setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+        panelOkCancel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 
         Button buttonCancel = new Button("New button");
         buttonCancel.setStyleName("cancel-button");
@@ -249,9 +246,9 @@ public class NewHotseatGame extends Composite implements OnColorChanged,
     private boolean canAddPlayerOrBot()
     {
         return boardPicker.hasBoardSelected()
-                && boardPicker.getSelectedBoard().getBoardSettings()
-                        .getAmountPlayers().getAmountPlayers() > playerListWidget
-                        .amountPlayers();
+                        && boardPicker.getSelectedBoard().getBoardSettings()
+                                        .getAmountPlayers().getAmountPlayers() > playerListWidget
+                                        .amountPlayers();
     }
 
     private void addBot(Class<? extends Bot> botType)
@@ -259,7 +256,7 @@ public class NewHotseatGame extends Composite implements OnColorChanged,
         userID++;
         GamePlayerImpl newPlayer = new GamePlayerImpl();
         Bot newBot = GameUtils.createBot(botType, newGame, newPlayer,
-                new ClientRandom());
+                        new ClientRandom());
         newBot.setId(userID);
         newPlayer.setBot(newBot);
 
@@ -277,13 +274,13 @@ public class NewHotseatGame extends Composite implements OnColorChanged,
         // User can be added when there is a name, the name is unique,
         // the color is selected and the color is unique.
         if (textboxPlayerName.getText().length() > 0
-                && limitedColorPicker.isColorSelected() && isUniqueName()
-                && isSelectedColor() && canAddPlayerOrBot())
+                        && limitedColorPicker.isColorSelected()
+                        && isUniqueName() && isSelectedColor()
+                        && canAddPlayerOrBot())
         {
             buttonAddPlayer.setEnabled(true);
             return true;
-        }
-        else
+        } else
         {
             buttonAddPlayer.setEnabled(false);
             return false;
@@ -305,7 +302,7 @@ public class NewHotseatGame extends Composite implements OnColorChanged,
         int numPlayers = playerListWidget.amountPlayers();
         Board selectedBoard = boardPicker.getSelectedBoard();
         return selectedBoard.getBoardSettings().getAmountPlayers()
-                .getAmountPlayers() == numPlayers;
+                        .getAmountPlayers() == numPlayers;
     }
 
     private boolean canStartGame()

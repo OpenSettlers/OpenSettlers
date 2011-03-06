@@ -24,20 +24,21 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class BuyDevelopmentCardBitmapWidget extends AbstractActionWidget
-        implements ResourcesChangedEventHandler, TurnChangedEventHandler,
-        TurnPhaseChangedHandler, GamePhaseChangedEventHandler
+                implements ResourcesChangedEventHandler,
+                TurnChangedEventHandler, TurnPhaseChangedHandler,
+                GamePhaseChangedEventHandler
 {
     AbsolutePanel rootPanel = new AbsolutePanel();
     VerticalPanel tradePanel = new VerticalPanel();
-    Image trade1 = new Image(Resources.icons().trade());
-    Image trade2 = new Image(Resources.icons().trade());
-    Image trade3 = new Image(Resources.icons().trade());
+    Image trade1 = new Image(Resources.icons().trade16());
+    Image trade2 = new Image(Resources.icons().trade16());
+    Image trade3 = new Image(Resources.icons().trade16());
     PushButton btnbuyDvelopmentcard = new PushButton(new Image(Resources
-            .icons().buyDvelopmentCard()));
+                    .icons().buyDvelopmentCard48()));
     BuyDevelopmentCard buyDevelopmentCard = new BuyDevelopmentCard();
 
     public BuyDevelopmentCardBitmapWidget(final GameWidget gameWidget,
-            final GamePlayer player)
+                    final GamePlayer player)
     {
         super(gameWidget, player);
 
@@ -60,7 +61,8 @@ public class BuyDevelopmentCardBitmapWidget extends AbstractActionWidget
             public void onClick(ClickEvent event)
             {
                 gameWidget.startAction(new BuyDevelopmentCard().setResources(
-                        AbstractDevelopmentCard.getCost()).setPlayer(player));
+                                AbstractDevelopmentCard.getCost()).setPlayer(
+                                player));
             }
         });
     }
@@ -110,7 +112,7 @@ public class BuyDevelopmentCardBitmapWidget extends AbstractActionWidget
         if (enabled && player.isOnTurn())
         {
             if (gameWidget.getGame().isAllowed(buyDevelopmentCard)
-                    && AbstractDevelopmentCard.canPay(player))
+                            && AbstractDevelopmentCard.canPay(player))
             {
                 enableUI();
                 return;
@@ -135,13 +137,15 @@ public class BuyDevelopmentCardBitmapWidget extends AbstractActionWidget
     {
         if (AbstractDevelopmentCard.canPay(player))
         {
-            int amountTradesNeeded = player.getResources().getNeededResources(
-                    AbstractDevelopmentCard.getCost()).size();
+            int amountTradesNeeded = player
+                            .getResources()
+                            .getNeededResources(
+                                            AbstractDevelopmentCard.getCost())
+                            .size();
             trade1.setVisible(amountTradesNeeded >= 1);
             trade2.setVisible(amountTradesNeeded >= 2);
             trade3.setVisible(amountTradesNeeded >= 3);
-        }
-        else
+        } else
         {
             trade1.setVisible(false);
             trade2.setVisible(false);

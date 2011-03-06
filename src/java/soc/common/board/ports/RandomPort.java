@@ -16,8 +16,9 @@ public class RandomPort extends AbstractPort
     private static final long serialVersionUID = 5964428508404257705L;
     private static Meta meta = new Meta()
     {
-        private Icon icon = new IconImpl(Resources.icons().randomPort(), null,
-                        null, null);
+        private Icon icon = new IconImpl(Resources.icons().randomPort16(),
+                        Resources.icons().randomPort32(), Resources.icons()
+                                        .randomPort48());
 
         @Override
         public Icon icon()

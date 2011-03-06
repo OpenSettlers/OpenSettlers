@@ -21,11 +21,11 @@ import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.Widget;
 
 public class TradePlayerBitmapWidget extends AbstractActionWidget implements
-        GamePhaseChangedEventHandler, ResourcesChangedEventHandler,
-        ClickHandler, TurnChangedEventHandler, TurnPhaseChangedHandler
+                GamePhaseChangedEventHandler, ResourcesChangedEventHandler,
+                ClickHandler, TurnChangedEventHandler, TurnPhaseChangedHandler
 {
     PushButton btnTradePlayer = new PushButton(new Image(Resources.icons()
-            .tradePlayer()));
+                    .tradePlayer48()));
     TradePlayer tradePlayer = new TradePlayer();
 
     public TradePlayerBitmapWidget(GameWidget gameWidget, GamePlayer player)
@@ -90,8 +90,8 @@ public class TradePlayerBitmapWidget extends AbstractActionWidget implements
     private void checkEnabled()
     {
         if (enabled && player.isOnTurn()
-                && gameWidget.getGame().isAllowed(tradePlayer)
-                && player.getResources().size() > 0)
+                        && gameWidget.getGame().isAllowed(tradePlayer)
+                        && player.getResources().size() > 0)
         {
             enableUI();
             return;

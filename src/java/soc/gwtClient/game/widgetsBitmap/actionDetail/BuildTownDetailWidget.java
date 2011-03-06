@@ -18,8 +18,8 @@ public class BuildTownDetailWidget extends AbstractActionDetailWidget
 
         this.buildTown = buildTown;
 
-        rootPanel.add(new Image(Resources.icons().buildLarge()));
-        rootPanel.add(new Image(Resources.icons().town()));
+        rootPanel.add(new Image(Resources.icons().build32()));
+        rootPanel.add(new Image(Resources.mediumIcon(buildTown)));
     }
 
     @Override

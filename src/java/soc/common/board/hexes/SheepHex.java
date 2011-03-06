@@ -15,8 +15,9 @@ public class SheepHex extends ResourceHex
     private static final long serialVersionUID = -4252055009001134451L;
     private static Meta meta = new Meta()
     {
-        private Icon icon = new IconImpl(Resources.icons().sheepHex(), null,
-                        null, null);
+        private Icon icon = new IconImpl(Resources.icons().sheepHex16(),
+                        Resources.icons().sheepHex32(), Resources.icons()
+                                        .sheepHex48());
 
         @Override
         public Icon icon()

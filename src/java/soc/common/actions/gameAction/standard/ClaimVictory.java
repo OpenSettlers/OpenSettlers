@@ -23,8 +23,9 @@ public class ClaimVictory extends AbstractTurnAction
     private static final long serialVersionUID = 7906062762366374296L;
     private static Meta meta = new Meta()
     {
-        private Icon icon = new IconImpl(Resources.icons().claimVictory(),
-                        null, null, null);
+        private Icon icon = new IconImpl(Resources.icons().claimVictory16(),
+                        Resources.icons().claimVictory32(), Resources.icons()
+                                        .claimVictory48());
 
         @Override
         public Icon icon()

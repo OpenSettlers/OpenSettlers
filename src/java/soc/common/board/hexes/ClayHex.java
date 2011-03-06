@@ -15,8 +15,9 @@ public class ClayHex extends ResourceHex
     private static final long serialVersionUID = -4833059372095423603L;
     private static Meta meta = new Meta()
     {
-        private Icon icon = new IconImpl(Resources.icons().clayHex(), null,
-                        null, null);
+        private Icon icon = new IconImpl(Resources.icons().clayHex16(),
+                        Resources.icons().clayHex32(), Resources.icons()
+                                        .clayHex48());
 
         @Override
         public Icon icon()

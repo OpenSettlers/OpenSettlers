@@ -14,8 +14,9 @@ public class OrePort extends TwoToOneResourcePort
     private static Ore ore = new Ore();
     private static Meta meta = new Meta()
     {
-        private Icon icon = new IconImpl(Resources.icons().orePort(), null,
-                        null, null);
+        private Icon icon = new IconImpl(Resources.icons().orePort16(),
+                        Resources.icons().orePort32(), Resources.icons()
+                                        .orePort48());
 
         @Override
         public Icon icon()

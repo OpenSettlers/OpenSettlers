@@ -23,7 +23,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 public class PlayMonopolyWidget implements DevelopmentCardWidget,
-        ResourcesChangedEventHandler
+                ResourcesChangedEventHandler
 {
     private Monopoly monopoly;
     private GameWidget gameWidget;
@@ -34,19 +34,20 @@ public class PlayMonopolyWidget implements DevelopmentCardWidget,
     private ResourcePickerWidget resourcePickerWidget;
     private ResourceList pickedResources = new ResourceList();
 
-    public PlayMonopolyWidget(final GameWidget gameWidget, final Monopoly monopoly)
+    public PlayMonopolyWidget(final GameWidget gameWidget,
+                    final Monopoly monopoly)
     {
         this.monopoly = monopoly;
         this.gameWidget = gameWidget;
 
         resourceListWidget = new ResourceListBitmapWidget(pickedResources,
-                gameWidget.getGame().getBank().copy(), null);
+                        gameWidget.getGame().getBank().copy(), null);
         resourceListWidget.setHeight("3em");
         resourcePickerWidget = new ResourcePickerBitmapWidget(pickedResources,
-                null, gameWidget.getGame().getBank().copy(), gameWidget);
+                        null, gameWidget.getGame().getBank().copy(), gameWidget);
 
         rootPanel.setSpacing(5);
-        rootPanel.add(new Image(Resources.icons().monopoly()));
+        rootPanel.add(new Image(Resources.mediumIcon(monopoly)));
         rootPanel.add(new Label(I18n.get().constants().monopoly()));
         rootPanel.add(resourcePickerWidget);
         rootPanel.add(resourceListWidget);

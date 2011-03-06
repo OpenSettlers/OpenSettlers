@@ -17,14 +17,12 @@ import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 
 public class ChitSvg extends AbstractChitVisual implements MouseMoveHandler,
-        MouseOutHandler, ClickHandler, SvgVisual
+                MouseOutHandler, ClickHandler, SvgVisual
 {
     Image chitImage;
     Point2D point;
 
-    /**
-     * @return the territoryImage
-     */
+    /** @return the territoryImage */
     public Image getTerritoryImage()
     {
         return chitImage;
@@ -37,7 +35,7 @@ public class ChitSvg extends AbstractChitVisual implements MouseMoveHandler,
         int width = (int) (parent.getSize() * 0.66);
         int height = (int) (parent.getSize() * 0.66);
         this.chitImage = new Image(point.getX() - (width / 2), point.getY()
-                - (height / 2), width, height, "");
+                        - (height / 2), width, height, "");
         updateChit();
 
         chitImage.addMouseMoveHandler(this);
@@ -52,7 +50,7 @@ public class ChitSvg extends AbstractChitVisual implements MouseMoveHandler,
 
         if (chit != null)
         {
-            img = Resources.chit(chit).getURL();
+            img = Resources.chit(chit, 32).getURL();
         }
 
         // Add the new chit to the group of chits

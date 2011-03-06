@@ -14,7 +14,7 @@ import soc.gwtClient.images.Resources;
 import com.google.gwt.user.client.ui.Image;
 
 public class CityStockToolTip extends AbstractPlayerInfoToolTip implements
-        PlayerPieceListChangedEventHandler<City>
+                PlayerPieceListChangedEventHandler<City>
 {
     private Map<City, Image> cityImages = new HashMap<City, Image>();
 
@@ -24,7 +24,7 @@ public class CityStockToolTip extends AbstractPlayerInfoToolTip implements
 
         for (City city : player.getStock().getCities())
         {
-            Image cityImage = new Image(Resources.icons().citySmall());
+            Image cityImage = new Image(Resources.icons().city16());
             cityImages.put(city, cityImage);
             rootPanel.add(cityImage);
         }
@@ -42,7 +42,7 @@ public class CityStockToolTip extends AbstractPlayerInfoToolTip implements
         }
         if (event.getAddedPiece() != null)
         {
-            Image cityImage = new Image(Resources.icons().citySmall());
+            Image cityImage = new Image(Resources.icons().city16());
             cityImages.put(event.getAddedPiece(), cityImage);
             rootPanel.add(cityImage);
         }

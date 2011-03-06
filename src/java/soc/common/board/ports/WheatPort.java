@@ -14,8 +14,9 @@ public class WheatPort extends TwoToOneResourcePort
     public static Wheat wheat = new Wheat();
     private static Meta meta = new Meta()
     {
-        private Icon icon = new IconImpl(Resources.icons().wheatPort(), null,
-                        null, null);
+        private Icon icon = new IconImpl(Resources.icons().wheatPort16(),
+                        Resources.icons().wheatPort32(), Resources.icons()
+                                        .wheatPort48());
 
         @Override
         public Icon icon()
@@ -40,7 +41,6 @@ public class WheatPort extends TwoToOneResourcePort
         {
             return I18n.get().constants().wheatPortDescription();
         }
-
     };
 
     @Override

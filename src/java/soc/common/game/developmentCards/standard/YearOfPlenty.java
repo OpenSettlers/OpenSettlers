@@ -5,19 +5,58 @@ import soc.common.game.Game;
 import soc.common.game.developmentCards.AbstractDevelopmentCard;
 import soc.common.game.phases.turnPhase.TurnPhase;
 import soc.common.game.player.GamePlayer;
+import soc.common.internationalization.I18n;
+import soc.common.views.meta.Icon;
+import soc.common.views.meta.IconImpl;
+import soc.common.views.meta.Meta;
 import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidget;
 import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidgetFactory;
+import soc.gwtClient.images.Resources;
 
 public class YearOfPlenty extends AbstractDevelopmentCard
 {
     private static final long serialVersionUID = 8598985603470688487L;
     // actual picked resources by player
     private ResourceList goldPick;
+    private static Meta meta = new Meta()
+    {
+        private Icon icon = new IconImpl(Resources.icons().yearOfPlenty16(),
+                        Resources.icons().yearOfPlenty32(), Resources.icons()
+                                        .yearOfPlenty48());
 
-    /**
-     * @param goldPick
-     *            the goldPick to set
-     */
+        @Override
+        public Icon icon()
+        {
+            return icon;
+        }
+
+        @Override
+        public String getName()
+        {
+            return "YearOfPlenty";
+        }
+
+        @Override
+        public String getLocalizedName()
+        {
+            return I18n.get().constants().yearOfPlenty();
+        }
+
+        @Override
+        public String getDescription()
+        {
+            return I18n.get().constants().yearOfPlentyDescription();
+        }
+    };
+
+    @Override
+    public Meta getMeta()
+    {
+        return meta;
+    }
+
+    /** @param goldPick
+     *            the goldPick to set */
     public YearOfPlenty setGoldPick(ResourceList goldPick)
     {
         this.goldPick = goldPick;
@@ -25,9 +64,7 @@ public class YearOfPlenty extends AbstractDevelopmentCard
         return this;
     }
 
-    /**
-     * @return the two picked resources
-     */
+    /** @return the two picked resources */
     public ResourceList getGoldPick()
     {
         return goldPick;
@@ -76,7 +113,7 @@ public class YearOfPlenty extends AbstractDevelopmentCard
 
     @Override
     public DevelopmentCardWidget createPlayCardWidget(
-            DevelopmentCardWidgetFactory factory)
+                    DevelopmentCardWidgetFactory factory)
     {
         return factory.createYearOfPlentyWidget(this);
     }

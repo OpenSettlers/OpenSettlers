@@ -26,8 +26,9 @@ public class CounterTradeOffer extends AbstractGameAction implements
     private static final long serialVersionUID = 7506550189521999145L;
     private static Meta meta = new Meta()
     {
-        private Icon icon = new IconImpl(Resources.icons().tradeCountered(),
-                        null, null, null);
+        private Icon icon = new IconImpl(Resources.icons().tradeCountered16(),
+                        Resources.icons().tradeCountered32(), Resources.icons()
+                                        .tradeCountered48());
 
         @Override
         public Icon icon()

@@ -15,7 +15,7 @@ public class TerritorySvg extends AbstractTerritoryVisual implements SvgVisual
     Point2D point;
 
     public TerritorySvg(BoardVisual boardVisual, Territory territory,
-            Point2D point)
+                    Point2D point)
     {
         super(boardVisual, territory);
 
@@ -24,7 +24,7 @@ public class TerritorySvg extends AbstractTerritoryVisual implements SvgVisual
         int height = parent.getSize() / 2;
 
         image = new Image(point.getX(), point.getY() + parent.getSize(), width,
-                height, "");
+                        height, "");
 
         updateTerritory();
     }
@@ -43,9 +43,8 @@ public class TerritorySvg extends AbstractTerritoryVisual implements SvgVisual
         {
             if (territory.isMainland())
             {
-                img = Resources.icons().mainland().getURL();
-            }
-            else
+                img = Resources.icons().mainland32().getURL();
+            } else
             {
                 img = Resources.island(territory.getID()).getURL();
             }

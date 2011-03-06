@@ -25,7 +25,8 @@ import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.Widget;
 
 public class AbstractTradePlayerStatusWidget implements
-        TradePlayerStatusWidget, ClickHandler, ResourcesChangedEventHandler
+                TradePlayerStatusWidget, ClickHandler,
+                ResourcesChangedEventHandler
 {
     private GamePlayer opponent;
     private GamePlayer playingPlayer;
@@ -38,8 +39,8 @@ public class AbstractTradePlayerStatusWidget implements
     private TradeResponse tradeResponse;
 
     public AbstractTradePlayerStatusWidget(GameWidget gameWidget,
-            GamePlayer opponent, GamePlayer playingPlayer,
-            TradePlayerDialog tradePlayerUI)
+                    GamePlayer opponent, GamePlayer playingPlayer,
+                    TradePlayerDialog tradePlayerUI)
     {
         this.gameWidget = gameWidget;
         this.opponent = opponent;
@@ -53,13 +54,12 @@ public class AbstractTradePlayerStatusWidget implements
         if (!opponent.equals(playingPlayer))
         {
             tradeResources = new TradeListBitmapWidget(wantResources,
-                    giveResources);
-            imgStatus = new Image(Resources.icons().tradeDisabled());
+                            giveResources);
+            imgStatus = new Image(Resources.icons().tradeDisabled32());
             rootPanel.add(imgStatus);
             rootPanel.add(tradeResources);
             rootPanel.add(btnAccept);
-        }
-        else
+        } else
         {
             rootPanel.add(new Label("Mirror kitteh always offers versa :("));
         }
@@ -71,9 +71,7 @@ public class AbstractTradePlayerStatusWidget implements
         playingPlayer.getResources().addResourcesChangedEventHandler(this);
     }
 
-    /**
-     * @wbp.parser.entryPoint
-     */
+    /** @wbp.parser.entryPoint */
     @Override
     public Widget asWidget()
     {
@@ -105,12 +103,11 @@ public class AbstractTradePlayerStatusWidget implements
 
                 if (tradeResponse.isRejection())
                     updateReject((RejectTradeOffer) tradeResponse);
-            }
-            else
+            } else
             {
                 btnAccept.setEnabled(false);
                 btnAccept.setText("No offer");
-                imgStatus.setUrl(Resources.icons().tradeDisabled().getURL());
+                imgStatus.setUrl(Resources.icons().tradeDisabled32().getURL());
                 tradeResources.getWantResources().clear();
                 tradeResources.getGiveResources().clear();
             }
@@ -122,7 +119,7 @@ public class AbstractTradePlayerStatusWidget implements
     {
         btnAccept.setEnabled(false);
         btnAccept.setText("Waiting...");
-        imgStatus.setUrl(Resources.icons().tradeWaiting().getURL());
+        imgStatus.setUrl(Resources.icons().tradeWaiting32().getURL());
         if (tradeResources != null)
         {
             tradeResources.getWantResources().clear();
@@ -140,56 +137,55 @@ public class AbstractTradePlayerStatusWidget implements
     private void updateCounter(CounterTradeOffer counter)
     {
         if (playingPlayer.getResources().hasAtLeast(
-                counter.getOfferedResources()))
+                        counter.getOfferedResources()))
         {
             btnAccept.setEnabled(true);
             btnAccept.setText("Accept counter");
-        }
-        else
+        } else
         {
             btnAccept.setEnabled(false);
             btnAccept.setText("No resources");
         }
-        imgStatus.setUrl(Resources.icons().tradeCountered().getURL());
+        imgStatus.setUrl(Resources.mediumIcon(counter).getURL());
 
         tradeResources.getWantResources().clear();
         tradeResources.getWantResources().addList(
-                counter.getRequestedResources());
+                        counter.getRequestedResources());
 
         tradeResources.getGiveResources().clear();
         tradeResources.getGiveResources()
-                .addList(counter.getOfferedResources());
+                        .addList(counter.getOfferedResources());
     }
-
     private void updateReject(RejectTradeOffer reject)
     {
         btnAccept.setEnabled(false);
         btnAccept.setText("Rejected");
-        imgStatus.setUrl(Resources.icons().tradeRejected().getURL());
+        imgStatus.setUrl(Resources.mediumIcon(reject).getURL());
     }
 
     private void updateAccept(AcceptTradeOffer accept)
     {
         if (playingPlayer.getResources().hasAtLeast(
-                accept.getOriginatingOffer().getOfferedResources()))
+                        accept.getOriginatingOffer().getOfferedResources()))
         {
             btnAccept.setEnabled(true);
             btnAccept.setText("Accept");
-        }
-        else
+        } else
         {
             btnAccept.setEnabled(false);
             btnAccept.setText("No resources");
         }
-        imgStatus.setUrl(Resources.icons().tradeAccepted().getURL());
+        imgStatus.setUrl(Resources.mediumIcon(accept).getURL());
 
         tradeResources.getWantResources().clear();
         tradeResources.getWantResources().addList(
-                tradeResponse.getOriginatingOffer().getRequestedResources());
+                        tradeResponse.getOriginatingOffer()
+                                        .getRequestedResources());
 
         tradeResources.getGiveResources().clear();
         tradeResources.getGiveResources().addList(
-                tradeResponse.getOriginatingOffer().getOfferedResources());
+                        tradeResponse.getOriginatingOffer()
+                                        .getOfferedResources());
     }
 
     @Override

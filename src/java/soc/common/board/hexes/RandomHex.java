@@ -14,8 +14,9 @@ public class RandomHex extends AbstractHex
     private static final long serialVersionUID = -3639719499925504115L;
     private static Meta meta = new Meta()
     {
-        private Icon icon = new IconImpl(Resources.icons().randomHex(), null,
-                        null, null);
+        private Icon icon = new IconImpl(Resources.icons().randomHex16(),
+                        Resources.icons().randomHex32(), Resources.icons()
+                                        .randomHex48());
 
         @Override
         public Icon icon()

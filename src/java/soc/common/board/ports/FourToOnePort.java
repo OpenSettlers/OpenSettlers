@@ -6,15 +6,13 @@ import soc.common.internationalization.I18n;
 import soc.common.views.meta.Icon;
 import soc.common.views.meta.IconImpl;
 import soc.common.views.meta.Meta;
-import soc.gwtClient.images.Resources;
 
 public class FourToOnePort extends AbstractPort
 {
     private static final long serialVersionUID = -9000999299490338479L;
     private static Meta meta = new Meta()
     {
-        private Icon icon = new IconImpl(Resources.icons().clayPort(), null,
-                        null, null);
+        private Icon icon = new IconImpl(null, null, null, null);
 
         @Override
         public Icon icon()

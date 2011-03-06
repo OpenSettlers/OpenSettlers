@@ -15,9 +15,9 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 
 public class StockCityBitmapWidget extends AbstractStockItemWidget implements
-        PlayerPieceListChangedEventHandler<City>
+                PlayerPieceListChangedEventHandler<City>
 {
-    Image cityImage = new Image(Resources.icons().citySmall());
+    Image cityImage = new Image(Resources.icons().city16());
     Label amountCities = new Label();
     City city = new City();
 
@@ -43,7 +43,7 @@ public class StockCityBitmapWidget extends AbstractStockItemWidget implements
     private void updateUI()
     {
         amountCities.setText(Integer.toString(player.getStock().getCities()
-                .size()));
+                        .size()));
     }
 
     @Override

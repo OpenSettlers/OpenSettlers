@@ -15,11 +15,11 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 
 public class StockRoadBitmapWidget extends AbstractStockItemWidget implements
-        PlayerPieceListChangedEventHandler<Road>
+                PlayerPieceListChangedEventHandler<Road>
 
 {
     private Road road = new Road();
-    private Image roadImage = new Image(Resources.icons().roadSmall());
+    private Image roadImage = new Image(Resources.icons().road16());
     private Label roadAmount = new Label();
 
     public StockRoadBitmapWidget(GameWidget gameWidget, GamePlayer player)
@@ -44,7 +44,7 @@ public class StockRoadBitmapWidget extends AbstractStockItemWidget implements
     private void updateUI()
     {
         roadAmount.setText(Integer
-                .toString(player.getStock().getRoads().size()));
+                        .toString(player.getStock().getRoads().size()));
     }
 
     @Override

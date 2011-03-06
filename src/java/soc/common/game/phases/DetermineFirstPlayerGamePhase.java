@@ -24,8 +24,10 @@ public class DetermineFirstPlayerGamePhase extends AbstractGamePhase
     private static final long serialVersionUID = 6144523951649998903L;
     private static transient Meta meta = new Meta()
     {
-        private Icon icon = new IconImpl(null, null, Resources.icons()
-                        .determineFirstPlayerGamePhase32(), null);
+        private Icon icon = new IconImpl(Resources.icons()
+                        .determineFirstPlayerGamePhase16(), Resources.icons()
+                        .determineFirstPlayerGamePhase32(), Resources.icons()
+                        .determineFirstPlayerGamePhase48());
 
         @Override
         public Icon icon()

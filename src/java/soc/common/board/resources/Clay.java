@@ -11,8 +11,8 @@ public class Clay extends AbstractResource
     private static final long serialVersionUID = -4151296314674387899L;
     private static Meta meta = new Meta()
     {
-        private Icon icon = new IconImpl(Resources.icons().clayCard(), null,
-                        null, null);
+        private Icon icon = new IconImpl(Resources.icons().clay16(), Resources
+                        .icons().clay32(), Resources.icons().clay48());
 
         @Override
         public Icon icon()
@@ -37,7 +37,6 @@ public class Clay extends AbstractResource
         {
             return I18n.get().constants().clayDescription();
         }
-
     };
 
     /*

@@ -1,5 +1,8 @@
 package soc.gwtClient.editor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import soc.common.board.hexes.ClayHex;
 import soc.common.board.hexes.DesertHex;
 import soc.common.board.hexes.DiamondHex;
@@ -36,24 +39,31 @@ public class HexPanel extends HorizontalPanel implements HasHandlers
     private SetHexBehaviour editBehaviour;
     private SetTerritoryBehaviour setTerritoryBehaviour;
     private SetChitBehaviour setChitBehaviour;
-    private final Hex wheatHex = new WheatHex();
-    private final Hex timberHex = new TimberHex();
-    private final Hex oreHex = new OreHex();
-    private final Hex clayHex = new ClayHex();
-    private final Hex sheepHex = new SheepHex();
-    private final Hex goldHex = new GoldHex();
-    private final Hex jungleHex = new DiamondHex();
-    private final Hex volcanoHex = new VolcanoHex();
-    private final Hex noneHex = new NoneHex();
-    private final Hex discoveryHex = new DiscoveryHex();
-    private final Hex randomHex = new RandomHex();
-    private final Hex seaHex = new SeaHex();
-    private final Hex desertHex = new DesertHex();
+
+    private static List<Hex> editableHexes1 = new ArrayList<Hex>();
+    private static List<Hex> editableHexes2 = new ArrayList<Hex>();
+    static
+    {
+        editableHexes1.add(new WheatHex());
+        editableHexes1.add(new TimberHex());
+        editableHexes1.add(new OreHex());
+        editableHexes1.add(new ClayHex());
+        editableHexes1.add(new SheepHex());
+        editableHexes1.add(new GoldHex());
+
+        editableHexes2.add(new DiamondHex());
+        editableHexes2.add(new VolcanoHex());
+        editableHexes2.add(new NoneHex());
+        editableHexes2.add(new DiscoveryHex());
+        editableHexes2.add(new RandomHex());
+        editableHexes2.add(new SeaHex());
+        editableHexes2.add(new DesertHex());
+    }
 
     private SimpleEventBus eventBus = new SimpleEventBus();
 
     public HandlerRegistration addBehaviourChangedEventHandler(
-            BehaviourChangedHandler handler)
+                    BehaviourChangedHandler handler)
     {
         return eventBus.addHandler(BehaviourChanged.TYPE, handler);
     }
@@ -68,14 +78,9 @@ public class HexPanel extends HorizontalPanel implements HasHandlers
         return hex;
     }
 
-    private void vuur()
-    {
-        eventBus.fireEvent(new BehaviourChanged(editBehaviour));
-    }
-
     public HexPanel(SetHexBehaviour behaviour,
-            SetTerritoryBehaviour setTerritoryBehaviour,
-            SetChitBehaviour setChitBehaviour)
+                    SetTerritoryBehaviour setTerritoryBehaviour,
+                    SetChitBehaviour setChitBehaviour)
     {
         super();
 
@@ -86,173 +91,27 @@ public class HexPanel extends HorizontalPanel implements HasHandlers
         this.add(panel1);
         this.add(panel2);
 
-        PushButton btnTimber = new PushButton(new Image(Resources.icons()
-                .timberHex()));
-        btnTimber.addClickHandler(new ClickHandler()
-        {
-            @Override
-            public void onClick(ClickEvent event)
-            {
-                editBehaviour.setHex(createDefaultHex(timberHex));
-                vuur();
-            }
-        });
-        panel1.add(btnTimber);
+        for (Hex hex : editableHexes1)
+            panel1.add(new HexButton(hex));
+        for (Hex hex : editableHexes2)
+            panel2.add(new HexButton(hex));
+    }
 
-        PushButton btnWheat = new PushButton(new Image(Resources.icons()
-                .wheatHex()));
-        btnWheat.addClickHandler(new ClickHandler()
+    private class HexButton extends PushButton
+    {
+        public HexButton(final Hex hex)
         {
-            @Override
-            public void onClick(ClickEvent event)
-            {
-                editBehaviour.setHex(createDefaultHex(wheatHex));
-                vuur();
-            }
-        });
-        panel1.add(btnWheat);
+            super(new Image(Resources.mediumIcon(hex)));
 
-        PushButton btnOre = new PushButton(
-                new Image(Resources.icons().oreHex()));
-        btnOre.addClickHandler(new ClickHandler()
-        {
-            @Override
-            public void onClick(ClickEvent event)
+            addClickHandler(new ClickHandler()
             {
-                editBehaviour.setHex(createDefaultHex(oreHex));
-                vuur();
-            }
-        });
-        panel1.add(btnOre);
-
-        PushButton btnClay = new PushButton(new Image(Resources.icons()
-                .clayHex()));
-        btnClay.addClickHandler(new ClickHandler()
-        {
-            @Override
-            public void onClick(ClickEvent event)
-            {
-                editBehaviour.setHex(createDefaultHex(clayHex));
-                vuur();
-            }
-        });
-        panel1.add(btnClay);
-
-        PushButton btnSheep = new PushButton(new Image(Resources.icons()
-                .sheepHex()));
-        btnSheep.addClickHandler(new ClickHandler()
-        {
-            @Override
-            public void onClick(ClickEvent event)
-            {
-                editBehaviour.setHex(createDefaultHex(sheepHex));
-                vuur();
-            }
-        });
-        panel1.add(btnSheep);
-
-        PushButton btnGold = new PushButton(new Image(Resources.icons()
-                .goldHex()));
-        btnGold.addClickHandler(new ClickHandler()
-        {
-            @Override
-            public void onClick(ClickEvent event)
-            {
-                editBehaviour.setHex(createDefaultHex(goldHex));
-                vuur();
-            }
-        });
-        panel1.add(btnGold);
-
-        PushButton btnJungle = new PushButton(new Image(Resources.icons()
-                .jungleHex()));
-        btnJungle.addClickHandler(new ClickHandler()
-        {
-            @Override
-            public void onClick(ClickEvent event)
-            {
-                editBehaviour.setHex(createDefaultHex(jungleHex));
-                vuur();
-            }
-        });
-        panel2.add(btnJungle);
-
-        PushButton btnVolcano = new PushButton(new Image(Resources.icons()
-                .volcanoHex32()));
-        btnVolcano.addClickHandler(new ClickHandler()
-        {
-            @Override
-            public void onClick(ClickEvent event)
-            {
-                editBehaviour.setHex(createDefaultHex(volcanoHex));
-                vuur();
-            }
-        });
-        panel2.add(btnVolcano);
-
-        PushButton btnDesert = new PushButton(new Image(Resources.icons()
-                .desertHex()));
-        btnDesert.addClickHandler(new ClickHandler()
-        {
-            @Override
-            public void onClick(ClickEvent event)
-            {
-                editBehaviour.setHex(createDefaultHex(desertHex));
-                vuur();
-            }
-        });
-        panel2.add(btnDesert);
-
-        PushButton btnSea = new PushButton(
-                new Image(Resources.icons().seaHex()));
-        btnSea.addClickHandler(new ClickHandler()
-        {
-            @Override
-            public void onClick(ClickEvent event)
-            {
-                editBehaviour.setHex(createDefaultHex(seaHex));
-                vuur();
-            }
-        });
-        panel2.add(btnSea);
-
-        PushButton btnNone = new PushButton(new Image(Resources.icons()
-                .noneHex()));
-        btnNone.addClickHandler(new ClickHandler()
-        {
-            @Override
-            public void onClick(ClickEvent event)
-            {
-                editBehaviour.setHex(createDefaultHex(noneHex));
-                vuur();
-            }
-        });
-        panel2.add(btnNone);
-
-        PushButton btnRandom = new PushButton(new Image(Resources.icons()
-                .randomHex()));
-        btnRandom.addClickHandler(new ClickHandler()
-        {
-            @Override
-            public void onClick(ClickEvent event)
-            {
-                editBehaviour.setHex(createDefaultHex(randomHex));
-                vuur();
-            }
-        });
-        panel2.add(btnRandom);
-
-        PushButton btnDiscovery = new PushButton(new Image(Resources.icons()
-                .discoveryHex32()));
-        btnDiscovery.addClickHandler(new ClickHandler()
-        {
-            @Override
-            public void onClick(ClickEvent event)
-            {
-                editBehaviour.setHex(createDefaultHex(discoveryHex));
-                vuur();
-            }
-        });
-        panel2.add(btnDiscovery);
+                @Override
+                public void onClick(ClickEvent event)
+                {
+                    editBehaviour.setHex(createDefaultHex(hex));
+                    fireEvent(new BehaviourChanged(editBehaviour));
+                }
+            });
+        }
     }
 }

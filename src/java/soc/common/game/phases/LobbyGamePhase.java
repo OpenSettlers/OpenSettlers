@@ -22,8 +22,9 @@ public class LobbyGamePhase extends AbstractGamePhase
     private List<GamePlayer> playersWhoAcceptedSettings = new ArrayList<GamePlayer>();
     private static transient Meta meta = new Meta()
     {
-        private Icon icon = new IconImpl(null, null, Resources.icons()
-                        .lobbyGamePhase32());
+        private Icon icon = new IconImpl(Resources.icons().lobbyGamePhase16(),
+                        Resources.icons().lobbyGamePhase32(), Resources.icons()
+                                        .lobbyGamePhase48());
 
         @Override
         public Icon icon()

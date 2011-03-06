@@ -14,8 +14,9 @@ public class ClayPort extends TwoToOneResourcePort
     private static Clay clay = new Clay();
     private static Meta meta = new Meta()
     {
-        private Icon icon = new IconImpl(Resources.icons().clayPort(), null,
-                        null, null);
+        private Icon icon = new IconImpl(Resources.icons().clayPort16(),
+                        Resources.icons().clayPort32(), Resources.icons()
+                                        .clayPort48());
 
         @Override
         public Icon icon()

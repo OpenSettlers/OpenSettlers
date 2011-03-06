@@ -25,8 +25,8 @@ public class BuildRoad extends AbstractTurnAction
     private static final long serialVersionUID = -1265027496921863516L;
     private static Meta meta = new Meta()
     {
-        private Icon icon = new IconImpl(Resources.icons().road(), null, null,
-                        Resources.icons().citySmall());
+        private Icon icon = new IconImpl(Resources.icons().road16(), Resources
+                        .icons().road32(), Resources.icons().road48());
 
         @Override
         public Icon icon()
@@ -37,14 +37,12 @@ public class BuildRoad extends AbstractTurnAction
         @Override
         public String getName()
         {
-            // TODO Auto-generated method stub
-            return null;
+            return "BuildRoad";
         }
 
         @Override
         public String getLocalizedName()
         {
-            // TODO Auto-generated method stub
             return null;
         }
 

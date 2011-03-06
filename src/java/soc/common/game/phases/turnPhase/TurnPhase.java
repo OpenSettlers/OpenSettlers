@@ -4,8 +4,9 @@ import java.io.Serializable;
 
 import soc.common.actions.gameAction.GameAction;
 import soc.common.game.Game;
+import soc.common.views.meta.HasMeta;
 
-public interface TurnPhase extends Serializable
+public interface TurnPhase extends Serializable, HasMeta
 {
 
     public TurnPhase next();

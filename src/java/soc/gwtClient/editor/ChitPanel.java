@@ -1,5 +1,8 @@
 package soc.gwtClient.editor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import soc.common.board.chits.Chit;
 import soc.common.board.chits.Chit10;
 import soc.common.board.chits.Chit11;
@@ -30,29 +33,31 @@ public class ChitPanel extends HorizontalPanel implements HasHandlers
     private VerticalPanel panel1 = new VerticalPanel();
     private VerticalPanel panel2 = new VerticalPanel();
     private SetChitBehaviour editBehaviour;
-    private final Chit chit2 = new Chit2();
-    private final Chit chit3 = new Chit3();
-    private final Chit chit4 = new Chit4();
-    private final Chit chit5 = new Chit5();
-    private final Chit chit6 = new Chit6();
-    private final Chit chit8 = new Chit8();
-    private final Chit chit9 = new Chit9();
-    private final Chit chit10 = new Chit10();
-    private final Chit chit11 = new Chit11();
-    private final Chit chit12 = new Chit12();
-    private final Chit chitRandom = new RandomChit();
+    private static List<Chit> editableChits1 = new ArrayList<Chit>();
+    private static List<Chit> editableChits2 = new ArrayList<Chit>();
+
+    static
+    {
+        editableChits1.add(new Chit2());
+        editableChits1.add(new Chit3());
+        editableChits1.add(new Chit4());
+        editableChits1.add(new Chit5());
+        editableChits1.add(new Chit6());
+
+        editableChits2.add(new Chit8());
+        editableChits2.add(new Chit9());
+        editableChits2.add(new Chit10());
+        editableChits2.add(new Chit11());
+        editableChits2.add(new Chit12());
+        editableChits2.add(new RandomChit());
+    }
 
     private SimpleEventBus eventBus = new SimpleEventBus();
 
     public HandlerRegistration addBehaviourChangedEventHandler(
-            BehaviourChangedHandler handler)
+                    BehaviourChangedHandler handler)
     {
         return eventBus.addHandler(BehaviourChanged.TYPE, handler);
-    }
-
-    private void vuur()
-    {
-        eventBus.fireEvent(new BehaviourChanged(editBehaviour));
     }
 
     public ChitPanel(SetChitBehaviour behaviour)
@@ -63,157 +68,28 @@ public class ChitPanel extends HorizontalPanel implements HasHandlers
         this.add(panel1);
         this.add(panel2);
 
-        PushButton btnChit2 = new PushButton(new Image(Resources.icons()
-                .chit2()));
-        btnChit2.addClickHandler(new ClickHandler()
-        {
-            @Override
-            public void onClick(ClickEvent event)
-            {
-                editBehaviour.setCurrentChit(chit2);
-                vuur();
-            }
-        });
-        panel1.add(btnChit2);
-        PushButton btnChit3 = new PushButton(new Image(Resources.icons()
-                .chit3()));
-        btnChit3.addClickHandler(new ClickHandler()
-        {
-            @Override
-            public void onClick(ClickEvent event)
-            {
-                editBehaviour.setCurrentChit(chit3);
-                vuur();
-            }
-        });
-        panel1.add(btnChit3);
-        PushButton btnChit4 = new PushButton(new Image(Resources.icons()
-                .chit4()));
-        btnChit4.addClickHandler(new ClickHandler()
-        {
-            @Override
-            public void onClick(ClickEvent event)
-            {
-                editBehaviour.setCurrentChit(chit4);
-                vuur();
-            }
-        });
-        panel1.add(btnChit4);
-        PushButton btnChit5 = new PushButton(new Image(Resources.icons()
-                .chit5()));
-        btnChit5.addClickHandler(new ClickHandler()
-        {
-            @Override
-            public void onClick(ClickEvent event)
-            {
-                editBehaviour.setCurrentChit(chit5);
-                vuur();
-            }
-        });
-        panel1.add(btnChit5);
-        PushButton btnChit6 = new PushButton(new Image(Resources.icons()
-                .chit6()));
-        btnChit6.addClickHandler(new ClickHandler()
-        {
-            @Override
-            public void onClick(ClickEvent event)
-            {
-                editBehaviour.setCurrentChit(chit6);
-                vuur();
-            }
-        });
-        panel1.add(btnChit6);
+        for (Chit chit : editableChits1)
+            panel1.add(new ChitButton(chit));
 
-        PushButton btnChit12 = new PushButton(new Image(Resources.icons()
-                .chit12()));
-        btnChit12.addClickHandler(new ClickHandler()
-        {
-            @Override
-            public void onClick(ClickEvent event)
-            {
-                editBehaviour.setCurrentChit(chit12);
-                vuur();
-            }
-        });
-        panel2.add(btnChit12);
-
-        PushButton btnChit11 = new PushButton(new Image(Resources.icons()
-                .chit11()));
-        btnChit11.addClickHandler(new ClickHandler()
-        {
-            @Override
-            public void onClick(ClickEvent event)
-            {
-                editBehaviour.setCurrentChit(chit11);
-                vuur();
-            }
-        });
-        panel2.add(btnChit11);
-
-        PushButton btnChit10 = new PushButton(new Image(Resources.icons()
-                .chit10()));
-        btnChit10.addClickHandler(new ClickHandler()
-        {
-            @Override
-            public void onClick(ClickEvent event)
-            {
-                editBehaviour.setCurrentChit(chit10);
-                vuur();
-            }
-        });
-        panel2.add(btnChit10);
-
-        PushButton btnChit9 = new PushButton(new Image(Resources.icons()
-                .chit9()));
-        btnChit9.addClickHandler(new ClickHandler()
-        {
-            @Override
-            public void onClick(ClickEvent event)
-            {
-                editBehaviour.setCurrentChit(chit9);
-                vuur();
-            }
-        });
-        panel2.add(btnChit9);
-
-        PushButton btnChit8 = new PushButton(new Image(Resources.icons()
-                .chit8()));
-        btnChit8.addClickHandler(new ClickHandler()
-        {
-            @Override
-            public void onClick(ClickEvent event)
-            {
-                editBehaviour.setCurrentChit(chit8);
-                vuur();
-            }
-        });
-        panel2.add(btnChit8);
-
-        PushButton btnChitRandom = new PushButton(new Image(Resources.icons()
-                .randomChit()));
-        btnChitRandom.addClickHandler(new ClickHandler()
-        {
-            @Override
-            public void onClick(ClickEvent event)
-            {
-                editBehaviour.setCurrentChit(chitRandom);
-                vuur();
-            }
-        });
-        panel1.add(btnChitRandom);
-
-        PushButton btnChitNull = new PushButton(new Image(Resources.icons()
-                .blankChit()));
-        btnChitNull.addClickHandler(new ClickHandler()
-        {
-            @Override
-            public void onClick(ClickEvent event)
-            {
-                editBehaviour.setCurrentChit(null);
-                vuur();
-            }
-        });
-        panel2.add(btnChitNull);
+        for (Chit chit : editableChits2)
+            panel2.add(new ChitButton(chit));
     }
 
+    private class ChitButton extends PushButton
+    {
+        public ChitButton(final Chit chit)
+        {
+            super(new Image(Resources.mediumIcon(chit)));
+
+            addClickHandler(new ClickHandler()
+            {
+                @Override
+                public void onClick(ClickEvent event)
+                {
+                    editBehaviour.setCurrentChit(chit);
+                    fireEvent(new BehaviourChanged(editBehaviour));
+                }
+            });
+        }
+    }
 }

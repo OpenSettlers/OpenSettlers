@@ -26,8 +26,10 @@ public class BuyDevelopmentCard extends AbstractTurnAction
     private static final long serialVersionUID = -7625851375785728121L;
     private static Meta meta = new Meta()
     {
-        private Icon icon = new IconImpl(Resources.icons().buyDvelopmentCard(),
-                        null, null, null);
+        private Icon icon = new IconImpl(Resources.icons()
+                        .buyDvelopmentCard16(), Resources.icons()
+                        .buyDvelopmentCard32(), Resources.icons()
+                        .buyDvelopmentCard48());
 
         @Override
         public Icon icon()

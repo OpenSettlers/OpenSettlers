@@ -37,8 +37,8 @@ public class WelcomePanel extends HorizontalPanel implements CenterWidget
 
         Button btnHotseatGame = new Button();
         btnHotseatGame.setHTML("<H3><img src=\""
-                + Resources.icons().newHotseatGame().getURL()
-                + "\">HotSeat game</H3>Play a mock hotseat game");
+                        + Resources.icons().newHotseatGame().getURL()
+                        + "\">HotSeat game</H3>Play a mock hotseat game");
         btnHotseatGame.addClickHandler(new ClickHandler()
         {
             @Override
@@ -50,8 +50,8 @@ public class WelcomePanel extends HorizontalPanel implements CenterWidget
         menuPanel.add(btnHotseatGame);
 
         Button btnvisitWikihelpWrite = new Button("<H3><img src=\""
-                + Resources.icons().wiki().getURL()
-                + "\">Visit Wiki</H3>Help write our UI using wiki");
+                        + Resources.icons().wiki48().getURL()
+                        + "\">Visit Wiki</H3>Help write our UI using wiki");
         btnvisitWikihelpWrite.addClickHandler(new ClickHandler()
         {
             public void onClick(ClickEvent arg0)
@@ -63,8 +63,8 @@ public class WelcomePanel extends HorizontalPanel implements CenterWidget
 
         btnMapCreator = new Button();
         btnMapCreator.setHTML("<H3><img src=\""
-                + Resources.icons().mapEditor().getURL()
-                + "\">MapCreator</H3>create a new map");
+                        + Resources.icons().mapEditor48().getURL()
+                        + "\">MapCreator</H3>create a new map");
         btnMapCreator.addClickHandler(new ClickHandler()
         {
             @Override
@@ -77,8 +77,8 @@ public class WelcomePanel extends HorizontalPanel implements CenterWidget
 
         Button btnJavadoc = new Button();
         btnJavadoc.setHTML("<H3><img src=\""
-                + Resources.icons().javadoc().getURL()
-                + "\">View Javadoc</H3>create a new map");
+                        + Resources.icons().javadoc48().getURL()
+                        + "\">View Javadoc</H3>create a new map");
         btnJavadoc.addClickHandler(new ClickHandler()
         {
             @Override
@@ -90,8 +90,9 @@ public class WelcomePanel extends HorizontalPanel implements CenterWidget
         menuPanel.add(btnJavadoc);
 
         Button btnLobby = new Button();
-        btnLobby.setHTML("<H3><img src=\"" + Resources.icons().lobby().getURL()
-                + "\">Lobby</H3>Find games and players");
+        btnLobby.setHTML("<H3><img src=\""
+                        + Resources.icons().lobby48().getURL()
+                        + "\">Lobby</H3>Find games and players");
         btnLobby.addClickHandler(new ClickHandler()
         {
             @Override

@@ -17,8 +17,8 @@ public class BuildRoadDetailWidget extends AbstractActionDetailWidget
         super(gameWidget, buildRoad.getPlayer());
         this.buildRoad = buildRoad;
 
-        rootPanel.add(new Image(Resources.icons().buildLarge()));
-        rootPanel.add(new Image(Resources.icons().road()));
+        rootPanel.add(new Image(Resources.icons().build32()));
+        rootPanel.add(new Image(Resources.mediumIcon(buildRoad)));
     }
 
     @Override

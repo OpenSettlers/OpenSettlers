@@ -29,8 +29,9 @@ public class PlaceRobber extends AbstractTurnAction
     private static final long serialVersionUID = 3908846616233400447L;
     private static Meta meta = new Meta()
     {
-        private Icon icon = new IconImpl(Resources.icons().moveRobberMedium(),
-                        null, null, null);
+        private Icon icon = new IconImpl(Resources.icons().moveRobber16(),
+                        Resources.icons().moveRobber32(), Resources.icons()
+                                        .moveRobber48());
 
         @Override
         public Icon icon()

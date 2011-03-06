@@ -5,15 +5,13 @@ import soc.common.game.VictoryPointItem;
 import soc.common.game.developmentCards.AbstractDevelopmentCard;
 import soc.common.game.phases.turnPhase.TurnPhase;
 import soc.common.game.player.GamePlayer;
-import soc.common.views.meta.Graphics;
+import soc.common.internationalization.I18n;
 import soc.common.views.meta.Icon;
 import soc.common.views.meta.IconImpl;
 import soc.common.views.meta.Meta;
 import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidget;
 import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidgetFactory;
 import soc.gwtClient.images.Resources;
-
-import com.google.gwt.resources.client.ImageResource;
 
 /*
  * Standard ruleset VictoryPoint development card
@@ -23,18 +21,12 @@ import com.google.gwt.resources.client.ImageResource;
 public class VictoryPoint extends AbstractDevelopmentCard implements
                 VictoryPointItem
 {
+    private static final long serialVersionUID = -7322456488887068608L;
     private static Meta meta = new Meta()
     {
-        private Icon icon = new IconImpl(Resources.icons().victoryPoint(),
-                        null, null, null);
-        private Graphics graphics = new Graphics()
-        {
-            @Override
-            public ImageResource graphics()
-            {
-                return Resources.images().desertHex();
-            }
-        };
+        private Icon icon = new IconImpl(Resources.icons().victoryPoint16(),
+                        Resources.icons().victoryPoint32(), Resources.icons()
+                                        .victoryPoint48());
 
         @Override
         public Icon icon()
@@ -45,25 +37,21 @@ public class VictoryPoint extends AbstractDevelopmentCard implements
         @Override
         public String getName()
         {
-            // TODO Auto-generated method stub
-            return null;
+            return "VictoryPoint";
         }
 
         @Override
         public String getLocalizedName()
         {
-            // TODO Auto-generated method stub
-            return null;
+            return I18n.get().constants().victoryPoint();
         }
 
         @Override
         public String getDescription()
         {
-            // TODO Auto-generated method stub
-            return null;
+            return I18n.get().constants().victoryPointDescription();
         }
     };
-    private static final long serialVersionUID = -7322456488887068608L;
 
     /*
      * A victoryPoint development card returns into stock after playing

@@ -6,8 +6,13 @@ import soc.common.game.Game;
 import soc.common.game.developmentCards.AbstractDevelopmentCard;
 import soc.common.game.phases.turnPhase.TurnPhase;
 import soc.common.game.player.GamePlayer;
+import soc.common.internationalization.I18n;
+import soc.common.views.meta.Icon;
+import soc.common.views.meta.IconImpl;
+import soc.common.views.meta.Meta;
 import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidget;
 import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidgetFactory;
+import soc.gwtClient.images.Resources;
 
 /*
  * Represents a soldier from the standard rules development card set.
@@ -15,7 +20,42 @@ import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidgetF
 public class Soldier extends AbstractDevelopmentCard
 {
     private static final long serialVersionUID = 3097762985301413120L;
+    private static Meta meta = new Meta()
+    {
+        private Icon icon = new IconImpl(Resources.icons().soldier16(),
+                        Resources.icons().soldier32(), Resources.icons()
+                                        .soldier48());
 
+        @Override
+        public Icon icon()
+        {
+            return icon;
+        }
+
+        @Override
+        public String getName()
+        {
+            return "Soldier";
+        }
+
+        @Override
+        public String getLocalizedName()
+        {
+            return I18n.get().constants().soldier();
+        }
+
+        @Override
+        public String getDescription()
+        {
+            return I18n.get().constants().soldierDescription();
+        }
+    };
+
+    @Override
+    public Meta getMeta()
+    {
+        return meta;
+    }
     /*
      * (non-Javadoc)
      * 
@@ -49,7 +89,7 @@ public class Soldier extends AbstractDevelopmentCard
 
         // Make sure next thing the player does is moving the robber...
         game.getActionsQueue().enqueue(new PlaceRobber().setPlayer(player),
-                true);
+                        true);
 
         // ... and after that, rob a player
         game.getActionsQueue().enqueue(new RobPlayer().setPlayer(player), true);
@@ -61,7 +101,7 @@ public class Soldier extends AbstractDevelopmentCard
 
     @Override
     public DevelopmentCardWidget createPlayCardWidget(
-            DevelopmentCardWidgetFactory factory)
+                    DevelopmentCardWidgetFactory factory)
     {
         return factory.createSoldierWidget(this);
     }

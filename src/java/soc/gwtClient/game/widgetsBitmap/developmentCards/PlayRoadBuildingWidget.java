@@ -24,13 +24,13 @@ public class PlayRoadBuildingWidget implements DevelopmentCardWidget
     private Button btnPlay = new Button(I18n.get().constants().play());
 
     public PlayRoadBuildingWidget(final GameWidget gameWidget,
-            RoadBuilding roadBuilding)
+                    RoadBuilding roadBuilding)
     {
         this.roadBuilding = roadBuilding;
         this.gameWidget = gameWidget;
 
         rootPanel.setSpacing(5);
-        rootPanel.add(new Image(Resources.icons().roadBuilding()));
+        rootPanel.add(new Image(Resources.icons().roadBuilding48()));
         rootPanel.add(new Label(I18n.get().constants().roadBuilding()));
         rootPanel.add(btnPlay);
 

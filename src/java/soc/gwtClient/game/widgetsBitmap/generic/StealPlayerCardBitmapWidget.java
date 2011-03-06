@@ -14,16 +14,14 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PushButton;
 
 public class StealPlayerCardBitmapWidget extends HorizontalPanel implements
-        StealPlayerCardWidget
+                StealPlayerCardWidget
 {
     private GamePlayer player;
     private Label lblPlayerName = new Label("playername");
     private HorizontalPanel cardsPanel = new HorizontalPanel();
     private StealCardWidget parent;
 
-    /**
-     * @wbp.parser.constructor
-     */
+    /** @wbp.parser.constructor */
     public StealPlayerCardBitmapWidget(StealCardWidget parent)
     {
         this.parent = parent;
@@ -41,7 +39,7 @@ public class StealPlayerCardBitmapWidget extends HorizontalPanel implements
     }
 
     public StealPlayerCardBitmapWidget(final GamePlayer player,
-            final StealCardWidget parent)
+                    final StealCardWidget parent)
     {
         this(parent);
         this.player = player;
@@ -63,7 +61,7 @@ public class StealPlayerCardBitmapWidget extends HorizontalPanel implements
         for (int i = 0; i < player.getResources().size(); i++)
         {
             PushButton btn = new PushButton(new Image(Resources.icons()
-                    .blankCardSmall()));
+                            .blankCard16()));
             btn.addClickHandler(new ClickHandler()
             {
                 @Override
@@ -77,7 +75,7 @@ public class StealPlayerCardBitmapWidget extends HorizontalPanel implements
         if (player.getResources().size() == 0)
         {
             cardsPanel.add(new Label(player.getUser().getName()
-                    + " has no cards"));
+                            + " has no cards"));
         }
     }
 

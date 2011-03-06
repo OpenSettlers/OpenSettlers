@@ -14,8 +14,9 @@ public class EndedGamePhase extends AbstractGamePhase
     private static final long serialVersionUID = -3286474892624586180L;
     private static transient Meta meta = new Meta()
     {
-        private Icon icon = new IconImpl(null, null, Resources.icons()
-                        .endedGamePhase32());
+        private Icon icon = new IconImpl(Resources.icons().endedGamePhase16(),
+                        Resources.icons().endedGamePhase32(), Resources.icons()
+                                        .endedGamePhase48());
 
         @Override
         public Icon icon()

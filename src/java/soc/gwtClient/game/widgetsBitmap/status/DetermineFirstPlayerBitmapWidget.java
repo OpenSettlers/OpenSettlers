@@ -18,11 +18,11 @@ public class DetermineFirstPlayerBitmapWidget implements GamePhaseStatusWidget
     private ImageResource icon;
 
     public DetermineFirstPlayerBitmapWidget(
-            DetermineFirstPlayerGamePhase determineFirstPlayerGamePhase)
+                    DetermineFirstPlayerGamePhase determineFirstPlayerGamePhase)
     {
         this.determineFirstPlayerGamePhase = determineFirstPlayerGamePhase;
 
-        icon = Resources.gamePhase(determineFirstPlayerGamePhase);
+        icon = Resources.mediumIcon(determineFirstPlayerGamePhase);
 
         rootPanel.add(new Label("Highroller starts the game"));
         rootPanel.add(new Image(icon));

@@ -59,12 +59,9 @@ public class PortPanel extends VerticalPanel
 
     private class PortButton extends PushButton
     {
-        private Port port;
-
         public PortButton(final Port port)
         {
-            super(new Image(Resources.mediumIcon(port.getMeta())));
-            this.port = port;
+            super(new Image(Resources.mediumIcon(port)));
 
             addClickHandler(new ClickHandler()
             {

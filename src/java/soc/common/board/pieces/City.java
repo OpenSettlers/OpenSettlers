@@ -29,8 +29,8 @@ public class City extends AbstractPlayerPiece implements VictoryPointItem,
     private static final long serialVersionUID = 6682481845539642397L;
     private static Meta meta = new Meta()
     {
-        private Icon icon = new IconImpl(Resources.icons().citySmall(), null,
-                        null, Resources.icons().city());
+        private Icon icon = new IconImpl(Resources.icons().city16(), Resources
+                        .icons().city32(), null, Resources.icons().city48());
 
         @Override
         public Icon icon()

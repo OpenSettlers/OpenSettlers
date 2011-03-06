@@ -31,7 +31,7 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class TradeBankDialog extends PopupPanel implements BankTradeWidget,
-        ResourcesChangedEventHandler
+                ResourcesChangedEventHandler
 {
     private ResourceList giveResources = new ResourceList();
     private ResourceList wantResources = new ResourceList();
@@ -61,16 +61,16 @@ public class TradeBankDialog extends PopupPanel implements BankTradeWidget,
         this.player = gameWidget.getPlayingPlayer();
 
         giveResourcesListWidget = createResourceListWidget(giveResources,
-                playerHand, player.getPorts());
+                        playerHand, player.getPorts());
 
         wantedResourcesListWidget = createResourceListWidget(wantResources,
-                bankResources, null);
+                        bankResources, null);
 
         giveResourcesPickerWidget = createResourcePickerWidget(giveResources,
-                player.getPorts(), playerHand, gameWidget);
+                        player.getPorts(), playerHand, gameWidget);
 
         wantedResourcesPickerWidget = createResourcePickerWidget(wantResources,
-                null, bankResources, gameWidget);
+                        null, bankResources, gameWidget);
 
         givePanel.add(giveResourcesPickerWidget);
         givePanel.add(giveResourcesListWidget);
@@ -87,38 +87,34 @@ public class TradeBankDialog extends PopupPanel implements BankTradeWidget,
         // Player can trade when amount of gold resources equals amount of
         // picked resources
         btnTrade.setEnabled(gameWidget.getPlayingPlayer().getPorts()
-                .amountGold(giveResources) == wantResources.size()
-                && wantResources.size() > 0);
+                        .amountGold(giveResources) == wantResources.size()
+                        && wantResources.size() > 0);
     }
 
     private ResourceListWidget createResourceListWidget(ResourceList resources,
-            ResourceList bankResources, PortList ports)
+                    ResourceList bankResources, PortList ports)
     {
         return new ResourceListBitmapWidget(resources, bankResources, ports);
     }
 
     private ResourcePickerWidget createResourcePickerWidget(
-            ResourceList resources, PortList ports, ResourceList bankResources,
-            GameWidget gameWidget)
+                    ResourceList resources, PortList ports,
+                    ResourceList bankResources, GameWidget gameWidget)
     {
         return new ResourcePickerBitmapWidget(resources, ports, bankResources,
-                gameWidget);
+                        gameWidget);
     }
 
-    /**
-     * @return the pieceToTradeFor
-     */
+    /** @return the pieceToTradeFor */
     public PlayerPiece getPieceToTradeFor()
     {
         return pieceToTradeFor;
     }
 
-    /**
-     * @param pieceToTradeFor
-     *            the pieceToTradeFor to set
-     */
+    /** @param pieceToTradeFor
+     *            the pieceToTradeFor to set */
     public void setPieceToTradeFor(PlayerPiece pieceToTradeFor,
-            TradeFirst tradeFirst)
+                    TradeFirst tradeFirst)
     {
         this.pieceToTradeFor = pieceToTradeFor;
         this.tradeFirst = tradeFirst;
@@ -144,16 +140,15 @@ public class TradeBankDialog extends PopupPanel implements BankTradeWidget,
 
             // Add needed resources
             wantResources.addList(playerHand.getNeededResources(pieceToTradeFor
-                    .getCost()));
+                            .getCost()));
 
             // Update image
             imgPiece.setUrl(pieceToTradeFor.getMeta().icon().iconDefault()
-                    .getURL());
+                            .getURL());
             lblTradeForA.setText(I18n.get().ui().bankTradeForA()
-                    + pieceToTradeFor.getMeta().getLocalizedName());
+                            + pieceToTradeFor.getMeta().getLocalizedName());
             panelPieceTrade.setVisible(true);
-        }
-        else
+        } else
         {
             wantedResourcesListWidget.setEnabled(true);
             wantedResourcesPickerWidget.setEnabled(true);
@@ -162,23 +157,20 @@ public class TradeBankDialog extends PopupPanel implements BankTradeWidget,
         show();
     }
 
-    /**
-     * @wbp.parser.constructor
-     */
+    /** @wbp.parser.constructor */
     public TradeBankDialog()
     {
         VerticalPanel verticalPanel = new VerticalPanel();
-        verticalPanel
-                .setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+        verticalPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
         setWidget(verticalPanel);
 
         HorizontalPanel horizontalPanel_2 = new HorizontalPanel();
         horizontalPanel_2
-                .setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+                        .setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
         horizontalPanel_2.setSpacing(10);
         verticalPanel.add(horizontalPanel_2);
 
-        Image image = new Image(Resources.icons().bankTrade());
+        Image image = new Image(Resources.icons().bankTrade48());
         horizontalPanel_2.add(image);
         image.setSize("140", "140");
 
@@ -192,7 +184,7 @@ public class TradeBankDialog extends PopupPanel implements BankTradeWidget,
         horizontalPanel_2.add(panelPieceTrade);
         panelPieceTrade.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 
-        imgPiece = new Image(Resources.icons().city());
+        imgPiece = new Image(Resources.icons().city32());
         panelPieceTrade.add(imgPiece);
         imgPiece.setSize("48", "48");
 
@@ -219,7 +211,7 @@ public class TradeBankDialog extends PopupPanel implements BankTradeWidget,
 
         HorizontalPanel horizontalPanel_4 = new HorizontalPanel();
         horizontalPanel_4
-                .setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+                        .setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
         horizontalPanel_4.setSpacing(10);
         verticalPanel.add(horizontalPanel_4);
 
@@ -241,9 +233,10 @@ public class TradeBankDialog extends PopupPanel implements BankTradeWidget,
         {
             public void onClick(ClickEvent arg0)
             {
-                gameWidget.sendAction(new TradeBank().setOfferedResources(
-                        giveResources).setWantedResources(wantResources)
-                        .setPlayer(player));
+                gameWidget.sendAction(new TradeBank()
+                                .setOfferedResources(giveResources)
+                                .setWantedResources(wantResources)
+                                .setPlayer(player));
                 if (tradeFirst != null)
                 {
                     tradeFirst.onTraded();
@@ -261,18 +254,14 @@ public class TradeBankDialog extends PopupPanel implements BankTradeWidget,
         checkResources();
     }
 
-    /**
-     * @return the player
-     */
+    /** @return the player */
     public GamePlayer getPlayer()
     {
         return player;
     }
 
-    /**
-     * @param player
-     *            the player to set
-     */
+    /** @param player
+     *            the player to set */
     public BankTradeWidget setPlayer(GamePlayer player)
     {
         this.player = player;
@@ -313,13 +302,13 @@ public class TradeBankDialog extends PopupPanel implements BankTradeWidget,
         wantedResourcesPickerWidget.setEnabled(false);
 
         // Add needed resources
-        wantResources.addList(playerHand.getNeededResources(AbstractDevelopmentCard
-                .getCost()));
+        wantResources.addList(playerHand
+                        .getNeededResources(AbstractDevelopmentCard.getCost()));
 
         // Update image
-        imgPiece = new Image(Resources.icons().developmentCardBack());
+        imgPiece = new Image(Resources.icons().developmentCardBack32());
         lblTradeForA.setText(I18n.get().ui().bankTradeForA()
-                + I18n.get().constants().developmentCard());
+                        + I18n.get().constants().developmentCard());
         panelPieceTrade.setVisible(true);
 
         show();
@@ -334,7 +323,7 @@ public class TradeBankDialog extends PopupPanel implements BankTradeWidget,
     public void show()
     {
         Point2D location = gameWidget.getPlayersInfoWidget()
-                .getTopRightLocation();
+                        .getTopRightLocation();
         setPopupPosition(location.getX(), location.getY());
 
         super.show();

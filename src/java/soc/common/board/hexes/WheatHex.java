@@ -15,8 +15,9 @@ public class WheatHex extends ResourceHex
     private static final long serialVersionUID = 2329772028245348633L;
     private static Meta meta = new Meta()
     {
-        private Icon icon = new IconImpl(Resources.icons().wheatHex(), null,
-                        null, null);
+        private Icon icon = new IconImpl(Resources.icons().wheatHex16(),
+                        Resources.icons().wheatHex32(), Resources.icons()
+                                        .wheatHex48());
 
         @Override
         public Icon icon()

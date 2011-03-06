@@ -18,8 +18,9 @@ public class Robber extends AbstractPiece
     private static final long serialVersionUID = 2162591486291994070L;
     private static Meta meta = new Meta()
     {
-        private Icon icon = new IconImpl(Resources.icons().robber(), null,
-                        null, Resources.icons().robberSmall());
+        private Icon icon = new IconImpl(Resources.icons().robber16(),
+                        Resources.icons().robber32(), Resources.icons()
+                                        .robber48());
 
         @Override
         public Icon icon()

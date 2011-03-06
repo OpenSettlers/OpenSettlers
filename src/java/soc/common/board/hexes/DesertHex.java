@@ -14,8 +14,9 @@ public class DesertHex extends AbstractHex
     private static final long serialVersionUID = -4944732151085067293L;
     private static Meta meta = new Meta()
     {
-        private Icon icon = new IconImpl(Resources.icons().desertHex(), null,
-                        null, null);
+        private Icon icon = new IconImpl(Resources.icons().desertHex16(),
+                        Resources.icons().desertHex32(), Resources.icons()
+                                        .desertHex48());
 
         @Override
         public Icon icon()

@@ -15,8 +15,9 @@ public class TimberHex extends ResourceHex
     private static final long serialVersionUID = 34740915606830388L;
     private static Meta meta = new Meta()
     {
-        private Icon icon = new IconImpl(Resources.icons().timberHex(), null,
-                        null, null);
+        private Icon icon = new IconImpl(Resources.icons().timberHex16(),
+                        Resources.icons().timberHex32(), Resources.icons()
+                                        .timberHex48());
 
         @Override
         public Icon icon()

@@ -1,20 +1,21 @@
 package soc.common.game.developmentCards;
 
+import java.io.Serializable;
+
 import soc.common.game.Game;
 import soc.common.game.phases.GamePhase;
 import soc.common.game.phases.turnPhase.TurnPhase;
 import soc.common.game.player.GamePlayer;
+import soc.common.views.meta.HasMeta;
 import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidget;
 import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidgetFactory;
 
-public interface DevelopmentCard
+public interface DevelopmentCard extends HasMeta, Serializable
 {
 
     public boolean isLimitOnePerTurn();
 
-    /**
-     * @return the hasSummoningSickness
-     */
+    /** @return the hasSummoningSickness */
     public boolean isHasSummoningSickness();
 
     public void play(Game game, GamePlayer player);
@@ -61,6 +62,6 @@ public interface DevelopmentCard
     public String getName();
 
     public DevelopmentCardWidget createPlayCardWidget(
-            DevelopmentCardWidgetFactory factory);
+                    DevelopmentCardWidgetFactory factory);
 
 }

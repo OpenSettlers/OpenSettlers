@@ -25,8 +25,9 @@ public class TradeBank extends AbstractTurnAction
     private static final long serialVersionUID = 7756281155996246492L;
     private static Meta meta = new Meta()
     {
-        private Icon icon = new IconImpl(Resources.icons().bankTrade(), null,
-                        null, null);
+        private Icon icon = new IconImpl(Resources.icons().bankTrade16(),
+                        Resources.icons().bankTrade32(), Resources.icons()
+                                        .bankTrade48());
 
         @Override
         public Icon icon()

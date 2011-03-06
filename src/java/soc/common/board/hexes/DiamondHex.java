@@ -14,8 +14,9 @@ public class DiamondHex extends ResourceHex
     private static final long serialVersionUID = 22283290007058031L;
     private static Meta meta = new Meta()
     {
-        private Icon icon = new IconImpl(Resources.icons().jungleHex(), null,
-                        null, null);
+        private Icon icon = new IconImpl(Resources.icons().diamondHex16(),
+                        Resources.icons().diamondHex32(), Resources.icons()
+                                        .diamondHex48());
 
         @Override
         public Icon icon()
@@ -26,14 +27,12 @@ public class DiamondHex extends ResourceHex
         @Override
         public String getName()
         {
-            // TODO Auto-generated method stub
-            return null;
+            return "DiamondHex";
         }
 
         @Override
         public String getLocalizedName()
         {
-            // TODO Auto-generated method stub
             return null;
         }
 

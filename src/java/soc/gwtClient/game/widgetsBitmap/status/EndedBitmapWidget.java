@@ -22,7 +22,7 @@ public class EndedBitmapWidget implements GamePhaseStatusWidget
         super();
         this.gamePhase = gamePhase;
 
-        icon = Resources.gamePhase(gamePhase);
+        icon = Resources.mediumIcon(gamePhase);
         rootPanel.add(new Label("This game has ended"));
         rootPanel.add(new Image(icon));
         rootPanel.setStyleName("phasePanel");

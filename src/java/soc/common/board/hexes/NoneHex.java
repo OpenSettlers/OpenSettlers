@@ -17,8 +17,9 @@ public class NoneHex extends AbstractHex
     private static final long serialVersionUID = 2564359491300904383L;
     private static Meta meta = new Meta()
     {
-        private Icon icon = new IconImpl(Resources.icons().noneHex(), null,
-                        null, null);
+        private Icon icon = new IconImpl(Resources.icons().noneHex16(),
+                        Resources.icons().noneHex32(), Resources.icons()
+                                        .noneHex48());
 
         @Override
         public Icon icon()

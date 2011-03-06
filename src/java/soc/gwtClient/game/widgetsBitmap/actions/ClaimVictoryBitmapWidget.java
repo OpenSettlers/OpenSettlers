@@ -12,10 +12,10 @@ import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.Widget;
 
 public class ClaimVictoryBitmapWidget extends AbstractActionWidget implements
-        VictoryPointsChangedEventHandler
+                VictoryPointsChangedEventHandler
 {
     PushButton btnClaimVictory = new PushButton(new Image(Resources.icons()
-            .claimVictory()));
+                    .claimVictory48()));
 
     public ClaimVictoryBitmapWidget(GameWidget gameWidget, GamePlayer player)
     {
@@ -49,10 +49,11 @@ public class ClaimVictoryBitmapWidget extends AbstractActionWidget implements
     private void checkEnabled()
     {
         if (enabled
-                && player.isOnTurn()
-                && gameWidget.getGame().getGameSettings().getBoardSettings()
-                        .getVpToWin().getVpToWin() <= player.getVictoryPoints()
-                        .getTotalPoints())
+                        && player.isOnTurn()
+                        && gameWidget.getGame().getGameSettings()
+                                        .getBoardSettings().getVpToWin()
+                                        .getVpToWin() <= player
+                                        .getVictoryPoints().getTotalPoints())
         {
             enableUI();
             return;

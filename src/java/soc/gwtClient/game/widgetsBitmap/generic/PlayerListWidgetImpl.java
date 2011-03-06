@@ -20,10 +20,10 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.ListDataProvider;
 
 public class PlayerListWidgetImpl extends VerticalPanel implements
-        PlayerListWidget
+                PlayerListWidget
 {
     private CellTable<GamePlayer> celltablePlayers = new CellTable<GamePlayer>(
-            8);
+                    8);
     private ListDataProvider<GamePlayer> playerProvider = new ListDataProvider<GamePlayer>();
     private SimpleEventBus eventBus = new SimpleEventBus();
 
@@ -33,7 +33,7 @@ public class PlayerListWidgetImpl extends VerticalPanel implements
         setWidth("100%");
 
         Column<GamePlayer, ?> columnID = new Column<GamePlayer, Number>(
-                new NumberCell())
+                        new NumberCell())
         {
             @Override
             public Number getValue(GamePlayer object)
@@ -44,13 +44,13 @@ public class PlayerListWidgetImpl extends VerticalPanel implements
         celltablePlayers.addColumn(columnID, "Id");
 
         Column<GamePlayer, ImageResource> columnBotHuman = new Column<GamePlayer, ImageResource>(
-                new ImageResourceCell())
+                        new ImageResourceCell())
         {
             @Override
             public ImageResource getValue(GamePlayer object)
             {
-                return object.getBot() == null ? Resources.icons()
-                        .playerSmall() : Resources.icons().botSmall();
+                return object.getBot() == null ? Resources.icons().player16()
+                                : Resources.icons().bot16();
             }
         };
         celltablePlayers.addColumn(columnBotHuman, "Bot/Human");
@@ -61,14 +61,14 @@ public class PlayerListWidgetImpl extends VerticalPanel implements
             public String getValue(GamePlayer object)
             {
                 return object.getBot() == null ? "Human" : ClassUtils
-                        .getSimpleClassName(object.getBot().getClass()
-                                .getName());
+                                .getSimpleClassName(object.getBot().getClass()
+                                                .getName());
             }
         };
         celltablePlayers.addColumn(columnPlayerType, "Type");
 
         Column<GamePlayer, String> colorColumn = new Column<GamePlayer, String>(
-                new ColorCell())
+                        new ColorCell())
         {
             @Override
             public String getValue(GamePlayer object)
@@ -89,7 +89,7 @@ public class PlayerListWidgetImpl extends VerticalPanel implements
         celltablePlayers.addColumn(columnName, "Name");
 
         Column<GamePlayer, String> columnRemove = new Column<GamePlayer, String>(
-                new ButtonCell())
+                        new ButtonCell())
         {
             @Override
             public String getValue(GamePlayer object)
@@ -135,7 +135,7 @@ public class PlayerListWidgetImpl extends VerticalPanel implements
 
     @Override
     public HandlerRegistration addPlayersChangedEventHandler(
-            PlayersChangedEventHandler handler)
+                    PlayersChangedEventHandler handler)
     {
         return eventBus.addHandler(PlayersChangedEvent.TYPE, handler);
     }

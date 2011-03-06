@@ -9,9 +9,9 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 
 public class DevelopmentCardsAmountBitmapWidget extends
-        AbstractDevelopmentCardsAmountWidget
+                AbstractDevelopmentCardsAmountWidget
 {
-    Image devcardImage = new Image(Resources.icons().developmentCardBackSmall());
+    Image devcardImage = new Image(Resources.icons().developmentCardBack16());
     Label amountDevcards = new Label();
 
     public DevelopmentCardsAmountBitmapWidget(GamePlayer player)
@@ -20,7 +20,7 @@ public class DevelopmentCardsAmountBitmapWidget extends
 
         devcardImage.setSize("16px", "16px");
         amountDevcards.setText(Integer.toString(player.getDevelopmentCards()
-                .size()));
+                        .size()));
 
         rootPanel.add(devcardImage);
         rootPanel.add(amountDevcards);
@@ -37,6 +37,6 @@ public class DevelopmentCardsAmountBitmapWidget extends
     public void onDevelopmentCardsChanged(DevelopmentCardsChangedEvent event)
     {
         amountDevcards.setText(Integer.toString(player.getDevelopmentCards()
-                .size()));
+                        .size()));
     }
 }

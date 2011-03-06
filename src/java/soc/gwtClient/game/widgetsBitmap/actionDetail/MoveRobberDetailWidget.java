@@ -18,12 +18,11 @@ public class MoveRobberDetailWidget extends AbstractActionDetailWidget
         super(gameWidget, placeRobber.getPlayer());
         this.placeRobber = placeRobber;
 
-        rootPanel.add(new Image(Resources.icons().moveRobberMedium()));
-        Hex affectedHex = gameWidget.getGame().getBoard().getHexes().get(
-                placeRobber.getNewLocation());
-        rootPanel.add(new Image(affectedHex.getMeta().icon().iconDefault()));
+        rootPanel.add(new Image(Resources.mediumIcon(placeRobber)));
+        Hex affectedHex = gameWidget.getGame().getBoard().getHexes()
+                        .get(placeRobber.getNewLocation());
+        rootPanel.add(new Image(Resources.mediumIcon(affectedHex)));
     }
-
     @Override
     public GameAction getGameAction()
     {

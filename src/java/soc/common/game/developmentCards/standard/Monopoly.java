@@ -11,8 +11,13 @@ import soc.common.game.Game;
 import soc.common.game.developmentCards.AbstractDevelopmentCard;
 import soc.common.game.phases.turnPhase.TurnPhase;
 import soc.common.game.player.GamePlayer;
+import soc.common.internationalization.I18n;
+import soc.common.views.meta.Icon;
+import soc.common.views.meta.IconImpl;
+import soc.common.views.meta.Meta;
 import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidget;
 import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidgetFactory;
+import soc.gwtClient.images.Resources;
 
 /*
  * Standard monopoly
@@ -23,6 +28,42 @@ public class Monopoly extends AbstractDevelopmentCard
     private static final long serialVersionUID = 7740748478927741890L;
     public static ResourceList staticMonoPolyableResources = new ResourceList();
     private Resource resource;
+    private static Meta meta = new Meta()
+    {
+        private Icon icon = new IconImpl(Resources.icons().monopoly16(),
+                        Resources.icons().monopoly32(), Resources.icons()
+                                        .monopoly48());
+
+        @Override
+        public Icon icon()
+        {
+            return icon;
+        }
+
+        @Override
+        public String getName()
+        {
+            return "Monopoly";
+        }
+
+        @Override
+        public String getLocalizedName()
+        {
+            return I18n.get().constants().monopoly();
+        }
+
+        @Override
+        public String getDescription()
+        {
+            return I18n.get().constants().monopolyDescription();
+        }
+    };
+
+    @Override
+    public Meta getMeta()
+    {
+        return meta;
+    }
 
     static
     {
@@ -33,28 +74,22 @@ public class Monopoly extends AbstractDevelopmentCard
         staticMonoPolyableResources.add(new Sheep());
     }
 
-    /**
-     * @return the resource
-     */
+    /** @return the resource */
     public Resource getResource()
     {
         return resource;
     }
 
-    /**
-     * @param resource
-     *            the resource type to steal all opponents' resources
-     */
+    /** @param resource
+     *            the resource type to steal all opponents' resources */
     public Monopoly setResource(Resource resource)
     {
         this.resource = resource;
         return this;
     }
 
-    /**
-     * @return A ResourceList with unique resource types this monopoly can steal
-     *         from other players
-     */
+    /** @return A ResourceList with unique resource types this monopoly can steal
+     *         from other players */
     public ResourceList getMonopolyableResources()
     {
         return staticMonoPolyableResources;
@@ -100,7 +135,7 @@ public class Monopoly extends AbstractDevelopmentCard
         {
             // Get the list of resources to steal
             ResourceList opponentResources = opponent.getResources().ofType(
-                    resource);
+                            resource);
 
             // steal only if there are resources to steal
             if (opponentResources.size() > 0)
@@ -111,7 +146,7 @@ public class Monopoly extends AbstractDevelopmentCard
 
                 // Move resources from victims to player
                 opponent.getResources().moveTo(player.getResources(),
-                        opponentResources);
+                                opponentResources);
             }
         }
 
@@ -124,7 +159,7 @@ public class Monopoly extends AbstractDevelopmentCard
 
     @Override
     public DevelopmentCardWidget createPlayCardWidget(
-            DevelopmentCardWidgetFactory factory)
+                    DevelopmentCardWidgetFactory factory)
     {
         return factory.createMonopolyWidget(this);
     }

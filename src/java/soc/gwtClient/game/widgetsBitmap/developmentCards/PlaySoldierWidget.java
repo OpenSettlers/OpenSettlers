@@ -29,7 +29,7 @@ public class PlaySoldierWidget implements DevelopmentCardWidget
         this.gameWidget = gameWidget;
 
         rootPanel.setSpacing(5);
-        rootPanel.add(new Image(Resources.icons().soldier()));
+        rootPanel.add(new Image(Resources.largeIcon(soldier)));
         rootPanel.add(new Label(I18n.get().constants().soldier()));
         rootPanel.add(btnPlay);
 

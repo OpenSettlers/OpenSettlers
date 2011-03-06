@@ -1,22 +1,7 @@
 package soc.gwtClient.images;
 
 import soc.common.board.chits.Chit;
-import soc.common.bots.Bot;
-import soc.common.game.phases.DetermineFirstPlayerGamePhase;
-import soc.common.game.phases.EndedGamePhase;
-import soc.common.game.phases.GamePhase;
-import soc.common.game.phases.InitialPlacementGamePhase;
-import soc.common.game.phases.LobbyGamePhase;
-import soc.common.game.phases.PlayTurnsGamePhase;
-import soc.common.game.phases.turnPhase.BeforeDiceRollTurnPhase;
-import soc.common.game.phases.turnPhase.BuildingTurnPhase;
-import soc.common.game.phases.turnPhase.RollDiceTurnPhase;
-import soc.common.game.phases.turnPhase.TradingTurnPhase;
-import soc.common.game.phases.turnPhase.TurnPhase;
-import soc.common.server.entities.Player;
-import soc.common.server.entities.ServerUser;
-import soc.common.server.entities.User;
-import soc.common.views.meta.Meta;
+import soc.common.views.meta.HasMeta;
 import soc.gwtClient.images.defaultTheme.Icons;
 import soc.gwtClient.images.defaultTheme.Images;
 
@@ -38,19 +23,19 @@ public class Resources
         return icons;
     }
 
-    public static ImageResource smallIcon(Meta meta)
+    public static ImageResource smallIcon(HasMeta meta)
     {
-        return meta.icon().icon16();
+        return meta.getMeta().icon().icon16();
     }
 
-    public static ImageResource mediumIcon(Meta meta)
+    public static ImageResource mediumIcon(HasMeta meta)
     {
-        return meta.icon().icon32();
+        return meta.getMeta().icon().icon32();
     }
 
-    public static ImageResource largeIcon(Meta meta)
+    public static ImageResource largeIcon(HasMeta meta)
     {
-        return meta.icon().icon48();
+        return meta.getMeta().icon().icon48();
     }
 
     public static ImageResource island(int id)
@@ -58,104 +43,49 @@ public class Resources
         switch (id)
         {
             case 1:
-                return icons.island1();
+                return icons.island132();
             case 2:
-                return icons.island2();
+                return icons.island232();
             case 3:
-                return icons.island3();
+                return icons.island332();
             case 4:
-                return icons.island4();
+                return icons.island432();
             case 5:
-                return icons.island5();
+                return icons.island532();
             case 6:
-                return icons.island6();
+                return icons.island632();
         }
         return null;
     }
 
-    public static ImageResource chit(Chit chit)
+    public static ImageResource chit(Chit chit, int size)
     {
         switch (chit.getNumber())
         {
             case 0:
-                return icons.randomChit();
+                return icons.randomChit32();
             case 2:
-                return icons.chit2();
+                return icons.chit232();
             case 3:
-                return icons.chit3();
+                return icons.chit332();
             case 4:
-                return icons.chit4();
+                return icons.chit432();
             case 5:
-                return icons.chit5();
+                return icons.chit532();
             case 6:
-                return icons.chit6();
+                return icons.chit632();
             case 8:
-                return icons.chit8();
+                return icons.chit832();
             case 9:
-                return icons.chit9();
+                return icons.chit932();
             case 10:
-                return icons.chit10();
+                return icons.chit1032();
             case 11:
-                return icons.chit11();
+                return icons.chit1132();
             case 12:
-                return icons.chit12();
+                return icons.chit1232();
         }
 
-        return null;
-    }
-
-    public static ImageResource user(User user)
-    {
-        if (user instanceof ServerUser)
-            return Resources.icons().refereeMedium();
-
-        if (user instanceof Player)
-            return Resources.icons().playerMedium();
-
-        if (user instanceof Bot)
-            return Resources.icons().botMedium();
-
-        return null;
-    }
-
-    public static ImageResource gamePhase(GamePhase phase)
-    {
-        if (phase instanceof InitialPlacementGamePhase)
-            return icons.initialPlacementGamePhase32();
-
-        if (phase instanceof DetermineFirstPlayerGamePhase)
-            return icons.determineFirstPlayerGamePhase32();
-
-        if (phase instanceof PlayTurnsGamePhase)
-            return icons.playTurnsGamePhase32();
-
-        if (phase instanceof EndedGamePhase)
-            return icons.endedGamePhase32();
-
-        if (phase instanceof LobbyGamePhase)
-            return icons.lobbyGamePhase32();
-
-        return null;
-    }
-
-    public static ImageResource turnPhase(TurnPhase phase)
-    {
-        if (phase instanceof BeforeDiceRollTurnPhase)
-        {
-            return icons.beforeRollDiceTurnPhase();
-        }
-        if (phase instanceof RollDiceTurnPhase)
-        {
-            return icons.rollDiceTurnPhase();
-        }
-        if (phase instanceof TradingTurnPhase)
-        {
-            return icons.tradingTurnPhase();
-        }
-        if (phase instanceof BuildingTurnPhase)
-        {
-            return icons.buildingTurnPhase();
-        }
         return null;
     }
 }

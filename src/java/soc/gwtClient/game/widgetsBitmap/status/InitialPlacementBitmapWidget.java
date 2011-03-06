@@ -22,7 +22,7 @@ public class InitialPlacementBitmapWidget implements GamePhaseStatusWidget
         super();
         this.gamePhase = gamePhase;
 
-        icon = Resources.gamePhase(gamePhase);
+        icon = Resources.mediumIcon(gamePhase);
 
         rootPanel.add(new Label("Place initial towns & roads"));
         rootPanel.add(new Image(icon));

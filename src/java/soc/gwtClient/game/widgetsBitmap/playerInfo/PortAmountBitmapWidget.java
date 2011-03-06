@@ -18,10 +18,10 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class PortAmountBitmapWidget implements PortAmountWidget,
-        PortListChangedEventHandler, MouseOutHandler, MouseOverHandler
+                PortListChangedEventHandler, MouseOutHandler, MouseOverHandler
 {
     private VerticalPanel rootPanel = new VerticalPanel();
-    private Image imgPort = new Image(Resources.icons().port());
+    private Image imgPort = new Image(Resources.icons().port16());
     private Label lblPortAmount = new Label();
     private GamePlayer player;
     private PortListToolTip portListDetailWidget;

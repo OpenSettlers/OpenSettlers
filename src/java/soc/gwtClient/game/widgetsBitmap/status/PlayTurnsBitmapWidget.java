@@ -26,7 +26,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class PlayTurnsBitmapWidget implements GamePhaseStatusWidget,
-        TurnPhaseChangedHandler
+                TurnPhaseChangedHandler
 {
     private VerticalPanel rootPanel = new VerticalPanel();
     private HorizontalPanel turnPhasePanel = new HorizontalPanel();
@@ -39,13 +39,13 @@ public class PlayTurnsBitmapWidget implements GamePhaseStatusWidget,
     private Image currentPhaseIcon;
 
     public PlayTurnsBitmapWidget(GameWidget gameWidget,
-            PlayTurnsGamePhase playTurnsGamePhase)
+                    PlayTurnsGamePhase playTurnsGamePhase)
     {
         super();
         this.gameWidget = gameWidget;
         this.playTurnsGamePhase = playTurnsGamePhase;
 
-        icon = Resources.gamePhase(playTurnsGamePhase);
+        icon = Resources.mediumIcon(playTurnsGamePhase);
 
         rootPanel.add(lblTurnPhaseDescription);
         rootPanel.add(turnPhasePanel);
@@ -57,7 +57,7 @@ public class PlayTurnsBitmapWidget implements GamePhaseStatusWidget,
 
         for (AbstractTurnPhase turnPhase : turnPhases)
         {
-            Image icon = new Image(Resources.turnPhase(turnPhase));
+            Image icon = new Image(Resources.mediumIcon(turnPhase));
             phaseIcons.put(turnPhase, icon);
             turnPhasePanel.add(icon);
         }

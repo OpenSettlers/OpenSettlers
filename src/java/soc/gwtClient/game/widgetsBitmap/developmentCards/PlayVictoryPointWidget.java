@@ -24,13 +24,13 @@ public class PlayVictoryPointWidget implements DevelopmentCardWidget
     private Button btnPlay = new Button(I18n.get().constants().play());
 
     public PlayVictoryPointWidget(final GameWidget gameWidget,
-            VictoryPoint victoryPoint)
+                    VictoryPoint victoryPoint)
     {
         this.victoryPoint = victoryPoint;
         this.gameWidget = gameWidget;
 
         rootPanel.setSpacing(5);
-        rootPanel.add(new Image(Resources.icons().victoryPoint()));
+        rootPanel.add(new Image(Resources.largeIcon(victoryPoint)));
         rootPanel.add(new Label(I18n.get().constants().victoryPoint()));
         rootPanel.add(btnPlay);
 

@@ -9,17 +9,17 @@ import soc.gwtClient.images.Resources;
 import com.google.gwt.user.client.ui.Image;
 
 public class BuyDevelopmentCardDetailBitmapWidget extends
-        AbstractActionDetailWidget
+                AbstractActionDetailWidget
 {
     private BuyDevelopmentCard buyDevelopmentCard;
 
     public BuyDevelopmentCardDetailBitmapWidget(GameWidget gameWidget,
-            BuyDevelopmentCard buyDevelopmentCard)
+                    BuyDevelopmentCard buyDevelopmentCard)
     {
         super(gameWidget, buyDevelopmentCard.getPlayer());
         this.buyDevelopmentCard = buyDevelopmentCard;
 
-        rootPanel.add(new Image(Resources.icons().buyDvelopmentCard()));
+        rootPanel.add(new Image(Resources.mediumIcon(buyDevelopmentCard)));
     }
 
     @Override

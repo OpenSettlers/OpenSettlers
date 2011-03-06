@@ -43,10 +43,10 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class TradePlayersDialog extends PopupPanel implements TradePlayerDialog,
-        TurnChangedEventHandler, TradeOfferedEventHandler,
-        OrderChangedEventHandler, TradeRespondedEventHandler,
-        ResourcesChangedEventHandler
+public class TradePlayersDialog extends PopupPanel implements
+                TradePlayerDialog, TurnChangedEventHandler,
+                TradeOfferedEventHandler, OrderChangedEventHandler,
+                TradeRespondedEventHandler, ResourcesChangedEventHandler
 {
     private ResourceList wantResources = new ResourceList();
     private ResourceList giveResources = new ResourceList();
@@ -75,21 +75,21 @@ public class TradePlayersDialog extends PopupPanel implements TradePlayerDialog,
         this.playerHand = player.getResources().copy();
 
         giveResourcesListWidget = createResourceListWidget(giveResources,
-                playerHand, null);
+                        playerHand, null);
 
         wantedResourceListWidget = createResourceListWidget(wantResources,
-                null, null);
+                        null, null);
 
         giveResourcePickerWidget = createResourcePickerWidget(giveResources,
-                null, playerHand, gameWidget);
+                        null, playerHand, gameWidget);
 
         wantedResourcePickerWidget = createResourcePickerWidget(wantResources,
-                null, null, gameWidget);
+                        null, null, gameWidget);
 
         for (GamePlayer opponent : gameWidget.getGame().getPlayers())
         {
             TradePlayerStatusWidget tradeStatus = new TradePlayerStatusBitmapWidget(
-                    gameWidget, opponent, player, this);
+                            gameWidget, opponent, player, this);
             playerStatuses.put(opponent, tradeStatus);
             pnlTradeStatuses.add(tradeStatus);
         }
@@ -107,22 +107,20 @@ public class TradePlayersDialog extends PopupPanel implements TradePlayerDialog,
     }
 
     private ResourceListWidget createResourceListWidget(ResourceList resources,
-            ResourceList bankResources, PortList ports)
+                    ResourceList bankResources, PortList ports)
     {
         return new ResourceListBitmapWidget(resources, bankResources, ports);
     }
 
     private ResourcePickerWidget createResourcePickerWidget(
-            ResourceList resources, PortList ports, ResourceList bankResources,
-            GameWidget gameWidget)
+                    ResourceList resources, PortList ports,
+                    ResourceList bankResources, GameWidget gameWidget)
     {
         return new ResourcePickerBitmapWidget(resources, ports, bankResources,
-                gameWidget);
+                        gameWidget);
     }
 
-    /**
-     * @wbp.parser.constructor
-     */
+    /** @wbp.parser.constructor */
     public TradePlayersDialog()
     {
         super(true);
@@ -134,7 +132,7 @@ public class TradePlayersDialog extends PopupPanel implements TradePlayerDialog,
         VerticalPanel pnlPlayersResponse = new VerticalPanel();
         pnlPlayersResponse.setHeight("100%");
         pnlPlayersResponse
-                .setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+                        .setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
         horizontalPanel.add(pnlPlayersResponse);
 
         pnlTradeStatuses = new VerticalPanel();
@@ -162,7 +160,7 @@ public class TradePlayersDialog extends PopupPanel implements TradePlayerDialog,
 
         HorizontalPanel horizontalPanel_5 = new HorizontalPanel();
         horizontalPanel_5
-                .setVerticalAlignment(HasVerticalAlignment.ALIGN_BOTTOM);
+                        .setVerticalAlignment(HasVerticalAlignment.ALIGN_BOTTOM);
         pnlPlayersResponse.add(horizontalPanel_5);
 
         Button button = new Button("New button");
@@ -183,11 +181,11 @@ public class TradePlayersDialog extends PopupPanel implements TradePlayerDialog,
 
         HorizontalPanel horizontalPanel_2 = new HorizontalPanel();
         horizontalPanel_2
-                .setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+                        .setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
         horizontalPanel_2.setSpacing(10);
         pnlTradeOptions.add(horizontalPanel_2);
 
-        Image image = new Image(Resources.icons().tradePlayer());
+        Image image = new Image(Resources.icons().tradePlayer32());
         horizontalPanel_2.add(image);
 
         Label lblTradeWithOpponents = new Label("Trade with opponents");
@@ -264,7 +262,8 @@ public class TradePlayersDialog extends PopupPanel implements TradePlayerDialog,
         for (TradePlayerStatusWidget tradeStatus : playerStatuses.values())
             tradeStatus.update(null);
 
-        Point2D location = gameWidget.getPlayersInfoWidget().getTopRightLocation();
+        Point2D location = gameWidget.getPlayersInfoWidget()
+                        .getTopRightLocation();
         setPopupPosition(location.getX(), location.getY());
         super.show();
     }
@@ -301,7 +300,7 @@ public class TradePlayersDialog extends PopupPanel implements TradePlayerDialog,
         if (player.isOnTurn())
         {
             tradeOfferHandler = gameWidget.getGame().getCurrentTurn()
-                    .getTradeOffers().addTradeOfferedEventHandler(this);
+                            .getTradeOffers().addTradeOfferedEventHandler(this);
         }
     }
 
@@ -317,8 +316,8 @@ public class TradePlayersDialog extends PopupPanel implements TradePlayerDialog,
         }
 
         tradeResponseHandler = gameWidget.getGame().getCurrentTurn()
-                .getTradeOffers().getLatestOffer().getResponses()
-                .addTradeRespondedEventHandler(this);
+                        .getTradeOffers().getLatestOffer().getResponses()
+                        .addTradeRespondedEventHandler(this);
 
         for (TradePlayerStatusWidget tradeStatus : playerStatuses.values())
             tradeStatus.setWaiting();
@@ -328,7 +327,7 @@ public class TradePlayersDialog extends PopupPanel implements TradePlayerDialog,
     public void onTradeResponded(TradeRespondedEvent event)
     {
         TradePlayerStatusWidget widget = playerStatuses.get(event
-                .getTradeResponse().getPlayer());
+                        .getTradeResponse().getPlayer());
         widget.update(event.getTradeResponse());
         checkUI();
     }
@@ -362,24 +361,21 @@ public class TradePlayersDialog extends PopupPanel implements TradePlayerDialog,
         if (wantResources.size() > 0 && giveResources.size() > 0)
         {
             if (gameWidget.getGame().getCurrentTurn().getTradeOffers()
-                    .getLatestOffer() != null)
+                            .getLatestOffer() != null)
             {
                 if (gameWidget.getGame().getCurrentTurn().getTradeOffers()
-                        .getLatestOffer().isResponsesCompleted())
+                                .getLatestOffer().isResponsesCompleted())
                 {
                     btnOfferTrade.setEnabled(true);
-                }
-                else
+                } else
                 {
                     btnOfferTrade.setEnabled(false);
                 }
-            }
-            else
+            } else
             {
                 btnOfferTrade.setEnabled(true);
             }
-        }
-        else
+        } else
         {
             btnOfferTrade.setEnabled(false);
         }
@@ -388,9 +384,13 @@ public class TradePlayersDialog extends PopupPanel implements TradePlayerDialog,
     @Override
     public void trade(TradeResponse tradeResponse)
     {
-        gameWidget.sendAction(new TradePlayer().setOriginatingOffer(
-                gameWidget.getGame().getCurrentTurn().getTradeOffers()
-                        .getLatestOffer()).setResponse(tradeResponse)
-                .setTradeOpponent(tradeResponse.getPlayer()).setPlayer(player));
+        gameWidget.sendAction(new TradePlayer()
+                        .setOriginatingOffer(
+                                        gameWidget.getGame().getCurrentTurn()
+                                                        .getTradeOffers()
+                                                        .getLatestOffer())
+                        .setResponse(tradeResponse)
+                        .setTradeOpponent(tradeResponse.getPlayer())
+                        .setPlayer(player));
     }
 }

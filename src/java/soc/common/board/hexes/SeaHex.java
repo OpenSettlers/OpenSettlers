@@ -21,8 +21,9 @@ public class SeaHex extends AbstractHex
 
     private static Meta meta = new Meta()
     {
-        private Icon icon = new IconImpl(Resources.icons().seaHex(), null,
-                        null, null);
+        private Icon icon = new IconImpl(Resources.icons().seaHex16(),
+                        Resources.icons().seaHex32(), Resources.icons()
+                                        .seaHex48());
 
         @Override
         public Icon icon()

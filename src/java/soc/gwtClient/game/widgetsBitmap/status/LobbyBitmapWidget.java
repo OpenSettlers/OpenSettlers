@@ -22,7 +22,7 @@ public class LobbyBitmapWidget implements GamePhaseStatusWidget
         super();
         this.gamePhase = gamePhase;
 
-        icon = Resources.gamePhase(gamePhase);
+        icon = Resources.mediumIcon(gamePhase);
         rootPanel.add(new Label("Lobby phase"));
         rootPanel.add(new Image(icon));
         rootPanel.setStyleName("phasePanel");

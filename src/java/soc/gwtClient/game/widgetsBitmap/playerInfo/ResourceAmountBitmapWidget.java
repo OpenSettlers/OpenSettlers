@@ -10,7 +10,7 @@ import com.google.gwt.user.client.ui.Label;
 
 public class ResourceAmountBitmapWidget extends AbstractResourceAmountWidget
 {
-    Image cardImage = new Image(Resources.icons().blankCardSmall());
+    Image cardImage = new Image(Resources.icons().blankCard16());
     Label lblAmountResources = new Label();
 
     public ResourceAmountBitmapWidget(GamePlayer player)
@@ -19,7 +19,7 @@ public class ResourceAmountBitmapWidget extends AbstractResourceAmountWidget
 
         cardImage.setSize("16px", "16px");
         lblAmountResources.setText(Integer.toString(player.getResources()
-                .size()));
+                        .size()));
 
         rootPanel.add(cardImage);
         rootPanel.add(lblAmountResources);
@@ -35,7 +35,7 @@ public class ResourceAmountBitmapWidget extends AbstractResourceAmountWidget
     public void onResourcesChanged(ResourcesChangedEvent resourcesChanged)
     {
         lblAmountResources.setText(Integer.toString(player.getResources()
-                .size()));
+                        .size()));
     }
 
 }

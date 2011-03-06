@@ -21,8 +21,9 @@ import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.Widget;
 
 public class TradeBankBitmapWidget extends AbstractActionWidget implements
-        ResourcesChangedEventHandler, PortListChangedEventHandler,
-        GamePhaseChangedEventHandler, ClickHandler, TurnPhaseChangedHandler
+                ResourcesChangedEventHandler, PortListChangedEventHandler,
+                GamePhaseChangedEventHandler, ClickHandler,
+                TurnPhaseChangedHandler
 {
     PushButton btnTradeBank;
     boolean isTradeBankShown = false;
@@ -32,7 +33,8 @@ public class TradeBankBitmapWidget extends AbstractActionWidget implements
     {
         super(gameWidget, player);
 
-        btnTradeBank = new PushButton(new Image(Resources.icons().bankTrade()));
+        btnTradeBank = new PushButton(
+                        new Image(Resources.icons().bankTrade48()));
         player.getResources().addResourcesChangedEventHandler(this);
         player.getPorts().addPortListChangedEventHandler(this);
         gameWidget.getGame().addGamePhaseChangedEventHandler(this);
@@ -92,7 +94,8 @@ public class TradeBankBitmapWidget extends AbstractActionWidget implements
         if (enabled && player.isOnTurn())
         {
             if (gameWidget.getGame().isAllowed(tradeBank)
-                    && player.getPorts().amountGold(player.getResources()) > 0)
+                            && player.getPorts().amountGold(
+                                            player.getResources()) > 0)
             {
                 enableUI();
                 return;

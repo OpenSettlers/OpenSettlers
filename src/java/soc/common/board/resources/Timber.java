@@ -11,8 +11,9 @@ public class Timber extends AbstractResource
     private static final long serialVersionUID = -6537069648667733465L;
     private static Meta meta = new Meta()
     {
-        private Icon icon = new IconImpl(Resources.icons().timberCard(), null,
-                        null, null);
+        private Icon icon = new IconImpl(Resources.icons().timber16(),
+                        Resources.icons().timber32(), Resources.icons()
+                                        .timber48());
 
         @Override
         public Icon icon()
