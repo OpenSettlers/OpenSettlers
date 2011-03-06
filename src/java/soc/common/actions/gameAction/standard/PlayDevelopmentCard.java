@@ -140,15 +140,9 @@ public class PlayDevelopmentCard extends AbstractTurnAction
         // Mark all other cards needing to wait one turn as unplayable, if we
         // play a non-unique dvcard
         if (developmentCard.isLimitOnePerTurn())
-        {
             for (DevelopmentCard dc : player.getDevelopmentCards())
-            {
                 if (dc.isLimitOnePerTurn())
-                {
                     dc.setPlayable(false);
-                }
-            }
-        }
 
         message = developmentCard.getMessage();
         super.perform(game);

@@ -13,17 +13,22 @@ import soc.common.utils.ClassUtils;
 import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidget;
 import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidgetFactory;
 
+import com.google.gwt.event.shared.EventBus;
+import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.event.shared.SimpleEventBus;
+
 public abstract class AbstractDevelopmentCard implements Serializable,
-        DevelopmentCard
+                DevelopmentCard
 {
     private static final long serialVersionUID = 3192052784726040369L;
     protected String invalidMessage;
     protected String message = "No message implemented yet for Devcard"
-            + toString();
+                    + toString();
     protected int turnBought = 0;
     private int id = 0;
     private boolean isPlayable = false;
     private static ResourceList cost = new ResourceList();
+    private transient EventBus eventBus = new SimpleEventBus();
 
     static
     {
@@ -80,7 +85,7 @@ public abstract class AbstractDevelopmentCard implements Serializable,
         // amount of resources this piece needs, minus...
         getCost().size() -
         // the resources the player can simply pay for
-                (player.getResources().size() - copy.size());
+                        (player.getResources().size() - copy.size());
 
         // Player can pay given piece if he can trade exactly or more gold as
         // needed
@@ -144,35 +149,11 @@ public abstract class AbstractDevelopmentCard implements Serializable,
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * soc.common.game.developmentCards.DevelopmentCard#setInvalidMessage(java
-     * .lang.String)
-     */
-    public void setInvalidMessage(String invalidMessage)
-    {
-        this.invalidMessage = invalidMessage;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
      * @see soc.common.game.developmentCards.DevelopmentCard#getMessage()
      */
     public String getMessage()
     {
         return message;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * soc.common.game.developmentCards.DevelopmentCard#setMessage(java.lang
-     * .String)
-     */
-    public void setMessage(String message)
-    {
-        this.message = message;
     }
 
     /*
@@ -234,6 +215,7 @@ public abstract class AbstractDevelopmentCard implements Serializable,
     public void setPlayable(boolean isPlayable)
     {
         this.isPlayable = isPlayable;
+        eventBus.fireEvent(new PlayableChangedEvent(isPlayable));
     }
 
     /*
@@ -298,5 +280,20 @@ public abstract class AbstractDevelopmentCard implements Serializable,
      * )
      */
     public abstract DevelopmentCardWidget createPlayCardWidget(
-            DevelopmentCardWidgetFactory factory);
+                    DevelopmentCardWidgetFactory factory);
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * soc.common.game.developmentCards.DevelopmentCard#addPlayableChangedEventHandler(soc.common
+     * .game.developmentCards.PlayableChangedEventHandler)
+     */
+    @Override
+    public HandlerRegistration addPlayableChangedEventHandler(
+                    PlayableChangedEventHandler handler)
+    {
+        return eventBus.addHandler(PlayableChangedEvent.TYPE, handler);
+    }
+
 }

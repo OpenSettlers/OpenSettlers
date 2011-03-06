@@ -4,6 +4,8 @@ import soc.common.actions.gameAction.standard.PlayDevelopmentCard;
 import soc.common.board.resources.ResourceList;
 import soc.common.board.resources.ResourcesChangedEvent;
 import soc.common.board.resources.ResourcesChangedEventHandler;
+import soc.common.game.developmentCards.PlayableChangedEvent;
+import soc.common.game.developmentCards.PlayableChangedEventHandler;
 import soc.common.game.developmentCards.standard.YearOfPlenty;
 import soc.common.internationalization.I18n;
 import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidget;
@@ -23,7 +25,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 public class PlayYearOfPlentyWidget implements DevelopmentCardWidget,
-                ResourcesChangedEventHandler
+                ResourcesChangedEventHandler, PlayableChangedEventHandler
 {
     private YearOfPlenty yearOfPlenty;
     private GameWidget gameWidget;
@@ -68,6 +70,7 @@ public class PlayYearOfPlentyWidget implements DevelopmentCardWidget,
         });
 
         pickedResources.addResourcesChangedEventHandler(this);
+        yearOfPlenty.addPlayableChangedEventHandler(this);
     }
 
     @Override
@@ -80,5 +83,11 @@ public class PlayYearOfPlentyWidget implements DevelopmentCardWidget,
     public void onResourcesChanged(ResourcesChangedEvent resourcesChanged)
     {
         buttonnPlay.setEnabled(pickedResources.size() == 2);
+    }
+
+    @Override
+    public void onPlayableChanged(PlayableChangedEvent event)
+    {
+        buttonnPlay.setEnabled(event.isPlayable());
     }
 }

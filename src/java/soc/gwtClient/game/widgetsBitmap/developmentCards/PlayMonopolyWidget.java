@@ -4,6 +4,8 @@ import soc.common.actions.gameAction.standard.PlayDevelopmentCard;
 import soc.common.board.resources.ResourceList;
 import soc.common.board.resources.ResourcesChangedEvent;
 import soc.common.board.resources.ResourcesChangedEventHandler;
+import soc.common.game.developmentCards.PlayableChangedEvent;
+import soc.common.game.developmentCards.PlayableChangedEventHandler;
 import soc.common.game.developmentCards.standard.Monopoly;
 import soc.common.internationalization.I18n;
 import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidget;
@@ -23,7 +25,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 public class PlayMonopolyWidget implements DevelopmentCardWidget,
-                ResourcesChangedEventHandler
+                ResourcesChangedEventHandler, PlayableChangedEventHandler
 {
     private Monopoly monopoly;
     private GameWidget gameWidget;
@@ -68,6 +70,7 @@ public class PlayMonopolyWidget implements DevelopmentCardWidget,
         });
 
         pickedResources.addResourcesChangedEventHandler(this);
+        monopoly.addPlayableChangedEventHandler(this);
     }
 
     @Override
@@ -79,6 +82,17 @@ public class PlayMonopolyWidget implements DevelopmentCardWidget,
     @Override
     public void onResourcesChanged(ResourcesChangedEvent resourcesChanged)
     {
-        btnPlay.setEnabled(pickedResources.size() == 1);
+        updateUI();
+    }
+
+    private void updateUI()
+    {
+        btnPlay.setEnabled(pickedResources.size() == 1 && monopoly.isPlayable());
+    }
+
+    @Override
+    public void onPlayableChanged(PlayableChangedEvent event)
+    {
+        updateUI();
     }
 }

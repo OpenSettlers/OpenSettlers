@@ -1,6 +1,8 @@
 package soc.gwtClient.game.widgetsBitmap.developmentCards;
 
 import soc.common.actions.gameAction.standard.PlayDevelopmentCard;
+import soc.common.game.developmentCards.PlayableChangedEvent;
+import soc.common.game.developmentCards.PlayableChangedEventHandler;
 import soc.common.game.developmentCards.standard.RoadBuilding;
 import soc.common.internationalization.I18n;
 import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidget;
@@ -15,7 +17,8 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
-public class PlayRoadBuildingWidget implements DevelopmentCardWidget
+public class PlayRoadBuildingWidget implements DevelopmentCardWidget,
+                PlayableChangedEventHandler
 {
     private RoadBuilding roadBuilding;
     private GameWidget gameWidget;
@@ -45,12 +48,20 @@ public class PlayRoadBuildingWidget implements DevelopmentCardWidget
                 gameWidget.sendAction(playDevelopmentCard);
             }
         });
+
+        roadBuilding.addPlayableChangedEventHandler(this);
     }
 
     @Override
     public Widget asWidget()
     {
         return rootPanel;
+    }
+
+    @Override
+    public void onPlayableChanged(PlayableChangedEvent event)
+    {
+        btnPlay.setEnabled(event.isPlayable());
     }
 
 }

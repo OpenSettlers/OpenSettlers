@@ -52,5 +52,4 @@ public class PlayVictoryPointWidget implements DevelopmentCardWidget
     {
         return rootPanel;
     }
-
 }

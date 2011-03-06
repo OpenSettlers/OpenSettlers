@@ -149,7 +149,7 @@ public class BuyDevelopmentCard extends AbstractTurnAction
         game.getBank().addList(resources);
 
         // Player should wait a turn before able to play new devcard
-        devCard.setPlayable(!devCard.isHasSummoningSickness());
+        devCard.setPlayable(false);
         devCard.setTurnBought(game.getCurrentTurn().getID());
 
         // Administer devcards

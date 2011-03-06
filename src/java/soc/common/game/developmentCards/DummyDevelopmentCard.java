@@ -12,6 +12,8 @@ import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidget;
 import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidgetFactory;
 import soc.gwtClient.images.Resources;
 
+import com.google.gwt.event.shared.HandlerRegistration;
+
 /*
  * Placeholder for a development card bought by an opponent, as seen from
  * the perspective of the player. A ServerBuyDevelopmentCard will replace the
@@ -153,16 +155,6 @@ public class DummyDevelopmentCard implements DevelopmentCard
     }
 
     @Override
-    public void setInvalidMessage(String invalidMessage)
-    {
-    }
-
-    @Override
-    public void setMessage(String message)
-    {
-    }
-
-    @Override
     public void setPlayable(boolean isPlayable)
     {
     }
@@ -171,6 +163,13 @@ public class DummyDevelopmentCard implements DevelopmentCard
     public void setTurnBought(int turnBought)
     {
         this.turnBought = turnBought;
+    }
+
+    @Override
+    public HandlerRegistration addPlayableChangedEventHandler(
+                    PlayableChangedEventHandler handler)
+    {
+        return null;
     }
 
 }

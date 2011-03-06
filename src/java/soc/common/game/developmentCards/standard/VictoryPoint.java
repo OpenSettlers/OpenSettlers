@@ -140,4 +140,24 @@ public class VictoryPoint extends AbstractDevelopmentCard implements
         return turnPhase.isBeforeDiceRoll() || turnPhase.isBuilding();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see soc.common.game.developmentCards.AbstractDevelopmentCard#isPlayable()
+     */
+    @Override
+    public boolean isPlayable()
+    {
+        return true;
+    }
+
+    /*
+     * Ignored, VictoryPoint card is always playable
+     * 
+     * @see soc.common.game.developmentCards.AbstractDevelopmentCard#setPlayable(boolean)
+     */
+    @Override
+    public void setPlayable(boolean isPlayable)
+    {
+    }
 }

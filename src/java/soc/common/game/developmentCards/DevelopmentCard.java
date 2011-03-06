@@ -10,6 +10,8 @@ import soc.common.views.meta.HasMeta;
 import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidget;
 import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidgetFactory;
 
+import com.google.gwt.event.shared.HandlerRegistration;
+
 public interface DevelopmentCard extends HasMeta, Serializable
 {
 
@@ -39,20 +41,25 @@ public interface DevelopmentCard extends HasMeta, Serializable
 
     public String getInvalidMessage();
 
-    public void setInvalidMessage(String invalidMessage);
-
     public String getMessage();
 
-    public void setMessage(String message);
-
+    /*
+     * Gets the number of the turn this development card was bought
+     */
     public int getTurnBought();
 
+    /*
+     * Sets the turn ID (==turn number) of the turn this development card was bought
+     */
     public void setTurnBought(int turnBought);
 
     public int getId();
 
     public void setId(int id);
 
+    /*
+     * Returns true when this development card can be played this turn
+     */
     public boolean isPlayable();
 
     public void setPlayable(boolean isPlayable);
@@ -63,5 +70,7 @@ public interface DevelopmentCard extends HasMeta, Serializable
 
     public DevelopmentCardWidget createPlayCardWidget(
                     DevelopmentCardWidgetFactory factory);
+    public HandlerRegistration addPlayableChangedEventHandler(
+                    PlayableChangedEventHandler handler);
 
 }
