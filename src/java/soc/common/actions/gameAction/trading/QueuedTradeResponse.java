@@ -19,7 +19,7 @@ public class QueuedTradeResponse extends AbstractGameAction implements
                 TradeResponse
 {
     private static final long serialVersionUID = 919585819869290645L;
-    private static Meta meta = new Meta()
+    private static transient Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().tradeDisabled16(),
                         Resources.icons().tradeDisabled32(), Resources.icons()

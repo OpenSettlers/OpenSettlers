@@ -23,7 +23,7 @@ import soc.gwtClient.images.Resources;
 public class Road extends AbstractPlayerPiece implements SidePiece, StockPiece
 {
     private static final long serialVersionUID = -6137419255953696891L;
-    private static Meta meta = new Meta()
+    private static transient Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().road16(), Resources
                         .icons().road32(), Resources.icons().road48());

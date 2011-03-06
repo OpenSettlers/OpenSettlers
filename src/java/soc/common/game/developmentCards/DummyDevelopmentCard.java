@@ -23,7 +23,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 public class DummyDevelopmentCard implements DevelopmentCard
 {
     private static final long serialVersionUID = 1304353703764982089L;
-    private static Meta meta = new Meta()
+    private static transient Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons()
                         .developmentCardBack16(), Resources.icons()

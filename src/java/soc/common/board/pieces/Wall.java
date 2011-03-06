@@ -19,7 +19,7 @@ import soc.common.views.widgetsInterface.visuals.VisualFactory;
 public class Wall extends AbstractPlayerPiece implements PointPiece
 {
     private static final long serialVersionUID = 5417867350330920841L;
-    private static Meta meta = new Meta()
+    private static transient Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(null, null, null, null);
 

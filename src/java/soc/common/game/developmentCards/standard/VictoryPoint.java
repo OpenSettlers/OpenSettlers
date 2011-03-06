@@ -22,7 +22,7 @@ public class VictoryPoint extends AbstractDevelopmentCard implements
                 VictoryPointItem
 {
     private static final long serialVersionUID = -7322456488887068608L;
-    private static Meta meta = new Meta()
+    private static transient Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().victoryPoint16(),
                         Resources.icons().victoryPoint32(), Resources.icons()

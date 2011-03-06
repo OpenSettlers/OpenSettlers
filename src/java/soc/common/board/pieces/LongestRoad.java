@@ -21,7 +21,7 @@ public class LongestRoad extends AbstractPlayerPiece implements
                 VictoryPointItem
 {
     private static final long serialVersionUID = -1851490325447009277L;
-    private static Meta meta = new Meta()
+    private static transient Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().longestRoad16(),
                         Resources.icons().longestRoad32(), null, Resources

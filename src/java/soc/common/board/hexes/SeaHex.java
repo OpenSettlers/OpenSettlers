@@ -19,7 +19,7 @@ public class SeaHex extends AbstractHex
     // A SeaHex may have a port associated with it
     private Port port;
 
-    private static Meta meta = new Meta()
+    private static transient Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().seaHex16(),
                         Resources.icons().seaHex32(), Resources.icons()

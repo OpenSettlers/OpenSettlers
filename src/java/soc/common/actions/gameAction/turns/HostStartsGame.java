@@ -21,7 +21,7 @@ import soc.common.views.widgetsInterface.actions.ActionWidgetFactory;
 public class HostStartsGame extends AbstractGameAction
 {
     private static final long serialVersionUID = 4729872692877969851L;
-    private static Meta meta = new Meta()
+    private static transient Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(null, null, null, null);
 

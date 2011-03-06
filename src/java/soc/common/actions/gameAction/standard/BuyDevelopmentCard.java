@@ -24,7 +24,7 @@ import soc.gwtClient.images.Resources;
 public class BuyDevelopmentCard extends AbstractTurnAction
 {
     private static final long serialVersionUID = -7625851375785728121L;
-    private static Meta meta = new Meta()
+    private static transient Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons()
                         .buyDvelopmentCard16(), Resources.icons()

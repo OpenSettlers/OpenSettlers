@@ -18,7 +18,7 @@ public class YearOfPlenty extends AbstractDevelopmentCard
     private static final long serialVersionUID = 8598985603470688487L;
     // actual picked resources by player
     private ResourceList goldPick;
-    private static Meta meta = new Meta()
+    private static transient Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().yearOfPlenty16(),
                         Resources.icons().yearOfPlenty32(), Resources.icons()

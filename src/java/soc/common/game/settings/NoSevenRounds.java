@@ -6,7 +6,7 @@ import soc.common.views.meta.Meta;
 public class NoSevenRounds implements GameSetting
 {
     private static final long serialVersionUID = -3205225202914063292L;
-    private static Meta meta = new Meta()
+    private static transient Meta meta = new Meta()
     {
         @Override
         public Icon icon()

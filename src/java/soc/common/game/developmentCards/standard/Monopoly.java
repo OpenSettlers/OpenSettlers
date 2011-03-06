@@ -28,7 +28,7 @@ public class Monopoly extends AbstractDevelopmentCard
     private static final long serialVersionUID = 7740748478927741890L;
     public static ResourceList staticMonoPolyableResources = new ResourceList();
     private Resource resource;
-    private static Meta meta = new Meta()
+    private static transient Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().monopoly16(),
                         Resources.icons().monopoly32(), Resources.icons()

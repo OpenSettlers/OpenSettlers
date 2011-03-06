@@ -14,7 +14,7 @@ import com.google.gwt.resources.client.ImageResource;
 public class DiscoveryHex extends AbstractHex
 {
     private static final long serialVersionUID = -4658204654937855497L;
-    private static Meta meta = new Meta()
+    private static transient Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().discoveryHex32(),
                         null, null, null);

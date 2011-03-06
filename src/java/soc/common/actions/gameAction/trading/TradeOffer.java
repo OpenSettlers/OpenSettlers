@@ -23,7 +23,7 @@ import soc.gwtClient.images.Resources;
 public class TradeOffer extends AbstractGameAction
 {
     private static final long serialVersionUID = 3603265436041339994L;
-    private static Meta meta = new Meta()
+    private static transient Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().trade16(), Resources
                         .icons().trade32(), Resources.icons().trade48());

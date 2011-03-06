@@ -12,7 +12,7 @@ public class OrePort extends TwoToOneResourcePort
 {
     private static final long serialVersionUID = 1142423242419232130L;
     private static Ore ore = new Ore();
-    private static Meta meta = new Meta()
+    private static transient Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().orePort16(),
                         Resources.icons().orePort32(), Resources.icons()

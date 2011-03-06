@@ -11,7 +11,7 @@ import soc.gwtClient.images.Resources;
 public class ThreeToOnePort extends AbstractPort
 {
     private static final long serialVersionUID = -2264455291636281867L;
-    private static Meta meta = new Meta()
+    private static transient Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().threeToOnePort16(),
                         Resources.icons().threeToOnePort32(), Resources.icons()

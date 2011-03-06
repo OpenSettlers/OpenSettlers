@@ -9,7 +9,7 @@ import soc.gwtClient.images.Resources;
 public class Ore extends AbstractResource
 {
     private static final long serialVersionUID = -8778560987710166668L;
-    private static Meta meta = new Meta()
+    private static transient Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().ore16(), Resources
                         .icons().ore32(), Resources.icons().ore48());

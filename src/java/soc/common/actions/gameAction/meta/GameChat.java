@@ -21,7 +21,7 @@ import soc.common.views.widgetsInterface.actions.ActionWidgetFactory;
 public class GameChat extends AbstractGameAction
 {
     private static final long serialVersionUID = -3710258112524872173L;
-    private static Meta meta = new Meta()
+    private static transient Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(null, null, null, null);
 

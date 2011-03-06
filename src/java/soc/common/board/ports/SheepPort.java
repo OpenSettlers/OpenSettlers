@@ -12,7 +12,7 @@ public class SheepPort extends TwoToOneResourcePort
 {
     private static final long serialVersionUID = -8884377093715212493L;
     private static Sheep sheep = new Sheep();
-    private static Meta meta = new Meta()
+    private static transient Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().sheepPort16(),
                         Resources.icons().sheepPort32(), Resources.icons()

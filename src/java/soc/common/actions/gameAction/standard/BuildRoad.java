@@ -23,7 +23,7 @@ import soc.gwtClient.images.Resources;
 public class BuildRoad extends AbstractTurnAction
 {
     private static final long serialVersionUID = -1265027496921863516L;
-    private static Meta meta = new Meta()
+    private static transient Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().road16(), Resources
                         .icons().road32(), Resources.icons().road48());

@@ -17,7 +17,7 @@ public class VolcanoHex extends ResourceHex
 {
     private static final long serialVersionUID = 9066964176287866076L;
 
-    private static Meta meta = new Meta()
+    private static transient Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(null, null, Resources.icons()
                         .volcanoHex32(), null);

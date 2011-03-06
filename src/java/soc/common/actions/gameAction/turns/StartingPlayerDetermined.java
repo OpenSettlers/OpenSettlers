@@ -19,7 +19,7 @@ import soc.common.views.widgetsInterface.actions.ActionWidgetFactory;
 public class StartingPlayerDetermined extends AbstractGameAction
 {
     private static final long serialVersionUID = 4916570503194938187L;
-    private static Meta meta = new Meta()
+    private static transient Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(null, null, null, null);
 

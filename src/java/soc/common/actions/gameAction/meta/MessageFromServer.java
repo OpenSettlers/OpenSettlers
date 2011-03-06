@@ -20,7 +20,7 @@ import soc.common.views.meta.Meta;
 public class MessageFromServer extends AbstractGameAction
 {
     private static final long serialVersionUID = -4467388096445126041L;
-    private static Meta meta = new Meta()
+    private static transient Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(null, null, null, null);
 

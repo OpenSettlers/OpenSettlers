@@ -12,7 +12,7 @@ public class ClayPort extends TwoToOneResourcePort
 {
     private static final long serialVersionUID = -4470924811845087514L;
     private static Clay clay = new Clay();
-    private static Meta meta = new Meta()
+    private static transient Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().clayPort16(),
                         Resources.icons().clayPort32(), Resources.icons()

@@ -29,7 +29,7 @@ public class Town extends AbstractPlayerPiece implements VictoryPointItem,
                 PointPiece, Producable, StockPiece
 {
     private static final long serialVersionUID = -2696233711789990786L;
-    private static Meta meta = new Meta()
+    private static transient Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().town16(), Resources
                         .icons().town32(), Resources.icons().town48());

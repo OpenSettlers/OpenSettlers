@@ -22,7 +22,7 @@ import soc.gwtClient.images.Resources;
 public class PlayDevelopmentCard extends AbstractTurnAction
 {
     private static final long serialVersionUID = 9184498363690392316L;
-    private static Meta meta = new Meta()
+    private static transient Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons()
                         .developmentCardBack16(), Resources.icons()

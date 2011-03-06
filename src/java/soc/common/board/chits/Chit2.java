@@ -9,7 +9,7 @@ import soc.gwtClient.images.Resources;
 public class Chit2 extends AbstractChit
 {
     private static final long serialVersionUID = 289888659445647640L;
-    private static Meta meta = new Meta()
+    private static transient Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().chit216(), Resources
                         .icons().chit232(), Resources.icons().chit248());

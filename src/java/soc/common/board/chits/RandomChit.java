@@ -9,7 +9,7 @@ import soc.gwtClient.images.Resources;
 public class RandomChit implements Chit
 {
     private static final long serialVersionUID = 4450530964160694813L;
-    private static Meta meta = new Meta()
+    private static transient Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().randomChit16(),
                         Resources.icons().randomChit32(), Resources.icons()

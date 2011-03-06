@@ -21,7 +21,7 @@ import soc.gwtClient.images.Resources;
 public class ClaimVictory extends AbstractTurnAction
 {
     private static final long serialVersionUID = 7906062762366374296L;
-    private static Meta meta = new Meta()
+    private static transient Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().claimVictory16(),
                         Resources.icons().claimVictory32(), Resources.icons()

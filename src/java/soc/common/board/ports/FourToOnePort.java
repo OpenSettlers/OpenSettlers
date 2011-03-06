@@ -10,7 +10,7 @@ import soc.common.views.meta.Meta;
 public class FourToOnePort extends AbstractPort
 {
     private static final long serialVersionUID = -9000999299490338479L;
-    private static Meta meta = new Meta()
+    private static transient Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(null, null, null, null);
 

@@ -12,7 +12,7 @@ public class WheatPort extends TwoToOneResourcePort
 {
     private static final long serialVersionUID = -7842108867497790007L;
     public static Wheat wheat = new Wheat();
-    private static Meta meta = new Meta()
+    private static transient Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().wheatPort16(),
                         Resources.icons().wheatPort32(), Resources.icons()

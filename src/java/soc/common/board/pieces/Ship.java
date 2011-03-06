@@ -21,7 +21,7 @@ import soc.common.views.widgetsInterface.visuals.VisualFactory;
 public class Ship extends AbstractPlayerPiece implements SidePiece
 {
     private static final long serialVersionUID = -8125317569107776067L;
-    private static Meta meta = new Meta()
+    private static transient Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(null, null, null, null);
 

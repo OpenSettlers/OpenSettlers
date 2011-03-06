@@ -22,7 +22,7 @@ import soc.gwtClient.images.Resources;
 public class TradePlayer extends AbstractTurnAction
 {
     private static final long serialVersionUID = 1492739389253213310L;
-    private static Meta meta = new Meta()
+    private static transient Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().trade16(), Resources
                         .icons().trade32(), Resources.icons().trade48());

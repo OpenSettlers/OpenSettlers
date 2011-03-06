@@ -21,7 +21,7 @@ import com.google.gwt.event.shared.SimpleEventBus;
 public class Army extends AbstractPlayerPiece implements VictoryPointItem
 {
     private static final long serialVersionUID = 8037446795922927966L;
-    private static Meta meta = new Meta()
+    private static transient Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().army16(), Resources
                         .icons().army32(), Resources.icons().army48());

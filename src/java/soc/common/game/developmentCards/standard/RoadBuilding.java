@@ -15,7 +15,7 @@ import soc.gwtClient.images.Resources;
 public class RoadBuilding extends AbstractDevelopmentCard
 {
     private static final long serialVersionUID = 5867545725527745220L;
-    private static Meta meta = new Meta()
+    private static transient Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().roadBuilding16(),
                         Resources.icons().roadBuilding32(), Resources.icons()

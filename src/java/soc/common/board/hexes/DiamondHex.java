@@ -12,7 +12,7 @@ import com.google.gwt.resources.client.ImageResource;
 public class DiamondHex extends ResourceHex
 {
     private static final long serialVersionUID = 22283290007058031L;
-    private static Meta meta = new Meta()
+    private static transient Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().diamondHex16(),
                         Resources.icons().diamondHex32(), Resources.icons()

@@ -16,7 +16,7 @@ import com.google.gwt.event.shared.SimpleEventBus;
 public class Robber extends AbstractPiece
 {
     private static final long serialVersionUID = 2162591486291994070L;
-    private static Meta meta = new Meta()
+    private static transient Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().robber16(),
                         Resources.icons().robber32(), Resources.icons()

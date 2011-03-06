@@ -20,7 +20,7 @@ import soc.gwtClient.images.Resources;
 public class Soldier extends AbstractDevelopmentCard
 {
     private static final long serialVersionUID = 3097762985301413120L;
-    private static Meta meta = new Meta()
+    private static transient Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().soldier16(),
                         Resources.icons().soldier32(), Resources.icons()

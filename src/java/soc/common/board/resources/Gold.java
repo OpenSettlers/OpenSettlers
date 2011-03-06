@@ -11,7 +11,7 @@ import soc.gwtClient.images.Resources;
 public class Gold extends AbstractResource
 {
     private static final long serialVersionUID = 6496837317375783863L;
-    private static Meta meta = new Meta()
+    private static transient Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().gold16(), Resources
                         .icons().gold32(), Resources.icons().gold48());

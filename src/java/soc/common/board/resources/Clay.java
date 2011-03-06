@@ -9,7 +9,7 @@ import soc.gwtClient.images.Resources;
 public class Clay extends AbstractResource
 {
     private static final long serialVersionUID = -4151296314674387899L;
-    private static Meta meta = new Meta()
+    private static transient Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().clay16(), Resources
                         .icons().clay32(), Resources.icons().clay48());

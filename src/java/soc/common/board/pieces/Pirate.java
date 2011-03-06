@@ -14,7 +14,7 @@ import soc.common.views.widgetsInterface.visuals.VisualFactory;
 public class Pirate extends AbstractPiece
 {
     private static final long serialVersionUID = -2575172800909661845L;
-    private static Meta meta = new Meta()
+    private static transient Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(null, null, null, null);
 

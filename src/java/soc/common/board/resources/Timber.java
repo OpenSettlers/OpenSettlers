@@ -9,7 +9,7 @@ import soc.gwtClient.images.Resources;
 public class Timber extends AbstractResource
 {
     private static final long serialVersionUID = -6537069648667733465L;
-    private static Meta meta = new Meta()
+    private static transient Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().timber16(),
                         Resources.icons().timber32(), Resources.icons()

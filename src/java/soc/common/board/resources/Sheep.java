@@ -9,7 +9,7 @@ import soc.gwtClient.images.Resources;
 public class Sheep extends AbstractResource
 {
     private static final long serialVersionUID = 8756575918873023940L;
-    private static Meta meta = new Meta()
+    private static transient Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().sheep16(), Resources
                         .icons().sheep32(), Resources.icons().sheep48());

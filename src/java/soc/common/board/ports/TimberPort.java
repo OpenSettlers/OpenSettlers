@@ -12,7 +12,7 @@ public class TimberPort extends TwoToOneResourcePort
 {
     private static final long serialVersionUID = 5272778324471373594L;
     private Timber timber = new Timber();
-    private static Meta meta = new Meta()
+    private static transient Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().timberPort32(),
                         null, null, null);

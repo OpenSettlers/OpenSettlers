@@ -35,7 +35,7 @@ import soc.common.views.widgetsInterface.payerInfo.ActionDetailWidget;
 public class RollDice extends AbstractTurnAction
 {
     private static final long serialVersionUID = -7274119531224635888L;
-    private static Meta meta = new Meta()
+    private static transient Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(null, null, null, null);
 

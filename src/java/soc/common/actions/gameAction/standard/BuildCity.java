@@ -28,7 +28,7 @@ import soc.gwtClient.images.Resources;
 public class BuildCity extends AbstractTurnAction
 {
     private static final long serialVersionUID = -2767352130887235545L;
-    private static Meta meta = new Meta()
+    private static transient Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().city16(), Resources
                         .icons().city32(), Resources.icons().city48());

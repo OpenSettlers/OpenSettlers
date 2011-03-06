@@ -21,7 +21,7 @@ public class RejectTradeOffer extends AbstractGameAction implements
                 TradeResponse
 {
     private static final long serialVersionUID = 3831905224550592802L;
-    private static Meta meta = new Meta()
+    private static transient Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().tradeRejected16(),
                         Resources.icons().tradeRejected32(), Resources.icons()

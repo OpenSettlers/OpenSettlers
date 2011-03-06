@@ -19,7 +19,7 @@ public class AcceptTradeOffer extends AbstractGameAction implements
                 TradeResponse
 {
     private static final long serialVersionUID = -1794721147505851423L;
-    private static Meta meta = new Meta()
+    private static transient Meta meta = new Meta()
     {
 
         @Override

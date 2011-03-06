@@ -9,7 +9,7 @@ import soc.gwtClient.images.Resources;
 public class Wheat extends AbstractResource
 {
     private static final long serialVersionUID = -7393820454171830461L;
-    private static Meta meta = new Meta()
+    private static transient Meta meta = new Meta()
     {
         private Icon icon = new IconImpl(Resources.icons().wheat16(), Resources
                         .icons().wheat32(), Resources.icons().wheat48());
