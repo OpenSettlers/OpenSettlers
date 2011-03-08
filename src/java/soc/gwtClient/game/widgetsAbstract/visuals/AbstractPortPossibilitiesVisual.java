@@ -3,8 +3,8 @@ package soc.gwtClient.game.widgetsAbstract.visuals;
 import java.util.ArrayList;
 import java.util.List;
 
-import soc.common.board.HexLocation;
-import soc.common.board.RotationPosition;
+import soc.common.board.layout.HexLocation;
+import soc.common.board.layout.RotationPosition;
 import soc.common.board.ports.AbstractPort;
 import soc.common.board.ports.PossiblePort;
 import soc.common.views.widgetsInterface.visuals.BoardVisual;

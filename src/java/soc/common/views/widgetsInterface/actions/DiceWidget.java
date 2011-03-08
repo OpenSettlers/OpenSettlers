@@ -1,6 +1,6 @@
 package soc.common.views.widgetsInterface.actions;
 
-import soc.common.game.DiceChangedEventHandler;
+import soc.common.game.dices.DiceChangedEventHandler;
 import soc.common.views.widgetsInterface.generic.Point2D;
 
 public interface DiceWidget extends ActionWidget, DiceChangedEventHandler

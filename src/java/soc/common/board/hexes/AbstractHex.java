@@ -1,6 +1,6 @@
 package soc.common.board.hexes;
 
-import soc.common.board.HexLocation;
+import soc.common.board.layout.HexLocation;
 import soc.common.board.ports.Port;
 import soc.common.board.ports.PortChangedEvent;
 import soc.common.board.ports.PortChangedEventHandler;

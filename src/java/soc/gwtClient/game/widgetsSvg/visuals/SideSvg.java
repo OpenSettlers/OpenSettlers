@@ -5,7 +5,7 @@ import org.vaadin.gwtgraphics.client.VectorObject;
 import org.vaadin.gwtgraphics.client.animation.Animate;
 import org.vaadin.gwtgraphics.client.shape.Rectangle;
 
-import soc.common.board.HexSide;
+import soc.common.board.layout.HexSide;
 import soc.common.views.widgetsInterface.generic.Point2D;
 import soc.gwtClient.game.widgetsAbstract.visuals.AbstractSideVisual;
 

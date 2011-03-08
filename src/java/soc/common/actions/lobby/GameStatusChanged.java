@@ -13,9 +13,7 @@ public class GameStatusChanged extends AbstractLobbyAction
     private GameStatus newStatus;
     private int gameId;
 
-    /**
-     * @return the newStatus
-     */
+    /** @return the newStatus */
     public GameStatus getNewStatus()
     {
         return newStatus;
@@ -35,8 +33,8 @@ public class GameStatusChanged extends AbstractLobbyAction
         GameInfo gameInfo = lobby.getGames().findById(gameId);
 
         // Set new status on it
-        if (gameInfo != null)
-            gameInfo.setGameStatus(newStatus);
+        // if (gameInfo != null)
+        // gameInfo.setGameStatus(newStatus);
 
     }
 

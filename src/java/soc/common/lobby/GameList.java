@@ -5,12 +5,13 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.google.gwt.event.shared.EventBus;
+import com.google.gwt.event.shared.HandlerRegistration;
 
 public class GameList implements Iterable<GameInfo>
 {
     private List<GameInfo> games = new ArrayList<GameInfo>();
     private Lobby lobby;
-    private EventBus eventBus;
+    private transient EventBus eventBus;
 
     public GameList(Lobby lobby, EventBus eventBus)
     {
@@ -47,6 +48,12 @@ public class GameList implements Iterable<GameInfo>
             games.remove(findById);
             eventBus.fireEvent(new GameListChangedEvent(null, findById));
         }
+    }
+
+    public HandlerRegistration addGameListChangedEventHandler(
+                    GameListChangedEventHandler handler)
+    {
+        return eventBus.addHandler(GameListChangedEvent.TYPE, handler);
     }
 
 }

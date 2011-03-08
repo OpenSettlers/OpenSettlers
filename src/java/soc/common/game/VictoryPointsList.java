@@ -8,7 +8,7 @@ import java.util.List;
 import com.google.gwt.event.shared.SimpleEventBus;
 
 public class VictoryPointsList implements Iterable<VictoryPointItem>,
-        Serializable
+                Serializable
 {
     private static final long serialVersionUID = 5192452564267423722L;
     private List<VictoryPointItem> points = new ArrayList<VictoryPointItem>();
@@ -36,9 +36,7 @@ public class VictoryPointsList implements Iterable<VictoryPointItem>,
         int result = 0;
 
         for (VictoryPointItem vp : points)
-        {
             result += vp.getVictoryPoints();
-        }
 
         return result;
     }
@@ -50,7 +48,7 @@ public class VictoryPointsList implements Iterable<VictoryPointItem>,
     }
 
     public void addVictoryPointsChangedListener(
-            VictoryPointsChangedEventHandler handler)
+                    VictoryPointsChangedEventHandler handler)
     {
         eventBus.addHandler(VictoryPointsChangedEvent.TYPE, handler);
     }
@@ -60,10 +58,8 @@ public class VictoryPointsList implements Iterable<VictoryPointItem>,
         VictoryPointsList result = new VictoryPointsList();
 
         for (VictoryPointItem point : points)
-        {
             if (point.getClass() == type.getClass())
                 result.add(point);
-        }
 
         return result;
     }

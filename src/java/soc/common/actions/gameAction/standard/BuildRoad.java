@@ -1,7 +1,7 @@
 package soc.common.actions.gameAction.standard;
 
 import soc.common.actions.gameAction.turns.AbstractTurnAction;
-import soc.common.board.HexSide;
+import soc.common.board.layout.HexSide;
 import soc.common.board.pieces.Road;
 import soc.common.game.Game;
 import soc.common.game.phases.GamePhase;

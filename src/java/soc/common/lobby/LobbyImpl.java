@@ -1,9 +1,6 @@
 package soc.common.lobby;
 
-import soc.common.game.UserList;
-import soc.common.lobby.GameList;
-import soc.common.lobby.Lobby;
-import soc.common.lobby.LobbyLog;
+import soc.common.server.entities.UserList;
 
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.SimpleEventBus;
@@ -13,7 +10,7 @@ public class LobbyImpl implements Lobby
     private UserList users;
     private GameList games;
     private LobbyLog log;
-    private EventBus eventBus = new SimpleEventBus();
+    private transient EventBus eventBus = new SimpleEventBus();
 
     public LobbyImpl()
     {

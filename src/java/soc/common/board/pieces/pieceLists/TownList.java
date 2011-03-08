@@ -2,7 +2,7 @@ package soc.common.board.pieces.pieceLists;
 
 import java.io.Serializable;
 
-import soc.common.board.HexPoint;
+import soc.common.board.layout.HexPoint;
 import soc.common.board.pieces.Town;
 
 import com.google.gwt.event.shared.HandlerRegistration;

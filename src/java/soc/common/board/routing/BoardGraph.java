@@ -9,14 +9,14 @@ import org.jgrapht.Graphs;
 import org.jgrapht.graph.ListenableUndirectedGraph;
 
 import soc.common.board.Board;
-import soc.common.board.HexLocation;
-import soc.common.board.HexPoint;
-import soc.common.board.HexSide;
 import soc.common.board.hexes.Hex;
+import soc.common.board.layout.HasPoint;
+import soc.common.board.layout.HexLocation;
+import soc.common.board.layout.HexPoint;
+import soc.common.board.layout.HexSide;
 import soc.common.board.pieces.City;
 import soc.common.board.pieces.Road;
 import soc.common.board.pieces.Town;
-import soc.common.board.pieces.abstractPieces.PointPiece;
 import soc.common.board.routing.longestRoadStrategies.LongestRoadStrategy;
 import soc.common.board.routing.longestRoadStrategies.ReduceStrategy;
 import soc.common.game.Game;
@@ -33,6 +33,8 @@ import soc.common.game.player.GamePlayer;
  * 
  * A dot (HexPoint) is called a vertex. A line (HexSide) is called
  * an edge.
+ * 
+ * TODO: Refactor into GameBoard class
  */
 public class BoardGraph
 {
@@ -244,7 +246,7 @@ public class BoardGraph
     public Set<GraphSide> getRoadCandidatesFirstTown(GamePlayer player)
     {
         // Assuming the player has built only one piece, which is his first town
-        PointPiece first = player.getPointPieces().get(0);
+        HasPoint first = player.getPointPieces().get(0);
 
         // Grab the GraphPoint where the town resides
         GraphPoint townPoint = findGraphPoint(first.getPoint());
@@ -263,7 +265,7 @@ public class BoardGraph
         // Assuming the player has built two pieces, and the second one in the
         // list of pieces is indeed the actual second built piece.
         // TODO: add support for Tournament Starting Rules
-        PointPiece second = player.getPointPieces().get(1);
+        HasPoint second = player.getPointPieces().get(1);
 
         // Grab the GraphPoint where the town resides
         GraphPoint townPoint = findGraphPoint(second.getPoint());
@@ -330,6 +332,9 @@ public class BoardGraph
         return result;
     }
 
+    /*
+     * 
+     */
     public Set<GraphSide> getNeighbours(GraphSide fromSide, GamePlayer player)
     {
         Set<GraphSide> result = new HashSet<GraphSide>();
@@ -337,37 +342,26 @@ public class BoardGraph
         GraphPoint source = graph.getEdgeSource(fromSide);
         GraphPoint target = graph.getEdgeTarget(fromSide);
 
-        // Add the zero or more edges from the source
+        // Add the zero or more edges from the _source_
 
         // GraphPoint must either be owned by no one, or owned by given player
         if (source.getPlayer() == null || source.getPlayer().equals(player))
-        {
+            // Grab neihbours
             for (GraphPoint neighbourPoint : Graphs.neighborListOf(graph,
                             source))
-            {
                 if (!neighbourPoint.equals(target))
-                {
                     result.add(graph.getAllEdges(source, neighbourPoint)
                                     .iterator().next());
-                }
-            }
-        }
 
-        // Add the zero or more edges from the target
+        // Add the zero or more edges from the _target_
 
         // GraphPoint must either be owned by no one, or owned by given player
         if (source.getPlayer() == null || source.getPlayer().equals(player))
-        {
             for (GraphPoint neighbourPoint : Graphs.neighborListOf(graph,
                             target))
-            {
                 if (!neighbourPoint.equals(source))
-                {
                     result.add(graph.getAllEdges(target, neighbourPoint)
                                     .iterator().next());
-                }
-            }
-        }
         return result;
     }
 

@@ -1,15 +1,15 @@
 package soc.common.board.boards;
 
 import soc.common.board.Board;
-import soc.common.board.HexLocation;
-import soc.common.board.RotationPosition;
 import soc.common.board.chits.ChitList;
 import soc.common.board.hexes.Hex;
 import soc.common.board.hexes.HexList;
 import soc.common.board.hexes.NoneHex;
 import soc.common.board.hexes.RandomHex;
 import soc.common.board.hexes.SeaHex;
-import soc.common.board.layouts.HexGrid;
+import soc.common.board.layout.HexGrid;
+import soc.common.board.layout.HexLocation;
+import soc.common.board.layout.RotationPosition;
 import soc.common.board.ports.PortList;
 import soc.common.board.ports.RandomPort;
 import soc.common.board.settings.BoardSettings;

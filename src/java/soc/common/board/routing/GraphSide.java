@@ -1,7 +1,7 @@
 package soc.common.board.routing;
 
-import soc.common.board.HexSide;
-import soc.common.board.pieces.abstractPieces.SidePiece;
+import soc.common.board.layout.HasSide;
+import soc.common.board.layout.HexSide;
 
 public interface GraphSide extends GraphElement
 {
@@ -9,5 +9,5 @@ public interface GraphSide extends GraphElement
 
     public boolean isBuildable();
 
-    public SidePiece getSidePiece();
+    public HasSide getSidePiece();
 }

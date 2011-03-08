@@ -2,7 +2,7 @@ package soc.common.board.pieces.pieceLists;
 
 import java.io.Serializable;
 
-import soc.common.board.HexSide;
+import soc.common.board.layout.HexSide;
 import soc.common.board.pieces.Road;
 
 import com.google.gwt.event.shared.HandlerRegistration;

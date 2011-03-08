@@ -1,8 +1,8 @@
 package soc.common.actions.gameAction.standard;
 
 import soc.common.actions.gameAction.turns.AbstractTurnAction;
-import soc.common.board.HexLocation;
 import soc.common.board.hexes.Hex;
+import soc.common.board.layout.HexLocation;
 import soc.common.game.Game;
 import soc.common.game.phases.GamePhase;
 import soc.common.game.phases.turnPhase.TurnPhase;

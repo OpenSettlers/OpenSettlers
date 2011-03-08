@@ -1,10 +1,10 @@
 package soc.common.board.rules;
 
 import soc.common.board.Board;
-import soc.common.board.HexLocation;
 import soc.common.board.hexes.AbstractHex;
 import soc.common.board.hexes.Hex;
 import soc.common.board.hexes.NoneHex;
+import soc.common.board.layout.HexLocation;
 
 /*
  * NoneHexes should always be bordered with SeaHexes. 

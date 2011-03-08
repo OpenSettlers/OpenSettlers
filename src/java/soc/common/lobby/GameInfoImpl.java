@@ -3,8 +3,6 @@ package soc.common.lobby;
 import java.util.ArrayList;
 import java.util.List;
 
-import soc.common.game.settings.GameSettings;
-import soc.common.game.statuses.GameStatus;
 import soc.common.server.entities.User;
 
 public class GameInfoImpl implements GameInfo
@@ -15,21 +13,21 @@ public class GameInfoImpl implements GameInfo
     private User host;
     private List<User> players = new ArrayList<User>();
     private String boardId;
-    private GameSettings gameSettings;
-    private GameStatus gameStatus;
+
+    // private GameSettings gameSettings;
+    // private GameStatus gameStatus;
 
     public GameInfoImpl()
     {
     }
 
-    public GameInfoImpl(String name, User host, String boardId,
-            GameSettings gameSettings)
+    public GameInfoImpl(String name, User host, String boardId)
     {
         super();
         this.name = name;
         this.host = host;
         this.boardId = boardId;
-        this.gameSettings = gameSettings;
+        // this.gameSettings = gameSettings;
     }
 
     @Override
@@ -61,26 +59,24 @@ public class GameInfoImpl implements GameInfo
     {
         return boardId;
     }
+    //
+    // @Override
+    // public GameSettings getSettings()
+    // {
+    // return gameSettings;
+    // }
+    //
+    // @Override
+    // public GameStatus getGameStatus()
+    // {
+    // return gameStatus;
+    // }
 
-    @Override
-    public GameSettings getSettings()
-    {
-        return gameSettings;
-    }
-
-    @Override
-    public GameStatus getGameStatus()
-    {
-        return gameStatus;
-    }
-
-    /**
-     * @param gameStatus
-     *            the gameStatus to set
-     */
-    public GameInfo setGameStatus(GameStatus gameStatus)
-    {
-        this.gameStatus = gameStatus;
-        return this;
-    }
+    // /** @param gameStatus
+    // * the gameStatus to set */
+    // public GameInfo setGameStatus(GameStatus gameStatus)
+    // {
+    // this.gameStatus = gameStatus;
+    // return this;
+    // }
 }

@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 import soc.common.board.Board;
-import soc.common.board.HexLocation;
 import soc.common.board.chits.Chit;
 import soc.common.board.hexes.Hex;
 import soc.common.board.hexes.RandomHex;
+import soc.common.board.layout.HexLocation;
 import soc.common.board.territories.Territory;
 import soc.common.core.Core;
 import soc.common.game.Game;

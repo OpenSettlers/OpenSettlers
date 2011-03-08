@@ -1,6 +1,6 @@
 package soc.common.views.widgetsInterface.visuals;
 
-import soc.common.board.HexPoint;
+import soc.common.board.layout.HexPoint;
 
 public interface PointVisual extends PieceVisual
 {

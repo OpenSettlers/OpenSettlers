@@ -3,8 +3,8 @@ package soc.gwtClient.game.widgetsAbstract.visuals;
 import java.util.HashMap;
 import java.util.Map;
 
+import soc.common.board.layout.HasSide;
 import soc.common.board.pieces.abstractPieces.Piece;
-import soc.common.board.pieces.abstractPieces.SidePiece;
 import soc.common.board.pieces.pieceLists.PiecesChangedEvent;
 import soc.common.board.pieces.pieceLists.PiecesChangedEventHandler;
 import soc.common.board.routing.GraphPoint;
@@ -259,7 +259,7 @@ public abstract class AbstractGameBoardVisual extends AbstractBoardVisual
 
         for (GraphSide side : route.getEdgeList())
         {
-            SidePiece sidePiece = route.getPlayer().getSidePieces().get(
+            HasSide sidePiece = route.getPlayer().getSidePieces().get(
                     side.getSide());
             playerPieceVisuals.get(sidePiece).setSelected(true);
         }

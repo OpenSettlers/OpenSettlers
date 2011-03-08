@@ -4,7 +4,7 @@ import java.util.List;
 
 import soc.common.actions.gameAction.turns.AbstractTurnAction;
 import soc.common.annotations.Standard;
-import soc.common.board.HexPoint;
+import soc.common.board.layout.HexPoint;
 import soc.common.board.resources.Resource;
 import soc.common.game.Game;
 import soc.common.game.phases.GamePhase;

@@ -41,31 +41,31 @@ public class SvgVisualFactory implements VisualFactory
 
     public PirateVisual createPirateVisual(Pirate pirate)
     {
-        return new PirateSvg(pirate, parent);
+        return new PirateSvg(parent, pirate);
     }
 
     @Override
     public RobberVisual createRobberVisual(Robber robber)
     {
-        return new RobberSvg(robber, parent);
+        return new RobberSvg(parent, robber);
     }
 
     @Override
     public CityVisual createCityVisual(City city)
     {
-        return new CitySvg(city, parent);
+        return new CitySvg(parent, city);
     }
 
     @Override
     public RoadVisual createRoadVisual(Road road)
     {
-        return new RoadSvg(road, parent);
+        return new RoadSvg(parent, road);
     }
 
     @Override
     public TownVisual createTownVisual(Town town)
     {
-        return new TownSvg(town, parent);
+        return new TownSvg(parent, town);
     }
 
     @Override

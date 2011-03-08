@@ -11,7 +11,7 @@ public class PirateSvg extends AbstractPirateVisual implements SvgVisual
     Group group = new Group();
     GameBoardSvg parent;
 
-    public PirateSvg(Pirate pirate, GameBoardSvg parent)
+    public PirateSvg(GameBoardSvg parent, Pirate pirate)
     {
         super(pirate);
         this.parent = parent;

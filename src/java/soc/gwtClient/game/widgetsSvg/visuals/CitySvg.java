@@ -12,7 +12,7 @@ public class CitySvg extends AbstractCityVisual implements SvgVisual
     private Path cityPath;
     private GameBoardSvg parent;
 
-    public CitySvg(City city, GameBoardSvg parent)
+    public CitySvg(GameBoardSvg parent, City city)
     {
         super(city);
         this.parent = parent;

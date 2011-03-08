@@ -1,7 +1,7 @@
 package soc.common.board.pieces;
 
 import soc.common.annotations.SeaFarers;
-import soc.common.board.HexPoint;
+import soc.common.board.layout.HexPoint;
 import soc.common.board.pieces.abstractPieces.AbstractPlayerPiece;
 import soc.common.board.territories.Territory;
 import soc.common.game.VictoryPointItem;

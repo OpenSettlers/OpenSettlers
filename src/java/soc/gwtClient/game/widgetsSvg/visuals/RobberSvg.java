@@ -18,7 +18,7 @@ public class RobberSvg extends AbstractRobberVisual implements SvgVisual,
     private Circle head;
     private Circle body;
 
-    public RobberSvg(Robber robber, GameBoardSvg parent)
+    public RobberSvg(GameBoardSvg parent, Robber robber)
     {
         super(robber);
         this.parent = parent;

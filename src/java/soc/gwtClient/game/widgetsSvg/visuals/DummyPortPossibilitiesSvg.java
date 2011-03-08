@@ -3,7 +3,7 @@ package soc.gwtClient.game.widgetsSvg.visuals;
 import org.vaadin.gwtgraphics.client.VectorObject;
 import org.vaadin.gwtgraphics.client.shape.Circle;
 
-import soc.common.board.HexLocation;
+import soc.common.board.layout.HexLocation;
 import soc.common.views.widgetsInterface.visuals.BoardVisual;
 import soc.common.views.widgetsInterface.visuals.PortPossibilitiesVisual;
 import soc.gwtClient.game.widgetsAbstract.visuals.AbstractPieceVisual;

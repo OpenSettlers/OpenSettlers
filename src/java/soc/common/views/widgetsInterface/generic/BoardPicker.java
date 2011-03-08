@@ -25,5 +25,7 @@ public interface BoardPicker extends IsWidget
      * Enable listeners to get notified when the selected board changed
      */
     public HandlerRegistration addBoardChangedHandler(
-            BoardChangedEventHandler handler);
+                    BoardChangedEventHandler handler);
+
+    public void selectFirst();
 }

@@ -3,8 +3,8 @@ package soc.common.board.routing.longestRoadStrategies;
 import java.util.ArrayList;
 import java.util.List;
 
-import soc.common.board.HexSide;
-import soc.common.board.pieces.abstractPieces.SidePiece;
+import soc.common.board.layout.HasSide;
+import soc.common.board.layout.HexSide;
 import soc.common.board.routing.BoardGraph;
 import soc.common.board.routing.GraphPoint;
 import soc.common.board.routing.Route;
@@ -37,7 +37,7 @@ public class BruteForce2Strategy implements LongestRoadStrategy
     private Route getLongest(GamePlayer player)
     {
         List<List<GraphPoint>> routesWithoutEnd = new ArrayList<List<GraphPoint>>();
-        for (SidePiece piece : player.getSidePieces())
+        for (HasSide piece : player.getSidePieces())
         {
             List<GraphPoint> newRoute = new ArrayList<GraphPoint>();
             List<GraphPoint> newRoute2 = new ArrayList<GraphPoint>();

@@ -1,6 +1,6 @@
 package soc.common.board.pieces;
 
-import soc.common.board.HexLocation;
+import soc.common.board.layout.HexLocation;
 
 import com.google.gwt.event.shared.GwtEvent;
 

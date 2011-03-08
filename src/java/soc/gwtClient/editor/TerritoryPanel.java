@@ -211,13 +211,10 @@ public class TerritoryPanel extends VerticalPanel implements
     public void onTerritoriesChanged(TerritoriesChangedEvent event)
     {
         if (event.getAddedTerritory() != null)
-        {
             addTerritoryButton(event.getAddedTerritory());
-        }
+
         if (event.getRemovedTerritory() != null)
-        {
             removeTerritoryButton(event.getRemovedTerritory());
-        }
     }
 
     private void removeTerritoryButton(Territory removedTerritory)

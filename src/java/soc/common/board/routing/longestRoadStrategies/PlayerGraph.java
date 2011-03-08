@@ -15,9 +15,10 @@ import soc.common.board.routing.Route;
 import soc.common.game.player.GamePlayer;
 
 /*
- * A PlayerGraph is a graph containing all edges and vertices of a player.
+ * A PlayerGraph is a graph containing all edges (roads, ships, bridges) and
+ * vertices (towns, cities, knights) of a player.
  * The PlayerGraph does not contain edges of opponents, but it can contain
- * vertices (cities, towns, knights) from opponents. 
+ * vertices (cities, towns, knights) from opponents.
  */
 public class PlayerGraph
 {
@@ -29,7 +30,7 @@ public class PlayerGraph
 
     // Subgraph containing only sides/point with a path in between
     private UndirectedGraph<GraphPoint, GraphSide> graph = new SimpleGraph<GraphPoint, GraphSide>(
-            GraphSide.class);
+                    GraphSide.class);
 
     // Reference to the mother graph
     private BoardGraph boardGraph;
@@ -51,9 +52,7 @@ public class PlayerGraph
         longestPath = calculatLongestPath();
     }
 
-    /**
-     * @return the longestPath
-     */
+    /** @return the longestPath */
     public Route getLongestPath()
     {
         return longestPath;
@@ -129,10 +128,10 @@ public class PlayerGraph
     /*
      * Calculates longest path using SoC rules.
      * 
-     * 1. Creates a list of routes assembled from ends and splits 2. Loops until
-     * all routes encountered an end 3. Each iteration takes a route, and either
-     * detects the route ends, or adds the lookahead GraphPoint 4. Loop ends
-     * when all routes have ended
+     * 1. Creates a list of routes assembled from ends and splits. 2. Loops until
+     * all routes encountered an end. 3. Each iteration takes a route, and either
+     * detects the route ends, or adds the lookahead GraphPoint. 4. Loop ends
+     * when all routes have ended.
      * 
      * Takes ends and splits as starting points to calculate the longest path.
      * This will usually work, but not when there is a loop without an end or
@@ -140,7 +139,8 @@ public class PlayerGraph
      * possible route.
      * 
      * Loops without ends and splits may occur multiple times, and more then 2
-     * times when a volcano is supported. Sequences of roads may be split when a
+     * times when a volcano is supported (extremely rare edge case, but still possible).
+     * Sequences of roads may be split when a
      * volcano disconnects a road + town + ship combination, and the ship is
      * later moved away.
      */
@@ -202,17 +202,16 @@ public class PlayerGraph
             {
                 GraphPoint lookAheadPoint = otherPoint(endPoint, beforeEndPoint);
                 GraphSide lookAheadSide = graph.getEdge(endPoint,
-                        lookAheadPoint);
+                                lookAheadPoint);
 
                 // We can't add a lookahead side twice, and the lookahead must
                 // connect to the end side
                 if (currentRoute.contains(endPoint, lookAheadPoint)
-                        || !canConnect(endSide, lookAheadSide))
+                                || !canConnect(endSide, lookAheadSide))
                 {
                     paths.add(currentRoute);
                     routesToProcess.remove(currentRoute);
-                }
-                else
+                } else
                 {
                     currentRoute.addPoint(lookAheadPoint);
                     if (loopChecker.contains(lookAheadSide))
@@ -224,13 +223,13 @@ public class PlayerGraph
             if (graph.degreeOf(endPoint) == 3)
             {
                 List<GraphPoint> otherPoints = otherPoints(endPoint,
-                        beforeEndPoint);
+                                beforeEndPoint);
                 GraphPoint lookAheadPoint1 = otherPoints.get(0);
                 GraphPoint lookAheadPoint2 = otherPoints.get(1);
                 GraphSide lookAheadSide1 = graph.getEdge(endPoint,
-                        lookAheadPoint1);
+                                lookAheadPoint1);
                 GraphSide lookAheadSide2 = graph.getEdge(endPoint,
-                        lookAheadPoint2);
+                                lookAheadPoint2);
 
                 // The current route should be copied when both lookahead sides
                 // are valid to include in a possible route
@@ -238,12 +237,11 @@ public class PlayerGraph
 
                 // Check the first lookahead point
                 if (currentRoute.contains(endPoint, lookAheadPoint1)
-                        || !canConnect(endSide, lookAheadSide1))
+                                || !canConnect(endSide, lookAheadSide1))
                 {
                     paths.add(currentRoute);
                     routesToProcess.remove(currentRoute);
-                }
-                else
+                } else
                 {
                     currentRoute.addPoint(lookAheadPoint1);
                     if (loopChecker.contains(lookAheadSide1))
@@ -253,12 +251,11 @@ public class PlayerGraph
 
                 // Check the second lookahead point
                 if (currentRoute.contains(endPoint, lookAheadPoint2)
-                        || !canConnect(endSide, lookAheadSide2))
+                                || !canConnect(endSide, lookAheadSide2))
                 {
                     paths.add(currentRoute);
                     routesToProcess.remove(currentRoute);
-                }
-                else
+                } else
                 {
                     if (shouldCopy)
                         currentRoute = currentRoute.copy();
@@ -276,10 +273,10 @@ public class PlayerGraph
                 GraphPoint source = graph.getEdgeSource(whateverSide);
                 GraphPoint target = graph.getEdgeTarget(whateverSide);
                 PossibleRoute routeToProcess = new PossibleRoute(boardGraph,
-                        source, target);
+                                source, target);
                 routesToProcess.add(routeToProcess);
                 PossibleRoute routeToProcess2 = new PossibleRoute(boardGraph,
-                        target, source);
+                                target, source);
                 routesToProcess.add(routeToProcess2);
                 loopChecker.remove(whateverSide);
             }
@@ -330,7 +327,7 @@ public class PlayerGraph
         for (GraphPoint end : ends)
         {
             PossibleRoute routeToProcess = new PossibleRoute(boardGraph, end,
-                    otherPoint(end));
+                            otherPoint(end));
             routesToProcess.add(routeToProcess);
         }
 
@@ -340,7 +337,7 @@ public class PlayerGraph
             {
                 GraphPoint otherPoint = boardGraph.getOtherPoint(split, side);
                 PossibleRoute routeToProcess = new PossibleRoute(boardGraph,
-                        split, otherPoint);
+                                split, otherPoint);
                 routesToProcess.add(routeToProcess);
             }
     }

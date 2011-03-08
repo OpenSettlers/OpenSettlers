@@ -11,6 +11,7 @@ import net.zschech.gwt.comet.server.CometServlet;
 import net.zschech.gwt.comet.server.CometSession;
 import soc.common.actions.lobby.LobbyAction;
 import soc.common.lobby.Lobby;
+import soc.common.lobby.LobbyImpl;
 import soc.common.lobby.LoginResponse;
 import soc.common.server.GreetingService;
 import soc.common.server.JoinResult;
@@ -19,6 +20,7 @@ import soc.common.server.LoginResponseImpl;
 import soc.common.server.UserCredentials;
 import soc.common.server.entities.Player;
 import soc.common.server.entities.User;
+import soc.common.server.lobbyActions.DefaultServerLobbyActionFactory;
 import soc.common.server.lobbyActions.ServerLobbyAction;
 import soc.common.server.lobbyActions.ServerLobbyActionFactory;
 
@@ -33,8 +35,9 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
     private ConcurrentMap<User, CometSession> users = new ConcurrentHashMap<User, CometSession>();
     private ObjectContainer database;
     private static int userid = 0;
-    private ServerLobbyActionFactory factory;
-    private Lobby lobby;
+    private ServerLobbyActionFactory factory = new DefaultServerLobbyActionFactory(
+                    this);
+    private Lobby lobby = new LobbyImpl();
 
     /*
      * (non-Javadoc)

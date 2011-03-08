@@ -1,10 +1,10 @@
 package soc.common.board.pieces;
 
 import soc.common.board.Board;
-import soc.common.board.HexPoint;
 import soc.common.board.hexes.Hex;
+import soc.common.board.layout.HasPoint;
+import soc.common.board.layout.HexPoint;
 import soc.common.board.pieces.abstractPieces.AbstractPlayerPiece;
-import soc.common.board.pieces.abstractPieces.PointPiece;
 import soc.common.board.pieces.abstractPieces.Producable;
 import soc.common.board.pieces.abstractPieces.StockPiece;
 import soc.common.board.resources.Ore;
@@ -24,7 +24,7 @@ import soc.common.views.widgetsInterface.visuals.VisualFactory;
 import soc.gwtClient.images.Resources;
 
 public class City extends AbstractPlayerPiece implements VictoryPointItem,
-                PointPiece, Producable, StockPiece
+                HasPoint, Producable, StockPiece
 {
     private static final long serialVersionUID = 6682481845539642397L;
     private static transient Meta meta = new Meta()
@@ -72,12 +72,6 @@ public class City extends AbstractPlayerPiece implements VictoryPointItem,
         return result;
     }
 
-    @Override
-    public String toString()
-    {
-        return "City";
-    }
-
     /*
      * (non-Javadoc)
      * 
@@ -115,10 +109,9 @@ public class City extends AbstractPlayerPiece implements VictoryPointItem,
     }
 
     @Override
-    public PointPiece setPoint(HexPoint point)
+    public HasPoint setPoint(HexPoint point)
     {
         pointLocation = point;
-
         return this;
     }
 
@@ -143,7 +136,7 @@ public class City extends AbstractPlayerPiece implements VictoryPointItem,
     @Override
     public void removeFromPlayer(GamePlayer player)
     {
-
+        // TODO: implement for volcano's
     }
 
     @Override
@@ -172,6 +165,7 @@ public class City extends AbstractPlayerPiece implements VictoryPointItem,
     @Override
     public void removeFromBoard(Board board)
     {
+        // TODO: Implement for volcano's
     }
 
     @Override

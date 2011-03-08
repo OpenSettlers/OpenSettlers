@@ -2,9 +2,9 @@ package soc.gwtClient.lobby;
 
 import java.util.List;
 
-import soc.common.game.UserListChangedEvent;
-import soc.common.game.UserListChangedEventHandler;
 import soc.common.server.entities.User;
+import soc.common.server.entities.UserListChangedEvent;
+import soc.common.server.entities.UserListChangedEventHandler;
 import soc.common.views.widgetsInterface.lobby.LobbyWidget;
 import soc.common.views.widgetsInterface.lobby.UserListWidget;
 

@@ -3,9 +3,9 @@ package soc.common.server;
 import java.util.ArrayList;
 import java.util.List;
 
-import soc.common.game.UserList;
 import soc.common.lobby.GameInfo;
 import soc.common.lobby.LoginResponse;
+import soc.common.server.entities.UserList;
 
 public class LoginResponseImpl implements LoginResponse
 {

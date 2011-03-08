@@ -1,7 +1,7 @@
 package soc.common.board.ports;
 
-import soc.common.board.HexLocation;
-import soc.common.board.RotationPosition;
+import soc.common.board.layout.HexLocation;
+import soc.common.board.layout.RotationPosition;
 import soc.common.internationalization.I18n;
 import soc.common.views.meta.Icon;
 import soc.common.views.meta.IconImpl;

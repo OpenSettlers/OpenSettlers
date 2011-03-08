@@ -1,10 +1,10 @@
 package soc.common.board.pieces;
 
 import soc.common.board.Board;
-import soc.common.board.HexPoint;
 import soc.common.board.hexes.Hex;
+import soc.common.board.layout.HasPoint;
+import soc.common.board.layout.HexPoint;
 import soc.common.board.pieces.abstractPieces.AbstractPlayerPiece;
-import soc.common.board.pieces.abstractPieces.PointPiece;
 import soc.common.board.pieces.abstractPieces.Producable;
 import soc.common.board.pieces.abstractPieces.StockPiece;
 import soc.common.board.resources.Clay;
@@ -26,7 +26,7 @@ import soc.common.views.widgetsInterface.visuals.VisualFactory;
 import soc.gwtClient.images.Resources;
 
 public class Town extends AbstractPlayerPiece implements VictoryPointItem,
-                PointPiece, Producable, StockPiece
+                HasPoint, Producable, StockPiece
 {
     private static final long serialVersionUID = -2696233711789990786L;
     private static transient Meta meta = new Meta()
@@ -109,7 +109,7 @@ public class Town extends AbstractPlayerPiece implements VictoryPointItem,
     }
 
     @Override
-    public PointPiece setPoint(HexPoint point)
+    public HasPoint setPoint(HexPoint point)
     {
         this.pointLocation = point;
 

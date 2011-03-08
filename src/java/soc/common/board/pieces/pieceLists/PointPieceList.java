@@ -5,28 +5,28 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import soc.common.board.HexPoint;
-import soc.common.board.pieces.abstractPieces.PointPiece;
+import soc.common.board.layout.HasPoint;
+import soc.common.board.layout.HexPoint;
 
-public class PointPieceList implements Iterable<PointPiece>, Serializable
+public class PointPieceList implements Iterable<HasPoint>, Serializable
 {
     private static final long serialVersionUID = -5650123247361039636L;
-    private List<PointPiece> pointPieces = new ArrayList<PointPiece>();
+    private List<HasPoint> pointPieces = new ArrayList<HasPoint>();
     private List<HexPoint> points = new ArrayList<HexPoint>();
 
     @Override
-    public Iterator<PointPiece> iterator()
+    public Iterator<HasPoint> iterator()
     {
         return pointPieces.iterator();
     }
 
-    public void add(PointPiece pointPiece)
+    public void add(HasPoint pointPiece)
     {
         pointPieces.add(pointPiece);
         points.add(pointPiece.getPoint());
     }
 
-    public void remove(PointPiece pointPiece)
+    public void remove(HasPoint pointPiece)
     {
         pointPieces.remove(pointPiece);
         points.remove(pointPiece.getPoint());
@@ -34,7 +34,7 @@ public class PointPieceList implements Iterable<PointPiece>, Serializable
 
     public void addList(PointPieceList listToAdd)
     {
-        for (PointPiece pointPiece : listToAdd)
+        for (HasPoint pointPiece : listToAdd)
             add(pointPiece);
     }
 
@@ -53,7 +53,7 @@ public class PointPieceList implements Iterable<PointPiece>, Serializable
         return points;
     }
 
-    public PointPiece get(int i)
+    public HasPoint get(int i)
     {
         return pointPieces.get(0);
     }

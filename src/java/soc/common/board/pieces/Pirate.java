@@ -1,7 +1,7 @@
 package soc.common.board.pieces;
 
 import soc.common.annotations.SeaFarers;
-import soc.common.board.HexLocation;
+import soc.common.board.layout.HexLocation;
 import soc.common.board.pieces.abstractPieces.AbstractPiece;
 import soc.common.internationalization.I18n;
 import soc.common.views.meta.Icon;

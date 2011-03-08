@@ -3,7 +3,7 @@ package soc.common.views.behaviour.gameBoard;
 import java.util.ArrayList;
 import java.util.List;
 
-import soc.common.board.HexPoint;
+import soc.common.board.layout.HexPoint;
 import soc.common.views.widgetsInterface.visuals.GameBoardVisual;
 import soc.common.views.widgetsInterface.visuals.PointVisual;
 import soc.common.views.widgetsInterface.visuals.PieceVisual;

@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import soc.common.actions.gameAction.turns.AbstractTurnAction;
-import soc.common.board.HexLocation;
-import soc.common.board.HexPoint;
-import soc.common.board.HexSide;
 import soc.common.board.hexes.Hex;
+import soc.common.board.layout.HexLocation;
+import soc.common.board.layout.HexPoint;
+import soc.common.board.layout.HexSide;
 import soc.common.board.pieces.Town;
 import soc.common.board.pieces.pieceLists.PointPieceList;
 import soc.common.board.ports.Port;

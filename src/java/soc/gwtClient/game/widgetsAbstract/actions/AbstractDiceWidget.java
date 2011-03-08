@@ -1,6 +1,6 @@
 package soc.gwtClient.game.widgetsAbstract.actions;
 
-import soc.common.game.DiceChangedEventHandler;
+import soc.common.game.dices.DiceChangedEventHandler;
 import soc.common.views.widgetsInterface.actions.DiceWidget;
 
 import com.google.gwt.user.client.ui.ComplexPanel;

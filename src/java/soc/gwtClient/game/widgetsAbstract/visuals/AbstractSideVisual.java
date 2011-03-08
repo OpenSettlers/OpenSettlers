@@ -3,7 +3,7 @@ package soc.gwtClient.game.widgetsAbstract.visuals;
 import java.util.ArrayList;
 import java.util.List;
 
-import soc.common.board.HexSide;
+import soc.common.board.layout.HexSide;
 import soc.common.views.widgetsInterface.visuals.SideVisual;
 import soc.common.views.widgetsInterface.visuals.PieceVisual;
 

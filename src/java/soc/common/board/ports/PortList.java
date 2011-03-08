@@ -8,6 +8,7 @@ import java.util.List;
 import soc.common.board.resources.Resource;
 import soc.common.board.resources.ResourceList;
 
+import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
 
@@ -15,8 +16,8 @@ public class PortList implements Iterable<Port>, Serializable
 {
     private static final long serialVersionUID = 2465609717722438326L;
     private ResourceList tradeableResourceTypes = ResourceList
-            .tradeableResources();
-    private transient SimpleEventBus eventBus;
+                    .tradeableResources();
+    private transient EventBus eventBus = new SimpleEventBus();
     private List<Port> ports = new ArrayList<Port>();
 
     public static PortList newMain4p()
@@ -33,24 +34,6 @@ public class PortList implements Iterable<Port>, Serializable
         result.add(new SheepPort());
 
         return result;
-    }
-
-    private SimpleEventBus getEventBus()
-    {
-        if (eventBus == null)
-        {
-            eventBus = new SimpleEventBus();
-        }
-
-        return eventBus;
-    }
-
-    private void safelyFireEvent(PortListChangedEvent event)
-    {
-        if (eventBus != null)
-        {
-            eventBus.fireEvent(event);
-        }
     }
 
     /*
@@ -102,8 +85,6 @@ public class PortList implements Iterable<Port>, Serializable
 
     public PortList()
     {
-        // Add default 4:1 port to the list of ports
-        ports.add(new FourToOnePort());
     }
 
     /*
@@ -116,13 +97,13 @@ public class PortList implements Iterable<Port>, Serializable
     public void add(Port port)
     {
         ports.add(port);
-        safelyFireEvent(new PortListChangedEvent(port, null));
+        eventBus.fireEvent(new PortListChangedEvent(port, null));
     }
 
     public void remove(Port port)
     {
         ports.remove(port);
-        safelyFireEvent(new PortListChangedEvent(null, port));
+        eventBus.fireEvent(new PortListChangedEvent(null, port));
     }
 
     /*
@@ -140,9 +121,9 @@ public class PortList implements Iterable<Port>, Serializable
     }
 
     public HandlerRegistration addPortListChangedEventHandler(
-            PortListChangedEventHandler handler)
+                    PortListChangedEventHandler handler)
     {
-        return getEventBus().addHandler(PortListChangedEvent.TYPE, handler);
+        return eventBus.addHandler(PortListChangedEvent.TYPE, handler);
     }
 
     /*
@@ -150,7 +131,7 @@ public class PortList implements Iterable<Port>, Serializable
      * is a 4:1 port, it ignores this port and returns null
      */
     public Port getBestPortForResource(Resource resourceType,
-            boolean ignoreFourToOne)
+                    boolean ignoreFourToOne)
     {
         Port result = null;
         int amountNeeded = 6;

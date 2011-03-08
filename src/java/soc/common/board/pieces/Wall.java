@@ -3,9 +3,9 @@ package soc.common.board.pieces;
 import soc.common.annotations.CitiesKnights;
 import soc.common.annotations.Pioneers;
 import soc.common.board.Board;
-import soc.common.board.HexPoint;
+import soc.common.board.layout.HasPoint;
+import soc.common.board.layout.HexPoint;
 import soc.common.board.pieces.abstractPieces.AbstractPlayerPiece;
-import soc.common.board.pieces.abstractPieces.PointPiece;
 import soc.common.game.player.GamePlayer;
 import soc.common.internationalization.I18n;
 import soc.common.views.meta.Icon;
@@ -16,7 +16,7 @@ import soc.common.views.widgetsInterface.visuals.VisualFactory;
 
 @CitiesKnights
 @Pioneers
-public class Wall extends AbstractPlayerPiece implements PointPiece
+public class Wall extends AbstractPlayerPiece implements HasPoint
 {
     private static final long serialVersionUID = 5417867350330920841L;
     private static transient Meta meta = new Meta()
@@ -56,7 +56,7 @@ public class Wall extends AbstractPlayerPiece implements PointPiece
     }
 
     @Override
-    public PointPiece setPoint(HexPoint point)
+    public HasPoint setPoint(HexPoint point)
     {
         this.pointLocation = point;
         return this;

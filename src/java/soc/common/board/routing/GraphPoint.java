@@ -2,8 +2,8 @@ package soc.common.board.routing;
 
 import java.io.Serializable;
 
-import soc.common.board.HexPoint;
-import soc.common.board.pieces.abstractPieces.PointPiece;
+import soc.common.board.layout.HasPoint;
+import soc.common.board.layout.HexPoint;
 
 public interface GraphPoint extends GraphElement, Serializable
 {
@@ -16,5 +16,5 @@ public interface GraphPoint extends GraphElement, Serializable
 
     public GraphPoint setTownBuildable(boolean townBuildable);
 
-    public PointPiece getPointPiece();
+    public HasPoint getPointPiece();
 }

@@ -1,8 +1,8 @@
 package soc.common.board.routing;
 
-import soc.common.board.HexSide;
+import soc.common.board.layout.HasSide;
+import soc.common.board.layout.HexSide;
 import soc.common.board.pieces.abstractPieces.PlayerPiece;
-import soc.common.board.pieces.abstractPieces.SidePiece;
 import soc.common.game.player.GamePlayer;
 
 public class GraphSideImpl implements GraphSide
@@ -96,8 +96,8 @@ public class GraphSideImpl implements GraphSide
     }
 
     @Override
-    public SidePiece getSidePiece()
+    public HasSide getSidePiece()
     {
-        return (SidePiece) playerPiece;
+        return (HasSide) playerPiece;
     }
 }

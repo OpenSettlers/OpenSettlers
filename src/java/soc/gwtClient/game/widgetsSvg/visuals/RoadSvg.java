@@ -14,7 +14,7 @@ public class RoadSvg extends AbstractRoadVisual implements SvgVisual
     int normalStrokeWidth = 2;
     int selectedStrokeWidth = 5;
 
-    public RoadSvg(Road road, GameBoardSvg parent)
+    public RoadSvg(GameBoardSvg parent, Road road)
     {
         super(road);
         this.parent = parent;

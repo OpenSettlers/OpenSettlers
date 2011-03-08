@@ -9,6 +9,7 @@ import soc.common.game.variants.rules.NormalDices;
 import soc.common.game.variants.rules.StandardActions;
 import soc.common.game.variants.rules.StandardDevelopmentCards;
 import soc.common.game.variants.rules.StandardStock;
+import soc.common.game.variants.rules.TradeBank41;
 import soc.common.game.variants.rules.UseLargestArmy;
 import soc.common.game.variants.rules.UseRobber;
 
@@ -28,6 +29,7 @@ public class Standard extends AbstractRuleSet
         rules.add(new UseRobber());
 
         rules.add(new StandardStock());
+        rules.add(new TradeBank41());
 
         rules.add(new StandardDevelopmentCards());
         rules.add(new NormalDices());

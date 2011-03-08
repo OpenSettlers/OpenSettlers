@@ -1,8 +1,8 @@
 package soc.common.board.routing;
 
-import soc.common.board.HexPoint;
+import soc.common.board.layout.HasPoint;
+import soc.common.board.layout.HexPoint;
 import soc.common.board.pieces.abstractPieces.PlayerPiece;
-import soc.common.board.pieces.abstractPieces.PointPiece;
 import soc.common.game.player.GamePlayer;
 
 import com.google.gwt.user.client.Random;
@@ -121,7 +121,7 @@ public class BlockedEndPoint implements GraphPoint
     }
 
     @Override
-    public PointPiece getPointPiece()
+    public HasPoint getPointPiece()
     {
         return null;
     }

@@ -6,11 +6,11 @@ import org.vaadin.gwtgraphics.client.shape.Rectangle;
 import soc.common.board.Board;
 import soc.common.board.HexChangedEvent;
 import soc.common.board.HexChangedEventHandler;
-import soc.common.board.HexLocation;
-import soc.common.board.HexPoint;
-import soc.common.board.HexPointType;
-import soc.common.board.HexSide;
 import soc.common.board.hexes.Hex;
+import soc.common.board.layout.HexLocation;
+import soc.common.board.layout.HexPoint;
+import soc.common.board.layout.HexPointType;
+import soc.common.board.layout.HexSide;
 import soc.common.views.widgetsInterface.generic.Point2D;
 import soc.common.views.widgetsInterface.visuals.HexVisual;
 import soc.gwtClient.editor.BehaviourChanged;
@@ -19,14 +19,12 @@ import soc.gwtClient.game.widgetsAbstract.visuals.AbstractBoardVisual;
 import com.google.gwt.user.client.ui.Widget;
 
 public class BoardSvg extends AbstractBoardVisual implements
-        HexChangedEventHandler
+                HexChangedEventHandler
 {
     private DrawingArea drawingArea;
     private Rectangle enabledOverlay;
 
-    /**
-     * @return the drawingArea
-     */
+    /** @return the drawingArea */
     public DrawingArea getDrawingArea()
     {
         return drawingArea;
@@ -55,7 +53,7 @@ public class BoardSvg extends AbstractBoardVisual implements
         }
 
         enabledOverlay = new Rectangle(0, 0, drawingArea.getWidth(),
-                drawingArea.getHeight());
+                        drawingArea.getHeight());
         enabledOverlay.setFillColor("Black");
         enabledOverlay.setFillOpacity(0.5);
     }
@@ -90,18 +88,18 @@ public class BoardSvg extends AbstractBoardVisual implements
 
         switch (location.getDirection())
         {
-        case SLOPEDOWN:
-            x += getHexagonWidth() * 0.25;
-            y += (getBottomHeight() * 0.5) + getPartialHeight();
-            break;
-        case SLOPEUP:
-            x += getHexagonWidth() * 0.75;
-            y += (getBottomHeight() * 0.5) + getPartialHeight();
-            break;
-        case UPDOWN:
-            x += getHexagonWidth();
-            y += getHeight() * 0.5;
-            break;
+            case SLOPEDOWN:
+                x += getHexagonWidth() * 0.25;
+                y += (getBottomHeight() * 0.5) + getPartialHeight();
+                break;
+            case SLOPEUP:
+                x += getHexagonWidth() * 0.75;
+                y += (getBottomHeight() * 0.5) + getPartialHeight();
+                break;
+            case UPDOWN:
+                x += getHexagonWidth();
+                y += getHeight() * 0.5;
+                break;
         }
         return new Point2D((int) x, (int) y);
     }
@@ -119,8 +117,7 @@ public class BoardSvg extends AbstractBoardVisual implements
         {
             // x += getHalfWidth();
             y += getHeight();
-        }
-        else
+        } else
         {
             x += getHalfWidth();
             y += getPartialHeight();
@@ -170,7 +167,7 @@ public class BoardSvg extends AbstractBoardVisual implements
         double factor = widthFactor > heightFactor ? heightFactor : widthFactor;
 
         // Scale the sidelength to the new factor
-        sideLength = sideLength * factor;
+        sideLength *= factor;
 
         // Update the rest of the hex sizes
         calculateHexSizes();

@@ -1,6 +1,6 @@
 package soc.common.lobby;
 
-import soc.common.game.UserList;
+import soc.common.server.entities.UserList;
 
 public interface Lobby
 {

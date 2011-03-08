@@ -6,8 +6,8 @@ import java.util.Set;
 
 import org.jgrapht.Graph;
 
-import soc.common.board.HexPoint;
-import soc.common.board.HexSide;
+import soc.common.board.layout.HexPoint;
+import soc.common.board.layout.HexSide;
 import soc.common.game.player.GamePlayer;
 
 public class RouteImpl implements Route

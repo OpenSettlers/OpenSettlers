@@ -2,9 +2,9 @@ package soc.common.board.hexes;
 
 import java.io.Serializable;
 
-import soc.common.board.HexLocation;
 import soc.common.board.chits.Chit;
-import soc.common.board.layouts.HasLocation;
+import soc.common.board.layout.HasLocation;
+import soc.common.board.layout.HexLocation;
 import soc.common.board.ports.Port;
 import soc.common.board.ports.PortChangedEventHandler;
 import soc.common.board.resources.Resource;

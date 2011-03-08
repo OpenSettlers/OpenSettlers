@@ -2,9 +2,9 @@ package soc.common.board.pieces;
 
 import soc.common.annotations.SeaFarers;
 import soc.common.board.Board;
-import soc.common.board.HexSide;
+import soc.common.board.layout.HasSide;
+import soc.common.board.layout.HexSide;
 import soc.common.board.pieces.abstractPieces.AbstractPlayerPiece;
-import soc.common.board.pieces.abstractPieces.SidePiece;
 import soc.common.board.resources.ResourceList;
 import soc.common.board.resources.Sheep;
 import soc.common.board.resources.Timber;
@@ -18,7 +18,7 @@ import soc.common.views.widgetsInterface.visuals.PieceVisual;
 import soc.common.views.widgetsInterface.visuals.VisualFactory;
 
 @SeaFarers
-public class Ship extends AbstractPlayerPiece implements SidePiece
+public class Ship extends AbstractPlayerPiece implements HasSide
 {
     private static final long serialVersionUID = -8125317569107776067L;
     private static transient Meta meta = new Meta()
@@ -136,7 +136,7 @@ public class Ship extends AbstractPlayerPiece implements SidePiece
     }
 
     @Override
-    public SidePiece setSide(HexSide side)
+    public HasSide setSide(HexSide side)
     {
         this.sideLocation = side;
         return this;
@@ -159,7 +159,7 @@ public class Ship extends AbstractPlayerPiece implements SidePiece
     }
 
     @Override
-    public boolean canConnect(GraphPoint graphPoint, SidePiece otherPiece)
+    public boolean canConnect(GraphPoint graphPoint, HasSide otherPiece)
     {
         return (player.equals(graphPoint.getPlayer()) || graphPoint.getPlayer() == null)
                         && otherPiece.connectsWithShip();

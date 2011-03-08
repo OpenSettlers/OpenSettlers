@@ -15,7 +15,7 @@ public class LobbyLog implements Iterable<LobbyAction>
 {
     private List<LobbyAction> lobbyActions = new ArrayList<LobbyAction>();
     private Lobby lobby;
-    private EventBus eventBus;
+    private transient EventBus eventBus;
 
     public LobbyLog(Lobby lobby, EventBus eventBus)
     {
@@ -31,7 +31,7 @@ public class LobbyLog implements Iterable<LobbyAction>
     }
 
     public HandlerRegistration addLobbyActionEventHandler(
-            LobbyActionEventHandler handler)
+                    LobbyActionEventHandler handler)
     {
         return eventBus.addHandler(LobbyActionEvent.TYPE, handler);
     }

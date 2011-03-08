@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import soc.common.board.HexPoint;
-import soc.common.board.HexSide;
-import soc.common.board.pieces.abstractPieces.PointPiece;
-import soc.common.board.pieces.abstractPieces.SidePiece;
+import soc.common.board.layout.HasPoint;
+import soc.common.board.layout.HasSide;
+import soc.common.board.layout.HexPoint;
+import soc.common.board.layout.HexSide;
 import soc.common.board.pieces.pieceLists.SidePieceList;
 import soc.common.board.routing.BoardGraph;
 import soc.common.board.routing.GraphPoint;
@@ -56,7 +56,7 @@ public class BruteForceStrategy implements LongestRoadStrategy
 
             // Fill the list with all encountered towns & cities
             for (GamePlayer opponent : game.getPlayers().getOpponents(player))
-                for (PointPiece pointPiece : opponent.getPointPieces())
+                for (HasPoint pointPiece : opponent.getPointPieces())
                     opponentsTownsCities.add(pointPiece.getPoint());
 
             // Finally, add the list to the HashMap
@@ -104,7 +104,7 @@ public class BruteForceStrategy implements LongestRoadStrategy
 
         List<HexPoint> uniqueJoins = new ArrayList<HexPoint>();
 
-        for (SidePiece sidePiece : roadsShips)
+        for (HasSide sidePiece : roadsShips)
         {
             HexPoint p1 = sidePiece.getSide().getHexPoint1();
             HexPoint p2 = sidePiece.getSide().getHexPoint2();
@@ -117,7 +117,7 @@ public class BruteForceStrategy implements LongestRoadStrategy
         }
 
         // create a new route possibility for each unique hexpoint
-        for (SidePiece piece : roadsShips)
+        for (HasSide piece : roadsShips)
         {
             List<HexPoint> newRoute = new ArrayList<HexPoint>();
             List<HexPoint> newRoute2 = new ArrayList<HexPoint>();

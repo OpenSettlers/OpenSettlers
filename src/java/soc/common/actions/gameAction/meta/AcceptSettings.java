@@ -14,6 +14,9 @@ import soc.common.views.meta.Meta;
 import soc.common.views.widgetsInterface.actions.ActionWidget;
 import soc.common.views.widgetsInterface.actions.ActionWidgetFactory;
 
+/*
+ * Opponents on the game table in the lobby phase, optionally must say "Ok, let's play!!"
+ */
 public class AcceptSettings extends AbstractGameAction
 {
     private static final long serialVersionUID = 8181882830703417988L;
@@ -53,13 +56,13 @@ public class AcceptSettings extends AbstractGameAction
     @Override
     public String getToDoMessage()
     {
-        return I18n.get().actions().acceptSettingsToDo(
-                player.getUser().getName());
+        return I18n.get().actions()
+                        .acceptSettingsToDo(player.getUser().getName());
     }
 
     @Override
     public ActionWidget createActionWidget(
-            ActionWidgetFactory actionWidgetFactory)
+                    ActionWidgetFactory actionWidgetFactory)
     {
         // TODO Auto-generated method stub
         return null;
@@ -67,7 +70,7 @@ public class AcceptSettings extends AbstractGameAction
 
     @Override
     public GameBehaviour getNextActionBehaviour(
-            GameBehaviourFactory gameBehaviourFactory)
+                    GameBehaviourFactory gameBehaviourFactory)
     {
         // TODO Auto-generated method stub
         return null;
@@ -75,7 +78,7 @@ public class AcceptSettings extends AbstractGameAction
 
     @Override
     public ReceiveGameBehaviour getOpponentReceiveBehaviour(
-            ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
+                    ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
         // TODO Auto-generated method stub
         return null;
@@ -83,7 +86,7 @@ public class AcceptSettings extends AbstractGameAction
 
     @Override
     public ReceiveGameBehaviour getReceiveBehaviour(
-            ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
+                    ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
     {
         // TODO Auto-generated method stub
         return null;
@@ -91,7 +94,7 @@ public class AcceptSettings extends AbstractGameAction
 
     @Override
     public GameBehaviour getSendBehaviour(
-            GameBehaviourFactory gameBehaviourFactory)
+                    GameBehaviourFactory gameBehaviourFactory)
     {
         // TODO Auto-generated method stub
         return null;

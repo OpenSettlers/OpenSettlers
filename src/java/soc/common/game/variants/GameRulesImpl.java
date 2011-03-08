@@ -5,8 +5,8 @@ import java.util.List;
 
 import soc.common.actions.gameAction.turns.AbstractTurnAction;
 import soc.common.actions.gameAction.turns.TurnAction;
-import soc.common.board.HexLocation;
 import soc.common.board.hexes.Hex;
+import soc.common.board.layout.HexLocation;
 import soc.common.board.pieces.Army;
 import soc.common.board.pieces.City;
 import soc.common.board.pieces.Road;
@@ -14,6 +14,7 @@ import soc.common.board.pieces.Robber;
 import soc.common.board.pieces.Town;
 import soc.common.board.pieces.abstractPieces.Piece;
 import soc.common.board.pieces.abstractPieces.StockPiece;
+import soc.common.board.ports.Port;
 import soc.common.board.ports.PortList;
 import soc.common.board.resources.Resource;
 import soc.common.game.Game;
@@ -39,6 +40,7 @@ public class GameRulesImpl implements GameRules
     private List<Resource> tradeableResources = new ArrayList<Resource>();
     private DevelopmentCardList devCards;
     private PortList supportedPorts = new PortList(true);
+    private PortList portsAtStart = new PortList();
 
     private int stockTowns;
     private int stockCities;
@@ -69,18 +71,14 @@ public class GameRulesImpl implements GameRules
         variants.add(new Standard(game));
     }
 
-    /**
-     * @return the isSeaFarers
-     */
+    /** @return the isSeaFarers */
     public boolean isSeaFarers()
     {
         return isSeaFarers;
     }
 
-    /**
-     * @param isSeaFarers
-     *            the isSeaFarers to set
-     */
+    /** @param isSeaFarers
+     *            the isSeaFarers to set */
     public GameRulesImpl setSeaFarers(boolean isSeaFarers)
     {
         this.isSeaFarers = isSeaFarers;
@@ -88,18 +86,14 @@ public class GameRulesImpl implements GameRules
         return this;
     }
 
-    /**
-     * @return the isSa3D
-     */
+    /** @return the isSa3D */
     public boolean isSa3D()
     {
         return isSa3D;
     }
 
-    /**
-     * @param isSa3D
-     *            the isSa3D to set
-     */
+    /** @param isSa3D
+     *            the isSa3D to set */
     public GameRulesImpl setSa3D(boolean isSa3D)
     {
         this.isSa3D = isSa3D;
@@ -107,18 +101,14 @@ public class GameRulesImpl implements GameRules
         return this;
     }
 
-    /**
-     * @return the isCitiesKnights
-     */
+    /** @return the isCitiesKnights */
     public boolean isCitiesKnights()
     {
         return isCitiesKnights;
     }
 
-    /**
-     * @param isCitiesKnights
-     *            the isCitiesKnights to set
-     */
+    /** @param isCitiesKnights
+     *            the isCitiesKnights to set */
     public GameRulesImpl setCitiesKnights(boolean isCitiesKnights)
     {
         this.isCitiesKnights = isCitiesKnights;
@@ -126,18 +116,14 @@ public class GameRulesImpl implements GameRules
         return this;
     }
 
-    /**
-     * @return the isExtended
-     */
+    /** @return the isExtended */
     public boolean isExtended()
     {
         return isExtended;
     }
 
-    /**
-     * @param isExtended
-     *            the isExtended to set
-     */
+    /** @param isExtended
+     *            the isExtended to set */
     public GameRulesImpl setExtended(boolean isExtended)
     {
         this.isExtended = isExtended;
@@ -145,18 +131,14 @@ public class GameRulesImpl implements GameRules
         return this;
     }
 
-    /**
-     * @return the isPioneers
-     */
+    /** @return the isPioneers */
     public boolean isPioneers()
     {
         return isPioneers;
     }
 
-    /**
-     * @param isPioneers
-     *            the isPioneers to set
-     */
+    /** @param isPioneers
+     *            the isPioneers to set */
     public GameRulesImpl setPioneers(boolean isPioneers)
     {
         this.isPioneers = isPioneers;
@@ -164,18 +146,14 @@ public class GameRulesImpl implements GameRules
         return this;
     }
 
-    /**
-     * @return the isTeamGame
-     */
+    /** @return the isTeamGame */
     public boolean isTeamGame()
     {
         return isTeamGame;
     }
 
-    /**
-     * @param isTeamGame
-     *            the isTeamGame to set
-     */
+    /** @param isTeamGame
+     *            the isTeamGame to set */
     public GameRulesImpl setTeamGame(boolean isTeamGame)
     {
         this.isTeamGame = isTeamGame;
@@ -189,17 +167,13 @@ public class GameRulesImpl implements GameRules
         return null;
     }
 
-    /**
-     * @return the possibleActions
-     */
+    /** @return the possibleActions */
     public List<TurnAction> getPossibleActions()
     {
         return possibleActions;
     }
 
-    /**
-     * @return the playableResources
-     */
+    /** @return the playableResources */
     public List<Resource> getSupportedResources()
     {
         return playableResources;
@@ -210,17 +184,13 @@ public class GameRulesImpl implements GameRules
         return tradeableResources;
     }
 
-    /**
-     * @return the stockPieces
-     */
+    /** @return the stockPieces */
     public List<StockPiece> getStockPieces()
     {
         return stockPieceTypes;
     }
 
-    /**
-     * @return the bankAmountPerResource
-     */
+    /** @return the bankAmountPerResource */
     public int getBankAmountPerResource()
     {
         return bankAmountPerResource;
@@ -276,6 +246,7 @@ public class GameRulesImpl implements GameRules
         createBank();
         createTradeableResources();
         createPlayerStocks();
+        createInitialPortList();
         createStockPieces();
         game.setCurrentDice(getDiceType());
         game.setDevelopmentCards(devCards);
@@ -296,14 +267,14 @@ public class GameRulesImpl implements GameRules
         for (GamePlayer player : game.getPlayers())
         {
             for (int i = 0; i < stockCities; i++)
-                player.getStock().getCities().add(
-                        (City) new City().setPlayer(player));
+                player.getStock().getCities()
+                                .add((City) new City().setPlayer(player));
             for (int i = 0; i < stockTowns; i++)
-                player.getStock().getTowns().add(
-                        (Town) new Town().setPlayer(player));
+                player.getStock().getTowns()
+                                .add((Town) new Town().setPlayer(player));
             for (int i = 0; i < stockRoads; i++)
-                player.getStock().getRoads().add(
-                        (Road) new Road().setPlayer(player));
+                player.getStock().getRoads()
+                                .add((Road) new Road().setPlayer(player));
         }
     }
 
@@ -312,6 +283,13 @@ public class GameRulesImpl implements GameRules
         for (Resource resource : getSupportedResources())
             if (resource.isTradeable())
                 tradeableResources.add(resource);
+    }
+
+    private void createInitialPortList()
+    {
+        for (GamePlayer player : game.getPlayers())
+            for (Port port : portsAtStart)
+                player.getPorts().add(port);
     }
 
     /*
@@ -437,10 +415,15 @@ public class GameRulesImpl implements GameRules
 
     @Override
     public GameRules setInitialPlacementStrategy(
-            InitialPlacementStrategy strategy)
+                    InitialPlacementStrategy strategy)
     {
         this.placementStrategy = strategy;
         return this;
+    }
+
+    public PortList getPortsAtStart()
+    {
+        return portsAtStart;
     }
 
 }

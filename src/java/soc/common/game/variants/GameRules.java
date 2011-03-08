@@ -109,5 +109,6 @@ public interface GameRules extends Serializable
     public InitialPlacementStrategy getInitialPlacementStrategy();
 
     public GameRules setInitialPlacementStrategy(
-            InitialPlacementStrategy strategy);
+                    InitialPlacementStrategy strategy);
+    public PortList getPortsAtStart();
 }

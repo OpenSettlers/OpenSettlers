@@ -1,9 +1,9 @@
 package soc.common.board.pieces;
 
 import soc.common.board.Board;
-import soc.common.board.HexSide;
+import soc.common.board.layout.HasSide;
+import soc.common.board.layout.HexSide;
 import soc.common.board.pieces.abstractPieces.AbstractPlayerPiece;
-import soc.common.board.pieces.abstractPieces.SidePiece;
 import soc.common.board.pieces.abstractPieces.StockPiece;
 import soc.common.board.resources.Clay;
 import soc.common.board.resources.ResourceList;
@@ -20,7 +20,7 @@ import soc.common.views.widgetsInterface.visuals.PieceVisual;
 import soc.common.views.widgetsInterface.visuals.VisualFactory;
 import soc.gwtClient.images.Resources;
 
-public class Road extends AbstractPlayerPiece implements SidePiece, StockPiece
+public class Road extends AbstractPlayerPiece implements HasSide, StockPiece
 {
     private static final long serialVersionUID = -6137419255953696891L;
     private static transient Meta meta = new Meta()
@@ -112,7 +112,7 @@ public class Road extends AbstractPlayerPiece implements SidePiece, StockPiece
     }
 
     @Override
-    public SidePiece setSide(HexSide side)
+    public HasSide setSide(HexSide side)
     {
         sideLocation = side;
         return null;
@@ -149,7 +149,7 @@ public class Road extends AbstractPlayerPiece implements SidePiece, StockPiece
     }
 
     @Override
-    public boolean canConnect(GraphPoint graphPoint, SidePiece otherPiece)
+    public boolean canConnect(GraphPoint graphPoint, HasSide otherPiece)
     {
         return (player.equals(graphPoint.getPlayer()) || graphPoint.getPlayer() == null)
                         && otherPiece.connectsWithRoad();

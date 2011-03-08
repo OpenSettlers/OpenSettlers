@@ -6,22 +6,24 @@ import java.util.Date;
 import soc.common.actions.Action;
 import soc.common.actions.gameAction.GameAction;
 import soc.common.board.Board;
-import soc.common.board.HexLocation;
 import soc.common.board.hexes.DesertHex;
 import soc.common.board.hexes.Hex;
+import soc.common.board.layout.HasPoint;
+import soc.common.board.layout.HexLocation;
 import soc.common.board.pieces.Army;
 import soc.common.board.pieces.LongestRoad;
 import soc.common.board.pieces.Pirate;
 import soc.common.board.pieces.Robber;
 import soc.common.board.pieces.abstractPieces.BoardPiece;
 import soc.common.board.pieces.abstractPieces.PlayerPiece;
-import soc.common.board.pieces.abstractPieces.PointPiece;
 import soc.common.board.pieces.pieceLists.PointPieceList;
 import soc.common.board.pieces.pieceLists.SidePieceList;
 import soc.common.board.resources.ResourceList;
 import soc.common.board.routing.Route;
 import soc.common.game.developmentCards.DevelopmentCardList;
 import soc.common.game.dices.Dice;
+import soc.common.game.dices.DiceChangedEvent;
+import soc.common.game.dices.DiceChangedEventHandler;
 import soc.common.game.logs.ActionsQueue;
 import soc.common.game.logs.ActionsQueueImpl;
 import soc.common.game.logs.ChatLog;
@@ -42,6 +44,7 @@ import soc.common.game.statuses.Playing;
 import soc.common.game.trading.TradeResponse;
 import soc.common.game.variants.GameRules;
 import soc.common.game.variants.GameRulesImpl;
+import soc.common.server.entities.UserList;
 import soc.common.server.randomization.ClientRandom;
 import soc.common.server.randomization.Random;
 
@@ -344,7 +347,7 @@ public class Game implements Serializable
         for (GamePlayer player : players.getOpponents(skipPlayer))
             // If a PointPiece has given HexLocation contained, add the player
             // to the list of players having a town or city at given HexLocation
-            for (PointPiece pointPiece : player.getPointPieces())
+            for (HasPoint pointPiece : player.getPointPieces())
                 if (pointPiece.getPoint().hasLocation(hexLocation))
                     playersAtHex.add(player);
 

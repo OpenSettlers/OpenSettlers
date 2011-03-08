@@ -1,9 +1,9 @@
 package soc.common.actions.gameAction.standard;
 
 import soc.common.actions.gameAction.turns.AbstractTurnAction;
-import soc.common.board.HexLocation;
-import soc.common.board.HexPoint;
 import soc.common.board.hexes.Hex;
+import soc.common.board.layout.HexLocation;
+import soc.common.board.layout.HexPoint;
 import soc.common.board.pieces.City;
 import soc.common.board.pieces.Town;
 import soc.common.board.resources.ResourceList;

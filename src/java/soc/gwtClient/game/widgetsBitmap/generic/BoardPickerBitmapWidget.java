@@ -25,7 +25,7 @@ import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 
 /*
- * Displays a table with detailed board information. When the user picks a board 
+ * Displays a table with detailed board information. When the user picks a board
  * from the table, the board is previewed in a small encapsulated board viewer widget
  */
 public class BoardPickerBitmapWidget extends Composite implements BoardPicker
@@ -45,6 +45,7 @@ public class BoardPickerBitmapWidget extends Composite implements BoardPicker
             return item == null ? null : item.getId();
         }
     };
+    private SingleSelectionModel selectionModel;
 
     public BoardPickerBitmapWidget()
     {
@@ -53,35 +54,30 @@ public class BoardPickerBitmapWidget extends Composite implements BoardPicker
         initWidget(rootPanel);
 
         cellTable = new CellTable<Board>(boardKeyProvider);
-        final SingleSelectionModel selectionModel = new SingleSelectionModel<Board>();
-        selectionModel
-                .addSelectionChangeHandler(new SelectionChangeEvent.Handler()
+        selectionModel = new SingleSelectionModel<Board>();
+        selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler()
+        {
+            @Override
+            public void onSelectionChange(SelectionChangeEvent event)
+            {
+                if (selectionModel.getSelectedObject() != null)
                 {
-                    @Override
-                    public void onSelectionChange(SelectionChangeEvent event)
-                    {
-                        if (selectionModel.getSelectedObject() != null)
-                        {
-                            selectedBoard = (Board) selectionModel
-                                    .getSelectedObject();
-                            int width = panelBoardPreview.getOffsetWidth();
-                            int height = panelBoardPreview.getOffsetHeight();
-                            BoardViewerSvgWidget widget = new BoardViewerSvgWidget(
+                    selectedBoard = (Board) selectionModel.getSelectedObject();
+                    int width = panelBoardPreview.getOffsetWidth();
+                    int height = panelBoardPreview.getOffsetHeight();
+                    BoardViewerSvgWidget widget = new BoardViewerSvgWidget(
                                     selectedBoard, width, height);
-                            panelBoardPreview.setWidget(widget);
-                        }
-                        else
-                        {
-                            panelBoardPreview.setWidget(null);
-                            selectedBoard = null;
-                        }
+                    panelBoardPreview.setWidget(widget);
+                } else
+                {
+                    panelBoardPreview.setWidget(null);
+                    selectedBoard = null;
+                }
 
-                        eventBus
-                                .fireEvent(new BoardChangedEvent(selectedBoard));
-                    }
-                });
+                eventBus.fireEvent(new BoardChangedEvent(selectedBoard));
+            }
+        });
         cellTable.setSelectionModel(selectionModel);
-
         Column<Board, ?> columnVP = new Column<Board, Number>(new NumberCell())
         {
             @Override
@@ -118,7 +114,7 @@ public class BoardPickerBitmapWidget extends Composite implements BoardPicker
             public String getValue(Board object)
             {
                 return Integer.toString(object.getBoardSettings()
-                        .getAmountPlayers().getAmountPlayers());
+                                .getAmountPlayers().getAmountPlayers());
             }
         };
         cellTable.addColumn(amountPlayersColumn, "# players");
@@ -134,7 +130,7 @@ public class BoardPickerBitmapWidget extends Composite implements BoardPicker
 
     @Override
     public HandlerRegistration addBoardChangedHandler(
-            BoardChangedEventHandler handler)
+                    BoardChangedEventHandler handler)
     {
         return eventBus.addHandler(BoardChangedEvent.TYPE, handler);
     }
@@ -149,5 +145,11 @@ public class BoardPickerBitmapWidget extends Composite implements BoardPicker
     public boolean hasBoardSelected()
     {
         return selectedBoard != null;
+    }
+
+    @Override
+    public void selectFirst()
+    {
+        selectionModel.setSelected(boardProvider.getAllBoards().get(0), true);
     }
 }

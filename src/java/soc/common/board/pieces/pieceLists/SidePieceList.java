@@ -5,24 +5,24 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import soc.common.board.HexSide;
-import soc.common.board.pieces.abstractPieces.SidePiece;
+import soc.common.board.layout.HasSide;
+import soc.common.board.layout.HexSide;
 
-public class SidePieceList implements Iterable<SidePiece>, Serializable
+public class SidePieceList implements Iterable<HasSide>, Serializable
 {
     private static final long serialVersionUID = 7047263447536155603L;
-    private List<SidePiece> sidePieces = new ArrayList<SidePiece>();
+    private List<HasSide> sidePieces = new ArrayList<HasSide>();
     private List<HexSide> sides = new ArrayList<HexSide>();
 
     @Override
-    public Iterator<SidePiece> iterator()
+    public Iterator<HasSide> iterator()
     {
         return sidePieces.iterator();
     }
 
     public void addList(SidePieceList listToAdd)
     {
-        for (SidePiece sidePiece : listToAdd)
+        for (HasSide sidePiece : listToAdd)
         {
             add(sidePiece);
         }
@@ -33,13 +33,13 @@ public class SidePieceList implements Iterable<SidePiece>, Serializable
         return sides.contains(side);
     }
 
-    public void add(SidePiece sidePiece)
+    public void add(HasSide sidePiece)
     {
         sidePieces.add(sidePiece);
         sides.add(sidePiece.getSide());
     }
 
-    public SidePiece get(HexSide side)
+    public HasSide get(HexSide side)
     {
         return sidePieces.get(sides.indexOf(side));
     }

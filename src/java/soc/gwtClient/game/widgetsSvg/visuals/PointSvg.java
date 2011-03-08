@@ -5,7 +5,7 @@ import org.vaadin.gwtgraphics.client.VectorObject;
 import org.vaadin.gwtgraphics.client.animation.Animate;
 import org.vaadin.gwtgraphics.client.shape.Circle;
 
-import soc.common.board.HexPoint;
+import soc.common.board.layout.HexPoint;
 import soc.common.views.widgetsInterface.generic.Point2D;
 import soc.common.views.widgetsInterface.visuals.GameBoardVisual;
 import soc.common.views.widgetsInterface.visuals.PieceVisual;

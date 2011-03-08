@@ -1,7 +1,7 @@
 package soc.common.board;
 
-import soc.common.board.HexLocation;
-import soc.common.board.HexPoint;
+import soc.common.board.layout.HexLocation;
+import soc.common.board.layout.HexPoint;
 
 import com.google.gwt.junit.client.GWTTestCase;
 

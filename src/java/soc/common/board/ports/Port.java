@@ -2,9 +2,9 @@ package soc.common.board.ports;
 
 import java.io.Serializable;
 
-import soc.common.board.HexLocation;
-import soc.common.board.HexSide;
-import soc.common.board.RotationPosition;
+import soc.common.board.layout.HexLocation;
+import soc.common.board.layout.HexSide;
+import soc.common.board.layout.RotationPosition;
 import soc.common.board.resources.Resource;
 import soc.common.board.resources.ResourceList;
 import soc.common.views.meta.HasMeta;

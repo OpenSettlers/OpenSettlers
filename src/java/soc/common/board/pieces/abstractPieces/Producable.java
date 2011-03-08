@@ -1,7 +1,7 @@
 package soc.common.board.pieces.abstractPieces;
 
-import soc.common.board.HexPoint;
 import soc.common.board.hexes.Hex;
+import soc.common.board.layout.HexPoint;
 import soc.common.board.resources.ResourceList;
 import soc.common.game.variants.GameRules;
 

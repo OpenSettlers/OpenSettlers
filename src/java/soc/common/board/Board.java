@@ -5,10 +5,14 @@ import java.io.Serializable;
 import soc.common.board.hexes.AbstractHex;
 import soc.common.board.hexes.Hex;
 import soc.common.board.hexes.SeaHex;
+import soc.common.board.layout.HexGrid;
+import soc.common.board.layout.HexLayout;
+import soc.common.board.layout.HexLocation;
+import soc.common.board.layout.HexPoint;
+import soc.common.board.layout.HexSide;
+import soc.common.board.layout.RotationPosition;
 import soc.common.board.layoutStrategies.LayoutStrategy;
 import soc.common.board.layoutStrategies.RedsFirstLayout;
-import soc.common.board.layouts.HexGrid;
-import soc.common.board.layouts.HexLayout;
 import soc.common.board.ports.Port;
 import soc.common.board.ports.PortList;
 import soc.common.board.ports.PossiblePort;
@@ -21,39 +25,6 @@ import soc.common.board.territories.TerritoryList;
 import soc.common.game.Game;
 import soc.common.server.randomization.ClientRandom;
 import soc.common.server.randomization.Random;
-
-/*
- * Represents the board data structure. 
-
- *  A board is made up of hexes in a 2D matrix. The even rows of the matrix 
- *  have an indentation length on the left side half the width of a hex.
- * For example, a 5x5 sized board will have the layout of:
-
- *  <code>
- *  |H| |H| |H| |H| |H|     0
- *    |H| |H| |H| |H| |H|   1
- *  |H| |H| |H| |H| |H|     2
- *    |H| |H| |H| |H| |H|   3
- *  |H| |H| |H| |H| |H|     4
- *  </code>
- *  
- *  Sea3D has the same layout, only has the last hexes of the even rows 
- *  omitted. Thus, a Sea3D 'compatible' board would have the following
- *  layout:
- *  
- *  <code>
- *  |H| |H| |H| |H| |H|     0
- *    |H| |H| |H| |H|       1
- *  |H| |H| |H| |H| |H|     2
- *    |H| |H| |H| |H|       3
- *  |H| |H| |H| |H| |H|     4
- *  </code>
- *  
- * The last hexes of each even row in a 'Sea3D compatible' configuration
- *  should be made invisible, and/or locked.
- *  
- *  Each board should be designed for a fixed amount of players
- */
 
 public class Board implements Serializable
 {
@@ -84,10 +55,14 @@ public class Board implements Serializable
      * List of territories associated with this board
      */
     protected TerritoryList territories = new TerritoryList()
-            .addNew(new TerritoryImpl().setMainland(true));
+                    .addNew(new TerritoryImpl().setMainland(true));
 
+    /*
+     * Creates a default new board by given width and height
+     */
     public Board(int width, int height)
     {
+        // Store hexes into some HexLayout
         this.hexes = new HexGrid(width, height);
 
         // Default empty board is filled with seahexes
@@ -112,6 +87,7 @@ public class Board implements Serializable
 
     // / <summary>
     // / Resizes the board to a new size.
+    // Untested
     // / </summary>
     // / <param name="newWidth">New width of the board</param>
     // / <param name="newHeight">New height of the board</param>
@@ -130,7 +106,7 @@ public class Board implements Serializable
 
         // HexList removedHexes = new HexList
 
-        // loop through new sized matrix.
+        // loop through new sized matrix, row by row.
         for (int h = 0; h < newHeight; h++)
             for (int w = 0; w < newWidth; w++)
                 // when width or height is bigger then original, add hexes
@@ -141,24 +117,22 @@ public class Board implements Serializable
                     // if outer bounds, put a SeaHex in place, otherwise a
                     // defaulthex
                     if (w == newWidth - 1 || w == 0 || h == newHeight - 1
-                            || h == 0)
+                                    || h == 0)
                         newHex = new SeaHex();
                     else
                         newHex = defaultHex.copy();
 
                     newHex.setLocation(new HexLocation(w, h));
                     newboard.set(w, h, newHex);
-                }
-                else
+                } else
                 {
                     // if outer bounds, put a seahex in place,
                     // otherwise the defaulthex
                     if (w == newWidth - 1 || w == 0 || h == newHeight - 1
-                            || h == 0)
+                                    || h == 0)
                     {
                         newboard.set(w, h, new SeaHex());
-                    }
-                    else
+                    } else
                     {
                         newboard.set(w, h, defaultHex.copy());
                     }
@@ -204,16 +178,11 @@ public class Board implements Serializable
         // Each SeaHex has 6 possibilities.
         PortList possibilities = new PortList();
         possibilities.add(new PossiblePort(seaLocation, RotationPosition.DEG0));
-        possibilities
-                .add(new PossiblePort(seaLocation, RotationPosition.DEG60));
-        possibilities
-                .add(new PossiblePort(seaLocation, RotationPosition.DEG120));
-        possibilities
-                .add(new PossiblePort(seaLocation, RotationPosition.DEG180));
-        possibilities
-                .add(new PossiblePort(seaLocation, RotationPosition.DEG240));
-        possibilities
-                .add(new PossiblePort(seaLocation, RotationPosition.DEG300));
+        possibilities.add(new PossiblePort(seaLocation, RotationPosition.DEG60));
+        possibilities.add(new PossiblePort(seaLocation, RotationPosition.DEG120));
+        possibilities.add(new PossiblePort(seaLocation, RotationPosition.DEG180));
+        possibilities.add(new PossiblePort(seaLocation, RotationPosition.DEG240));
+        possibilities.add(new PossiblePort(seaLocation, RotationPosition.DEG300));
 
         // Test if the other hex of the hexside is a landhex, add it to the
         // allowed
@@ -232,103 +201,79 @@ public class Board implements Serializable
         return result;
     }
 
-    /**
-     * @return the boardSettings
-     */
+    /** @return the boardSettings */
     public BoardSettings getBoardSettings()
     {
         return boardSettings;
     }
 
-    /**
-     * @return the hexes
-     */
+    /** @return the hexes */
     public HexLayout getHexes()
     {
         return hexes;
     }
 
-    /**
-     * @return the width
-     */
+    /** @return the width */
     public int getWidth()
     {
         return hexes.getWidth();
     }
 
-    /**
-     * @return the height
-     */
+    /** @return the height */
     public int getHeight()
     {
         return hexes.getHeight();
     }
 
-    /**
-     * @return the territories
-     */
+    /** @return the territories */
     public TerritoryList getTerritories()
     {
         return territories;
     }
 
-    /**
-     * @return the designer
-     */
+    /** @return the designer */
     public String getDesigner()
     {
         return designer;
     }
 
-    /**
-     * @param designer
-     *            the designer to set
-     */
+    /** @param designer
+     *            the designer to set */
     public Board setDesigner(String designer)
     {
         this.designer = designer;
         return this;
     }
 
-    /**
-     * @return the id
-     */
+    /** @return the id */
     public String getId()
     {
         return id;
     }
 
-    /**
-     * @param id
-     *            the id to set
-     */
+    /** @param id
+     *            the id to set */
     public Board setId(String id)
     {
         this.id = id;
         return this;
     }
 
-    /**
-     * @return the name
-     */
+    /** @return the name */
     public String getName()
     {
         return name;
     }
 
-    /**
-     * @param name
-     *            the name to set
-     */
+    /** @param name
+     *            the name to set */
     public Board setName(String name)
     {
         this.name = name;
         return this;
     }
 
-    /**
-     * @return the graph
-     */
+    /** @return the graph */
     public BoardGraph getGraph()
     {
         return graph;
@@ -340,7 +285,7 @@ public class Board implements Serializable
     public boolean isBuildableLand(HexSide side)
     {
         return hexes.get(side.getHex1()).isBuildableLand()
-                || hexes.get(side.getHex2()).isBuildableLand();
+                        || hexes.get(side.getHex2()).isBuildableLand();
     }
 
     /*
@@ -360,7 +305,7 @@ public class Board implements Serializable
         // Hex should be able to build either sea or land on
         for (HexLocation neighbour : point.getHexLocations())
             if (hexes.get(neighbour).isBuildableLand()
-                    && hexes.get(neighbour).isBuildableSea())
+                            && hexes.get(neighbour).isBuildableSea())
                 return false;
 
         return true;
@@ -372,7 +317,7 @@ public class Board implements Serializable
     public boolean isTownBuildable(GraphPoint possibleCandidate)
     {
         for (HexLocation location : possibleCandidate.getPoint()
-                .getHexLocations())
+                        .getHexLocations())
         {
             Hex hex = hexes.get(location);
             if (!hex.isPartOfGame())
@@ -383,7 +328,7 @@ public class Board implements Serializable
         Hex hex3 = hexes.get(possibleCandidate.getPoint().getHex3());
 
         if (!hex1.isBuildableLand() && !hex2.isBuildableLand()
-                && !hex3.isBuildableLand())
+                        && !hex3.isBuildableLand())
             return false;
 
         return true;
