@@ -14,7 +14,6 @@ import soc.common.board.routing.GraphSide;
 
 public interface VisualFactory
 {
-
     public RobberVisual createRobberVisual(Robber robber);
 
     public PirateVisual createPirateVisual(Pirate pirate);

@@ -1,6 +1,9 @@
 package soc.common.actions.lobby;
 
-import soc.common.server.entities.Player;
+import soc.common.actions.Invalid;
+import soc.common.actions.ValidateResult;
+import soc.common.lobby.Lobby;
+import soc.common.server.entities.User;
 import soc.common.server.lobbyActions.ServerLobbyAction;
 import soc.common.server.lobbyActions.ServerLobbyActionFactory;
 
@@ -8,7 +11,22 @@ public abstract class AbstractLobbyAction implements LobbyAction
 {
     private static final long serialVersionUID = -8347682806796145234L;
     protected String message;
-    public Player player;
+    protected transient User user;
+    protected int userId;
+    protected transient static ValidateResult validated = new ValidateResult()
+    {
+        @Override
+        public boolean isValid()
+        {
+            return true;
+        }
+
+        @Override
+        public String getInvalidReason()
+        {
+            return null;
+        }
+    };
 
     @Override
     public String getMessage()
@@ -22,9 +40,9 @@ public abstract class AbstractLobbyAction implements LobbyAction
      * @see soc.common.actions.lobby.LobbyAction#getPlayer()
      */
     @Override
-    public Player getPlayer()
+    public User getUser()
     {
-        return player;
+        return user;
     }
 
     /*
@@ -35,9 +53,13 @@ public abstract class AbstractLobbyAction implements LobbyAction
      * .Player)
      */
     @Override
-    public LobbyAction setPlayer(Player player)
+    public LobbyAction setUser(User user)
     {
-        this.player = player;
+        this.user = user;
+
+        if (user != null)
+            this.userId = user.getId();
+
         return this;
     }
 
@@ -50,8 +72,45 @@ public abstract class AbstractLobbyAction implements LobbyAction
      */
     @Override
     public ServerLobbyAction createServerLobbyAction(
-            ServerLobbyActionFactory factory)
+                    ServerLobbyActionFactory factory)
     {
         return factory.createDefaultAction(this);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see soc.common.actions.lobby.LobbyAction#isValid(soc.common.lobby.Lobby)
+     */
+    @Override
+    public ValidateResult isValid(Lobby lobby, ValidateResult result)
+    {
+        if (user == null)
+            return new Invalid("User can't be null");
+
+        return validated;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see soc.common.actions.lobby.LobbyAction#getUserId()
+     */
+    @Override
+    public int getUserId()
+    {
+        return userId;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see soc.common.actions.lobby.LobbyAction#setUserId(int)
+     */
+    @Override
+    public LobbyAction setUserId(int id)
+    {
+        this.userId = id;
+        return this;
     }
 }

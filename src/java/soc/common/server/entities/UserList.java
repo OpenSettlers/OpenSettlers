@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
@@ -28,6 +27,11 @@ public class UserList implements Iterable<User>, Serializable
         eventBus.fireEvent(new UserListChangedEvent(user, null, null));
     }
 
+    public boolean contains(User user)
+    {
+        return users.contains(user);
+    }
+
     public void addUsers(UserList usersToAdd)
     {
         for (User user : usersToAdd)
@@ -45,8 +49,16 @@ public class UserList implements Iterable<User>, Serializable
         return null;
     }
 
+    public void removeUser(User user)
+    {
+        if (users.contains(user))
+            users.remove(user);
+
+        eventBus.fireEvent(new UserListChangedEvent(null, user, null));
+    }
+
     public HandlerRegistration addUserListChangedEventHandler(
-            UserListChangedEventHandler handler)
+                    UserListChangedEventHandler handler)
     {
         return eventBus.addHandler(UserListChangedEvent.TYPE, handler);
     }

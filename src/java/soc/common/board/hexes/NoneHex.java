@@ -10,7 +10,7 @@ import soc.gwtClient.images.Resources;
 import com.google.gwt.resources.client.ImageResource;
 
 /*
- * Represents a hex removed at gamestart, acting as design-time placeholder
+ * Represents a hex mot rendered in the game, acting as design-time placeholder
  */
 public class NoneHex extends AbstractHex
 {

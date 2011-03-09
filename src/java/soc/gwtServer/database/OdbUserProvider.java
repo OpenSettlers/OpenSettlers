@@ -36,4 +36,11 @@ public class OdbUserProvider implements UserProvider
         return null;
     }
 
+    @Override
+    public int getTotalUsers()
+    {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
 }

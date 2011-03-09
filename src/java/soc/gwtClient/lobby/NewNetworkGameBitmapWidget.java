@@ -1,6 +1,6 @@
 package soc.gwtClient.lobby;
 
-import soc.common.actions.lobby.CreateGame;
+import soc.common.actions.lobby.game.CreateGame;
 import soc.common.lobby.GameInfo;
 import soc.common.lobby.GameInfoImpl;
 import soc.common.views.widgetsInterface.generic.BoardPicker;

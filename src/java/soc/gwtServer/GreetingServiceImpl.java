@@ -10,6 +10,9 @@ import javax.servlet.http.HttpSession;
 import net.zschech.gwt.comet.server.CometServlet;
 import net.zschech.gwt.comet.server.CometSession;
 import soc.common.actions.lobby.LobbyAction;
+import soc.common.actions.lobby.LobbyChat;
+import soc.common.actions.lobby.UserJoined;
+import soc.common.lobby.GameInfo;
 import soc.common.lobby.Lobby;
 import soc.common.lobby.LobbyImpl;
 import soc.common.lobby.LoginResponse;
@@ -33,6 +36,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
                 GreetingService, LobbyServer
 {
     private ConcurrentMap<User, CometSession> users = new ConcurrentHashMap<User, CometSession>();
+    private ConcurrentMap<User, GameInfo> games = new ConcurrentHashMap<User, GameInfo>();
     private ObjectContainer database;
     private static int userid = 0;
     private ServerLobbyActionFactory factory = new DefaultServerLobbyActionFactory(
@@ -69,9 +73,23 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
             // ChatException("not logged in: no http session username");
         }
 
+        // Check if the user doesn't tamper with the data
+        if (user.getId() != action.getUserId())
+        {
+            // Throw some exception
+        }
+
+        // Only the ID is sent, not the user instance, so set the user on the LobbyAction
+        action.setUser(user);
+
         executeLobbyAction(action);
     }
 
+    /*
+     * Sends given action to all the users in the lobby
+     * 
+     * @see soc.common.server.LobbyServer#sendToAll(soc.common.actions.lobby.LobbyAction)
+     */
     @Override
     public void sendToAll(LobbyAction action)
     {
@@ -79,6 +97,12 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
             entry.getValue().enqueue(action);
     }
 
+    /*
+     * Sends given action to all users in the lobby, except to given exlcuded user
+     * 
+     * @see soc.common.server.LobbyServer#sendToAllExcept(soc.common.server.entities.User,
+     * soc.common.actions.lobby.LobbyAction)
+     */
     @Override
     public void sendToAllExcept(User excludedUser, LobbyAction action)
     {
@@ -109,14 +133,30 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
             // " already logged in");
         }
 
-        return createLoginResponse();
+        // Notify others a new player joined
+        UserJoined userJoined = new UserJoined();
+        userJoined.setJoinedUser(user);
+        userJoined.setUser(user);
+        sendToAllExcept(user, userJoined);
+
+        return createLoginResponse(user);
     }
 
-    private synchronized LoginResponse createLoginResponse()
+    /*
+     * Creates a new LoginResponse for a user logging in
+     */
+    private synchronized LoginResponse createLoginResponse(User user)
     {
+        // Create a new instance
         LoginResponse response = new LoginResponseImpl();
+
+        // Copy list of users to it
         for (Map.Entry<User, CometSession> entry : users.entrySet())
             response.getLoggedInUsers().addUser(entry.getKey());
+
+        // Copy list of games
+        for (GameInfo gameInfo : lobby.getGames())
+            response.getLobbyGames().add(gameInfo);
 
         return response;
     }
@@ -150,6 +190,44 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
         // Notify clients
         serverLobbyAction.sendToClients();
+    }
+
+    @Override
+    public Lobby getLobby()
+    {
+        return null;
+    }
+
+    /*
+     * Sends given action only to target user
+     * 
+     * @see soc.common.server.LobbyServer#sendToUser(soc.common.server.entities.User,
+     * soc.common.actions.lobby.LobbyAction)
+     */
+    @Override
+    public void sendToUser(User exclusiveUser, LobbyAction action)
+    {
+        // Grab the session of the given user
+        CometSession session = users.get(exclusiveUser);
+
+        // Send the action
+        if (session != null)
+            session.enqueue(action);
+    }
+
+    /*
+     * Sends an error message to given user, disguised as a LobbyChat message
+     * 
+     * @see soc.common.server.LobbyServer#sayError(soc.common.server.entities.User,
+     * java.lang.String)
+     */
+    @Override
+    public void sayError(User user, String error)
+    {
+        LobbyChat lobbyChat = new LobbyChat();
+        lobbyChat.setUser(user);
+        lobbyChat.setChatMessage(error);
+        sendToUser(user, lobbyChat);
     }
 
 }

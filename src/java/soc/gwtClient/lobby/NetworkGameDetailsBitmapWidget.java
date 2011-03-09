@@ -1,5 +1,6 @@
 package soc.gwtClient.lobby;
 
+import soc.common.lobby.GameInfo;
 import soc.common.views.widgetsInterface.lobby.NetworkGameDetailsWidget;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -7,7 +8,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class NetworkGameDetailsBitmapWidget extends VerticalPanel implements
-        NetworkGameDetailsWidget
+                NetworkGameDetailsWidget
 {
     private HorizontalPanel panelName = new HorizontalPanel();
     private Label labelName = new Label("Name");
@@ -15,6 +16,7 @@ public class NetworkGameDetailsBitmapWidget extends VerticalPanel implements
     private HorizontalPanel panelBoard = new HorizontalPanel();
     private Label labelBoard = new Label("Board");
     private Label labelBoardName = new Label();
+    private GameInfo gameInfo;
 
     public NetworkGameDetailsBitmapWidget()
     {
@@ -25,6 +27,17 @@ public class NetworkGameDetailsBitmapWidget extends VerticalPanel implements
         panelBoard.add(labelBoard);
         panelBoard.add(labelBoardName);
         add(panelBoard);
+    }
+
+    @Override
+    public void setGame(GameInfo gameInfo)
+    {
+        this.gameInfo = gameInfo;
+        if (gameInfo != null)
+        {
+            labelGameName.setText(gameInfo.getName());
+            labelBoardName.setText(gameInfo.getBoardId());
+        }
     }
 
 }

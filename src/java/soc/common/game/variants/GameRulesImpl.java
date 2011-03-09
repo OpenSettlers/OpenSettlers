@@ -262,6 +262,9 @@ public class GameRulesImpl implements GameRules
                 stockPieceTypes.add((StockPiece) piece);
     }
 
+    /*
+     * Give each player a stock with contents based on
+     */
     private void createPlayerStocks()
     {
         for (GamePlayer player : game.getPlayers())

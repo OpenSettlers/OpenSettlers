@@ -7,6 +7,9 @@ import soc.common.views.meta.Icon;
 import soc.common.views.meta.IconImpl;
 import soc.common.views.meta.Meta;
 
+/*
+ * Standard 4:1 trade port for <code>resource.isTradeable()</code> resources.
+ */
 public class FourToOnePort extends AbstractPort
 {
     private static final long serialVersionUID = -9000999299490338479L;

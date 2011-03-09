@@ -4,7 +4,7 @@ import soc.common.actions.lobby.LobbyAction;
 import soc.common.server.LobbyServer;
 
 public class DefaultServerLobbyActionFactory implements
-        ServerLobbyActionFactory
+                ServerLobbyActionFactory
 {
     private LobbyServer lobbyServer;
 
@@ -15,38 +15,34 @@ public class DefaultServerLobbyActionFactory implements
     }
 
     @Override
-    public ServerLobbyAction createJoinedAction()
+    public ServerLobbyAction createJoinedAction(LobbyAction lobbyAction)
     {
-        // TODO Auto-generated method stub
-        return null;
+        return new DefaultServerLobbyAction(lobbyAction, lobbyServer);
     }
 
     @Override
-    public ServerLobbyAction createGameRemovedAction()
+    public ServerLobbyAction createGameRemovedAction(LobbyAction lobbyAction)
     {
-        // TODO Auto-generated method stub
-        return null;
+        return new DefaultServerLobbyAction(lobbyAction, lobbyServer);
     }
 
     @Override
-    public ServerLobbyAction createLobbyChatAction()
+    public ServerLobbyAction createLobbyChatAction(LobbyAction lobbyAction)
     {
-        // TODO Auto-generated method stub
-        return null;
+        return new DefaultServerLobbyAction(lobbyAction, lobbyServer);
     }
 
     @Override
-    public ServerLobbyAction createGameStatusChangedAction()
+    public ServerLobbyAction createGameStatusChangedAction(
+                    LobbyAction lobbyAction)
     {
-        // TODO Auto-generated method stub
-        return null;
+        return new DefaultServerLobbyAction(lobbyAction, lobbyServer);
     }
 
     @Override
-    public ServerLobbyAction createNewGameAction()
+    public ServerLobbyAction createNewGameAction(LobbyAction lobbyAction)
     {
-        // TODO Auto-generated method stub
-        return null;
+        return new DefaultServerLobbyAction(lobbyAction, lobbyServer);
     }
 
     @Override

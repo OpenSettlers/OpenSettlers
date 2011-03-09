@@ -1,18 +1,25 @@
 package soc.gwtClient.lobby;
 
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
+import soc.common.lobby.Lobby;
 
-public class LobbyStatusBitmapWidget extends HorizontalPanel implements
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.VerticalPanel;
+
+public class LobbyStatusBitmapWidget extends VerticalPanel implements
                 LobbyStatusWidget
 {
     private Label labelHeartBeats = new Label();
+    private Label labelError = new Label();
+    private Label labelConnectionStatus = new Label();
     private int heartbeats = 0;
+    private Lobby lobby;
 
-    public LobbyStatusBitmapWidget()
+    public LobbyStatusBitmapWidget(Lobby lobby)
     {
-        super();
+        this.lobby = lobby;
         this.add(labelHeartBeats);
+        this.add(labelError);
+        this.add(labelConnectionStatus);
     }
 
     @Override
@@ -22,4 +29,21 @@ public class LobbyStatusBitmapWidget extends HorizontalPanel implements
         labelHeartBeats.setText("Beat: " + Integer.toString(heartbeats));
     }
 
+    @Override
+    public void setError(String error)
+    {
+        labelError.setText("Error: " + error);
+    }
+
+    @Override
+    public void setConnected()
+    {
+        labelConnectionStatus.setText("Connected");
+    }
+
+    @Override
+    public void setDisconnected()
+    {
+        labelConnectionStatus.setText("XX Disconnected XX");
+    }
 }

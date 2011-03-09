@@ -26,7 +26,7 @@ public class WaitingForTurnActions implements GameStatus
     }
 
     public WaitingForTurnActions setBlockingActions(
-            List<GameAction> blockingActions)
+                    List<GameAction> blockingActions)
     {
         this.blockingActions = blockingActions;
         return this;
@@ -37,6 +37,18 @@ public class WaitingForTurnActions implements GameStatus
     {
         // TODO fix message
         return "Waiting for a player to finish turn actions";
+    }
+
+    @Override
+    public boolean isWaitingForPlayers()
+    {
+        return false;
+    }
+
+    @Override
+    public boolean isPlaying()
+    {
+        return false;
     }
 
 }

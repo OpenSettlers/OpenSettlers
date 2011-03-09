@@ -11,7 +11,7 @@ public class GameSettings implements Serializable, Iterable<GameSetting>
 {
     private static final long serialVersionUID = -258750633772212293L;
 
-    private static List<GameSetting> supportedSettings = new ArrayList<GameSetting>();
+    private static transient List<GameSetting> supportedSettings = new ArrayList<GameSetting>();
     private List<GameSetting> settings = new ArrayList<GameSetting>();
 
     // Game boardsettings may be overridden by the user
@@ -60,63 +60,49 @@ public class GameSettings implements Serializable, Iterable<GameSetting>
         return supportedSettings;
     }
 
-    /**
-     * @return the boardSettings
-     */
+    /** @return the boardSettings */
     public BoardSettings getBoardSettings()
     {
         return boardSettings;
     }
 
-    /**
-     * @param boardSettings
-     *            the boardSettings to set
-     */
+    /** @param boardSettings
+     *            the boardSettings to set */
     public void setBoardSettings(BoardSettings boardSettings)
     {
         this.boardSettings = boardSettings;
     }
 
-    /**
-     * @return the maxCardsInHandWhen7
-     */
+    /** @return the maxCardsInHandWhen7 */
     public MaxCardsInHandWhen7 getMaxCardsInHandWhen7()
     {
         return maxCardsInHandWhen7;
     }
 
-    /**
-     * @return the isLadder
-     */
+    /** @return the isLadder */
     public IsLadder getIsLadder()
     {
         return isLadder;
     }
 
-    /**
-     * @param isLadder
-     *            the isLadder to set
-     */
+    /** @param isLadder
+     *            the isLadder to set */
     public GameSettings setIsLadder(IsLadder isLadder)
     {
         this.isLadder = isLadder;
         return this;
     }
 
-    /**
-     * @return the maximumTradesPerTurn
-     */
+    /** @return the maximumTradesPerTurn */
     public MaximumTradesPerTurn getMaximumTradesPerTurn()
     {
         return maximumTradesPerTurn;
     }
 
-    /**
-     * @param maximumTradesPerTurn
-     *            the maximumTradesPerTurn to set
-     */
+    /** @param maximumTradesPerTurn
+     *            the maximumTradesPerTurn to set */
     public GameSettings setMaximumTradesPerTurn(
-            MaximumTradesPerTurn maximumTradesPerTurn)
+                    MaximumTradesPerTurn maximumTradesPerTurn)
     {
         removeSetting(this.maximumTradesPerTurn);
         this.maximumTradesPerTurn = maximumTradesPerTurn;
@@ -124,20 +110,16 @@ public class GameSettings implements Serializable, Iterable<GameSetting>
         return this;
     }
 
-    /**
-     * @return the no2vpPlayersRobbing
-     */
+    /** @return the no2vpPlayersRobbing */
     public No2VpPlayersRobbing getNo2vpPlayersRobbing()
     {
         return no2vpPlayersRobbing;
     }
 
-    /**
-     * @param no2vpPlayersRobbing
-     *            the no2vpPlayersRobbing to set
-     */
+    /** @param no2vpPlayersRobbing
+     *            the no2vpPlayersRobbing to set */
     public GameSettings setNo2vpPlayersRobbing(
-            No2VpPlayersRobbing no2vpPlayersRobbing)
+                    No2VpPlayersRobbing no2vpPlayersRobbing)
     {
         removeSetting(this.no2vpPlayersRobbing);
         this.no2vpPlayersRobbing = no2vpPlayersRobbing;
@@ -145,18 +127,14 @@ public class GameSettings implements Serializable, Iterable<GameSetting>
         return this;
     }
 
-    /**
-     * @return the noSevenRounds
-     */
+    /** @return the noSevenRounds */
     public NoSevenRounds getNoSevenRounds()
     {
         return noSevenRounds;
     }
 
-    /**
-     * @param noSevenRounds
-     *            the noSevenRounds to set
-     */
+    /** @param noSevenRounds
+     *            the noSevenRounds to set */
     public GameSettings setNoSevenRounds(NoSevenRounds noSevenRounds)
     {
         removeSetting(this.noSevenRounds);
@@ -165,18 +143,14 @@ public class GameSettings implements Serializable, Iterable<GameSetting>
         return this;
     }
 
-    /**
-     * @return the replaceDeserts
-     */
+    /** @return the replaceDeserts */
     public ReplaceDeserts getReplaceDeserts()
     {
         return replaceDeserts;
     }
 
-    /**
-     * @param replaceDeserts
-     *            the replaceDeserts to set
-     */
+    /** @param replaceDeserts
+     *            the replaceDeserts to set */
     public GameSettings setReplaceDeserts(ReplaceDeserts replaceDeserts)
     {
         removeSetting(this.replaceDeserts);
@@ -185,20 +159,16 @@ public class GameSettings implements Serializable, Iterable<GameSetting>
         return this;
     }
 
-    /**
-     * @return the showChitsAfterPlacing
-     */
+    /** @return the showChitsAfterPlacing */
     public ShowChitsAfterPlacing getShowChitsAfterPlacing()
     {
         return showChitsAfterPlacing;
     }
 
-    /**
-     * @param showChitsAfterPlacing
-     *            the showChitsAfterPlacing to set
-     */
+    /** @param showChitsAfterPlacing
+     *            the showChitsAfterPlacing to set */
     public GameSettings setShowChitsAfterPlacing(
-            ShowChitsAfterPlacing showChitsAfterPlacing)
+                    ShowChitsAfterPlacing showChitsAfterPlacing)
     {
         removeSetting(showChitsAfterPlacing);
         this.showChitsAfterPlacing = showChitsAfterPlacing;
@@ -206,18 +176,14 @@ public class GameSettings implements Serializable, Iterable<GameSetting>
         return this;
     }
 
-    /**
-     * @return the tournamentStart
-     */
+    /** @return the tournamentStart */
     public TournamentStart getTournamentStart()
     {
         return tournamentStart;
     }
 
-    /**
-     * @param tournamentStart
-     *            the tournamentStart to set
-     */
+    /** @param tournamentStart
+     *            the tournamentStart to set */
     public GameSettings setTournamentStart(TournamentStart tournamentStart)
     {
         removeSetting(this.tournamentStart);
@@ -226,20 +192,16 @@ public class GameSettings implements Serializable, Iterable<GameSetting>
         return this;
     }
 
-    /**
-     * @return the tradingAfterBuilding
-     */
+    /** @return the tradingAfterBuilding */
     public TradingAfterBuilding getTradingAfterBuilding()
     {
         return tradingAfterBuilding;
     }
 
-    /**
-     * @param tradingAfterBuilding
-     *            the tradingAfterBuilding to set
-     */
+    /** @param tradingAfterBuilding
+     *            the tradingAfterBuilding to set */
     public GameSettings setTradingAfterBuilding(
-            TradingAfterBuilding tradingAfterBuilding)
+                    TradingAfterBuilding tradingAfterBuilding)
     {
         removeSetting(this.tradingAfterBuilding);
         this.tradingAfterBuilding = tradingAfterBuilding;

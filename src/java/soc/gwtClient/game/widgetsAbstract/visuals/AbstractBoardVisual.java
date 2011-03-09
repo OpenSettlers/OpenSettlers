@@ -12,8 +12,11 @@ import soc.common.views.widgetsInterface.visuals.PieceVisual;
 import soc.gwtClient.editor.BehaviourChanged;
 import soc.gwtClient.editor.BehaviourChangedHandler;
 
+/*
+ * Abstracts
+ */
 public abstract class AbstractBoardVisual extends AbstractPieceVisual implements
-        BoardVisual, BehaviourChangedHandler
+                BoardVisual, BehaviourChangedHandler
 {
     protected BoardBehaviour editBehaviour = new DefaultBehaviour();
     protected Board board;
@@ -43,9 +46,7 @@ public abstract class AbstractBoardVisual extends AbstractPieceVisual implements
         editBehaviour.mouseOut(pieceVisual, board);
     }
 
-    /**
-     * @return the hexVisuals
-     */
+    /** @return the hexVisuals */
     public HashMap<Hex, HexVisual> getHexVisuals()
     {
         return hexVisuals;
@@ -93,18 +94,14 @@ public abstract class AbstractBoardVisual extends AbstractPieceVisual implements
     public void hideTerritories()
     {
         for (HexVisual hexVisual : hexVisuals.values())
-        {
             hexVisual.getTerritory().setVisible(false);
-        }
     }
 
     @Override
     public void showTerritories()
     {
         for (HexVisual hexVisual : hexVisuals.values())
-        {
             hexVisual.getTerritory().setVisible(true);
-        }
     }
 
     /*

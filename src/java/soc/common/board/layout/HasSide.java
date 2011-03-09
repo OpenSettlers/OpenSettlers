@@ -11,6 +11,9 @@ public interface HasSide extends BoardPiece
 
     public boolean canConnect(GraphPoint graphPoint, HasSide otherPiece);
 
+    /*
+     * Returns true when this implementor can connect to a road when graphpoint is empty
+     */
     public boolean connectsWithRoad();
 
     public boolean connectsWithShip();

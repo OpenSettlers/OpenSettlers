@@ -11,4 +11,6 @@ public interface UserProvider
     public User getUserByID(int ID);
 
     public User registerUser(User user);
+
+    public int getTotalUsers();
 }

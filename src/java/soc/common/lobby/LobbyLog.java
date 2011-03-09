@@ -10,12 +10,18 @@ import soc.common.server.LobbyActionEventHandler;
 
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.event.shared.SimpleEventBus;
 
 public class LobbyLog implements Iterable<LobbyAction>
 {
     private List<LobbyAction> lobbyActions = new ArrayList<LobbyAction>();
     private Lobby lobby;
     private transient EventBus eventBus;
+
+    public LobbyLog()
+    {
+        eventBus = new SimpleEventBus();
+    }
 
     public LobbyLog(Lobby lobby, EventBus eventBus)
     {

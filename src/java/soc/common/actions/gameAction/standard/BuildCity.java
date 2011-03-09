@@ -25,6 +25,9 @@ import soc.common.views.widgetsInterface.actions.ActionWidgetFactory;
 import soc.common.views.widgetsInterface.payerInfo.ActionDetailWidget;
 import soc.gwtClient.images.Resources;
 
+/*
+ * Builds next city from stock on the playing board
+ */
 public class BuildCity extends AbstractTurnAction
 {
     private static final long serialVersionUID = -2767352130887235545L;

@@ -19,4 +19,8 @@ public interface GameStatus extends Serializable
     public boolean isGameBlocking();
 
     public String getDescription();
+
+    public boolean isWaitingForPlayers();
+
+    public boolean isPlaying();
 }

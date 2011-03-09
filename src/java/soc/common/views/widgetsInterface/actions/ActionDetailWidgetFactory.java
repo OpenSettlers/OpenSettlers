@@ -15,6 +15,9 @@ import soc.common.actions.gameAction.turns.EndTurn;
 import soc.common.actions.gameAction.turns.RolledSame;
 import soc.common.views.widgetsInterface.payerInfo.ActionDetailWidget;
 
+/*
+ * Creates a widget visualizing a GameAction
+ */
 public interface ActionDetailWidgetFactory
 {
     public ActionDetailWidget getBuildTownDetailWidget(BuildTown buildTown);
@@ -24,15 +27,15 @@ public interface ActionDetailWidgetFactory
     public ActionDetailWidget getBuildCityDetailWidget(BuildCity buildCity);
 
     public ActionDetailWidget getPlayDevelopmentCardDetailWidget(
-            PlayDevelopmentCard playDevelopmentcard);
+                    PlayDevelopmentCard playDevelopmentcard);
 
     public ActionDetailWidget getBuyDevelopmentCardDetailWidget(
-            BuyDevelopmentCard buyDevelopmentcard);
+                    BuyDevelopmentCard buyDevelopmentcard);
 
     public ActionDetailWidget getEndTurnDetailWidget(EndTurn endTurn);
 
     public ActionDetailWidget getClaimVictoryDetailWidget(
-            ClaimVictory claimVictory);
+                    ClaimVictory claimVictory);
 
     public ActionDetailWidget getRobPlayerDetailWidget(RobPlayer robPlayer);
 

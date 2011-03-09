@@ -26,6 +26,9 @@ import soc.common.game.Game;
 import soc.common.server.randomization.ClientRandom;
 import soc.common.server.randomization.Random;
 
+/*
+ * 
+ */
 public class Board implements Serializable
 {
     private static final long serialVersionUID = 5182386418039607317L;
@@ -109,6 +112,7 @@ public class Board implements Serializable
         // loop through new sized matrix, row by row.
         for (int h = 0; h < newHeight; h++)
             for (int w = 0; w < newWidth; w++)
+
                 // when width or height is bigger then original, add hexes
                 if (w >= hexes.getWidth() || h >= hexes.getHeight())
                 {

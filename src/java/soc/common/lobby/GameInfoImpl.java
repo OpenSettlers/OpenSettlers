@@ -3,8 +3,13 @@ package soc.common.lobby;
 import java.util.ArrayList;
 import java.util.List;
 
+import soc.common.game.settings.GameSettings;
+import soc.common.game.statuses.GameStatus;
 import soc.common.server.entities.User;
 
+/*
+ * Lightweight pojo to describe a game superficially
+ */
 public class GameInfoImpl implements GameInfo
 {
     private static final long serialVersionUID = -1030159652269927649L;
@@ -13,9 +18,9 @@ public class GameInfoImpl implements GameInfo
     private User host;
     private List<User> players = new ArrayList<User>();
     private String boardId;
-
-    // private GameSettings gameSettings;
-    // private GameStatus gameStatus;
+    private transient LobbyLog lobbyLog = new LobbyLog();
+    private GameSettings gameSettings;
+    private GameStatus gameStatus;
 
     public GameInfoImpl()
     {
@@ -27,7 +32,6 @@ public class GameInfoImpl implements GameInfo
         this.name = name;
         this.host = host;
         this.boardId = boardId;
-        // this.gameSettings = gameSettings;
     }
 
     @Override
@@ -59,24 +63,36 @@ public class GameInfoImpl implements GameInfo
     {
         return boardId;
     }
-    //
-    // @Override
-    // public GameSettings getSettings()
-    // {
-    // return gameSettings;
-    // }
-    //
-    // @Override
-    // public GameStatus getGameStatus()
-    // {
-    // return gameStatus;
-    // }
 
-    // /** @param gameStatus
-    // * the gameStatus to set */
-    // public GameInfo setGameStatus(GameStatus gameStatus)
-    // {
-    // this.gameStatus = gameStatus;
-    // return this;
-    // }
+    @Override
+    public GameStatus getGameStatus()
+    {
+        return gameStatus;
+    }
+
+    @Override
+    public GameSettings getSettings()
+    {
+        return gameSettings;
+    }
+
+    @Override
+    public GameInfo setSettings(GameSettings settings)
+    {
+        this.gameSettings = settings;
+        return this;
+    }
+
+    @Override
+    public GameInfo setGameStatus(GameStatus newGameStatus)
+    {
+        this.gameStatus = newGameStatus;
+        return this;
+    }
+
+    @Override
+    public LobbyLog getLobbyLog()
+    {
+        return lobbyLog;
+    }
 }

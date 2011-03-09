@@ -17,4 +17,16 @@ public class Playing implements GameStatus
         return "Playing the game";
     }
 
+    @Override
+    public boolean isWaitingForPlayers()
+    {
+        return false;
+    }
+
+    @Override
+    public boolean isPlaying()
+    {
+        return true;
+    }
+
 }

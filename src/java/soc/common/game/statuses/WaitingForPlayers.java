@@ -25,4 +25,16 @@ public class WaitingForPlayers implements GameStatus
         return "Waiting for players";
     }
 
+    @Override
+    public boolean isWaitingForPlayers()
+    {
+        return true;
+    }
+
+    @Override
+    public boolean isPlaying()
+    {
+        return false;
+    }
+
 }

@@ -1,6 +1,8 @@
 package soc.gwtClient.lobby;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import soc.common.lobby.GameInfo;
 import soc.common.lobby.GameListChangedEvent;
@@ -15,18 +17,22 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
-import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class GameListBitmapWidget extends Composite implements GameListWidget,
                 ClickHandler, GameListChangedEventHandler
 {
     private LobbyWidget lobbyWidget;
-    private ListBox gamesList = new ListBox();
-    private DockLayoutPanel rootPanel = new DockLayoutPanel(Unit.EM);
+    private ScrollPanel gamesListRoot = new ScrollPanel();
+    private VerticalPanel gamesList = new VerticalPanel();
     private NetworkGameDetailsWidget networkGameDetailsWidget;
+    private Map<GameInfo, GameSummaryWidget> summaryWidgets = new HashMap<GameInfo, GameSummaryWidget>();
+    private HorizontalPanel labelGamesStatus;
+    private Label labelAmountGamesWaiting = new Label();
 
     public GameListBitmapWidget(LobbyWidget lobbyWidget)
     {
@@ -35,6 +41,7 @@ public class GameListBitmapWidget extends Composite implements GameListWidget,
 
         networkGameDetailsWidget = new NetworkGameDetailsBitmapWidget();
         lobbyWidget.getLobby().getGames().addGameListChangedEventHandler(this);
+
     }
 
     /** @wbp.parser.constructor */
@@ -42,18 +49,19 @@ public class GameListBitmapWidget extends Composite implements GameListWidget,
     {
         super();
 
-        DockPanel dockPanel = new DockPanel();
-        dockPanel.setSpacing(5);
+        DockLayoutPanel dockPanel = new DockLayoutPanel(Unit.EM);
+        // dockPanel.set
         initWidget(dockPanel);
         dockPanel.setSize("100%", "100%");
 
-        HorizontalPanel labelGamesStatus = new HorizontalPanel();
-        dockPanel.add(labelGamesStatus, DockPanel.NORTH);
-        labelGamesStatus.setSize("100%", "2em");
+        labelGamesStatus = new HorizontalPanel();
+        dockPanel.addNorth(labelGamesStatus, 2);
+        labelGamesStatus.setWidth("100%");
+        labelGamesStatus.add(labelAmountGamesWaiting);
 
         HorizontalPanel panelNewTable = new HorizontalPanel();
-        dockPanel.add(panelNewTable, DockPanel.NORTH);
-        panelNewTable.setSize("100%", "2em");
+        dockPanel.addNorth(panelNewTable, 3);
+        panelNewTable.setWidth("100%");
 
         Button btnOpenTable = new Button("Open table");
         btnOpenTable.setStyleName("ok-button");
@@ -61,9 +69,13 @@ public class GameListBitmapWidget extends Composite implements GameListWidget,
         btnOpenTable.addClickHandler(this);
 
         SimplePanel panelGameDetails = new SimplePanel();
-        dockPanel.add(panelGameDetails, DockPanel.SOUTH);
+        dockPanel.addSouth(panelGameDetails, 5);
 
-        gamesList.setVisibleItemCount(40);
+        gamesListRoot.add(gamesList);
+        dockPanel.add(gamesListRoot);
+        gamesListRoot.setWidth("100%");
+        gamesListRoot.setHeight("100%");
+        gamesList.setWidth("100%");
     }
 
     @Override
@@ -72,14 +84,18 @@ public class GameListBitmapWidget extends Composite implements GameListWidget,
 
     }
 
-    public void addGame(GameInfo info)
+    public void addGame(GameInfo gameInfo)
     {
-
+        GameSummaryWidget newGame = new GameSummaryBitmapWidget(gameInfo);
+        gamesList.add(newGame);
+        summaryWidgets.put(gameInfo, newGame);
     }
 
     public void removeGame(GameInfo info)
     {
-
+        GameSummaryWidget widget = summaryWidgets.get(info);
+        if (widget != null)
+            gamesList.remove(widget);
     }
 
     @Override
@@ -92,18 +108,13 @@ public class GameListBitmapWidget extends Composite implements GameListWidget,
     public void onGameListChanged(GameListChangedEvent event)
     {
         if (event.getAddedGame() != null)
-            gamesList.addItem(event.getAddedGame().getName());
+            addGame(event.getAddedGame());
 
         if (event.getRemovedGame() != null)
-        {
-            for (int i = 0; i < gamesList.getItemCount(); i++)
-                if (gamesList.getItemText(i).equals(
-                                event.getRemovedGame().getName()))
-                {
-                    gamesList.removeItem(i);
-                    break;
-                }
-        }
-    }
+            removeGame(event.getRemovedGame());
 
+        labelAmountGamesWaiting.setText(Integer.toString(lobbyWidget.getLobby()
+                        .getGames().getAmountGamesWaiting())
+                        + " games waiting");
+    }
 }

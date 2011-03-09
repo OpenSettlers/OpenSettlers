@@ -17,4 +17,16 @@ public class WaitingForTradeResponse implements GameStatus
         return "Waiting for players to respond on a trade offer";
     }
 
+    @Override
+    public boolean isWaitingForPlayers()
+    {
+        return false;
+    }
+
+    @Override
+    public boolean isPlaying()
+    {
+        return false;
+    }
+
 }

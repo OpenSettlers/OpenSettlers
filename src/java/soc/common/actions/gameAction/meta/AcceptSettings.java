@@ -27,6 +27,11 @@ public class AcceptSettings extends AbstractGameAction
         return false;
     }
 
+    /*
+     * Returns true when the game is in the lobby
+     * 
+     * @see soc.common.actions.gameAction.GameAction#isAllowed(soc.common.game.phases.GamePhase)
+     */
     @Override
     public boolean isAllowed(GamePhase gamePhase)
     {

@@ -26,7 +26,7 @@ public class LobbyBitmapWidget extends Composite implements LobbyWidget
     private UserListWidget userListWidget;
     private GameListWidget gameListWidget;
     private ChatBoxWidget chatBox;
-    private LobbyStatusWidget statusWidget = new LobbyStatusBitmapWidget();
+    private LobbyStatusWidget statusWidget;
     private Lobby lobby = new LobbyImpl();
     private Player player;
     private NewNetworkGameWidget newNetworkGameWidget;
@@ -34,6 +34,7 @@ public class LobbyBitmapWidget extends Composite implements LobbyWidget
     public LobbyBitmapWidget(GreetingServiceAsync chatService)
     {
         this.chatService = chatService;
+        statusWidget = new LobbyStatusBitmapWidget(lobby);
         gameListWidget = new GameListBitmapWidget(this);
         userListWidget = new UserListBitmapWidget(this);
         chatBox = new ChatBoxBitmapWidget(this);
@@ -56,17 +57,12 @@ public class LobbyBitmapWidget extends Composite implements LobbyWidget
             @Override
             public void onSuccess(Void result)
             {
-                // TODO Auto-generated method stub
-                int h = 0;
-                h++;
             }
 
             @Override
             public void onFailure(Throwable caught)
             {
-                // TODO Auto-generated method stub
-                int y = 0;
-                y++;
+                statusWidget.setError(caught.getMessage());
             }
         });
     }
@@ -110,22 +106,23 @@ public class LobbyBitmapWidget extends Composite implements LobbyWidget
     @Override
     public void onConnected(int heartbeat)
     {
-        // TODO Auto-generated method stub
-
+        statusWidget.setConnected();
     }
 
     @Override
     public void onDisconnected()
     {
-        // TODO Auto-generated method stub
-
+        statusWidget.setDisconnected();
     }
 
     @Override
     public void onError(Throwable exception, boolean connected)
     {
-        int g = 9;
-        g++;
+        statusWidget.setError(exception.getMessage());
+        if (connected)
+            statusWidget.setConnected();
+        else
+            statusWidget.setDisconnected();
     }
 
     @Override
@@ -144,14 +141,23 @@ public class LobbyBitmapWidget extends Composite implements LobbyWidget
     @Override
     public void onMessage(List<? extends Serializable> messages)
     {
-        LobbyAction lobbyAction = (LobbyAction) messages.get(0);
-        doAction(lobbyAction);
-    }
+        for (Serializable serializable : messages)
+            if (serializable instanceof LobbyAction)
+            {
+                // Cast to LobbyAction
+                LobbyAction lobbyAction = (LobbyAction) messages.get(0);
 
+                // Set the reference to the User
+                lobbyAction.setUser(lobby.getUsers().getById(
+                                lobbyAction.getUserId()));
+
+                // Perform the LobbyAction
+                doAction(lobbyAction);
+            }
+    }
     @Override
     public NewNetworkGameWidget getNewNetworkgameWidget()
     {
         return newNetworkGameWidget;
     }
-
 }

@@ -36,6 +36,7 @@ public class ChitPanel extends HorizontalPanel implements HasHandlers
     private static List<Chit> editableChits1 = new ArrayList<Chit>();
     private static List<Chit> editableChits2 = new ArrayList<Chit>();
 
+    // TODO: Rafeactor into GameSettings
     static
     {
         editableChits1.add(new Chit2());
@@ -44,11 +45,11 @@ public class ChitPanel extends HorizontalPanel implements HasHandlers
         editableChits1.add(new Chit5());
         editableChits1.add(new Chit6());
 
-        editableChits2.add(new Chit8());
-        editableChits2.add(new Chit9());
-        editableChits2.add(new Chit10());
-        editableChits2.add(new Chit11());
         editableChits2.add(new Chit12());
+        editableChits2.add(new Chit11());
+        editableChits2.add(new Chit10());
+        editableChits2.add(new Chit9());
+        editableChits2.add(new Chit8());
         editableChits2.add(new RandomChit());
     }
 
