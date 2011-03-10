@@ -41,7 +41,7 @@ public class UserLeft extends AbstractLobbyAction
         if (!lobby.getUsers().contains(user))
             return new Invalid("User not found in the lobby");
 
-        return validated;
+        return valid;
     }
 
 }

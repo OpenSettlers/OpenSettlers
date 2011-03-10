@@ -2,6 +2,7 @@ package soc.gwtClient.main;
 
 import soc.common.internationalization.ClientInternationalization;
 import soc.common.internationalization.I18n;
+import soc.common.views.widgetsInterface.main.CenterWidget;
 import soc.gwtClient.editor.SvgMapEditor;
 import soc.gwtClient.game.widgetsBitmap.main.HotSeatGameWidget;
 import soc.gwtClient.lobby.GameLobby;

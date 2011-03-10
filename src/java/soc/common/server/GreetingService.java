@@ -6,13 +6,14 @@ import soc.common.lobby.LoginResponse;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
-/**
- * The client side stub for the RPC service.
- */
+/** The client side stub for the RPC service. */
 @RemoteServiceRelativePath("chat")
 public interface GreetingService extends RemoteService
 {
     void send(LobbyAction action);
 
-    public LoginResponse login(String username);
+    public LoginResponse login(String username, String password);
+    public RegisterResult register(String username, String password);
+
+    public boolean isAvailableName(String username);
 }

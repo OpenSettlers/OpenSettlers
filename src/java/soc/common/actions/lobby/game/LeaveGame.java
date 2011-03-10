@@ -1,7 +1,7 @@
 package soc.common.actions.lobby.game;
 
-import soc.common.actions.ValidateResult;
 import soc.common.actions.Invalid;
+import soc.common.actions.ValidateResult;
 import soc.common.lobby.GameInfo;
 import soc.common.lobby.Lobby;
 
@@ -30,7 +30,7 @@ public class LeaveGame extends AbstractGameLobbyAction
     {
         GameInfo game = lobby.getGames().getById(gameId);
         if (game != null)
-            game.getPlayers().remove(user);
+            game.getUsers().removeUser(user);
     }
 
     /*
@@ -48,10 +48,9 @@ public class LeaveGame extends AbstractGameLobbyAction
             return newResult;
 
         if (lobby.getGames().getById(gameId) == null)
-            return new Invalid("Game with ID=" + gameId
-                            + " does not exist");
+            return new Invalid("Game with ID=" + gameId + " does not exist");
 
-        return validated;
+        return valid;
     }
 
 }

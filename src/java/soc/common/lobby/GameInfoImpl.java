@@ -1,11 +1,9 @@
 package soc.common.lobby;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import soc.common.game.settings.GameSettings;
 import soc.common.game.statuses.GameStatus;
 import soc.common.server.entities.User;
+import soc.common.server.entities.UserList;
 
 /*
  * Lightweight pojo to describe a game superficially
@@ -16,7 +14,7 @@ public class GameInfoImpl implements GameInfo
     private int id;
     private String name;
     private User host;
-    private List<User> players = new ArrayList<User>();
+    private UserList users = new UserList();
     private String boardId;
     private transient LobbyLog lobbyLog = new LobbyLog();
     private GameSettings gameSettings;
@@ -53,9 +51,9 @@ public class GameInfoImpl implements GameInfo
     }
 
     @Override
-    public List<User> getPlayers()
+    public UserList getUsers()
     {
-        return players;
+        return users;
     }
 
     @Override

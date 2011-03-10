@@ -1,6 +1,7 @@
 package soc.gwtServer;
 
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -20,8 +21,10 @@ import soc.common.server.GreetingService;
 import soc.common.server.JoinResult;
 import soc.common.server.LobbyServer;
 import soc.common.server.LoginResponseImpl;
+import soc.common.server.RegisterResult;
 import soc.common.server.UserCredentials;
 import soc.common.server.entities.Player;
+import soc.common.server.entities.RegisterResultImpl;
 import soc.common.server.entities.User;
 import soc.common.server.lobbyActions.DefaultServerLobbyActionFactory;
 import soc.common.server.lobbyActions.ServerLobbyAction;
@@ -38,10 +41,10 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
     private ConcurrentMap<User, CometSession> users = new ConcurrentHashMap<User, CometSession>();
     private ConcurrentMap<User, GameInfo> games = new ConcurrentHashMap<User, GameInfo>();
     private ObjectContainer database;
-    private static int userid = 0;
     private ServerLobbyActionFactory factory = new DefaultServerLobbyActionFactory(
                     this);
     private Lobby lobby = new LobbyImpl();
+    private Random random = new Random();
 
     /*
      * (non-Javadoc)
@@ -65,9 +68,13 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
             // throw new ChatException("not logged in: no http session");
         }
 
+        User user = getUserById(action.getUserId());
+        if (user != null)
+            action.setUser(user);
+
         // get the user name for the HTTP session.
-        User user = (User) httpSession.getAttribute("user");
-        if (user == null)
+        User userFromSession = (User) httpSession.getAttribute("user");
+        if (userFromSession == null)
         {
             // throw new
             // ChatException("not logged in: no http session username");
@@ -82,7 +89,15 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
         // Only the ID is sent, not the user instance, so set the user on the LobbyAction
         action.setUser(user);
 
-        executeLobbyAction(action);
+        performLobbyAction(action);
+    }
+    private User getUserById(int id)
+    {
+        for (User user : users.keySet())
+            if (user.getId() == id)
+                return user;
+
+        return null;
     }
 
     /*
@@ -112,10 +127,9 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
     }
 
     @Override
-    public LoginResponse login(String username)
+    public LoginResponse login(String username, String password)
     {
-        userid++;
-        User user = new Player().setName(username).setId(userid);
+        User user = getUser(username, password);
 
         // Get or create the HTTP session for the browser
         HttpSession httpSession = getThreadLocalRequest().getSession();
@@ -142,6 +156,11 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
         return createLoginResponse(user);
     }
 
+    private User getUser(String username, String password)
+    {
+        return new Player().setName(username).setId(random.nextInt(100));
+    }
+
     /*
      * Creates a new LoginResponse for a user logging in
      */
@@ -157,6 +176,8 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
         // Copy list of games
         for (GameInfo gameInfo : lobby.getGames())
             response.getLobbyGames().add(gameInfo);
+
+        response.setUser(user);
 
         return response;
     }
@@ -179,7 +200,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
      * Create a server action, perform it and send it to clients
      */
     @Override
-    public void executeLobbyAction(LobbyAction action)
+    public void performLobbyAction(LobbyAction action)
     {
         // Grab ServerLobbyAction assocaited by the factory
         ServerLobbyAction serverLobbyAction = action
@@ -228,6 +249,23 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
         lobbyChat.setUser(user);
         lobbyChat.setChatMessage(error);
         sendToUser(user, lobbyChat);
+    }
+
+    @Override
+    public RegisterResult register(String username, String password)
+    {
+        RegisterResult result = new RegisterResultImpl(
+                        new Player().setName(username));
+        return result;
+    }
+
+    @Override
+    public boolean isAvailableName(String username)
+    {
+        if (random.nextInt(100) > 20)
+            return false;
+        else
+            return true;
     }
 
 }

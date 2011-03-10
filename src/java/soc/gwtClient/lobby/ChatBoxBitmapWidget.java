@@ -56,8 +56,8 @@ public class ChatBoxBitmapWidget extends DockLayoutPanel implements
         if (textboxSay.getText() != null && !textboxSay.getText().isEmpty())
         {
             lobbyWidget.sendLobbyAction(new LobbyChat().setChatMessage(
-                            textboxSay.getText()).setUser(
-                            lobbyWidget.getPlayer()));
+                            textboxSay.getText())
+                            .setUser(lobbyWidget.getUser()));
         }
     }
 

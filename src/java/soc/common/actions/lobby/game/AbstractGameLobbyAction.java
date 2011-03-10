@@ -46,6 +46,6 @@ public abstract class AbstractGameLobbyAction extends AbstractLobbyAction
             return new Invalid("Game with ID=" + gameId
                             + " does not exist");
 
-        return validated;
+        return valid;
     }
 }

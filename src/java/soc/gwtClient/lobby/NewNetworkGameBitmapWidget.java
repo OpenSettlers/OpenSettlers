@@ -121,8 +121,9 @@ public class NewNetworkGameBitmapWidget extends PopupPanel implements
     {
         // GameSettings gameSettings = new GameSettings();
         GameInfo gameInfo = new GameInfoImpl(textboxName.getText(),
-                        lobbyWidget.getPlayer(),
+                        lobbyWidget.getUser(),
                         "8232fc96-2adb-4ce6-b721-fcdf8b712dbf");
-        lobbyWidget.sendLobbyAction(new CreateGame().setGameInfo(gameInfo));
+        lobbyWidget.sendLobbyAction(new CreateGame().setGameInfo(gameInfo)
+                        .setUser(lobbyWidget.getUser()));
     }
 }

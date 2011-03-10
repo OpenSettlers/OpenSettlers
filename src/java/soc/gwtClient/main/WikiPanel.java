@@ -1,6 +1,8 @@
 package soc.gwtClient.main;
 
 
+import soc.common.views.widgetsInterface.main.CenterWidget;
+
 import com.google.gwt.user.client.ui.Frame;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.Panel;

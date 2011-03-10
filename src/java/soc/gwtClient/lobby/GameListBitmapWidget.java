@@ -14,6 +14,7 @@ import soc.common.views.widgetsInterface.lobby.NetworkGameDetailsWidget;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
@@ -33,6 +34,8 @@ public class GameListBitmapWidget extends Composite implements GameListWidget,
     private Map<GameInfo, GameSummaryWidget> summaryWidgets = new HashMap<GameInfo, GameSummaryWidget>();
     private HorizontalPanel labelGamesStatus;
     private Label labelAmountGamesWaiting = new Label();
+    private SimplePanel panelGameDetails;
+    private HandlerRegistration gameUsersRegistration;
 
     public GameListBitmapWidget(LobbyWidget lobbyWidget)
     {
@@ -68,7 +71,7 @@ public class GameListBitmapWidget extends Composite implements GameListWidget,
         panelNewTable.add(btnOpenTable);
         btnOpenTable.addClickHandler(this);
 
-        SimplePanel panelGameDetails = new SimplePanel();
+        panelGameDetails = new SimplePanel();
         dockPanel.addSouth(panelGameDetails, 5);
 
         gamesListRoot.add(gamesList);
@@ -86,12 +89,23 @@ public class GameListBitmapWidget extends Composite implements GameListWidget,
 
     public void addGame(GameInfo gameInfo)
     {
-        GameSummaryWidget newGame = new GameSummaryBitmapWidget(gameInfo);
+        GameSummaryWidget newGame = new GameSummaryBitmapWidget(lobbyWidget,
+                        gameInfo);
         gamesList.add(newGame);
         summaryWidgets.put(gameInfo, newGame);
+
+        // Update & show game details widget when this user created the game
+        if (gameInfo.getHost().equals(lobbyWidget.getUser()))
+        {
+            panelGameDetails.setWidget(networkGameDetailsWidget);
+            networkGameDetailsWidget.setGame(gameInfo);
+        }
     }
 
-    public void removeGame(GameInfo info)
+    /*
+     * Removes given game from this list
+     */
+    private void removeGame(GameInfo info)
     {
         GameSummaryWidget widget = summaryWidgets.get(info);
         if (widget != null)

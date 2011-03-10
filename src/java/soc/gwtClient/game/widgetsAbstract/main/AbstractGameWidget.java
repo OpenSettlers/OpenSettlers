@@ -19,6 +19,7 @@ import soc.common.views.widgetsInterface.generic.Point2D;
 import soc.common.views.widgetsInterface.generic.ToolTipManager;
 import soc.common.views.widgetsInterface.main.BankStockWidget;
 import soc.common.views.widgetsInterface.main.BoardVisualWidget;
+import soc.common.views.widgetsInterface.main.CenterWidget;
 import soc.common.views.widgetsInterface.main.ChatWidget;
 import soc.common.views.widgetsInterface.main.ClientFactory;
 import soc.common.views.widgetsInterface.main.DebugWidget;
@@ -36,7 +37,6 @@ import soc.gwtClient.game.DefaultClientFactory;
 import soc.gwtClient.game.DetailContainerManagerImpl;
 import soc.gwtClient.game.widgetsBitmap.main.DesktopGamePanelLayout;
 import soc.gwtClient.game.widgetsBitmap.main.ToolTipManagerImpl;
-import soc.gwtClient.main.CenterWidget;
 
 import com.google.gwt.user.client.ui.Widget;
 

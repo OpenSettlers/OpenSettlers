@@ -1,11 +1,11 @@
 package soc.common.lobby;
 
 import java.io.Serializable;
-import java.util.List;
 
 import soc.common.game.settings.GameSettings;
 import soc.common.game.statuses.GameStatus;
 import soc.common.server.entities.User;
+import soc.common.server.entities.UserList;
 
 /*
  * Lightweight
@@ -18,7 +18,7 @@ public interface GameInfo extends Serializable
 
     public User getHost();
 
-    public List<User> getPlayers();
+    public UserList getUsers();
 
     public String getBoardId();
 

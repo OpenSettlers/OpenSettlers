@@ -53,7 +53,7 @@ public class GameStatusChanged extends AbstractLobbyAction
         if (!newResult.isValid())
             return newResult;
 
-        return validated;
+        return valid;
     }
 
 }

@@ -5,8 +5,8 @@ import soc.common.views.behaviour.board.SetChitBehaviour;
 import soc.common.views.behaviour.board.SetHexBehaviour;
 import soc.common.views.behaviour.board.SetPortBehaviour;
 import soc.common.views.behaviour.board.SetTerritoryBehaviour;
+import soc.common.views.widgetsInterface.main.CenterWidget;
 import soc.gwtClient.game.widgetsSvg.visuals.BoardSvg;
-import soc.gwtClient.main.CenterWidget;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;

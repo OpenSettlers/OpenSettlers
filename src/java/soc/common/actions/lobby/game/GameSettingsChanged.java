@@ -36,5 +36,8 @@ public class GameSettingsChanged extends AbstractGameLobbyAction
         GameInfo game = lobby.getGames().findById(gameId);
         if (game != null)
             game.setSettings(gameSettings);
+        else
+            // huh
+            throw new RuntimeException("Huh");
     }
 }

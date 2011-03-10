@@ -3,7 +3,7 @@ package soc.common.actions.lobby;
 import soc.common.lobby.Lobby;
 
 /*
- * Chat action in the lobby
+ * Chat action in the main lobby
  */
 public class LobbyChat extends AbstractLobbyAction
 {

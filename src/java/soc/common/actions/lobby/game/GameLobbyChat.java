@@ -4,7 +4,7 @@ import soc.common.lobby.GameInfo;
 import soc.common.lobby.Lobby;
 
 /*
- * Chat on the game table
+ * Chat on the game room while in LobbyGamePhase
  */
 public class GameLobbyChat extends AbstractGameLobbyAction
 {

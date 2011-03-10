@@ -65,6 +65,6 @@ public class CreateGame extends AbstractGameLobbyAction
         if (lobby.getGames().getFromGame(user) != null)
             return new Invalid("User is already in a game");
 
-        return validated;
+        return valid;
     }
 }

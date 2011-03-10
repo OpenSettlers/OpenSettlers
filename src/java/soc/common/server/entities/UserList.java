@@ -62,4 +62,9 @@ public class UserList implements Iterable<User>, Serializable
     {
         return eventBus.addHandler(UserListChangedEvent.TYPE, handler);
     }
+
+    public int size()
+    {
+        return users.size();
+    }
 }

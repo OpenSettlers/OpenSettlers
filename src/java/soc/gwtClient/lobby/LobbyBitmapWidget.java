@@ -4,13 +4,17 @@ import java.io.Serializable;
 import java.util.List;
 
 import soc.common.actions.lobby.LobbyAction;
+import soc.common.lobby.GameInfo;
+import soc.common.lobby.GameListChangedEvent;
+import soc.common.lobby.GameListChangedEventHandler;
 import soc.common.lobby.Lobby;
 import soc.common.lobby.LobbyImpl;
 import soc.common.server.GreetingServiceAsync;
-import soc.common.server.entities.Player;
+import soc.common.server.entities.User;
 import soc.common.views.widgetsInterface.lobby.ChatBoxWidget;
 import soc.common.views.widgetsInterface.lobby.GameListWidget;
 import soc.common.views.widgetsInterface.lobby.LobbyWidget;
+import soc.common.views.widgetsInterface.lobby.NetworkGameDetailsWidget;
 import soc.common.views.widgetsInterface.lobby.NewNetworkGameWidget;
 import soc.common.views.widgetsInterface.lobby.UserListWidget;
 
@@ -18,8 +22,11 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.Widget;
 
-public class LobbyBitmapWidget extends Composite implements LobbyWidget
+public class LobbyBitmapWidget extends Composite implements LobbyWidget,
+                GameListChangedEventHandler
 {
     private DockLayoutPanel rootPanel = new DockLayoutPanel(Unit.PCT);
     private GreetingServiceAsync chatService;
@@ -28,8 +35,11 @@ public class LobbyBitmapWidget extends Composite implements LobbyWidget
     private ChatBoxWidget chatBox;
     private LobbyStatusWidget statusWidget;
     private Lobby lobby = new LobbyImpl();
-    private Player player;
+    private User user;
     private NewNetworkGameWidget newNetworkGameWidget;
+    private GameInfo currentGame;
+    private NetworkGameDetailsWidget currentGameWidget;
+    private SimplePanel currentgameWidgetRoot = new SimplePanel();
 
     public LobbyBitmapWidget(GreetingServiceAsync chatService)
     {
@@ -38,17 +48,19 @@ public class LobbyBitmapWidget extends Composite implements LobbyWidget
         gameListWidget = new GameListBitmapWidget(this);
         userListWidget = new UserListBitmapWidget(this);
         chatBox = new ChatBoxBitmapWidget(this);
+        currentGameWidget = new NetworkGameDetailsBitmapWidget(this);
         newNetworkGameWidget = new NewNetworkGameBitmapWidget(this);
         initWidget(rootPanel);
 
         rootPanel.addNorth(statusWidget.asWidget(), 10);
-        rootPanel.addEast(gameListWidget.asWidget(), 33);
         rootPanel.addWest(userListWidget.asWidget(), 33);
+        rootPanel.addSouth(currentgameWidgetRoot.asWidget(), 40);
+        rootPanel.addEast(gameListWidget.asWidget(), 33);
         rootPanel.add(chatBox);
 
         this.setSize("100%", "100%");
+        lobby.getGames().addGameListChangedEventHandler(this);
     }
-
     @Override
     public void sendLobbyAction(LobbyAction action)
     {
@@ -92,9 +104,9 @@ public class LobbyBitmapWidget extends Composite implements LobbyWidget
     }
 
     @Override
-    public Player getPlayer()
+    public User getUser()
     {
-        return player;
+        return user;
     }
 
     @Override
@@ -159,5 +171,34 @@ public class LobbyBitmapWidget extends Composite implements LobbyWidget
     public NewNetworkGameWidget getNewNetworkgameWidget()
     {
         return newNetworkGameWidget;
+    }
+
+    @Override
+    public void setUser(User user)
+    {
+        this.user = user;
+    }
+
+    @Override
+    public void onGameListChanged(GameListChangedEvent event)
+    {
+        if (event.getAddedGame() != null
+                        && event.getAddedGame().getHost().equals(user))
+        {
+            currentGameWidget.setGame(event.getAddedGame());
+            currentgameWidgetRoot.add(currentGameWidget);
+        }
+
+        if (event.getRemovedGame() != null
+                        && event.getRemovedGame().equals(currentGame))
+        {
+            currentGameWidget.setGame(null);
+            currentgameWidgetRoot.remove(currentGameWidget);
+        }
+    }
+    @Override
+    public Widget getRootWidget()
+    {
+        return this;
     }
 }

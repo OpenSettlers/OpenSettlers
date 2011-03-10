@@ -13,7 +13,7 @@ public abstract class AbstractLobbyAction implements LobbyAction
     protected String message;
     protected transient User user;
     protected int userId;
-    protected transient static ValidateResult validated = new ValidateResult()
+    protected transient static ValidateResult valid = new ValidateResult()
     {
         @Override
         public boolean isValid()
@@ -88,7 +88,7 @@ public abstract class AbstractLobbyAction implements LobbyAction
         if (user == null)
             return new Invalid("User can't be null");
 
-        return validated;
+        return valid;
     }
 
     /*

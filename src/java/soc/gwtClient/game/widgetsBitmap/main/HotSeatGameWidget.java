@@ -10,11 +10,11 @@ import soc.common.views.behaviour.gameBoard.DisabledMap;
 import soc.common.views.widgetsInterface.actions.ActionsWidget;
 import soc.common.views.widgetsInterface.actions.HotSeatActionsPlayersWidget;
 import soc.common.views.widgetsInterface.dialogs.TradePlayerDialog;
+import soc.common.views.widgetsInterface.main.CenterWidget;
 import soc.common.views.widgetsInterface.main.GameWidgetFactory;
 import soc.common.views.widgetsInterface.main.HotSeatTradePlayersWidget;
 import soc.common.views.widgetsInterface.main.PlayerStuffWidget;
 import soc.gwtClient.game.widgetsAbstract.main.AbstractGameWidget;
-import soc.gwtClient.main.CenterWidget;
 
 import com.google.gwt.user.client.ui.Panel;
 

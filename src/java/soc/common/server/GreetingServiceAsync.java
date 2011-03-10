@@ -5,18 +5,21 @@ import soc.common.lobby.LoginResponse;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-/**
- * The async counterpart of <code>GreetingService</code>.
- */
+/** The async counterpart of <code>GreetingService</code>. */
 public interface GreetingServiceAsync
 {
     void send(LobbyAction action, AsyncCallback<Void> callback);
 
-    /**
-     * Login and setup a CometSession on the chat server.
+    /** Login and setup a CometSession on the chat server.
      * 
      * @param username
-     * @throws ChatException
-     */
-    public void login(String username, AsyncCallback<LoginResponse> callback);
+     * @throws ChatException */
+    public void login(String username, String password,
+                    AsyncCallback<LoginResponse> callback);
+
+    public void register(String username, String password,
+                    AsyncCallback<RegisterResult> registration);
+
+    public void isAvailableName(String username,
+                    AsyncCallback<Boolean> available);
 }

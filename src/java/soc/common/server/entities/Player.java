@@ -9,56 +9,42 @@ public class Player implements User
     private boolean isRegistered;
     private String password;
 
-    /**
-     * @return the name
-     */
+    /** @return the name */
     public String getName()
     {
         return name;
     }
 
-    /**
-     * @param name
-     *            the name to set
-     */
+    /** @param name
+     *            the name to set */
     public Player setName(String name)
     {
         this.name = name;
-
         return this;
     }
 
-    /**
-     * @return the id
-     */
+    /** @return the id */
     public int getId()
     {
         return id;
     }
 
-    /**
-     * @param id
-     *            the id to set
-     */
+    /** @param id
+     *            the id to set */
     public Player setId(int id)
     {
         this.id = id;
-
         return this;
     }
 
-    /**
-     * @return the gamesPlayed
-     */
+    /** @return the gamesPlayed */
     public int getGamesPlayed()
     {
         return gamesPlayed;
     }
 
-    /**
-     * @param gamesPlayed
-     *            the gamesPlayed to set
-     */
+    /** @param gamesPlayed
+     *            the gamesPlayed to set */
     public Player setGamesPlayed(int gamesPlayed)
     {
         this.gamesPlayed = gamesPlayed;

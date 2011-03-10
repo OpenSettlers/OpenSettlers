@@ -15,7 +15,7 @@
   <inherits name="com.google.gwt.rpc.RPC" />
   
   <!-- <entry-point class='soc.gwtClient.lobby.'/>-->
-  <entry-point class='soc.gwtClient.lobby.OpenSettlersWebsite'/>
+  <entry-point class='soc.gwtClient.main.MainWindow'/>
     <servlet class="soc.gwtServer.GreetingServiceImpl" path="/chat"/>
   <source path='game'/>
   <source path='main'/>

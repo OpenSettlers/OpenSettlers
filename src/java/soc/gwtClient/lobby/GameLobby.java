@@ -10,7 +10,7 @@ import soc.common.lobby.Lobby;
 import soc.common.lobby.LobbyLog;
 import soc.common.server.entities.Player;
 import soc.common.server.entities.UserList;
-import soc.gwtClient.main.CenterWidget;
+import soc.common.views.widgetsInterface.main.CenterWidget;
 
 import com.google.gwt.user.cellview.client.CellList;
 import com.google.gwt.user.client.ui.Composite;

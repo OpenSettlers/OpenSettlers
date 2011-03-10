@@ -142,11 +142,11 @@ h1 {
 	border: 3px dashed Navy;
 }
 .common-panel {
-	margin-left: 1em;
-	padding-left: 1em;
-	border-left: thick solid Navy;
+	border: 3px solid White;
+	background-color: whitesmoke;
 }
 .common-panel:hover {
+	border: 3px solid darkblue;
 	background-color: aliceblue;
 }
 .color-option-red {
@@ -178,4 +178,9 @@ h1 {
 	padding: 10px 5px 5px;
 	border: 2px solid orange;
 	background-color: orange;
+}
+.just-text {
+}
+.or-label {
+	padding: 1em;
 }

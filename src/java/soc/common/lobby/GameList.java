@@ -108,7 +108,7 @@ public class GameList implements Iterable<GameInfo>
     public GameInfo getFromGame(User user)
     {
         for (GameInfo game : games.values())
-            if (game.getPlayers().contains(user))
+            if (game.getUsers().contains(user))
                 return game;
 
         return null;

@@ -167,6 +167,9 @@ public class RollDice extends AbstractTurnAction
                                         dice.getDiceTotal());
     }
 
+    /*
+     * TODO: chop code and move to API
+     */
     private void performPlayTurns(Game game)
     {
         // Switch to new DiceRollGamePhase, end current BeforeDiceRoll

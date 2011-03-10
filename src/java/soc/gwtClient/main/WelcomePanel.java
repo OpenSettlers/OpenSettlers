@@ -1,5 +1,6 @@
 package soc.gwtClient.main;
 
+import soc.common.views.widgetsInterface.main.CenterWidget;
 import soc.gwtClient.game.widgetsBitmap.dialogs.NewHotseatGame;
 import soc.gwtClient.images.Resources;
 
@@ -9,6 +10,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -19,12 +21,15 @@ public class WelcomePanel extends HorizontalPanel implements CenterWidget
     private Button btnMapCreator;
     private final MainWindow mainWindow;
     private NewHotseatGame newHotseatGameWidget;
+    private LobbyWindow lobbyWindow;
+    private IsWidget currentWidget;
 
     public WelcomePanel(MainWindow mainWindow)
     {
         this.mainWindow = mainWindow;
 
         newHotseatGameWidget = new NewHotseatGame(mainWindow);
+        lobbyWindow = new LobbyWindow(mainWindow);
 
         initialize();
     }
@@ -35,6 +40,20 @@ public class WelcomePanel extends HorizontalPanel implements CenterWidget
 
         menuPanel.setSpacing(5);
 
+        Button btnPlayNetwork = new Button();
+        btnPlayNetwork.setHTML("<H3><img src=\""
+                        + Resources.icons().newHotseatGame().getURL()
+                        + "\">Play online</H3>Enter the lobby and play online");
+        btnPlayNetwork.addClickHandler(new ClickHandler()
+        {
+            @Override
+            public void onClick(ClickEvent event)
+            {
+                setWidget(lobbyWindow);
+            }
+        });
+        menuPanel.add(btnPlayNetwork);
+
         Button btnHotseatGame = new Button();
         btnHotseatGame.setHTML("<H3><img src=\""
                         + Resources.icons().newHotseatGame().getURL()
@@ -44,7 +63,7 @@ public class WelcomePanel extends HorizontalPanel implements CenterWidget
             @Override
             public void onClick(ClickEvent event)
             {
-                rootPanel.add(newHotseatGameWidget);
+                setWidget(newHotseatGameWidget);
             }
         });
         menuPanel.add(btnHotseatGame);
@@ -102,6 +121,15 @@ public class WelcomePanel extends HorizontalPanel implements CenterWidget
             }
         });
         menuPanel.add(btnLobby);
+    }
+
+    private void setWidget(IsWidget widget)
+    {
+        if (currentWidget != null)
+            rootPanel.remove(currentWidget);
+
+        rootPanel.add(widget);
+        currentWidget = widget;
     }
 
     @Override

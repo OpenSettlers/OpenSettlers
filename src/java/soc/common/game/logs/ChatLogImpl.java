@@ -12,43 +12,26 @@ public class ChatLogImpl implements ChatLog
 {
     private static final long serialVersionUID = 6288111035333874654L;
     private List<GameChat> chats = new ArrayList<GameChat>();
-    private transient SimpleEventBus eventBus;
-
-    private void safelyFireEvent(SaidEvent event)
-    {
-        if (eventBus != null)
-        {
-            eventBus.fireEvent(event);
-        }
-    }
-
-    private SimpleEventBus getEventBus()
-    {
-        if (eventBus == null)
-        {
-            eventBus = new SimpleEventBus();
-        }
-
-        return eventBus;
-    }
+    private transient SimpleEventBus eventBus = new SimpleEventBus();
 
     @Override
     public ChatLog copy()
     {
+        // ChatLogImpl result = new ChatLogImpl();
+        // result.say(new )
         throw new RuntimeException("ChatLog.copy not yet implemented");
     }
-
     @Override
     public void say(GameChat gameChat)
     {
         chats.add(gameChat);
-        safelyFireEvent(new SaidEvent(gameChat));
+        eventBus.fireEvent(new SaidEvent(gameChat));
     }
 
     @Override
     public HandlerRegistration addSaidEventHandler(SaidEventHandler handler)
     {
-        return getEventBus().addHandler(SaidEvent.TYPE, handler);
+        return eventBus.addHandler(SaidEvent.TYPE, handler);
     }
 
 }

@@ -1,7 +1,7 @@
 package soc.common.actions.lobby.game;
 
-import soc.common.actions.ValidateResult;
 import soc.common.actions.Invalid;
+import soc.common.actions.ValidateResult;
 import soc.common.lobby.GameInfo;
 import soc.common.lobby.Lobby;
 
@@ -52,14 +52,12 @@ public class RemoveGame extends AbstractGameLobbyAction
         GameInfo game = lobby.getGames().getById(gameId);
 
         if (game == null)
-            return new Invalid("Game with ID=" + gameId
-                            + " does not exist");
+            return new Invalid("Game with ID=" + gameId + " does not exist");
 
-        if (game.getPlayers().contains(user) && game.getPlayers().size() > 1)
-            return new Invalid(
-                            "There are still players in this game");
+        if (game.getUsers().contains(user) && game.getUsers().size() > 1)
+            return new Invalid("There are still players in this game");
 
-        return validated;
+        return valid;
     }
 
 }

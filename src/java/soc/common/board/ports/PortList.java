@@ -15,7 +15,7 @@ import com.google.gwt.event.shared.SimpleEventBus;
 public class PortList implements Iterable<Port>, Serializable
 {
     private static final long serialVersionUID = 2465609717722438326L;
-    private ResourceList tradeableResourceTypes = ResourceList
+    private transient ResourceList tradeableResourceTypes = ResourceList
                     .tradeableResources();
     private transient EventBus eventBus = new SimpleEventBus();
     private List<Port> ports = new ArrayList<Port>();
