@@ -105,9 +105,9 @@ public class HexPoint implements Serializable
         List<HexSide> result = new ArrayList<HexSide>();
 
         // add all three hex sides around point
-        result.add(new HexSide(hex1, hex2));
-        result.add(new HexSide(hex1, hex3));
-        result.add(new HexSide(hex2, hex3));
+        result.add(new HexSideImpl(hex1, hex2));
+        result.add(new HexSideImpl(hex1, hex3));
+        result.add(new HexSideImpl(hex2, hex3));
 
         return result;
     }

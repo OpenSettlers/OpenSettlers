@@ -110,9 +110,9 @@ public class IdiotBot extends AbstractBot
     public BuildRoad pickFirstRoad()
     {
         HexSide roadPick = grabRandomHexSide(game.getBoard().getGraph()
-                .getRoadCandidatesFirstTown(player));
+                        .getRoadCandidatesFirstTown(player));
         return (BuildRoad) new BuildRoad().setSideLocation(roadPick).setPlayer(
-                player);
+                        player);
     }
 
     /*
@@ -124,9 +124,9 @@ public class IdiotBot extends AbstractBot
     public BuildTown pickFirstTown()
     {
         HexPoint townPick = grabRandomHexPoint(game.getBoard().getGraph()
-                .getTownCandidatesFirstTown(player));
+                        .getTownCandidatesFirstTown(player));
         return (BuildTown) new BuildTown().setPointLocation(townPick)
-                .setPlayer(player);
+                        .setPlayer(player);
     }
 
     @Override
@@ -137,9 +137,9 @@ public class IdiotBot extends AbstractBot
         for (int i = 0; i < amount; i++)
         {
             int randomResource = random.nextInt(game.getRules()
-                    .getTradeableResources().size(), false);
-            goldPick.add(game.getRules().getTradeableResources().get(
-                    randomResource));
+                            .getTradeableResources().size(), false);
+            goldPick.add(game.getRules().getTradeableResources()
+                            .get(randomResource));
         }
 
         return goldPick;
@@ -149,18 +149,18 @@ public class IdiotBot extends AbstractBot
     public BuildRoad pickSecondRoad()
     {
         HexSide roadPick = grabRandomHexSide(game.getBoard().getGraph()
-                .getRoadCandidatesSecondTown(player));
+                        .getRoadCandidatesSecondTown(player));
         return (BuildRoad) new BuildRoad().setSideLocation(roadPick).setPlayer(
-                player);
+                        player);
     }
 
     @Override
     public BuildTown pickSecondTown()
     {
         HexPoint townPick = grabRandomHexPoint(game.getBoard().getGraph()
-                .getTownCandidatesFirstTown(player));
+                        .getTownCandidatesFirstTown(player));
         return (BuildTown) new BuildTown().setPointLocation(townPick)
-                .setPlayer(player);
+                        .setPlayer(player);
     }
 
     /*
@@ -175,7 +175,7 @@ public class IdiotBot extends AbstractBot
     public GameAction respondToTrade(TradeOffer tradeOffer)
     {
         boolean canAccept = player.getResources().hasAtLeast(
-                tradeOffer.getRequestedResources());
+                        tradeOffer.getRequestedResources());
         boolean canCounter = player.getResources().size() > 0;
 
         // Keep track of possible responses
@@ -195,9 +195,9 @@ public class IdiotBot extends AbstractBot
         {
             CounterTradeOffer counter = new CounterTradeOffer();
             counter.getOfferedResources().addList(
-                    tradeOffer.getRequestedResources());
+                            tradeOffer.getRequestedResources());
             counter.getRequestedResources().add(
-                    player.getResources().getRandom(random));
+                            player.getResources().getRandom(random));
             responses.add(counter);
         }
 
@@ -244,9 +244,9 @@ public class IdiotBot extends AbstractBot
 
         // Pick a random location
         List<HexLocation> possibleLocations = game.getBoard().getGraph()
-                .getPossibleRobberLocations();
+                        .getPossibleRobberLocations();
         HexLocation randomLocation = possibleLocations.get(random.nextInt(
-                possibleLocations.size(), false));
+                        possibleLocations.size(), false));
 
         placeRobber.setNewLocation(randomLocation);
 
@@ -260,12 +260,12 @@ public class IdiotBot extends AbstractBot
         robPlayer.setPlayer(player);
 
         GamePlayerList robCandidates = game.getPlayersAtHex(game.getRobber()
-                .getLocation(), player);
+                        .getLocation(), player);
 
         if (robCandidates.size() > 0)
         {
             GamePlayer robbedPlayer = robCandidates.get(random.nextInt(
-                    robCandidates.size(), false));
+                            robCandidates.size(), false));
             robPlayer.setRobbedPlayer(robbedPlayer);
         }
 

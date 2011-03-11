@@ -1,8 +1,9 @@
 package soc.common.server.rating;
 
+import java.io.Serializable;
 import java.util.List;
 
-public interface Rating
+public interface Rating extends Serializable
 {
     public int getRating();
 

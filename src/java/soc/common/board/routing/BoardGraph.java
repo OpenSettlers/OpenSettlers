@@ -102,10 +102,8 @@ public class BoardGraph
                 GraphSide graphSide = new GraphSideImpl(side);
 
                 // Side should be on the inner map space
-                if (side.fallsWithinBoardBounds(board.getWidth(),
-                                board.getHeight())
-                                &&
-                                // undirected graph, only need to add the edge once
+                if (board.fallsWithinBounds(side) &&
+                // undirected graph, only need to add the edge once
                                 !graph.edgeSet().contains(graphSide))
                 {
                     // Get the other point
@@ -118,7 +116,6 @@ public class BoardGraph
                 }
             } // for side
     }
-
     public GraphSide findGraphSide(HexSide side)
     {
         for (GraphSide graphSide : graph.edgeSet())

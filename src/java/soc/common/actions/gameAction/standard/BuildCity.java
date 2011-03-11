@@ -131,7 +131,7 @@ public class BuildCity extends AbstractTurnAction
         GamePlayer player = game.getPlayerByID(sender);
 
         // Get first city from stock
-        City city = (City) player.getStock().getCities().get(0);
+        City city = player.getStock().getCities().get(0);
         city.setPoint(pointLocation);
 
         if (game.getCurrentPhase().isPlayTurns())

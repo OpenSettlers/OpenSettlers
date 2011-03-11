@@ -13,6 +13,19 @@ public interface Icons extends ClientBundle
     @Source("size48/VictoryPoints.png")
     public ImageResource claimVictory48();
 
+    @Source("size48/LoginUser.png")
+    public ImageResource loginUser();
+    @Source("size48/RegisterUser.png")
+    public ImageResource registerUser();
+    @Source("size48/User.png")
+    public ImageResource user();
+
+    @Source("size48/City.png")
+    public ImageResource newHotseatGame();
+    @Source("size32/AddTerritory.png")
+    public ImageResource addTerritory();
+
+    // Done for 16/32/48
     @Source("size16/Lobby.png")
     public ImageResource lobby16();
     @Source("size32/Lobby.png")
@@ -90,9 +103,6 @@ public interface Icons extends ClientBundle
     @Source("size48/Wiki.png")
     public ImageResource wiki48();
 
-    @Source("size48/City.png")
-    public ImageResource newHotseatGame();
-
     @Source("size16/Bot.png")
     public ImageResource bot16();
     @Source("size32/Bot.png")
@@ -169,12 +179,6 @@ public interface Icons extends ClientBundle
     public ImageResource buildingTurnPhase32();
     @Source("size48/BuildingTurnPhase.png")
     public ImageResource buildingTurnPhase48();
-
-    @Source("size48/User.png")
-    public ImageResource user();
-
-    @Source("size32/AddTerritory.png")
-    public ImageResource addTerritory();
 
     @Source("size16/BankTrade.png")
     public ImageResource bankTrade16();

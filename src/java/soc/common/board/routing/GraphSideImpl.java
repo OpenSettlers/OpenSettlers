@@ -89,8 +89,7 @@ public class GraphSideImpl implements GraphSide
         {
             if (other.sideLocation != null)
                 return false;
-        }
-        else if (!sideLocation.equals(other.sideLocation))
+        } else if (!sideLocation.equals(other.sideLocation))
             return false;
         return true;
     }

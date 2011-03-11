@@ -123,17 +123,17 @@ public class HexLocation implements Serializable
         switch (position)
         {
         case DEG0:
-            return new HexSide(neighbours.get(0), this);
+            return new HexSideImpl(neighbours.get(0), this);
         case DEG60:
-            return new HexSide(neighbours.get(1), this);
+            return new HexSideImpl(neighbours.get(1), this);
         case DEG120:
-            return new HexSide(neighbours.get(2), this);
+            return new HexSideImpl(neighbours.get(2), this);
         case DEG180:
-            return new HexSide(neighbours.get(3), this);
+            return new HexSideImpl(neighbours.get(3), this);
         case DEG240:
-            return new HexSide(neighbours.get(4), this);
+            return new HexSideImpl(neighbours.get(4), this);
         case DEG300:
-            return new HexSide(neighbours.get(5), this);
+            return new HexSideImpl(neighbours.get(5), this);
         }
 
         // List<HexPoint> neighbours = getNeighbourHexPoints();

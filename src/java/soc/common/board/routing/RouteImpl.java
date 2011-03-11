@@ -8,6 +8,7 @@ import org.jgrapht.Graph;
 
 import soc.common.board.layout.HexPoint;
 import soc.common.board.layout.HexSide;
+import soc.common.board.layout.HexSideImpl;
 import soc.common.game.player.GamePlayer;
 
 public class RouteImpl implements Route
@@ -38,7 +39,7 @@ public class RouteImpl implements Route
 
         for (int i = 0; i < longest.size() - 1; i++)
         {
-            HexSide side = new HexSide(longest.get(i), longest.get(i + 1));
+            HexSide side = new HexSideImpl(longest.get(i), longest.get(i + 1));
             GraphSide graphSide = baseGraph.findGraphSide(side);
             edges.add(graphSide);
         }

@@ -315,6 +315,37 @@ public class Board implements Serializable
         return true;
     }
 
+    public boolean fallsWithinBounds(HexSide side)
+    {
+        if (!fallsWithinBounds(side.getHex1())
+                        || !fallsWithinBounds(side.getHex2()))
+            return false;
+        else
+            return true;
+    }
+
+    public boolean fallsWithinBounds(HexLocation location)
+    {
+        if (location.getH() < 0 || location.getW() < 0)
+            return false;
+
+        if (location.getH() >= hexes.getHeight()
+                        || location.getW() >= hexes.getWidth())
+            return false;
+
+        return true;
+    }
+
+    public boolean fallsWithinBounds(HexPoint point)
+    {
+        if (!fallsWithinBounds(point.getHex1())
+                        || !fallsWithinBounds(point.getHex2())
+                        || !fallsWithinBounds(point.getHex3()))
+            return false;
+        else
+            return true;
+    }
+
     /*
      * Returns true when given point can be used to build a town on
      */
