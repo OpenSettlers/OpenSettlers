@@ -48,14 +48,18 @@ import soc.common.server.entities.UserList;
 import soc.common.server.randomization.ClientRandom;
 import soc.common.server.randomization.Random;
 
+import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
 
+/*
+ * Model of the game during a game
+ */
 public class Game implements Serializable
 {
     private static final long serialVersionUID = -4310619750495087333L;
     // Event subscribers/broadcasting mechanism
-    private transient SimpleEventBus eventBus = new SimpleEventBus();
+    private transient EventBus eventBus = new SimpleEventBus();
     private transient Random random = new ClientRandom();
 
     // Logs
@@ -65,6 +69,7 @@ public class Game implements Serializable
     // Abstracted rules
     private GameRules gameRules;
 
+    // Players/bots/spectators
     private GamePlayerList players = new GamePlayerList();
     private UserList spectators = new UserList();
 
@@ -130,8 +135,7 @@ public class Game implements Serializable
             currentTurn.setTurnPhase(newPhase);
             eventBus.fireEvent(new TurnPhaseChangedEvent(newPhase, oldPhase));
             return true;
-        }
-        else
+        } else
         {
             return false;
         }
@@ -161,13 +165,13 @@ public class Game implements Serializable
     {
         // Add the response to the current TradeOffer
         currentTurn.getTradeOffers().getLatestOffer().getResponses()
-                .addResponse(response);
+                        .addResponse(response);
 
         // Update whether or not we have all responses we expect to get
         if (currentTurn.getTradeOffers().getLatestOffer().getResponses().size() == players
-                .size() - 1)
+                        .size() - 1)
             currentTurn.getTradeOffers().getLatestOffer()
-                    .setResponsesCompleted(true);
+                            .setResponsesCompleted(true);
     }
 
     /*
@@ -253,14 +257,11 @@ public class Game implements Serializable
     {
         // Bugger out when action itself isn't valid
         if (!action.isValid(this))
-        {
             return false;
-        }
 
         // When mustExpected flag is set, we expect the given GameAction to be
         // expected on the GameQueue
         if (action.mustExpected())
-        {
             if (actionsQueue.size() > 0)
             {
                 GameAction expectedAction = actionsQueue.findExpected(action);
@@ -268,13 +269,11 @@ public class Game implements Serializable
                     return false;
                 else
                     return expectedAction.getClass() == action.getClass();
-            }
-            else
+            } else
             {
                 // Nothing present on the GameQueue. Bugger out.
                 return false;
             }
-        }
 
         return true;
     }
@@ -288,12 +287,12 @@ public class Game implements Serializable
         boolean oldInvalid = false;
 
         if (longestRoad.getRoute() != null
-                && !longestRoad.getRoute().validate())
+                        && !longestRoad.getRoute().validate())
             oldInvalid = true;
 
         // Call actual longest road calculation
         Route possibleNewLongest = board.getGraph().getLongestRoute(this,
-                longestRoad.getRoute());
+                        longestRoad.getRoute());
 
         if (possibleNewLongest != null)
         {
@@ -303,10 +302,10 @@ public class Game implements Serializable
             // is
             // null
             if (longestRoad.getRoute() == null
-                    || possibleNewLongest.getLength() != longestRoad.getRoute()
-                            .getLength()
-                    || possibleNewLongest.getPlayer().equals(
-                            longestRoad.getPlayer()))
+                            || possibleNewLongest.getLength() != longestRoad
+                                            .getRoute().getLength()
+                            || possibleNewLongest.getPlayer().equals(
+                                            longestRoad.getPlayer()))
             {
                 // Remove it from the old player if old player exists
                 if (longestRoad.getPlayer() != null)
@@ -339,7 +338,7 @@ public class Game implements Serializable
      * Returns a list of GamePlayers having a town or city at given HexLocation
      */
     public GamePlayerList getPlayersAtHex(HexLocation hexLocation,
-            GamePlayer skipPlayer)
+                    GamePlayer skipPlayer)
     {
         GamePlayerList playersAtHex = new GamePlayerList();
 
@@ -362,7 +361,7 @@ public class Game implements Serializable
         // Grab the new phase
         GamePhase newGamePhase = currentPhase.next(this);
         GamePhaseChangedEvent event = new GamePhaseChangedEvent(currentPhase,
-                newGamePhase);
+                        newGamePhase);
 
         currentPhase = newGamePhase;
 
@@ -371,7 +370,8 @@ public class Game implements Serializable
         if (currentPhase.isPlayTurns())
         {
             eventBus.fireEvent(new TurnPhaseChangedEvent(
-                    ((PlayTurnsGamePhase) currentPhase).getTurnPhase(), null));
+                            ((PlayTurnsGamePhase) currentPhase).getTurnPhase(),
+                            null));
         }
 
         // Start the next phase
@@ -439,13 +439,12 @@ public class Game implements Serializable
                 // No one owns LA yet, set it to given player
                 player.getArmy().addToPlayer(player);
                 largestArmy.setPlayer(player);
-            }
-            else
+            } else
             {
                 // There is an opponent with a bigger army
                 if (!opponent.equals(player)
-                        && opponent.getArmy().getSoldiersAmount() < player
-                                .getArmy().getSoldiersAmount())
+                                && opponent.getArmy().getSoldiersAmount() < player
+                                                .getArmy().getSoldiersAmount())
                 {
                     // Player wins LA from previous player
                     opponent.getArmy().removeFromPlayer(opponent);
@@ -469,31 +468,31 @@ public class Game implements Serializable
     }
 
     public HandlerRegistration addGamePhaseChangedEventHandler(
-            GamePhaseChangedEventHandler handler)
+                    GamePhaseChangedEventHandler handler)
     {
         return eventBus.addHandler(GamePhaseChangedEvent.TYPE, handler);
     }
 
     public HandlerRegistration addDiceChangedEventHandler(
-            DiceChangedEventHandler handler)
+                    DiceChangedEventHandler handler)
     {
         return eventBus.addHandler(DiceChangedEvent.TYPE, handler);
     }
 
     public HandlerRegistration addTurnChangedEventHandler(
-            TurnChangedEventHandler handler)
+                    TurnChangedEventHandler handler)
     {
         return eventBus.addHandler(TurnChangedEvent.TYPE, handler);
     }
 
     public HandlerRegistration addTurnPhaseChangedHandler(
-            TurnPhaseChangedHandler handler)
+                    TurnPhaseChangedHandler handler)
     {
         return eventBus.addHandler(TurnPhaseChangedEvent.TYPE, handler);
     }
 
     public HandlerRegistration addStatusChangedEventHandler(
-            StatusChangedEventHandler handler)
+                    StatusChangedEventHandler handler)
     {
         return eventBus.addHandler(StatusChangedEvent.TYPE, handler);
     }
@@ -523,45 +522,35 @@ public class Game implements Serializable
         return this;
     }
 
-    /**
-     * @return the id
-     */
+    /** @return the id */
     public int getId()
     {
         return id;
     }
 
-    /**
-     * @param id
-     *            the id to set
-     */
+    /** @param id
+     *            the id to set */
     public Game setId(int id)
     {
         this.id = id;
         return this;
     }
 
-    /**
-     * @return the startedDateTime
-     */
+    /** @return the startedDateTime */
     public Date getStartedDateTime()
     {
         return startedDateTime;
     }
 
-    /**
-     * @param startedDateTime
-     *            the startedDateTime to set
-     */
+    /** @param startedDateTime
+     *            the startedDateTime to set */
     public Game setStartedDateTime(Date startedDateTime)
     {
         this.startedDateTime = startedDateTime;
         return this;
     }
 
-    /**
-     * @return the name
-     */
+    /** @return the name */
     public String getName()
     {
         return name;

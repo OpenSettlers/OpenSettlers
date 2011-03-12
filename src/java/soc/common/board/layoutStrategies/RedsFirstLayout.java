@@ -35,8 +35,9 @@ public class RedsFirstLayout implements LayoutStrategy
                 // Create a list of random Hexes to replace
                 List<Hex> randomHexes = new ArrayList<Hex>();
                 for (Hex hex : board.getHexes())
-                    if (hex.getTerritory().equals(territory)
-                            && hex instanceof RandomHex)
+                    if (hex.getTerritory() != null
+                                    && hex.getTerritory().equals(territory)
+                                    && hex instanceof RandomHex)
                         randomHexes.add(hex);
 
                 replaceRandomHexes(board, randomHexes, territory);
@@ -50,7 +51,7 @@ public class RedsFirstLayout implements LayoutStrategy
     private void layoutChits(Board board, Territory territory)
     {
         Map<Integer, List<Chit>> chitsByChance = chitsByProbability(territory
-                .getChits());
+                        .getChits());
 
         // Iterate over each hexes grouped by their chances to be
         // rolled, starting
@@ -72,13 +73,13 @@ public class RedsFirstLayout implements LayoutStrategy
                         // If no unique spots are found, pick known bad
                         // spot
                         hex = hexesToPutChitOn.get(random.nextInt(
-                                hexesToPutChitOn.size(), false));
+                                        hexesToPutChitOn.size(), false));
                     else
                         // There are spots left where chit does not
                         // neighbour another chit with the same probablity of
                         // being rolled
                         hex = allowedHexes.get(random.nextInt(
-                                allowedHexes.size(), false));
+                                        allowedHexes.size(), false));
 
                     // Put the chit on the hex
                     hex.setChit(chit);
@@ -99,14 +100,14 @@ public class RedsFirstLayout implements LayoutStrategy
      * Replace the random hexes by hexes from the territory
      */
     private void replaceRandomHexes(Board board, List<Hex> randomHexes,
-            Territory territory)
+                    Territory territory)
     {
         for (Hex hex : randomHexes)
         {
             // Grab another hex
             Hex newHex = territory.getHexes().grabRandom(random)
-                    .setTerritory(hex.getTerritory())
-                    .setLocation(hex.getLocation());
+                            .setTerritory(hex.getTerritory())
+                            .setLocation(hex.getLocation());
 
             // Put it on the board
             board.getHexes().set(hex.getLocation(), newHex);

@@ -95,7 +95,7 @@ public class BoardGraph
         // Iterate over all points in the graph
         for (GraphPoint point : graph.vertexSet())
             // Each point has three sides. Add them when they fall within the
-            // bounds of the board
+            // bounds of the board, and it's not yet added
             for (HexSide side : point.getPoint().getNeighbourSides())
             {
                 // Find existing side

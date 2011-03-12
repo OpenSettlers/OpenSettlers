@@ -63,7 +63,7 @@ public class NewHotseatGame extends Composite implements OnColorChanged,
         ScrollPanel scrollPanel = new ScrollPanel();
         scrollPanel.setStyleName("newHotseatGame");
         initWidget(scrollPanel);
-        scrollPanel.setSize("100%", "100%");
+        scrollPanel.setSize("562px", "100%");
 
         VerticalPanel panelRoot = new VerticalPanel();
         scrollPanel.setWidget(panelRoot);
@@ -101,17 +101,18 @@ public class NewHotseatGame extends Composite implements OnColorChanged,
         VerticalPanel verticalPanel_4 = new VerticalPanel();
         panelBoards.add(verticalPanel_4);
 
-        HorizontalPanel horizontalPanel_1 = new HorizontalPanel();
-        panelRoot.add(horizontalPanel_1);
+        HorizontalPanel panelPlayers = new HorizontalPanel();
+        panelRoot.add(panelPlayers);
 
         VerticalPanel panelPlayersTitle = new VerticalPanel();
         panelPlayersTitle.setSpacing(5);
-        horizontalPanel_1.add(panelPlayersTitle);
+        panelPlayers.add(panelPlayersTitle);
         panelPlayersTitle.setWidth("100%");
 
         Label lblPlayers = new Label("Players");
         lblPlayers.setStyleName("header-label");
         panelPlayersTitle.add(lblPlayers);
+        panelPlayers.add(playerListWidget);
 
         // panelPlayersTitle.add(verticalPanel);
 
@@ -183,6 +184,7 @@ public class NewHotseatGame extends Composite implements OnColorChanged,
 
         playersPanel.add(panelAddBot);
         playersPanel.add(panelAddPlayer);
+        panelPlayers.add(playersPanel);
 
         CellTable<GamePlayer> celltablePlayers = new CellTable<GamePlayer>(8);
         celltablePlayers.setFocus(false);
