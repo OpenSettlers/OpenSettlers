@@ -15,6 +15,9 @@ import soc.common.board.ports.RandomPort;
 import soc.common.board.settings.BoardSettings;
 import soc.common.board.territories.Territory;
 
+/*
+ * Standard four player board by code instantiation
+ */
 public class StandardFourPlayer extends Board
 {
     private static final long serialVersionUID = 7516208031201813989L;
@@ -23,6 +26,7 @@ public class StandardFourPlayer extends Board
     {
         super();
 
+        // Standard board is 7x7
         this.hexes = new HexGrid(7, 7);
 
         // Layout board manually row by row.
@@ -100,35 +104,39 @@ public class StandardFourPlayer extends Board
         mainlaind.setChits(ChitList.newStandard4p());
         mainlaind.setPorts(PortList.newMain4p());
 
+        // Put 9 placeholders for a randomly asigned port on the board
         hexes.get(1, 0).setPort(
-                new RandomPort(hexes.get(1, 0).getLocation(),
-                        RotationPosition.DEG120));
+                        new RandomPort(hexes.get(1, 0).getLocation(),
+                                        RotationPosition.DEG120));
         hexes.get(3, 0).setPort(
-                new RandomPort(hexes.get(3, 0).getLocation(),
-                        RotationPosition.DEG120));
+                        new RandomPort(hexes.get(3, 0).getLocation(),
+                                        RotationPosition.DEG120));
         hexes.get(0, 2).setPort(
-                new RandomPort(hexes.get(0, 2).getLocation(),
-                        RotationPosition.DEG60));
+                        new RandomPort(hexes.get(0, 2).getLocation(),
+                                        RotationPosition.DEG60));
         hexes.get(6, 3).setPort(
-                new RandomPort(hexes.get(6, 3).getLocation(),
-                        RotationPosition.DEG240));
+                        new RandomPort(hexes.get(6, 3).getLocation(),
+                                        RotationPosition.DEG240));
         hexes.get(0, 4).setPort(
-                new RandomPort(hexes.get(0, 4).getLocation(),
-                        RotationPosition.DEG60));
+                        new RandomPort(hexes.get(0, 4).getLocation(),
+                                        RotationPosition.DEG60));
         hexes.get(5, 5).setPort(
-                new RandomPort(hexes.get(5, 5).getLocation(),
-                        RotationPosition.DEG300));
+                        new RandomPort(hexes.get(5, 5).getLocation(),
+                                        RotationPosition.DEG300));
         hexes.get(5, 1).setPort(
-                new RandomPort(hexes.get(5, 1).getLocation(),
-                        RotationPosition.DEG180));
+                        new RandomPort(hexes.get(5, 1).getLocation(),
+                                        RotationPosition.DEG180));
         hexes.get(1, 6).setPort(
-                new RandomPort(hexes.get(1, 6).getLocation(),
-                        RotationPosition.DEG0));
+                        new RandomPort(hexes.get(1, 6).getLocation(),
+                                        RotationPosition.DEG0));
         hexes.get(3, 6).setPort(
-                new RandomPort(hexes.get(3, 6).getLocation(),
-                        RotationPosition.DEG300));
+                        new RandomPort(hexes.get(3, 6).getLocation(),
+                                        RotationPosition.DEG300));
 
+        // Me me me!
         setDesigner("Ruud Poutsma");
+
+        // Some random uuid
         setId("8232fc96-2adb-4ce6-b721-fcdf8b712dbf");
         setName("Standard 4 player");
         boardSettings = new BoardSettings();

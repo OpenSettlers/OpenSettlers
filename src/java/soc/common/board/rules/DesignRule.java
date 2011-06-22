@@ -3,8 +3,12 @@ package soc.common.board.rules;
 import soc.common.board.Board;
 
 /*
- * When a user finished designing a board, he must check it against a 
- * set of rules. Such rules must implement this interface.
+ * When a user finished designing a board, he must check it against a
+ * set of rules. Such rules must implement this interface. A server saving a board
+ * can set constraints for boards to be submittable.
+ * 
+ * Because of the many custom rules in the variants, it's necessary to be able to check
+ * if a board meets certain criteria.
  */
 public interface DesignRule
 {

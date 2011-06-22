@@ -50,6 +50,11 @@ public class Pirate extends AbstractPiece
         this.location = hexLocation;
     }
 
+    public Pirate()
+    {
+        // Default empty serializable constructor
+    }
+
     /** @return the location */
     public HexLocation getLocation()
     {

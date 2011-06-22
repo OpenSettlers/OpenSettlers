@@ -27,7 +27,9 @@ import soc.common.server.randomization.ClientRandom;
 import soc.common.server.randomization.Random;
 
 /*
- * 
+ * Represents a Board, a playingfield which in essence is a collection of Hexes.
+ * Does not contain pieces, edge/vertex graphs and other game related data which
+ * are contained in GameBoard.
  */
 public class Board implements Serializable
 {

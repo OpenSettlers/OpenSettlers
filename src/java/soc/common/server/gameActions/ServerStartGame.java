@@ -6,7 +6,7 @@ import soc.common.board.Board;
 import soc.common.game.developmentCards.DevelopmentCardList;
 import soc.common.game.player.GamePlayerImpl;
 import soc.common.server.GameServer;
-import soc.common.server.entities.UnregisteredUser;
+import soc.common.server.entities.AnonymousUser;
 
 public class ServerStartGame implements ServerAction
 {
@@ -41,26 +41,36 @@ public class ServerStartGame implements ServerAction
 
     private void createNewGame()
     {
-        gameServer.getGame().getPlayers().add(
-                (GamePlayerImpl) new GamePlayerImpl().setUser(
-                        new UnregisteredUser().setId(1).setName("Piet"))
-                        .setColor("yellow"));
-        gameServer.getGame().getPlayers().add(
-                (GamePlayerImpl) new GamePlayerImpl().setUser(
-                        new UnregisteredUser().setId(2).setName("Kees"))
-                        .setColor("white"));
-        gameServer.getGame().getPlayers().add(
-                (GamePlayerImpl) new GamePlayerImpl().setUser(
-                        new UnregisteredUser().setId(3).setName("Truus"))
-                        .setColor("green"));
-        gameServer.getGame().getPlayers().add(
-                (GamePlayerImpl) new GamePlayerImpl().setUser(
-                        new UnregisteredUser().setId(4).setName("Klaas"))
-                        .setColor("red"));
-        gameServer.getGame().getPlayers().add(
-                (GamePlayerImpl) new GamePlayerImpl().setUser(
-                        new UnregisteredUser().setId(5).setName("Henk"))
-                        .setColor("blue"));
+        gameServer.getGame()
+                        .getPlayers()
+                        .add((GamePlayerImpl) new GamePlayerImpl().setUser(
+                                        new AnonymousUser().setId(1).setName(
+                                                        "Piet")).setColor(
+                                        "yellow"));
+        gameServer.getGame()
+                        .getPlayers()
+                        .add((GamePlayerImpl) new GamePlayerImpl().setUser(
+                                        new AnonymousUser().setId(2).setName(
+                                                        "Kees")).setColor(
+                                        "white"));
+        gameServer.getGame()
+                        .getPlayers()
+                        .add((GamePlayerImpl) new GamePlayerImpl().setUser(
+                                        new AnonymousUser().setId(3).setName(
+                                                        "Truus")).setColor(
+                                        "green"));
+        gameServer.getGame()
+                        .getPlayers()
+                        .add((GamePlayerImpl) new GamePlayerImpl().setUser(
+                                        new AnonymousUser().setId(4).setName(
+                                                        "Klaas")).setColor(
+                                        "red"));
+        gameServer.getGame()
+                        .getPlayers()
+                        .add((GamePlayerImpl) new GamePlayerImpl().setUser(
+                                        new AnonymousUser().setId(5).setName(
+                                                        "Henk")).setColor(
+                                        "blue"));
 
         // for (GamePlayer player : gameServer.getGame().getPlayers())
         // {

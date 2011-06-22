@@ -54,6 +54,10 @@ public class Robber extends AbstractPiece
         this.location = hexLocation;
     }
 
+    public Robber()
+    {
+    }
+
     /** @return the location */
     public HexLocation getLocation()
     {

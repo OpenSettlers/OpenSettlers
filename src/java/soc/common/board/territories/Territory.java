@@ -8,30 +8,29 @@ import soc.common.board.ports.Port;
 import soc.common.board.ports.PortList;
 import soc.common.server.randomization.Random;
 
+/*
+ * Represents a group of hexes on a Board. Each hex is assigned a territory.
+ * 
+ * At playtime, territories enable Trade Routes, bonus island vicotory points,
+ * and chit swapping. At designtime, territories keep lists of chits, ports and
+ * hexes for LayoutStrategies, to transform the designtime board to a playable board.
+ */
 public interface Territory extends Serializable
 {
-    /**
-     * @return the isBonus
-     */
+    /** @return the isBonus */
     public boolean isBonus();
 
-    /**
-     * @param isBonus
-     *            the isBonus to set
-     */
+    /** @param isBonus
+     *            the isBonus to set */
     public Territory setBonus(boolean isBonus);
 
     public String getName();
 
-    /**
-     * @return the ports
-     */
+    /** @return the ports */
     public PortList getPorts();
 
-    /**
-     * @param ports
-     *            the ports to set
-     */
+    /** @param ports
+     *            the ports to set */
     public Territory setPorts(PortList ports);
 
     public void setName(String name);

@@ -89,7 +89,6 @@ public class EndedGamePhase extends AbstractGamePhase
     @Override
     public Meta getMeta()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return meta;
     }
 }

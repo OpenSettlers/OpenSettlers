@@ -177,8 +177,7 @@ public class RollDiceTurnPhase extends AbstractTurnPhase
     @Override
     public Meta getMeta()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return meta;
     }
 
 }

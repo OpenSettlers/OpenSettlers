@@ -1,13 +1,14 @@
 package soc.common.server.entities;
 
+import soc.common.actions.Valid;
+import soc.common.actions.ValidateResult;
 import soc.common.server.RegisterResult;
 
 public class RegisterResultImpl implements RegisterResult
 {
     private static final long serialVersionUID = -6267699019305622873L;
-    private boolean success;
     private User user;
-    private String failReason;
+    private ValidateResult registered;
 
     public RegisterResultImpl()
     {
@@ -15,22 +16,13 @@ public class RegisterResultImpl implements RegisterResult
 
     public RegisterResultImpl(User user)
     {
-        super();
         this.user = user;
-        success = true;
+        this.registered = new Valid();
     }
 
-    public RegisterResultImpl(String failReason)
+    public RegisterResultImpl(ValidateResult registered)
     {
-        super();
-        this.failReason = failReason;
-        success = false;
-    }
-
-    @Override
-    public boolean isSuccess()
-    {
-        return success;
+        this.registered = registered;
     }
 
     @Override
@@ -40,9 +32,8 @@ public class RegisterResultImpl implements RegisterResult
     }
 
     @Override
-    public String getFailReason()
+    public ValidateResult isRegistered()
     {
-        return failReason;
+        return registered;
     }
-
 }

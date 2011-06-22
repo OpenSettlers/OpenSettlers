@@ -23,4 +23,6 @@ public interface User extends Serializable
     public String getPassword();
 
     public User setPassword(String password);
+
+    public boolean isAnonymous();
 }

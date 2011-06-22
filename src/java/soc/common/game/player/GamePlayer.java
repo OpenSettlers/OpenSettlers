@@ -21,6 +21,9 @@ import soc.common.server.entities.User;
 
 import com.google.gwt.event.shared.HandlerRegistration;
 
+/*
+ * Represents a player playing a game
+ */
 public interface GamePlayer extends Serializable
 {
     public User getUser();
@@ -70,7 +73,7 @@ public interface GamePlayer extends Serializable
     public ResourceList getResources();
 
     public HandlerRegistration addRoadTokenChangedEventHandler(
-            RoadTokensChangedEventHandler handler);
+                    RoadTokensChangedEventHandler handler);
 
     public Army getArmy();
 

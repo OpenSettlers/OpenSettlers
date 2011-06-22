@@ -3,6 +3,7 @@ package soc.gwtClient.lobby;
 import java.io.Serializable;
 import java.util.List;
 
+import soc.common.actions.ValidateResult;
 import soc.common.actions.lobby.LobbyAction;
 import soc.common.lobby.GameInfo;
 import soc.common.lobby.GameListChangedEvent;
@@ -64,11 +65,13 @@ public class LobbyBitmapWidget extends Composite implements LobbyWidget,
     @Override
     public void sendLobbyAction(LobbyAction action)
     {
-        chatService.send(action, new AsyncCallback<Void>()
+        chatService.send(action, new AsyncCallback<ValidateResult>()
         {
             @Override
-            public void onSuccess(Void result)
+            public void onSuccess(ValidateResult result)
             {
+                if (!result.isValid())
+                    statusWidget.setError(result.getInvalidReason());
             }
 
             @Override

@@ -1,5 +1,7 @@
 package soc.common.core;
 
+import soc.common.actions.Valid;
+import soc.common.actions.ValidateResult;
 import soc.common.server.entities.ServerUser;
 import soc.common.server.entities.User;
 import soc.common.server.randomization.ClientRandom;
@@ -15,14 +17,14 @@ public class Core
     private User serverUser = new ServerUser();
     private static Core instance = new Core();
     private Random random;
+    public static ValidateResult valid = new Valid();
 
     private Core()
     {
         if (GWT.isClient())
         {
             random = new ClientRandom();
-        }
-        else
+        } else
         {
             // TODO: implement for server side
         }
@@ -33,17 +35,13 @@ public class Core
         return instance;
     }
 
-    /**
-     * @return the user representing the server. Mainly used for referee
-     */
+    /** @return the user representing the server. Mainly used for referee */
     public User getServerUser()
     {
         return serverUser;
     }
 
-    /**
-     * @return a random instance
-     */
+    /** @return a random instance */
     public Random getRandom()
     {
         return random;

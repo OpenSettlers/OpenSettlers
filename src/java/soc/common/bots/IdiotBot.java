@@ -308,4 +308,10 @@ public class IdiotBot extends AbstractBot
         return supportedRuleSets;
     }
 
+    @Override
+    public boolean isAnonymous()
+    {
+        return false;
+    }
+
 }

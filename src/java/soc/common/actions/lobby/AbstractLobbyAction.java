@@ -1,6 +1,7 @@
 package soc.common.actions.lobby;
 
 import soc.common.actions.Invalid;
+import soc.common.actions.Valid;
 import soc.common.actions.ValidateResult;
 import soc.common.lobby.Lobby;
 import soc.common.server.entities.User;
@@ -13,20 +14,7 @@ public abstract class AbstractLobbyAction implements LobbyAction
     protected String message;
     protected transient User user;
     protected int userId;
-    protected transient static ValidateResult valid = new ValidateResult()
-    {
-        @Override
-        public boolean isValid()
-        {
-            return true;
-        }
-
-        @Override
-        public String getInvalidReason()
-        {
-            return null;
-        }
-    };
+    protected transient static ValidateResult valid = new Valid();
 
     @Override
     public String getMessage()

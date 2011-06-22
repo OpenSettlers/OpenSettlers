@@ -10,6 +10,7 @@ import soc.common.game.player.GamePlayer;
 
 public class TwoTowns implements InitialPlacementStrategy
 {
+    private static final long serialVersionUID = 8769489119920430608L;
 
     @Override
     public void executeStrategy(Game game)
@@ -26,12 +27,12 @@ public class TwoTowns implements InitialPlacementStrategy
 
             // Normal starting rules, add two towns
             game.getActionsQueue().enqueue(new BuildTown().setPlayer(player),
-                    true);
+                            true);
 
             // This action actually might be a BuildShipAction too.
             // TODO: implement this somewhere
             game.getActionsQueue().enqueue(new BuildRoad().setPlayer(player),
-                    true);
+                            true);
 
             // if the "back" flag is set, we should decrease the counter
             if (back)

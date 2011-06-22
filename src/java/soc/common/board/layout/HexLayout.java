@@ -1,5 +1,6 @@
 package soc.common.board.layout;
 
+import java.io.Serializable;
 import java.util.List;
 
 import soc.common.board.HexChangedEventHandler;
@@ -73,7 +74,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
  * |H| |H| |H| |H| |H| 4
  * </code>
  */
-public interface HexLayout extends Iterable<Hex>
+public interface HexLayout extends Iterable<Hex>, Serializable
 {
     public Hex get(HexLocation hexLocation);
 

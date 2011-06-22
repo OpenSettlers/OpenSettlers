@@ -17,8 +17,8 @@ import com.google.gwt.event.shared.SimpleEventBus;
 public class HexGrid implements HexLayout
 {
     private static final long serialVersionUID = 8931931419267340946L;
-    final int width;
-    final int height;
+    private int width;
+    private int height;
     private ArrayList<Hex> hexes = new ArrayList<Hex>();
     protected transient SimpleEventBus eventBus = new SimpleEventBus();
 
@@ -30,6 +30,11 @@ public class HexGrid implements HexLayout
     public int getWidth()
     {
         return height;
+    }
+
+    public HexGrid()
+    {
+        // Default instantiable constructor
     }
 
     public HexGrid(int width, int height)
@@ -57,8 +62,7 @@ public class HexGrid implements HexLayout
         if (hexes.size() - 1 < (width * h) + w)
         {
             hexes.set((width * h) + w, value);
-        }
-        else
+        } else
         {
             Hex oldHex = hexes.get((width * h) + w);
             hexes.set((width * h) + w, value);
@@ -102,7 +106,7 @@ public class HexGrid implements HexLayout
     {
         // when location falls outside west & north bounds, return invalid
         if (width < 0 || height < 0 || hexLocation.getH() >= height
-                || hexLocation.getW() >= width)
+                        || hexLocation.getW() >= width)
             return false;
         else
             return true;
@@ -114,14 +118,15 @@ public class HexGrid implements HexLayout
     public boolean isAtEdge(HexLocation location)
     {
         if (location.getH() == 0 || location.getW() == 0
-                || location.getH() >= height || location.getW() >= width)
+                        || location.getH() >= height
+                        || location.getW() >= width)
             return true;
         else
             return false;
     }
 
     public HandlerRegistration addHexChangedHandler(
-            HexChangedEventHandler handler)
+                    HexChangedEventHandler handler)
     {
         return eventBus.addHandler(HexChangedEvent.TYPE, handler);
     }

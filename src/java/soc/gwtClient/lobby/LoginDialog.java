@@ -215,7 +215,7 @@ public class LoginDialog extends Composite
                                 @Override
                                 public void onSuccess(RegisterResult result)
                                 {
-                                    if (result.isSuccess())
+                                    if (result.isRegistered().isValid())
                                     {
                                         labelRegisterStatus
                                                         .setText("You are registered as"

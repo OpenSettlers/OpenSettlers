@@ -71,6 +71,10 @@ public class GameRulesImpl implements GameRules
         variants.add(new Standard(game));
     }
 
+    public GameRulesImpl()
+    {
+    }
+
     /** @return the isSeaFarers */
     public boolean isSeaFarers()
     {

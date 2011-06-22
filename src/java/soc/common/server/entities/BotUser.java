@@ -16,4 +16,10 @@ public class BotUser extends AbstractUser implements User
         return null;
     }
 
+    @Override
+    public boolean isAnonymous()
+    {
+        return false;
+    }
+
 }

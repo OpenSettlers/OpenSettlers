@@ -13,4 +13,6 @@ public interface UserProvider
     public User registerUser(User user);
 
     public int getTotalUsers();
+
+    public User getUser(String nickname, String password);
 }

@@ -7,7 +7,8 @@ import soc.common.board.hexes.NoneHex;
 import soc.common.board.layout.HexLocation;
 
 /*
- * NoneHexes should always be bordered with SeaHexes. 
+ * NoneHexes should always be bordered with SeaHexes, or other Hexes where the isPartOfGame
+ * is set to false.
  */
 public class NoneHexOnlyBorderSea implements DesignRule
 {
@@ -43,9 +44,9 @@ public class NoneHexOnlyBorderSea implements DesignRule
                 // SeaHex.
                 for (HexLocation neighbour : hex.getLocation().getNeighbours())
                 {
-                    if (neighbour.fallsInsideBoardBounds(b.getWidth(), b
-                            .getHeight())
-                            && !(b.getHexes().get(neighbour) instanceof AbstractHex))
+                    if (neighbour.fallsInsideBoardBounds(b.getWidth(),
+                                    b.getHeight())
+                                    && !(b.getHexes().get(neighbour) instanceof AbstractHex))
                     {
                         // Non-SeaHex found, this rule is not met.
                         return false;

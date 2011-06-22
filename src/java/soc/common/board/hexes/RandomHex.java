@@ -9,6 +9,9 @@ import soc.gwtClient.images.Resources;
 
 import com.google.gwt.resources.client.ImageResource;
 
+/*
+ * Represents a designtime hex to be replaced by a LayoutStrategy.
+ */
 public class RandomHex extends AbstractHex
 {
     private static final long serialVersionUID = -3639719499925504115L;

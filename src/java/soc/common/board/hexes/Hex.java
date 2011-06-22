@@ -14,6 +14,9 @@ import soc.common.views.meta.HasMeta;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.ImageResource;
 
+/*
+ * Represents a hexagon tile on the Board.
+ */
 public interface Hex extends HasMeta, HasLocation, Serializable
 {
     /*

@@ -64,4 +64,10 @@ public class ServerUser implements User
         return this;
     }
 
+    @Override
+    public boolean isAnonymous()
+    {
+        return false;
+    }
+
 }

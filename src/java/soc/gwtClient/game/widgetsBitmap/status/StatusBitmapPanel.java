@@ -1,10 +1,10 @@
 package soc.gwtClient.game.widgetsBitmap.status;
 
 import soc.common.actions.gameAction.GameAction;
-import soc.common.game.StatusChangedEvent;
 import soc.common.game.Turn;
 import soc.common.game.TurnChangedEvent;
 import soc.common.game.logs.ActionQueueChangedEvent;
+import soc.common.game.statuses.StatusChangedEvent;
 import soc.common.views.widgetsInterface.main.GameWidget;
 import soc.gwtClient.game.widgetsAbstract.main.AbstractStatusPanel;
 

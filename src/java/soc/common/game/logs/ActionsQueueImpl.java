@@ -1,5 +1,6 @@
 package soc.common.game.logs;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +16,7 @@ import com.google.gwt.event.shared.SimpleEventBus;
  * 
  * The actions blocking gameplay from advancing can be of three types:
  * 1. The first action in the queue where isServer=true. This action
- *    will be executed immediately after the current executing action
+ * will be executed immediately after the current executing action
  * 2. First encountered action where isBlocking=true
  * 3. All actions of which isBlocking=false
  */
@@ -44,7 +45,7 @@ public class ActionsQueueImpl implements ActionsQueue
         QueuedAction queuedAction = getFirst();
         actions.remove(queuedAction);
         eventBus.fireEvent(new ActionQueueChangedEvent(queuedAction
-                .getGameAction(), null));
+                        .getGameAction(), null));
         return queuedAction.getGameAction();
     }
 
@@ -55,10 +56,9 @@ public class ActionsQueueImpl implements ActionsQueue
         if (actions.remove(actionToRemove))
         {
             eventBus.fireEvent(new ActionQueueChangedEvent(actionToRemove
-                    .getGameAction(), null));
+                            .getGameAction(), null));
             return expectedAction;
-        }
-        else
+        } else
         {
             throw new AssertionError("Expected given action to be in queue");
         }
@@ -88,8 +88,8 @@ public class ActionsQueueImpl implements ActionsQueue
         for (QueuedAction blockingAction : getBlockingQueuedActions())
         {
             if (blockingAction.getGameAction().isExpectedQueueType(prototype)
-                    && blockingAction.getGameAction().getPlayer().equals(
-                            prototype.getPlayer()))
+                            && blockingAction.getGameAction().getPlayer()
+                                            .equals(prototype.getPlayer()))
                 return blockingAction;
         }
 
@@ -152,7 +152,7 @@ public class ActionsQueueImpl implements ActionsQueue
 
     @Override
     public HandlerRegistration addQueueChangedEventHandler(
-            ActionQueueChangedEventHandler handler)
+                    ActionQueueChangedEventHandler handler)
     {
         return eventBus.addHandler(ActionQueueChangedEvent.TYPE, handler);
     }
@@ -166,8 +166,9 @@ public class ActionsQueueImpl implements ActionsQueue
      * HashMap cannot guarantee order of insertion, TreeMap is not supported by
      * GWT, a list of encapsulated GameAction seems a good solution
      */
-    private class QueuedAction
+    private class QueuedAction implements Serializable
     {
+        private static final long serialVersionUID = -8045802637684963771L;
         private GameAction gameAction;
         private boolean blocking;
 
@@ -224,9 +225,9 @@ public class ActionsQueueImpl implements ActionsQueue
 
         if (playerBlockingActions.size() > 1)
             throw new AssertionError(
-                    "Expected only to be one action in the list of blocking actions");
+                            "Expected only to be one action in the list of blocking actions");
 
         return playerBlockingActions.size() > 0 ? playerBlockingActions.get(0)
-                : null;
+                        : null;
     }
 }

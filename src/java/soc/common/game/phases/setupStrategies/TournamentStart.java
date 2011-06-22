@@ -12,6 +12,7 @@ import soc.common.game.player.GamePlayer;
  */
 public class TournamentStart implements InitialPlacementStrategy
 {
+    private static final long serialVersionUID = 783452797828320990L;
 
     @Override
     public void executeStrategy(Game game)
@@ -29,16 +30,16 @@ public class TournamentStart implements InitialPlacementStrategy
             if (back)
                 // Tournament starting rules, add a city
                 game.getActionsQueue().enqueue(
-                        new BuildCity().setPlayer(player), true);
+                                new BuildCity().setPlayer(player), true);
             else
                 // First building to build is a town
                 game.getActionsQueue().enqueue(
-                        new BuildTown().setPlayer(player), true);
+                                new BuildTown().setPlayer(player), true);
 
             // This action actually might be a BuildShipAction too.
             // TODO: implement this somewhere
             game.getActionsQueue().enqueue(new BuildRoad().setPlayer(player),
-                    true);
+                            true);
 
             // if the "back" flag is set, we should decrease the counter
             if (back)
@@ -71,6 +72,6 @@ public class TournamentStart implements InitialPlacementStrategy
         for (GamePlayer player : game.getPlayers())
             // Enqueue a BuildRoad action for each player
             game.getActionsQueue().enqueue(new BuildRoad().setPlayer(player),
-                    true);
+                            true);
     }
 }

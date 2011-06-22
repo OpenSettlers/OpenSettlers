@@ -1,6 +1,8 @@
 package soc.common.actions;
 
-public interface ValidateResult
+import java.io.Serializable;
+
+public interface ValidateResult extends Serializable
 {
     public String getInvalidReason();
     public boolean isValid();

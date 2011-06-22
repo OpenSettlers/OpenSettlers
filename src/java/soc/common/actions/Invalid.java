@@ -5,7 +5,12 @@ package soc.common.actions;
  */
 public class Invalid implements ValidateResult
 {
+    private static final long serialVersionUID = 3403714011213038388L;
     private String invalidReason = "No reason given";
+
+    public Invalid()
+    {
+    }
 
     public Invalid(String invalidReason)
     {

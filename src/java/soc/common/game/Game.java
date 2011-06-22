@@ -41,6 +41,8 @@ import soc.common.game.player.GamePlayerList;
 import soc.common.game.settings.GameSettings;
 import soc.common.game.statuses.GameStatus;
 import soc.common.game.statuses.Playing;
+import soc.common.game.statuses.StatusChangedEvent;
+import soc.common.game.statuses.StatusChangedEventHandler;
 import soc.common.game.trading.TradeResponse;
 import soc.common.game.variants.GameRules;
 import soc.common.game.variants.GameRulesImpl;
