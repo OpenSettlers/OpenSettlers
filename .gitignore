@@ -11,6 +11,7 @@ war/Documentation/*
 war/WEB-INF/lib/*
 war/WEB-INF/classes/*
 war/soc.common.OSCommon.JUnit/*
+war/.gitignore
 .gwt/*
 .settings
 /settings/*
