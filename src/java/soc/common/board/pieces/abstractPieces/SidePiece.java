@@ -1,6 +1,6 @@
 package soc.common.board.pieces.abstractPieces;
 
-import soc.common.board.HexSide;
+import soc.common.board.layout.HexSide;
 import soc.common.board.routing.GraphPoint;
 
 public interface SidePiece extends BoardPiece
