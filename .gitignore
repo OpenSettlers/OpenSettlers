@@ -2,6 +2,7 @@ bin
 bin/*
 deploy
 deploy/*
+target/*
 target/lib
 target/lib/*
 target/classes
