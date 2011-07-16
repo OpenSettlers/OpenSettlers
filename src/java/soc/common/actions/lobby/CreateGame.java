@@ -10,18 +10,14 @@ public class CreateGame extends AbstractLobbyAction
     private static final long serialVersionUID = 6745433721783796193L;
     private GameInfo gameInfo;
 
-    /**
-     * @return the gameInfo
-     */
+    /** @return the gameInfo */
     public GameInfo getGameInfo()
     {
         return gameInfo;
     }
 
-    /**
-     * @param gameInfo
-     *            the gameInfo to set
-     */
+    /** @param gameInfo
+     *            the gameInfo to set */
     public CreateGame setGameInfo(GameInfo gameInfo)
     {
         this.gameInfo = gameInfo;
@@ -43,8 +39,8 @@ public class CreateGame extends AbstractLobbyAction
      */
     @Override
     public ServerLobbyAction createServerLobbyAction(
-            ServerLobbyActionFactory factory)
+                    ServerLobbyActionFactory factory)
     {
-        return factory.createNewGameAction();
+        return factory.createNewGameAction(this);
     }
 }

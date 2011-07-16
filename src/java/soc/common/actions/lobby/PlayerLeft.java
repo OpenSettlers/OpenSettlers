@@ -19,7 +19,7 @@ public class PlayerLeft extends AbstractLobbyAction
     @Override
     public String getMessage()
     {
-        return I18n.get().lobby().left(player.getName());
+        return I18n.get().lobby().left(user.getName());
     }
 
 }

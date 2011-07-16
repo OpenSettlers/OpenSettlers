@@ -15,7 +15,7 @@ public class PlayerJoined extends AbstractLobbyAction
     @Override
     public String getMessage()
     {
-        return I18n.get().lobby().joined(player.getName());
+        return I18n.get().lobby().joined(user.getName());
     }
 
     @Override
