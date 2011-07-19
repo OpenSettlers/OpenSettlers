@@ -21,7 +21,7 @@
  <!-- the RPC service called by the client -->
   <servlet>
     <servlet-name>greetService</servlet-name>
-    <servlet-class>soc.gwtServer.GreetingServiceImpl</servlet-class>
+    <servlet-class>org.soc.gwt.server.GreetingServiceImpl</servlet-class>
   </servlet>
 
   <!-- the comet servlet for streaming messages to the client -->

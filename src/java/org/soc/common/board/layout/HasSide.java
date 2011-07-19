@@ -1,0 +1,25 @@
+package org.soc.common.board.layout;
+
+import org.soc.common.board.pieces.abstractPieces.BoardPiece;
+import org.soc.common.board.routing.GraphPoint;
+
+/*
+ * For pieces on the board located on a HexSide.
+ */
+public interface HasSide extends BoardPiece
+{
+    public HexSide getSide();
+
+    public HasSide setSide(HexSide side);
+
+    public boolean canConnect(GraphPoint graphPoint, HasSide otherPiece);
+
+    /*
+     * Returns true when this implementor can connect to a road when graphpoint is empty
+     */
+    public boolean connectsWithRoad();
+
+    public boolean connectsWithShip();
+
+    public boolean connectsWithBridge();
+}
