@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='OpenSettlers'>
+  <inherits name='com.google.gwt.user.User'/>
+  <inherits name='com.google.gwt.place.Place'/>
+  <inherits name="com.google.gwt.resources.Resources" />
+  
+  <inherits name='com.google.gwt.user.theme.standard.Standard'/>
+  <!-- <inherits name='com.google.gwt.user.theme.chrome.Chrome'/> -->
+  <!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/>-->     
+
+  <inherits name='org.soc.common.OsCommon' />
+  <inherits name='org.vaadin.gwtgraphics.GWTGraphics' />
+<!--   <inherits name='net.zschech.gwt.comet.Comet' /> -->
+  <inherits name='org.adamtacy.GWTEffects' />
+  <inherits name="com.google.gwt.rpc.RPC" />
+  
+  <!-- <entry-point class='org.soc.gwt.client.lobby.'/>-->
+  <entry-point class='org.soc.gwt.client.main.MainWindow'/>
+    <servlet class="org.soc.gwt.server.GreetingServiceImpl" path="/chat"/>
+  <source path='game'/>
+  <source path='main'/>
+  <source path='images'/>
+  <source path='lobby'/>
+  <source path='editor'/>
+</module>

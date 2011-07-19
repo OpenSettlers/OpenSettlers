@@ -1,0 +1,285 @@
+package org.soc.common.actions.gameAction.standard;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.soc.common.actions.gameAction.turns.AbstractTurnAction;
+import org.soc.common.board.hexes.Hex;
+import org.soc.common.board.layout.HexLocation;
+import org.soc.common.board.layout.HexPoint;
+import org.soc.common.board.layout.HexSide;
+import org.soc.common.board.pieces.Town;
+import org.soc.common.board.pieces.pieceLists.PointPieceList;
+import org.soc.common.board.ports.Port;
+import org.soc.common.board.resources.ResourceList;
+import org.soc.common.game.Game;
+import org.soc.common.game.phases.GamePhase;
+import org.soc.common.game.phases.turnPhase.TurnPhase;
+import org.soc.common.internationalization.I18n;
+import org.soc.common.views.behaviour.gameWidget.GameBehaviour;
+import org.soc.common.views.behaviour.gameWidget.factories.GameBehaviourFactory;
+import org.soc.common.views.behaviour.gameWidget.factories.ReceiveGameBehaviourFactory;
+import org.soc.common.views.behaviour.gameWidget.received.ReceiveGameBehaviour;
+import org.soc.common.views.meta.Icon;
+import org.soc.common.views.meta.IconImpl;
+import org.soc.common.views.meta.Meta;
+import org.soc.common.views.widgetsInterface.actions.ActionDetailWidgetFactory;
+import org.soc.common.views.widgetsInterface.actions.ActionWidget;
+import org.soc.common.views.widgetsInterface.actions.ActionWidgetFactory;
+import org.soc.common.views.widgetsInterface.payerInfo.ActionDetailWidget;
+import org.soc.gwt.client.images.Resources;
+
+
+public class BuildTown extends AbstractTurnAction
+{
+    private static final long serialVersionUID = -2087932156154353767L;
+    private static transient Meta meta = new Meta()
+    {
+        private Icon icon = new IconImpl(Resources.icons().town16(), Resources
+                        .icons().town32(), Resources.icons().town48());
+
+        @Override
+        public Icon icon()
+        {
+            return icon;
+        }
+
+        @Override
+        public String getName()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public String getLocalizedName()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public String getDescription()
+        {
+            // TODO Auto-generated method stub
+            return null;
+        }
+    };
+    private HexPoint pointLocation;
+
+    /** @return the pointLocation */
+    public HexPoint getPointLocation()
+    {
+        return pointLocation;
+    }
+
+    /** @param pointLocation
+     *            the pointLocation to set */
+    public BuildTown setPointLocation(HexPoint pointLocation)
+    {
+        this.pointLocation = pointLocation;
+
+        return this;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.soc.common.actions.gameAction.GameAction#isValid(org.soc.common.game.Game)
+     */
+    @Override
+    public boolean isValid(Game game)
+    {
+        if (!super.isValid(game))
+            return false;
+
+        // we need at least an instance of the new place
+        if (pointLocation == null)
+        {
+            invalidMessage = "Location cannot be null";
+            return false;
+        }
+
+        if (game.getAllPointPieces().contains(pointLocation))
+        {
+            invalidMessage = "The spot and its neighbours is already used by anyone";
+            return false;
+        }
+
+        if (!game.getCurrentPhase().isInitialPlacement())
+        {
+            boolean hasNeighbour = false;
+            PointPieceList allPointPieces = game.getAllPointPieces();
+            for (HexPoint point : pointLocation.getNeighbours())
+                if (allPointPieces.contains(point))
+                    hasNeighbour = true;
+
+            if (hasNeighbour)
+            {
+                invalidMessage = "A neighbouring pointpiece was found. You can build here";
+                return false;
+            }
+        }
+
+        // player should have a ship or road at some neighbour
+        if (!(game.getCurrentPhase().isInitialPlacement()))
+        {
+            boolean contains = true;
+            for (HexSide neighbour : pointLocation.getNeighbourSides())
+            {
+                if (player.getSidePieces().contains(neighbour))
+                {
+                    contains = false;
+                    break;
+                }
+            }
+
+            if (!contains)
+            {
+                invalidMessage = "No neighbouring ship or road found";
+                return false;
+            }
+        }
+
+        // check if location is suitable (hexpoint neighbours can't be
+        // already built on)
+
+        // check if location is a valid one to built on
+        // (contains at least a landhex)
+
+        // couldnt find a neighbour, assume invalid state
+        return true;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.soc.common.actions.gameAction.GameAction#perform(org.soc.common.game.Game)
+     */
+    @Override
+    public void perform(Game game)
+    {
+        // update town management
+        Town town = (Town) player.getStock().getTowns().get(0);
+        town.setPoint(pointLocation);
+        game.addPiece(town, player);
+
+        // remove players' resources and put them in the bank
+        if (game.getCurrentPhase().isPlayTurns())
+            player.getResources().moveTo(game.getBank(), town.getCost());
+
+        if (game.getCurrentPhase().isInitialPlacement()
+                        && player.getPointPieces().size() == 2)
+        {
+            // player gets resources in neighbouring hexes
+            ResourceList resourcesFromPlacement = new ResourceList();
+            for (HexLocation loc : pointLocation.getHexLocations())
+            {
+                Hex hex = game.getBoard().getHexes().get(loc);
+
+                if (hex.canHaveResource())
+                    resourcesFromPlacement.add(hex.getResource());
+            }
+            player.getResources().swapResourcesFrom(resourcesFromPlacement,
+                            game.getBank());
+        }
+
+        // Check if the town is built on a port, if so, add port
+        // to list of ports of the player
+
+        // Get a list of ports
+        List<Port> ports = new ArrayList<Port>();
+        for (HexLocation locaction : pointLocation.getHexLocations())
+        {
+            Hex hex = game.getBoard().getHexes().get(locaction);
+            if (hex.canHavePort())
+                ports.add(hex.getPort());
+        }
+
+        // Grab port if available on this spot and add it to player when found
+        for (Port port : ports)
+            if (port.getHexSide().getHexPoint1().equals(pointLocation)
+                            || port.getHexSide().getHexPoint2()
+                                            .equals(pointLocation))
+                player.getPorts().add(port);
+
+        message = I18n.get().actions().builtTown(player.getUser().getName());
+
+        super.perform(game);
+    }
+
+    @Override
+    public boolean isAllowed(TurnPhase turnPhase)
+    {
+        return turnPhase.isBuilding();
+    }
+
+    @Override
+    public boolean isAllowed(GamePhase gamePhase)
+    {
+        return gamePhase.isPlayTurns() || gamePhase.isInitialPlacement();
+    }
+
+    @Override
+    public String getToDoMessage()
+    {
+        return I18n.get().actions().builtTownToDo(player.getUser().getName());
+    }
+
+    @Override
+    public ActionWidget createActionWidget(
+                    ActionWidgetFactory actionWidgetFactory)
+    {
+        return actionWidgetFactory.createBuildTownWidget();
+    }
+
+    @Override
+    public GameBehaviour getNextActionBehaviour(
+                    GameBehaviourFactory gameBehaviourFactory)
+    {
+        return gameBehaviourFactory.createBuildTownBehaviour(this);
+    }
+
+    @Override
+    public ReceiveGameBehaviour getOpponentReceiveBehaviour(
+                    ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
+    {
+        return receiveGameBehaviourFactory.createBuildTownBehaviour(this);
+    }
+
+    @Override
+    public ReceiveGameBehaviour getReceiveBehaviour(
+                    ReceiveGameBehaviourFactory receiveGameBehaviourFactory)
+    {
+        return receiveGameBehaviourFactory.createBuildTownBehaviour(this);
+    }
+
+    @Override
+    public GameBehaviour getSendBehaviour(
+                    GameBehaviourFactory gameBehaviourFactory)
+    {
+        return gameBehaviourFactory.createBuildTownBehaviour(this);
+    }
+
+    @Override
+    public Meta getMeta()
+    {
+        return meta;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.soc.common.actions.gameAction.AbstractGameAction#createActionDetailWidget
+     * (org.soc.common.ui.ActionDetailWidgetFactory)
+     */
+    @Override
+    public ActionDetailWidget createActionDetailWidget(
+                    ActionDetailWidgetFactory factory)
+    {
+        return factory.getBuildTownDetailWidget(this);
+    }
+}

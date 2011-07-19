@@ -1,7 +1,7 @@
 package soc.common.board;
 
-import soc.common.board.layout.HexLocation;
-import soc.common.board.layout.HexPoint;
+import org.soc.common.board.layout.HexLocation;
+import org.soc.common.board.layout.HexPoint;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
@@ -11,7 +11,7 @@ public class HexLocationtest extends GWTTestCase
     @Override
     public String getModuleName()
     {
-        return "soc.common.OSCommon";
+        return "org.soc.common.OSCommon";
     }
 
     public void testLocation()
