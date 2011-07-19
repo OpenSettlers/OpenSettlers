@@ -4,7 +4,7 @@ import soc.common.internationalization.I18n;
 import soc.common.views.meta.Icon;
 import soc.common.views.meta.IconImpl;
 import soc.common.views.meta.Meta;
-import soc.gwtClient.images.Resources;
+import soc.gwt.client.images.Resources;
 
 public class Chit12 extends AbstractChit
 {

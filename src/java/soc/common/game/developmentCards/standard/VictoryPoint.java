@@ -11,7 +11,7 @@ import soc.common.views.meta.IconImpl;
 import soc.common.views.meta.Meta;
 import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidget;
 import soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidgetFactory;
-import soc.gwtClient.images.Resources;
+import soc.gwt.client.images.Resources;
 
 /*
  * Standard ruleset VictoryPoint development card

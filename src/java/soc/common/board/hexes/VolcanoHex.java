@@ -8,7 +8,7 @@ import soc.common.utils.ClassUtils;
 import soc.common.views.meta.Icon;
 import soc.common.views.meta.IconImpl;
 import soc.common.views.meta.Meta;
-import soc.gwtClient.images.Resources;
+import soc.gwt.client.images.Resources;
 
 import com.google.gwt.resources.client.ImageResource;
 

@@ -21,7 +21,7 @@ import soc.common.views.widgetsInterface.payerInfo.StockItemWidget;
 import soc.common.views.widgetsInterface.payerInfo.StockItemWidgetFactory;
 import soc.common.views.widgetsInterface.visuals.PieceVisual;
 import soc.common.views.widgetsInterface.visuals.VisualFactory;
-import soc.gwtClient.images.Resources;
+import soc.gwt.client.images.Resources;
 
 public class City extends AbstractPlayerPiece implements VictoryPointItem,
                 HasPoint, Producable, StockPiece

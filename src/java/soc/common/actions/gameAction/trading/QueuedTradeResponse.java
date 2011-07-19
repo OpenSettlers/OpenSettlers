@@ -13,7 +13,7 @@ import soc.common.views.meta.IconImpl;
 import soc.common.views.meta.Meta;
 import soc.common.views.widgetsInterface.actions.ActionWidget;
 import soc.common.views.widgetsInterface.actions.ActionWidgetFactory;
-import soc.gwtClient.images.Resources;
+import soc.gwt.client.images.Resources;
 
 public class QueuedTradeResponse extends AbstractGameAction implements
                 TradeResponse

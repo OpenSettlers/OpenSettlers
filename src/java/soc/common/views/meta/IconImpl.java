@@ -1,6 +1,6 @@
 package soc.common.views.meta;
 
-import soc.gwtClient.images.Resources;
+import soc.gwt.client.images.Resources;
 
 import com.google.gwt.resources.client.ImageResource;
 

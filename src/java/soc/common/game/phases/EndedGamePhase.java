@@ -7,7 +7,7 @@ import soc.common.views.meta.IconImpl;
 import soc.common.views.meta.Meta;
 import soc.common.views.widgetsInterface.main.GamePhaseStatusWidget;
 import soc.common.views.widgetsInterface.main.GamePhaseStatusWidgetFactory;
-import soc.gwtClient.images.Resources;
+import soc.gwt.client.images.Resources;
 
 public class EndedGamePhase extends AbstractGamePhase
 {

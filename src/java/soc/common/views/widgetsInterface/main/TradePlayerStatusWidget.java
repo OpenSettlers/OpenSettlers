@@ -1,7 +1,7 @@
 package soc.common.views.widgetsInterface.main;
 
 import soc.common.game.trading.TradeResponse;
-import soc.gwtClient.images.Resources;
+import soc.gwt.client.images.Resources;
 
 import com.google.gwt.user.client.ui.IsWidget;
 

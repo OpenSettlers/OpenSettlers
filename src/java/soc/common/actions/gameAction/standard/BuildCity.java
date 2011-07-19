@@ -23,7 +23,7 @@ import soc.common.views.widgetsInterface.actions.ActionDetailWidgetFactory;
 import soc.common.views.widgetsInterface.actions.ActionWidget;
 import soc.common.views.widgetsInterface.actions.ActionWidgetFactory;
 import soc.common.views.widgetsInterface.payerInfo.ActionDetailWidget;
-import soc.gwtClient.images.Resources;
+import soc.gwt.client.images.Resources;
 
 /*
  * Builds next city from stock on the playing board

@@ -188,7 +188,7 @@ public abstract class AbstractGameAction extends AbstractAction implements
      * @see
      * soc.common.actions.gameAction.GameAction#createActionWidget(soc.common
      * .game.player.GamePlayer,
-     * soc.gwtClient.game.widgetsInterface.main.GameWidget)
+     * soc.gwt.client.game.widgetsInterface.main.GameWidget)
      */
     @Override
     public ActionWidget createActionWidget(
