@@ -1,4 +1,4 @@
-package soc.common.board;
+package org.soc.common.board;
 
 import org.soc.common.board.layout.HexLocation;
 import org.soc.common.board.layout.HexPoint;
