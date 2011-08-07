@@ -29,9 +29,9 @@
   <property name="experiment.class"
             value="experiment.Experiment" />
   <property name="client.class"
-            value="soc.client.PlayerClient" />
+            value="org.soc.client.PlayerClient" />
   <property name="server.class"
-            value="soc.server.SOCServer" />
+            value="org.soc.server.SOCServer" />
   <property name="main.class"
             value="${client.class}" />
   <!-- directory names -->
@@ -104,24 +104,24 @@
   </fileset>
   <!-- jar file packages -->
   <patternset id="server.files">
-    <include name="soc/robot/" />
-    <include name="soc/server/" />
+    <include name="org.soc/robot/" />
+    <include name="org.soc/server/" />
   </patternset>
   <patternset id="client.files">
     <include name="uct/" />
     <include name="resources/" />
     <!-- for version file -->
-    <include name="soc/" />
+    <include name="org.soc/" />
     <!-- everything... -->
-    <exclude name="soc/robot/" />
-    <exclude name="soc/client/" />
+    <exclude name="org.soc/robot/" />
+    <exclude name="org.soc/client/" />
     <!-- ...except these -->
-    <exclude name="soc/server/" />
+    <exclude name="org.soc/server/" />
   </patternset>
   <patternset id="client.files">
     <include name="resources/" />
     <!-- client may run local server -->
-    <include name="soc/" />
+    <include name="org.soc/" />
     <!-- thus, everything -->
   </patternset>
   <!-- external libraries -->
@@ -161,7 +161,7 @@
           name="resources">
     <copy toDir="${classes}">
       <fileset dir="${java.src}"
-               includes="soc/**/*.gif" />
+               includes="org.soc/**/*.gif" />
     </copy>
   </target>
   <!-- ************************************** -->

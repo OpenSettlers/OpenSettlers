@@ -80,7 +80,7 @@
 
 		<!-- Compile classes into the war directory for hosted mode live editing -->
 		<outputDirectory>${gwt.output.directory}/WEB-INF/classes</outputDirectory>
-<!-- 		<testSourceDirectory>test/soc</testSourceDirectory> -->
+<!-- 		<testSourceDirectory>test/org.soc</testSourceDirectory> -->
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
