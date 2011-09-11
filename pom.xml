@@ -26,8 +26,8 @@
 			<groupId>org.vaadin.gwtgraphics</groupId>
 			<artifactId>gwt-graphics</artifactId>
 			<scope>system</scope>
-			<version>0.9.7</version>
-			<systemPath>${basedir}/lib/gwt-graphics-0.9.7.jar</systemPath>
+			<version>1.0.0</version>
+			<systemPath>${basedir}/lib/gwt-graphics-1.0.0.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>org.scb.gwt.web.server.i18n</groupId>
@@ -40,8 +40,8 @@
 			<groupId>net.zschech.gwt.comet</groupId>
 			<artifactId>gwt_i18n_server</artifactId>
 			<scope>system</scope>
-			<version>1.2.1</version>
-			<systemPath>${basedir}/lib/gwt-comet-1.2.1.jar</systemPath>
+			<version>1.2.3</version>
+			<systemPath>${basedir}/lib/gwt-comet-1.2.3.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>org.adamtacy</groupId>
@@ -86,7 +86,7 @@
 		<outputDirectory>${gwt.output.directory}/WEB-INF/classes</outputDirectory>
 		<sourceDirectory>src/main/java</sourceDirectory>
 		<directory>src/main/generated</directory>
-		<!-- <testSourceDirectory>test/org.soc</testSourceDirectory> -->
+		<testSourceDirectory>src/test</testSourceDirectory> 
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
