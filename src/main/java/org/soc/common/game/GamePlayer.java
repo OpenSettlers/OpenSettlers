@@ -18,6 +18,7 @@ import org.soc.common.game.pieces.SidePieceList;
 import org.soc.common.game.pieces.Stock;
 import org.soc.common.game.pieces.TownList;
 import org.soc.common.server.entities.User;
+import org.soc.common.server.entities.User.Player;
 
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -100,6 +101,13 @@ public interface GamePlayer extends Serializable, HasRoadTokensChangedHandlers,
     private Army army = new Army();
     private Bot bot = null;
 
+    public GamePlayerImpl() {/** empty serialization constructor */
+    }
+    public GamePlayerImpl(int id, String name) {
+      user = new Player()
+              .setId(id)
+              .setName(name);
+    }
     public GamePlayerImpl setUser(User user) {
       this.user = user;
       return this;
