@@ -46,28 +46,28 @@ public class ResourceList implements Iterable<Resource>, Serializable, HasResour
     for (Resource resource : resourcesToAdd) {
       resources.add(resource);
     }
-    //    fireSafeEvent(new ResourcesChangedEvent(resourcesToAdd, null));
+    eventBus.fireEvent(new ResourcesChangedEvent(resourcesToAdd, null));
   }
   /** Adds given resource to this list of resources */
   public ResourceList add(Resource resource) {
     resources.add(resource);
-    if (eventBus != null) {
-      // Notify the list has been changed with only one resource
-      ResourceList addedResource = new ResourceList();
-      addedResource.add(resource);
-      eventBus.fireEvent(new ResourcesChangedEvent(addedResource, null));
-    }
+    // Notify the list has been changed with only one resource
+    ResourceList addedResource = new ResourceList();
+    addedResource.addWithoutFiringEvent(resource);
+    eventBus.fireEvent(new ResourcesChangedEvent(addedResource, null));
     return this;
   }
-  /* Removes given resource from this list of resources */
+  public ResourceList addWithoutFiringEvent(Resource resource) {
+    resources.add(resource);
+    return this;
+  }
+  /** Removes given resource from this list of resources */
   public ResourceList remove(Resource resource) {
     resources.remove(resource);
-    if (eventBus != null) {
-      // Notify the list has been changed with only one resource
-      ResourceList removedResource = new ResourceList();
-      removedResource.add(resource);
-      eventBus.fireEvent(new ResourcesChangedEvent(null, removedResource));
-    }
+    // Notify the list has been changed with only one resource
+    ResourceList removedResource = new ResourceList();
+    removedResource.add(resource);
+    eventBus.fireEvent(new ResourcesChangedEvent(null, removedResource));
     return this;
   }
   /* Removes given resources from this list. If checkIfPossible is set, this list should contain all

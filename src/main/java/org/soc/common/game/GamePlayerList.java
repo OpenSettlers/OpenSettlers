@@ -2,6 +2,7 @@ package org.soc.common.game;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -27,6 +28,9 @@ public class GamePlayerList implements Iterable<GamePlayer>, Serializable, HasOr
   }
   public void add(GamePlayer player) {
     players.add(player);
+  }
+  public void add(GamePlayer... players) {
+    this.players.addAll(Arrays.asList(players));
   }
   public int size() {
     return players.size();

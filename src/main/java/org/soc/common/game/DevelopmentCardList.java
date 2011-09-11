@@ -24,7 +24,7 @@ public class DevelopmentCardList implements Iterable<DevelopmentCard>,
 {
   private static final long serialVersionUID = 3119667710831059077L;
   private List<DevelopmentCard> devCards = new ArrayList<DevelopmentCard>();
-  private transient SimpleEventBus eventBus;
+  private transient SimpleEventBus eventBus = new SimpleEventBus();
 
   public void add(DevelopmentCard card) {
     devCards.add(card);

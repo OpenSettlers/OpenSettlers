@@ -2,6 +2,7 @@ package org.soc.common.core;
 
 import org.soc.common.game.Random;
 import org.soc.common.game.Random.ClientRandom;
+import org.soc.common.game.Random.ServerRandom;
 import org.soc.common.game.actions.ValidateResult;
 import org.soc.common.game.actions.ValidateResult.Valid;
 import org.soc.common.server.entities.User;
@@ -19,9 +20,8 @@ public class Core {
   private Core() {
     if (GWT.isClient()) {
       random = new ClientRandom();
-    } else
-    {
-      // TODO: implement for server side
+    } else {
+      random = new ServerRandom();
     }
   }
   public static Core get() {

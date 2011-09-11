@@ -55,6 +55,7 @@ public interface GamePlayer extends Serializable, HasRoadTokensChangedHandlers,
   public ResourceList resources();
   public Army army();
   public Bot bot();
+  public boolean isNot(GamePlayer other);
 
   @GenEvent public class RoadTokensChanged {
     @Order(0) int newTokenAmount;
@@ -253,6 +254,9 @@ public interface GamePlayer extends Serializable, HasRoadTokensChangedHandlers,
     @Override public HandlerRegistration addVictoryPointsChangedHandler(
             VictoryPointsChangedHandler handler) {
       return eventBus.addHandler(VictoryPointsChangedEvent.getType(), handler);
+    }
+    @Override public boolean isNot(GamePlayer other) {
+      return !equals(other);
     }
   }
 }

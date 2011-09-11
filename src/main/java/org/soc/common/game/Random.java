@@ -12,4 +12,14 @@ public interface Random {
       return base1 ? rnd + 1 : rnd;
     }
   }
+
+  /** Random generator for server or junit tests */
+  public class ServerRandom implements Random {
+    java.util.Random random = new java.util.Random();
+
+    @Override public int nextInt(int max, boolean base1) {
+      int rnd = random.nextInt(max);
+      return base1 ? rnd + 1 : rnd;
+    }
+  }
 }

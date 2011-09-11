@@ -1,7 +1,4 @@
-package org.soc.common.board;
-
-import org.soc.common.game.board.HexLocation;
-import org.soc.common.game.board.HexPoint;
+package org.soc.common.game.board;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
@@ -25,10 +22,5 @@ public class HexLocationtest extends GWTTestCase
     assertEquals(poin1.hashCode(), poin2.hashCode());
     assertEquals(poin2.hashCode(), poin3.hashCode());
     assertEquals(poin1.hashCode(), poin3.hashCode());
-  }
-  /** Add as many tests as you like. */
-  public void testSimple()
-  { // (3)
-    assertTrue(true);
   }
 }
