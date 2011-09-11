@@ -1,5 +1,0 @@
-<module>
-  <source path="jgrapht"/>
-  <source path="jgrapht/alg"/>
-  <source path="jgrapht/graph"/>
-</module>

@@ -4,12 +4,12 @@
 	<groupId>OpenSettlers</groupId>
 	<artifactId>OpenSettlers</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	    <licenses>
-        <license>
-            <name>GPLv3</name>
-            <url>http://www.gnu.org/licenses/gpl.html</url>
-        </license>
-    </licenses>
+	<licenses>
+		<license>
+			<name>GPLv3</name>
+			<url>http://www.gnu.org/licenses/gpl.html</url>
+		</license>
+	</licenses>
 	<repositories>
 		<repository>
 			<id>source.db4o</id>
@@ -17,7 +17,6 @@
 		</repository>
 	</repositories>
 	<dependencies>
-
 		<dependency>
 			<groupId>com.db4o</groupId>
 			<artifactId>db4o-full-java5</artifactId>
@@ -29,28 +28,28 @@
 			<scope>system</scope>
 			<version>0.9.7</version>
 			<systemPath>${basedir}/lib/gwt-graphics-0.9.7.jar</systemPath>
-		</dependency>		
+		</dependency>
 		<dependency>
 			<groupId>org.scb.gwt.web.server.i18n</groupId>
 			<artifactId>gwt_i18n_server</artifactId>
 			<scope>system</scope>
 			<version>1.0</version>
 			<systemPath>${basedir}/lib/gwt_i18n_server_1.0.jar</systemPath>
-		</dependency>			
+		</dependency>
 		<dependency>
 			<groupId>net.zschech.gwt.comet</groupId>
 			<artifactId>gwt_i18n_server</artifactId>
 			<scope>system</scope>
 			<version>1.2.1</version>
 			<systemPath>${basedir}/lib/gwt-comet-1.2.1.jar</systemPath>
-		</dependency>		
+		</dependency>
 		<dependency>
 			<groupId>org.adamtacy</groupId>
 			<artifactId>GWT_FX</artifactId>
 			<scope>system</scope>
 			<version>0.5.0</version>
 			<systemPath>${basedir}/lib/GWT FX v0.5.0 MS 1.jar</systemPath>
-		</dependency>	
+		</dependency>
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-user</artifactId>
@@ -63,6 +62,19 @@
 			<version>${gwtVersion}</version>
 			<scope>runtime</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.gwtplatform</groupId>
+			<artifactId>gwtp-processors</artifactId>
+			<version>${gwtp.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.gwtplatform</groupId>
+			<artifactId>gwtp-mvp-client</artifactId>
+			<version>${gwtp.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
 	</dependencies>
 	<name>OpenSettlers</name>
 	<url>github.com/OpenSettlers</url>
@@ -71,17 +83,21 @@
 	</organization>
 	<packaging>war</packaging>
 	<build>
-		<resources>
-			<resource>
-				<directory>${basedir}/src/java</directory>
-				<filtering>true</filtering>
-			</resource>
-		</resources>
-
-		<!-- Compile classes into the war directory for hosted mode live editing -->
 		<outputDirectory>${gwt.output.directory}/WEB-INF/classes</outputDirectory>
-<!-- 		<testSourceDirectory>test/org.soc</testSourceDirectory> -->
+		<sourceDirectory>src/main/java</sourceDirectory>
+		<directory>src/main/generated</directory>
+		<!-- <testSourceDirectory>test/org.soc</testSourceDirectory> -->
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.0.2</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+					<generatedSourcesDirectory>${project.build.directory}/generated-sources/generated-sources/apt</generatedSourcesDirectory>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>gwt-maven-plugin</artifactId>
@@ -91,17 +107,146 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
 				<version>2.1.1</version>
-				<configuration >
-  					<webXml>${gwt.output.directory}/WEB-INF/web.xml</webXml>
-  				</configuration>
+				<configuration>
+					<webXml>${gwt.output.directory}/WEB-INF/web.xml</webXml>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.7</version>
+				<executions>
+					<execution>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>src/main/generated</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.bsc.maven</groupId>
+				<artifactId>maven-processor-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>process</id>
+						<goals>
+							<goal>process</goal>
+						</goals>
+						<phase>generate-sources</phase>
+						<configuration>
+							<!-- source output directory -->
+							<outputDirectory>src/main/generated</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.maven.ide.eclipse</groupId>
+				<artifactId>lifecycle-mapping</artifactId>
+				<version>0.2-SNAPSHOT0.0</version>
+				<configuration>
+					<mappingId>customizable</mappingId>
+					<configurators>
+						<configurator id="org.maven.ide.eclipse.jdt.javaConfigurator" />
+						<configurator
+							id="org.maven.ide.eclipse.buildhelper.buildhelperConfigurator" />
+					</configurators>
+					<mojoExecutions>
+						<mojoExecution>org.apache.maven.plugins:maven-resources-plugin::</mojoExecution>
+					</mojoExecutions>
+				</configuration>
 			</plugin>
 		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.bsc.maven</groupId>
+										<artifactId>maven-processor-plugin</artifactId>
+										<versionRange>[1.0,)</versionRange>
+										<goals>
+											<goal>process</goal>
+										</goals>
+									</pluginExecutionFilter>
+
+									<action>
+										<execute />
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.codehaus.mojo</groupId>
+										<artifactId>build-helper-maven-plugin</artifactId>
+										<versionRange>[1.7,)</versionRange>
+										<goals>
+											<goal>add-source</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<execute />
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.codehaus.mojo</groupId>
+										<artifactId>gwt-maven-plugin</artifactId>
+										<versionRange>[2.3.0-1,)</versionRange>
+										<goals>
+											<goal>i18n</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<execute />
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>2.4.3</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 	<scm>
 		<url>git@github.com:OpenSettlers/OpenSettlers.git</url>
 	</scm>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>sonatype-repo</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
+
+	</pluginRepositories>
 	<properties>
-		<gwtVersion>2.1.0</gwtVersion>
+		<gwtVersion>2.3.0</gwtVersion>
 		<gwt.output.directory>war</gwt.output.directory>
+		<gwtp.version>0.6</gwtp.version>
 	</properties>
+
 </project>

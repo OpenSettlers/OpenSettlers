@@ -13,6 +13,7 @@ war/WEB-INF/lib/*
 war/WEB-INF/classes/*
 war/org.soc.common.OSCommon.JUnit/*
 war/.gitignore
+www-test/*
 .gwt/*
 .settings
 /settings/*
