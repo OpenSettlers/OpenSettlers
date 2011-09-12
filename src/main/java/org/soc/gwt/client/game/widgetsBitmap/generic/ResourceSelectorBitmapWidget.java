@@ -73,7 +73,7 @@ public class ResourceSelectorBitmapWidget implements ResourceSelectorWidget,
     // Add port when available
     if (ports != null)
     {
-      Port port = ports.getBestPortForResource(resource, true);
+      Port port = ports.bestPortForResource(resource, true);
       if (port != null)
       {
         imgPort.setUrl(port.icon().iconDefault().getURL());

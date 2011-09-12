@@ -91,7 +91,7 @@ public class PortList implements Iterable<Port>, Serializable, HasPortListChange
   }
   /** Returns amount of resources of given type needed to make a trade */
   public int amountNeededToTrade(Resource resourceType) {
-    return getBestPortForResource(resourceType, false).inAmount();
+    return bestPortForResource(resourceType, false).inAmount();
   }
   @Override public Iterator<Port> iterator() {
     return ports.iterator();
@@ -99,9 +99,9 @@ public class PortList implements Iterable<Port>, Serializable, HasPortListChange
   public HandlerRegistration addPortListChangedHandler(PortListChangedHandler handler) {
     return eventBus.addHandler(PortListChangedEvent.getType(), handler);
   }
-  /* Returns best port to trade with given the resource type. When this port is a 4:1 port, it
+  /** Returns best port to trade with given the resource type. When this port is a 4:1 port, it
    * ignores this port and returns null */
-  public Port getBestPortForResource(Resource resourceType, boolean ignoreFourToOne) {
+  public Port bestPortForResource(Resource resourceType, boolean ignoreFourToOne) {
     Port result = null;
     int amountNeeded = 6;
     for (Port port : ports) {

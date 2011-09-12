@@ -394,6 +394,9 @@ public interface Port extends Serializable, Meta
     @Override public boolean hasResource() {
       return true;
     }
+    @Override public boolean canTrade(Resource resource) {
+      return resource().equals(resource);
+    }
   }
 
   public class WheatPort extends TwoToOneResourcePort {
