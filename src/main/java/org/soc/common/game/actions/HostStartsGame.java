@@ -14,35 +14,25 @@ import org.soc.common.views.widgetsInterface.actions.ActionWidget;
 import org.soc.common.views.widgetsInterface.actions.ActionWidget.ActionWidgetFactory;
 import org.soc.common.views.widgetsInterface.main.GameWidget;
 
-public class HostStartsGame extends AbstractGameAction
-{
-  @Override public Icon icon()
-  {
-    return new IconImpl(null, null, null, null);
-  }
-  @Override public String name()
-  {
-    // TODO Auto-generated method stub
-    return null;
-  }
-  @Override public String getLocalizedName()
-  {
-    // TODO Auto-generated method stub
-    return null;
-  }
-  @Override public String getDescription()
-  {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
+public class HostStartsGame extends AbstractGameAction {
   private Game game;
 
-  /* (non-Javadoc)
-   * 
-   * @see org.soc.common.actions.gameAction.AbstractGameAction#perform(org.soc.common.game .Game) */
-  @Override public void perform(Game game)
-  {
+  @Override public Icon icon() {
+    return new IconImpl(null, null, null, null);
+  }
+  @Override public String name() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+  @Override public String getLocalizedName() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+  @Override public String getDescription() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+  @Override public void perform(Game game) {
     game.initialize();
     game.start();
     game.actionsQueue()
@@ -67,9 +57,7 @@ public class HostStartsGame extends AbstractGameAction
   @Override public String toDoMessage() {
     return I.get().actions().noToDo();
   }
-  @Override public ActionWidget createActionWidget(
-          ActionWidgetFactory actionWidgetFactory)
-  {
+  @Override public ActionWidget createActionWidget(ActionWidgetFactory actionWidgetFactory) {
     return null;
   }
   @Override public ActionInGame opponentReceived(GameWidget gameWidget) {
@@ -78,8 +66,7 @@ public class HostStartsGame extends AbstractGameAction
   @Override public ActionInGame received(GameWidget gameWidget) {
     return new StartGameGameBehaviour(gameWidget);
   }
-  @Override public ServerAction createServerAction(GameServerActionFactory factory)
-  {
+  @Override public ServerAction createServerAction(GameServerActionFactory factory) {
     return factory.createHostStartsGameServerAction(this);
   }
 

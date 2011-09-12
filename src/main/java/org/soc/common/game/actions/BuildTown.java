@@ -25,8 +25,8 @@ import org.soc.common.internationalization.I;
 import org.soc.common.views.meta.Icon;
 import org.soc.common.views.meta.IconImpl;
 import org.soc.common.views.widgetsInterface.actions.ActionDetailWidget;
-import org.soc.common.views.widgetsInterface.actions.ActionWidget;
 import org.soc.common.views.widgetsInterface.actions.ActionDetailWidget.ActionDetailWidgetFactory;
+import org.soc.common.views.widgetsInterface.actions.ActionWidget;
 import org.soc.common.views.widgetsInterface.actions.ActionWidget.ActionWidgetFactory;
 import org.soc.common.views.widgetsInterface.main.GameWidget;
 import org.soc.common.views.widgetsInterface.visuals.GameBoardVisual;
@@ -35,6 +35,8 @@ import org.soc.common.views.widgetsInterface.visuals.PieceVisual.PointVisual;
 import org.soc.gwt.client.images.R;
 
 public class BuildTown extends AbstractTurnAction {
+  private HexPoint pointLocation;
+
   @Override public Icon icon() {
     return new IconImpl(R.icons().town16(), R
             .icons().town32(), R.icons().town48());
@@ -47,9 +49,6 @@ public class BuildTown extends AbstractTurnAction {
     // TODO Auto-generated method stub
     return null;
   }
-
-  private HexPoint pointLocation;
-
   public HexPoint getPointLocation() {
     return pointLocation;
   }

@@ -104,7 +104,7 @@ public class BoardGraph {
     // Set the originating point as non-buildable
     point.setTownBuildable(false);
   }
-  /* Replaces town of target GraphPoint to a city */
+  /** Replaces town of target GraphPoint to a city */
   public void addCity(City city) {
     GraphPoint point = findGraphPoint(city.point());
     point.setPlayerPiece(city);
@@ -113,20 +113,20 @@ public class BoardGraph {
     GraphSide side = findGraphSide(road.getSide());
     side.setPlayerPiece(road);
   }
-  /* Returns the second point of the given side, excluding the given point */
+  /** Returns the second point of the given side, excluding the given point */
   public GraphPoint getOtherPoint(GraphPoint ignore, GraphSide side) {
     GraphPoint otherPoint = graph.getEdgeSource(side);
     return ignore.equals(otherPoint) ? graph.getEdgeTarget(side)
             : otherPoint;
   }
-  /* Calculate longest route 1. Create a PlayerGraph for every player 2. Split the playergraph in
+  /** Calculate longest route 1. Create a PlayerGraph for every player 2. Split the playergraph in
    * seperate islands (nonconnected graphs) 3. Calculate longest path for every playergraph of every
    * player */
   public Route getLongestRoute(Game game, Route currentLongest) {
     longestRoadStrategy = new ReduceStrategy();
     return longestRoadStrategy.calculateLongestRoad(currentLongest, this, game);
   }
-  /* Returns set of points to place a town on during PlayTurns GamePhase */
+  /** Returns set of points to place a town on during PlayTurns GamePhase */
   public Set<GraphPoint> getTownCandidatesTurnPhase(GamePlayer forPlayer) {
     Set<GraphPoint> candidates = new HashSet<GraphPoint>();
     // Get list of sides from a player
@@ -148,7 +148,7 @@ public class BoardGraph {
         candidates.add(point);
     return candidates;
   }
-  /* Returns a set of possibilties for a player to build on, for his first town */
+  /** Returns a set of possibilties for a player to build on, for his first town */
   public Set<GraphPoint> getTownCandidatesFirstTown(GamePlayer forPlayer) {
     Set<GraphPoint> result = new HashSet<GraphPoint>();
     for (GraphPoint possibleCandidate : graph.vertexSet())
@@ -157,7 +157,7 @@ public class BoardGraph {
         result.add(possibleCandidate);
     return result;
   }
-  /* Returns a list of possible locations to build his first town on */
+  /** Returns a list of possible locations to build his first town on */
   public Set<GraphSide> getRoadCandidatesFirstTown(GamePlayer player) {
     // Assuming the player has built only one piece, which is his first town
     HasPoint first = player.pointPieces().get(0);
@@ -183,7 +183,7 @@ public class BoardGraph {
     return candidates;
   }
   /** Returns a set of GraphSides where given player can a road build on */
-  public Set<GraphSide> getRoadCandidates(GamePlayer player) {
+  public Set<GraphSide> roadCandidates(GamePlayer player) {
     Set<GraphSide> candidates = new HashSet<GraphSide>();
     List<GraphSide> currentSidePieces = new ArrayList<GraphSide>();
     // Compile a list of GraphSides owned by the player
@@ -192,7 +192,7 @@ public class BoardGraph {
         currentSidePieces.add(side);
     // Filter list by ability to build road on
     for (GraphSide side : currentSidePieces)
-      for (GraphSide neighbour : getNeighbours(side, player))
+      for (GraphSide neighbour : neighbours(side, player))
         // Only add neighbour when not yet present, and another player
         // does not own it yet
         if ((neighbour.player() == null || neighbour.player().equals(player))
@@ -216,7 +216,7 @@ public class BoardGraph {
     // TODO: implement
     return result;
   }
-  public Set<GraphSide> getNeighbours(GraphSide fromSide, GamePlayer player) {
+  public Set<GraphSide> neighbours(GraphSide fromSide, GamePlayer player) {
     Set<GraphSide> result = new HashSet<GraphSide>();
     GraphPoint source = graph.getEdgeSource(fromSide);
     GraphPoint target = graph.getEdgeTarget(fromSide);
@@ -237,14 +237,14 @@ public class BoardGraph {
                   .iterator().next());
     return result;
   }
-  public Set<GraphSide> getSides(GamePlayer player) {
+  public Set<GraphSide> sidesBy(GamePlayer player) {
     Set<GraphSide> result = new HashSet<GraphSide>();
     for (GraphSide side : graph.edgeSet())
       if (side.player() != null && side.player().equals(player))
         result.add(side);
     return result;
   }
-  public List<HexLocation> getPossibleRobberLocations() {
+  public List<HexLocation> possibleRobberLocations() {
     List<HexLocation> possibleRobberLocations = new ArrayList<HexLocation>();
     for (Hex hex : board.hexes())
       if (hex.isRobberPlaceable())

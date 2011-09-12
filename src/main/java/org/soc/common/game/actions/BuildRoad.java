@@ -173,7 +173,7 @@ public class BuildRoad extends AbstractTurnAction {
       else if (gameVisual.game().phase().isPlayTurns())
       {
         GamePlayer player = gameVisual.game().turn().player();
-        sides = gameVisual.board().graph().getRoadCandidates(player);
+        sides = gameVisual.board().graph().roadCandidates(player);
       }
       // If any candidates found, show side visuals
       if (sides != null)

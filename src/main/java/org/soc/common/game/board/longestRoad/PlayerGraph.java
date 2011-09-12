@@ -44,7 +44,7 @@ public class PlayerGraph {
   }
   /** Constructs the graph given the set of GraphSides */
   private void constructGraph() {
-    for (GraphSide side : boardGraph.getSides(player)) {
+    for (GraphSide side : boardGraph.sidesBy(player)) {
       GraphPoint source = boardGraph.graph().getEdgeSource(side);
       GraphPoint target = boardGraph.graph().getEdgeTarget(side);
       graph.addVertex(source);

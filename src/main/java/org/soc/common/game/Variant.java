@@ -22,15 +22,18 @@ import org.soc.common.game.GameRule.UseLargestArmy;
 import org.soc.common.game.GameRule.UseRobber;
 import org.soc.common.game.GameRule.UseWalls;
 
+/** Primary definition of a variant is just a set of rules */
 public interface Variant {
+  /** Sets the encapsulated rules to given GameRules object */
   public void setRules(GameRules gameRules);
-  public List<GameRule> getRules();
+  /** Returns the rules this variant is defined by */
+  public List<GameRule> rules();
 
   public abstract class AbstractRuleSet implements Variant {
     protected Game game;
     protected List<GameRule> rules = new ArrayList<GameRule>();
 
-    public List<GameRule> getRules() {
+    public List<GameRule> rules() {
       return rules;
     }
     public AbstractRuleSet(Game game) {
@@ -42,6 +45,8 @@ public interface Variant {
     }
   }
 
+  /** TODO: implement rules differentiating Extended from others, such as MaxPlayers, MaxBoardSize,
+   * etc */
   public class Extended extends AbstractRuleSet {
     public Extended(Game game) {
       super(game);
@@ -49,8 +54,6 @@ public interface Variant {
   }
 
   public class CitiesKnights extends AbstractRuleSet {
-    private List<GameRule> rules = new ArrayList<GameRule>();
-
     public CitiesKnights(Game game) {
       super(game);
       rules.add(new NoLargestArmy());

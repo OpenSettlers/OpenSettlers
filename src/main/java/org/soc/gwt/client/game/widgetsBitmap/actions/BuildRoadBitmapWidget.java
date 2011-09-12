@@ -111,7 +111,7 @@ public class BuildRoadBitmapWidget extends AbstractActionWidget implements
       road.canBuild(game.board(), player) && // we need space
       road.canPay(player) && // we need resources
       game.board().graph()
-              .getRoadCandidates(player).size() > 0)
+              .roadCandidates(player).size() > 0)
       {
         enableUI();
         return;

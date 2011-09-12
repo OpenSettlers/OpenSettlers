@@ -11,13 +11,16 @@ import org.soc.common.game.Resource.Wheat;
 import org.soc.common.game.ResourcesChangedEvent.ResourcesChangedHandler;
 
 public class ResourcesTest {
-  boolean hasFired;
+  boolean hasFiredAddEvent;
+  boolean hasFiredRemoveEvent;
+  final Resource wheat = new Wheat();
 
   @Test public void testHalfCount() {
     ResourceList resources = new ResourceList();
     for (int i = 0; i < 9; i++)
       resources.add(new Wheat());
-    assertTrue(resources.halfCount() == 5);
+    assertTrue("Expected 5 resources for ResourceList with 9 resources halfed rounded down",
+            resources.halfCount() == 5);
   }
   @Test public void testResourceTypesCount() {
     ResourceList resources = createFromFiveBasicResources();
@@ -31,17 +34,36 @@ public class ResourcesTest {
     ResourceList resources = createFromFiveBasicResources();
     assertTrue(resources.hasAtLeast(createFromFiveBasicResources()));
   }
-  @Test public void testFiresEvents() {
+  @Test public void testFiresEventWhenAdding() {
     ResourceList resources = new ResourceList();
     resources.addResourcesChangedHandler(new ResourcesChangedHandler() {
       @Override public void onResourcesChanged(ResourcesChangedEvent event) {
-        hasFired = true;
-        assertTrue(event.getAddedResources().get(0).equals(new Wheat()));
+        hasFiredAddEvent = true;
+        assertTrue(event.getAddedResources().get(0).equals(wheat));
       }
     });
-    resources.add(new Wheat());
-    assertTrue(hasFired);
+    resources.add(wheat);
+    assertTrue(hasFiredAddEvent);
   }
+  @Test public void testFiresEventWhenRemoving() {
+    ResourceList resources = new ResourceList();
+    resources.add(wheat);
+    resources.addResourcesChangedHandler(new ResourcesChangedHandler() {
+      @Override public void onResourcesChanged(ResourcesChangedEvent event) {
+        hasFiredRemoveEvent = true;
+        assertTrue(event.getRemovedResources().get(0).equals(wheat));
+      }
+    });
+    resources.remove(wheat);
+    assertTrue(hasFiredRemoveEvent);
+  }
+  @Test public void testSwap() {
+    ResourceList from = createFromFiveBasicResources();
+    ResourceList to = new ResourceList();
+    to.swapResourcesFrom(createFromFiveBasicResources(), from);
+    assertTrue(to.hasAtLeast(createFromFiveBasicResources()));
+  }
+  // TODO: move to some API class (possibly ResourceList itself?)
   private static ResourceList createFromFiveBasicResources() {
     return new ResourceList()
             .add(new Wheat())

@@ -47,7 +47,6 @@ public class PortList implements Iterable<Port>, Serializable, HasPortListChange
   }
   /** Returns amount of gold possibly be gained by given resources */
   public int amountGold(ResourceList resources) {
-    // Have something to return
     int amountGold = 0;
     // Calculate amount of gold per possible resource type in which
     // we are allowed to trade.
@@ -78,7 +77,8 @@ public class PortList implements Iterable<Port>, Serializable, HasPortListChange
     // -a set of resources allowed to trade with
     return amountGold;
   }
-  public PortList() {}
+  public PortList() {/** Default serializable constructor */
+  }
   /* Creates an empty PortList */
   public PortList(boolean b) {}
   public void add(Port port) {
@@ -96,9 +96,7 @@ public class PortList implements Iterable<Port>, Serializable, HasPortListChange
   @Override public Iterator<Port> iterator() {
     return ports.iterator();
   }
-  public HandlerRegistration addPortListChangedHandler(
-          PortListChangedHandler handler)
-  {
+  public HandlerRegistration addPortListChangedHandler(PortListChangedHandler handler) {
     return eventBus.addHandler(PortListChangedEvent.getType(), handler);
   }
   /* Returns best port to trade with given the resource type. When this port is a 4:1 port, it

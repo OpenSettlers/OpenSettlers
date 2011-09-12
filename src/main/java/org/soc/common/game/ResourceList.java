@@ -22,7 +22,6 @@ import com.gwtplatform.dispatch.annotation.GenEvent;
 import com.gwtplatform.dispatch.annotation.Order;
 
 public class ResourceList implements Iterable<Resource>, Serializable, HasResourcesChangedHandlers {
-  private static final long serialVersionUID = 5679736807497802357L;
   private transient SimpleEventBus eventBus = new SimpleEventBus();
   private List<Resource> resources = new ArrayList<Resource>();
 
@@ -38,7 +37,7 @@ public class ResourceList implements Iterable<Resource>, Serializable, HasResour
   public boolean notEmpty() {
     return resources.size() > 0;
   }
-  /* Adds given ResourceList to this list of resources */
+  /** Adds given ResourceList to this list of resources */
   public void addList(ResourceList resourcesToAdd) {
     if (resourcesToAdd == this) {
       throw new AssertionError();
@@ -66,43 +65,40 @@ public class ResourceList implements Iterable<Resource>, Serializable, HasResour
     resources.remove(resource);
     // Notify the list has been changed with only one resource
     ResourceList removedResource = new ResourceList();
-    removedResource.add(resource);
+    removedResource.addWithoutFiringEvent(resource);
     eventBus.fireEvent(new ResourcesChangedEvent(null, removedResource));
     return this;
   }
-  /* Removes given resources from this list. If checkIfPossible is set, this list should contain all
+  /** Removes given resources from this list. If checkIfPossible is set, this list should contain all
    * of the resources contained in the given list */
   public void remove(ResourceList resourcesToRemove, boolean checkIfPossible) {
     if (checkIfPossible) {
       // First check if this list contains all resources in given list
       if (hasAtLeast(resourcesToRemove)) {
         removeAll(resourcesToRemove);
-      }
-      else {
+      } else {
         throw new RuntimeException("Wants to remove non-existing resources");
       }
-    }
-    else {
+    } else {
       removeAll(resourcesToRemove);
     }
   }
-  /* Removes given resources from the list. Given resource does not need to be contained */
+  /** Removes given resources from the list. Given resource does not need to be contained */
   private void removeAll(ResourceList resourcesToRemove) {
     for (Resource resource : resourcesToRemove) {
       resources.remove(resource);
     }
     eventBus.fireEvent(new ResourcesChangedEvent(null, resourcesToRemove));
   }
-  /* Returns a copy of this ResourceList */
+  /** Returns a copy of this ResourceList */
   public ResourceList copy() {
     ResourceList result = new ResourceList();
     result.addList(this);
     return result;
   }
-  /* Returns a new ResourceList with only resources equivalent to given type */
+  /** Returns a new ResourceList with only resources equivalent to given type */
   public ResourceList ofType(Resource type) {
     ResourceList result = new ResourceList();
-    // Iterate over all resources and add the ones equalling given type
     for (Resource res : resources) {
       if (res.getClass() == type.getClass()) {
         result.add(res);
@@ -110,7 +106,7 @@ public class ResourceList implements Iterable<Resource>, Serializable, HasResour
     }
     return result;
   }
-  /* Returns true if given resources are available in this ResourceList */
+  /** Returns true if given resources are available in this ResourceList */
   public boolean hasAtLeast(ResourceList toHave) {
     return ofType(new Timber()).size() >= toHave.ofType(new Timber()).size()
             && ofType(new Wheat()).size() >= toHave.ofType(new Wheat()).size()
@@ -120,7 +116,7 @@ public class ResourceList implements Iterable<Resource>, Serializable, HasResour
             && ofType(new Diamond()).size() >= toHave.ofType(new Diamond()).size()
             && ofType(new Gold()).size() >= toHave.ofType(new Gold()).size();
   }
-  /* Swaps a given list of resources from a source to this list */
+  /** Swaps a given list of resources from a source to this list */
   public void swapResourcesFrom(ResourceList resourcesToSwap, ResourceList from) {
     // ResourceList where we take resources from, should be able to
     // provide the resources
@@ -132,15 +128,15 @@ public class ResourceList implements Iterable<Resource>, Serializable, HasResour
     // ...and remove them at the "from source"
     from.remove(resourcesToSwap, true);
   }
-  /* Returns amount of items halfed and rounded down */
+  /** Returns amount of items halfed and rounded down */
   public int halfCount() {
     int count = size();
     // Make number even
     if (count % 2 != 0)
-      count--;
+      count++;
     return count / 2;
   }
-  /* Returns a list of resources needed */
+  /** Returns a list of resources needed */
   public ResourceList getNeededResources(ResourceList neededResources) {
     ResourceList result = new ResourceList();
     ResourceList copy = this.copy();
@@ -153,7 +149,7 @@ public class ResourceList implements Iterable<Resource>, Serializable, HasResour
     }
     return result;
   }
-  /* Checks each resource if contained in the list, if so removes it */
+  /** Checks each resource if contained in the list, if so removes it */
   public void subtractResources(ResourceList resourcesToSubtract) {
     for (Resource resource : resourcesToSubtract) {
       if (resources.contains(resource))
@@ -161,15 +157,14 @@ public class ResourceList implements Iterable<Resource>, Serializable, HasResour
     }
   }
   public static ResourceList tradeableResources() {
-    ResourceList result = new ResourceList();
-    result.add(new Timber());
-    result.add(new Wheat());
-    result.add(new Ore());
-    result.add(new Clay());
-    result.add(new Sheep());
-    return result;
+    return new ResourceList()
+            .add(new Timber())
+            .add(new Wheat())
+            .add(new Ore())
+            .add(new Clay())
+            .add(new Sheep());
   }
-  /* Removes all resources from this list */
+  /** Removes all resources from this list */
   public void clear() {
     removeAll(this.copy());
   }

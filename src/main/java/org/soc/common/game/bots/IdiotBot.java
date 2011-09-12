@@ -167,7 +167,7 @@ public class IdiotBot extends AbstractBot
     placeRobber.setPlayer(player);
     // Pick a random location
     List<HexLocation> possibleLocations = game.board().graph()
-            .getPossibleRobberLocations();
+            .possibleRobberLocations();
     HexLocation randomLocation = possibleLocations.get(random.nextInt(
             possibleLocations.size(), false));
     placeRobber.setNewLocation(randomLocation);
