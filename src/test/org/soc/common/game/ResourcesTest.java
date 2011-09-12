@@ -23,7 +23,7 @@ public class ResourcesTest {
             resources.halfCount() == 5);
   }
   @Test public void testResourceTypesCount() {
-    ResourceList resources = createFromFiveBasicResources();
+    ResourceList resources = ResourceList.newFiveBasicResources();
     assertTrue(resources.ofType(new Wheat()).size() == 1);
     assertTrue(resources.ofType(new Timber()).size() == 1);
     assertTrue(resources.ofType(new Ore()).size() == 1);
@@ -31,8 +31,8 @@ public class ResourcesTest {
     assertTrue(resources.ofType(new Clay()).size() == 1);
   }
   @Test public void testHasAtLeast() {
-    ResourceList resources = createFromFiveBasicResources();
-    assertTrue(resources.hasAtLeast(createFromFiveBasicResources()));
+    ResourceList resources = ResourceList.newFiveBasicResources();
+    assertTrue(resources.hasAtLeast(ResourceList.newFiveBasicResources()));
   }
   @Test public void testFiresEventWhenAdding() {
     ResourceList resources = new ResourceList();
@@ -58,18 +58,9 @@ public class ResourcesTest {
     assertTrue(hasFiredRemoveEvent);
   }
   @Test public void testSwap() {
-    ResourceList from = createFromFiveBasicResources();
+    ResourceList from = ResourceList.newFiveBasicResources();
     ResourceList to = new ResourceList();
-    to.swapResourcesFrom(createFromFiveBasicResources(), from);
-    assertTrue(to.hasAtLeast(createFromFiveBasicResources()));
-  }
-  // TODO: move to some API class (possibly ResourceList itself?)
-  private static ResourceList createFromFiveBasicResources() {
-    return new ResourceList()
-            .add(new Wheat())
-            .add(new Timber())
-            .add(new Ore())
-            .add(new Sheep())
-            .add(new Clay());
+    to.swapResourcesFrom(ResourceList.newFiveBasicResources(), from);
+    assertTrue(to.hasAtLeast(ResourceList.newFiveBasicResources()));
   }
 }

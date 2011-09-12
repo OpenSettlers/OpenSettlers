@@ -34,7 +34,7 @@ public class PortList implements Iterable<Port>, Serializable, HasPortListChange
   private List<Port> ports = new ArrayList<Port>();
 
   /** Returns a new list of ports suitable for a standard 4p game */
-  public static PortList newMain4p() {
+  public static PortList newStandard4Player() {
     PortList result = new PortList();
     for (int i = 0; i < 4; i++)
       result.add(new ThreeToOnePort());
@@ -61,10 +61,12 @@ public class PortList implements Iterable<Port>, Serializable, HasPortListChange
       for (Port port : ports) {
         // Get amount of gold we can get with given resourcetype and
         // port
-        int possibleGold = port.divide(resourcesOfType, type);
-        // When a port tops production of any previous port, set it
-        if (possibleGold > portGoldAmount) {
-          portGoldAmount = possibleGold;
+        if (port.canTrade(type)) {
+          int possibleGold = port.divide(resourcesOfType, type);
+          // When a port tops production of any previous port, set it
+          if (possibleGold > portGoldAmount) {
+            portGoldAmount = possibleGold;
+          }
         }
       }
       // Add the gold amount to the total amount of gold

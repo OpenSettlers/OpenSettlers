@@ -164,6 +164,14 @@ public class ResourceList implements Iterable<Resource>, Serializable, HasResour
             .add(new Clay())
             .add(new Sheep());
   }
+  public static ResourceList newFiveBasicResources() {
+    return new ResourceList()
+            .add(new Wheat())
+            .add(new Timber())
+            .add(new Ore())
+            .add(new Sheep())
+            .add(new Clay());
+  }
   /** Removes all resources from this list */
   public void clear() {
     removeAll(this.copy());

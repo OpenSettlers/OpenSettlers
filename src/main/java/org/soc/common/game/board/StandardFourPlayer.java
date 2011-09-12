@@ -25,7 +25,7 @@ public class StandardFourPlayer extends Board {
     // Add a standard list of hexes for 4 player games
     mainlaind.hexes().addList(HexList.newMainIsland4p());
     mainlaind.setChits(ChitList.newStandard4p());
-    mainlaind.setPorts(PortList.newMain4p());
+    mainlaind.setPorts(PortList.newStandard4Player());
     // addRandomPortAt(1,0,RotationPosition.DEG0);
     // Put 9 placeholders for a randomly asigned port on the board
     hexes.get(1, 0).setPort(
