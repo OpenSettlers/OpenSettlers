@@ -27,9 +27,16 @@ public class TerritoryList implements Iterable<Territory>, Serializable,
   private List<Territory> territories = new ArrayList<Territory>();
   private transient SimpleEventBus eventBus = new SimpleEventBus();
 
-  public void add(Territory territory) {
+  public static TerritoryList standardWithMainland() {
+    return new TerritoryList()
+            .add(new TerritoryImpl().setMainland(true));
+  }
+  public TerritoryList add(Territory territory) {
+    if (territory.isMainland() && containsMainland())
+      throw new RuntimeException("Can't have more then one mainland in a list of Territories");
     territories.add(territory);
     eventBus.fireEvent(new TerritoryListChangedEvent(territory, null));
+    return this;
   }
   public Territory findByID(int id) {
     for (Territory t : this) {
@@ -43,10 +50,9 @@ public class TerritoryList implements Iterable<Territory>, Serializable,
     return this;
   }
   private boolean containsMainland() {
-    for (Territory territory : this) {
+    for (Territory territory : this)
       if (territory.isMainland())
         return true;
-    }
     return false;
   }
   public Territory createTerritory(boolean mainland) {
