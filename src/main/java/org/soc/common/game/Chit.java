@@ -181,10 +181,10 @@ public interface Chit extends Serializable, Meta {
       return new Chit6();
     }
     @Override public int chance() {
-      return 6;
+      return 5;
     }
     @Override public int number() {
-      return 5;
+      return 6;
     }
   }
 
