@@ -84,4 +84,9 @@ public class TerritoryList implements Iterable<Territory>, Serializable,
           TerritoryListChangedHandler handler) {
     return eventBus.addHandler(TerritoryListChangedEvent.getType(), handler);
   }
+  public TerritoryList remove(Territory territoryToRemove) {
+    territories.remove(territoryToRemove);
+    eventBus.fireEvent(new TerritoryListChangedEvent(null, territoryToRemove));
+    return this;
+  }
 }
