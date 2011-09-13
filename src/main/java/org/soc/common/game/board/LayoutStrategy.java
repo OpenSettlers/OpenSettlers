@@ -217,7 +217,7 @@ public interface LayoutStrategy {
       }
     }
     /* Returns a map of chits sorted by their probability, given a list of chits */
-    private Map<Integer, List<Chit>> chitsByProbability(List<Chit> chits) {
+    private Map<Integer, List<Chit>> chitsByProbability(ChitList chits) {
       Map<Integer, List<Chit>> result = new HashMap<Integer, List<Chit>>();
       // Put every chit in the map
       for (Chit chit : chits) {
