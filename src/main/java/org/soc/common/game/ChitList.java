@@ -1,6 +1,8 @@
 package org.soc.common.game;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import org.soc.common.core.Core;
 import org.soc.common.game.Chit.Chit10;
@@ -14,11 +16,9 @@ import org.soc.common.game.Chit.Chit6;
 import org.soc.common.game.Chit.Chit8;
 import org.soc.common.game.Chit.Chit9;
 
-/*
- * Represents a list of chits
- */
-public class ChitList extends ArrayList<Chit> {
-  private static final long serialVersionUID = -6385792842493976623L;
+/** Represents a list of chits */
+public class ChitList implements Iterable<Chit> {
+  private List<Chit> chits = new ArrayList<Chit>();
 
   /** Returns a chitlist from standard settlers ruleset Returns 18 chits */
   public static ChitList newStandard4p() {
@@ -86,7 +86,7 @@ public class ChitList extends ArrayList<Chit> {
   public Chit grabRandom(Random random) {
     int randomIndex = random.nextInt(size(), false);
     Chit chit = get(randomIndex);
-    remove(randomIndex);
+    remove(chit);
     return chit;
   }
   /** broken */
@@ -105,7 +105,7 @@ public class ChitList extends ArrayList<Chit> {
         result.add(chit);
     return result;
   }
-  /* Counts amount of chits with given chitnumber */
+  /** Counts amount of chits with given chitnumber */
   public int amount(int number) {
     int result = 0;
     for (Chit chit : this)
@@ -118,5 +118,25 @@ public class ChitList extends ArrayList<Chit> {
     for (Chit chit : this)
       copy.add(chit);
     return copy;
+  }
+  @Override public Iterator<Chit> iterator() {
+    return chits.iterator();
+  }
+  public ChitList add(Chit chitToAdd) {
+    chits.add(chitToAdd);
+    return this;
+  }
+  private void addWithoutFiringEvent(Chit chitToAdd) {
+    chits.add(chitToAdd);
+  }
+  public ChitList remove(Chit chitToRemove) {
+    chits.remove(chitToRemove);
+    return this;
+  }
+  public Chit get(int index) {
+    return chits.get(index);
+  }
+  public int size() {
+    return chits.size();
   }
 }
