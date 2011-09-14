@@ -13,6 +13,11 @@ public class VictoryPointsListTest {
   private boolean eventFiredWhenRemoving = false;
 
   @Test public void testVictoryPointsCount() {
+    VictoryPointsList victoryPointsList = createListWithTownCityDevVp();
+    assertTrue("Expected 4 victory points", // City=2, town=1, vp=1 
+            victoryPointsList.total() == 4);
+  }
+  private VictoryPointsList createListWithTownCityDevVp() {
     City city = new City();
     Town town = new Town();
     VictoryPoint victoryPoint = new VictoryPoint();
@@ -20,8 +25,7 @@ public class VictoryPointsListTest {
     victoryPointsList.add(city);
     victoryPointsList.add(town);
     victoryPointsList.add(victoryPoint);
-    assertTrue("Expected 4 victory points", // City=2, town=1, vp=1 
-            victoryPointsList.total() == 4);
+    return victoryPointsList;
   }
   @Test public void testFiresAddEvent() {
     VictoryPointsList victoryPointsList = new VictoryPointsList();
@@ -47,5 +51,14 @@ public class VictoryPointsListTest {
     });
     victoryPointsList.remove(city);
     assertTrue("Expected event to be fired when removing city", eventFiredWhenRemoving);
+  }
+  @Test public void testTypeFilter() {
+    VictoryPointsList victoryPointsList = createListWithTownCityDevVp();
+    assertTrue("Expected one VictoryPointItem of type city",
+            victoryPointsList.ofType(new City()).size() == 1);
+    assertTrue("Expected one VictoryPointItem of type town",
+            victoryPointsList.ofType(new Town()).size() == 1);
+    assertTrue("Expected one VictoryPointItem of type victorypoint development card",
+            victoryPointsList.ofType(new VictoryPoint()).size() == 1);
   }
 }
