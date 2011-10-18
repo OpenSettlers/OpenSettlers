@@ -1,48 +1,48 @@
 package org.soc.common.game.pieces;
 
-import org.soc.common.game.GamePlayer;
-import org.soc.common.game.GameRules;
-import org.soc.common.game.Resource.Ore;
-import org.soc.common.game.Resource.Wheat;
-import org.soc.common.game.ResourceList;
-import org.soc.common.game.VictoryPointItem;
-import org.soc.common.game.board.Board;
-import org.soc.common.game.board.HasPoint;
-import org.soc.common.game.board.HexPoint;
-import org.soc.common.game.hexes.Hex;
+import org.soc.common.core.OpenZettlers.OsModel;
+import org.soc.common.core.Props.PropertyList.PropertyTypeList;
+import org.soc.common.core.property.Properties.Description;
+import org.soc.common.core.property.Properties.Name;
+import org.soc.common.core.property.*;
+import org.soc.common.game.*;
+import org.soc.common.game.Resources.ResourceList;
+import org.soc.common.game.board.*;
+import org.soc.common.game.hexes.*;
 import org.soc.common.game.pieces.Piece.AbstractPlayerPiece;
-import org.soc.common.game.pieces.Piece.Producable;
+import org.soc.common.game.pieces.Piece.Producer;
 import org.soc.common.game.pieces.Piece.StockPiece;
-import org.soc.common.internationalization.I;
-import org.soc.common.views.meta.Icon;
-import org.soc.common.views.meta.IconImpl;
-import org.soc.common.views.widgetsInterface.playerInfo.StockItemWidget;
+import org.soc.common.internationalization.*;
+import org.soc.common.views.meta.*;
+import org.soc.common.views.widgetsInterface.playerInfo.*;
 import org.soc.common.views.widgetsInterface.playerInfo.StockItemWidget.StockItemWidgetFactory;
-import org.soc.common.views.widgetsInterface.visuals.PieceVisual;
-import org.soc.common.views.widgetsInterface.visuals.VisualFactory;
-import org.soc.gwt.client.images.R;
+import org.soc.common.views.widgetsInterface.visuals.*;
+import org.soc.gwt.client.images.*;
 
-public class City extends AbstractPlayerPiece implements VictoryPointItem, HasPoint, Producable,
-        StockPiece {
+import static org.soc.common.game.Resources.*;
+
+public class City
+        extends
+        AbstractPlayerPiece<Integer>
+        implements
+        VictoryPointItem,
+        HasPoint,
+        Producer,
+        StockPiece,
+        OsModel<Integer> {
   private HexPoint pointLocation;
 
   @Override public Icon icon() {
     return new IconImpl(R.icons().city16(), R.icons().city32(), null, R.icons().city48());
   }
-  @Override public String getLocalizedName() {
-    return I.get().constants().city();
+  @Override public Name name() {
+    return new Name.Impl(I.get().constants().city());
   }
-  @Override public String getDescription() {
-    return I.get().constants().cityDescription();
+  @Override public Description description() {
+    return new Description.Impl(I.get().constants().cityDescription());
   }
   @Override public ResourceList cost() {
-    ResourceList result = new ResourceList();
-    result.add(new Wheat());
-    result.add(new Wheat());
-    result.add(new Ore());
-    result.add(new Ore());
-    result.add(new Ore());
-    return result;
+    return newResources(Resource.wheat);
   }
   @Override public boolean canBuild(Board board, GamePlayer player) {
     if (player.stock().cities().size() == 0) // We need a city in stock...
@@ -66,7 +66,7 @@ public class City extends AbstractPlayerPiece implements VictoryPointItem, HasPo
     return true;
   }
   @Override public void addTo(GamePlayer player) {
-    player.cities().moveFrom(player.stock().cities(), this);
+    player.cities().move(player.stock().cities(), this);
     player.pointPieces().add(this);
     player.producers().add(this);
     player.victoryPoints().add(this);
@@ -75,10 +75,8 @@ public class City extends AbstractPlayerPiece implements VictoryPointItem, HasPo
     // TODO: implement for volcano's
   }
   @Override public ResourceList produce(Hex hex, GameRules rules) {
-    ResourceList production = new ResourceList();
-    production.add(hex.resource().copy());
-    production.add(hex.resource().copy());
-    return production;
+    assert hex.producesResource();
+    return newResources(hex.resource().copy(), hex.resource().copy());
   }
   @Override public boolean affectsRoad() {
     return false;
@@ -94,5 +92,13 @@ public class City extends AbstractPlayerPiece implements VictoryPointItem, HasPo
   }
   @Override public StockItemWidget createStockItemWidget(StockItemWidgetFactory factory) {
     return factory.createCityStockWidget();
+  }
+  @Override public Property getProp(Property type) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+  @Override public PropertyTypeList properties() {
+    // TODO Auto-generated method stub
+    return null;
   }
 }

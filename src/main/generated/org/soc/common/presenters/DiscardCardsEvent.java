@@ -18,7 +18,7 @@ public class DiscardCardsEvent extends GwtEvent<DiscardCardsEvent.DiscardCardsHa
 
   private static final Type<DiscardCardsHandler> TYPE = new Type<DiscardCardsHandler>();
 
-  public static void fire(HasHandlers source, org.soc.common.game.ResourceList cards) {
+  public static void fire(HasHandlers source, org.soc.common.game.Resources.ResourceList cards) {
     source.fireEvent(new DiscardCardsEvent(cards));
   }
 
@@ -26,9 +26,9 @@ public class DiscardCardsEvent extends GwtEvent<DiscardCardsEvent.DiscardCardsHa
     return TYPE;
   }
 
-  org.soc.common.game.ResourceList cards;
+  org.soc.common.game.Resources.ResourceList cards;
 
-  public DiscardCardsEvent(org.soc.common.game.ResourceList cards) {
+  public DiscardCardsEvent(org.soc.common.game.Resources.ResourceList cards) {
     this.cards = cards;
   }
 
@@ -41,7 +41,7 @@ public class DiscardCardsEvent extends GwtEvent<DiscardCardsEvent.DiscardCardsHa
     return TYPE;
   }
 
-  public org.soc.common.game.ResourceList getCards() {
+  public org.soc.common.game.Resources.ResourceList getCards() {
     return cards;
   }
 

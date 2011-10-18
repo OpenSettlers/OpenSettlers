@@ -3,19 +3,13 @@ package org.soc.common.utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.soc.common.utils.GenericList.Adds.Added;
-import org.soc.common.utils.GenericList.AddsList.ListAdded;
-import org.soc.common.utils.GenericList.HasAddedHandlers;
-import org.soc.common.utils.GenericList.HasListAddedHandlers;
-import org.soc.common.utils.GenericList.HasListMovedHandlers;
-import org.soc.common.utils.GenericList.HasListRemovedHandlers;
-import org.soc.common.utils.GenericList.HasMovedHandler;
-import org.soc.common.utils.GenericList.HasRemovedHandlers;
-import org.soc.common.utils.GenericList.ImmutableList;
-import org.soc.common.utils.GenericList.Moves.Moved;
-import org.soc.common.utils.GenericList.MovesList.ListMoved;
-import org.soc.common.utils.GenericList.Removes.Removed;
-import org.soc.common.utils.GenericList.RemovesList.ListRemoved;
+import org.soc.common.core.GenericList.*;
+import org.soc.common.core.GenericList.Adds.*;
+import org.soc.common.core.GenericList.AddsList.*;
+import org.soc.common.core.GenericList.Moves.*;
+import org.soc.common.core.GenericList.MovesList.*;
+import org.soc.common.core.GenericList.Removes.*;
+import org.soc.common.core.GenericList.RemovesList.*;
 
 import com.google.web.bindery.event.shared.HandlerRegistration;
 

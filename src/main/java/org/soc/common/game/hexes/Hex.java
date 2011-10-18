@@ -1,27 +1,37 @@
 package org.soc.common.game.hexes;
 
-import java.io.Serializable;
-
-import org.soc.common.board.hexes.PortChangedEvent.HasPortChangedHandlers;
-import org.soc.common.game.Chit;
-import org.soc.common.game.Port;
-import org.soc.common.game.Resource;
-import org.soc.common.game.Territory;
-import org.soc.common.game.board.HasLocation;
-import org.soc.common.game.board.HexLocation;
+import org.soc.common.core.OpenZettlers.OsModel;
+import org.soc.common.game.*;
+import org.soc.common.game.board.*;
 import org.soc.common.game.hexes.ChitChangedEvent.HasChitChangedHandlers;
+import org.soc.common.game.hexes.PortChangedEvent.HasPortChangedHandlers;
 import org.soc.common.game.hexes.TerritoryChangedEvent.HasTerritoryChangedHandlers;
-import org.soc.common.views.meta.Meta;
 
-import com.google.gwt.resources.client.ImageResource;
-import com.gwtplatform.dispatch.annotation.GenEvent;
-import com.gwtplatform.dispatch.annotation.Optional;
-import com.gwtplatform.dispatch.annotation.Order;
+import com.google.gwt.resources.client.*;
+import com.gwtplatform.dispatch.annotation.*;
 
-public interface Hex extends Meta, HasLocation, Serializable, HasChitChangedHandlers,
-        HasPortChangedHandlers, HasTerritoryChangedHandlers {
+public interface Hex
+        extends
+        OsModel<HexLocation>,
+        HasLocation,
+        HasChitChangedHandlers,
+        HasPortChangedHandlers,
+        HasTerritoryChangedHandlers {
+  public interface Supported {
+    public static final WheatHex wheatHex = new WheatHex();
+    public static final TimberHex timberHex = new TimberHex();
+    public static final OreHex oreHex = new OreHex();
+    public static final ClayHex clayHex = new ClayHex();
+    public static final SheepHex sheepHex = new SheepHex();
+    public static final RandomHex randomHex = new RandomHex();
+    public static final DesertHex desertHex = new DesertHex();
+    public static final SeaHex seaHex = new SeaHex();
+    public static final DiamondHex diamondHex = new DiamondHex();
+    public static final DiscoveryHex discoveryHex = new DiscoveryHex();
+    public static final NoneHex noneHex = new NoneHex();
+  }
+
   /** Literal non-translatable name of this Hex */
-  public String getName();
   public String getColor();
   public HexLocation location();
   public Hex setLocation(HexLocation location);

@@ -1,14 +1,14 @@
 package org.soc.common.game.hexes;
 
-import org.soc.common.game.Resource;
+import org.soc.common.core.property.Properties.Description;
+import org.soc.common.core.property.Properties.Name;
+import org.soc.common.game.*;
 import org.soc.common.game.Resource.Gold;
-import org.soc.common.internationalization.I;
-import org.soc.common.utils.Util;
-import org.soc.common.views.meta.Icon;
-import org.soc.common.views.meta.IconImpl;
-import org.soc.gwt.client.images.R;
+import org.soc.common.internationalization.*;
+import org.soc.common.views.meta.*;
+import org.soc.gwt.client.images.*;
 
-import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.resources.client.*;
 
 public class VolcanoHex extends ResourceHex {
   private Resource resource = new Gold();
@@ -17,11 +17,11 @@ public class VolcanoHex extends ResourceHex {
     return new IconImpl(null, null, R.icons()
             .volcanoHex32(), null);
   }
-  @Override public String getLocalizedName() {
-    return I.get().constants().volcanoHex();
+  @Override public Name name() {
+    return new Name.Impl(I.get().constants().volcanoHex());
   }
-  @Override public String getDescription() {
-    return I.get().constants().volcanoHexDescription();
+  @Override public Description description() {
+    return new Description.Impl(I.get().constants().volcanoHexDescription());
   }
   @Override public Resource resource() {
     return resource;
@@ -29,11 +29,9 @@ public class VolcanoHex extends ResourceHex {
   @Override public String getColor() {
     return "DarkRed";
   }
-  @Override public String getName() {
-    return Util.shortName(this.getClass());
-  }
   @Override public Hex copy() {
     VolcanoHex result = new VolcanoHex();
+    result.setChit(copyChit());
     result.setTerritory(territory);
     return result;
   }

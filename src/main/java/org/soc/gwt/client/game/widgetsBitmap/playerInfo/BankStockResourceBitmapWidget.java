@@ -1,38 +1,46 @@
 package org.soc.gwt.client.game.widgetsBitmap.playerInfo;
 
-import org.soc.common.game.Resource;
-import org.soc.common.game.ResourceList;
-import org.soc.common.game.ResourcesChangedEvent;
-import org.soc.common.game.ResourcesChangedEvent.ResourcesChangedHandler;
-import org.soc.gwt.client.game.widgetsAbstract.main.AbstractBankStockResourceWidget;
+import org.soc.common.core.GenericList.*;
+import org.soc.common.core.GenericList.AddsList.*;
+import org.soc.common.core.GenericList.RemovesList.*;
+import org.soc.common.game.*;
+import org.soc.common.game.Resources.MutableResourceList;
+import org.soc.gwt.client.game.widgetsAbstract.main.*;
 
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.*;
 
 public class BankStockResourceBitmapWidget extends
-        AbstractBankStockResourceWidget implements ResourcesChangedHandler
+        AbstractBankStockResourceWidget
 {
-  Image reourceImage;
-  Label lblResourceAmount = new Label();
+  private Image reourceImage;
+  private Label lblResourceAmount = new Label();
 
-  public BankStockResourceBitmapWidget(ResourceList bank, Resource resource)
+  public BankStockResourceBitmapWidget(MutableResourceList bank, Resource resource)
   {
     super(bank, resource);
     reourceImage = new Image(resource.icon().iconDefault());
-    int amount = bank.ofType(resource).size();
+    int amount = bank.ofType(resource.getClass()).size();
     lblResourceAmount.setText(Integer.toString(amount));
     rootPanel.add(reourceImage);
     rootPanel.add(lblResourceAmount);
-    bank.addResourcesChangedHandler(this);
+    bank.addListAddedHandler(new ListAdded<Resource>() {
+      @Override public void listAdded(ImmutableList<Resource> items) {
+        update();
+      }
+    });
+    bank.addListRemovedHandler(new ListRemoved<Resource>() {
+      @Override public void listRemoved(ImmutableList<Resource> items) {
+        update();
+      }
+    });
   }
-  @Override public void onResourcesChanged(ResourcesChangedEvent resourcesChanged)
-  {
-    ResourceList changedResources = resourcesChanged.getRemovedResources() != null ? resourcesChanged
-            .getRemovedResources() : resourcesChanged.getAddedResources();
-    if (changedResources.ofType(resource).size() > 0)
-    {
-      int amount = bank.ofType(resource).size();
-      lblResourceAmount.setText(Integer.toString(amount));
-    }
+  public void update() {
+    //    ResourceList changedResources = resourcesChanged.getRemovedResources() != null ? resourcesChanged
+    //            .getRemovedResources() : resourcesChanged.getAddedResources();
+    //    if (changedResources.ofType(resource.getClass()).size() > 0)
+    //    {
+    //      int amount = bank.ofType(resource.getClass()).size();
+    //      lblResourceAmount.setText(Integer.toString(amount));
+    //    }
   }
 }

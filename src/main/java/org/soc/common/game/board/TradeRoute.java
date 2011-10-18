@@ -1,12 +1,16 @@
 package org.soc.common.game.board;
 
-import java.util.List;
+import java.util.*;
 
-import org.jgrapht.jgrapht.Graph;
-import org.soc.common.game.GamePlayer;
-import org.soc.common.game.Territory;
-import org.soc.common.game.VictoryPointItem;
-import org.soc.common.views.meta.Icon;
+import org.jgrapht.jgrapht.*;
+import org.soc.common.core.GenericList.HasId;
+import org.soc.common.core.GenericList.Model;
+import org.soc.common.core.Props.PropertyList.PropertyTypeList;
+import org.soc.common.core.property.Properties.Description;
+import org.soc.common.core.property.Properties.Name;
+import org.soc.common.core.property.*;
+import org.soc.common.game.*;
+import org.soc.common.views.meta.*;
 
 /*
  * Represents a route between two cities and/or towns on two different territories.
@@ -80,19 +84,39 @@ public interface TradeRoute extends Route, VictoryPointItem
       // TODO Auto-generated method stub
       return false;
     }
-    @Override public String name() {
+    @Override public Name name() {
       // TODO Auto-generated method stub
       return null;
     }
-    @Override public String getLocalizedName() {
-      // TODO Auto-generated method stub
-      return null;
-    }
-    @Override public String getDescription() {
+    @Override public Description description() {
       // TODO Auto-generated method stub
       return null;
     }
     @Override public Icon icon() {
+      // TODO Auto-generated method stub 
+      return null;
+    }
+    @Override public Model copy() {
+      // TODO Auto-generated method stub
+      return null;
+    }
+    @Override public Integer id() {
+      // TODO Auto-generated method stub
+      return null;
+    }
+    @Override public HasId setId(Integer id) {
+      // TODO Auto-generated method stub
+      return null;
+    }
+    @Override public org.soc.common.core.GenericList.HasId.IdScope scope() {
+      // TODO Auto-generated method stub
+      return null;
+    }
+    @Override public Property getProp(Property type) {
+      // TODO Auto-generated method stub
+      return null;
+    }
+    @Override public PropertyTypeList properties() {
       // TODO Auto-generated method stub
       return null;
     }

@@ -1,18 +1,17 @@
 package org.soc.common.game.actions;
 
-import org.soc.common.game.DevelopmentCard;
+import org.soc.common.core.property.Properties.Description;
+import org.soc.common.core.property.Properties.Name;
+import org.soc.common.game.*;
 import org.soc.common.game.DevelopmentCard.AbstractDevelopmentCard;
-import org.soc.common.game.Game;
-import org.soc.common.game.GamePhase;
-import org.soc.common.game.GamePlayer;
-import org.soc.common.game.TurnPhase;
+import org.soc.common.game.actions.Action.ActionPresenter.ActionWidgetFactory;
 import org.soc.common.game.actions.TurnAction.AbstractTurnAction;
-import org.soc.common.internationalization.I;
-import org.soc.common.views.meta.Icon;
-import org.soc.common.views.meta.IconImpl;
-import org.soc.common.views.widgetsInterface.actions.ActionWidget;
-import org.soc.common.views.widgetsInterface.actions.ActionWidget.ActionWidgetFactory;
-import org.soc.gwt.client.images.R;
+import org.soc.common.game.actions.WantsPlayDevelopmentCardEvent.HasWantsPlayDevelopmentCardHandlers;
+import org.soc.common.internationalization.*;
+import org.soc.common.views.meta.*;
+import org.soc.gwt.client.images.*;
+
+import com.gwtplatform.dispatch.annotation.*;
 
 public class PlayDevelopmentCard extends AbstractTurnAction
 {
@@ -23,17 +22,12 @@ public class PlayDevelopmentCard extends AbstractTurnAction
             .developmentCardBack32(), R.icons()
             .developmentCardBack48());
   }
-  @Override public String name()
+  @Override public Name name()
   {
     // TODO Auto-generated method stub
     return null;
   }
-  @Override public String getLocalizedName()
-  {
-    // TODO Auto-generated method stub
-    return null;
-  }
-  @Override public String getDescription()
+  @Override public Description description()
   {
     // TODO Auto-generated method stub
     return null;
@@ -121,9 +115,19 @@ public class PlayDevelopmentCard extends AbstractTurnAction
   {
     return I.get().actions().noToDo();
   }
-  @Override public ActionWidget createActionWidget(
+  @Override public ActionPresenter createPresenter(
           ActionWidgetFactory actionWidgetFactory)
   {
     return actionWidgetFactory.createPlayDevelopmentCardWidget();
+  }
+
+  public interface PlayDevelopmentCardView extends HasWantsPlayDevelopmentCardHandlers {
+    @GenEvent public class WantsPlayDevelopmentCard {}
+
+    public void remove(DevelopmentCard developmentCard);
+    public void add(DevelopmentCard developmentCard);
+    public void enable();
+    public void disable();
+    public void setAmount(int amountDevelopmentCards);
   }
 }

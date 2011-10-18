@@ -1,20 +1,17 @@
 package org.soc.common.game.actions;
 
-import org.soc.common.game.Game;
-import org.soc.common.game.GamePhase;
-import org.soc.common.game.ResourceList;
-import org.soc.common.game.TurnPhase;
-import org.soc.common.game.actions.ActionInGame.DefaultOpponentReceivedBehaviour;
+import org.soc.common.core.property.Properties.Description;
+import org.soc.common.core.property.Properties.Name;
+import org.soc.common.game.*;
+import org.soc.common.game.Resources.MutableResourceList;
+import org.soc.common.game.Resources.MutableResourceListImpl;
+import org.soc.common.game.actions.Action.ActionPresenter.ActionWidgetFactory;
 import org.soc.common.game.actions.GameAction.AbstractGameAction;
-import org.soc.common.game.trading.TradeOffer;
-import org.soc.common.game.trading.TradePlayer;
-import org.soc.common.game.trading.TradeResponse;
-import org.soc.common.views.meta.Icon;
-import org.soc.common.views.meta.IconImpl;
-import org.soc.common.views.widgetsInterface.actions.ActionWidget;
-import org.soc.common.views.widgetsInterface.actions.ActionWidget.ActionWidgetFactory;
-import org.soc.common.views.widgetsInterface.main.GameWidget;
-import org.soc.gwt.client.images.R;
+import org.soc.common.game.actions.GameBehaviour.DefaultReceivedActionInGame;
+import org.soc.common.game.trading.*;
+import org.soc.common.views.meta.*;
+import org.soc.common.views.widgetsInterface.main.*;
+import org.soc.gwt.client.images.*;
 
 public class CounterTradeOffer extends AbstractGameAction implements
         TradeResponse
@@ -25,24 +22,17 @@ public class CounterTradeOffer extends AbstractGameAction implements
             R.icons().tradeCountered32(), R.icons()
                     .tradeCountered48());
   }
-  @Override public String name()
-  {
-    // TODO Auto-generated method stub
+  @Override public Name name() {
+    // TODO Auto-generated method stub 
     return null;
   }
-  @Override public String getLocalizedName()
-  {
-    // TODO Auto-generated method stub
-    return null;
-  }
-  @Override public String getDescription()
-  {
+  @Override public Description description() {
     // TODO Auto-generated method stub
     return null;
   }
 
-  private ResourceList offeredResources = new ResourceList();
-  private ResourceList requestedResources = new ResourceList();
+  private MutableResourceList offeredResources = new MutableResourceListImpl();
+  private MutableResourceList requestedResources = new MutableResourceListImpl();
   private TradeOffer originatingOffer;
 
   @Override public TradeOffer getOriginatingOffer()
@@ -55,12 +45,12 @@ public class CounterTradeOffer extends AbstractGameAction implements
     return this;
   }
   /* Offered resources as seen from the offering players'perspective */
-  public ResourceList getOfferedResources()
+  public MutableResourceList getOfferedResources()
   {
     return offeredResources;
   }
   /* Requested resources as seen from the offering players' perspective */
-  public ResourceList getRequestedResources()
+  public MutableResourceList getRequestedResources()
   {
     return requestedResources;
   }
@@ -88,7 +78,7 @@ public class CounterTradeOffer extends AbstractGameAction implements
       invalidMessage = "Player does not have offered resources";
       return false;
     }
-    if (originatingOffer.getResponses().containsResponse(player))
+    if (originatingOffer.responses().containsResponse(player))
     {
       invalidMessage = "Player already has responded to the offer";
       return false;
@@ -125,18 +115,18 @@ public class CounterTradeOffer extends AbstractGameAction implements
   {
     return actualAction instanceof TradeResponse;
   }
-  @Override public ActionWidget createActionWidget(
+  @Override public ActionPresenter createPresenter(
           ActionWidgetFactory actionWidgetFactory)
   {
     return null;
   }
-  @Override public ActionInGame opponentReceived(
+  @Override public GameBehaviour opponentReceived(
           GameWidget gameWidget)
   {
-    return new DefaultOpponentReceivedBehaviour(gameWidget, this);
+    return new DefaultReceivedActionInGame(gameWidget, this);
   }
-  @Override public ActionInGame received(GameWidget gameWidget) {
-    return new DefaultOpponentReceivedBehaviour(gameWidget, this);
+  @Override public GameBehaviour received(GameWidget gameWidget) {
+    return new DefaultReceivedActionInGame(gameWidget, this);
   }
   @Override public boolean isAccepted()
   {

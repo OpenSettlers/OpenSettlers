@@ -1,25 +1,21 @@
 package org.soc.gwt.client.game.widgetsBitmap.main;
 
-import org.soc.common.game.GamePlayer;
-import org.soc.common.game.ResourceList;
-import org.soc.common.game.ResourcesChangedEvent;
-import org.soc.common.game.ResourcesChangedEvent.ResourcesChangedHandler;
-import org.soc.common.views.widgetsInterface.dialogs.LooseCardsDialog;
-import org.soc.common.views.widgetsInterface.dialogs.LooseCardsWidget;
-import org.soc.common.views.widgetsInterface.generic.ResourceListWidget;
-import org.soc.common.views.widgetsInterface.main.GameWidget;
-import org.soc.gwt.client.game.widgetsBitmap.generic.ResourceListBitmapWidget;
+import org.soc.common.core.GenericList.*;
+import org.soc.common.core.GenericList.AddsList.*;
+import org.soc.common.core.GenericList.RemovesList.*;
+import org.soc.common.game.*;
+import org.soc.common.game.Resources.MutableResourceList;
+import org.soc.common.game.Resources.MutableResourceListImpl;
+import org.soc.common.game.Resources.ResourceList;
+import org.soc.common.views.widgetsInterface.dialogs.*;
+import org.soc.common.views.widgetsInterface.generic.*;
+import org.soc.common.views.widgetsInterface.main.*;
+import org.soc.gwt.client.game.widgetsBitmap.generic.*;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.event.dom.client.*;
+import com.google.gwt.user.client.ui.*;
 
-public class LooseCardsBitmapWidget implements LooseCardsWidget,
-        ResourcesChangedHandler
-{
+public class LooseCardsBitmapWidget implements LooseCardsWidget {
   private HorizontalPanel rootPanel = new HorizontalPanel();
   private GamePlayer player;
   private GameWidget gameWidget;
@@ -28,10 +24,10 @@ public class LooseCardsBitmapWidget implements LooseCardsWidget,
   private Label lblPlayerName;
   private Button btnOK = new Button("Loose cards");
   private LooseCardsDialog parent;
-  private ResourceList cardsToLoose = new ResourceList();
-  private ResourceList handCards;
+  private MutableResourceList cardsToLoose = new MutableResourceListImpl();
+  private MutableResourceList handCards;
 
-  public LooseCardsBitmapWidget(GameWidget gameWidget, GamePlayer player,
+  public LooseCardsBitmapWidget(GameWidget gameWidget, final GamePlayer player,
           final LooseCardsDialog parent)
   {
     super();
@@ -60,37 +56,38 @@ public class LooseCardsBitmapWidget implements LooseCardsWidget,
         doneLoosingCards();
       }
     });
-    cardsToLoose.addResourcesChangedHandler(this);
+    cardsToLoose.addListRemovedHandler(new ListRemoved<Resource>() {
+      @Override public void listRemoved(ImmutableList<Resource> items) {
+        updateButton();
+      }
+    });
+    cardsToLoose.addListAddedHandler(new ListAdded<Resource>() {
+      @Override public void listAdded(ImmutableList<Resource> items) {
+        updateButton();
+      }
+    });
   }
-  private void doneLoosingCards()
-  {
+  private void doneLoosingCards() {
     parent.doneLoosingCards(this);
   }
-  @Override public Widget asWidget()
-  {
+  @Override public Widget asWidget() {
     return rootPanel;
   }
-  public void update()
-  {
+  public void update() {
     handCards = player.resources().copy();
     handCardsWidget.setResources(handCards);
     cardsToLoose.clear();
   }
-  @Override public void onResourcesChanged(ResourcesChangedEvent resourcesChanged)
-  {
-    btnOK.setEnabled(cardsToLoose.size() == player.resources()
-            .halfCount());
+  public void updateButton() {
+    btnOK.setEnabled(cardsToLoose.size() == player.resources().halfCount());
   }
-  @Override public void setVisible(boolean visible)
-  {
+  @Override public void setVisible(boolean visible) {
     rootPanel.setVisible(visible);
   }
-  @Override public GamePlayer getPlayer()
-  {
+  @Override public GamePlayer getPlayer() {
     return player;
   }
-  @Override public ResourceList getLostCards()
-  {
+  @Override public ResourceList getLostCards() {
     return cardsToLoose;
   }
 }

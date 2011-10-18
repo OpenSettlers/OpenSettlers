@@ -3,9 +3,9 @@ package org.soc.gwt.client.game.widgetsAbstract.actions;
 import java.util.HashMap;
 
 import org.soc.common.game.GamePlayer;
+import org.soc.common.game.actions.Action.ActionPresenter;
+import org.soc.common.game.actions.Action.ActionPresenter.ActionWidgetFactory;
 import org.soc.common.game.actions.TurnAction;
-import org.soc.common.views.widgetsInterface.actions.ActionWidget;
-import org.soc.common.views.widgetsInterface.actions.ActionWidget.ActionWidgetFactory;
 import org.soc.common.views.widgetsInterface.actions.ActionsWidget;
 import org.soc.common.views.widgetsInterface.actions.DiceWidget;
 import org.soc.common.views.widgetsInterface.generic.Point2D;
@@ -21,7 +21,7 @@ public abstract class AbstractActionsWidget implements ActionsWidget
   protected ComplexPanel rootPanel;
   protected GamePlayer player;
   protected GameWidget gameWidget;
-  protected HashMap<Integer, ActionWidget> widgetsIndices = new HashMap<Integer, ActionWidget>();
+  protected HashMap<Integer, ActionPresenter> widgetsIndices = new HashMap<Integer, ActionPresenter>();
 
   public AbstractActionsWidget(GameWidget gameWidget, GamePlayer player) {
     this.player = player;
@@ -34,7 +34,7 @@ public abstract class AbstractActionsWidget implements ActionsWidget
     for (TurnAction turnAction : gameWidget.game().rules()
             .possibleActions())
     {
-      ActionWidget widget = turnAction.createActionWidget(widgetFactory);
+      ActionPresenter widget = turnAction.createPresenter(widgetFactory);
       if (widget != null) {
         rootPanel.add(widget);
         widgetsIndices.put(index, widget);
@@ -52,7 +52,7 @@ public abstract class AbstractActionsWidget implements ActionsWidget
     return rootPanel;
   }
   public Point2D getTopLeftDiceWidgetPosition() {
-    for (ActionWidget widget : widgetsIndices.values()) {
+    for (ActionPresenter widget : widgetsIndices.values()) {
       if (widget instanceof DiceWidget) {
         DiceWidget diceWidget = (DiceWidget) widget;
         return diceWidget.getPosition();

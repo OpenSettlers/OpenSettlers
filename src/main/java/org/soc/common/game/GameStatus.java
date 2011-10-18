@@ -17,7 +17,7 @@ import org.soc.common.game.actions.GameAction;
  */
 public interface GameStatus extends Serializable {
   /* Whether or not the game can continue while in this state */
-  public boolean isGameBlocking();
+  public boolean blocksGame();
   public String getDescription();
   public boolean isWaitingForPlayers();
   public boolean isPlaying();
@@ -27,7 +27,7 @@ public interface GameStatus extends Serializable {
   {
     private static final long serialVersionUID = -6698546004041080852L;
 
-    @Override public boolean isGameBlocking()
+    @Override public boolean blocksGame()
     {
       return false;
     }
@@ -49,7 +49,7 @@ public interface GameStatus extends Serializable {
   public class Playing implements GameStatus {
     private static final long serialVersionUID = -5863963795809197191L;
 
-    @Override public boolean isGameBlocking() {
+    @Override public boolean blocksGame() {
       return false;
     }
     @Override public String getDescription() {
@@ -72,7 +72,7 @@ public interface GameStatus extends Serializable {
     /* Returns true; when waiting for players, the game can't continue
      * 
      * @see org.soc.common.game.statuses.IGameStatus#isGameBlocking() */
-    @Override public boolean isGameBlocking()
+    @Override public boolean blocksGame()
     {
       return true;
     }
@@ -98,7 +98,7 @@ public interface GameStatus extends Serializable {
     private int amountPlayers = 1;
     private List<GamePlayer> gonePlayers = new ArrayList<GamePlayer>();
 
-    @Override public boolean isGameBlocking()
+    @Override public boolean blocksGame()
     {
       return true;
     }
@@ -125,7 +125,7 @@ public interface GameStatus extends Serializable {
   {
     private static final long serialVersionUID = -7042958419847540962L;
 
-    @Override public boolean isGameBlocking()
+    @Override public boolean blocksGame()
     {
       return false;
     }
@@ -152,7 +152,7 @@ public interface GameStatus extends Serializable {
     /* Players may perform turns
      * 
      * @see org.soc.common.game.statuses.IGameStatus#isGameBlocking() */
-    @Override public boolean isGameBlocking()
+    @Override public boolean blocksGame()
     {
       return false;
     }

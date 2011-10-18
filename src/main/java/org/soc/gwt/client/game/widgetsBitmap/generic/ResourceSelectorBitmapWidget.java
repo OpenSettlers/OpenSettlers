@@ -1,30 +1,17 @@
 package org.soc.gwt.client.game.widgetsBitmap.generic;
 
-import org.soc.common.game.Port;
-import org.soc.common.game.PortList;
-import org.soc.common.game.Resource;
-import org.soc.common.game.ResourceList;
-import org.soc.common.game.ResourcesChangedEvent;
-import org.soc.common.game.ResourcesChangedEvent.ResourcesChangedHandler;
-import org.soc.common.views.widgetsInterface.generic.ResourceClickedEvent;
+import org.soc.common.game.*;
+import org.soc.common.game.Ports.PortList;
+import org.soc.common.game.Resources.ResourceList;
+import org.soc.common.views.widgetsInterface.generic.*;
 import org.soc.common.views.widgetsInterface.generic.ResourceClickedEvent.ResourceClickedHandler;
-import org.soc.common.views.widgetsInterface.generic.ResourceSelectorWidget;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.GwtEvent;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.event.shared.SimpleEventBus;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.PushButton;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.event.dom.client.*;
+import com.google.gwt.event.shared.*;
+import com.google.gwt.user.client.ui.*;
 
 public class ResourceSelectorBitmapWidget implements ResourceSelectorWidget,
-        ClickHandler, ResourcesChangedHandler
-{
+        ClickHandler {
   private Resource resource;
   private ResourceList bankResources;
   private PortList ports;
@@ -52,51 +39,36 @@ public class ResourceSelectorBitmapWidget implements ResourceSelectorWidget,
     rootPanel.add(imgPort);
     rootPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
   }
-  /* (non-Javadoc)
-   * 
-   * @see org.soc.gwt.client.game.widgets.abstractWidgets.IResourceSelectorWidget#setEnabled
-   * (boolean) */
-  @Override public ResourceSelectorWidget setEnabled(boolean enabled)
-  {
+  @Override public ResourceSelectorWidget setEnabled(boolean enabled) {
     btnResource.setEnabled(enabled);
     return this;
   }
-  /** @return the ports */
-  public PortList getPorts()
-  {
+  public PortList getPorts() {
     return ports;
   }
-  /** @param ports the ports to set */
-  public ResourceSelectorWidget setPorts(PortList ports)
-  {
+  public ResourceSelectorWidget setPorts(PortList ports) {
     this.ports = ports;
     // Add port when available
-    if (ports != null)
-    {
+    if (ports != null) {
       Port port = ports.bestPortForResource(resource, true);
-      if (port != null)
-      {
+      if (port != null) {
         imgPort.setUrl(port.icon().iconDefault().getURL());
       }
     }
     return this;
   }
-  /** @return the bankResources */
-  public ResourceList getBankResources()
-  {
+  public ResourceList getBankResources() {
     return bankResources;
   }
-  /** @param bankResources the bankResources to set */
-  public ResourceSelectorWidget setBankResources(ResourceList bankResources)
-  {
+  public ResourceSelectorWidget setBankResources(ResourceList bankResources) {
     this.bankResources = bankResources;
     if (bankResourcesHandlerRegistration != null)
       bankResourcesHandlerRegistration.removeHandler();
     if (bankResources != null)
     {
       // Add a handler to resources changed event
-      bankResourcesHandlerRegistration = bankResources
-              .addResourcesChangedHandler(this);
+      //      bankResourcesHandlerRegistration = bankResources
+      //              .addResourcesChangedHandler(this);
       // update the amount of resources label
       lblAmountResources.setText(Integer.toString(bankResources.ofType(
               resource).size()));
@@ -105,8 +77,7 @@ public class ResourceSelectorBitmapWidget implements ResourceSelectorWidget,
               .amountNeededToTrade(resource);
       // Enable/disable the button depending on ability to trade with
       // resources left
-      btnResource
-              .setEnabled(bankResources.ofType(resource).size() >= neededAmount);
+      btnResource.setEnabled(bankResources.ofType(resource).size() >= neededAmount);
     }
     // Only show bank resources when they are available
     lblAmountResources.setVisible(bankResources != null);
@@ -117,37 +88,29 @@ public class ResourceSelectorBitmapWidget implements ResourceSelectorWidget,
   {
     return eventBus.addHandler(ResourceClickedEvent.getType(), handler);
   }
-  @Override public Resource getResource()
-  {
+  @Override public Resource getResource() {
     return resource;
   }
-  @Override public Widget asWidget()
-  {
+  @Override public Widget asWidget() {
     return rootPanel;
   }
-  @Override public void onClick(ClickEvent arg0)
-  {
+  @Override public void onClick(ClickEvent arg0) {
     eventBus.fireEvent(new ResourceClickedEvent(resource));
   }
-  @Override public void onResourcesChanged(ResourcesChangedEvent resourcesChanged)
-  {
-    // Get new amount of resources
-    int amount = bankResources.ofType(resource).size();
-    // update the ui text
-    lblAmountResources.setText(Integer.toString(amount));
-    // update enabled state of the button
-    int neededResourceAmount = 0;
-    if (ports != null)
-    {
-      neededResourceAmount = ports.amountNeededToTrade(resource);
-    }
-    else
-    {
-      neededResourceAmount = 1;
-    }
-    // Enable the button if we still have enough resources for it
-    btnResource.setEnabled(amount >= neededResourceAmount);
-  }
+  //  @Override public void onResourcesChanged(ResourcesChangedEvent resourcesChanged) {
+  //    // Get new amount of resources
+  //    int amount = bankResources.ofType(resource).size();
+  //    // update the ui text
+  //    lblAmountResources.setText(Integer.toString(amount));
+  //    // update enabled state of the button
+  //    int neededResourceAmount = 0;
+  //    if (ports != null)
+  //      neededResourceAmount = ports.amountNeededToTrade(resource);
+  //    else
+  //      neededResourceAmount = 1;
+  //    // Enable the button if we still have enough resources for it
+  //    btnResource.setEnabled(amount >= neededResourceAmount);
+  //  }
   @Override public void fireEvent(GwtEvent<?> event) {
     eventBus.fireEvent(event);
   }

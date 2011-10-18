@@ -1,18 +1,15 @@
 package org.soc.common.game.trading;
 
-import org.soc.common.game.Game;
-import org.soc.common.game.GamePhase;
-import org.soc.common.game.GamePlayer;
-import org.soc.common.game.ResourceList;
-import org.soc.common.game.TurnPhase;
+import org.soc.common.core.property.Properties.Description;
+import org.soc.common.core.property.Properties.Name;
+import org.soc.common.game.*;
+import org.soc.common.game.Resources.MutableResourceList;
+import org.soc.common.game.Resources.MutableResourceListImpl;
+import org.soc.common.game.actions.Action.ActionPresenter.ActionWidgetFactory;
 import org.soc.common.game.actions.GameAction.AbstractGameAction;
-import org.soc.common.server.actions.GameServerActionFactory;
-import org.soc.common.server.actions.ServerAction;
-import org.soc.common.views.meta.Icon;
-import org.soc.common.views.meta.IconImpl;
-import org.soc.common.views.widgetsInterface.actions.ActionWidget;
-import org.soc.common.views.widgetsInterface.actions.ActionWidget.ActionWidgetFactory;
-import org.soc.gwt.client.images.R;
+import org.soc.common.server.actions.*;
+import org.soc.common.views.meta.*;
+import org.soc.gwt.client.images.*;
 
 public class TradeOffer extends AbstractGameAction
 {
@@ -21,37 +18,32 @@ public class TradeOffer extends AbstractGameAction
     return new IconImpl(R.icons().trade16(), R
             .icons().trade32(), R.icons().trade48());
   }
-  @Override public String name()
+  @Override public Name name()
   {
     // TODO Auto-generated method stub
     return null;
   }
-  @Override public String getLocalizedName()
-  {
-    // TODO Auto-generated method stub
-    return null;
-  }
-  @Override public String getDescription()
+  @Override public Description description()
   {
     // TODO Auto-generated method stub
     return null;
   }
 
-  private ResourceList offeredResources = new ResourceList();
-  private ResourceList requestedResources = new ResourceList();
+  private MutableResourceList offeredResources = new MutableResourceListImpl();
+  private MutableResourceList requestedResources = new MutableResourceListImpl();
   private TradeResponseList responses = new TradeResponseList();
   private boolean responsesCompleted = false;
   private int offerID;
 
-  public TradeResponseList getResponses()
+  public TradeResponseList responses()
   {
     return responses;
   }
-  public ResourceList getOfferedResources()
+  public MutableResourceList getOfferedResources()
   {
     return offeredResources;
   }
-  public ResourceList getRequestedResources()
+  public MutableResourceList getRequestedResources()
   {
     return requestedResources;
   }
@@ -125,13 +117,13 @@ public class TradeOffer extends AbstractGameAction
   {
     return gamePhase.isPlayTurns();
   }
-  @Override public ActionWidget createActionWidget(
+  @Override public ActionPresenter createPresenter(
           ActionWidgetFactory actionWidgetFactory)
   {
     return actionWidgetFactory.createTradePlayerWidget();
   }
   @Override public ServerAction createServerAction(GameServerActionFactory factory)
   {
-    return factory.createTradeOfferAction(this);
+    return factory.createTrade(this);
   }
 }

@@ -1,20 +1,16 @@
 package org.soc.gwt.client.game.widgetsBitmap.tooltips;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
-import org.soc.common.board.PortListChangedEvent;
-import org.soc.common.board.PortListChangedEvent.PortListChangedHandler;
-import org.soc.common.game.GamePlayer;
-import org.soc.common.game.Port;
-import org.soc.common.game.Port.FourToOnePort;
-import org.soc.common.views.widgetsInterface.main.GameWidget;
-import org.soc.gwt.client.game.widgetsAbstract.toolTips.AbstractPlayerInfoToolTip;
+import org.soc.common.core.GenericList.Adds.*;
+import org.soc.common.core.GenericList.Removes.*;
+import org.soc.common.game.*;
+import org.soc.common.views.widgetsInterface.main.*;
+import org.soc.gwt.client.game.widgetsAbstract.toolTips.*;
 
-import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.*;
 
-public class PortListToolTip extends AbstractPlayerInfoToolTip implements
-        PortListChangedHandler
+public class PortListToolTip extends AbstractPlayerInfoToolTip
 {
   private Map<Port, Image> portImages = new HashMap<Port, Image>();
 
@@ -23,29 +19,23 @@ public class PortListToolTip extends AbstractPlayerInfoToolTip implements
     super(gameWidget, player);
     for (Port port : player.ports())
     {
-      if (!(port instanceof FourToOnePort))
-      {
-        Image portImage = new Image(port.icon().iconDefault());
+      Image portImage = new Image(port.icon().iconDefault());
+      portImages.put(port, portImage);
+      rootPanel.add(portImage);
+    }
+    player.ports().addAddedHandler(new Added<Port>() {
+      @Override public void added(Port port) {
+        Image portImage = new Image(port.icon()
+                .iconDefault());
         portImages.put(port, portImage);
         rootPanel.add(portImage);
       }
-    }
-    player.ports().addPortListChangedHandler(this);
-  }
-  @Override public void onPortListChanged(PortListChangedEvent event)
-  {
-    if (event.getAddedPort() != null
-            && !(event.getAddedPort() instanceof FourToOnePort))
-    {
-      Image portImage = new Image(event.getAddedPort().icon()
-              .iconDefault());
-      portImages.put(event.getAddedPort(), portImage);
-      rootPanel.add(portImage);
-    }
-    if (event.getRemovedPort() != null)
-    {
-      Image portImage = portImages.get(event.getRemovedPort());
-      rootPanel.remove(portImage);
-    }
+    });
+    player.ports().addRemovedHandler(new Removed<Port>() {
+      @Override public void removed(Port port) {
+        Image portImage = portImages.get(port);
+        rootPanel.remove(portImage);
+      }
+    });
   }
 }

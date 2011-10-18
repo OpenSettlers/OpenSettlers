@@ -1,19 +1,16 @@
 package org.soc.gwt.client.game.widgetsBitmap.tooltips;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
-import org.soc.common.game.GamePlayer;
-import org.soc.common.game.VictoryPointItem;
-import org.soc.common.game.VictoryPointsChangedEvent;
-import org.soc.common.game.VictoryPointsChangedEvent.VictoryPointsChangedHandler;
-import org.soc.common.views.widgetsInterface.main.GameWidget;
-import org.soc.gwt.client.game.widgetsAbstract.toolTips.AbstractPlayerInfoToolTip;
+import org.soc.common.core.GenericList.Adds.*;
+import org.soc.common.core.GenericList.Removes.*;
+import org.soc.common.game.*;
+import org.soc.common.views.widgetsInterface.main.*;
+import org.soc.gwt.client.game.widgetsAbstract.toolTips.*;
 
-import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.*;
 
-public class VictoryPointsToolTip extends AbstractPlayerInfoToolTip implements
-        VictoryPointsChangedHandler
+public class VictoryPointsToolTip extends AbstractPlayerInfoToolTip
 {
   private Map<VictoryPointItem, Image> vpImages = new HashMap<VictoryPointItem, Image>();
 
@@ -26,17 +23,18 @@ public class VictoryPointsToolTip extends AbstractPlayerInfoToolTip implements
       vpImages.put(vp, vpImage);
       rootPanel.add(vpImage);
     }
-    player.victoryPoints().addVictoryPointsChangedListener(this);
-  }
-  @Override public void onVictoryPointsChanged(VictoryPointsChangedEvent event) {
-    if (event.getAddedPoint() != null) {
-      Image vpImage = new Image(event.getAddedPoint().icon().iconDefault());
-      vpImages.put(event.getAddedPoint(), vpImage);
-      rootPanel.add(vpImage);
-    }
-    if (event.getRemovedPoint() != null) {
-      Image vpImage = vpImages.get(event.getRemovedPoint());
-      rootPanel.remove(vpImage);
-    }
+    player.victoryPoints().addAddedHandler(new Added<VictoryPointItem>() {
+      @Override public void added(VictoryPointItem item) {
+        Image vpImage = new Image(item.icon().iconDefault());
+        vpImages.put(item, vpImage);
+        rootPanel.add(vpImage);
+      }
+    });
+    player.victoryPoints().addRemovedHandler(new Removed<VictoryPointItem>() {
+      @Override public void removed(VictoryPointItem item) {
+        Image vpImage = vpImages.get(item);
+        rootPanel.remove(vpImage);
+      }
+    });
   }
 }

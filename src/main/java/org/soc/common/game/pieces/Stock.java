@@ -1,24 +1,31 @@
 package org.soc.common.game.pieces;
 
-import java.io.Serializable;
+import java.io.*;
 
-public class Stock implements Serializable {
-  private static final long serialVersionUID = -5849568638982559515L;
-  private TownList towns = new TownList();
-  private CityList cities = new CityList();
-  private RoadList roads = new RoadList();
-  private ShipList ships = new ShipList();
+import org.soc.common.game.pieces.Cities.MutableCityList;
+import org.soc.common.game.pieces.Roads.MutableRoadList;
+import org.soc.common.game.pieces.Ships.MutableShipList;
+import org.soc.common.game.pieces.Ships.MutableShipListImpl;
+import org.soc.common.game.pieces.Towns.MutableTownList;
 
-  public TownList towns() {
+public class Stock
+        implements
+        Serializable {
+  private MutableTownList towns = new MutableTownList.Impl();
+  private MutableCityList cities = new MutableCityList.Impl();
+  private MutableRoadList roads = new MutableRoadList.Impl();
+  private MutableShipList ships = new MutableShipListImpl();
+
+  public MutableTownList towns() {
     return towns;
   }
-  public RoadList roads() {
+  public MutableRoadList roads() {
     return roads;
   }
-  public CityList cities() {
+  public MutableCityList cities() {
     return cities;
   }
-  public ShipList ships() {
+  public MutableShipList ships() {
     return ships;
   }
   public boolean hasShips() {

@@ -1,31 +1,30 @@
 package org.soc.common.game.pieces;
 
-import org.soc.common.game.GamePlayer;
-import org.soc.common.game.Resource.Sheep;
-import org.soc.common.game.Resource.Timber;
-import org.soc.common.game.ResourceList;
-import org.soc.common.game.board.Board;
-import org.soc.common.game.board.GraphPoint;
-import org.soc.common.game.board.HasSide;
-import org.soc.common.game.board.HexSide;
+import org.soc.common.core.property.Properties.Description;
+import org.soc.common.core.property.Properties.Name;
+import org.soc.common.game.*;
+import org.soc.common.game.Resources.ResourceList;
+import org.soc.common.game.board.*;
 import org.soc.common.game.pieces.Piece.AbstractPlayerPiece;
-import org.soc.common.internationalization.I;
-import org.soc.common.views.meta.Icon;
-import org.soc.common.views.meta.IconImpl;
-import org.soc.common.views.widgetsInterface.visuals.PieceVisual;
-import org.soc.common.views.widgetsInterface.visuals.VisualFactory;
+import org.soc.common.internationalization.*;
+import org.soc.common.views.meta.*;
+import org.soc.common.views.widgetsInterface.visuals.*;
 
-public class Ship extends AbstractPlayerPiece implements HasSide {
+import static org.soc.common.game.Resource.*;
+
+import static org.soc.common.game.Resources.*;
+
+public class Ship extends AbstractPlayerPiece<Integer> implements HasSide {
   private HexSide sideLocation;
 
   @Override public Icon icon() {
     return new IconImpl(null, null, null, null);
   }
-  @Override public String getLocalizedName() {
-    return I.get().constants().ship();
+  @Override public Name name() {
+    return new Name.Impl(I.get().constants().ship());
   }
-  @Override public String getDescription() {
-    return I.get().constants().shipDescription();
+  @Override public Description description() {
+    return new Description.Impl(I.get().constants().shipDescription());
   }
   @Override public boolean canBuild(Board board, GamePlayer player) {
     if (player.stock().ships().size() == 0)
@@ -35,10 +34,7 @@ public class Ship extends AbstractPlayerPiece implements HasSide {
     return true;
   }
   @Override public ResourceList cost() {
-    ResourceList result = new ResourceList();
-    result.add(new Timber());
-    result.add(new Sheep());
-    return result;
+    return newResources(timber, sheep);
   }
   // TODO: port to java
   public boolean canMove(Board board, GamePlayer player)
@@ -64,7 +60,7 @@ public class Ship extends AbstractPlayerPiece implements HasSide {
     return true;
   }
   @Override public void addTo(GamePlayer player) {
-    player.ships().moveFrom(player.stock().ships(), this);
+    player.ships().move(player.stock().ships(), this);
     player.sidePieces().add(this);
   }
   @Override public void removeFrom(GamePlayer player) {

@@ -1,31 +1,81 @@
 package org.soc.common.game;
 
-import java.io.Serializable;
-
-import org.soc.common.internationalization.I;
-import org.soc.common.utils.Util;
-import org.soc.common.views.meta.Icon;
-import org.soc.common.views.meta.IconImpl;
-import org.soc.common.views.meta.Meta;
-import org.soc.gwt.client.images.R;
+import org.soc.common.core.GenericList.Filters.Filter;
+import org.soc.common.core.GenericList.HasId;
+import org.soc.common.core.GenericList.ModelPresenter;
+import org.soc.common.core.GenericList.ModelView;
+import org.soc.common.core.OpenZettlers.OsModel;
+import org.soc.common.core.Props.PropertyList.PropertyTypeList;
+import org.soc.common.core.property.Properties.Description;
+import org.soc.common.core.property.Properties.Name;
+import org.soc.common.core.property.*;
+import org.soc.common.game.Resource.ResourcePresenterP.ResourceView;
+import org.soc.common.internationalization.*;
+import org.soc.common.utils.*;
+import org.soc.common.views.meta.*;
+import org.soc.gwt.client.images.*;
 
 /** Represents an resource to be traded by players to other opponents or the bank. Can also be used
  * to buy pieces, such as roads, development cards or towns. */
-public interface Resource extends Serializable, Meta {
+public interface Resource extends OsModel<Integer> {
+  public interface ResourcePresenterP<R extends Resource, V extends ResourceView>
+          extends ModelPresenter<R, V> {
+    public interface ResourceView<R extends Resource> extends ModelView<R> {}
+  }
+
+  //  public interface Picker
+  //          extends
+  //          ModelPicker<Resource, ResourceList, MutableResourceList, Picker.View, Integer> {
+  //    public static interface View
+  //            extends
+  //            Picker<Resource, ResourceList, MutableResourceList, Integer> {
+  //      /** User indicates he is done choosing and he made a choice from prototypes */
+  //      @GenEvent public class UseSelection {
+  //        @Order(0) ResourceList picked;
+  //      }
+  //    }
+  //  }
   public boolean isTradeable();
   public String color();
   public Resource copy();
 
+  public static final Timber timber = new Timber();
+  public static final Sheep sheep = new Sheep();
+  public static final Clay clay = new Clay();
+  public static final Ore ore = new Ore();
+  public static final Wheat wheat = new Wheat();
+  public static final Gold gold = new Gold();
+  public static final Diamond diamond = new Diamond();
+
   public abstract class AbstractResource implements Resource {
+    private int id = 0;
+
     public AbstractResource() {}
     @Override public String toString() {
       return "Resource [name=" + name() + "]";
     }
-    public String name() {
-      return Util.shortName(this.getClass());
+    public Name name() {
+      return new Name.Impl(Util.shortName(this.getClass()));
     }
     @Override public boolean equals(Object obj) {
       return obj.getClass() == this.getClass();
+    }
+    @Override public Integer id() {
+      return id;
+    }
+    @Override public HasId setId(Integer id) {
+      return this;
+    }
+    @Override public IdScope scope() {
+      return IdScope.APPLICATION;
+    }
+    @Override public PropertyTypeList properties() {
+      // TODO Auto-generated method stub
+      return null;
+    }
+    @Override public Property getProp(Property type) {
+      // TODO Auto-generated method stub
+      return null;
     }
   }
 
@@ -33,11 +83,11 @@ public interface Resource extends Serializable, Meta {
     @Override public Icon icon() {
       return new IconImpl(R.icons().clay16(), R.icons().clay32(), R.icons().clay48());
     }
-    @Override public String getLocalizedName() {
-      return I.get().constants().clay();
+    @Override public Name name() {
+      return new Name.Impl(I.get().constants().clay());
     }
-    @Override public String getDescription() {
-      return I.get().constants().clayDescription();
+    @Override public Description description() {
+      return new Description.Impl(I.get().constants().clayDescription());
     }
     @Override public String color() {
       return "Red";
@@ -57,11 +107,11 @@ public interface Resource extends Serializable, Meta {
     @Override public Icon icon() {
       return IconImpl.nullIcon();
     }
-    @Override public String getLocalizedName() {
-      return I.get().constants().diamond();
+    @Override public Name name() {
+      return new Name.Impl(I.get().constants().diamond());
     }
-    @Override public String getDescription() {
-      return I.get().constants().diamondDescription();
+    @Override public Description description() {
+      return new Description.Impl(I.get().constants().diamondDescription());
     }
     @Override public String color() {
       return "Grey";
@@ -81,11 +131,11 @@ public interface Resource extends Serializable, Meta {
     @Override public Icon icon() {
       return new IconImpl(R.icons().ore16(), R.icons().ore32(), R.icons().ore48());
     }
-    @Override public String getLocalizedName() {
-      return I.get().constants().ore();
+    @Override public Name name() {
+      return new Name.Impl(I.get().constants().ore());
     }
-    @Override public String getDescription() {
-      return I.get().constants().oreDescription();
+    @Override public Description description() {
+      return new Description.Impl(I.get().constants().oreDescription());
     }
     @Override public String color() {
       return "Purple";
@@ -108,28 +158,22 @@ public interface Resource extends Serializable, Meta {
       return new IconImpl(R.icons().sheep16(), R
               .icons().sheep32(), R.icons().sheep48());
     }
-    @Override public String getLocalizedName()
-    {
-      return I.get().constants().sheep();
+    @Override public Name name() {
+      return new Name.Impl(I.get().constants().sheep());
     }
-    @Override public String getDescription()
-    {
-      return I.get().constants().sheepDescription();
+    @Override public Description description() {
+      return new Description.Impl(I.get().constants().sheepDescription());
     }
-    @Override public String color()
-    {
+    @Override public String color() {
       return "LightGreen";
     }
-    @Override public boolean isTradeable()
-    {
+    @Override public boolean isTradeable() {
       return true;
     }
-    @Override public Resource copy()
-    {
+    @Override public Resource copy() {
       return new Sheep();
     }
-    @Override public int hashCode()
-    {
+    @Override public int hashCode() {
       return 5;
     }
   }
@@ -141,11 +185,11 @@ public interface Resource extends Serializable, Meta {
                       .timber32(), R.icons()
                       .timber48());
     }
-    @Override public String getLocalizedName() {
-      return I.get().constants().timber();
+    @Override public Name name() {
+      return new Name.Impl(I.get().constants().timber());
     }
-    @Override public String getDescription() {
-      return I.get().constants().timberDescription();
+    @Override public Description description() {
+      return new Description.Impl(I.get().constants().timberDescription());
     }
     @Override public String color() {
       return "DarkGreen";
@@ -166,14 +210,11 @@ public interface Resource extends Serializable, Meta {
     @Override public Icon icon() {
       return new IconImpl(R.icons().wheat16(), R.icons().wheat32(), R.icons().wheat48());
     }
-    @Override public String name() {
-      return "Wheat";
+    @Override public Name name() {
+      return new Name.Impl(I.get().constants().wheat());
     }
-    @Override public String getLocalizedName() {
-      return I.get().constants().wheat();
-    }
-    @Override public String getDescription() {
-      return I.get().constants().wheatDescription();
+    @Override public Description description() {
+      return new Description.Impl(I.get().constants().wheatDescription());
     }
     @Override public String color() {
       return "Yellow";
@@ -193,14 +234,11 @@ public interface Resource extends Serializable, Meta {
     @Override public Icon icon() {
       return new IconImpl(R.icons().gold16(), R.icons().gold32(), R.icons().gold48());
     }
-    @Override public String name() {
-      return "Gold";
+    @Override public Name name() {
+      return new Name.Impl(I.get().constants().gold());
     }
-    @Override public String getLocalizedName() {
-      return I.get().constants().gold();
-    }
-    @Override public String getDescription() {
-      return I.get().constants().goldDescription();
+    @Override public Description description() {
+      return new Description.Impl(I.get().constants().goldDescription());
     }
     @Override public String color() {
       return "Gold";
@@ -213,6 +251,12 @@ public interface Resource extends Serializable, Meta {
     }
     @Override public int hashCode() {
       return 3;
+    }
+  }
+
+  public static class CanTrade implements Filter<Resource> {
+    @Override public boolean matches(Resource resource) {
+      return resource.isTradeable();
     }
   }
 }

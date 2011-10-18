@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.soc.common.game.DevelopmentCard.Soldier;
+import org.soc.common.game.GamePlayer;
 import org.soc.common.game.pieces.Army.ArmyChangedEvent;
 import org.soc.common.game.pieces.Army.ArmyChangedEventHandler;
-import org.soc.common.game.GamePlayer;
 import org.soc.common.views.widgetsInterface.main.GameWidget;
 import org.soc.gwt.client.game.widgetsAbstract.toolTips.AbstractPlayerInfoToolTip;
 import org.soc.gwt.client.images.R;

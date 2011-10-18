@@ -1,28 +1,24 @@
 package org.soc.gwt.client.game;
 
 import org.soc.common.game.DevelopmentCard.Soldier.SoldierView;
-import org.soc.common.game.actions.WantsPlayDevelopmentCardEvent;
+import org.soc.common.game.actions.*;
 import org.soc.common.game.actions.WantsPlayDevelopmentCardEvent.WantsPlayDevelopmentCardHandler;
-import org.soc.common.internationalization.I;
-import org.soc.gwt.client.images.R;
+import org.soc.common.game.actions.WantsPlayDevelopmentCardEvent;
+import org.soc.common.internationalization.*;
+import org.soc.gwt.client.images.*;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.EventBus;
-import com.google.gwt.event.shared.GwtEvent;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.event.shared.SimpleEventBus;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.event.dom.client.*;
+import com.google.gwt.event.shared.*;
+import com.google.gwt.user.client.ui.*;
+import com.google.inject.*;
 
 public class PlaySoldierGwt implements SoldierView {
   private HorizontalPanel rootPanel = new HorizontalPanel();
   private Button btnPlay = new Button(I.get().constants().play());
-  private EventBus eventBus = new SimpleEventBus();
+  private EventBus eventBus;
 
-  public PlaySoldierGwt() {
+  @Inject public PlaySoldierGwt(final EventBus eventBus) {
+    this.eventBus = eventBus;
     rootPanel.setSpacing(5);
     rootPanel.add(new Image(R.icons.soldier48()));
     rootPanel.add(new Label(I.get().constants().soldier()));

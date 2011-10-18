@@ -2,9 +2,9 @@ package org.soc.common.views.widgetsInterface.main;
 
 import org.soc.common.game.Game;
 import org.soc.common.game.GamePlayer;
+import org.soc.common.game.actions.Action.ActionPresenter.ActionWidgetFactory;
 import org.soc.common.game.actions.GameAction;
 import org.soc.common.views.widgetsInterface.actions.ActionDetailWidget.ActionDetailWidgetFactory;
-import org.soc.common.views.widgetsInterface.actions.ActionWidget.ActionWidgetFactory;
 import org.soc.common.views.widgetsInterface.actions.ActionsWidget;
 import org.soc.common.views.widgetsInterface.actions.DiceWidget.DiceWidgetFactory;
 import org.soc.common.views.widgetsInterface.actions.HotSeatActionsPlayersWidget;

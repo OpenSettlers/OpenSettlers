@@ -1,10 +1,16 @@
 package org.soc.gwt.client.game.widgetsBitmap.actions;
 
-import org.soc.common.game.GamePlayer;
-import org.soc.common.views.widgetsInterface.actions.ActionWidget;
-import org.soc.common.views.widgetsInterface.actions.ActionWidget.ActionWidgetFactory;
+import org.soc.common.game.*;
+import org.soc.common.game.actions.Action.ActionPresenter;
+import org.soc.common.game.actions.Action.ActionPresenter.ActionWidgetFactory;
+import org.soc.common.game.actions.BuildCity.BuildCityPresenter;
+import org.soc.common.game.actions.BuildRoad.BuildRoadPresenter;
+import org.soc.common.game.actions.BuildTown.BuildTownPresenter;
+import org.soc.common.game.actions.BuyDevelopmentCard.BuyDevelopmentCardBitmapWidget;
+import org.soc.common.game.actions.ClaimVictory.ClaimVictoryBitmapWidget;
+import org.soc.common.game.actions.EndTurn.EndTurnBitmapWidget;
 import org.soc.common.views.widgetsInterface.actions.DiceWidget.DiceWidgetFactory;
-import org.soc.common.views.widgetsInterface.main.GameWidget;
+import org.soc.common.views.widgetsInterface.main.*;
 
 /*
  * Constructs game UI using bitmap UI elements like png icons
@@ -23,44 +29,44 @@ public class ActionWidgetBitmapFactory implements ActionWidgetFactory
     diceWidgetFactory = gameWidget.clientFactory().getDiceWidgetFactory(
             player);
   }
-  @Override public ActionWidget createBuildCityWidget()
+  @Override public ActionPresenter createBuildCityWidget()
   {
-    return new BuildCityBitmapWidget(gameWidget, player);
+    return new BuildCityPresenter(gameWidget, player, null);
   }
-  @Override public ActionWidget createBuildRoadWidget()
+  @Override public ActionPresenter createBuildRoadWidget()
   {
-    return new BuildRoadBitmapWidget(gameWidget, player);
+    return new BuildRoadPresenter(gameWidget, player);
   }
-  @Override public ActionWidget createBuildTownWidget()
+  @Override public ActionPresenter createBuildTownWidget()
   {
-    return new BuildTownBitmapWidget(gameWidget, player);
+    return new BuildTownPresenter(gameWidget, player);
   }
-  @Override public ActionWidget createBuyDevelopmentCardWidget()
+  @Override public ActionPresenter createBuyDevelopmentCardWidget()
   {
     return new BuyDevelopmentCardBitmapWidget(gameWidget, player);
   }
-  @Override public ActionWidget createClaimVictoryWidget()
+  @Override public ActionPresenter createClaimVictoryWidget()
   {
     return new ClaimVictoryBitmapWidget(gameWidget, player);
   }
-  @Override public ActionWidget createEndTurnWidget()
+  @Override public ActionPresenter createEndTurnWidget()
   {
     return new EndTurnBitmapWidget(gameWidget, player);
   }
-  @Override public ActionWidget createPlayDevelopmentCardWidget()
+  @Override public ActionPresenter createPlayDevelopmentCardWidget()
   {
     return new PlayDevelopmentCardBitmapWidget(player, gameWidget);
   }
-  @Override public ActionWidget createRollDiceWidget()
+  @Override public ActionPresenter createRollDiceWidget()
   {
     return gameWidget.game().rules().getDiceType().createDiceWidget(
             diceWidgetFactory);
   }
-  @Override public ActionWidget createTradeBankWidget()
+  @Override public ActionPresenter createTradeBankWidget()
   {
     return new TradeBankBitmapWidget(gameWidget, player);
   }
-  @Override public ActionWidget createTradePlayerWidget()
+  @Override public ActionPresenter createTradePlayerWidget()
   {
     return new TradePlayerBitmapWidget(gameWidget, player);
   }

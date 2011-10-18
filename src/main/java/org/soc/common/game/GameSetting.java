@@ -2,20 +2,36 @@ package org.soc.common.game;
 
 import java.io.Serializable;
 
+import org.soc.common.utils.SafeEventBus;
 import org.soc.common.views.meta.Icon;
 import org.soc.common.views.meta.Meta;
+
+import com.google.web.bindery.event.shared.EventBus;
+import com.gwtplatform.dispatch.annotation.GenEvent;
+import com.gwtplatform.dispatch.annotation.Order;
 
 public interface GameSetting extends Meta, Serializable {
   public void set(GameSettings gameSettings);
 
-  public class IsLadder implements GameSetting {
+  public abstract class AbstractGameSetting implements GameSetting {
+    protected EventBus eventBus = new SafeEventBus();
+  }
+
+  public class IsLadder extends AbstractGameSetting {
     private boolean ladder = true;
+
+    @GenEvent public class LadderChanged {
+      @Order(0) boolean isLadder;
+    }
 
     @Override public void set(GameSettings gameSettings) {
       gameSettings.setIsLadder(this);
     }
     public IsLadder setLadder(boolean ladder) {
-      this.ladder = ladder;
+      if (this.ladder != ladder) {
+        this.ladder = ladder;
+        eventBus.fireEvent(new LadderChangedEvent(ladder));
+      }
       return this;
     }
     public boolean isLadder() {
@@ -167,8 +183,7 @@ public interface GameSetting extends Meta, Serializable {
    * Jungle. */
   public class ReplaceDeserts implements GameSetting
   {
-    @Override public void set(GameSettings gameSettings)
-    {
+    @Override public void set(GameSettings gameSettings) {
       gameSettings.setReplaceDeserts(this);
     }
     @Override public String name() {
@@ -191,8 +206,7 @@ public interface GameSetting extends Meta, Serializable {
 
   public class ShowChitsAfterPlacing implements GameSetting
   {
-    @Override public void set(GameSettings gameSettings)
-    {
+    @Override public void set(GameSettings gameSettings) {
       gameSettings.setShowChitsAfterPlacing(this);
     }
     @Override public String name() {
@@ -215,8 +229,7 @@ public interface GameSetting extends Meta, Serializable {
 
   public class TournamentStart implements GameSetting
   {
-    @Override public void set(GameSettings gameSettings)
-    {
+    @Override public void set(GameSettings gameSettings) {
       gameSettings.setTournamentStart(this);
     }
     @Override public String name() {
@@ -239,8 +252,7 @@ public interface GameSetting extends Meta, Serializable {
 
   public class TradingAfterBuilding implements GameSetting
   {
-    @Override public void set(GameSettings gameSettings)
-    {
+    @Override public void set(GameSettings gameSettings) {
       gameSettings.setTradingAfterBuilding(this);
     }
     @Override public String name() {

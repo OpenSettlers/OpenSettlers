@@ -1,15 +1,11 @@
 package org.soc.common.game.pieces;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
-import org.soc.common.game.board.HasSide;
-import org.soc.common.game.board.HexSide;
+import org.soc.common.game.board.*;
 
 public class SidePieceList implements Iterable<HasSide>, Serializable {
-  private static final long serialVersionUID = 7047263447536155603L;
   private List<HasSide> sidePieces = new ArrayList<HasSide>();
   private List<HexSide> sides = new ArrayList<HexSide>();
 
@@ -36,5 +32,11 @@ public class SidePieceList implements Iterable<HasSide>, Serializable {
   }
   public List<HexSide> getSides() {
     return sides;
+  }
+  public boolean containsNeighbourSide(HexPoint point) {
+    for (HexSide side : point.neighbourSides())
+      if (contains(side))
+        return true;
+    return false;
   }
 }

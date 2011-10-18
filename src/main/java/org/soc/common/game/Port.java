@@ -1,25 +1,38 @@
 package org.soc.common.game;
 
-import java.io.Serializable;
-
+import org.soc.common.core.GenericList.HasId;
+import org.soc.common.core.GenericList.ImmutableList;
+import org.soc.common.core.OpenZettlers.OsModel;
+import org.soc.common.core.Props.PropertyList.PropertyTypeList;
+import org.soc.common.core.property.Properties.Description;
+import org.soc.common.core.property.Properties.Name;
+import org.soc.common.core.property.*;
 import org.soc.common.game.Resource.Clay;
-import org.soc.common.game.Resource.Diamond;
 import org.soc.common.game.Resource.Ore;
 import org.soc.common.game.Resource.Sheep;
 import org.soc.common.game.Resource.Timber;
 import org.soc.common.game.Resource.Wheat;
-import org.soc.common.game.board.HexLocation;
-import org.soc.common.game.board.HexSide;
-import org.soc.common.game.board.RotationPosition;
-import org.soc.common.internationalization.I;
-import org.soc.common.utils.Util;
-import org.soc.common.views.meta.Icon;
-import org.soc.common.views.meta.IconImpl;
-import org.soc.common.views.meta.Meta;
-import org.soc.gwt.client.images.R;
+import org.soc.common.game.Resources.ResourceList;
+import org.soc.common.game.board.*;
+import org.soc.common.internationalization.*;
+import org.soc.common.utils.*;
+import org.soc.common.views.meta.*;
+import org.soc.gwt.client.images.*;
 
-public interface Port extends Serializable, Meta
-{
+import static org.soc.common.game.Resource.*;
+
+public interface Port extends OsModel<Integer> {
+  public interface Supported {
+    public final static TimberPort timberPort = new TimberPort();
+    public final static WheatPort wheatPort = new WheatPort();
+    public final static OrePort orePort = new OrePort();
+    public final static ClayPort clayPort = new ClayPort();
+    public final static SheepPort sheepPort = new SheepPort();
+    public final static RandomPort randomPort = new RandomPort();
+    public final static ThreeToOnePort threeToOnePort = new ThreeToOnePort();
+    public final static FourToOnePort fourToOnePort = new FourToOnePort();
+  }
+
   public HexLocation landLocation();
   public Resource resource();
   public HexLocation hexLocation();
@@ -44,7 +57,41 @@ public interface Port extends Serializable, Meta
     protected HexLocation landLocation;
     protected HexSide hexSide;
     protected RotationPosition rotationPosition;
+    protected int id;
 
+    @Override public Name name() {
+      return new Name.Impl("No i18n for " + Util.shortName(this.getClass()));
+    }
+    @Override public Description description() {
+      return new Description.Impl("No i18n description for  " + name());
+    }
+    @Override public Icon icon() {
+      // TODO Auto-generated method stub
+      return null;
+    }
+    @Override public HasId setId(Integer id) {
+      this.id = id;
+      return this;
+    }
+    @Override public IdScope scope() {
+      // TODO Auto-generated method stub
+      return null;
+    }
+    @Override public Port copy() {
+      // TODO Auto-generated method stub
+      return null;
+    }
+    @Override public String color() {
+      // TODO Auto-generated method stub
+      return null;
+    }
+    @Override public boolean hasResource() {
+      // TODO Auto-generated method stub
+      return false;
+    }
+    @Override public Integer id() {
+      return hashCode();
+    }
     public HexLocation landLocation() {
       return landLocation;
     }
@@ -92,7 +139,7 @@ public interface Port extends Serializable, Meta
       // Have something to return, default on 0
       int amountGold = 0;
       // Filter the list of resources by given type
-      ResourceList resourcesOfType = resources.ofType(type);
+      ImmutableList<Resource> resourcesOfType = resources.ofType(type);
       // When we have at least two resources, determine amount of gold we can
       // trade
       if (resourcesOfType.size() >= 2)
@@ -113,8 +160,13 @@ public interface Port extends Serializable, Meta
     public boolean canTrade(Resource resource) {
       throw new RuntimeException();
     }
-    @Override public String name() {
-      return Util.shortName(this.getClass());
+    @Override public Property getProp(Property type) {
+      // TODO Auto-generated method stub
+      return null;
+    }
+    @Override public PropertyTypeList properties() {
+      // TODO Auto-generated method stub
+      return null;
     }
   }
 
@@ -124,11 +176,11 @@ public interface Port extends Serializable, Meta
     @Override public Icon icon() {
       return new IconImpl(R.icons().clayPort16(), R.icons().clayPort32(), R.icons().clayPort48());
     }
-    @Override public String getLocalizedName() {
-      return I.get().constants().clayPort();
+    @Override public Name name() {
+      return new Name.Impl(I.get().constants().clayPort());
     }
-    @Override public String getDescription() {
-      return I.get().constants().clayPortDescription();
+    @Override public Description description() {
+      return new Description.Impl(I.get().constants().clayPortDescription());
     }
     @Override public Port copy() {
       return new ClayPort();
@@ -138,12 +190,9 @@ public interface Port extends Serializable, Meta
     }
   }
 
-  /* Imaginary 2:5 port for diamonds. To have fun with those (when devstack is empty) useless
+  /** Imaginary 2:5 port for diamonds. To have fun with those (when devstack is empty) useless
    * diamonds */
   public class FivetoTwoJunglePort extends AbstractPort {
-    private static final long serialVersionUID = 5264443650140189402L;
-    private static Diamond diamond = new Diamond();
-
     @Override public Port copy() {
       return new FivetoTwoJunglePort();
     }
@@ -162,11 +211,11 @@ public interface Port extends Serializable, Meta
     @Override public Resource resource() {
       return diamond;
     }
-    @Override public String getLocalizedName() {
+    @Override public Name name() {
       // TODO Auto-generated method stub
       return null;
     }
-    @Override public String getDescription() {
+    @Override public Description description() {
       // TODO Auto-generated method stub
       return null;
     }
@@ -182,14 +231,11 @@ public interface Port extends Serializable, Meta
     @Override public Icon icon() {
       return IconImpl.nullIcon();
     }
-    @Override public String name() {
-      return "FourToOnePort";
+    @Override public Name name() {
+      return new Name.Impl(I.get().constants().fourToOnePort());
     }
-    @Override public String getLocalizedName() {
-      return I.get().constants().fourToOnePort();
-    }
-    @Override public String getDescription() {
-      return I.get().constants().fourToOnePortDescription();
+    @Override public Description description() {
+      return new Description.Impl(I.get().constants().fourToOnePortDescription());
     }
     /** Performs a 4:1 trade on a list of resources */
     @Override public int divide(ResourceList resources, Resource type) {
@@ -221,11 +267,11 @@ public interface Port extends Serializable, Meta
     @Override public Icon icon() {
       return new IconImpl(R.icons().orePort16(), R.icons().orePort32(), R.icons().orePort48());
     }
-    @Override public String getLocalizedName() {
-      return I.get().constants().orePort();
+    @Override public Name name() {
+      return new Name.Impl(I.get().constants().orePort());
     }
-    @Override public String getDescription() {
-      return I.get().constants().orePortDescription();
+    @Override public Description description() {
+      return new Description.Impl(I.get().constants().orePortDescription());
     }
     @Override public Port copy() {
       return new OrePort();
@@ -240,11 +286,11 @@ public interface Port extends Serializable, Meta
     @Override public Icon icon() {
       return new IconImpl(R.icons().port16(), R.icons().port32(), R.icons().port48());
     }
-    @Override public String getLocalizedName() {
-      return I.get().constants().possiblePort();
+    @Override public Name name() {
+      return new Name.Impl(I.get().constants().possiblePort());
     }
-    @Override public String getDescription() {
-      return I.get().constants().possiblePortDescription();
+    @Override public Description description() {
+      return new Description.Impl(I.get().constants().possiblePortDescription());
     }
     public PossiblePort() {}
     public PossiblePort(HexLocation hexLocation, RotationPosition rotationPosition) {
@@ -268,11 +314,11 @@ public interface Port extends Serializable, Meta
               .icons()
               .randomPort48());
     }
-    @Override public String getLocalizedName() {
-      return I.get().constants().randomPortDescription();
+    @Override public Name name() {
+      return new Name.Impl(I.get().constants().randomPortDescription());
     }
-    @Override public String getDescription() {
-      return I.get().constants().randomPortDescription();
+    @Override public Description description() {
+      return new Description.Impl(I.get().constants().randomPortDescription());
     }
     public RandomPort(HexLocation hexLocation, RotationPosition rotationPosition) {
       super(hexLocation, rotationPosition);
@@ -296,14 +342,11 @@ public interface Port extends Serializable, Meta
     @Override public Icon icon() {
       return new IconImpl(R.icons().sheepPort16(), R.icons().sheepPort32(), R.icons().sheepPort48());
     }
-    @Override public String name() {
-      return "Sheep port";
+    @Override public Name name() {
+      return new Name.Impl(I.get().constants().sheepPort());
     }
-    @Override public String getLocalizedName() {
-      return I.get().constants().sheepPort();
-    }
-    @Override public String getDescription() {
-      return I.get().constants().sheepPortDescription();
+    @Override public Description description() {
+      return new Description.Impl(I.get().constants().sheepPortDescription());
     }
     @Override public Port copy() {
       return new SheepPort();
@@ -321,11 +364,11 @@ public interface Port extends Serializable, Meta
               .icons()
               .threeToOnePort48());
     }
-    @Override public String getLocalizedName() {
-      return I.get().constants().threeToOnePort();
+    @Override public Name name() {
+      return new Name.Impl(I.get().constants().threeToOnePort());
     }
-    @Override public String getDescription() {
-      return I.get().constants().threeToOnePortDescription();
+    @Override public Description description() {
+      return new Description.Impl(I.get().constants().threeToOnePortDescription());
     }
     /* Performs a 3:1 trade on a list of resources */
     @Override public int divide(ResourceList resources, Resource type) {
@@ -357,14 +400,11 @@ public interface Port extends Serializable, Meta
     @Override public Icon icon() {
       return new IconImpl(R.icons().timberPort32(), null, null, null);
     }
-    @Override public String name() {
-      return null;
+    @Override public Name name() {
+      return new Name.Impl(I.get().constants().timberPort());
     }
-    @Override public String getLocalizedName() {
-      return I.get().constants().timberPort();
-    }
-    @Override public String getDescription() {
-      return I.get().constants().timberPortDescription();
+    @Override public Description description() {
+      return new Description.Impl(I.get().constants().timberPortDescription());
     }
     @Override public Port copy() {
       return new TimberPort();
@@ -405,14 +445,11 @@ public interface Port extends Serializable, Meta
     @Override public Icon icon() {
       return new IconImpl(R.icons().wheatPort16(), R.icons().wheatPort32(), R.icons().wheatPort48());
     }
-    @Override public String name() {
-      return "WheatPort";
+    @Override public Name name() {
+      return new Name.Impl(I.get().constants().wheatPort());
     }
-    @Override public String getLocalizedName() {
-      return I.get().constants().wheatPort();
-    }
-    @Override public String getDescription() {
-      return I.get().constants().wheatPortDescription();
+    @Override public Description description() {
+      return new Description.Impl(I.get().constants().wheatPortDescription());
     }
     @Override public Port copy() {
       return new WheatPort();

@@ -1,19 +1,12 @@
 package org.soc.common.views.widgetsInterface.visuals;
 
-import org.soc.common.board.hexes.PortChangedEvent.PortChangedHandler;
-import org.soc.common.game.Chit;
-import org.soc.common.game.Port;
-import org.soc.common.game.Territory;
-import org.soc.common.game.board.HexPoint;
-import org.soc.common.game.board.HexSide;
+import org.soc.common.game.*;
+import org.soc.common.game.board.*;
 import org.soc.common.game.hexes.ChitChangedEvent.ChitChangedHandler;
-import org.soc.common.game.hexes.Hex;
+import org.soc.common.game.hexes.*;
+import org.soc.common.game.hexes.PortChangedEvent.PortChangedHandler;
 import org.soc.common.game.hexes.TerritoryChangedEvent.TerritoryChangedHandler;
-import org.soc.common.game.pieces.City;
-import org.soc.common.game.pieces.Pirate;
-import org.soc.common.game.pieces.Road;
-import org.soc.common.game.pieces.Robber;
-import org.soc.common.game.pieces.Town;
+import org.soc.common.game.pieces.*;
 
 /** Base interface of every visual representation of a piece Every piece on the board should be able
  * to be selected, enabled and visibility toggled on/off. */

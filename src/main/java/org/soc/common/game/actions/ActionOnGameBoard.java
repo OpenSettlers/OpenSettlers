@@ -1,14 +1,13 @@
 package org.soc.common.game.actions;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-import org.soc.common.game.board.HexPoint;
-import org.soc.common.views.widgetsInterface.visuals.GameBoardVisual;
-import org.soc.common.views.widgetsInterface.visuals.PieceVisual;
+import org.soc.common.game.board.*;
+import org.soc.common.views.widgetsInterface.visuals.*;
 import org.soc.common.views.widgetsInterface.visuals.PieceVisual.PointVisual;
 import org.soc.common.views.widgetsInterface.visuals.PieceVisual.SideVisual;
 
+/** A player moved/clicked on a GameBoard */
 public interface ActionOnGameBoard {
   public void start(GameBoardVisual gameVisual);
   public void setNeutral(GameBoardVisual visual);
@@ -17,6 +16,7 @@ public interface ActionOnGameBoard {
   public void mouseOut(PieceVisual pieceVisual, GameBoardVisual gameBoardVisual);
   public GameAction gameAction();
 
+  /** Shows possible HexPoints on the board player can build onto (e.g. city, town) */
   public abstract class BuildPointOnBoard implements ActionOnGameBoard {
     protected List<HexPoint> possibleLocations = new ArrayList<HexPoint>();
 
@@ -36,6 +36,7 @@ public interface ActionOnGameBoard {
     }
   }
 
+  /** Show dark map, no mouse overs */
   public class DisabledMap implements ActionOnGameBoard {
     @Override public void clicked(PieceVisual pieceVisual, GameBoardVisual gameBoardVisual) {}
     @Override public void mouseEnter(PieceVisual pieceVisual, GameBoardVisual gameBoardVisual) {}
@@ -53,6 +54,7 @@ public interface ActionOnGameBoard {
     }
   }
 
+  /** NullActionOnBoard */
   public class NoActionOnBoard implements ActionOnGameBoard {
     @Override public void clicked(PieceVisual pieceVisual, GameBoardVisual gameBoardVisual) {}
     @Override public GameAction gameAction() {

@@ -1,15 +1,13 @@
 package org.soc.common.game.trading;
 
-import org.soc.common.game.Game;
-import org.soc.common.game.GamePhase;
-import org.soc.common.game.TurnPhase;
-import org.soc.common.game.actions.GameAction;
+import org.soc.common.core.property.Properties.Description;
+import org.soc.common.core.property.Properties.Name;
+import org.soc.common.game.*;
+import org.soc.common.game.actions.Action.ActionPresenter.ActionWidgetFactory;
+import org.soc.common.game.actions.*;
 import org.soc.common.game.actions.GameAction.AbstractGameAction;
-import org.soc.common.game.actions.GameBehaviour;
-import org.soc.common.views.meta.Icon;
-import org.soc.common.views.widgetsInterface.actions.ActionWidget;
-import org.soc.common.views.widgetsInterface.actions.ActionWidget.ActionWidgetFactory;
-import org.soc.common.views.widgetsInterface.main.GameWidget;
+import org.soc.common.views.meta.*;
+import org.soc.common.views.widgetsInterface.main.*;
 
 public class AcceptTradeOffer extends AbstractGameAction implements TradeResponse {
   private TradeOffer originatingOffer;
@@ -18,11 +16,11 @@ public class AcceptTradeOffer extends AbstractGameAction implements TradeRespons
     // TODO Auto-generated method stub
     return null;
   }
-  @Override public String getLocalizedName() {
+  @Override public Name name() {
     // TODO Auto-generated method stub
     return null;
   }
-  @Override public String getDescription() {
+  @Override public Description description() {
     // TODO Auto-generated method stub
     return null;
   }
@@ -57,7 +55,7 @@ public class AcceptTradeOffer extends AbstractGameAction implements TradeRespons
   @Override public boolean isExpectedQueueType(GameAction actualAction) {
     return actualAction instanceof TradeResponse;
   }
-  @Override public ActionWidget createActionWidget(ActionWidgetFactory actionWidgetFactory) {
+  @Override public ActionPresenter createPresenter(ActionWidgetFactory actionWidgetFactory) {
     return null;
   }
   @Override public GameBehaviour next(GameWidget gameWidget) {

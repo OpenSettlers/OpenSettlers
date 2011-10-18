@@ -1,16 +1,19 @@
 package org.soc.common.core;
 
-import org.soc.common.game.Random;
+import org.soc.common.game.*;
 import org.soc.common.game.Random.ClientRandom;
 import org.soc.common.game.Random.ServerRandom;
-import org.soc.common.game.actions.ValidateResult;
+import org.soc.common.game.actions.*;
 import org.soc.common.game.actions.ValidateResult.Valid;
-import org.soc.common.server.entities.User;
+import org.soc.common.server.entities.*;
 import org.soc.common.server.entities.User.ServerUser;
 
-import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.*;
 
-/** Shares system-wide instances of entities */
+/** Shares system-wide instances of entities 
+ * 
+ * blegh.
+ * */
 public class Core {
   private User serverUser = new ServerUser();
   private static Core instance = new Core();

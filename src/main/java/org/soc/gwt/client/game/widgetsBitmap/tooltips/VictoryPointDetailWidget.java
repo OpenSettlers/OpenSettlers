@@ -1,21 +1,18 @@
 package org.soc.gwt.client.game.widgetsBitmap.tooltips;
 
-import java.util.HashMap;
+import java.util.*;
 
+import org.soc.common.core.GenericList.Adds.*;
+import org.soc.common.core.GenericList.Removes.*;
 import org.soc.common.game.DevelopmentCard.VictoryPoint;
-import org.soc.common.game.GamePlayer;
-import org.soc.common.game.VictoryPointItem;
-import org.soc.common.game.VictoryPointsChangedEvent;
-import org.soc.common.game.VictoryPointsChangedEvent.VictoryPointsChangedHandler;
-import org.soc.common.utils.NotImplementedException;
-import org.soc.common.views.widgetsInterface.main.GameWidget;
-import org.soc.gwt.client.game.widgetsAbstract.toolTips.AbstractPlayerInfoToolTip;
+import org.soc.common.game.*;
+import org.soc.common.views.widgetsInterface.main.*;
+import org.soc.gwt.client.game.widgetsAbstract.toolTips.*;
 
-import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.*;
 
 /** Shows amount of victory points by displaying each victory point as an image */
 public class VictoryPointDetailWidget extends AbstractPlayerInfoToolTip
-        implements VictoryPointsChangedHandler
 {
   private HashMap<VictoryPoint, Image> pointsIcons = new HashMap<VictoryPoint, Image>();
 
@@ -23,26 +20,23 @@ public class VictoryPointDetailWidget extends AbstractPlayerInfoToolTip
   {
     super(gameWidget, player);
     update();
-    player.victoryPoints().addVictoryPointsChangedListener(this);
+    player.victoryPoints().addAddedHandler(new Added<VictoryPointItem>() {
+      @Override public void added(VictoryPointItem item) {
+        rootPanel.add(new Image(item.icon()
+                .iconDefault()));
+      }
+    });
+    player.victoryPoints().addRemovedHandler(new Removed<VictoryPointItem>() {
+      @Override public void removed(VictoryPointItem item) {
+        // TODO Auto-generated method stub
+      }
+    });
   }
   private void update()
   {
     for (VictoryPointItem vp : player.victoryPoints())
     {
       rootPanel.add(new Image(vp.icon().iconDefault()));
-    }
-  }
-  @Override public void onVictoryPointsChanged(VictoryPointsChangedEvent event)
-  {
-    if (event.getAddedPoint() != null)
-    {
-      rootPanel.add(new Image(event.getAddedPoint().icon()
-              .iconDefault()));
-    }
-    if (event.getRemovedPoint() != null)
-    {
-      // TODO: implement
-      throw new NotImplementedException();
     }
   }
 }

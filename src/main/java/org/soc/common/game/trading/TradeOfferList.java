@@ -1,12 +1,9 @@
 package org.soc.common.game.trading;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
-
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.event.shared.SimpleEventBus;
+import com.google.gwt.event.shared.*;
 
 public class TradeOfferList implements Serializable {
   private List<TradeOffer> tradeOffers = new ArrayList<TradeOffer>();
@@ -14,7 +11,7 @@ public class TradeOfferList implements Serializable {
 
   public void addOffer(TradeOffer tradeOffer) {
     tradeOffers.add(tradeOffer);
-    tradeOffer.setID(tradeOffers.size());
+    tradeOffer.setId(tradeOffers.size());
     eventBus.fireEvent(new TradeOfferedEvent(tradeOffer));
   }
   public TradeOffer getByID(int id) {

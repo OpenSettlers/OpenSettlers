@@ -8,8 +8,8 @@ import org.soc.common.game.GamePhaseChangedEvent.GamePhaseChangedHandler;
 import org.soc.common.game.GamePlayer;
 import org.soc.common.game.TurnPhaseChangedEvent;
 import org.soc.common.game.TurnPhaseChangedEvent.TurnPhaseChangedHandler;
+import org.soc.common.game.actions.Action.ActionPresenter;
 import org.soc.common.game.actions.RollDice;
-import org.soc.common.views.widgetsInterface.actions.ActionWidget;
 import org.soc.common.views.widgetsInterface.generic.Point2D;
 import org.soc.common.views.widgetsInterface.main.GameWidget;
 import org.soc.gwt.client.game.widgetsAbstract.actions.AbstractStandardDiceWidget;
@@ -66,7 +66,7 @@ public class SvgStandardDiceWidget extends AbstractStandardDiceWidget implements
   {
     return player;
   }
-  @Override public ActionWidget setEnabled(boolean enabled)
+  @Override public ActionPresenter setEnabled(boolean enabled)
   {
     return this;
   }

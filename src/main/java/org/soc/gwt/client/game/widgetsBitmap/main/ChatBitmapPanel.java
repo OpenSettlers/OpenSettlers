@@ -47,7 +47,7 @@ public class ChatBitmapPanel implements ChatWidget, SaidHandler
   {
     this();
     this.gameWidget = gameWidget;
-    gameWidget.game().getChatLog().addSaidHandler(this);
+    gameWidget.game().chatLog().addSaidHandler(this);
   }
   private void sendChat()
   {

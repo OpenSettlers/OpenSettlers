@@ -1,13 +1,20 @@
 package org.soc.common.game.board;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
 import org.soc.common.game.board.HexSide.HexSideImpl;
 
 /** Represents a location of an Hex. This location is represented by an w + h coordinate (width,
- * height). */
+ * height).
+ * 
+ * A Board contains a set of Hexes, indexed by HexLocation. A HexLocation does not know of his
+ * 'relative' neighbours, only *all* his neighbours. A HexPoint at [0,0] will happily return
+ * his neighbours at negative locations (e.g. [-1, 0]). The GameBoard keeps a set of only the Points/Sides
+ * which are included in the game. 
+ * 
+ * Immutable.
+ *  */
 public class HexLocation implements Serializable {
   private int w;
   private int h;

@@ -1,22 +1,25 @@
 package org.soc.common.game.pieces;
 
-import org.soc.common.game.GamePlayer;
-import org.soc.common.game.LongestRoadChangedEvent;
+import org.soc.common.core.Props.PropertyList.PropertyTypeList;
+import org.soc.common.core.property.Properties.Description;
+import org.soc.common.core.property.Properties.Name;
+import org.soc.common.core.property.*;
+import org.soc.common.game.*;
 import org.soc.common.game.LongestRoadChangedEvent.LongestRoadChangedHandler;
-import org.soc.common.game.VictoryPointItem;
-import org.soc.common.game.board.Route;
+import org.soc.common.game.board.*;
 import org.soc.common.game.pieces.Piece.AbstractPlayerPiece;
-import org.soc.common.internationalization.I;
-import org.soc.common.views.meta.Icon;
-import org.soc.common.views.meta.IconImpl;
-import org.soc.common.views.widgetsInterface.visuals.PieceVisual;
-import org.soc.common.views.widgetsInterface.visuals.VisualFactory;
-import org.soc.gwt.client.images.R;
+import org.soc.common.internationalization.*;
+import org.soc.common.views.meta.*;
+import org.soc.common.views.widgetsInterface.visuals.*;
+import org.soc.gwt.client.images.*;
 
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.event.shared.SimpleEventBus;
+import com.google.gwt.event.shared.*;
 
-public class LongestRoad extends AbstractPlayerPiece implements VictoryPointItem {
+public class LongestRoad
+        extends
+        AbstractPlayerPiece<Integer>
+        implements
+        VictoryPointItem {
   private Route route;
   private transient SimpleEventBus eventBus = new SimpleEventBus();
 
@@ -25,14 +28,11 @@ public class LongestRoad extends AbstractPlayerPiece implements VictoryPointItem
             R.icons().longestRoad32(), null, R
                     .icons().longestRoad48());
   }
-  @Override public String name() {
-    return "LongestRoad";
+  @Override public Name name() {
+    return new Name.Impl(I.get().constants().longestRoad());
   }
-  @Override public String getLocalizedName() {
-    return I.get().constants().longestRoad();
-  }
-  @Override public String getDescription() {
-    return I.get().constants().longestRoadDescription();
+  @Override public Description description() {
+    return new Description.Impl(I.get().constants().longestRoadDescription());
   }
   public Route route() {
     return route;
@@ -64,6 +64,14 @@ public class LongestRoad extends AbstractPlayerPiece implements VictoryPointItem
     return false;
   }
   @Override public PieceVisual createPiece(VisualFactory visualFactory) {
+    return null;
+  }
+  @Override public Property getProp(Property type) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+  @Override public PropertyTypeList properties() {
+    // TODO Auto-generated method stub
     return null;
   }
 }

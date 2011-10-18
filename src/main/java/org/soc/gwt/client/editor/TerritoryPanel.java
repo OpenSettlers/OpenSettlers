@@ -1,30 +1,20 @@
 package org.soc.gwt.client.editor;
 
-import java.util.HashMap;
+import java.util.*;
 
-import org.soc.common.game.Territory;
-import org.soc.common.game.TerritoryListChangedEvent;
-import org.soc.common.game.TerritoryListChangedEvent.TerritoryListChangedHandler;
+import org.soc.common.core.GenericList.Adds.*;
+import org.soc.common.core.GenericList.Removes.*;
+import org.soc.common.game.*;
 import org.soc.common.game.actions.ActionOnBoard.SetTerritoryOnBoard;
-import org.soc.common.views.widgetsInterface.visuals.BoardVisual;
-import org.soc.gwt.client.images.R;
+import org.soc.common.views.widgetsInterface.visuals.*;
+import org.soc.gwt.client.images.*;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.GwtEvent;
-import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DialogBox;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.PushButton;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.event.dom.client.*;
+import com.google.gwt.event.shared.*;
+import com.google.gwt.resources.client.*;
+import com.google.gwt.user.client.ui.*;
 
-public class TerritoryPanel extends VerticalPanel implements
-        TerritoryListChangedHandler
+public class TerritoryPanel extends VerticalPanel
 {
   SetTerritoryOnBoard behaviour;
   BoardVisual board;
@@ -48,8 +38,16 @@ public class TerritoryPanel extends VerticalPanel implements
     this.board = board;
     createAddTerritoryWindow();
     createPanel();
-    board.board().getTerritories()
-            .addTerritoryListChangedHandler(this);
+    board.board().getTerritories().addAddedHandler(new Added<Territory>() {
+      @Override public void added(Territory item) {
+        addTerritoryButton(item);
+      }
+    });
+    board.board().getTerritories().addRemovedHandler(new Removed<Territory>() {
+      @Override public void removed(Territory item) {
+        removeTerritoryButton(item);
+      }
+    });
   }
   private void createPanel()
   {
@@ -180,13 +178,6 @@ public class TerritoryPanel extends VerticalPanel implements
          * dialogBox.hide(); */
       }
     });
-  }
-  @Override public void onTerritoryListChanged(TerritoryListChangedEvent event)
-  {
-    if (event.getAddedTerritory() != null)
-      addTerritoryButton(event.getAddedTerritory());
-    if (event.getRemovedTerritory() != null)
-      removeTerritoryButton(event.getRemovedTerritory());
   }
   private void removeTerritoryButton(Territory removedTerritory)
   {

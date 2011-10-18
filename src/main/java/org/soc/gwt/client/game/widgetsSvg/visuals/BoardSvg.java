@@ -1,20 +1,16 @@
 package org.soc.gwt.client.game.widgetsSvg.visuals;
 
-import org.soc.common.board.HexChangedEvent;
-import org.soc.common.board.HexChangedEvent.HexChangedHandler;
-import org.soc.common.game.board.Board;
-import org.soc.common.game.board.HexLocation;
-import org.soc.common.game.board.HexPoint;
-import org.soc.common.game.board.HexSide;
+import org.soc.common.game.board.*;
+import org.soc.common.game.board.HexChangedEvent.HexChangedHandler;
 import org.soc.common.game.board.HexPoint.HexPointType;
-import org.soc.common.game.hexes.Hex;
-import org.soc.common.views.widgetsInterface.generic.Point2D;
-import org.soc.gwt.client.editor.BehaviourChanged;
-import org.soc.gwt.client.game.widgetsAbstract.visuals.AbstractBoardVisual;
-import org.vaadin.gwtgraphics.client.DrawingArea;
-import org.vaadin.gwtgraphics.client.shape.Rectangle;
+import org.soc.common.game.hexes.*;
+import org.soc.common.views.widgetsInterface.generic.*;
+import org.soc.gwt.client.editor.*;
+import org.soc.gwt.client.game.widgetsAbstract.visuals.*;
+import org.vaadin.gwtgraphics.client.*;
+import org.vaadin.gwtgraphics.client.shape.*;
 
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.*;
 
 public class BoardSvg extends AbstractBoardVisual implements HexChangedHandler {
   private DrawingArea drawingArea;

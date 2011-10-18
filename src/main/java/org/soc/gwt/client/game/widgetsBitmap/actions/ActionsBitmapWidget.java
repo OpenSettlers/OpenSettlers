@@ -1,7 +1,7 @@
 package org.soc.gwt.client.game.widgetsBitmap.actions;
 
 import org.soc.common.game.GamePlayer;
-import org.soc.common.views.widgetsInterface.actions.ActionWidget;
+import org.soc.common.game.actions.Action.ActionPresenter;
 import org.soc.common.views.widgetsInterface.main.GameWidget;
 import org.soc.gwt.client.game.widgetsAbstract.actions.AbstractActionsWidget;
 
@@ -15,7 +15,7 @@ public class ActionsBitmapWidget extends AbstractActionsWidget
     @Override
     public void setEnabled(boolean enabled)
     {
-        for (ActionWidget actionWidget : widgetsIndices.values())
+        for (ActionPresenter actionWidget : widgetsIndices.values())
         {
             actionWidget.setEnabled(enabled);
         }

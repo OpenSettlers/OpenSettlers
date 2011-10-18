@@ -1,56 +1,56 @@
 package org.soc.gwt.client.game.widgetsSvg;
 
-import org.soc.common.views.widgetsInterface.actions.ActionWidget;
-import org.soc.common.views.widgetsInterface.actions.ActionWidget.ActionWidgetFactory;
+import org.soc.common.game.actions.Action.ActionPresenter;
+import org.soc.common.game.actions.Action.ActionPresenter.ActionWidgetFactory;
 
 public class SvgActionPanelFactory implements ActionWidgetFactory
 {
-  @Override public ActionWidget createBuildCityWidget()
+  @Override public ActionPresenter createBuildCityWidget()
   {
     // TODO Auto-generated method stub
     return null;
   }
-  @Override public ActionWidget createBuildRoadWidget()
+  @Override public ActionPresenter createBuildRoadWidget()
   {
     // TODO Auto-generated method stub
     return null;
   }
-  @Override public ActionWidget createBuildTownWidget()
+  @Override public ActionPresenter createBuildTownWidget()
   {
     // TODO Auto-generated method stub
     return null;
   }
-  @Override public ActionWidget createBuyDevelopmentCardWidget()
+  @Override public ActionPresenter createBuyDevelopmentCardWidget()
   {
     // TODO Auto-generated method stub
     return null;
   }
-  @Override public ActionWidget createClaimVictoryWidget()
+  @Override public ActionPresenter createClaimVictoryWidget()
   {
     // TODO Auto-generated method stub
     return null;
   }
-  @Override public ActionWidget createEndTurnWidget()
+  @Override public ActionPresenter createEndTurnWidget()
   {
     // TODO Auto-generated method stub
     return null;
   }
-  @Override public ActionWidget createPlayDevelopmentCardWidget()
+  @Override public ActionPresenter createPlayDevelopmentCardWidget()
   {
     // TODO Auto-generated method stub
     return null;
   }
-  @Override public ActionWidget createRollDiceWidget()
+  @Override public ActionPresenter createRollDiceWidget()
   {
     // TODO Auto-generated method stub
     return null;
   }
-  @Override public ActionWidget createTradeBankWidget()
+  @Override public ActionPresenter createTradeBankWidget()
   {
     // TODO Auto-generated method stub
     return null;
   }
-  @Override public ActionWidget createTradePlayerWidget()
+  @Override public ActionPresenter createTradePlayerWidget()
   {
     // TODO Auto-generated method stub
     return null;

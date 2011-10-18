@@ -1,9 +1,13 @@
 package org.soc.common.game.actions;
 
-import java.util.Date;
+import java.util.*;
 
+import org.soc.common.core.GenericList.HasId;
+import org.soc.common.core.GenericList.Model;
+import org.soc.common.core.property.Properties.Description;
+import org.soc.common.core.property.Properties.Name;
 import org.soc.common.game.actions.Action.AbstractAction;
-import org.soc.common.views.meta.Icon;
+import org.soc.common.views.meta.*;
 
 public class PlayerDisconnected extends AbstractAction
 {
@@ -19,7 +23,12 @@ public class PlayerDisconnected extends AbstractAction
     // TODO Auto-generated method stub
     return null;
   }
-  @Override public String name()
+  @Override public Name name()
+  {
+    // TODO Auto-generated method stub
+    return null;
+  }
+  @Override public Description description()
   {
     // TODO Auto-generated method stub
     return null;
@@ -39,15 +48,23 @@ public class PlayerDisconnected extends AbstractAction
     // TODO Auto-generated method stub
     return null;
   }
-  @Override public String getLocalizedName() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-  @Override public String getDescription() {
-    // TODO Auto-generated method stub
-    return null;
-  }
   @Override public Icon icon() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+  @Override public Model copy() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+  @Override public Integer id() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+  @Override public HasId setId(Integer id) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+  @Override public org.soc.common.core.GenericList.HasId.IdScope scope() {
     // TODO Auto-generated method stub
     return null;
   }

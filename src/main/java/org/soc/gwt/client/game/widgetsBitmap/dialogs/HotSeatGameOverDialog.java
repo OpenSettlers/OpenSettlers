@@ -12,8 +12,7 @@ public class HotSeatGameOverDialog extends DialogBox implements GameOverDialog
 {
   private Label lblMessage;
 
-  public HotSeatGameOverDialog()
-  {
+  public HotSeatGameOverDialog() {
     setHTML("Game over!");
     VerticalPanel verticalPanel = new VerticalPanel();
     verticalPanel.setSpacing(10);

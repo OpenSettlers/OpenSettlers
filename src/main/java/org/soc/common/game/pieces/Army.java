@@ -1,25 +1,20 @@
 package org.soc.common.game.pieces;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
+import org.soc.common.core.property.Properties.Description;
+import org.soc.common.core.property.Properties.Name;
 import org.soc.common.game.DevelopmentCard.Soldier;
+import org.soc.common.game.*;
 import org.soc.common.game.pieces.Piece.AbstractPlayerPiece;
-import org.soc.common.game.GamePlayer;
-import org.soc.common.game.VictoryPointItem;
-import org.soc.common.internationalization.I;
-import org.soc.common.views.meta.Icon;
-import org.soc.common.views.meta.IconImpl;
-import org.soc.common.views.widgetsInterface.visuals.PieceVisual;
-import org.soc.common.views.widgetsInterface.visuals.VisualFactory;
-import org.soc.gwt.client.images.R;
+import org.soc.common.internationalization.*;
+import org.soc.common.views.meta.*;
+import org.soc.common.views.widgetsInterface.visuals.*;
+import org.soc.gwt.client.images.*;
 
-import com.google.gwt.event.shared.EventHandler;
-import com.google.gwt.event.shared.GwtEvent;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.event.shared.SimpleEventBus;
+import com.google.gwt.event.shared.*;
 
-public class Army extends AbstractPlayerPiece implements VictoryPointItem {
+public class Army extends AbstractPlayerPiece<Integer> implements VictoryPointItem {
   public static Army LARGESTARMY = new Army();
   private List<Soldier> soldiers = new ArrayList<Soldier>();
   private boolean isLargest = false;
@@ -28,11 +23,11 @@ public class Army extends AbstractPlayerPiece implements VictoryPointItem {
   @Override public Icon icon() {
     return new IconImpl(R.icons().army16(), R.icons().army32(), R.icons().army48());
   }
-  @Override public String getLocalizedName() {
-    return I.get().constants().army();
+  @Override public Name name() {
+    return new Name.Impl(I.get().constants().army());
   }
-  @Override public String getDescription() {
-    return I.get().constants().armyDescription();
+  @Override public Description description() {
+    return new Description.Impl(I.get().constants().armyDescription());
   }
   public List<Soldier> getSoldiers() {
     return soldiers;

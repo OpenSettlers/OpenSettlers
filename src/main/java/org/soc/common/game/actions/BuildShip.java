@@ -1,18 +1,17 @@
 package org.soc.common.game.actions;
 
-import org.soc.common.game.GamePhase;
-import org.soc.common.game.TurnPhase;
+import org.soc.common.core.property.Properties.Description;
+import org.soc.common.core.property.Properties.Name;
+import org.soc.common.game.*;
+import org.soc.common.game.actions.Action.ActionPresenter.ActionWidgetFactory;
 import org.soc.common.game.actions.ActionOnGameBoard.BuildSideOnBoard;
 import org.soc.common.game.actions.TurnAction.AbstractTurnAction;
-import org.soc.common.internationalization.I;
-import org.soc.common.views.meta.Icon;
-import org.soc.common.views.widgetsInterface.actions.ActionWidget;
-import org.soc.common.views.widgetsInterface.actions.ActionWidget.ActionWidgetFactory;
-import org.soc.common.views.widgetsInterface.main.GameWidget;
-import org.soc.common.views.widgetsInterface.visuals.GameBoardVisual;
-import org.soc.common.views.widgetsInterface.visuals.PieceVisual;
+import org.soc.common.internationalization.*;
+import org.soc.common.views.meta.*;
+import org.soc.common.views.widgetsInterface.main.*;
+import org.soc.common.views.widgetsInterface.visuals.*;
 
-public class BuildShip extends AbstractTurnAction
+public class BuildShip extends AbstractTurnAction implements TurnAction
 {
   @Override public boolean isAllowed(TurnPhase turnPhase)
   {
@@ -28,7 +27,7 @@ public class BuildShip extends AbstractTurnAction
   {
     return I.get().actions().buildShipToDo(player.user().name());
   }
-  @Override public ActionWidget createActionWidget(ActionWidgetFactory actionWidgetFactory)
+  @Override public ActionPresenter createPresenter(ActionWidgetFactory actionWidgetFactory)
   {
     // TODO Auto-generated method stub
     return null;
@@ -39,13 +38,13 @@ public class BuildShip extends AbstractTurnAction
     // TODO Auto-generated method stub
     return null;
   }
-  @Override public ActionInGame opponentReceived(
+  @Override public GameBehaviour opponentReceived(
           GameWidget gameWidget)
   {
     // TODO Auto-generated method stub
     return null;
   }
-  @Override public ActionInGame received(
+  @Override public GameBehaviour received(
           GameWidget gameWidget)
   {
     // TODO Auto-generated method stub
@@ -66,11 +65,11 @@ public class BuildShip extends AbstractTurnAction
     @Override public void clicked(PieceVisual pieceVisual, GameBoardVisual gameBoardVisual) {}
   }
 
-  @Override public String getLocalizedName() {
+  @Override public Name name() {
     // TODO Auto-generated method stub
     return null;
   }
-  @Override public String getDescription() {
+  @Override public Description description() {
     // TODO Auto-generated method stub
     return null;
   }

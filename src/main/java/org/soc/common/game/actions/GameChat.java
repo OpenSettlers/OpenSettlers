@@ -1,14 +1,12 @@
 package org.soc.common.game.actions;
 
-import org.soc.common.game.Game;
-import org.soc.common.game.GamePhase;
-import org.soc.common.game.TurnPhase;
+import org.soc.common.core.property.Properties.Description;
+import org.soc.common.core.property.Properties.Name;
+import org.soc.common.game.*;
+import org.soc.common.game.actions.Action.ActionPresenter.ActionWidgetFactory;
 import org.soc.common.game.actions.GameAction.AbstractGameAction;
-import org.soc.common.internationalization.I;
-import org.soc.common.views.meta.Icon;
-import org.soc.common.views.meta.IconImpl;
-import org.soc.common.views.widgetsInterface.actions.ActionWidget;
-import org.soc.common.views.widgetsInterface.actions.ActionWidget.ActionWidgetFactory;
+import org.soc.common.internationalization.*;
+import org.soc.common.views.meta.*;
 
 /*
  * A player is saying something in this game using a text chat interface
@@ -19,17 +17,12 @@ public class GameChat extends AbstractGameAction
   {
     return new IconImpl(null, null, null, null);
   }
-  @Override public String name()
+  @Override public Name name()
   {
     // TODO Auto-generated method stub
     return null;
   }
-  @Override public String getLocalizedName()
-  {
-    // TODO Auto-generated method stub
-    return null;
-  }
-  @Override public String getDescription()
+  @Override public Description description()
   {
     // TODO Auto-generated method stub
     return null;
@@ -51,7 +44,7 @@ public class GameChat extends AbstractGameAction
   @Override public void perform(Game game)
   {
     // Add the chat message to the chat log of this game
-    game.getChatLog().say(this);
+    game.chatLog().say(this);
     message = ": " + chatMessage;
     super.perform(game);
   }
@@ -59,10 +52,6 @@ public class GameChat extends AbstractGameAction
   {
     return true;
   }
-  /* (non-Javadoc)
-   * 
-   * @see org.soc.common.actions.gameAction.GameAction#isAllowed(org.soc.common.game.gamePhase
-   * .turnPhase.TurnPhase) */
   @Override public boolean isAllowed(TurnPhase turnPhase)
   {
     return true;
@@ -71,7 +60,7 @@ public class GameChat extends AbstractGameAction
   {
     return I.get().actions().noToDo();
   }
-  @Override public ActionWidget createActionWidget(
+  @Override public ActionPresenter createPresenter(
           ActionWidgetFactory actionWidgetFactory)
   {
     return null;

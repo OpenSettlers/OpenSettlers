@@ -1,9 +1,9 @@
 package org.soc.common.views.widgetsInterface.dialogs;
 
-import org.soc.common.game.GamePlayer;
-import org.soc.common.game.ResourceList;
+import org.soc.common.game.*;
+import org.soc.common.game.Resources.ResourceList;
 
-import com.google.gwt.user.client.ui.IsWidget;
+import com.google.gwt.user.client.ui.*;
 
 public interface LooseCardsWidget extends IsWidget
 {

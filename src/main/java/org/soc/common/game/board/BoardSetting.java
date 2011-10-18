@@ -1,9 +1,8 @@
 package org.soc.common.game.board;
 
-import java.io.Serializable;
+import java.io.*;
 
-import org.soc.common.views.meta.Icon;
-import org.soc.common.views.meta.Meta;
+import org.soc.common.views.meta.*;
 
 /** A setting specific to a board, to be used in the game */
 public interface BoardSetting extends Meta, Serializable {
@@ -41,6 +40,7 @@ public interface BoardSetting extends Meta, Serializable {
     }
   }
 
+  /** No phase: randomizer randomly */
   public class UsePlacePortsPhase implements BoardSetting {
     private boolean placePortsPhase;
 

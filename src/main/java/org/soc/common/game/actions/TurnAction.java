@@ -1,7 +1,6 @@
 package org.soc.common.game.actions;
 
-import org.soc.common.game.Game;
-import org.soc.common.game.TurnPhase;
+import org.soc.common.game.*;
 
 public interface TurnAction extends GameAction {
   public TurnPhase getTurnPhase();

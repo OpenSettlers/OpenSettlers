@@ -1,13 +1,14 @@
 package org.soc.common.game.hexes;
 
-import org.soc.common.game.Resource;
+import org.soc.common.core.property.Properties.Description;
+import org.soc.common.core.property.Properties.Name;
+import org.soc.common.game.*;
 import org.soc.common.game.Resource.Clay;
-import org.soc.common.internationalization.I;
-import org.soc.common.views.meta.Icon;
-import org.soc.common.views.meta.IconImpl;
-import org.soc.gwt.client.images.R;
+import org.soc.common.internationalization.*;
+import org.soc.common.views.meta.*;
+import org.soc.gwt.client.images.*;
 
-import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.resources.client.*;
 
 public class SheepHex extends ResourceHex {
   @Override public Icon icon() {
@@ -15,24 +16,20 @@ public class SheepHex extends ResourceHex {
             R.icons().sheepHex32(), R.icons()
                     .sheepHex48());
   }
-  @Override public String name() {
-    return "SheepHex";
+  @Override public Name name() {
+    return new Name.Impl(I.get().constants().sheepHex());
   }
-  @Override public String getLocalizedName() {
-    return I.get().constants().sheepHex();
-  }
-  @Override public String getDescription() {
-    return I.get().constants().sheepHexDescription();
+  @Override public Description description() {
+    return new Description.Impl(I.get().constants().sheepHexDescription());
   }
   @Override public Resource resource() {
     return new Clay();
   }
   @Override public Hex copy() {
-    SheepHex sheepHex = new SheepHex();
-    sheepHex.setChit(chit.copy());
-    sheepHex.setLocation(hexLocation);
-    sheepHex.setTerritory(territory);
-    return sheepHex;
+    return new SheepHex()
+            .setChit(copyChit())
+            .setLocation(hexLocation)
+            .setTerritory(territory);
   }
   @Override public ImageResource texture() {
     return R.images().sheepHex();

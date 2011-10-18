@@ -1,12 +1,13 @@
 package org.soc.gwt.client.game.widgetsBitmap.playerInfo;
 
-import org.soc.common.game.ResourceList;
-import org.soc.common.game.actions.GameAction;
-import org.soc.common.game.actions.RollDice;
-import org.soc.common.views.widgetsInterface.generic.ResourceListWidget;
-import org.soc.common.views.widgetsInterface.main.GameWidget;
-import org.soc.gwt.client.game.widgetsAbstract.actionDetail.AbstractActionDetailWidget;
-import org.soc.gwt.client.game.widgetsBitmap.generic.ResourceListBitmapWidget;
+import org.soc.common.game.Resources.MutableResourceList;
+import org.soc.common.game.Resources.MutableResourceListImpl;
+import org.soc.common.game.Resources.ResourceList;
+import org.soc.common.game.actions.*;
+import org.soc.common.views.widgetsInterface.generic.*;
+import org.soc.common.views.widgetsInterface.main.*;
+import org.soc.gwt.client.game.widgetsAbstract.actionDetail.*;
+import org.soc.gwt.client.game.widgetsBitmap.generic.*;
 
 /*
  * Displays a list of resources the player gained by a player action,
@@ -15,14 +16,14 @@ import org.soc.gwt.client.game.widgetsBitmap.generic.ResourceListBitmapWidget;
 public class ResourcesGainedDetailWidget extends AbstractActionDetailWidget
 {
   private ResourceListWidget resourceWidget;
-  private ResourceList resources = new ResourceList();
+  private MutableResourceList resources = new MutableResourceListImpl();
   private RollDice rolledDice;
 
   public ResourcesGainedDetailWidget(GameWidget gameWidget, RollDice rolledDice)
   {
     super(gameWidget, rolledDice.player());
     this.rolledDice = rolledDice;
-    resourceWidget = new ResourceListBitmapWidget(resources, null, null);
+    resourceWidget = new ResourceListBitmapWidget(new MutableResourceListImpl(resources), null, null);
     rootPanel.add(resourceWidget);
     resourceWidget.setHeight("3em");
   }

@@ -1,36 +1,41 @@
 package org.soc.common.game.board;
 
-import java.io.Serializable;
+import java.io.*;
 
-import org.soc.common.board.HexChangedEvent.HasHexChangedHandlers;
-import org.soc.common.board.HexChangedEvent.HexChangedHandler;
-import org.soc.common.game.Game;
-import org.soc.common.game.Port;
+import org.soc.common.game.*;
 import org.soc.common.game.Port.PossiblePort;
-import org.soc.common.game.PortList;
-import org.soc.common.game.Random;
+import org.soc.common.game.Ports.MutablePortList;
+import org.soc.common.game.Ports.MutablePortListImpl;
+import org.soc.common.game.Ports.PortList;
 import org.soc.common.game.Random.ClientRandom;
-import org.soc.common.game.Territory.TerritoryImpl;
-import org.soc.common.game.TerritoryList;
+import org.soc.common.game.Territories.MutableTerritoryList;
+import org.soc.common.game.Territories.MutableTerritoryListImpl;
+import org.soc.common.game.board.HexChangedEvent.HasHexChangedHandlers;
+import org.soc.common.game.board.HexChangedEvent.HexChangedHandler;
 import org.soc.common.game.board.HexLayout.HexGrid;
 import org.soc.common.game.board.LayoutStrategy.RedsFirstLayout;
-import org.soc.common.game.hexes.AbstractHex;
-import org.soc.common.game.hexes.Hex;
-import org.soc.common.game.hexes.SeaHex;
+import org.soc.common.game.hexes.*;
+import org.soc.common.game.hexes.Hexes.HexList;
+import org.soc.common.game.hexes.Hexes.MutableHexList;
+import org.soc.common.game.hexes.Hexes.MutableHexListImpl;
 
-import com.google.gwt.event.shared.GwtEvent;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.gwtplatform.dispatch.annotation.GenEvent;
-import com.gwtplatform.dispatch.annotation.Order;
+import com.google.gwt.event.shared.*;
+import com.gwtplatform.dispatch.annotation.*;
+
+import static org.soc.common.game.Territories.Supported.*;
 
 /** Represents a Board, a playingfield which in essence is a collection of Hexes. Does not contain
  * pieces, edge/vertex graphs and other game related data which are contained in GameBoard. */
 public class Board implements Serializable, HasHexChangedHandlers {
-  private static final long serialVersionUID = 5182386418039607317L;
+  @GenEvent public class HexChanged {
+    @Order(0) Hex oldHex;
+    @Order(1) Hex newHex;
+  }
+
   // list of hexes this board is made of
   protected HexLayout hexes;
   // graph containing all the GraphPoints and GraphSides
-  protected transient BoardGraph graph;
+  protected transient GameBoard graph;
   // Specific settings for this board
   protected BoardSettings boardSettings;
   protected transient Random random = new ClientRandom();
@@ -42,9 +47,9 @@ public class Board implements Serializable, HasHexChangedHandlers {
   // data fields
   private String name = "New Board";
   // List of territories associated with this board 
-  protected TerritoryList territories = new TerritoryList()
-          .addNew(new TerritoryImpl().setMainland(true));
+  protected MutableTerritoryList territories = new MutableTerritoryListImpl(standardWithMainland);
 
+  public Board() { /* Serializable */}
   /** Creates a default new board by given width and height */
   public Board(int width, int height) {
     // Store hexes into some HexLayout
@@ -54,48 +59,14 @@ public class Board implements Serializable, HasHexChangedHandlers {
       for (int w = 0; w < width; w++)
         hexes.add(new SeaHex().setLocation(new HexLocation(w, h)));
   }
-  /** Returns a standard 3/4 player board for testing purposes as board cannot be saved yet */
-  public Board() {}
   public void initialize() {
-    graph = new BoardGraph(this);
+    graph = new GameBoard(this);
   }
-  /** Broken, don't use or reimplement */
-  public void resize(int newWidth, int newHeight, AbstractHex defaultHex) {
-    // default on seahexes if we have no default
-    if (defaultHex == null)
-      defaultHex = new SeaHex();
-    // return if there is nothing to resize
-    if (hexes.width() == newWidth && hexes.height() == newHeight)
-      return;
-    // Instantiate a new board
-    HexGrid newboard = new HexGrid(newWidth, newHeight);
-    // HexList removedHexes = new HexList
-    // loop through new sized matrix, row by row.
-    for (int h = 0; h < newHeight; h++)
-      for (int w = 0; w < newWidth; w++)
-        // when width or height is bigger then original, add hexes
-        if (w >= hexes.width() || h >= hexes.height()) {
-          Hex newHex = null;
-          // if outer bounds, put a SeaHex in place, otherwise a
-          // defaulthex
-          if (w == newWidth - 1 || w == 0 || h == newHeight - 1
-                  || h == 0)
-            newHex = new SeaHex();
-          else
-            newHex = defaultHex.copy();
-          newHex.setLocation(new HexLocation(w, h));
-          newboard.set(w, h, newHex);
-        } else {
-          // if outer bounds, put a seahex in place,
-          // otherwise the defaulthex
-          if (w == newWidth - 1 || w == 0 || h == newHeight - 1 || h == 0) {
-            newboard.set(w, h, new SeaHex());
-          } else {
-            newboard.set(w, h, defaultHex.copy());
-          }
-          newboard.set(w, h, hexes.get(w, h).copy());
-        }
-    hexes = newboard;
+  public HexList hexesAt(HexPoint point) {
+    MutableHexList result = new MutableHexListImpl();
+    for (HexLocation location : point.hexLocations())
+      result.add(hexes.get(location));
+    return result;
   }
   public boolean isPortBuildable(HexSide side) {
     Hex hex1 = hexes.get(side.hex1());
@@ -118,11 +89,11 @@ public class Board implements Serializable, HasHexChangedHandlers {
     return true;
   }
   public PortList getAllowedPorts(AbstractHex seaHex) {
-    PortList result = new PortList();
+    MutablePortList result = new MutablePortListImpl();
     // a list with all allowed ports allowed to be set at designtime
     HexLocation seaLocation = seaHex.location();
     // Each SeaHex has 6 possibilities.
-    PortList possibilities = new PortList();
+    MutablePortList possibilities = new MutablePortListImpl();
     possibilities.add(new PossiblePort(seaLocation, RotationPosition.DEG0));
     possibilities.add(new PossiblePort(seaLocation, RotationPosition.DEG60));
     possibilities.add(new PossiblePort(seaLocation, RotationPosition.DEG120));
@@ -155,7 +126,7 @@ public class Board implements Serializable, HasHexChangedHandlers {
   public int getHeight() {
     return hexes.height();
   }
-  public TerritoryList getTerritories() {
+  public MutableTerritoryList getTerritories() {
     return territories;
   }
   public String getDesigner() {
@@ -179,7 +150,7 @@ public class Board implements Serializable, HasHexChangedHandlers {
     this.name = name;
     return this;
   }
-  public BoardGraph graph() {
+  public GameBoard graph() {
     return graph;
   }
   /** Returns true when target side can be built on for land pieces */
@@ -253,15 +224,15 @@ public class Board implements Serializable, HasHexChangedHandlers {
   public void layoutBoard(Game game) {
     layoutStrategy.layoutBoard(game);
   }
-
-  @GenEvent public class HexChanged {
-    @Order(0) Hex oldHex;
-    @Order(1) Hex newHex;
-  }
-
   @Override public void fireEvent(GwtEvent<?> event) {}
   @Override public HandlerRegistration addHexChangedHandler(HexChangedHandler handler) {
     // TODO Auto-generated method stub
     return null;
+  }
+  public boolean oneOrMoreLandHexAt(HexPoint point) {
+    for (Hex hex : hexesAt(point))
+      if (hex.canBuildOnLand())
+        return true;
+    return false;
   }
 }

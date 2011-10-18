@@ -1,18 +1,15 @@
 package org.soc.common.game.actions;
 
-import org.soc.common.game.Game;
-import org.soc.common.game.GamePhase;
-import org.soc.common.game.TurnPhase;
+import org.soc.common.core.property.Properties.Description;
+import org.soc.common.core.property.Properties.Name;
+import org.soc.common.game.*;
+import org.soc.common.game.actions.Action.ActionPresenter.ActionWidgetFactory;
 import org.soc.common.game.actions.ActionOnGameBoard.DisabledMap;
 import org.soc.common.game.actions.GameAction.AbstractGameAction;
-import org.soc.common.internationalization.I;
-import org.soc.common.server.actions.GameServerActionFactory;
-import org.soc.common.server.actions.ServerAction;
-import org.soc.common.views.meta.Icon;
-import org.soc.common.views.meta.IconImpl;
-import org.soc.common.views.widgetsInterface.actions.ActionWidget;
-import org.soc.common.views.widgetsInterface.actions.ActionWidget.ActionWidgetFactory;
-import org.soc.common.views.widgetsInterface.main.GameWidget;
+import org.soc.common.internationalization.*;
+import org.soc.common.server.actions.*;
+import org.soc.common.views.meta.*;
+import org.soc.common.views.widgetsInterface.main.*;
 
 public class HostStartsGame extends AbstractGameAction {
   private Game game;
@@ -20,15 +17,11 @@ public class HostStartsGame extends AbstractGameAction {
   @Override public Icon icon() {
     return new IconImpl(null, null, null, null);
   }
-  @Override public String name() {
+  @Override public Name name() {
     // TODO Auto-generated method stub
     return null;
   }
-  @Override public String getLocalizedName() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-  @Override public String getDescription() {
+  @Override public Description description() {
     // TODO Auto-generated method stub
     return null;
   }
@@ -57,20 +50,20 @@ public class HostStartsGame extends AbstractGameAction {
   @Override public String toDoMessage() {
     return I.get().actions().noToDo();
   }
-  @Override public ActionWidget createActionWidget(ActionWidgetFactory actionWidgetFactory) {
+  @Override public ActionPresenter createPresenter(ActionWidgetFactory actionWidgetFactory) {
     return null;
   }
-  @Override public ActionInGame opponentReceived(GameWidget gameWidget) {
+  @Override public GameBehaviour opponentReceived(GameWidget gameWidget) {
     return new StartGameGameBehaviour(gameWidget);
   }
-  @Override public ActionInGame received(GameWidget gameWidget) {
+  @Override public GameBehaviour received(GameWidget gameWidget) {
     return new StartGameGameBehaviour(gameWidget);
   }
   @Override public ServerAction createServerAction(GameServerActionFactory factory) {
-    return factory.createHostStartsGameServerAction(this);
+    return factory.createHostStartsGame(this);
   }
 
-  public static class StartGameGameBehaviour implements ActionInGame {
+  public static class StartGameGameBehaviour implements GameBehaviour {
     DisabledMap disabledMap = new DisabledMap();
     GameWidget gameWidget;
 

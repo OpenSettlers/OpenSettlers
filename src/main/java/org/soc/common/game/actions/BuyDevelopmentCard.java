@@ -1,42 +1,44 @@
 package org.soc.common.game.actions;
 
-import org.soc.common.game.DevelopmentCard;
+import org.soc.common.core.GenericList.AddsList.ListAdded;
+import org.soc.common.core.GenericList.ImmutableList;
+import org.soc.common.core.GenericList.RemovesList.ListRemoved;
+import org.soc.common.core.property.Properties.Description;
+import org.soc.common.core.property.Properties.Name;
+import org.soc.common.game.*;
 import org.soc.common.game.DevelopmentCard.AbstractDevelopmentCard;
-import org.soc.common.game.Game;
-import org.soc.common.game.GamePhase;
-import org.soc.common.game.GamePlayer;
-import org.soc.common.game.ResourceList;
-import org.soc.common.game.TurnPhase;
+import org.soc.common.game.GamePhaseChangedEvent.GamePhaseChangedHandler;
+import org.soc.common.game.Resources.ResourceList;
+import org.soc.common.game.TurnChangedEvent.TurnChangedHandler;
+import org.soc.common.game.TurnPhaseChangedEvent.TurnPhaseChangedHandler;
+import org.soc.common.game.actions.Action.ActionPresenter.ActionWidgetFactory;
 import org.soc.common.game.actions.GameBehaviour.TradeFirst;
 import org.soc.common.game.actions.TurnAction.AbstractTurnAction;
-import org.soc.common.internationalization.I;
-import org.soc.common.server.actions.GameServerActionFactory;
-import org.soc.common.server.actions.ServerAction;
-import org.soc.common.views.meta.Icon;
-import org.soc.common.views.meta.IconImpl;
-import org.soc.common.views.widgetsInterface.actions.ActionWidget;
-import org.soc.common.views.widgetsInterface.actions.ActionWidget.ActionWidgetFactory;
-import org.soc.common.views.widgetsInterface.main.GameWidget;
-import org.soc.gwt.client.images.R;
+import org.soc.common.game.actions.WantsBuyDevelopmentCardEvent.HasWantsBuyDevelopmentCardHandlers;
+import org.soc.common.game.actions.WantsBuyDevelopmentCardEvent.WantsBuyDevelopmentCardHandler;
+import org.soc.common.internationalization.*;
+import org.soc.common.server.actions.*;
+import org.soc.common.views.meta.*;
+import org.soc.common.views.widgetsInterface.main.*;
+import org.soc.gwt.client.game.widgetsAbstract.actions.*;
+import org.soc.gwt.client.images.*;
+
+import com.google.gwt.user.client.ui.*;
+import com.gwtplatform.dispatch.annotation.*;
 
 public class BuyDevelopmentCard extends AbstractTurnAction
 {
-  @Override public Icon icon()
-  {
+  @Override public Icon icon() {
     return new IconImpl(R.icons()
             .buyDvelopmentCard16(), R.icons()
             .buyDvelopmentCard32(), R.icons()
             .buyDvelopmentCard48());
   }
-  @Override public String name() {
-    // TODO Auto-generated method stub
+  @Override public Name name() {
+    // TODO Auto-generated method stub 
     return null;
   }
-  @Override public String getLocalizedName() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-  @Override public String getDescription() {
+  @Override public Description description() {
     // TODO Auto-generated method stub
     return null;
   }
@@ -51,6 +53,8 @@ public class BuyDevelopmentCard extends AbstractTurnAction
     this.devCard = devCard;
     return this;
   }
+  /** Support future Diamonds by specifying a list of resources, such that e.g. 1 wheat, 2 diamonds
+   * can be used to buy a development card */
   public ResourceList getResources() {
     return resources;
   }
@@ -88,15 +92,11 @@ public class BuyDevelopmentCard extends AbstractTurnAction
     }
     return true;
   }
-  @Override public void perform(Game game)
-  {
-    // Perform resources administration
-    player.resources().subtractResources(resources);
+  @Override public void perform(Game game) {
+    player.resources().removeList(resources);
     game.bank().addList(resources);
-    // Player should wait a turn before able to play new devcard
     devCard.setPlayable(false);
     devCard.setTurnBought(game.turn().getID());
-    // Administer devcards
     player.developmentCards().add(devCard);
     game.developmentCardStack().remove(devCard);
     // TODO: fix message
@@ -113,14 +113,14 @@ public class BuyDevelopmentCard extends AbstractTurnAction
   @Override public String toDoMessage() {
     return I.get().actions().noToDo();
   }
-  @Override public ActionWidget createActionWidget(ActionWidgetFactory factory) {
+  @Override public ActionPresenter createPresenter(ActionWidgetFactory factory) {
     return factory.createBuyDevelopmentCardWidget();
   }
   @Override public GameBehaviour begin(GameWidget gameWidget) {
     return new BuyDevelopmentCardGameBehaviour(gameWidget, this);
   }
   @Override public ServerAction createServerAction(GameServerActionFactory factory) {
-    return factory.createBuyDevelopmentCardServerAction(this);
+    return factory.createBuyDevelopmentCard(this);
   }
 
   public static class BuyDevelopmentCardGameBehaviour implements GameBehaviour, TradeFirst {
@@ -144,6 +144,98 @@ public class BuyDevelopmentCard extends AbstractTurnAction
     }
     @Override public void onTraded() {
       gameWidget.doAction(buyDev);
+    }
+    @Override public boolean endsManually() {
+      // TODO Auto-generated method stub
+      return false;
+    }
+  }
+
+  public interface BuyDevelopmentCardView extends HasWantsBuyDevelopmentCardHandlers {
+    @GenEvent public class WantsBuyDevelopmentCard {}
+
+    public void enable();
+    public void disable();
+    public void setTrade1Visible(boolean visible);
+    public void setTrade2Visible(boolean visible);
+    public void setTrade3Visible(boolean visible);
+  }
+
+  public static class BuyDevelopmentCardBitmapWidget extends AbstractActionPresenter
+          implements TurnChangedHandler, TurnPhaseChangedHandler,
+          GamePhaseChangedHandler
+  {
+    BuyDevelopmentCard buyDevelopmentCard = new BuyDevelopmentCard();
+    BuyDevelopmentCardView view;
+
+    public BuyDevelopmentCardBitmapWidget(final GameWidget gameWidget,
+            final GamePlayer player)
+    {
+      super(gameWidget, player);
+      player.resources().addListRemovedHandler(new ListRemoved<Resource>() {
+        @Override public void listRemoved(ImmutableList<Resource> items) {
+          checkEnabled();
+        }
+      });
+      player.resources().addListAddedHandler(new ListAdded<Resource>() {
+        @Override public void listAdded(ImmutableList<Resource> items) {
+          checkEnabled();
+        }
+      });
+      gameWidget.game().addTurnChangedHandler(this);
+      gameWidget.game().addTurnPhaseChangedHandler(this);
+      gameWidget.game().addGamePhaseChangedHandler(this);
+      view.addWantsBuyDevelopmentCardHandler(new WantsBuyDevelopmentCardHandler() {
+        @Override public void onWantsBuyDevelopmentCard(WantsBuyDevelopmentCardEvent event) {
+          gameWidget.startAction(new BuyDevelopmentCard()
+                  .setResources(AbstractDevelopmentCard.getCost())
+                  .setPlayer(player));
+        }
+      });
+    }
+    @Override public Widget asWidget() {
+      return (Widget) view;
+    }
+    @Override public void onTurnChanged(TurnChangedEvent event) {
+      checkEnabled();
+    }
+    /* Update state of the panel */
+    private void checkEnabled() {
+      // TODO: make logic accurate for diamonds & trades
+      setTradesNeededToBuild();
+      if (enabled && player.isOnTurn()) {
+        if (gameWidget.game().isAllowed(buyDevelopmentCard)
+                && AbstractDevelopmentCard.canPay(player)) {
+          view.enable();
+          return;
+        }
+      }
+      view.disable();
+    }
+    @Override public void onTurnPhaseChanged(TurnPhaseChangedEvent event) {
+      checkEnabled();
+    }
+    @Override public void onGamePhaseChanged(GamePhaseChangedEvent event) {
+      checkEnabled();
+    }
+    private void setTradesNeededToBuild() {
+      if (AbstractDevelopmentCard.canPay(player)) {
+        int amountTradesNeeded = player
+                .resources()
+                .getNeededResources(
+                        AbstractDevelopmentCard.getCost())
+                .size();
+        view.setTrade1Visible(amountTradesNeeded >= 1);
+        view.setTrade1Visible(amountTradesNeeded >= 2);
+        view.setTrade1Visible(amountTradesNeeded >= 3);
+      } else {
+        view.setTrade1Visible(false);
+        view.setTrade2Visible(false);
+        view.setTrade3Visible(false);
+      }
+    }
+    @Override protected void updateEnabled() {
+      // TODO Auto-generated method stub
     }
   }
 }

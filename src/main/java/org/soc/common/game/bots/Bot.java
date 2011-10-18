@@ -1,17 +1,12 @@
 package org.soc.common.game.bots;
 
-import java.util.List;
+import java.util.*;
 
-import org.soc.common.game.ResourceList;
-import org.soc.common.game.Variant;
-import org.soc.common.game.actions.BuildRoad;
-import org.soc.common.game.actions.BuildTown;
-import org.soc.common.game.actions.GameAction;
-import org.soc.common.game.actions.LooseCards;
-import org.soc.common.game.actions.PlaceRobber;
-import org.soc.common.game.actions.RobPlayer;
-import org.soc.common.game.trading.TradeOffer;
-import org.soc.common.server.entities.User;
+import org.soc.common.game.Resources.ResourceList;
+import org.soc.common.game.*;
+import org.soc.common.game.actions.*;
+import org.soc.common.game.trading.*;
+import org.soc.common.server.entities.*;
 
 /** Represents a bot. Server is responsible for calling the bot his methods. */
 public interface Bot extends User {

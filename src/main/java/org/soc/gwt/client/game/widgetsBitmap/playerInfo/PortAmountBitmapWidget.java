@@ -1,24 +1,19 @@
 package org.soc.gwt.client.game.widgetsBitmap.playerInfo;
 
-import org.soc.common.board.PortListChangedEvent;
-import org.soc.common.board.PortListChangedEvent.PortListChangedHandler;
-import org.soc.common.game.GamePlayer;
-import org.soc.common.views.widgetsInterface.main.GameWidget;
-import org.soc.common.views.widgetsInterface.playerInfo.PortAmountWidget;
-import org.soc.gwt.client.game.widgetsBitmap.tooltips.PortListToolTip;
-import org.soc.gwt.client.images.R;
+import org.soc.common.core.GenericList.*;
+import org.soc.common.core.GenericList.AddsList.*;
+import org.soc.common.core.GenericList.RemovesList.*;
+import org.soc.common.game.*;
+import org.soc.common.views.widgetsInterface.main.*;
+import org.soc.common.views.widgetsInterface.playerInfo.*;
+import org.soc.gwt.client.game.widgetsBitmap.tooltips.*;
+import org.soc.gwt.client.images.*;
 
-import com.google.gwt.event.dom.client.MouseOutEvent;
-import com.google.gwt.event.dom.client.MouseOutHandler;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseOverHandler;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.event.dom.client.*;
+import com.google.gwt.user.client.ui.*;
 
 public class PortAmountBitmapWidget implements PortAmountWidget,
-        PortListChangedHandler, MouseOutHandler, MouseOverHandler
+        MouseOutHandler, MouseOverHandler
 {
   private VerticalPanel rootPanel = new VerticalPanel();
   private Image imgPort = new Image(R.icons().port16());
@@ -36,7 +31,16 @@ public class PortAmountBitmapWidget implements PortAmountWidget,
     updateUI();
     rootPanel.add(imgPort);
     rootPanel.add(lblPortAmount);
-    player.ports().addPortListChangedHandler(this);
+    player.ports().addListAddedHandler(new ListAdded<Port>() {
+      @Override public void listAdded(ImmutableList<Port> items) {
+        updateUI();
+      }
+    });
+    player.ports().addListRemovedHandler(new ListRemoved<Port>() {
+      @Override public void listRemoved(ImmutableList<Port> items) {
+        updateUI();
+      }
+    });
     rootPanel.addDomHandler(this, MouseOutEvent.getType());
     rootPanel.addDomHandler(this, MouseOverEvent.getType());
   }
@@ -47,10 +51,6 @@ public class PortAmountBitmapWidget implements PortAmountWidget,
   private void updateUI()
   {
     lblPortAmount.setText(Integer.toString(player.ports().size() - 1));
-  }
-  @Override public void onPortListChanged(PortListChangedEvent event)
-  {
-    updateUI();
   }
   @Override public void onMouseOut(MouseOutEvent event)
   {

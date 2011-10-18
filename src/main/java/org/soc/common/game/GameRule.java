@@ -212,7 +212,7 @@ public interface GameRule {
       return null;
     }
     @Override public void set(GameRules rules) {
-      rules.setDevelopmentCardStack(DevelopmentCardList.standard());
+      rules.setDevelopmentCardStack(DevelopmentCardList.newStandard());
     }
   }
 

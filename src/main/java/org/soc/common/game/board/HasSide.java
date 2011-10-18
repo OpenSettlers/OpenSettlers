@@ -5,8 +5,7 @@ import org.soc.common.game.pieces.Piece.BoardPiece;
 /*
  * For pieces on the board located on a HexSide.
  */
-public interface HasSide extends BoardPiece
-{
+public interface HasSide extends BoardPiece {
   public HexSide getSide();
   public HasSide setSide(HexSide side);
   public boolean canConnect(GraphPoint graphPoint, HasSide otherPiece);

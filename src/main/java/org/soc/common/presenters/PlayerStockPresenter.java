@@ -1,17 +1,15 @@
 package org.soc.common.presenters;
 
-import org.soc.common.game.GamePlayer;
-import org.soc.common.game.pieces.City;
+import org.soc.common.core.GenericList.Adds.Added;
+import org.soc.common.core.GenericList.Removes.Removed;
+import org.soc.common.game.*;
+import org.soc.common.game.pieces.*;
 import org.soc.common.game.pieces.Piece.StockPiece;
-import org.soc.common.game.pieces.PlayerPieceList.PlayerPieceListChangedEvent;
-import org.soc.common.game.pieces.PlayerPieceList.PlayerPieceListChangedEventHandler;
-import org.soc.common.game.pieces.Road;
-import org.soc.common.game.pieces.Town;
-import org.soc.common.views.HasToolTip;
-import org.soc.common.views.widgetsInterface.main.GameWidget;
+import org.soc.common.views.*;
+import org.soc.common.views.widgetsInterface.main.*;
 import org.soc.common.views.widgetsInterface.playerInfo.StockItemWidget.StockItemWidgetFactory;
 
-import com.google.inject.Inject;
+import com.google.inject.*;
 
 public class PlayerStockPresenter {
   public interface StockPieceView<M extends StockPiece> {
@@ -40,54 +38,54 @@ public class PlayerStockPresenter {
   public class StockCityPresenter {
     @Inject public StockCityPresenter(final StockPieceView<City> view, GameWidget gameWidget,
             GamePlayer player) {
-      player.stock().cities()
-              .addCitiesChangedEventHandler(new PlayerPieceListChangedEventHandler<City>() {
-                @Override public void
-                        onPlayerPieceListChanged(PlayerPieceListChangedEvent<City> event) {
-                  if (event.getAddedPiece() != null) {
-                    view.addPiece(event.getAddedPiece());
-                  }
-                  if (event.getRemovedPiece() != null) {
-                    view.removePiece(event.getRemovedPiece());
-                  }
-                }
-              });
+      player.stock().cities().addAddedHandler(new Added<City>() {
+        @Override public void added(City item) {
+          if (item != null)
+            view.addPiece(item);
+        }
+      });
+      player.stock().cities().addRemovedHandler(new Removed<City>() {
+        @Override public void removed(City item) {
+          if (item != null)
+            view.removePiece(item);
+        }
+      });
     }
   }
 
   public class StockTownPresenter {
     @Inject public StockTownPresenter(final StockPieceView<Town> view, GameWidget gameWidget,
             GamePlayer player) {
-      player.stock().towns()
-              .addTownsChangedEventHandler(new PlayerPieceListChangedEventHandler<Town>() {
-                @Override public void onPlayerPieceListChanged(
-                        PlayerPieceListChangedEvent<Town> event) {
-                  if (event.getAddedPiece() != null) {
-                    view.addPiece(event.getAddedPiece());
-                  }
-                  if (event.getRemovedPiece() != null) {
-                    view.removePiece(event.getRemovedPiece());
-                  }
-                }
-              });
+      player.stock().towns().addAddedHandler(new Added<Town>() {
+        @Override public void added(Town item) {
+          if (item != null)
+            view.addPiece(item);
+        }
+      });
+      player.stock().towns().addRemovedHandler(new Removed<Town>() {
+        @Override public void removed(Town item) {
+          if (item != null)
+            view.removePiece(item);
+        }
+      });
     }
   }
 
   public class StockRoadPresenter {
     @Inject public StockRoadPresenter(final StockPieceView<Road> view, GameWidget gameWidget,
             GamePlayer player) {
-      player.stock().roads()
-              .addRoadsChangedEventHandler(new PlayerPieceListChangedEventHandler<Road>() {
-                @Override public void onPlayerPieceListChanged(
-                        PlayerPieceListChangedEvent<Road> event) {
-                  if (event.getAddedPiece() != null) {
-                    view.addPiece(event.getAddedPiece());
-                  }
-                  if (event.getRemovedPiece() != null) {
-                    view.removePiece(event.getRemovedPiece());
-                  }
-                }
-              });
+      player.stock().roads().addAddedHandler(new Added<Road>() {
+        @Override public void added(Road item) {
+          if (item != null)
+            view.addPiece(item);
+        }
+      });
+      player.stock().roads().addRemovedHandler(new Removed<Road>() {
+        @Override public void removed(Road item) {
+          if (item != null)
+            view.removePiece(item);
+        }
+      });
     }
   }
 }

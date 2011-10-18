@@ -1,13 +1,11 @@
 package org.soc.gwt.client.game.widgetsSvg.visuals;
 
-import org.soc.common.board.pieces.MovedEvent;
-import org.soc.common.board.pieces.MovedEvent.MovedHandler;
-import org.soc.common.game.pieces.Robber;
-import org.soc.common.views.widgetsInterface.generic.Point2D;
-import org.soc.gwt.client.game.widgetsAbstract.visuals.AbstractRobberVisual;
-import org.vaadin.gwtgraphics.client.Group;
-import org.vaadin.gwtgraphics.client.VectorObject;
-import org.vaadin.gwtgraphics.client.shape.Circle;
+import org.soc.common.game.pieces.*;
+import org.soc.common.game.pieces.MovedEvent.MovedHandler;
+import org.soc.common.views.widgetsInterface.generic.*;
+import org.soc.gwt.client.game.widgetsAbstract.visuals.*;
+import org.vaadin.gwtgraphics.client.*;
+import org.vaadin.gwtgraphics.client.shape.*;
 
 public class RobberSvg extends AbstractRobberVisual implements SvgVisual,
         MovedHandler

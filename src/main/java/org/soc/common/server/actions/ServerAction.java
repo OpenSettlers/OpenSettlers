@@ -1,31 +1,23 @@
 package org.soc.common.server.actions;
 
-import java.util.ArrayList;
-import java.util.List;
 
-import org.soc.common.game.DevelopmentCardList;
+import java.util.*;
+
+import org.soc.common.game.*;
 import org.soc.common.game.Dice.StandardDice;
-import org.soc.common.game.GamePlayer;
-import org.soc.common.game.actions.BuyDevelopmentCard;
-import org.soc.common.game.actions.CounterTradeOffer;
-import org.soc.common.game.actions.EndTurn;
-import org.soc.common.game.actions.GameAction;
-import org.soc.common.game.actions.HostStartsGame;
-import org.soc.common.game.actions.RobPlayer;
-import org.soc.common.game.actions.RollDice;
+import org.soc.common.game.actions.*;
 import org.soc.common.game.actions.GameAction.AbstractGameAction;
-import org.soc.common.game.board.Board;
-import org.soc.common.game.trading.AcceptTradeOffer;
-import org.soc.common.game.trading.RejectTradeOffer;
-import org.soc.common.game.trading.TradeOffer;
-import org.soc.common.game.trading.TradeResponse;
-import org.soc.common.server.GameServer;
+import org.soc.common.game.board.*;
+import org.soc.common.game.trading.*;
+import org.soc.common.server.*;
+
+import static org.soc.common.core.GenericList.*;
 
 /** Interface for actions needed to be performed on the server side, like rolling dice, shuffling
  * development cards deck */
 public interface ServerAction {
   /* Action originating from a player */
-  public GameAction getAction();
+  public GameAction action();
   public void execute();
   /* Returns the associated gameaction, but then it's data set so that opponents don't have data
    * they should not have. For example, a BuyDevelopmentCard action's DevelopmentCard should not be
@@ -35,14 +27,16 @@ public interface ServerAction {
   /** Any action not requiring any special server side logic */
   public class DefaultAction implements ServerAction {
     protected GameAction action;
+
+    @Override public GameAction action() {
+      return action;
+    }
+
     protected GameServer gameServer;
 
     public DefaultAction(GameServer gameServer, GameAction action) {
       this.action = action;
       this.gameServer = gameServer;
-    }
-    @Override public GameAction getAction() {
-      return action;
     }
     @Override public void execute() {
       gameServer.game().performAction(action);
@@ -57,7 +51,6 @@ public interface ServerAction {
     private GameServer gameServer;
 
     public ServerBuyDevelopmentCard(GameServer gameServer, BuyDevelopmentCard buyDevCard) {
-      super();
       this.buyDevCard = buyDevCard;
       this.gameServer = gameServer;
     }
@@ -65,7 +58,7 @@ public interface ServerAction {
       buyDevCard.setDevCard(gameServer.game().developmentCardStack().drawTop());
       gameServer.game().performAction(buyDevCard);
     }
-    @Override public AbstractGameAction getAction() {
+    @Override public AbstractGameAction action() {
       return buyDevCard;
     }
     @Override public GameAction getOpponentAction() {
@@ -80,7 +73,6 @@ public interface ServerAction {
     private EndTurn endTurn;
 
     public ServerEndTurn(GameServer gameServer, EndTurn endTurn) {
-      super();
       this.gameServer = gameServer;
       this.endTurn = endTurn;
     }
@@ -89,7 +81,7 @@ public interface ServerAction {
         gameServer.setBotTurnHandled(true);
       gameServer.game().performAction(endTurn);
     }
-    @Override public GameAction getAction() {
+    @Override public GameAction action() {
       return endTurn;
     }
     @Override public GameAction getOpponentAction() {
@@ -102,7 +94,6 @@ public interface ServerAction {
     private GameServer gameServer;
 
     public ServerHotseatOfferTrade(GameServer gameServer, TradeOffer tradeOffer) {
-      super();
       this.tradeOffer = tradeOffer;
       this.gameServer = gameServer;
     }
@@ -114,7 +105,7 @@ public interface ServerAction {
         gameServer.sendAction(tradeResponse);
       }
     }
-    @Override public GameAction getAction() {
+    @Override public GameAction action() {
       return tradeOffer;
     }
     @Override public GameAction getOpponentAction() {
@@ -134,8 +125,7 @@ public interface ServerAction {
         CounterTradeOffer counter = new CounterTradeOffer();
         counter.getOfferedResources().addList(
                 tradeOffer.getRequestedResources());
-        counter.getRequestedResources().add(
-                opponent.resources().getRandom(gameServer.random()));
+        counter.getRequestedResources().add(getRandom(opponent.resources(), gameServer.random()));
         responses.add(counter);
       }
       int size = responses.size();
@@ -163,7 +153,7 @@ public interface ServerAction {
       rollDice.setDice(dice);
       gameServer.game().performAction(rollDice);
     }
-    @Override public GameAction getAction() {
+    @Override public GameAction action() {
       return rollDice;
     }
     @Override public GameAction getOpponentAction() {
@@ -180,7 +170,7 @@ public interface ServerAction {
       this.hostStartsGame = hostStartsGame;
       this.gameServer = gameServer;
     }
-    @Override public AbstractGameAction getAction() {
+    @Override public AbstractGameAction action() {
       return hostStartsGame;
     }
     @Override public void execute() {
@@ -221,19 +211,17 @@ public interface ServerAction {
     private GameServer gameServer;
 
     public ServerRobPlayer(GameServer gameServer, RobPlayer robPlayer) {
-      super();
       this.robPlayer = robPlayer;
       this.gameServer = gameServer;
     }
     @Override public void execute() {
       GamePlayer victim = gameServer.game().playerById(robPlayer.getVictimID());
       if (victim != null) {
-        robPlayer.setStolenResource(victim.resources().getRandom(
-                gameServer.random()));
+        robPlayer.setStolenResource(getRandom(victim.resources(), gameServer.random()));
       }
       gameServer.game().performAction(robPlayer);
     }
-    @Override public AbstractGameAction getAction() {
+    @Override public AbstractGameAction action() {
       return robPlayer;
     }
     @Override public AbstractGameAction getOpponentAction() {

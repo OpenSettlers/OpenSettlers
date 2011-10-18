@@ -19,19 +19,19 @@ public interface Route extends GraphPath<GraphPoint, GraphSide>, Serializable {
   /** A route on a GameBoard */
   public class RouteImpl implements Route {
     private List<GraphSide> edges = new ArrayList<GraphSide>();
-    private transient BoardGraph baseGraph;
+    private transient GameBoard baseGraph;
     private transient GamePlayer player;
     private GraphPoint startVertex;
     private GraphPoint endVertex;
     private int playerID;
 
-    public RouteImpl(BoardGraph baseGraph, Set<GraphSide> edges, GamePlayer player) {
+    public RouteImpl(GameBoard baseGraph, Set<GraphSide> edges, GamePlayer player) {
       this.baseGraph = baseGraph;
       setPlayer(player);
       for (GraphSide side : edges)
         this.edges.add(side);
     }
-    public RouteImpl(BoardGraph baseGraph, List<HexPoint> longest, GamePlayer player) {
+    public RouteImpl(GameBoard baseGraph, List<HexPoint> longest, GamePlayer player) {
       this.baseGraph = baseGraph;
       setPlayer(player);
       for (int i = 0; i < longest.size() - 1; i++) {
@@ -79,10 +79,10 @@ public interface Route extends GraphPath<GraphPoint, GraphSide>, Serializable {
   public class PossibleRoute implements Route {
     private List<GraphSide> sides = new ArrayList<GraphSide>();
     private List<GraphPoint> points = new ArrayList<GraphPoint>();
-    private transient BoardGraph boardGraph;
+    private transient GameBoard boardGraph;
     private GamePlayer player;
 
-    public PossibleRoute(BoardGraph boardGraph, GraphPoint start, GraphPoint second) {
+    public PossibleRoute(GameBoard boardGraph, GraphPoint start, GraphPoint second) {
       this.boardGraph = boardGraph;
       points.add(start);
       points.add(second);
@@ -95,7 +95,7 @@ public interface Route extends GraphPath<GraphPoint, GraphSide>, Serializable {
       this.player = player;
       return this;
     }
-    public PossibleRoute(BoardGraph boardGraph) {
+    public PossibleRoute(GameBoard boardGraph) {
       this.boardGraph = boardGraph;
     }
     @Override public List<GraphSide> getEdgeList() {

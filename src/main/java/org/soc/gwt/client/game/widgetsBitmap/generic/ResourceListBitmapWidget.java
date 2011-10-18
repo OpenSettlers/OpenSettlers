@@ -1,18 +1,17 @@
 package org.soc.gwt.client.game.widgetsBitmap.generic;
 
-import org.soc.common.game.PortList;
-import org.soc.common.game.Resource;
-import org.soc.common.game.ResourceList;
-import org.soc.common.views.widgetsInterface.generic.ResourceWidget;
-import org.soc.gwt.client.game.widgetsAbstract.generic.AbstractResourceListWidget;
+import org.soc.common.game.Ports.PortList;
+import org.soc.common.game.*;
+import org.soc.common.game.Resources.MutableResourceList;
+import org.soc.common.views.widgetsInterface.generic.*;
+import org.soc.gwt.client.game.widgetsAbstract.generic.*;
 
-import com.google.gwt.user.client.ui.ComplexPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.*;
 
 public class ResourceListBitmapWidget extends AbstractResourceListWidget
 {
-  public ResourceListBitmapWidget(ResourceList resources,
-          ResourceList bankResources, PortList ports)
+  public ResourceListBitmapWidget(MutableResourceList resources,
+          MutableResourceList bankResources, PortList ports)
   {
     super(resources, bankResources, ports);
   }
@@ -24,8 +23,9 @@ public class ResourceListBitmapWidget extends AbstractResourceListWidget
   {
     return new HorizontalPanel();
   }
-  @Override public void setHeight(String height)
+  @Override public ResourceListBitmapWidget setHeight(String height)
   {
     rootPanel.setHeight(height);
+    return this;
   }
 }

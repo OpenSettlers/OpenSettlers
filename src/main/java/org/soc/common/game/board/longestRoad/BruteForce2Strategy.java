@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.soc.common.game.Game;
 import org.soc.common.game.GamePlayer;
-import org.soc.common.game.board.BoardGraph;
+import org.soc.common.game.board.GameBoard;
 import org.soc.common.game.board.GraphPoint;
 import org.soc.common.game.board.HasSide;
 import org.soc.common.game.board.HexSide;
@@ -13,10 +13,10 @@ import org.soc.common.game.board.Route;
 
 public class BruteForce2Strategy implements LongestRoadStrategy
 {
-  private BoardGraph boardGraph;
+  private GameBoard boardGraph;
 
   @Override public Route calculateLongestRoad(Route currentLongest,
-          BoardGraph boardGraph, Game game)
+          GameBoard boardGraph, Game game)
   {
     return null;
   }

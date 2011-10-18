@@ -1,10 +1,7 @@
 package org.soc.gwt.client.game.widgetsAbstract.visuals;
 
-import org.soc.common.board.hexes.PortChangedEvent;
-import org.soc.common.game.hexes.ChitChangedEvent;
-import org.soc.common.game.hexes.Hex;
-import org.soc.common.game.hexes.TerritoryChangedEvent;
-import org.soc.common.views.widgetsInterface.visuals.BoardVisual;
+import org.soc.common.game.hexes.*;
+import org.soc.common.views.widgetsInterface.visuals.*;
 import org.soc.common.views.widgetsInterface.visuals.PieceVisual.HexVisual;
 
 public abstract class AbstractHexVisual extends AbstractPieceVisual implements

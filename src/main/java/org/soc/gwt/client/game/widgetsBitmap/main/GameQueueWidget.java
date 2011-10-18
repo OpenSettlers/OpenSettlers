@@ -21,8 +21,7 @@ public class GameQueueWidget implements QueueWidget,
   private CellList<GameAction> queuedList = new CellList<GameAction>(cell);
   private ListDataProvider<GameAction> dataList = new ListDataProvider<GameAction>();
 
-  public GameQueueWidget(GameWidget gameWidget)
-  {
+  public GameQueueWidget(GameWidget gameWidget) {
     super();
     this.gameWidget = gameWidget;
     rootPanel.add(queuedList);

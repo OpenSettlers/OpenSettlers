@@ -1,11 +1,11 @@
 package org.soc.common.views.widgetsInterface.generic;
 
-import org.soc.common.game.PortList;
-import org.soc.common.game.Resource;
-import org.soc.common.game.ResourceList;
+import org.soc.common.game.Ports.PortList;
+import org.soc.common.game.*;
+import org.soc.common.game.Resources.ResourceList;
 import org.soc.common.views.widgetsInterface.generic.ResourceClickedEvent.ResourceClickedHandler;
 
-import com.google.gwt.user.client.ui.IsWidget;
+import com.google.gwt.user.client.ui.*;
 
 public interface ResourcePickerWidget extends IsWidget, ResourceClickedHandler
 {

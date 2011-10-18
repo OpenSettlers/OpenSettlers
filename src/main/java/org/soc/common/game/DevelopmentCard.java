@@ -1,33 +1,39 @@
 package org.soc.common.game;
 
-import java.io.Serializable;
-
+import org.soc.common.core.GenericList.HasId;
+import org.soc.common.core.GenericList.Model;
+import org.soc.common.core.OpenZettlers.OsModel;
+import org.soc.common.core.Props.PropertyList.PropertyTypeList;
+import org.soc.common.core.property.Properties.Description;
+import org.soc.common.core.property.Properties.Name;
+import org.soc.common.core.property.*;
+import org.soc.common.game.PickedResourceEvent.HasPickedResourceHandlers;
+import org.soc.common.game.PickedResourceEvent.PickedResourceHandler;
 import org.soc.common.game.PlayableChangedEvent.HasPlayableChangedHandlers;
 import org.soc.common.game.PlayableChangedEvent.PlayableChangedHandler;
-import org.soc.common.game.Resource.Clay;
-import org.soc.common.game.Resource.Ore;
-import org.soc.common.game.Resource.Sheep;
-import org.soc.common.game.Resource.Timber;
-import org.soc.common.game.Resource.Wheat;
-import org.soc.common.game.actions.PlaceRobber;
-import org.soc.common.game.actions.RobPlayer;
-import org.soc.common.internationalization.I;
-import org.soc.common.utils.Util;
-import org.soc.common.views.meta.Icon;
-import org.soc.common.views.meta.IconImpl;
-import org.soc.common.views.meta.Meta;
-import org.soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidget;
+import org.soc.common.game.Resources.MutableResourceList;
+import org.soc.common.game.Resources.ResourceList;
+import org.soc.common.game.actions.*;
+import org.soc.common.game.actions.WantsPlayDevelopmentCardEvent.HasWantsPlayDevelopmentCardHandlers;
+import org.soc.common.game.actions.WantsPlayDevelopmentCardEvent.WantsPlayDevelopmentCardHandler;
+import org.soc.common.game.actions.WantsPlayDevelopmentCardEvent;
+import org.soc.common.internationalization.*;
+import org.soc.common.utils.*;
+import org.soc.common.views.meta.*;
+import org.soc.common.views.widgetsInterface.developmentCards.*;
 import org.soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidget.DevelopmentCardWidgetFactory;
-import org.soc.gwt.client.images.R;
+import org.soc.common.views.widgetsInterface.main.*;
+import org.soc.gwt.client.images.*;
 
-import com.google.gwt.event.shared.EventBus;
-import com.google.gwt.event.shared.GwtEvent;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.event.shared.SimpleEventBus;
-import com.gwtplatform.dispatch.annotation.GenEvent;
-import com.gwtplatform.dispatch.annotation.Order;
+import com.google.gwt.event.shared.*;
+import com.google.gwt.user.client.ui.*;
+import com.gwtplatform.dispatch.annotation.*;
 
-public interface DevelopmentCard extends Meta, Serializable, HasPlayableChangedHandlers {
+import static org.soc.common.game.Resource.*;
+
+import static org.soc.common.game.Resources.*;
+
+public interface DevelopmentCard extends OsModel<Integer>, HasPlayableChangedHandlers {
   public boolean hasLimitOnePerTurn();
   /* True when player can't play the DevelopmentCard in the turn he bought it */
   public boolean hasSummoningSickness();
@@ -45,8 +51,6 @@ public interface DevelopmentCard extends Meta, Serializable, HasPlayableChangedH
   public int turnBought();
   /* Sets the turn ID (==turn number) of the turn this development card was bought */
   public void setTurnBought(int turnBought);
-  public int id();
-  public void setId(int id);
   /* Returns true when this development card can be played this turn */
   public boolean isPlayable();
   public void setPlayable(boolean isPlayable);
@@ -58,21 +62,46 @@ public interface DevelopmentCard extends Meta, Serializable, HasPlayableChangedH
     @Order(0) boolean playable;
   }
 
-  public abstract class AbstractDevelopmentCard implements Serializable, DevelopmentCard {
+  public interface DevelopmentCardView extends HasWantsPlayDevelopmentCardHandlers {
+    @GenEvent public class WantsPlayDevelopmentCard {}
+
+    @GenEvent public class PickedResource {
+      @Order(0) Resource pickedResource;
+      @Order(1) Resource unpickedResource;
+    }
+
+    public void enable();
+    public void disable();
+  }
+
+  public interface DevelopmentCardPresenter {}
+
+  public abstract class AbstractDevelopmentCard implements DevelopmentCard {
     private static final long serialVersionUID = 3192052784726040369L;
     protected String invalidMessage;
     protected String message = "No message implemented yet for Devcard" + toString();
     protected int turnBought = 0;
-    private int id = 0;
+    private Integer id = 0;
     private boolean isPlayable = false;
-    private static ResourceList cost = new ResourceList();
+    private static ResourceList cost = newResources(Resource.wheat, ore, sheep);
     private transient EventBus eventBus = new SimpleEventBus();
-    static {
-      cost.add(new Wheat());
-      cost.add(new Ore());
-      cost.add(new Sheep());
-    }
 
+    @Override public Integer id() {
+      // TODO Auto-generated method stub
+      return null;
+    }
+    @Override public Model copy() {
+      // TODO Auto-generated method stub
+      return null;
+    }
+    @Override public HasId setId(Integer id) {
+      // TODO Auto-generated method stub
+      return null;
+    }
+    @Override public IdScope scope() {
+      // TODO Auto-generated method stub
+      return null;
+    }
     public boolean hasLimitOnePerTurn() {
       return true;
     }
@@ -86,9 +115,9 @@ public interface DevelopmentCard extends Meta, Serializable, HasPlayableChangedH
     public static boolean canPay(GamePlayer player) {
       // TODO: add diamonds support
       // First, create a copy so we can safely remove resources from it
-      ResourceList copy = player.resources().copy();
+      MutableResourceList copy = player.resources().copy();
       // Pay resources player can simply pay for
-      copy.subtractResources(getCost());
+      copy.removeList(getCost());
       // Calculate amount of gold we need
       int neededGold =
               // amount of resources this piece needs, minus...
@@ -126,12 +155,6 @@ public interface DevelopmentCard extends Meta, Serializable, HasPlayableChangedH
     public void setTurnBought(int turnBought) {
       this.turnBought = turnBought;
     }
-    public int id() {
-      return id;
-    }
-    public void setId(int id) {
-      this.id = id;
-    }
     public boolean isPlayable() {
       return isPlayable;
     }
@@ -157,8 +180,8 @@ public interface DevelopmentCard extends Meta, Serializable, HasPlayableChangedH
         return false;
       return true;
     }
-    @Override public String name() {
-      return Util.shortName(this.getClass());
+    @Override public Name name() {
+      return new Name.Impl(Util.shortName(this.getClass()));
     }
     public abstract DevelopmentCardWidget createPlayCardWidget(
             DevelopmentCardWidgetFactory factory);
@@ -170,6 +193,14 @@ public interface DevelopmentCard extends Meta, Serializable, HasPlayableChangedH
     @Override public void fireEvent(GwtEvent<?> event) {
       eventBus.fireEvent(event);
     }
+    @Override public Property getProp(Property type) {
+      // TODO Auto-generated method stub
+      return null;
+    }
+    @Override public PropertyTypeList properties() {
+      // TODO Auto-generated method stub
+      return null;
+    }
   }
 
   /** Standard ruleset VictoryPoint development card Playable any time during a players' turn and not
@@ -180,11 +211,11 @@ public interface DevelopmentCard extends Meta, Serializable, HasPlayableChangedH
               .icons()
               .victoryPoint48());
     }
-    @Override public String getLocalizedName() {
-      return I.get().constants().victoryPoint();
+    @Override public Name name() {
+      return new Name.Impl(I.get().constants().victoryPoint());
     }
-    @Override public String getDescription() {
-      return I.get().constants().victoryPointDescription();
+    @Override public Description description() {
+      return new Description.Impl(I.get().constants().victoryPointDescription());
     }
     /** A victoryPoint development card returns into stock after playing */
     @Override public boolean keepInStock() {
@@ -221,34 +252,50 @@ public interface DevelopmentCard extends Meta, Serializable, HasPlayableChangedH
     }
     /** Ignored, VictoryPoint card is always playable */
     @Override public void setPlayable(boolean isPlayable) {}
+
+    public interface VictoryPointView extends DevelopmentCardView {}
+
+    public static class PlayVictoryPointWidget implements DevelopmentCardWidget {
+      private VictoryPoint victoryPoint;
+      private GameWidget gameWidget;
+      private PlayDevelopmentCard playDevelopmentCard = new PlayDevelopmentCard();
+      private VictoryPointView view;
+
+      public PlayVictoryPointWidget(final GameWidget gameWidget, VictoryPoint victoryPoint) {
+        this.victoryPoint = victoryPoint;
+        this.gameWidget = gameWidget;
+        playDevelopmentCard.setDevelopmentcard(victoryPoint);
+        playDevelopmentCard.setPlayer(gameWidget.playingPlayer());
+        view.addWantsPlayDevelopmentCardHandler(new WantsPlayDevelopmentCardHandler() {
+          @Override public void onWantsPlayDevelopmentCard(WantsPlayDevelopmentCardEvent event) {
+            gameWidget.doAction(playDevelopmentCard);
+          }
+        });
+      }
+      @Override public Widget asWidget() {
+        return (Widget) view;
+      }
+    }
+
+    @Override public Model copy() {
+      // TODO Auto-generated method stub
+      return null;
+    }
   }
 
-  /* Standard monopoly Steals all resources of a chosen type from all opponents */
+  /** Standard monopoly steals all resources of a chosen type from all opponents */
   public class Monopoly extends AbstractDevelopmentCard {
-    public static ResourceList staticMonoPolyableResources = new ResourceList();
     private Resource resource;
 
     @Override public Icon icon() {
       return new IconImpl(R.icons().monopoly16(), R.icons().monopoly32(), R.icons().monopoly48());
     }
-    @Override public String name() {
-      return "Monopoly";
+    @Override public Name name() {
+      return new Name.Impl(I.get().constants().monopoly());
     }
-    @Override public String getLocalizedName() {
-      return I.get().constants().monopoly();
+    @Override public Description description() {
+      return new Description.Impl(I.get().constants().monopolyDescription());
     }
-    @Override public String getDescription() {
-      return I.get().constants().monopolyDescription();
-    }
-
-    static {
-      staticMonoPolyableResources.add(new Timber());
-      staticMonoPolyableResources.add(new Wheat());
-      staticMonoPolyableResources.add(new Ore());
-      staticMonoPolyableResources.add(new Clay());
-      staticMonoPolyableResources.add(new Sheep());
-    }
-
     public Resource getResource()
     {
       return resource;
@@ -260,7 +307,7 @@ public interface DevelopmentCard extends Meta, Serializable, HasPlayableChangedH
     }
     public ResourceList getMonopolyableResources()
     {
-      return staticMonoPolyableResources;
+      return Resources.monoPolyableResources;
     }
     /** Valid when having non-null resource and resource is of a basic type */
     @Override public boolean isValid(Game game)
@@ -270,7 +317,7 @@ public interface DevelopmentCard extends Meta, Serializable, HasPlayableChangedH
       if (resource == null)
         return false;
       // Allow only one of the 5 basic resources
-      if (!staticMonoPolyableResources.contains(resource))
+      if (!monoPolyableResources.contains(resource))
         return false;
       return true;
     }
@@ -286,7 +333,7 @@ public interface DevelopmentCard extends Meta, Serializable, HasPlayableChangedH
           // opponentResources.size(), resource.toString(),
           // player.getName()));
           // Move resources from victims to player
-          opponent.resources().moveTo(player.resources(), opponentResources);
+          player.resources().moveListFrom(opponent.resources(), opponentResources);
         }
       }
       // remove the trailing ","
@@ -301,30 +348,70 @@ public interface DevelopmentCard extends Meta, Serializable, HasPlayableChangedH
     @Override public boolean isAllowed(TurnPhase turnPhase) {
       return turnPhase.isBuilding();
     }
+
+    public interface MonopolyView extends DevelopmentCardView, HasPickedResourceHandlers {
+      public Resource pickedResource();
+    }
+
+    public static class PlayMonopolyWidget implements DevelopmentCardWidget,
+            PlayableChangedHandler
+    {
+      private Monopoly monopoly;
+      private GameWidget gameWidget;
+      private PlayDevelopmentCard playDevelopmentCard = new PlayDevelopmentCard();
+      private MonopolyView view;
+
+      public PlayMonopolyWidget(final GameWidget gameWidget, final Monopoly monopoly) {
+        this.monopoly = monopoly;
+        this.gameWidget = gameWidget;
+        playDevelopmentCard.setDevelopmentcard(monopoly);
+        playDevelopmentCard.setPlayer(gameWidget.playingPlayer());
+        view.addWantsPlayDevelopmentCardHandler(new WantsPlayDevelopmentCardHandler() {
+          @Override public void onWantsPlayDevelopmentCard(WantsPlayDevelopmentCardEvent event) {
+            monopoly.setResource(view.pickedResource());
+            gameWidget.doAction(playDevelopmentCard);
+          }
+        });
+        view.addPickedResourceHandler(new PickedResourceHandler() {
+          @Override public void onPickedResource(PickedResourceEvent event) {
+            if (view.pickedResource() == null) {
+              view.disable();
+            } else {
+              view.enable();
+            }
+          }
+        });
+        monopoly.addPlayableChangedHandler(this);
+      }
+      @Override public Widget asWidget() {
+        return (Widget) view;
+      }
+      private void updateUI() {
+        if (view.pickedResource() != null && monopoly.isPlayable()) {
+          view.enable();
+        } else {
+          view.disable();
+        }
+      }
+      @Override public void onPlayableChanged(PlayableChangedEvent event) {
+        updateUI();
+      }
+    }
   }
 
-  public class RoadBuilding extends AbstractDevelopmentCard
-  {
-    @Override public Icon icon()
-    {
+  public class RoadBuilding extends AbstractDevelopmentCard {
+    @Override public Icon icon() {
       return new IconImpl(R.icons().roadBuilding16(),
               R.icons().roadBuilding32(), R.icons()
                       .roadBuilding48());
     }
-    @Override public String name()
-    {
-      return "RoadBuilding";
+    @Override public Name name() {
+      return new Name.Impl(I.get().constants().roadBuilding());
     }
-    @Override public String getLocalizedName()
-    {
-      return I.get().constants().roadBuilding();
+    @Override public Description description() {
+      return new Description.Impl(I.get().constants().roadBuildingDescription());
     }
-    @Override public String getDescription()
-    {
-      return I.get().constants().roadBuildingDescription();
-    }
-    @Override public void play(Game game, GamePlayer player)
-    {
+    @Override public void play(Game game, GamePlayer player) {
       int roadBuildingTokens = player.roadBuildingTokens();
       player.setRoadBuildingTokens(roadBuildingTokens += 2);
       message = player.user().name() + " played a road building card";
@@ -335,9 +422,47 @@ public interface DevelopmentCard extends Meta, Serializable, HasPlayableChangedH
     {
       return factory.createRoadBuildingWidget(this);
     }
-    @Override public boolean isAllowed(TurnPhase turnPhase)
-    {
+    @Override public boolean isAllowed(TurnPhase turnPhase) {
       return turnPhase.isBuilding();
+    }
+
+    public interface RoadBuildingView extends DevelopmentCardView {}
+
+    public static class PlayRoadBuildingWidget implements DevelopmentCardWidget,
+            PlayableChangedHandler
+    {
+      private RoadBuilding roadBuilding;
+      private GameWidget gameWidget;
+      private PlayDevelopmentCard playDevelopmentCard = new PlayDevelopmentCard();
+      private RoadBuildingView view;
+
+      public PlayRoadBuildingWidget(final GameWidget gameWidget, RoadBuilding roadBuilding) {
+        this.roadBuilding = roadBuilding;
+        this.gameWidget = gameWidget;
+        playDevelopmentCard.setDevelopmentcard(roadBuilding);
+        playDevelopmentCard.setPlayer(gameWidget.playingPlayer());
+        view.addWantsPlayDevelopmentCardHandler(new WantsPlayDevelopmentCardHandler() {
+          @Override public void onWantsPlayDevelopmentCard(WantsPlayDevelopmentCardEvent event) {
+            gameWidget.doAction(playDevelopmentCard);
+          }
+        });
+        roadBuilding.addPlayableChangedHandler(this);
+      }
+      @Override public Widget asWidget() {
+        return (Widget) view;
+      }
+      @Override public void onPlayableChanged(PlayableChangedEvent event) {
+        if (event.isPlayable()) {
+          view.enable();
+        } else {
+          view.disable();
+        }
+      }
+    }
+
+    @Override public Model copy() {
+      // TODO Auto-generated method stub
+      return null;
     }
   }
 
@@ -350,14 +475,11 @@ public interface DevelopmentCard extends Meta, Serializable, HasPlayableChangedH
               R.icons().yearOfPlenty32(), R.icons()
                       .yearOfPlenty48());
     }
-    @Override public String name() {
-      return "YearOfPlenty";
+    @Override public Name name() {
+      return new Name.Impl(I.get().constants().yearOfPlenty());
     }
-    @Override public String getLocalizedName() {
-      return I.get().constants().yearOfPlenty();
-    }
-    @Override public String getDescription() {
-      return I.get().constants().yearOfPlentyDescription();
+    @Override public Description description() {
+      return new Description.Impl(I.get().constants().yearOfPlentyDescription());
     }
     public YearOfPlenty setGoldPick(ResourceList goldPick) {
       this.goldPick = goldPick;
@@ -373,7 +495,7 @@ public interface DevelopmentCard extends Meta, Serializable, HasPlayableChangedH
       // String.format("%s gained %s by playing a Year of Plenty card",
       // player.getName(), goldPick.toString());
       // give player the resources
-      player.resources().swapResourcesFrom(goldPick, game.bank());
+      player.resources().moveListFrom(game.bank(), goldPick);
       super.play(game, player);
     }
     @Override public boolean isValid(Game game)
@@ -406,6 +528,63 @@ public interface DevelopmentCard extends Meta, Serializable, HasPlayableChangedH
     {
       return turnPhase.isBuilding();
     }
+
+    public interface YearOfPlentyView extends DevelopmentCardView, HasPickedResourceHandlers {
+      public ResourceList pickedResources();
+    }
+
+    public static class PlayYearOfPlentyWidget implements DevelopmentCardWidget,
+            PlayableChangedHandler
+    {
+      private YearOfPlenty yearOfPlenty;
+      private GameWidget gameWidget;
+      private PlayDevelopmentCard playDevelopmentCard = new PlayDevelopmentCard();
+      private YearOfPlentyView view;
+
+      public PlayYearOfPlentyWidget(final GameWidget gameWidget,
+              final YearOfPlenty yearOfPlenty)
+      {
+        this.yearOfPlenty = yearOfPlenty;
+        this.gameWidget = gameWidget;
+        playDevelopmentCard.setDevelopmentcard(yearOfPlenty);
+        playDevelopmentCard.setPlayer(gameWidget.playingPlayer());
+        view.addWantsPlayDevelopmentCardHandler(new WantsPlayDevelopmentCardHandler() {
+          @Override public void onWantsPlayDevelopmentCard(WantsPlayDevelopmentCardEvent event) {
+            yearOfPlenty.setGoldPick(view.pickedResources());
+            gameWidget.doAction(playDevelopmentCard);
+          }
+        });
+        view.addPickedResourceHandler(new PickedResourceHandler() {
+          @Override public void onPickedResource(PickedResourceEvent event) {
+            updateView();
+          }
+        });
+        yearOfPlenty.addPlayableChangedHandler(this);
+      }
+      @Override public Widget asWidget() {
+        return (Widget) view;
+      }
+      private void updateView() {
+        if (view.pickedResources().size() == 2) {
+          view.enable();
+        } else {
+          view.disable();
+        }
+      }
+      @Override public void onPlayableChanged(PlayableChangedEvent event)
+      {
+        if (event.isPlayable()) {
+          view.enable();
+        } else {
+          view.disable();
+        }
+      }
+    }
+
+    @Override public Integer id() {
+      // TODO Auto-generated method stub
+      return null;
+    }
   }
 
   /* Placeholder for a development card bought by an opponent, as seen from the perspective of the
@@ -419,22 +598,16 @@ public interface DevelopmentCard extends Meta, Serializable, HasPlayableChangedH
       return new IconImpl(R.icons().developmentCardBack16(), R.icons().developmentCardBack32(), R
               .icons().developmentCardBack48());
     }
-    @Override public String name() {
-      return "RoadBuilding";
+    @Override public Name name() {
+      return new Name.Impl(I.get().constants().dummyDevelopmentCard());
     }
-    @Override public String getLocalizedName() {
-      return I.get().constants().dummyDevelopmentCard();
-    }
-    @Override public String getDescription() {
-      return I.get().constants().dummyDevelopmentCardDescription();
+    @Override public Description description() {
+      return new Description.Impl(I.get().constants().dummyDevelopmentCardDescription());
     }
     @Override public DevelopmentCardWidget createPlayCardWidget(
             DevelopmentCardWidgetFactory factory)
     {
       return null;
-    }
-    @Override public int id() {
-      return id;
     }
     @Override public String invalidMessage() {
       return null;
@@ -467,9 +640,6 @@ public interface DevelopmentCard extends Meta, Serializable, HasPlayableChangedH
       return false;
     }
     @Override public void play(Game game, GamePlayer player) {}
-    @Override public void setId(int id) {
-      this.id = id;
-    }
     @Override public void setPlayable(boolean isPlayable) {}
     @Override public void setTurnBought(int turnBought) {
       this.turnBought = turnBought;
@@ -481,6 +651,30 @@ public interface DevelopmentCard extends Meta, Serializable, HasPlayableChangedH
     @Override public void fireEvent(GwtEvent<?> event) {
       // TODO Auto-generated method stub
     }
+    @Override public Model copy() {
+      // TODO Auto-generated method stub
+      return null;
+    }
+    @Override public HasId setId(Integer id) {
+      // TODO Auto-generated method stub
+      return null;
+    }
+    @Override public org.soc.common.core.GenericList.HasId.IdScope scope() {
+      // TODO Auto-generated method stub
+      return null;
+    }
+    @Override public Integer id() {
+      // TODO Auto-generated method stub
+      return null;
+    }
+    @Override public Property getProp(Property type) {
+      // TODO Auto-generated method stub
+      return null;
+    }
+    @Override public PropertyTypeList properties() {
+      // TODO Auto-generated method stub
+      return null;
+    }
   }
 
   /* Represents a soldier from the standard rules development card set. */
@@ -491,11 +685,11 @@ public interface DevelopmentCard extends Meta, Serializable, HasPlayableChangedH
               R.icons().soldier32(), R.icons()
                       .soldier48());
     }
-    @Override public String getLocalizedName() {
-      return I.get().constants().soldier();
+    @Override public Name name() {
+      return new Name.Impl(I.get().constants().soldier());
     }
-    @Override public String getDescription() {
-      return I.get().constants().soldierDescription();
+    @Override public Description description() {
+      return new Description.Impl(I.get().constants().soldierDescription());
     }
     @Override public boolean isValid(Game game) {
       if (!super.isValid(game))
@@ -520,6 +714,36 @@ public interface DevelopmentCard extends Meta, Serializable, HasPlayableChangedH
     }
     @Override public boolean isAllowed(TurnPhase turnPhase) {
       return turnPhase.isBeforeDiceRoll() || turnPhase.isBuilding();
+    }
+
+    public interface SoldierView extends DevelopmentCardView {}
+
+    public static class PlaySoldierWidget implements DevelopmentCardWidget, PlayableChangedHandler {
+      private Soldier soldier;
+      private GameWidget gameWidget;
+      private PlayDevelopmentCard playDevelopmentCard = new PlayDevelopmentCard();
+      private HorizontalPanel rootPanel = new HorizontalPanel();
+      private Button btnPlay = new Button(I.get().constants().play());
+      private SoldierView view;
+
+      public PlaySoldierWidget(final GameWidget gameWidget, Soldier soldier) {
+        this.soldier = soldier;
+        this.gameWidget = gameWidget;
+        playDevelopmentCard.setDevelopmentcard(soldier);
+        playDevelopmentCard.setPlayer(gameWidget.playingPlayer());
+        view.addWantsPlayDevelopmentCardHandler(new WantsPlayDevelopmentCardHandler() {
+          @Override public void onWantsPlayDevelopmentCard(WantsPlayDevelopmentCardEvent event) {
+            gameWidget.doAction(playDevelopmentCard);
+          }
+        });
+        soldier.addPlayableChangedHandler(this);
+      }
+      @Override public Widget asWidget() {
+        return rootPanel;
+      }
+      @Override public void onPlayableChanged(PlayableChangedEvent event) {
+        btnPlay.setEnabled(event.isPlayable());
+      }
     }
   }
 }

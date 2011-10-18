@@ -1,19 +1,18 @@
 package org.soc.gwt.client.game.widgetsBitmap.playerInfo;
 
-import org.soc.common.game.GamePlayer;
-import org.soc.common.game.ResourcesChangedEvent;
-import org.soc.gwt.client.game.widgetsAbstract.playerInfo.AbstractResourceAmountWidget;
-import org.soc.gwt.client.images.R;
+import org.soc.common.core.GenericList.Adds.*;
+import org.soc.common.game.*;
+import org.soc.gwt.client.game.widgetsAbstract.playerInfo.*;
+import org.soc.gwt.client.images.*;
 
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.*;
 
 public class ResourceAmountBitmapWidget extends AbstractResourceAmountWidget
 {
   Image cardImage = new Image(R.icons().blankCard16());
   Label lblAmountResources = new Label();
 
-  public ResourceAmountBitmapWidget(GamePlayer player)
+  public ResourceAmountBitmapWidget(final GamePlayer player)
   {
     super(player);
     cardImage.setSize("16px", "16px");
@@ -21,14 +20,10 @@ public class ResourceAmountBitmapWidget extends AbstractResourceAmountWidget
             .size()));
     rootPanel.add(cardImage);
     rootPanel.add(lblAmountResources);
-  }
-  /* (non-Javadoc)
-   * 
-   * @seesoc.gwtClient.game.abstractWidgets.AbstractResourceAmountWidget#
-   * onResourcesChanged(org.soc.common.board.resources.ResourcesChangedEvent) */
-  @Override public void onResourcesChanged(ResourcesChangedEvent resourcesChanged)
-  {
-    lblAmountResources.setText(Integer.toString(player.resources()
-            .size()));
+    player.resources().addAddedHandler(new Added<Resource>() {
+      @Override public void added(Resource item) {
+        lblAmountResources.setText(Integer.toString(player.resources().size()));
+      }
+    });
   }
 }

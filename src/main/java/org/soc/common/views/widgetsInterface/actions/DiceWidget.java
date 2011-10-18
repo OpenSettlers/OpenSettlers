@@ -2,11 +2,12 @@ package org.soc.common.views.widgetsInterface.actions;
 
 import org.soc.common.game.Dice.StandardDice;
 import org.soc.common.game.DiceChangedEvent.DiceChangedHandler;
+import org.soc.common.game.actions.Action.ActionPresenter;
 import org.soc.common.views.widgetsInterface.generic.Point2D;
 
 import com.google.gwt.user.client.ui.IsWidget;
 
-public interface DiceWidget extends ActionWidget, DiceChangedHandler
+public interface DiceWidget extends ActionPresenter, DiceChangedHandler
 {
   public Point2D getPosition();
 

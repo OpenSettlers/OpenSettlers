@@ -1,17 +1,16 @@
 package org.soc.common.game.actions;
 
-import org.soc.common.game.Game;
-import org.soc.common.game.GamePhase;
-import org.soc.common.game.TurnPhase;
+import org.soc.common.core.property.Properties.Description;
+import org.soc.common.core.property.Properties.Name;
+import org.soc.common.game.*;
+import org.soc.common.game.actions.Action.ActionPresenter.ActionWidgetFactory;
 import org.soc.common.game.actions.GameAction.AbstractGameAction;
-import org.soc.common.internationalization.I;
-import org.soc.common.views.meta.Icon;
-import org.soc.common.views.meta.IconImpl;
-import org.soc.common.views.widgetsInterface.actions.ActionWidget;
-import org.soc.common.views.widgetsInterface.actions.ActionWidget.ActionWidgetFactory;
+import org.soc.common.internationalization.*;
+import org.soc.common.views.meta.*;
 
 /*
  * Announces a gamephase which has been ended
+ * TODO: refactor into event
  */
 public class GamePhaseHasEnded extends AbstractGameAction
 {
@@ -19,17 +18,12 @@ public class GamePhaseHasEnded extends AbstractGameAction
   {
     return new IconImpl(null, null, null, null);
   }
-  @Override public String name()
+  @Override public Name name()
   {
     // TODO Auto-generated method stub
     return null;
   }
-  @Override public String getLocalizedName()
-  {
-    // TODO Auto-generated method stub
-    return null;
-  }
-  @Override public String getDescription()
+  @Override public Description description()
   {
     // TODO Auto-generated method stub
     return null;
@@ -79,7 +73,7 @@ public class GamePhaseHasEnded extends AbstractGameAction
   {
     return I.get().actions().noToDo();
   }
-  @Override public ActionWidget createActionWidget(
+  @Override public ActionPresenter createPresenter(
           ActionWidgetFactory actionWidgetFactory)
   {
     return null;

@@ -1,21 +1,20 @@
 package org.soc.gwt.client.game.widgetsAbstract.main;
 
-import org.soc.common.game.ResourceList;
-import org.soc.common.views.widgetsInterface.generic.ResourceListWidget;
-import org.soc.common.views.widgetsInterface.main.TradeListWidget;
-import org.soc.gwt.client.game.widgetsBitmap.generic.ResourceListBitmapWidget;
+import org.soc.common.game.Resources.MutableResourceList;
+import org.soc.common.game.Resources.MutableResourceListImpl;
+import org.soc.common.views.widgetsInterface.generic.*;
+import org.soc.common.views.widgetsInterface.main.*;
+import org.soc.gwt.client.game.widgetsBitmap.generic.*;
 
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.*;
 
 public abstract class AbstractTradeListWidget implements TradeListWidget
 {
   private HorizontalPanel rootPanel = new HorizontalPanel();
   private ResourceListWidget wantResourceList;
   private ResourceListWidget giveResourceList;
-  private ResourceList wantResources = new ResourceList();
-  private ResourceList giveResources = new ResourceList();
+  private MutableResourceList wantResources = new MutableResourceListImpl();
+  private MutableResourceList giveResources = new MutableResourceListImpl();
 
   public AbstractTradeListWidget()
   {
@@ -32,12 +31,12 @@ public abstract class AbstractTradeListWidget implements TradeListWidget
     rootPanel.setHeight("3em");
   }
   /** @return the wantResources */
-  public ResourceList getWantResources()
+  public MutableResourceList getWantResources()
   {
     return wantResources;
   }
   /** @return the giveResources */
-  public ResourceList getGiveResources()
+  public MutableResourceList getGiveResources()
   {
     return giveResources;
   }

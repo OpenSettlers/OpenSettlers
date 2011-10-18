@@ -1,7 +1,7 @@
 package org.soc.common.game;
 
-import java.io.Serializable;
-import java.util.Date;
+import java.io.*;
+import java.util.*;
 
 import org.soc.common.game.ActionsQueue.ActionsQueueImpl;
 import org.soc.common.game.ChatLog.ChatLogImpl;
@@ -15,6 +15,8 @@ import org.soc.common.game.GamePhaseChangedEvent.HasGamePhaseChangedHandlers;
 import org.soc.common.game.GameRules.GameRulesImpl;
 import org.soc.common.game.GameStatus.Playing;
 import org.soc.common.game.Random.ClientRandom;
+import org.soc.common.game.Resources.MutableResourceList;
+import org.soc.common.game.Resources.MutableResourceListImpl;
 import org.soc.common.game.StatusChangedEvent.HasStatusChangedHandlers;
 import org.soc.common.game.StatusChangedEvent.StatusChangedHandler;
 import org.soc.common.game.Turn.TurnImpl;
@@ -22,34 +24,24 @@ import org.soc.common.game.TurnChangedEvent.HasTurnChangedHandlers;
 import org.soc.common.game.TurnChangedEvent.TurnChangedHandler;
 import org.soc.common.game.TurnPhaseChangedEvent.HasTurnPhaseChangedHandlers;
 import org.soc.common.game.TurnPhaseChangedEvent.TurnPhaseChangedHandler;
-import org.soc.common.game.actions.Action;
-import org.soc.common.game.actions.GameAction;
-import org.soc.common.game.board.Board;
-import org.soc.common.game.board.HasPoint;
-import org.soc.common.game.board.HexLocation;
-import org.soc.common.game.board.Route;
-import org.soc.common.game.hexes.DesertHex;
-import org.soc.common.game.hexes.Hex;
-import org.soc.common.game.pieces.Army;
-import org.soc.common.game.pieces.LongestRoad;
+import org.soc.common.game.actions.*;
+import org.soc.common.game.board.*;
+import org.soc.common.game.hexes.*;
+import org.soc.common.game.pieces.*;
 import org.soc.common.game.pieces.Piece.BoardPiece;
 import org.soc.common.game.pieces.Piece.PlayerPiece;
-import org.soc.common.game.pieces.Pirate;
-import org.soc.common.game.pieces.PointPieceList;
-import org.soc.common.game.pieces.Robber;
-import org.soc.common.game.pieces.SidePieceList;
-import org.soc.common.game.trading.TradeOffer;
-import org.soc.common.game.trading.TradeResponse;
+import org.soc.common.game.trading.*;
 
-import com.google.gwt.event.shared.EventBus;
-import com.google.gwt.event.shared.GwtEvent;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.event.shared.SimpleEventBus;
-import com.gwtplatform.dispatch.annotation.GenEvent;
-import com.gwtplatform.dispatch.annotation.Order;
+import com.google.gwt.event.shared.*;
+import com.gwtplatform.dispatch.annotation.*;
 
-public class Game implements Serializable, HasDiceChangedHandlers, HasGamePhaseChangedHandlers,
-        HasTurnChangedHandlers, HasTurnPhaseChangedHandlers,
+public class Game
+        implements
+        Serializable,
+        HasDiceChangedHandlers,
+        HasGamePhaseChangedHandlers,
+        HasTurnChangedHandlers,
+        HasTurnPhaseChangedHandlers,
         HasStatusChangedHandlers {
   private transient EventBus eventBus = new SimpleEventBus();
   private transient Random random = new ClientRandom();
@@ -64,7 +56,7 @@ public class Game implements Serializable, HasDiceChangedHandlers, HasGamePhaseC
   // Game rules specific stuff
   private GameSettings gameSettings = new GameSettings();
   private Board board;
-  private ResourceList bank = new ResourceList();
+  private MutableResourceList bank = new MutableResourceListImpl();
   private DevelopmentCardList developmentCardStack = new DevelopmentCardList();
   private Pirate pirate = null;
   private Robber robber = null;
@@ -81,6 +73,35 @@ public class Game implements Serializable, HasDiceChangedHandlers, HasGamePhaseC
   private String name = "New Game";
   private int id;
   private Date startedDateTime;
+
+  @GenEvent public class StatusChanged {
+    @Order(0) GameStatus newStatus;
+    @Order(1) GameStatus oldStatus;
+  }
+
+  @GenEvent public class GamePhaseChanged {
+    @Order(0) GamePhase previousPhase;
+    @Order(1) GamePhase newPhase;
+  }
+
+  @GenEvent public class LongestRoadChanged {
+    @Order(0) Route oldRoute;
+    @Order(1) Route newRoute;
+  }
+
+  @GenEvent public class TurnPhaseChanged {
+    @Order(0) TurnPhase newPhase;
+    @Order(1) TurnPhase oldPhase;
+  }
+
+  @GenEvent public class TurnChanged {
+    @Order(0) Turn oldTurn;
+    @Order(1) Turn newTurn;
+  }
+
+  @GenEvent public class DiceChanged {
+    @Order(0) Dice newDice;
+  }
 
   public Game() {
     gameRules = new GameRulesImpl(this);
@@ -123,9 +144,9 @@ public class Game implements Serializable, HasDiceChangedHandlers, HasGamePhaseC
   public void addTradeResponse(TradeResponse response) {
     TradeOffer latestOffer = currentTurn.getTradeOffers().getLatestOffer();
     // Add the response to the current TradeOffer
-    latestOffer.getResponses().addResponse(response);
+    latestOffer.responses().addResponse(response);
     // Update whether or not we have all responses we expect to get
-    if (latestOffer.getResponses().size() == players.size() - 1)
+    if (latestOffer.responses().size() == players.size() - 1)
       latestOffer.setResponsesCompleted(true);
   }
   /** Adds given PlayerPiece to given player, and updates longest road if necessary */
@@ -161,13 +182,11 @@ public class Game implements Serializable, HasDiceChangedHandlers, HasGamePhaseC
     if (action instanceof GameAction) {
       GameAction gameAction = (GameAction) action;
       // Check if the status allows the action
-      if (currentStatus.isGameBlocking()) {
+      if (currentStatus.blocksGame())
         return false;
-      }
       // Check if the current phase allows the action
-      if (!phase.isAllowed(gameAction)) {
+      if (!phase.isAllowed(gameAction))
         return false;
-      }
     }
     return true;
   }
@@ -275,7 +294,8 @@ public class Game implements Serializable, HasDiceChangedHandlers, HasGamePhaseC
     if (desertHex != null)
       robber.setLocation(desertHex.location());
   }
-  /** Returns first occurrence of a DesertHex or null if no DesertHex found */
+  /** Returns first occurrence of a DesertHex or null if no DesertHex found TODO: move to
+   * gameboard.deserts(), dispatch adding */
   private Hex findDesertHex() {
     Hex desertHex = null;
     for (Hex hex : board.hexes())
@@ -310,36 +330,6 @@ public class Game implements Serializable, HasDiceChangedHandlers, HasGamePhaseC
         return true;
     return false;
   }
-
-  @GenEvent public class StatusChanged {
-    @Order(0) GameStatus newStatus;
-    @Order(1) GameStatus oldStatus;
-  }
-
-  @GenEvent public class GamePhaseChanged {
-    @Order(0) GamePhase previousPhase;
-    @Order(1) GamePhase newPhase;
-  }
-
-  @GenEvent public class LongestRoadChanged {
-    @Order(0) Route oldRoute;
-    @Order(1) Route newRoute;
-  }
-
-  @GenEvent public class TurnPhaseChanged {
-    @Order(0) TurnPhase newPhase;
-    @Order(1) TurnPhase oldPhase;
-  }
-
-  @GenEvent public class TurnChanged {
-    @Order(0) Turn oldTurn;
-    @Order(1) Turn newTurn;
-  }
-
-  @GenEvent public class DiceChanged {
-    @Order(0) Dice newDice;
-  }
-
   public HandlerRegistration addTurnPhaseChangedHandler(TurnPhaseChangedHandler handler) {
     return eventBus.addHandler(TurnPhaseChangedEvent.getType(), handler);
   }
@@ -387,7 +377,7 @@ public class Game implements Serializable, HasDiceChangedHandlers, HasGamePhaseC
   public String name() {
     return name;
   }
-  public GameStatus getStatus() {
+  public GameStatus status() {
     return currentStatus;
   }
   public void setStatus(GameStatus newStatus) {
@@ -401,7 +391,7 @@ public class Game implements Serializable, HasDiceChangedHandlers, HasGamePhaseC
   public GameRules rules() {
     return gameRules;
   }
-  public ChatLog getChatLog() {
+  public ChatLog chatLog() {
     return chatLog;
   }
   public Robber robber() {
@@ -450,10 +440,10 @@ public class Game implements Serializable, HasDiceChangedHandlers, HasGamePhaseC
   public void setGameSettings(GameSettings gameSettings) {
     this.gameSettings = gameSettings;
   }
-  public ResourceList bank() {
+  public MutableResourceList bank() {
     return bank;
   }
-  public void setBank(ResourceList bank) {
+  public void setBank(MutableResourceList bank) {
     this.bank = bank;
   }
   public ActionsQueue actionsQueue() {

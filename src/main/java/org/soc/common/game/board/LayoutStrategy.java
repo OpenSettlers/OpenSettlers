@@ -1,23 +1,16 @@
 package org.soc.common.game.board;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-import org.soc.common.core.Core;
-import org.soc.common.game.Chit;
-import org.soc.common.game.ChitList;
-import org.soc.common.game.Game;
-import org.soc.common.game.Port;
+import org.soc.common.core.*;
+import org.soc.common.game.*;
+import org.soc.common.game.Chits.ChitList;
 import org.soc.common.game.Port.RandomPort;
-import org.soc.common.game.PortList;
+import org.soc.common.game.Ports.PortList;
 import org.soc.common.game.Random;
-import org.soc.common.game.Territory;
-import org.soc.common.game.hexes.Hex;
-import org.soc.common.game.hexes.RandomHex;
+import org.soc.common.game.hexes.*;
 
-/** Prepares a saved board definition into a playable board. 1. Puts hexes from InitialRandomHexes
+/** Transforms a saved board definition into a playable board. 1. Puts hexes from InitialRandomHexes
  * list on RandomHexes, 2. Replaces random ports from those out of RandomPorts bag, 3. Replaces
  * deserts by volcano/jungles if necessary */
 public interface LayoutStrategy {
@@ -78,7 +71,7 @@ public interface LayoutStrategy {
           randomHexes.add(hex.location());
           // Replace randomhex by a hex grabbed from territories' list of
           // hexes
-          Hex newHex = territory.hexes().grabRandom(random)
+          Hex newHex = GenericList.getRandom(territory.hexes(), random)
                   .setTerritory(hex.territory()).setLocation(
                           hex.location());
           board.hexes().set(hex.location(), newHex);
@@ -115,7 +108,7 @@ public interface LayoutStrategy {
     }
     private void layoutChits(List<Hex> hexesToPutChitOn, ChitList chits, Random random) {
       while (hexesToPutChitOn.size() > 0) {
-        Chit chit = chits.grabRandom(random);
+        Chit chit = GenericList.getRandom(chits, random);
         Hex hex = hexesToPutChitOn.get(0);
         hex.setChit(chit);
         hexesToPutChitOn.remove(0);
@@ -137,6 +130,13 @@ public interface LayoutStrategy {
         }
       }
       return true;
+    }
+  }
+
+  /** A predictable layouting algorithm for testing purposes */
+  public class PredictableLayout implements LayoutStrategy {
+    @Override public void layoutBoard(Game game) {
+      // TODO Auto-generated method stub
     }
   }
 
@@ -206,7 +206,7 @@ public interface LayoutStrategy {
     private void replaceRandomHexes(Board board, List<Hex> randomHexes, Territory territory) {
       for (Hex hex : randomHexes) {
         // Grab another hex
-        Hex newHex = territory.hexes().grabRandom(random)
+        Hex newHex = GenericList.getRandom(territory.hexes(), random)
                 .setTerritory(hex.territory())
                 .setLocation(hex.location());
         // Put it on the board

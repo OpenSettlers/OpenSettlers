@@ -1,21 +1,19 @@
 package org.soc.gwt.client.game.widgetsBitmap.playerInfo;
 
-import org.soc.common.game.GamePlayer;
-import org.soc.common.game.pieces.Road;
+import org.soc.common.core.GenericList.Adds.Added;
+import org.soc.common.core.GenericList.Removes.Removed;
+import org.soc.common.game.*;
 import org.soc.common.game.pieces.Piece.PlayerPiece;
-import org.soc.common.game.pieces.PlayerPieceList.PlayerPieceListChangedEvent;
-import org.soc.common.game.pieces.PlayerPieceList.PlayerPieceListChangedEventHandler;
-import org.soc.common.views.widgetsInterface.generic.ToolTip;
-import org.soc.common.views.widgetsInterface.main.GameWidget;
-import org.soc.gwt.client.game.widgetsAbstract.playerInfo.AbstractStockItemWidget;
-import org.soc.gwt.client.game.widgetsBitmap.tooltips.RoadStockToolTip;
-import org.soc.gwt.client.images.R;
+import org.soc.common.game.pieces.*;
+import org.soc.common.views.widgetsInterface.generic.*;
+import org.soc.common.views.widgetsInterface.main.*;
+import org.soc.gwt.client.game.widgetsAbstract.playerInfo.*;
+import org.soc.gwt.client.game.widgetsBitmap.tooltips.*;
+import org.soc.gwt.client.images.*;
 
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.*;
 
-public class StockRoadBitmapWidget extends AbstractStockItemWidget implements
-        PlayerPieceListChangedEventHandler<Road>
+public class StockRoadBitmapWidget extends AbstractStockItemWidget
 {
   private Road road = new Road();
   private Image roadImage = new Image(R.icons().road16());
@@ -28,7 +26,16 @@ public class StockRoadBitmapWidget extends AbstractStockItemWidget implements
     updateUI();
     rootPanel.add(roadImage);
     rootPanel.add(roadAmount);
-    player.stock().roads().addRoadsChangedEventHandler(this);
+    player.stock().roads().addAddedHandler(new Added<Road>() {
+      @Override public void added(Road item) {
+        updateUI();
+      }
+    });
+    player.stock().roads().addRemovedHandler(new Removed<Road>() {
+      @Override public void removed(Road item) {
+        updateUI();
+      }
+    });
   }
   @Override public PlayerPiece getStockPiece()
   {
@@ -38,10 +45,6 @@ public class StockRoadBitmapWidget extends AbstractStockItemWidget implements
   {
     roadAmount.setText(Integer
             .toString(player.stock().roads().size()));
-  }
-  @Override public void onPlayerPieceListChanged(PlayerPieceListChangedEvent<Road> event)
-  {
-    updateUI();
   }
   @Override protected ToolTip createToolTip()
   {

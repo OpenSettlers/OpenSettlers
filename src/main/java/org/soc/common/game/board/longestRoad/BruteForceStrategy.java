@@ -1,24 +1,12 @@
 package org.soc.common.game.board.longestRoad;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
-import org.soc.common.game.Game;
-import org.soc.common.game.GamePlayer;
-import org.soc.common.game.board.BoardGraph;
-import org.soc.common.game.board.GraphPoint;
-import org.soc.common.game.board.GraphSide;
-import org.soc.common.game.board.HasPoint;
-import org.soc.common.game.board.HasSide;
-import org.soc.common.game.board.HexPoint;
-import org.soc.common.game.board.HexSide;
+import org.soc.common.game.*;
+import org.soc.common.game.board.*;
 import org.soc.common.game.board.HexSide.HexSideImpl;
-import org.soc.common.game.board.Route;
 import org.soc.common.game.board.Route.RouteImpl;
-import org.soc.common.game.pieces.SidePieceList;
+import org.soc.common.game.pieces.*;
 
 /*
  * Bruteforce strategy to calculate longest road ported from SettleIn
@@ -37,11 +25,11 @@ import org.soc.common.game.pieces.SidePieceList;
  */
 public class BruteForceStrategy implements LongestRoadStrategy
 {
-  private BoardGraph boardGraph;
+  private GameBoard boardGraph;
   private Game game;
   private Map<GamePlayer, List<HexPoint>> opponentsTownsCitiesMap = new HashMap<GamePlayer, List<HexPoint>>();
 
-  public BruteForceStrategy(BoardGraph boardGraph, Game game)
+  public BruteForceStrategy(GameBoard boardGraph, Game game)
   {
     super();
     this.boardGraph = boardGraph;
@@ -62,7 +50,7 @@ public class BruteForceStrategy implements LongestRoadStrategy
     }
   }
   @Override public Route calculateLongestRoad(Route currentLongest,
-          BoardGraph boardGraph, Game game)
+          GameBoard boardGraph, Game game)
   {
     // Create a list and fill the list with the longest route of every
     // player
@@ -86,7 +74,7 @@ public class BruteForceStrategy implements LongestRoadStrategy
     return longest.length() > currentLongest.length() ? longest
             : currentLongest;
   }
-  private Route getLongestRoad(GamePlayer player, BoardGraph graph, Game game)
+  private Route getLongestRoad(GamePlayer player, GameBoard graph, Game game)
   {
     SidePieceList roadsShips = player.sidePieces();
     List<List<HexPoint>> routesWithEnd = new ArrayList<List<HexPoint>>();
@@ -210,7 +198,7 @@ public class BruteForceStrategy implements LongestRoadStrategy
       List<HexSide> otherSides = lastPoint.getOtherSides(side);
       List<HexPoint> playerTownsCities = player.pointPieces()
               .getPoints();
-      if (player.roads().contains(side))
+      if (player.roads().containsSide(side))
       // road
       {
         // If any of both neighbours is contained within the list of
@@ -218,7 +206,7 @@ public class BruteForceStrategy implements LongestRoadStrategy
         // we have a connection.
         List<HexSideImpl> roads = new ArrayList<HexSideImpl>();
         for (HexSide otherSide : otherSides)
-          if (player.roads().contains(otherSide))
+          if (player.roads().containsSide(otherSide))
             roads.add(side);
         if (roads.size() == 1)
         // road + road
@@ -243,7 +231,7 @@ public class BruteForceStrategy implements LongestRoadStrategy
           // road + ship with city/town
           List<HexSideImpl> ships = new ArrayList<HexSideImpl>();
           for (HexSide otherSide : otherSides)
-            if (player.ships().contains(otherSide))
+            if (player.ships().containsWithSide(otherSide))
               ships.add(side);
           if (ships.size() == 1)
           {
@@ -269,7 +257,7 @@ public class BruteForceStrategy implements LongestRoadStrategy
         // we have a connection.
         List<HexSideImpl> ships = new ArrayList<HexSideImpl>();
         for (HexSide otherSide : otherSides)
-          if (player.ships().contains(otherSide))
+          if (player.ships().containsWithSide(otherSide))
             ships.add(side);
         if (ships.size() == 1)
         // road + road
@@ -294,7 +282,7 @@ public class BruteForceStrategy implements LongestRoadStrategy
           // road + ship with city/town
           List<HexSideImpl> roads = new ArrayList<HexSideImpl>();
           for (HexSide otherSide : otherSides)
-            if (player.roads().contains(otherSide))
+            if (player.roads().containsSide(otherSide))
               roads.add(side);
           if (roads.size() == 1)
           {
@@ -356,7 +344,7 @@ public class BruteForceStrategy implements LongestRoadStrategy
       // - road + town/city + ship
       // - ship + ship
       // - ship + town/city + road
-      if (player.roads().contains(side))
+      if (player.roads().containsSide(side))
       // road
       {
         // Get the two neighbouring points from the side
@@ -364,8 +352,8 @@ public class BruteForceStrategy implements LongestRoadStrategy
         // If any of both neighbours is contained within the list of
         // roads,
         // we have a connection.
-        if (player.roads().contains(otherSides1.get(0))
-                || player.roads().contains(
+        if (player.roads().containsSide(otherSides1.get(0))
+                || player.roads().containsSide(
                         otherSides1.get(1)))
           // road + road
           return false;
@@ -375,8 +363,8 @@ public class BruteForceStrategy implements LongestRoadStrategy
         if (playerTownsCities.contains(side.getHexPoint1()))
         {
           // road + ship with city/town
-          if (player.ships().contains(otherSides1.get(0))
-                  || player.ships().contains(
+          if (player.ships().containsWithSide(otherSides1.get(0))
+                  || player.ships().containsWithSide(
                           otherSides1.get(1)))
             return false;
         }
@@ -388,8 +376,8 @@ public class BruteForceStrategy implements LongestRoadStrategy
         // If any of both neighbours is contained within the list of
         // ships,
         // we have a connection.
-        if (player.ships().contains(otherSides1.get(0))
-                || player.ships().contains(
+        if (player.ships().containsWithSide(otherSides1.get(0))
+                || player.ships().containsWithSide(
                         otherSides1.get(1)))
           // ship + ship
           return false;
@@ -399,8 +387,8 @@ public class BruteForceStrategy implements LongestRoadStrategy
         if (playerTownsCities.contains(point))
         {
           // ship + road with city/town
-          if (player.roads().contains(otherSides1.get(0))
-                  || player.roads().contains(
+          if (player.roads().containsSide(otherSides1.get(0))
+                  || player.roads().containsSide(
                           otherSides1.get(1)))
             return false;
         }

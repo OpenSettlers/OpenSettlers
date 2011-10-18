@@ -1,42 +1,32 @@
 package org.soc.gwt.client.game.widgetsBitmap.dialogs;
 
+import org.soc.common.core.GenericList.AddsList.ListAdded;
+import org.soc.common.core.GenericList.ImmutableList;
+import org.soc.common.core.GenericList.RemovesList.ListRemoved;
 import org.soc.common.game.DevelopmentCard.AbstractDevelopmentCard;
-import org.soc.common.game.GamePlayer;
-import org.soc.common.game.PortList;
-import org.soc.common.game.ResourceList;
-import org.soc.common.game.ResourcesChangedEvent;
-import org.soc.common.game.ResourcesChangedEvent.ResourcesChangedHandler;
+import org.soc.common.game.*;
+import org.soc.common.game.Ports.PortList;
+import org.soc.common.game.Resources.MutableResourceList;
+import org.soc.common.game.Resources.MutableResourceListImpl;
+import org.soc.common.game.Resources.ResourceList;
 import org.soc.common.game.actions.GameBehaviour.TradeFirst;
 import org.soc.common.game.pieces.Piece.PlayerPiece;
-import org.soc.common.game.trading.TradeBank;
-import org.soc.common.internationalization.I;
-import org.soc.common.views.widgetsInterface.dialogs.BankTradeWidget;
-import org.soc.common.views.widgetsInterface.generic.Point2D;
-import org.soc.common.views.widgetsInterface.generic.ResourceListWidget;
-import org.soc.common.views.widgetsInterface.generic.ResourcePickerWidget;
-import org.soc.common.views.widgetsInterface.main.GameWidget;
-import org.soc.gwt.client.game.widgetsBitmap.generic.ResourceListBitmapWidget;
-import org.soc.gwt.client.game.widgetsBitmap.generic.ResourcePickerBitmapWidget;
-import org.soc.gwt.client.images.R;
+import org.soc.common.game.trading.*;
+import org.soc.common.internationalization.*;
+import org.soc.common.views.widgetsInterface.dialogs.*;
+import org.soc.common.views.widgetsInterface.generic.*;
+import org.soc.common.views.widgetsInterface.main.*;
+import org.soc.gwt.client.game.widgetsBitmap.generic.*;
+import org.soc.gwt.client.images.*;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.event.dom.client.*;
+import com.google.gwt.user.client.ui.*;
 
-public class TradeBankDialog extends PopupPanel implements BankTradeWidget,
-        ResourcesChangedHandler
-{
-  private ResourceList giveResources = new ResourceList();
-  private ResourceList wantResources = new ResourceList();
-  private ResourceList bankResources;
-  private ResourceList playerHand;
+public class TradeBankDialog extends PopupPanel implements BankTradeWidget {
+  private MutableResourceList giveResources = new MutableResourceListImpl();
+  private MutableResourceList wantResources = new MutableResourceListImpl();
+  private MutableResourceList bankResources;
+  private MutableResourceList playerHand;
   private PlayerPiece pieceToTradeFor;
   private GameWidget gameWidget;
   private VerticalPanel needPanel;
@@ -71,8 +61,16 @@ public class TradeBankDialog extends PopupPanel implements BankTradeWidget,
     givePanel.add(giveResourcesListWidget);
     needPanel.add(wantedResourcesPickerWidget);
     needPanel.add(wantedResourcesListWidget);
-    giveResources.addResourcesChangedHandler(this);
-    wantResources.addResourcesChangedHandler(this);
+    giveResources.addListAddedHandler(new ListAdded<Resource>() {
+      @Override public void listAdded(ImmutableList<Resource> items) {
+        checkResources();
+      }
+    });
+    wantResources.addListRemovedHandler(new ListRemoved<Resource>() {
+      @Override public void listRemoved(ImmutableList<Resource> items) {
+        checkResources();
+      }
+    });
   }
   private void checkResources()
   {
@@ -82,8 +80,8 @@ public class TradeBankDialog extends PopupPanel implements BankTradeWidget,
             .amountGold(giveResources) == wantResources.size()
             && wantResources.size() > 0);
   }
-  private ResourceListWidget createResourceListWidget(ResourceList resources,
-          ResourceList bankResources, PortList ports)
+  private ResourceListWidget createResourceListWidget(MutableResourceList resources,
+          MutableResourceList bankResources, PortList ports)
   {
     return new ResourceListBitmapWidget(resources, bankResources, ports);
   }
@@ -127,7 +125,7 @@ public class TradeBankDialog extends PopupPanel implements BankTradeWidget,
       imgPiece.setUrl(pieceToTradeFor.icon().iconDefault()
               .getURL());
       lblTradeForA.setText(I.get().ui().bankTradeForA()
-              + pieceToTradeFor.getLocalizedName());
+              + pieceToTradeFor.name().value());
       panelPieceTrade.setVisible(true);
     } else
     {
@@ -212,10 +210,6 @@ public class TradeBankDialog extends PopupPanel implements BankTradeWidget,
     });
     btnTrade.setText("Trade!");
     horizontalPanel_4.add(btnTrade);
-  }
-  @Override public void onResourcesChanged(ResourcesChangedEvent resourcesChanged)
-  {
-    checkResources();
   }
   /** @return the player */
   public GamePlayer getPlayer()

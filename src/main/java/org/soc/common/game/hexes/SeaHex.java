@@ -1,15 +1,13 @@
 package org.soc.common.game.hexes;
 
-import org.soc.common.board.hexes.PortChangedEvent;
-import org.soc.common.game.Chit;
-import org.soc.common.game.Port;
-import org.soc.common.game.Territory;
-import org.soc.common.internationalization.I;
-import org.soc.common.views.meta.Icon;
-import org.soc.common.views.meta.IconImpl;
-import org.soc.gwt.client.images.R;
+import org.soc.common.core.property.Properties.Description;
+import org.soc.common.core.property.Properties.Name;
+import org.soc.common.game.*;
+import org.soc.common.internationalization.*;
+import org.soc.common.views.meta.*;
+import org.soc.gwt.client.images.*;
 
-import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.resources.client.*;
 
 public class SeaHex extends AbstractHex {
   private Port port;
@@ -17,11 +15,11 @@ public class SeaHex extends AbstractHex {
   @Override public Icon icon() {
     return new IconImpl(R.icons().seaHex16(), R.icons().seaHex32(), R.icons().seaHex48());
   }
-  @Override public String getLocalizedName() {
-    return I.get().constants().seaHex();
+  @Override public Name name() {
+    return new Name.Impl(I.get().constants().seaHex());
   }
-  @Override public String getDescription() {
-    return I.get().constants().seaHexDescription();
+  @Override public Description description() {
+    return new Description.Impl(I.get().constants().seaHexDescription());
   }
   /** Ignored, sea hexes do not have a territory */
   @Override public Hex setTerritory(Territory t) {

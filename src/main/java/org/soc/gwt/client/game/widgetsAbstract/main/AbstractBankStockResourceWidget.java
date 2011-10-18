@@ -1,12 +1,10 @@
 package org.soc.gwt.client.game.widgetsAbstract.main;
 
-import org.soc.common.game.Resource;
-import org.soc.common.game.ResourceList;
-import org.soc.common.views.widgetsInterface.main.BankStockResourceWidget;
+import org.soc.common.game.*;
+import org.soc.common.game.Resources.ResourceList;
+import org.soc.common.views.widgetsInterface.main.*;
 
-import com.google.gwt.user.client.ui.ComplexPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.*;
 
 public abstract class AbstractBankStockResourceWidget implements BankStockResourceWidget {
   protected ComplexPanel rootPanel;

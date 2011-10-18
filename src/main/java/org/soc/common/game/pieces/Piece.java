@@ -1,28 +1,24 @@
 package org.soc.common.game.pieces;
 
-import java.io.Serializable;
-
-import org.soc.common.board.pieces.MovedEventEvent.HasMovedEventHandlers;
-import org.soc.common.game.GamePlayer;
-import org.soc.common.game.GameRules;
-import org.soc.common.game.ResourceList;
-import org.soc.common.game.board.Board;
-import org.soc.common.game.board.GraphPoint;
-import org.soc.common.game.board.HexLocation;
-import org.soc.common.game.board.HexPoint;
-import org.soc.common.game.board.HexSide;
-import org.soc.common.game.hexes.Hex;
-import org.soc.common.utils.Util;
-import org.soc.common.views.meta.Meta;
-import org.soc.common.views.widgetsInterface.playerInfo.StockItemWidget;
+import org.soc.common.core.GenericList.HasId;
+import org.soc.common.core.GenericList.Model;
+import org.soc.common.core.OpenZettlers.OsModel;
+import org.soc.common.core.Props.PropertyList.PropertyTypeList;
+import org.soc.common.core.property.*;
+import org.soc.common.game.*;
+import org.soc.common.game.Resources.MutableResourceList;
+import org.soc.common.game.Resources.ResourceList;
+import org.soc.common.game.board.*;
+import org.soc.common.game.hexes.*;
+import org.soc.common.game.pieces.MovedEvent.HasMovedHandlers;
+import org.soc.common.utils.*;
+import org.soc.common.views.widgetsInterface.playerInfo.*;
 import org.soc.common.views.widgetsInterface.playerInfo.StockItemWidget.StockItemWidgetFactory;
-import org.soc.common.views.widgetsInterface.visuals.PieceVisual;
-import org.soc.common.views.widgetsInterface.visuals.VisualFactory;
+import org.soc.common.views.widgetsInterface.visuals.*;
 
-import com.gwtplatform.dispatch.annotation.GenEvent;
-import com.gwtplatform.dispatch.annotation.Order;
+import com.gwtplatform.dispatch.annotation.*;
 
-public interface Piece extends Serializable, Meta {
+public interface Piece<K> extends OsModel<K> {
   public PieceVisual createPiece(VisualFactory visualFactory);
 
   @GenEvent public class OwnerChanged {
@@ -30,7 +26,7 @@ public interface Piece extends Serializable, Meta {
     @Order(1) GamePlayer newOwner;
   }
 
-  public interface PlayerPiece extends Piece {
+  public interface PlayerPiece<K> extends Piece<K> {
     public GamePlayer player();
     public PlayerPiece setPlayer(GamePlayer player);
     public ResourceList cost();
@@ -42,30 +38,20 @@ public interface Piece extends Serializable, Meta {
     public boolean affectsRoad();
   }
 
-  public interface PointPiece extends BoardPiece {
-    public HexPoint getPoint();
-    public PointPiece setPoint(HexPoint point);
+  public interface Buyable {
+    public ResourceList cost();
   }
 
-  public interface Producable {
+  public interface Producer {
     public ResourceList produce(Hex hex, GameRules rules);
     public HexPoint point();
-  }
-
-  public interface SidePiece extends BoardPiece {
-    public HexSide getSide();
-    public SidePiece setSide(HexSide side);
-    public boolean canConnect(GraphPoint graphPoint, SidePiece otherPiece);
-    public boolean connectsWithRoad();
-    public boolean connectsWithShip();
-    public boolean connectsWithBridge();
   }
 
   public interface StockPiece {
     public StockItemWidget createStockItemWidget(StockItemWidgetFactory factory);
   }
 
-  public interface Moveable extends HasMovedEventHandlers {
+  public interface Moveable extends HasMovedHandlers {
     public void move(HexLocation newLocation);
 
     @GenEvent public class Moved {
@@ -78,17 +64,54 @@ public interface Piece extends Serializable, Meta {
   public interface BoardPiece {
     public void addToBoard(Board board);
     public void removeFromBoard(Board board);
-  }
 
-  public abstract class AbstractPiece implements Piece {
-    @Override public String name() {
-      return Util.shortName(this.getClass());
+    public interface SidePiece extends BoardPiece {
+      public HexSide getSide();
+      public SidePiece setSide(HexSide side);
+      public boolean canConnect(GraphPoint graphPoint, SidePiece otherPiece);
+      public boolean connectsWithRoad();
+      public boolean connectsWithShip();
+      public boolean connectsWithBridge();
+    }
+
+    public interface PointPiece extends BoardPiece {
+      public HexPoint getPoint();
+      public PointPiece setPoint(HexPoint point);
     }
   }
 
-  public abstract class AbstractPlayerPiece extends AbstractPiece implements
-          PlayerPiece
-  {
+  public abstract class AbstractPiece<K> implements Piece<K> {
+    protected K id;
+
+    @Override public Model copy() {
+      // TODO Auto-generated method stub
+      return null;
+    }
+    @Override public K id() {
+      return id;
+    }
+    @Override public HasId setId(K id) {
+      this.id = id;
+      return this;
+    }
+    @Override public IdScope scope() {
+      return IdScope.APPLICATION;
+    }
+    @Override public Property getProp(Property type) {
+      // TODO Auto-generated method stub
+      return null;
+    }
+    @Override public PropertyTypeList properties() {
+      // TODO Auto-generated method stub
+      return null;
+    }
+  }
+
+  public abstract class AbstractPlayerPiece<K>
+          extends
+          AbstractPiece<K>
+          implements
+          PlayerPiece<K> {
     protected GamePlayer player;
 
     public GamePlayer player() {
@@ -99,13 +122,13 @@ public interface Piece extends Serializable, Meta {
       return this;
     }
     public ResourceList cost() {
-      throw new RuntimeException();
+      throw new RuntimeException(); // eh
     }
     public boolean canPay(GamePlayer player) {
       // First, create a copy so we can safely remove resources from it
-      ResourceList copy = player.resources().copy();
+      MutableResourceList copy = player.resources().copy();
       // Pay resources player can simply pay for
-      copy.subtractResources(cost());
+      copy.removeList(cost());
       // Calculate amount of gold we need
       int neededGold =
               // amount of resources this piece needs, minus...

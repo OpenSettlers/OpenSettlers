@@ -1,15 +1,13 @@
 package org.soc.common.game.trading;
 
-import org.soc.common.game.Game;
-import org.soc.common.game.GamePhase;
-import org.soc.common.game.TurnPhase;
-import org.soc.common.game.actions.GameAction;
+import org.soc.common.core.property.Properties.Description;
+import org.soc.common.core.property.Properties.Name;
+import org.soc.common.game.*;
+import org.soc.common.game.actions.Action.ActionPresenter.ActionWidgetFactory;
+import org.soc.common.game.actions.*;
 import org.soc.common.game.actions.GameAction.AbstractGameAction;
-import org.soc.common.views.meta.Icon;
-import org.soc.common.views.meta.IconImpl;
-import org.soc.common.views.widgetsInterface.actions.ActionWidget;
-import org.soc.common.views.widgetsInterface.actions.ActionWidget.ActionWidgetFactory;
-import org.soc.gwt.client.images.R;
+import org.soc.common.views.meta.*;
+import org.soc.gwt.client.images.*;
 
 public class RejectTradeOffer extends AbstractGameAction implements
         TradeResponse
@@ -20,17 +18,12 @@ public class RejectTradeOffer extends AbstractGameAction implements
             R.icons().tradeRejected32(), R.icons()
                     .tradeRejected48());
   }
-  @Override public String name()
+  @Override public Name name()
   {
     // TODO Auto-generated method stub
     return null;
   }
-  @Override public String getLocalizedName()
-  {
-    // TODO Auto-generated method stub
-    return null;
-  }
-  @Override public String getDescription()
+  @Override public Description description()
   {
     // TODO Auto-generated method stub
     return null;
@@ -50,8 +43,7 @@ public class RejectTradeOffer extends AbstractGameAction implements
   /* (non-Javadoc)
    * 
    * @see org.soc.common.actions.gameAction.AbstractGameAction#perform(org.soc.common.game .Game) */
-  @Override public void perform(Game game)
-  {
+  @Override public void perform(Game game) {
     game.addTradeResponse(this);
     // TODO: fix message
     super.perform(game);
@@ -61,10 +53,6 @@ public class RejectTradeOffer extends AbstractGameAction implements
     // TODO Auto-generated method stub
     return "";
   }
-  /* (non-Javadoc)
-   * 
-   * @see org.soc.common.actions.gameAction.AbstractGameAction#isExpectedQueueType(
-   * org.soc.common.actions.gameAction.GameAction) */
   @Override public boolean isExpectedQueueType(GameAction actualAction)
   {
     return actualAction instanceof TradeResponse;
@@ -81,7 +69,7 @@ public class RejectTradeOffer extends AbstractGameAction implements
   {
     throw new AssertionError("Can't trade with a rejected offer");
   }
-  @Override public ActionWidget createActionWidget(
+  @Override public ActionPresenter createPresenter(
           ActionWidgetFactory actionWidgetFactory)
   {
     return null;

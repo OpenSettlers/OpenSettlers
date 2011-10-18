@@ -1,20 +1,27 @@
 package org.soc.common.game.actions;
 
-import org.soc.common.game.DevelopmentCard;
-import org.soc.common.game.Game;
-import org.soc.common.game.GamePhase;
-import org.soc.common.game.TurnPhase;
+import org.soc.common.core.property.Properties.Description;
+import org.soc.common.core.property.Properties.Name;
+import org.soc.common.game.*;
+import org.soc.common.game.GamePhaseChangedEvent.GamePhaseChangedHandler;
+import org.soc.common.game.TurnChangedEvent.TurnChangedHandler;
+import org.soc.common.game.TurnPhaseChangedEvent.TurnPhaseChangedHandler;
+import org.soc.common.game.actions.Action.ActionPresenter.ActionWidgetFactory;
 import org.soc.common.game.actions.TurnAction.AbstractTurnAction;
-import org.soc.common.internationalization.I;
-import org.soc.common.server.actions.GameServerActionFactory;
-import org.soc.common.server.actions.ServerAction;
-import org.soc.common.views.meta.Icon;
-import org.soc.common.views.meta.IconImpl;
-import org.soc.common.views.widgetsInterface.actions.ActionDetailWidget;
-import org.soc.common.views.widgetsInterface.actions.ActionWidget;
+import org.soc.common.game.actions.WantsEndTurnEvent.HasWantsEndTurnHandlers;
+import org.soc.common.game.actions.WantsEndTurnEvent.WantsEndTurnHandler;
+import org.soc.common.internationalization.*;
+import org.soc.common.server.actions.*;
+import org.soc.common.views.meta.*;
+import org.soc.common.views.widgetsInterface.actions.*;
 import org.soc.common.views.widgetsInterface.actions.ActionDetailWidget.ActionDetailWidgetFactory;
-import org.soc.common.views.widgetsInterface.actions.ActionWidget.ActionWidgetFactory;
-import org.soc.gwt.client.images.R;
+import org.soc.common.views.widgetsInterface.main.*;
+import org.soc.gwt.client.game.actions.*;
+import org.soc.gwt.client.game.widgetsAbstract.actions.*;
+import org.soc.gwt.client.images.*;
+
+import com.google.gwt.user.client.ui.*;
+import com.gwtplatform.dispatch.annotation.*;
 
 public class EndTurn extends AbstractTurnAction
 {
@@ -23,18 +30,12 @@ public class EndTurn extends AbstractTurnAction
     return new IconImpl(null, null, R.icons()
             .endTurn32());
   }
-  @Override public String name()
+  @Override public Name name()
   {
     // TODO Auto-generated method stub
     return null;
   }
-  @Override public String getLocalizedName()
-  {
-    // TODO Auto-generated method stub
-    return null;
-  }
-  @Override public String getDescription()
-  {
+  @Override public Description description() {
     // TODO Auto-generated method stub
     return null;
   }
@@ -58,7 +59,7 @@ public class EndTurn extends AbstractTurnAction
   {
     return I.get().actions().noToDo();
   }
-  @Override public ActionWidget createActionWidget(
+  @Override public ActionPresenter createPresenter(
           ActionWidgetFactory actionWidgetFactory)
   {
     return actionWidgetFactory.createEndTurnWidget();
@@ -70,6 +71,61 @@ public class EndTurn extends AbstractTurnAction
   }
   @Override public ServerAction createServerAction(GameServerActionFactory factory)
   {
-    return factory.createEndTurnServerAction(this);
+    return factory.createEndTurn(this);
+  }
+
+  public interface EndTurnView extends HasWantsEndTurnHandlers {
+    @GenEvent public class WantsEndTurn {}
+
+    public void enable();
+    public void disable();
+  }
+
+  public static class EndTurnBitmapWidget extends AbstractActionPresenter implements
+          GamePhaseChangedHandler, TurnChangedHandler,
+          TurnPhaseChangedHandler
+  {
+    private EndTurn endTurn = new EndTurn();
+    private EndTurnView view = new EndTurnGwt();
+
+    public EndTurnBitmapWidget(final GameWidget gameWidget,
+            final GamePlayer player)
+    {
+      super(gameWidget, player);
+      endTurn.setPlayer(player);
+      gameWidget.game().addTurnChangedHandler(this);
+      gameWidget.game().addGamePhaseChangedHandler(this);
+      gameWidget.game().addTurnPhaseChangedHandler(this);
+      view.addWantsEndTurnHandler(new WantsEndTurnHandler() {
+        @Override public void onWantsEndTurn(WantsEndTurnEvent event) {
+          gameWidget.startAction((AbstractTurnAction) new EndTurn()
+                  .setPlayer(player));
+        }
+      });
+    }
+    @Override public Widget asWidget() {
+      return (Widget) view;
+    }
+    @Override protected void updateEnabled() {
+      checkEnabled();
+    }
+    private void checkEnabled() {
+      if (enabled && player.isOnTurn()) {
+        if (gameWidget.game().isAllowed(endTurn)) {
+          view.enable();
+          return;
+        }
+      }
+      view.disable();
+    }
+    @Override public void onGamePhaseChanged(GamePhaseChangedEvent event) {
+      checkEnabled();
+    }
+    @Override public void onTurnChanged(TurnChangedEvent event) {
+      checkEnabled();
+    }
+    @Override public void onTurnPhaseChanged(TurnPhaseChangedEvent event) {
+      checkEnabled();
+    }
   }
 }

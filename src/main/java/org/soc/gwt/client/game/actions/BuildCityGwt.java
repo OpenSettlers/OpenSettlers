@@ -1,20 +1,14 @@
 package org.soc.gwt.client.game.actions;
 
 import org.soc.common.game.actions.BuildCity.BuidCityView;
-import org.soc.common.game.actions.WantsBuildCityEvent;
+import org.soc.common.game.actions.*;
 import org.soc.common.game.actions.WantsBuildCityEvent.WantsBuildCityHandler;
-import org.soc.gwt.client.images.R;
+import org.soc.gwt.client.images.*;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.EventBus;
-import com.google.gwt.event.shared.GwtEvent;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.event.shared.SimpleEventBus;
-import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.PushButton;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.event.dom.client.*;
+import com.google.gwt.event.shared.*;
+import com.google.gwt.user.client.ui.*;
+import com.google.inject.*;
 
 public class BuildCityGwt implements BuidCityView {
   private AbsolutePanel absolutePanel = new AbsolutePanel();
@@ -28,8 +22,8 @@ public class BuildCityGwt implements BuidCityView {
   private Image trade5 = new Image(R.icons().trade16());
   private EventBus eventBus = new SimpleEventBus();
 
-  public BuildCityGwt() {
-    super();
+  @Inject public BuildCityGwt(final EventBus eventBus) {
+    this.eventBus = eventBus;
     absolutePanel.setSize("60px", "60px");
     tradesPanel1.add(trade1);
     tradesPanel1.add(trade2);

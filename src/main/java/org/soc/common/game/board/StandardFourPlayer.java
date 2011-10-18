@@ -1,15 +1,11 @@
 package org.soc.common.game.board;
 
-import org.soc.common.game.ChitList;
+import org.soc.common.game.*;
 import org.soc.common.game.Port.RandomPort;
-import org.soc.common.game.PortList;
-import org.soc.common.game.Territory;
 import org.soc.common.game.board.HexLayout.HexGrid;
-import org.soc.common.game.hexes.Hex;
-import org.soc.common.game.hexes.HexList;
-import org.soc.common.game.hexes.NoneHex;
-import org.soc.common.game.hexes.RandomHex;
-import org.soc.common.game.hexes.SeaHex;
+import org.soc.common.game.hexes.*;
+
+import static org.soc.common.game.Ports.*;
 
 /** Standard four player board by code instantiation */
 public class StandardFourPlayer extends Board {
@@ -23,9 +19,9 @@ public class StandardFourPlayer extends Board {
     for (Hex hex : hexes)
       hex.setTerritory(mainlaind);
     // Add a standard list of hexes for 4 player games
-    mainlaind.hexes().addList(HexList.newMainIsland4p());
-    mainlaind.setChits(ChitList.newStandard4p());
-    mainlaind.setPorts(PortList.newStandard4Player());
+    mainlaind.hexes().addList(Hexes.Supported.mainland4p);
+    mainlaind.setChits(Chits.Supported.standard4pChits);
+    mainlaind.setPorts(newStandard4Player);
     // addRandomPortAt(1,0,RotationPosition.DEG0);
     // Put 9 placeholders for a randomly asigned port on the board
     hexes.get(1, 0).setPort(

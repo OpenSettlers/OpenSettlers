@@ -1,15 +1,9 @@
 package org.soc.common.game.actions;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
-import org.soc.common.game.Game;
-import org.soc.common.game.GamePhase;
-import org.soc.common.game.GamePlayer;
-import org.soc.common.game.GameStatus;
-import org.soc.common.game.ResourceList;
-import org.soc.common.game.TurnPhase;
+import org.soc.common.game.*;
+import org.soc.common.game.Resources.ResourceList;
 import org.soc.common.game.actions.Criterium.Allowed;
 import org.soc.common.game.actions.Criterium.DevelopmentcardAvailable;
 import org.soc.common.game.actions.Criterium.Exists;
@@ -22,8 +16,7 @@ import org.soc.common.game.actions.Criterium.LandHexAt;
 import org.soc.common.game.actions.Criterium.NotBlocking;
 import org.soc.common.game.actions.Criterium.NotNull;
 import org.soc.common.game.actions.Criterium.SpotNotTaken;
-import org.soc.common.game.board.HexPoint;
-import org.soc.common.game.board.HexSide;
+import org.soc.common.game.board.*;
 
 public class Criteria {
   private List<Criterium> constraints = new ArrayList<Criterium>();

@@ -1,18 +1,13 @@
 package org.soc.common.game.actions;
 
-import org.soc.common.game.Chit;
+import org.soc.common.game.*;
 import org.soc.common.game.Chit.Chit2;
-import org.soc.common.game.Port;
-import org.soc.common.game.Territory;
-import org.soc.common.game.hexes.AbstractHex;
-import org.soc.common.game.hexes.Hex;
-import org.soc.common.game.hexes.TimberHex;
-import org.soc.common.views.widgetsInterface.visuals.BoardVisual;
-import org.soc.common.views.widgetsInterface.visuals.GameBoardVisual;
-import org.soc.common.views.widgetsInterface.visuals.PieceVisual;
+import org.soc.common.game.hexes.*;
+import org.soc.common.views.widgetsInterface.visuals.*;
 import org.soc.common.views.widgetsInterface.visuals.PieceVisual.HexVisual;
 import org.soc.common.views.widgetsInterface.visuals.PieceVisual.PortVisual;
 
+/** A player moved his mouse over the board, and handled by this interface */
 public interface ActionOnBoard {
   public void clicked(PieceVisual pieceVisual, BoardVisual board);
   public void mouseEnter(PieceVisual pieceVisual, BoardVisual board);

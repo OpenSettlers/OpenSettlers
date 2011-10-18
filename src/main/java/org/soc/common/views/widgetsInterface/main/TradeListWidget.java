@@ -1,11 +1,11 @@
 package org.soc.common.views.widgetsInterface.main;
 
-import org.soc.common.game.ResourceList;
+import org.soc.common.game.Resources.MutableResourceList;
 
-import com.google.gwt.user.client.ui.IsWidget;
+import com.google.gwt.user.client.ui.*;
 
 public interface TradeListWidget extends IsWidget
 {
-  public ResourceList getWantResources();
-  public ResourceList getGiveResources();
+  public MutableResourceList getWantResources();
+  public MutableResourceList getGiveResources();
 }

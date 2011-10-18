@@ -1,27 +1,22 @@
 package org.soc.gwt.client.game.widgetsBitmap.actions;
 
-import org.soc.common.game.GamePhaseChangedEvent;
+import org.soc.common.core.GenericList.*;
+import org.soc.common.core.GenericList.AddsList.*;
+import org.soc.common.core.GenericList.RemovesList.*;
+import org.soc.common.game.*;
 import org.soc.common.game.GamePhaseChangedEvent.GamePhaseChangedHandler;
-import org.soc.common.game.GamePlayer;
-import org.soc.common.game.ResourcesChangedEvent;
-import org.soc.common.game.ResourcesChangedEvent.ResourcesChangedHandler;
-import org.soc.common.game.TurnChangedEvent;
 import org.soc.common.game.TurnChangedEvent.TurnChangedHandler;
-import org.soc.common.game.TurnPhaseChangedEvent;
 import org.soc.common.game.TurnPhaseChangedEvent.TurnPhaseChangedHandler;
-import org.soc.common.game.trading.TradePlayer;
-import org.soc.common.views.widgetsInterface.main.GameWidget;
-import org.soc.gwt.client.game.widgetsAbstract.actions.AbstractActionWidget;
-import org.soc.gwt.client.images.R;
+import org.soc.common.game.trading.*;
+import org.soc.common.views.widgetsInterface.main.*;
+import org.soc.gwt.client.game.widgetsAbstract.actions.*;
+import org.soc.gwt.client.images.*;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.PushButton;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.event.dom.client.*;
+import com.google.gwt.user.client.ui.*;
 
-public class TradePlayerBitmapWidget extends AbstractActionWidget implements
-        GamePhaseChangedHandler, ResourcesChangedHandler,
+public class TradePlayerBitmapWidget extends AbstractActionPresenter implements
+        GamePhaseChangedHandler,
         ClickHandler, TurnChangedHandler, TurnPhaseChangedHandler
 {
   PushButton btnTradePlayer = new PushButton(new Image(R.icons()
@@ -32,7 +27,16 @@ public class TradePlayerBitmapWidget extends AbstractActionWidget implements
   {
     super(gameWidget, player);
     tradePlayer.setPlayer(player);
-    player.resources().addResourcesChangedHandler(this);
+    player.resources().addListRemovedHandler(new ListRemoved<Resource>() {
+      @Override public void listRemoved(ImmutableList<Resource> items) {
+        checkEnabled();
+      }
+    });
+    player.resources().addListAddedHandler(new ListAdded<Resource>() {
+      @Override public void listAdded(ImmutableList<Resource> items) {
+        checkEnabled();
+      }
+    });
     gameWidget.game().addGamePhaseChangedHandler(this);
     gameWidget.game().addTurnPhaseChangedHandler(this);
     gameWidget.game().addTurnChangedHandler(this);
@@ -53,10 +57,6 @@ public class TradePlayerBitmapWidget extends AbstractActionWidget implements
   private void disableUI()
   {
     btnTradePlayer.setEnabled(false);
-  }
-  @Override public void onResourcesChanged(ResourcesChangedEvent resourcesChanged)
-  {
-    checkEnabled();
   }
   @Override public void onGamePhaseChanged(GamePhaseChangedEvent event)
   {

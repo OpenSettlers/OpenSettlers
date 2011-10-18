@@ -1,31 +1,43 @@
 package org.soc.common.game.hexes;
 
-import org.soc.common.board.hexes.PortChangedEvent;
-import org.soc.common.board.hexes.PortChangedEvent.PortChangedHandler;
-import org.soc.common.game.Port;
-import org.soc.common.game.Resource;
-import org.soc.common.game.Territory;
-import org.soc.common.game.board.HexLocation;
+import org.soc.common.core.GenericList.HasId;
+import org.soc.common.core.Props.PropertyList.PropertyTypeList;
+import org.soc.common.core.property.*;
+import org.soc.common.game.*;
+import org.soc.common.game.board.*;
 import org.soc.common.game.hexes.ChitChangedEvent.ChitChangedHandler;
+import org.soc.common.game.hexes.PortChangedEvent.PortChangedHandler;
 import org.soc.common.game.hexes.TerritoryChangedEvent.TerritoryChangedHandler;
-import org.soc.common.utils.Util;
 
-import com.google.gwt.event.shared.GwtEvent;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.event.shared.SimpleEventBus;
+import com.google.gwt.event.shared.*;
 
 /** Represents the base type for each hex.
  * @seealso cref="http://www.codeproject.com/KB/cs/hexagonal_part1.aspx"/>
  * @seealso cref="http://gmc.yoyogames.com/index.php?showtopic=336183"/> */
 public abstract class AbstractHex implements Hex {
-  private static final long serialVersionUID = -1737108038985903164L;
   protected HexLocation hexLocation;
   protected Territory territory;
   protected SimpleEventBus eventBus = new SimpleEventBus();
-  protected String name;
 
-  @Override public String name() {
-    return Util.shortName(this.getClass());
+  @Override public Property getProp(Property type) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+  @Override public PropertyTypeList properties() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+  @Override public HexLocation id() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+  @Override public HasId setId(HexLocation id) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+  @Override public IdScope scope() {
+    // TODO Auto-generated method stub
+    return null;
   }
   @Override public Territory territory() {
     return territory;
@@ -49,9 +61,6 @@ public abstract class AbstractHex implements Hex {
   @Override public String toString() {
     return this.getClass().toString() + " [hexLocation=" + hexLocation
             + "]";
-  }
-  public String getName() {
-    return name;
   }
   @Override public Resource resource() {
     return null;

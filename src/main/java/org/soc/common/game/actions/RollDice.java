@@ -1,32 +1,27 @@
 package org.soc.common.game.actions;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.Map.Entry;
 
+import org.soc.common.core.property.Properties.Description;
+import org.soc.common.core.property.Properties.Name;
 import org.soc.common.game.Dice.StandardDice;
-import org.soc.common.game.Game;
-import org.soc.common.game.GamePhase;
-import org.soc.common.game.GamePlayer;
-import org.soc.common.game.ResourceList;
-import org.soc.common.game.TurnPhase;
+import org.soc.common.game.*;
+import org.soc.common.game.Resources.MutableResourceList;
+import org.soc.common.game.Resources.MutableResourceListImpl;
+import org.soc.common.game.Resources.ResourceList;
+import org.soc.common.game.actions.Action.ActionPresenter.ActionWidgetFactory;
 import org.soc.common.game.actions.TurnAction.AbstractTurnAction;
-import org.soc.common.game.board.HexLocation;
-import org.soc.common.game.hexes.Hex;
-import org.soc.common.game.pieces.Piece.Producable;
-import org.soc.common.internationalization.I;
-import org.soc.common.server.actions.GameServerActionFactory;
-import org.soc.common.server.actions.ServerAction;
-import org.soc.common.views.meta.Icon;
-import org.soc.common.views.meta.IconImpl;
-import org.soc.common.views.widgetsInterface.actions.ActionDetailWidget;
-import org.soc.common.views.widgetsInterface.actions.ActionWidget;
+import org.soc.common.game.board.*;
+import org.soc.common.game.hexes.*;
+import org.soc.common.game.pieces.Piece.Producer;
+import org.soc.common.internationalization.*;
+import org.soc.common.server.actions.*;
+import org.soc.common.views.meta.*;
+import org.soc.common.views.widgetsInterface.actions.*;
 import org.soc.common.views.widgetsInterface.actions.ActionDetailWidget.ActionDetailWidgetFactory;
-import org.soc.common.views.widgetsInterface.actions.ActionWidget.ActionWidgetFactory;
-import org.soc.common.views.widgetsInterface.main.GameWidget;
-import org.soc.common.views.widgetsInterface.visuals.GameBoardVisual;
-import org.soc.common.views.widgetsInterface.visuals.PieceVisual;
+import org.soc.common.views.widgetsInterface.main.*;
+import org.soc.common.views.widgetsInterface.visuals.*;
 import org.soc.common.views.widgetsInterface.visuals.PieceVisual.HexVisual;
 
 public class RollDice extends AbstractTurnAction {
@@ -34,20 +29,22 @@ public class RollDice extends AbstractTurnAction {
   private List<Integer> looserPlayers = new ArrayList<Integer>();
   private List<HexLocation> hexesAffected = new ArrayList<HexLocation>();
   private boolean robberBlockingProduction;
-  private HashMap<GamePlayer, ResourceList> playersResources = new HashMap<GamePlayer, ResourceList>();
+  private HashMap<GamePlayer, MutableResourceList> playersResources = new HashMap<GamePlayer, MutableResourceList>();
 
   @Override public Icon icon() {
     return new IconImpl(null, null, null, null);
   }
-  @Override public String getLocalizedName() {
+  @Override public Name name()
+  {
     // TODO Auto-generated method stub
     return null;
   }
-  @Override public String getDescription() {
+  @Override public Description description()
+  {
     // TODO Auto-generated method stub
     return null;
   }
-  public HashMap<GamePlayer, ResourceList> getPlayersResources() {
+  public HashMap<GamePlayer, MutableResourceList> getPlayersResources() {
     return playersResources;
   }
   public boolean isRobberBlockingProduction() {
@@ -100,7 +97,7 @@ public class RollDice extends AbstractTurnAction {
             (TurnPhaseEnded) new TurnPhaseEnded().setSender(0);
     game.performAction(beforeDiceRollEnded);
     for (GamePlayer p : game.players())
-      playersResources.put(p, new ResourceList());
+      playersResources.put(p, new MutableResourceListImpl());
     HexLocation robberLocation = game.robber().location();
     if (dice.getDiceTotal() != 7) {
       // gather all resource hexes without the robber
@@ -116,8 +113,8 @@ public class RollDice extends AbstractTurnAction {
         boolean hexIsAffected = false;
         // For normal resources, the location of the robber is omitted.
         if (!hex.location().equals(robberLocation)) {
-          for (Entry<GamePlayer, ResourceList> entry : playersResources.entrySet()) {
-            for (Producable producable : entry.getKey().producers().producablesAtHex(hex)) {
+          for (Entry<GamePlayer, MutableResourceList> entry : playersResources.entrySet()) {
+            for (Producer producable : entry.getKey().producers().producersAtHex(hex)) {
               entry.getValue().addList(producable.produce(hex, game.rules()));
             }
             if (entry.getValue().size() > 0) {
@@ -130,11 +127,10 @@ public class RollDice extends AbstractTurnAction {
       } // For rolledHexes
       message = player.user().name() + " rolled " + dice.toString();
       // Add the resources to each player and remove them from the bank
-      for (Entry<GamePlayer, ResourceList> entry : playersResources.entrySet()) {
+      for (Entry<GamePlayer, MutableResourceList> entry : playersResources.entrySet()) {
         ResourceList gainedResources = entry.getValue();
         if (gainedResources.size() > 0) {
-          game.bank().moveTo(entry.getKey().resources(),
-                  gainedResources);
+          entry.getKey().resources().moveListFrom(game.bank(), gainedResources);
           message += entry.getKey().user().name() + " gained "
                   + gainedResources.toString();
         }
@@ -182,19 +178,19 @@ public class RollDice extends AbstractTurnAction {
   @Override public String toDoMessage() {
     return I.get().actions().rollDiceToDo(player.user().name());
   }
-  @Override public ActionWidget createActionWidget(
+  @Override public ActionPresenter createPresenter(
           ActionWidgetFactory actionWidgetFactory)
   {
     return actionWidgetFactory.createRollDiceWidget();
   }
-  @Override public ActionInGame opponentReceived(GameWidget gameWidget) {
+  @Override public GameBehaviour opponentReceived(GameWidget gameWidget) {
     if (gameWidget.game().phase().isDetermineFirstPlayer()) { /* TODO: implement */}
     if (gameWidget.game().phase().isPlayTurns()) {
       return new RollDiceInGame(gameWidget, this);
     }
     return null;
   }
-  @Override public ActionInGame received(GameWidget gameWidget) {
+  @Override public GameBehaviour received(GameWidget gameWidget) {
     if (gameWidget.game().phase().isDetermineFirstPlayer()) {}
     if (gameWidget.game().phase().isPlayTurns()) {
       return new RollDiceInGame(gameWidget, this);
@@ -205,7 +201,7 @@ public class RollDice extends AbstractTurnAction {
     return factory.getRollDiceDetailWidget(this);
   }
   @Override public ServerAction createServerAction(GameServerActionFactory factory) {
-    return factory.createRollDiceServerAction(this);
+    return factory.createRollDice(this);
   }
 
   public static class RollDiceOnGameBoard implements ActionOnGameBoard {
@@ -245,7 +241,7 @@ public class RollDice extends AbstractTurnAction {
     }
   }
 
-  public static class RollDiceInGame implements ActionInGame {
+  public static class RollDiceInGame implements GameBehaviour {
     private RollDice rolledDice;
     private RollDiceOnGameBoard rollDiceBehaviour;
     private GameWidget gameWidget;

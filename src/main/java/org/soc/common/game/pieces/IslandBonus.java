@@ -1,28 +1,26 @@
 package org.soc.common.game.pieces;
 
-import org.soc.common.game.GamePlayer;
-import org.soc.common.game.Territory;
-import org.soc.common.game.VictoryPointItem;
-import org.soc.common.game.board.HexPoint;
+import org.soc.common.core.property.Properties.Description;
+import org.soc.common.core.property.Properties.Name;
+import org.soc.common.game.*;
+import org.soc.common.game.board.*;
 import org.soc.common.game.pieces.Piece.AbstractPlayerPiece;
-import org.soc.common.internationalization.I;
-import org.soc.common.views.meta.Icon;
-import org.soc.common.views.meta.IconImpl;
-import org.soc.common.views.widgetsInterface.visuals.PieceVisual;
-import org.soc.common.views.widgetsInterface.visuals.VisualFactory;
+import org.soc.common.internationalization.*;
+import org.soc.common.views.meta.*;
+import org.soc.common.views.widgetsInterface.visuals.*;
 
-public class IslandBonus extends AbstractPlayerPiece implements VictoryPointItem {
+public class IslandBonus extends AbstractPlayerPiece<Integer> implements VictoryPointItem {
   private Territory territory;
   private HexPoint location;
 
   @Override public Icon icon() {
     return IconImpl.nullIcon();
   }
-  @Override public String getLocalizedName() {
-    return I.get().constants().islandBonus();
+  @Override public Name name() {
+    return new Name.Impl(I.get().constants().islandBonus());
   }
-  @Override public String getDescription() {
-    return I.get().constants().islandBonusDescription();
+  @Override public Description description() {
+    return new Description.Impl(I.get().constants().islandBonusDescription());
   }
   public HexPoint getLocation() {
     return location;

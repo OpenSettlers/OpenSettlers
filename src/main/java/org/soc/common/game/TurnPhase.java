@@ -1,18 +1,20 @@
 package org.soc.common.game;
 
-import java.io.Serializable;
+import java.io.*;
 
-import org.soc.common.game.actions.BuildRoad;
-import org.soc.common.game.actions.EndTurn;
-import org.soc.common.game.actions.GameAction;
-import org.soc.common.game.actions.RollDice;
-import org.soc.common.utils.Util;
-import org.soc.common.views.meta.Icon;
-import org.soc.common.views.meta.IconImpl;
-import org.soc.common.views.meta.Meta;
-import org.soc.gwt.client.images.R;
+import org.soc.common.core.GenericList.HasId;
+import org.soc.common.core.GenericList.Model;
+import org.soc.common.core.OpenZettlers.OsModel;
+import org.soc.common.core.Props.PropertyList.PropertyTypeList;
+import org.soc.common.core.property.Properties.Description;
+import org.soc.common.core.property.Properties.Name;
+import org.soc.common.core.property.*;
+import org.soc.common.game.actions.*;
+import org.soc.common.utils.*;
+import org.soc.common.views.meta.*;
+import org.soc.gwt.client.images.*;
 
-public interface TurnPhase extends Serializable, Meta {
+public interface TurnPhase extends Serializable, OsModel<Integer> {
   public TurnPhase next();
   public TurnPhase processAction(GameAction action, Game game);
   public boolean isAllowed(GameAction action);
@@ -27,8 +29,8 @@ public interface TurnPhase extends Serializable, Meta {
     public boolean isAllowed(GameAction action) {
       return action.isAllowed(this);
     }
-    @Override public String name() {
-      return Util.shortName(this.getClass());
+    @Override public Name name() {
+      return new Name.Impl(Util.shortName(this.getClass()));
     }
     public boolean isBeforeDiceRoll() {
       return false;
@@ -42,6 +44,30 @@ public interface TurnPhase extends Serializable, Meta {
     public boolean isBuilding() {
       return false;
     }
+    @Override public Property getProp(Property type) {
+      // TODO Auto-generated method stub
+      return null;
+    }
+    @Override public Integer id() {
+      // TODO Auto-generated method stub
+      return null;
+    }
+    @Override public HasId setId(Integer id) {
+      // TODO Auto-generated method stub
+      return null;
+    }
+    @Override public org.soc.common.core.GenericList.HasId.IdScope scope() {
+      // TODO Auto-generated method stub
+      return null;
+    }
+    @Override public PropertyTypeList properties() {
+      // TODO Auto-generated method stub
+      return null;
+    }
+    @Override public Model copy() {
+      // TODO Auto-generated method stub
+      return null;
+    }
   }
 
   public class BeforeDiceRollTurnPhase extends AbstractTurnPhase {
@@ -51,13 +77,10 @@ public interface TurnPhase extends Serializable, Meta {
               .beforeDiceRollTurnPhase32(), R.icons()
               .beforeDiceRollTurnPhase48());
     }
-    @Override public String name() {
+    @Override public Name name() {
       return null;
     }
-    @Override public String getLocalizedName() {
-      return null;
-    }
-    @Override public String getDescription() {
+    @Override public Description description() {
       return null;
     }
     @Override public TurnPhase next() {
@@ -85,12 +108,10 @@ public interface TurnPhase extends Serializable, Meta {
               .buildingTurnPhase32(), R.icons()
               .buildingTurnPhase48());
     }
-    @Override public String getLocalizedName() {
-      // TODO Auto-generated method stub
+    @Override public Name name() {
       return null;
     }
-    @Override public String getDescription() {
-      // TODO Auto-generated method stub
+    @Override public Description description() {
       return null;
     }
     public BuildingTurnPhase() {}
@@ -145,12 +166,10 @@ public interface TurnPhase extends Serializable, Meta {
               .rollDiceTurnPhase32(), R.icons()
               .rollDiceTurnPhase48());
     }
-    @Override public String getLocalizedName() {
-      // TODO Auto-generated method stub
+    @Override public Name name() {
       return null;
     }
-    @Override public String getDescription() {
-      // TODO Auto-generated method stub
+    @Override public Description description() {
       return null;
     }
     @Override public TurnPhase next() {
@@ -232,12 +251,10 @@ public interface TurnPhase extends Serializable, Meta {
                       .icons().tradingTurnPhase32(),
               R.icons().tradingTurnPhase48());
     }
-    @Override public String getLocalizedName() {
-      // TODO Auto-generated method stub
+    @Override public Name name() {
       return null;
     }
-    @Override public String getDescription() {
-      // TODO Auto-generated method stub
+    @Override public Description description() {
       return null;
     }
     public TradingTurnPhase() {

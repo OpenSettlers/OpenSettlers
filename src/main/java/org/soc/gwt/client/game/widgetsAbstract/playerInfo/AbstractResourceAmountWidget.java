@@ -1,16 +1,11 @@
 package org.soc.gwt.client.game.widgetsAbstract.playerInfo;
 
-import org.soc.common.game.GamePlayer;
-import org.soc.common.game.ResourcesChangedEvent;
-import org.soc.common.game.ResourcesChangedEvent.ResourcesChangedHandler;
-import org.soc.common.views.widgetsInterface.playerInfo.ResourceAmountWidget;
+import org.soc.common.game.*;
+import org.soc.common.views.widgetsInterface.playerInfo.*;
 
-import com.google.gwt.user.client.ui.ComplexPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.*;
 
-public class AbstractResourceAmountWidget implements ResourceAmountWidget,
-        ResourcesChangedHandler
+public class AbstractResourceAmountWidget implements ResourceAmountWidget
 {
   protected GamePlayer player;
   protected ComplexPanel rootPanel;
@@ -19,7 +14,7 @@ public class AbstractResourceAmountWidget implements ResourceAmountWidget,
   {
     this.player = player;
     rootPanel = createRootPanel();
-    player.resources().addResourcesChangedHandler(this);
+    //player.resources().addResourcesChangedHandler(this);
   }
   @Override public ComplexPanel createRootPanel()
   {
@@ -29,6 +24,4 @@ public class AbstractResourceAmountWidget implements ResourceAmountWidget,
   {
     return rootPanel;
   }
-  @Override public void onResourcesChanged(ResourcesChangedEvent resourcesChanged)
-  {}
 }

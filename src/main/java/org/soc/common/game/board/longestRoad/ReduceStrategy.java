@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.soc.common.game.Game;
 import org.soc.common.game.GamePlayer;
-import org.soc.common.game.board.BoardGraph;
+import org.soc.common.game.board.GameBoard;
 import org.soc.common.game.board.Route;
 
 /*
@@ -19,15 +19,15 @@ import org.soc.common.game.board.Route;
  */
 public class ReduceStrategy implements LongestRoadStrategy {
   @Override public Route calculateLongestRoad(Route currentLongest,
-          BoardGraph boardGraph, Game game) {
+          GameBoard boardGraph, Game game) {
     List<Route> routes = new ArrayList<Route>();
     // Fill the set of graphs for each player
     for (GamePlayer player : game.players())
       // Only consider players with at least 5 SidePieces
       if (player.sidePieces().size() >= 5) {
         PlayerGraph playerGraph = new PlayerGraph(boardGraph, player);
-        if (playerGraph.getLongestPath() != null)
-          routes.add(playerGraph.getLongestPath());
+        if (playerGraph.longestPath() != null)
+          routes.add(playerGraph.longestPath());
       }
     // No routes found, return null
     if (routes.size() == 0)

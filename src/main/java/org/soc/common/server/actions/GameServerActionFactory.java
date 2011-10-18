@@ -19,15 +19,15 @@ import org.soc.common.server.actions.ServerAction.ServerStartGame;
 /** Creates a server side action for given GameAction. Returning null is not allowed, instead return
  * a null object or a simple wrapper like DefaultAction */
 public interface GameServerActionFactory {
-  public ServerAction createHostStartsGameServerAction(
+  public ServerAction createHostStartsGame(
           HostStartsGame hostStartsGame);
-  public ServerAction createRobPlayerServerAction(RobPlayer robPlayer);
-  public ServerAction createBuyDevelopmentCardServerAction(
+  public ServerAction createRobPlayer(RobPlayer robPlayer);
+  public ServerAction createBuyDevelopmentCard(
           BuyDevelopmentCard buyDevelopmentCard);
-  public ServerAction createRollDiceServerAction(RollDice rollDice);
-  public ServerAction createTradeOfferAction(TradeOffer tradeOffer);
-  public ServerAction createEndTurnServerAction(EndTurn endTurn);
-  public ServerAction createDefaultServerAction(GameAction action);
+  public ServerAction createRollDice(RollDice rollDice);
+  public ServerAction createTrade(TradeOffer tradeOffer);
+  public ServerAction createEndTurn(EndTurn endTurn);
+  public ServerAction createDefault(GameAction action);
 
   public class ServerActionFactory implements GameServerActionFactory {
     private GameServer gameServer;
@@ -36,26 +36,26 @@ public interface GameServerActionFactory {
       super();
       this.gameServer = gameServer;
     }
-    @Override public ServerAction createBuyDevelopmentCardServerAction(
+    @Override public ServerAction createBuyDevelopmentCard(
             BuyDevelopmentCard buyDevelopmentCard) {
       return new ServerBuyDevelopmentCard(gameServer, buyDevelopmentCard);
     }
-    @Override public ServerAction createDefaultServerAction(GameAction action) {
+    @Override public ServerAction createDefault(GameAction action) {
       return new DefaultAction(gameServer, action);
     }
-    @Override public ServerAction createEndTurnServerAction(EndTurn endTurn) {
+    @Override public ServerAction createEndTurn(EndTurn endTurn) {
       return new ServerEndTurn(gameServer, endTurn);
     }
-    @Override public ServerAction createHostStartsGameServerAction(HostStartsGame hostStartsGame) {
+    @Override public ServerAction createHostStartsGame(HostStartsGame hostStartsGame) {
       return new ServerStartGame(gameServer, hostStartsGame);
     }
-    @Override public ServerAction createRobPlayerServerAction(RobPlayer robPlayer) {
+    @Override public ServerAction createRobPlayer(RobPlayer robPlayer) {
       return new ServerRobPlayer(gameServer, robPlayer);
     }
-    @Override public ServerAction createRollDiceServerAction(RollDice rollDice) {
+    @Override public ServerAction createRollDice(RollDice rollDice) {
       return new ServerRollDice(gameServer, rollDice);
     }
-    @Override public ServerAction createTradeOfferAction(TradeOffer tradeOffer) {
+    @Override public ServerAction createTrade(TradeOffer tradeOffer) {
       return new ServerHotseatOfferTrade(gameServer, tradeOffer);
     }
   }

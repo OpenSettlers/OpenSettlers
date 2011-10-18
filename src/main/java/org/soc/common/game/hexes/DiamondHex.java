@@ -1,12 +1,13 @@
 package org.soc.common.game.hexes;
 
-import org.soc.common.game.Resource;
+import org.soc.common.core.property.Properties.Description;
+import org.soc.common.core.property.Properties.Name;
+import org.soc.common.game.*;
 import org.soc.common.game.Resource.Diamond;
-import org.soc.common.views.meta.Icon;
-import org.soc.common.views.meta.IconImpl;
-import org.soc.gwt.client.images.R;
+import org.soc.common.views.meta.*;
+import org.soc.gwt.client.images.*;
 
-import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.resources.client.*;
 
 public class DiamondHex extends ResourceHex {
   @Override public Icon icon() {
@@ -15,13 +16,10 @@ public class DiamondHex extends ResourceHex {
             R.icons().diamondHex32(),
             R.icons().diamondHex48());
   }
-  @Override public String name() {
-    return "DiamondHex";
-  }
-  @Override public String getLocalizedName() {
+  @Override public Name name() {
     return null;
   }
-  @Override public String getDescription() {
+  @Override public Description description() {
     return null;
   }
   @Override public Resource resource() {
@@ -29,7 +27,7 @@ public class DiamondHex extends ResourceHex {
   }
   @Override public Hex copy() {
     DiamondHex diamondHex = new DiamondHex();
-    diamondHex.setChit(chit.copy());
+    diamondHex.setChit(copyChit());
     diamondHex.setLocation(hexLocation);
     diamondHex.setTerritory(territory);
     return diamondHex;

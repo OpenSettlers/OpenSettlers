@@ -1,11 +1,9 @@
 package org.soc.common.game.board;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
-import org.soc.common.game.Variant;
+import org.soc.common.game.*;
 import org.soc.common.game.Variant.Standard;
 import org.soc.common.game.board.BoardSetting.AmountPlayers;
 import org.soc.common.game.board.BoardSetting.UsePlacePortsPhase;

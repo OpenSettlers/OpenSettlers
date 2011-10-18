@@ -1,7 +1,6 @@
 package org.soc.common.game.hexes;
 
-import org.soc.common.game.Chit;
-import org.soc.common.utils.Util;
+import org.soc.common.game.*;
 
 public abstract class ResourceHex extends AbstractHex {
   private static final long serialVersionUID = 7086634587082441341L;
@@ -10,6 +9,9 @@ public abstract class ResourceHex extends AbstractHex {
   public Chit chit() {
     return chit;
   }
+  protected Chit copyChit() {
+    return chit == null ? null : chit.copy();
+  }
   public Hex setChit(Chit c) {
     this.chit = c;
     eventBus.fireEvent(new ChitChangedEvent(c));
@@ -17,9 +19,6 @@ public abstract class ResourceHex extends AbstractHex {
   }
   @Override public String getColor() {
     return resource().color();
-  }
-  @Override public String getName() {
-    return Util.shortName(this.getClass());
   }
   @Override public boolean canBuildOnLand() {
     return true;

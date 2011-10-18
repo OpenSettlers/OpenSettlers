@@ -1,29 +1,27 @@
 package org.soc.common.game;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
+import org.soc.common.core.GenericList.HasId;
+import org.soc.common.core.GenericList.Model;
+import org.soc.common.core.OpenZettlers.OsModel;
+import org.soc.common.core.Props.PropertyList.PropertyTypeList;
+import org.soc.common.core.property.Properties.Description;
+import org.soc.common.core.property.Properties.Name;
+import org.soc.common.core.property.*;
 import org.soc.common.game.InitialPlacement.TwoTowns;
 import org.soc.common.game.Turn.TurnImpl;
 import org.soc.common.game.TurnPhase.BeforeDiceRollTurnPhase;
-import org.soc.common.game.actions.GameAction;
-import org.soc.common.game.actions.GamePhaseHasEnded;
-import org.soc.common.game.actions.PlacePort;
-import org.soc.common.game.actions.RollDice;
-import org.soc.common.game.actions.RolledSame;
-import org.soc.common.game.actions.StartingPlayerDetermined;
-import org.soc.common.game.actions.TurnPhaseEnded;
-import org.soc.common.game.trading.TradeAction;
-import org.soc.common.utils.Util;
-import org.soc.common.views.meta.Icon;
-import org.soc.common.views.meta.IconImpl;
-import org.soc.common.views.meta.Meta;
-import org.soc.common.views.widgetsInterface.main.GamePhaseWidget;
+import org.soc.common.game.actions.*;
+import org.soc.common.game.trading.*;
+import org.soc.common.utils.*;
+import org.soc.common.views.meta.*;
+import org.soc.common.views.widgetsInterface.main.*;
 import org.soc.common.views.widgetsInterface.main.GamePhaseWidget.GamePhaseStatusWidgetFactory;
-import org.soc.gwt.client.images.R;
+import org.soc.gwt.client.images.*;
 
-public interface GamePhase extends Serializable, Meta {
+public interface GamePhase extends Serializable, OsModel<Integer> {
   public void performAction(GameAction action, Game game);
   public void start(Game game);
   public GamePhase next(Game game);
@@ -38,7 +36,7 @@ public interface GamePhase extends Serializable, Meta {
   public boolean isPlacePorts();
   public GamePhaseWidget createGamePhaseStatusWidget(GamePhaseStatusWidgetFactory factory);
 
-  /* Represent a phase in the overall game phases A GamePhase ends itself by adding an
+  /** Represent a phase in the overall game phases A GamePhase ends itself by adding an
    * EndedGamePhase action onto the actionsQueue. */
   public abstract class AbstractGamePhase implements GamePhase {
     private static final long serialVersionUID = -1096857442642768802L;
@@ -46,7 +44,7 @@ public interface GamePhase extends Serializable, Meta {
     public void performAction(GameAction action, Game game) {};
     public Turn nextTurn(Game game) {
       GameAction next = game.actionsQueue().peek();
-      if (next != null && !(next instanceof GamePhaseHasEnded)) {
+      if (next != null && notEndTurn(next)) {
         GamePlayer player = null;
         if (next.player().user().id() == 0) {
           player = game.getStartPlayer();
@@ -57,12 +55,15 @@ public interface GamePhase extends Serializable, Meta {
       }
       throw new RuntimeException("No expected action, no turn to create");
     }
+    public boolean notEndTurn(GameAction action) {
+      return !(action instanceof GamePhaseHasEnded);
+    }
     public void start(Game game) {};
     public boolean isAllowed(GameAction action) {
       return action.isAllowed(this);
     }
-    @Override public String name() {
-      return Util.shortName(this.getClass());
+    @Override public Name name() {
+      return new Name.Impl(Util.shortName(this.getClass()));
     }
     @Override public boolean isDetermineFirstPlayer() {
       return false;
@@ -82,6 +83,30 @@ public interface GamePhase extends Serializable, Meta {
     @Override public boolean isPlayTurns() {
       return false;
     }
+    @Override public Property getProp(Property type) {
+      // TODO Auto-generated method stub
+      return null;
+    }
+    @Override public PropertyTypeList properties() {
+      // TODO Auto-generated method stub
+      return null;
+    }
+    @Override public Model copy() {
+      // TODO Auto-generated method stub
+      return null;
+    }
+    @Override public Integer id() {
+      // TODO Auto-generated method stub
+      return null;
+    }
+    @Override public HasId setId(Integer id) {
+      // TODO Auto-generated method stub
+      return null;
+    }
+    @Override public org.soc.common.core.GenericList.HasId.IdScope scope() {
+      // TODO Auto-generated method stub
+      return null;
+    }
   }
 
   public class DetermineFirstPlayerGamePhase extends AbstractGamePhase
@@ -92,15 +117,11 @@ public interface GamePhase extends Serializable, Meta {
               .determineFirstPlayerGamePhase32(), R.icons()
               .determineFirstPlayerGamePhase48());
     }
-    @Override public String name() {
+    @Override public Name name() {
       // TODO Auto-generated method stub
       return null;
     }
-    @Override public String getLocalizedName() {
-      // TODO Auto-generated method stub
-      return null;
-    }
-    @Override public String getDescription() {
+    @Override public Description description() {
       // TODO Auto-generated method stub
       return null;
     }
@@ -170,8 +191,7 @@ public interface GamePhase extends Serializable, Meta {
                                 new RollDice().setPlayer(sameRoll
                                         .player()),
                                 true);
-                sameRollingPlayers.add(sameRoll.player()
-                        .user().id());
+                sameRollingPlayers.add(sameRoll.player().user().id());
               }
             }
             // First execute a RolledSame action
@@ -247,15 +267,11 @@ public interface GamePhase extends Serializable, Meta {
               R.icons().endedGamePhase32(), R.icons()
                       .endedGamePhase48());
     }
-    @Override public String name() {
+    @Override public Name name() {
       // TODO Auto-generated method stub
       return null;
     }
-    @Override public String getLocalizedName() {
-      // TODO Auto-generated method stub
-      return null;
-    }
-    @Override public String getDescription() {
+    @Override public Description description() {
       // TODO Auto-generated method stub
       return null;
     }
@@ -291,15 +307,11 @@ public interface GamePhase extends Serializable, Meta {
               .initialPlacementGamePhase32(), R.icons()
               .initialPlacementGamePhase48());
     }
-    @Override public String name() {
+    @Override public Name name() {
       // TODO Auto-generated method stub
       return null;
     }
-    @Override public String getLocalizedName() {
-      // TODO Auto-generated method stub
-      return null;
-    }
-    @Override public String getDescription() {
+    @Override public Description description() {
       // TODO Auto-generated method stub
       return null;
     }
@@ -352,19 +364,15 @@ public interface GamePhase extends Serializable, Meta {
               .icons()
               .lobbyGamePhase48());
     }
-    @Override public String name() {
+    @Override public Name name() {
       // TODO Auto-generated method stub
       return null;
     }
-    @Override public String getLocalizedName() {
+    @Override public Description description() {
       // TODO Auto-generated method stub
       return null;
     }
-    @Override public String getDescription() {
-      // TODO Auto-generated method stub
-      return null;
-    }
-    public List<GamePlayer> playersWhoAcceptedSettings() {
+    public List<GamePlayer> settinggsAccepters() {
       return playersWhoAcceptedSettings;
     }
     @Override public GamePhase next(Game game) {
@@ -403,15 +411,11 @@ public interface GamePhase extends Serializable, Meta {
     @Override public Icon icon() {
       return new IconImpl(null);
     }
-    @Override public String name() {
+    @Override public Name name() {
       // TODO Auto-generated method stub
       return null;
     }
-    @Override public String getLocalizedName() {
-      // TODO Auto-generated method stub
-      return null;
-    }
-    @Override public String getDescription() {
+    @Override public Description description() {
       // TODO Auto-generated method stub
       return null;
     }
@@ -479,15 +483,11 @@ public interface GamePhase extends Serializable, Meta {
               .playTurnsGamePhase32(), R.icons()
               .playTurnsGamePhase48());
     }
-    @Override public String name() {
+    @Override public Name name() {
       // TODO Auto-generated method stub
       return null;
     }
-    @Override public String getLocalizedName() {
-      // TODO Auto-generated method stub
-      return null;
-    }
-    @Override public String getDescription() {
+    @Override public Description description() {
       // TODO Auto-generated method stub
       return null;
     }

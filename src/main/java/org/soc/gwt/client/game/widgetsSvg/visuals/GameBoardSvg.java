@@ -1,25 +1,21 @@
 package org.soc.gwt.client.game.widgetsSvg.visuals;
 
-import java.util.HashMap;
+import java.util.*;
 
-import org.soc.common.game.Game;
-import org.soc.common.game.GamePlayer;
-import org.soc.common.game.LongestRoadChangedEvent;
+import org.soc.common.core.GenericList.Adds.Added;
+import org.soc.common.core.GenericList.Removes.Removed;
+import org.soc.common.game.*;
 import org.soc.common.game.LongestRoadChangedEvent.LongestRoadChangedHandler;
-import org.soc.common.game.board.GraphPoint;
-import org.soc.common.game.board.GraphSide;
-import org.soc.common.game.hexes.Hex;
-import org.soc.common.game.pieces.Piece;
-import org.soc.common.game.pieces.PlayerPieceList.PlayerPieceListChangedEvent;
-import org.soc.common.game.pieces.PlayerPieceList.PlayerPieceListChangedEventHandler;
-import org.soc.common.views.widgetsInterface.visuals.PieceVisual;
-import org.soc.common.views.widgetsInterface.visuals.VisualFactory;
-import org.soc.gwt.client.game.widgetsAbstract.visuals.AbstractGameBoardVisual;
+import org.soc.common.game.board.*;
+import org.soc.common.game.hexes.*;
+import org.soc.common.game.pieces.*;
+import org.soc.common.views.widgetsInterface.visuals.*;
+import org.soc.gwt.client.game.widgetsAbstract.visuals.*;
 
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.*;
 
 public class GameBoardSvg extends AbstractGameBoardVisual implements
-        PlayerPieceListChangedEventHandler, LongestRoadChangedHandler
+        LongestRoadChangedHandler
 {
   BoardSvg boardSvg;
 
@@ -33,14 +29,14 @@ public class GameBoardSvg extends AbstractGameBoardVisual implements
     super(game);
     boardSvg = new BoardSvg(width, height, game.board());
     boardSvg.setBoardBehaviour(new ProxyBehaviour(this));
-    for (GraphSide side : board.graph().getSides())
+    for (GraphSide side : board.graph().sides())
     {
       SideVisual sideVisual = visualFactory.createSideVisual(side);
       sideVisuals.put(side, sideVisual);
       boardSvg.getDrawingArea().add(
               ((SvgVisual) sideVisual).getVectorObject());
     }
-    for (GraphPoint point : board.graph().getPoints())
+    for (GraphPoint point : board.graph().points())
     {
       PointVisual pointVisual = visualFactory.createPointVisual(point);
       pointVisuals.put(point, pointVisual);
@@ -59,13 +55,38 @@ public class GameBoardSvg extends AbstractGameBoardVisual implements
     }
     addHandlers();
   }
-  private void addHandlers()
-  {
-    for (GamePlayer player : game.players())
-    {
-      player.towns().addTownsChangedEventHandler(this);
-      player.roads().addRoadsChangedEventHandler(this);
-      player.cities().addCitiesChangedEventHandler(this);
+  private void addHandlers() {
+    for (GamePlayer player : game.players()) {
+      player.towns().addAddedHandler(new Added<Town>() {
+        @Override public void added(Town item) {
+          onPieceAdded(item);
+        }
+      });
+      player.towns().addRemovedHandler(new Removed<Town>() {
+        @Override public void removed(Town item) {
+          onPieceRemoved(item);
+        }
+      });
+      player.roads().addAddedHandler(new Added<Road>() {
+        @Override public void added(Road item) {
+          onPieceAdded(item);
+        }
+      });
+      player.roads().addRemovedHandler(new Removed<Road>() {
+        @Override public void removed(Road item) {
+          onPieceRemoved(item);
+        }
+      });
+      player.cities().addAddedHandler(new Added<City>() {
+        @Override public void added(City item) {
+          onPieceAdded(item);
+        }
+      });
+      player.cities().addRemovedHandler(new Removed<City>() {
+        @Override public void removed(City item) {
+          onPieceRemoved(item);
+        }
+      });
     }
     game.longestRoute().addLongestRoadChangedEventHandler(this);
   }
@@ -101,12 +122,13 @@ public class GameBoardSvg extends AbstractGameBoardVisual implements
     boardSvg.getDrawingArea().remove(
             ((SvgVisual) pieceVisual).getVectorObject());
   }
-  @Override public void onPlayerPieceListChanged(PlayerPieceListChangedEvent event)
-  {
-    if (event.getAddedPiece() != null)
-      addPiece((Piece) event.getAddedPiece());
-    if (event.getRemovedPiece() != null)
-      removePiece((Piece) event.getRemovedPiece());
+  private void onPieceRemoved(Piece removed) {
+    if (removed != null)
+      removePiece(removed);
+  }
+  private void onPieceAdded(Piece added) {
+    if (added != null)
+      addPiece(added);
   }
   @Override public void onLongestRoadChanged(LongestRoadChangedEvent event)
   {

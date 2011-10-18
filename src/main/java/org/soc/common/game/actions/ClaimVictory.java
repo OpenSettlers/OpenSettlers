@@ -1,16 +1,22 @@
 package org.soc.common.game.actions;
 
-import org.soc.common.game.Game;
-import org.soc.common.game.GamePhase;
-import org.soc.common.game.TurnPhase;
+import org.soc.common.core.GenericList.Adds.Added;
+import org.soc.common.core.GenericList.Removes.Removed;
+import org.soc.common.core.property.Properties.Description;
+import org.soc.common.core.property.Properties.Name;
+import org.soc.common.game.*;
+import org.soc.common.game.VictoryPointsChangedEvent.VictoryPointsChangedHandler;
+import org.soc.common.game.actions.Action.ActionPresenter.ActionWidgetFactory;
 import org.soc.common.game.actions.TurnAction.AbstractTurnAction;
-import org.soc.common.internationalization.I;
-import org.soc.common.views.meta.Icon;
-import org.soc.common.views.meta.IconImpl;
-import org.soc.common.views.widgetsInterface.actions.ActionWidget;
-import org.soc.common.views.widgetsInterface.actions.ActionWidget.ActionWidgetFactory;
-import org.soc.common.views.widgetsInterface.main.GameWidget;
-import org.soc.gwt.client.images.R;
+import org.soc.common.game.actions.WantsClaimVictoryEvent.HasWantsClaimVictoryHandlers;
+import org.soc.common.internationalization.*;
+import org.soc.common.views.meta.*;
+import org.soc.common.views.widgetsInterface.main.*;
+import org.soc.gwt.client.game.widgetsAbstract.actions.*;
+import org.soc.gwt.client.images.*;
+
+import com.google.gwt.user.client.ui.*;
+import com.gwtplatform.dispatch.annotation.*;
 
 public class ClaimVictory extends AbstractTurnAction {
   @Override public Icon icon() {
@@ -18,15 +24,11 @@ public class ClaimVictory extends AbstractTurnAction {
             R.icons().claimVictory32(), R.icons()
                     .claimVictory48());
   }
-  @Override public String name() {
+  @Override public Name name() {
     // TODO Auto-generated method stub
     return null;
   }
-  @Override public String getLocalizedName() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-  @Override public String getDescription() {
+  @Override public Description description() {
     // TODO Auto-generated method stub
     return null;
   }
@@ -57,23 +59,22 @@ public class ClaimVictory extends AbstractTurnAction {
   @Override public String toDoMessage() {
     return I.get().actions().claimVictoryToDo(player.user().name());
   }
-  @Override public ActionWidget createActionWidget(
+  @Override public ActionPresenter createPresenter(
           ActionWidgetFactory actionWidgetFactory) {
     return actionWidgetFactory.createClaimVictoryWidget();
   }
-  @Override public ActionInGame opponentReceived(GameWidget gameWidget) {
+  @Override public GameBehaviour opponentReceived(GameWidget gameWidget) {
     return new GameOverGameBehaviour(gameWidget, this);
   }
-  @Override public ActionInGame received(GameWidget gameWidget) {
+  @Override public GameBehaviour received(GameWidget gameWidget) {
     return new GameOverGameBehaviour(gameWidget, this);
   }
 
-  public static class GameOverGameBehaviour implements ActionInGame {
+  public static class GameOverGameBehaviour implements GameBehaviour {
     ClaimVictory claimVictory;
     GameWidget gameWidget;
 
     public GameOverGameBehaviour(GameWidget gameWidget, ClaimVictory claimVictory) {
-      super();
       this.claimVictory = claimVictory;
       this.gameWidget = gameWidget;
     }
@@ -86,6 +87,56 @@ public class ClaimVictory extends AbstractTurnAction {
     }
     @Override public boolean endsManually() {
       return true;
+    }
+  }
+
+  public interface ClaimVictoryView extends HasWantsClaimVictoryHandlers {
+    @GenEvent public class WantsClaimVictory {}
+
+    public void enable();
+    public void disable();
+  }
+
+  public static class ClaimVictoryBitmapWidget extends AbstractActionPresenter implements
+          VictoryPointsChangedHandler
+  {
+    private ClaimVictoryView view;
+
+    public ClaimVictoryBitmapWidget(GameWidget gameWidget, GamePlayer player) {
+      super(gameWidget, player);
+      player.victoryPoints().addAddedHandler(new Added<VictoryPointItem>() {
+        @Override public void added(VictoryPointItem item) {
+          checkEnabled();
+        }
+      });
+      player.victoryPoints().addRemovedHandler(new Removed<VictoryPointItem>() {
+        @Override public void removed(VictoryPointItem item) {
+          checkEnabled();
+        }
+      });
+    }
+    @Override public Widget asWidget() {
+      return (Widget) view;
+    }
+    @Override protected void updateEnabled() {
+      checkEnabled();
+    }
+    private void checkEnabled()
+    {
+      if (enabled
+              && player.isOnTurn()
+              && gameWidget.game().gameSettings()
+                      .getBoardSettings().getVpToWin()
+                      .vpToWin() <= player
+                      .victoryPoints().total())
+      {
+        view.enable();
+        return;
+      }
+      view.disable();
+    }
+    @Override public void onVictoryPointsChanged(VictoryPointsChangedEvent event) {
+      checkEnabled();
     }
   }
 }

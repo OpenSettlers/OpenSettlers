@@ -1,19 +1,13 @@
 package org.soc.common.lobby;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
-import org.soc.common.lobby.actions.LobbyAction;
-import org.soc.common.server.ELobbyActionEvent;
-import org.soc.common.server.ELobbyActionEvent.ELobbyActionHandler;
-import org.soc.common.server.ELobbyActionEvent.HasELobbyActionHandlers;
+import org.soc.common.lobby.ELobbyActionEvent.ELobbyActionHandler;
+import org.soc.common.lobby.ELobbyActionEvent.HasELobbyActionHandlers;
+import org.soc.common.lobby.actions.*;
 
-import com.google.gwt.event.shared.EventBus;
-import com.google.gwt.event.shared.GwtEvent;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.gwtplatform.dispatch.annotation.GenEvent;
-import com.gwtplatform.dispatch.annotation.Order;
+import com.google.gwt.event.shared.*;
+import com.gwtplatform.dispatch.annotation.*;
 
 public class LobbyLog implements Iterable<LobbyAction>,
         HasELobbyActionHandlers

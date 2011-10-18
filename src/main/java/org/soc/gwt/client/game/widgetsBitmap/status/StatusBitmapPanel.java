@@ -52,6 +52,6 @@ public class StatusBitmapPanel extends AbstractStatusPanel
   @Override public void onStatusChanged(StatusChangedEvent event)
   {
     lblStatus.setText("Game status: "
-            + gameWidget.game().getStatus().getDescription());
+            + gameWidget.game().status().getDescription());
   }
 }

@@ -1,24 +1,23 @@
 package org.soc.common.game;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
 import org.soc.common.game.InitialPlacement.TwoTowns;
+import org.soc.common.game.Ports.MutablePortList;
+import org.soc.common.game.Ports.MutablePortListImpl;
+import org.soc.common.game.Ports.PortList;
 import org.soc.common.game.Variant.Standard;
-import org.soc.common.game.actions.TurnAction;
+import org.soc.common.game.actions.*;
 import org.soc.common.game.actions.TurnAction.AbstractTurnAction;
-import org.soc.common.game.board.HexLocation;
-import org.soc.common.game.hexes.Hex;
-import org.soc.common.game.pieces.Army;
-import org.soc.common.game.pieces.City;
-import org.soc.common.game.pieces.Piece;
-import org.soc.common.game.pieces.Road;
-import org.soc.common.game.pieces.Robber;
-import org.soc.common.game.pieces.Town;
+import org.soc.common.game.board.*;
+import org.soc.common.game.hexes.*;
+import org.soc.common.game.pieces.*;
 import org.soc.common.game.pieces.Piece.StockPiece;
 
 /** Abstracted properties for game {@see IRuleSet} to modify */
+//TODO: refactor stockAmount* into StockPiece somehow
+// TODO: refactor isTeam/isStandard  
 public interface GameRules extends Serializable {
   public int getStockRoadAmount();
   public GameRules setStockRoadAmount(int stockRoads);
@@ -35,8 +34,7 @@ public interface GameRules extends Serializable {
   /* Creates an action for what to do when a 7 is rolled or a soldier development card is played.
    * Standard will return PlaceRobber, where SeaFarers will return a PlaceRobberPirate */
   public TurnAction createPlaceRobberPirateAction();
-  /* Returns a list of piece types allowed in stock along with amount of items maximum in stock for
-   * any player */
+  /* Piece types allowed in stock along with amount of items maximum in stock for any player */
   public List<StockPiece> stockPieces();
   /* Returns a list of TurnAction types allowed to be played during a turn */
   public List<TurnAction> possibleActions();
@@ -59,15 +57,14 @@ public interface GameRules extends Serializable {
   public void setRules(Game game);
   public GameRules setDevelopmentCardStack(DevelopmentCardList devCards);
   public GameRules setSupportedPorts(PortList ports);
-  public PortList getSupportedPorts();
+  public MutablePortList getSupportedPorts();
   public List<GamePhase> supportedPhases();
   public InitialPlacement getInitialPlacementStrategy();
   public GameRules setInitialPlacementStrategy(
           InitialPlacement strategy);
-  public PortList portsAtStart();
+  public MutablePortList portsAtStart();
 
   public class GameRulesImpl implements GameRules {
-    private static final long serialVersionUID = -6260028559443830085L;
     private Game game;
     private List<Variant> variants = new ArrayList<Variant>();
     private List<TurnAction> possibleActions = new ArrayList<TurnAction>();
@@ -78,8 +75,8 @@ public interface GameRules extends Serializable {
     private List<StockPiece> stockPieceTypes = new ArrayList<StockPiece>();
     private List<Resource> tradeableResources = new ArrayList<Resource>();
     private DevelopmentCardList devCards;
-    private PortList supportedPorts = new PortList(true);
-    private PortList portsAtStart = new PortList();
+    private MutablePortList supportedPorts = new MutablePortListImpl();
+    private MutablePortList portsAtStart = new MutablePortListImpl();
     private int stockTowns;
     private int stockCities;
     private int stockRoads;
@@ -94,7 +91,6 @@ public interface GameRules extends Serializable {
     private boolean isPioneers = false;
     private boolean isTeamGame = false;
     private Army largestArmy;
-    // State of last rolled dice
     private Dice diceType;
     private InitialPlacement placementStrategy = new TwoTowns();
 
@@ -103,8 +99,7 @@ public interface GameRules extends Serializable {
       // Add standard rule set per default
       variants.add(new Standard(game));
     }
-    public GameRulesImpl() {}
-    /** @return the isSeaFarers */
+    public GameRulesImpl() { /* Serializable constructor */}
     public boolean isSeaFarers() {
       return isSeaFarers;
     }
@@ -185,6 +180,7 @@ public interface GameRules extends Serializable {
       this.largestArmy = largestArmy;
       return this;
     }
+    /** Takes settings and applies them to this instance and game instance */
     @Override public void setRules(Game game) {
       // Assuming standard is always present and always first
       for (Variant variant : variants)
@@ -199,36 +195,38 @@ public interface GameRules extends Serializable {
       // Robber is hardcoded, not yet any variant known not using it.
       game.setRobber(new Robber(new HexLocation(0, 0)));
     }
+    /** Creates a list of StockPieces using the playable pieces and filtering them on type (of
+     * StockPiece) */
     private void createStockPieces() {
       for (Piece piece : playablePieces)
         if (piece instanceof StockPiece)
           stockPieceTypes.add((StockPiece) piece);
     }
-    /* Give each player a stock with contents based on */
+    /** Give each player a stock with contents based on */
     private void createPlayerStocks() {
       for (GamePlayer player : game.players()) {
         for (int i = 0; i < stockCities; i++)
-          player.stock().cities()
-                  .add((City) new City().setPlayer(player));
+          player.stock().cities().add((City) new City().setPlayer(player));
         for (int i = 0; i < stockTowns; i++)
-          player.stock().towns()
-                  .add((Town) new Town().setPlayer(player));
+          player.stock().towns().add((Town) new Town().setPlayer(player));
         for (int i = 0; i < stockRoads; i++)
-          player.stock().roads()
-                  .add((Road) new Road().setPlayer(player));
+          player.stock().roads().add((Road) new Road().setPlayer(player));
       }
     }
+    /** Create a list of resources allowed to be traded by filtering supported resources on ability
+     * to trade */
     private void createTradeableResources() {
       for (Resource resource : supportedResources())
         if (resource.isTradeable())
           tradeableResources.add(resource);
     }
+    /** Give ports to each player, a copy of the PortsAtStart PortList */
     private void createInitialPortList() {
       for (GamePlayer player : game.players())
         for (Port port : portsAtStart)
           player.ports().add(port.copy());
     }
-    /* Creates a bank. Adds X amount of resources per resource type found in the list of playable
+    /** Creates a bank. Adds X amount of resources per resource type found in the list of playable
      * resources, where X is amount per resource */
     private void createBank() {
       for (Resource resource : supportedResources())
@@ -281,11 +279,11 @@ public interface GameRules extends Serializable {
       this.devCards = devCards;
       return this;
     }
-    @Override public PortList getSupportedPorts() {
+    @Override public MutablePortList getSupportedPorts() {
       return supportedPorts;
     }
     @Override public GameRules setSupportedPorts(PortList ports) {
-      supportedPorts = ports;
+      supportedPorts = new MutablePortListImpl(ports);
       return this;
     }
     @Override public List<GamePhase> supportedPhases() {
@@ -298,7 +296,7 @@ public interface GameRules extends Serializable {
       this.placementStrategy = strategy;
       return this;
     }
-    public PortList portsAtStart() {
+    public MutablePortList portsAtStart() {
       return portsAtStart;
     }
   }

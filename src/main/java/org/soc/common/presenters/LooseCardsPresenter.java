@@ -1,19 +1,17 @@
 package org.soc.common.presenters;
 
-import org.soc.common.game.GamePlayer;
-import org.soc.common.game.Resource;
-import org.soc.common.game.ResourceList;
+import org.soc.common.game.*;
+import org.soc.common.game.Resources.ResourceList;
 import org.soc.common.presenters.CardPickedEvent.CardPickedHandler;
 import org.soc.common.presenters.CardPickedEvent.HasCardPickedHandlers;
 import org.soc.common.presenters.CardRemovedEvent.CardRemovedHandler;
 import org.soc.common.presenters.CardRemovedEvent.HasCardRemovedHandlers;
 import org.soc.common.presenters.DiscardCardsEvent.DiscardCardsHandler;
 import org.soc.common.presenters.DiscardCardsEvent.HasDiscardCardsHandlers;
-import org.soc.common.views.widgetsInterface.main.GameWidget;
+import org.soc.common.views.widgetsInterface.main.*;
 
-import com.google.inject.Inject;
-import com.gwtplatform.dispatch.annotation.GenEvent;
-import com.gwtplatform.dispatch.annotation.Order;
+import com.google.inject.*;
+import com.gwtplatform.dispatch.annotation.*;
 
 public class LooseCardsPresenter {
   public interface LooseCardsView extends HasCardPickedHandlers, HasCardRemovedHandlers,

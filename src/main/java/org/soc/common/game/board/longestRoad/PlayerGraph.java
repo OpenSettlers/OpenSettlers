@@ -7,7 +7,7 @@ import org.jgrapht.jgrapht.Graphs;
 import org.jgrapht.jgrapht.UndirectedGraph;
 import org.jgrapht.jgrapht.graph.SimpleGraph;
 import org.soc.common.game.GamePlayer;
-import org.soc.common.game.board.BoardGraph;
+import org.soc.common.game.board.GameBoard;
 import org.soc.common.game.board.GraphPoint;
 import org.soc.common.game.board.GraphSide;
 import org.soc.common.game.board.Route;
@@ -25,13 +25,13 @@ public class PlayerGraph {
   private UndirectedGraph<GraphPoint, GraphSide> graph = new SimpleGraph<GraphPoint, GraphSide>(
           GraphSide.class);
   // Reference to the mother graph
-  private BoardGraph boardGraph;
+  private GameBoard boardGraph;
   // Longest path found in this player graph
   private Route longestPath;
   // Player owning this graph
   private GamePlayer player;
 
-  public PlayerGraph(BoardGraph boardGraph, GamePlayer player) {
+  public PlayerGraph(GameBoard boardGraph, GamePlayer player) {
     this.boardGraph = boardGraph;
     this.player = player;
     constructGraph();
@@ -39,12 +39,12 @@ public class PlayerGraph {
     longestPath = calculatLongestPath();
   }
   /** @return the longestPath */
-  public Route getLongestPath() {
+  public Route longestPath() {
     return longestPath;
   }
   /** Constructs the graph given the set of GraphSides */
   private void constructGraph() {
-    for (GraphSide side : boardGraph.sidesBy(player)) {
+    for (GraphSide side : boardGraph.sidesOf(player)) {
       GraphPoint source = boardGraph.graph().getEdgeSource(side);
       GraphPoint target = boardGraph.graph().getEdgeTarget(side);
       graph.addVertex(source);

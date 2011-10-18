@@ -1,18 +1,13 @@
 package org.soc.common.game.board;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
-import org.soc.common.board.HexChangedEvent;
-import org.soc.common.board.HexChangedEvent.HasHexChangedHandlers;
-import org.soc.common.board.HexChangedEvent.HexChangedHandler;
-import org.soc.common.game.hexes.Hex;
+import org.soc.common.game.board.HexChangedEvent.HasHexChangedHandlers;
+import org.soc.common.game.board.HexChangedEvent.HexChangedHandler;
+import org.soc.common.game.hexes.*;
 
-import com.google.gwt.event.shared.GwtEvent;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.event.shared.SimpleEventBus;
+import com.google.gwt.event.shared.*;
 
 /* Represents the board data structure.
  * 

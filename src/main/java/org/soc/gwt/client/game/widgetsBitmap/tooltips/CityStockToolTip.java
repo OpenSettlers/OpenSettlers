@@ -1,21 +1,18 @@
 package org.soc.gwt.client.game.widgetsBitmap.tooltips;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
-import org.soc.common.game.GamePlayer;
-import org.soc.common.game.pieces.City;
-import org.soc.common.game.pieces.PlayerPieceList.PlayerPieceListChangedEvent;
-import org.soc.common.game.pieces.PlayerPieceList.PlayerPieceListChangedEventHandler;
-import org.soc.common.views.widgetsInterface.main.GameWidget;
-import org.soc.gwt.client.game.widgetsAbstract.toolTips.AbstractPlayerInfoToolTip;
-import org.soc.gwt.client.images.R;
+import org.soc.common.core.GenericList.Adds.Added;
+import org.soc.common.core.GenericList.Removes.Removed;
+import org.soc.common.game.*;
+import org.soc.common.game.pieces.*;
+import org.soc.common.views.widgetsInterface.main.*;
+import org.soc.gwt.client.game.widgetsAbstract.toolTips.*;
+import org.soc.gwt.client.images.*;
 
-import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.*;
 
-public class CityStockToolTip extends AbstractPlayerInfoToolTip implements
-        PlayerPieceListChangedEventHandler<City>
-{
+public class CityStockToolTip extends AbstractPlayerInfoToolTip {
   private Map<City, Image> cityImages = new HashMap<City, Image>();
 
   public CityStockToolTip(GameWidget gameWidget, GamePlayer player)
@@ -27,20 +24,18 @@ public class CityStockToolTip extends AbstractPlayerInfoToolTip implements
       cityImages.put(city, cityImage);
       rootPanel.add(cityImage);
     }
-    player.stock().cities().addCitiesChangedEventHandler(this);
-  }
-  @Override public void onPlayerPieceListChanged(PlayerPieceListChangedEvent<City> event)
-  {
-    if (event.getRemovedPiece() != null)
-    {
-      Image cityImage = cityImages.get(event.getRemovedPiece());
-      rootPanel.remove(cityImage);
-    }
-    if (event.getAddedPiece() != null)
-    {
-      Image cityImage = new Image(R.icons().city16());
-      cityImages.put(event.getAddedPiece(), cityImage);
-      rootPanel.add(cityImage);
-    }
+    player.stock().cities().addAddedHandler(new Added<City>() {
+      @Override public void added(City item) {
+        Image cityImage = new Image(R.icons().city16());
+        cityImages.put(item, cityImage);
+        rootPanel.add(cityImage);
+      }
+    });
+    player.stock().cities().addRemovedHandler(new Removed<City>() {
+      @Override public void removed(City item) {
+        Image cityImage = cityImages.get(item);
+        rootPanel.remove(cityImage);
+      }
+    });
   }
 }

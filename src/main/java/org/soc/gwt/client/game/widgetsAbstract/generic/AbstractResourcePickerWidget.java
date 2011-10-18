@@ -1,24 +1,23 @@
 package org.soc.gwt.client.game.widgetsAbstract.generic;
 
-import java.util.HashMap;
+import java.util.*;
 
-import org.soc.common.game.PortList;
-import org.soc.common.game.Resource;
-import org.soc.common.game.ResourceList;
-import org.soc.common.views.widgetsInterface.generic.ResourceClickedEvent;
-import org.soc.common.views.widgetsInterface.generic.ResourcePickerWidget;
-import org.soc.common.views.widgetsInterface.generic.ResourceSelectorWidget;
-import org.soc.common.views.widgetsInterface.main.GameWidget;
+import org.soc.common.game.Ports.PortList;
+import org.soc.common.game.*;
+import org.soc.common.game.Resources.MutableResourceList;
+import org.soc.common.game.Resources.MutableResourceListImpl;
+import org.soc.common.game.Resources.ResourceList;
+import org.soc.common.views.widgetsInterface.generic.*;
+import org.soc.common.views.widgetsInterface.main.*;
 
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.*;
 
 public abstract class AbstractResourcePickerWidget implements
         ResourcePickerWidget
 {
   protected HorizontalPanel rootPanel = new HorizontalPanel();
-  protected ResourceList resources;
-  protected ResourceList bankResources;
+  protected MutableResourceList resources;
+  protected MutableResourceList bankResources;
   protected PortList ports;
   protected GameWidget gameWidget;
   protected HashMap<Resource, ResourceSelectorWidget> resourceSlectorWidgets = new HashMap<Resource, ResourceSelectorWidget>();
@@ -26,9 +25,9 @@ public abstract class AbstractResourcePickerWidget implements
   public AbstractResourcePickerWidget(ResourceList resources, PortList ports,
           ResourceList bankResources, GameWidget gameWidget)
   {
-    this.resources = resources;
+    this.resources = new MutableResourceListImpl(resources);
     this.gameWidget = gameWidget;
-    this.bankResources = bankResources;
+    this.bankResources = new MutableResourceListImpl(bankResources);
     this.ports = ports;
     for (Resource resource : gameWidget.game().rules()
             .supportedResources())
@@ -61,7 +60,7 @@ public abstract class AbstractResourcePickerWidget implements
     Resource resourceToAdd = event.getResource();
     if (ports != null)
     {
-      ResourceList resourcesToAdd = new ResourceList();
+      MutableResourceList resourcesToAdd = new MutableResourceListImpl();
       for (int amount = 0; amount < ports
               .amountNeededToTrade(resourceToAdd); amount++)
       {
@@ -71,7 +70,7 @@ public abstract class AbstractResourcePickerWidget implements
       // Remove the resources from the bank
       if (bankResources != null)
       {
-        bankResources.remove(resourcesToAdd, false);
+        bankResources.removeList(resourcesToAdd);
       }
     }
     else
@@ -104,7 +103,7 @@ public abstract class AbstractResourcePickerWidget implements
   }
   @Override public ResourcePickerWidget setResources(ResourceList resources)
   {
-    this.resources = resources;
+    this.resources = new MutableResourceListImpl(resources);
     return this;
   }
   /** @return the bankResources */
@@ -115,7 +114,7 @@ public abstract class AbstractResourcePickerWidget implements
   /** @param bankResources the bankResources to set */
   public ResourcePickerWidget setBankResources(ResourceList bankResources)
   {
-    this.bankResources = bankResources;
+    this.bankResources = new MutableResourceListImpl(bankResources);
     for (ResourceSelectorWidget widget : resourceSlectorWidgets.values())
       widget.setBankResources(bankResources);
     return this;

@@ -1,48 +1,28 @@
 package org.soc.common.game.pieces;
 
-import org.soc.common.game.GamePlayer;
-import org.soc.common.game.Resource.Clay;
-import org.soc.common.game.Resource.Timber;
-import org.soc.common.game.ResourceList;
-import org.soc.common.game.board.Board;
-import org.soc.common.game.board.GraphPoint;
-import org.soc.common.game.board.HasSide;
-import org.soc.common.game.board.HexSide;
+import org.soc.common.core.Props.PropertyList.PropertyTypeList;
+import org.soc.common.core.property.Properties.Description;
+import org.soc.common.core.property.Properties.Name;
+import org.soc.common.core.property.*;
+import org.soc.common.game.*;
+import org.soc.common.game.Resources.ResourceList;
+import org.soc.common.game.board.*;
 import org.soc.common.game.pieces.Piece.AbstractPlayerPiece;
 import org.soc.common.game.pieces.Piece.StockPiece;
-import org.soc.common.internationalization.I;
-import org.soc.common.views.meta.Icon;
-import org.soc.common.views.meta.IconImpl;
-import org.soc.common.views.widgetsInterface.playerInfo.StockItemWidget;
+import org.soc.common.views.meta.*;
+import org.soc.common.views.widgetsInterface.playerInfo.*;
 import org.soc.common.views.widgetsInterface.playerInfo.StockItemWidget.StockItemWidgetFactory;
-import org.soc.common.views.widgetsInterface.visuals.PieceVisual;
-import org.soc.common.views.widgetsInterface.visuals.VisualFactory;
-import org.soc.gwt.client.images.R;
+import org.soc.common.views.widgetsInterface.visuals.*;
 
-public class Road extends AbstractPlayerPiece implements HasSide, StockPiece {
+import static org.soc.common.game.Resource.*;
+
+import static org.soc.common.game.Resources.*;
+
+public class Road extends AbstractPlayerPiece<Integer> implements HasSide, StockPiece {
   private HexSide sideLocation;
 
-  @Override public Icon icon() {
-    return new IconImpl(R.icons().road16(), R
-            .icons().road32(), R.icons().road48());
-  }
-  @Override public String name() {
-    return "Road";
-  }
-  @Override public String getLocalizedName() {
-    return I.get().constants().longestRoad();
-  }
-  @Override public String getDescription() {
-    return I.get().constants().longestRoadDescription();
-  }
-  @Override public String toString() {
-    return "Road";
-  }
   @Override public ResourceList cost() {
-    ResourceList result = new ResourceList();
-    result.add(new Timber());
-    result.add(new Clay());
-    return result;
+    return newResources(timber, clay);
   }
   @Override public boolean canBuild(Board board, GamePlayer player) {
     if (player.stock().roads().size() == 0)
@@ -77,8 +57,8 @@ public class Road extends AbstractPlayerPiece implements HasSide, StockPiece {
   }
   @Override public void removeFromBoard(Board board) {}
   @Override public boolean canConnect(GraphPoint graphPoint, HasSide otherPiece) {
-    return (player.equals(graphPoint.player()) || graphPoint.player() == null)
-            && otherPiece.connectsWithRoad();
+    return (player.equals(graphPoint.player())
+            || graphPoint.player() == null) && otherPiece.connectsWithRoad();
   }
   @Override public boolean connectsWithBridge() {
     return true;
@@ -94,5 +74,25 @@ public class Road extends AbstractPlayerPiece implements HasSide, StockPiece {
   }
   @Override public StockItemWidget createStockItemWidget(StockItemWidgetFactory factory) {
     return factory.createRoadStockWidget();
+  }
+  @Override public Property getProp(Property type) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+  @Override public PropertyTypeList properties() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+  @Override public Name name() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+  @Override public Icon icon() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+  @Override public Description description() {
+    // TODO Auto-generated method stub
+    return null;
   }
 }

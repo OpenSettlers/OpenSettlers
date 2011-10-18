@@ -1,50 +1,43 @@
 package org.soc.common.game.pieces;
 
-import org.soc.common.game.GamePlayer;
-import org.soc.common.game.GameRules;
-import org.soc.common.game.Resource.Sheep;
-import org.soc.common.game.Resource.Timber;
-import org.soc.common.game.Resource.Wheat;
-import org.soc.common.game.ResourceList;
-import org.soc.common.game.VictoryPointItem;
-import org.soc.common.game.board.Board;
-import org.soc.common.game.board.HasPoint;
-import org.soc.common.game.board.HexPoint;
-import org.soc.common.game.hexes.Hex;
+import org.soc.common.core.property.Properties.Description;
+import org.soc.common.core.property.Properties.Name;
+import org.soc.common.game.*;
+import org.soc.common.game.Resources.ResourceList;
+import org.soc.common.game.board.*;
+import org.soc.common.game.hexes.*;
 import org.soc.common.game.pieces.Piece.AbstractPlayerPiece;
-import org.soc.common.game.pieces.Piece.Producable;
+import org.soc.common.game.pieces.Piece.Producer;
 import org.soc.common.game.pieces.Piece.StockPiece;
-import org.soc.common.internationalization.I;
-import org.soc.common.views.meta.Icon;
-import org.soc.common.views.meta.IconImpl;
-import org.soc.common.views.widgetsInterface.playerInfo.StockItemWidget;
+import org.soc.common.internationalization.*;
+import org.soc.common.views.meta.*;
+import org.soc.common.views.widgetsInterface.playerInfo.*;
 import org.soc.common.views.widgetsInterface.playerInfo.StockItemWidget.StockItemWidgetFactory;
-import org.soc.common.views.widgetsInterface.visuals.PieceVisual;
-import org.soc.common.views.widgetsInterface.visuals.VisualFactory;
-import org.soc.gwt.client.images.R;
+import org.soc.common.views.widgetsInterface.visuals.*;
+import org.soc.gwt.client.images.*;
 
-public class Town extends AbstractPlayerPiece implements VictoryPointItem,
-        HasPoint, Producable, StockPiece {
+import static org.soc.common.game.Resource.*;
+
+import static org.soc.common.game.Resources.*;
+
+public class Town extends AbstractPlayerPiece<Integer> implements VictoryPointItem,
+        HasPoint, Producer, StockPiece {
   private HexPoint pointLocation;
 
   @Override public Icon icon() {
     return new IconImpl(R.icons().town16(), R.icons().town32(), R.icons().town48());
   }
-  @Override public String getLocalizedName() {
-    return I.get().constants().town();
+  @Override public Name name() {
+    return new Name.Impl(I.get().constants().town());
   }
-  @Override public String getDescription() {
-    return I.get().constants().townDescription();
+  @Override public Description description() {
+    return new Description.Impl(I.get().constants().townDescription());
   }
   @Override public String toString() {
     return "Town";
   }
   @Override public ResourceList cost() {
-    ResourceList result = new ResourceList();
-    result.add(new Timber());
-    result.add(new Wheat());
-    result.add(new Sheep());
-    return result;
+    return newResources(Resource.wheat, ore, sheep);
   }
   @Override public boolean canBuild(Board board, GamePlayer player) {
     // We need a town in stock...
@@ -66,21 +59,21 @@ public class Town extends AbstractPlayerPiece implements VictoryPointItem,
     return true;
   }
   @Override public void addTo(GamePlayer player) {
-    player.towns().moveFrom(player.stock().towns(), this);
+    player.towns().move(player.stock().towns(), this);
     player.pointPieces().add(this);
     player.producers().add(this);
     player.victoryPoints().add(this);
   }
   @Override public void removeFrom(GamePlayer player) {
-    player.stock().towns().moveFrom(player.towns(), this);
+    player.stock().towns().move(player.towns(), this);
     player.pointPieces().remove(this);
     player.producers().remove(this);
     player.victoryPoints().remove(this);
   }
   @Override public ResourceList produce(Hex hex, GameRules rules) {
-    ResourceList production = new ResourceList();
-    production.add(hex.resource().copy());
-    return production;
+    if (hex.producesResource())
+      return newResources(hex.resource().copy());
+    return emptyResources();
   }
   @Override public boolean affectsRoad() {
     return true;

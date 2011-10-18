@@ -1,30 +1,31 @@
 package org.soc.common.game;
 
-import java.io.Serializable;
+import java.io.*;
 
 import org.soc.common.game.DevelopmentCard.AbstractDevelopmentCard;
+import org.soc.common.game.Ports.MutablePortList;
+import org.soc.common.game.Ports.MutablePortListImpl;
+import org.soc.common.game.Resources.MutableResourceList;
+import org.soc.common.game.Resources.MutableResourceListImpl;
+import org.soc.common.game.Resources.ResourceList;
 import org.soc.common.game.RoadTokensChangedEvent.HasRoadTokensChangedHandlers;
 import org.soc.common.game.RoadTokensChangedEvent.RoadTokensChangedHandler;
+import org.soc.common.game.VictoryPoints.MutableVictoryPointsList;
+import org.soc.common.game.VictoryPoints.MutableVictoryPointsList.MutableVictoryPointsListImpl;
 import org.soc.common.game.VictoryPointsChangedEvent.HasVictoryPointsChangedHandlers;
 import org.soc.common.game.VictoryPointsChangedEvent.VictoryPointsChangedHandler;
-import org.soc.common.game.bots.Bot;
-import org.soc.common.game.pieces.Army;
-import org.soc.common.game.pieces.CityList;
-import org.soc.common.game.pieces.PointPieceList;
-import org.soc.common.game.pieces.ProducerList;
-import org.soc.common.game.pieces.RoadList;
-import org.soc.common.game.pieces.ShipList;
-import org.soc.common.game.pieces.SidePieceList;
-import org.soc.common.game.pieces.Stock;
-import org.soc.common.game.pieces.TownList;
-import org.soc.common.server.entities.User;
+import org.soc.common.game.bots.*;
+import org.soc.common.game.pieces.*;
+import org.soc.common.game.pieces.Cities.MutableCityList;
+import org.soc.common.game.pieces.Roads.MutableRoadList;
+import org.soc.common.game.pieces.Ships.MutableShipList;
+import org.soc.common.game.pieces.Ships.MutableShipListImpl;
+import org.soc.common.game.pieces.Towns.MutableTownList;
+import org.soc.common.server.entities.*;
 import org.soc.common.server.entities.User.Player;
 
-import com.google.gwt.event.shared.GwtEvent;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.event.shared.SimpleEventBus;
-import com.gwtplatform.dispatch.annotation.GenEvent;
-import com.gwtplatform.dispatch.annotation.Order;
+import com.google.gwt.event.shared.*;
+import com.gwtplatform.dispatch.annotation.*;
 
 /*
  * Represents a player playing a game
@@ -34,26 +35,26 @@ public interface GamePlayer extends Serializable, HasRoadTokensChangedHandlers,
   public User user();
   public GamePlayer setColor(String color);
   public String color();
-  public TownList towns();
-  public CityList cities();
-  public RoadList roads();
-  public ShipList ships();
+  public MutableTownList towns();
+  public MutableCityList cities();
+  public MutableRoadList roads();
+  public MutableShipList ships();
   public ProducerList producers();
   public SidePieceList sidePieces();
   public PointPieceList pointPieces();
   public Stock stock();
-  public int roadBuildingTokens();
+  public int roadBuildingTokens(); // Tokens added when playing RoadBuilding card
   public GamePlayer setRoadBuildingTokens(int roadBuildingTokens);
-  public VictoryPointsList victoryPoints();
+  public MutableVictoryPointsList victoryPoints();
   public DevelopmentCardList playedDevelopmentCards();
   public boolean isOnTurn();
   public GamePlayer setStock(Stock stock);
-  public PortList ports();
+  public MutablePortList ports();
   public DevelopmentCardList developmentCards();
   public GamePlayer setOnTurn(boolean isOnTurn);
   public int maximumCardsInHandWhenSeven();
   public void setMaximumCardsInHandWhenSeven(int maximumCardsInHandWhenSeven);
-  public ResourceList resources();
+  public MutableResourceList resources();
   public Army army();
   public Bot bot();
   public boolean isNot(GamePlayer other);
@@ -62,6 +63,7 @@ public interface GamePlayer extends Serializable, HasRoadTokensChangedHandlers,
     @Order(0) int newTokenAmount;
   }
 
+  // TODO: move to VictoryPointsList
   @GenEvent public class VictoryPointsChanged {
     @Order(0) VictoryPointItem addedPoint;
     @Order(1) VictoryPointItem removedPoint;
@@ -71,7 +73,7 @@ public interface GamePlayer extends Serializable, HasRoadTokensChangedHandlers,
     private User user;
     private transient SimpleEventBus eventBus = new SimpleEventBus();
     // Hand resource cards
-    private ResourceList resources = new ResourceList();
+    private MutableResourceList resources = new MutableResourceListImpl();
     private int roadBuildingTokens;
     private String color;
     // Maximum cards the player may have in his hand
@@ -80,23 +82,23 @@ public interface GamePlayer extends Serializable, HasRoadTokensChangedHandlers,
     // Stock of the player: list of roads, ships, towns, cities, knights etc a
     // player has in stock
     private Stock stock = new Stock();
-    private TownList towns = new TownList();
-    private CityList cities = new CityList();
-    private RoadList roads = new RoadList();
-    private ShipList ships = new ShipList();
+    private MutableTownList towns = new MutableTownList.Impl();
+    private MutableCityList cities = new MutableCityList.Impl();
+    private MutableRoadList roads = new MutableRoadList.Impl();
+    private MutableShipList ships = new MutableShipListImpl();
     private ProducerList producables = new ProducerList();
     private PointPieceList pointPieces = new PointPieceList();
     private SidePieceList sidePieces = new SidePieceList();
     // Keep track of being on turn
     private boolean isOnTurn = false;
     // List of ports the player has developed
-    private PortList ports = new PortList();
+    private MutablePortList ports = new MutablePortListImpl();
     // Development cards in hand
     private DevelopmentCardList developmentCards = new DevelopmentCardList();
     // Played development cards
     private DevelopmentCardList playedDevelopmentCards = new DevelopmentCardList();
     // List of victory points
-    private VictoryPointsList victoryPoints = new VictoryPointsList();
+    private MutableVictoryPointsList victoryPoints = new MutableVictoryPointsListImpl();
     // Largest army
     private Army army = new Army();
     private Bot bot = null;
@@ -120,17 +122,11 @@ public interface GamePlayer extends Serializable, HasRoadTokensChangedHandlers,
       eventBus.fireEvent(new RoadTokensChangedEvent(roadBuildingTokens));
       return this;
     }
-    public VictoryPointsList victoryPoints() {
+    public MutableVictoryPointsList victoryPoints() {
       return victoryPoints;
     }
     public DevelopmentCardList playedDevelopmentCards() {
       return playedDevelopmentCards;
-    }
-    public void removeResources(ResourceList resources) {
-      resources.subtractResources(resources);
-    }
-    public void addResources(ResourceList resources) {
-      this.resources.addList(resources);
     }
     public void useDevelopmentCard(AbstractDevelopmentCard developmentCard) {
       // Get rid of the card in our list of devcards
@@ -159,7 +155,7 @@ public interface GamePlayer extends Serializable, HasRoadTokensChangedHandlers,
       this.stock = stock;
       return this;
     }
-    public PortList ports() {
+    public MutablePortList ports() {
       return ports;
     }
     public DevelopmentCardList developmentCards() {
@@ -183,10 +179,10 @@ public interface GamePlayer extends Serializable, HasRoadTokensChangedHandlers,
     public void setMaximumCardsInHandWhenSeven(int maximumCardsInHandWhenSeven) {
       this.maximumCardsInHandWhenSeven = maximumCardsInHandWhenSeven;
     }
-    public ResourceList resources() {
+    public MutableResourceList resources() {
       return resources;
     }
-    public void setResources(ResourceList resources) {
+    public void setResources(MutableResourceList resources) {
       this.resources = resources;
     }
     public GamePlayer setColor(String color) {
@@ -222,13 +218,13 @@ public interface GamePlayer extends Serializable, HasRoadTokensChangedHandlers,
     @Override public Army army() {
       return army;
     }
-    @Override public CityList cities() {
+    @Override public MutableCityList cities() {
       return cities;
     }
-    @Override public TownList towns() {
+    @Override public MutableTownList towns() {
       return towns;
     }
-    @Override public RoadList roads() {
+    @Override public MutableRoadList roads() {
       return roads;
     }
     @Override public PointPieceList pointPieces() {
@@ -237,7 +233,7 @@ public interface GamePlayer extends Serializable, HasRoadTokensChangedHandlers,
     @Override public ProducerList producers() {
       return producables;
     }
-    @Override public ShipList ships() {
+    @Override public MutableShipList ships() {
       return ships;
     }
     @Override public SidePieceList sidePieces() {

@@ -1,6 +1,6 @@
 package org.soc.common.game.board;
 
-import org.soc.common.game.GamePlayer;
+import org.soc.common.game.*;
 import org.soc.common.game.pieces.Piece.PlayerPiece;
 
 public interface GraphSide extends GraphElement

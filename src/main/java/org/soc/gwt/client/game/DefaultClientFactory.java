@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.soc.common.game.GamePlayer;
+import org.soc.common.game.actions.Action.ActionPresenter.ActionWidgetFactory;
 import org.soc.common.views.widgetsInterface.actions.ActionDetailWidget.ActionDetailWidgetFactory;
-import org.soc.common.views.widgetsInterface.actions.ActionWidget.ActionWidgetFactory;
 import org.soc.common.views.widgetsInterface.actions.DiceWidget.DiceWidgetFactory;
 import org.soc.common.views.widgetsInterface.main.GamePhaseWidget.GamePhaseStatusWidgetFactory;
 import org.soc.common.views.widgetsInterface.main.GameWidget;

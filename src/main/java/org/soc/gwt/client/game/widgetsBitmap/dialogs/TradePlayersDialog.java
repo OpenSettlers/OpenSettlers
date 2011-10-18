@@ -1,56 +1,36 @@
 package org.soc.gwt.client.game.widgetsBitmap.dialogs;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
-import org.soc.common.game.GamePlayer;
-import org.soc.common.game.OrderChangedEvent;
+import org.soc.common.core.GenericList.Adds.*;
+import org.soc.common.core.GenericList.Removes.*;
+import org.soc.common.game.*;
 import org.soc.common.game.OrderChangedEvent.OrderChangedHandler;
-import org.soc.common.game.PortList;
-import org.soc.common.game.ResourceList;
-import org.soc.common.game.ResourcesChangedEvent;
-import org.soc.common.game.ResourcesChangedEvent.ResourcesChangedHandler;
-import org.soc.common.game.TurnChangedEvent;
+import org.soc.common.game.Ports.PortList;
+import org.soc.common.game.Resources.MutableResourceList;
+import org.soc.common.game.Resources.MutableResourceListImpl;
+import org.soc.common.game.Resources.ResourceList;
 import org.soc.common.game.TurnChangedEvent.TurnChangedHandler;
-import org.soc.common.game.trading.TradeOffer;
-import org.soc.common.game.trading.TradeOfferedEvent;
-import org.soc.common.game.trading.TradeOfferedEventHandler;
-import org.soc.common.game.trading.TradePlayer;
-import org.soc.common.game.trading.TradeRespondedEvent;
-import org.soc.common.game.trading.TradeRespondedEventHandler;
-import org.soc.common.game.trading.TradeResponse;
-import org.soc.common.views.widgetsInterface.dialogs.TradePlayerDialog;
-import org.soc.common.views.widgetsInterface.generic.Point2D;
-import org.soc.common.views.widgetsInterface.generic.ResourceListWidget;
-import org.soc.common.views.widgetsInterface.generic.ResourcePickerWidget;
-import org.soc.common.views.widgetsInterface.main.GameWidget;
-import org.soc.common.views.widgetsInterface.main.TradePlayerStatusWidget;
-import org.soc.gwt.client.game.widgetsBitmap.generic.ResourceListBitmapWidget;
-import org.soc.gwt.client.game.widgetsBitmap.generic.ResourcePickerBitmapWidget;
-import org.soc.gwt.client.game.widgetsBitmap.main.TradePlayerStatusBitmapWidget;
-import org.soc.gwt.client.images.R;
+import org.soc.common.game.trading.*;
+import org.soc.common.views.widgetsInterface.dialogs.*;
+import org.soc.common.views.widgetsInterface.generic.*;
+import org.soc.common.views.widgetsInterface.main.*;
+import org.soc.gwt.client.game.widgetsBitmap.generic.*;
+import org.soc.gwt.client.game.widgetsBitmap.main.*;
+import org.soc.gwt.client.images.*;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DockPanel;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.event.dom.client.*;
+import com.google.gwt.event.shared.*;
+import com.google.gwt.user.client.ui.*;
 
 public class TradePlayersDialog extends PopupPanel implements
         TradePlayerDialog, TurnChangedHandler,
         TradeOfferedEventHandler, OrderChangedHandler,
-        TradeRespondedEventHandler, ResourcesChangedHandler
+        TradeRespondedEventHandler
 {
-  private ResourceList wantResources = new ResourceList();
-  private ResourceList giveResources = new ResourceList();
-  private ResourceList playerHand;
+  private MutableResourceList wantResources = new MutableResourceListImpl();
+  private MutableResourceList giveResources = new MutableResourceListImpl();
+  private MutableResourceList playerHand;
   private ResourcePickerWidget giveResourcePickerWidget;
   private ResourcePickerWidget wantedResourcePickerWidget;
   private ResourceListWidget giveResourcesListWidget;
@@ -93,11 +73,29 @@ public class TradePlayersDialog extends PopupPanel implements
     pnlWantResources.add(wantedResourceListWidget);
     gameWidget.game().addTurnChangedHandler(this);
     gameWidget.game().players().addOrderChangedHandler(this);
-    wantResources.addResourcesChangedHandler(this);
-    giveResources.addResourcesChangedHandler(this);
+    wantResources.addAddedHandler(new Added<Resource>() {
+      @Override public void added(Resource item) {
+        checkUI();
+      }
+    });
+    wantResources.addRemovedHandler(new Removed<Resource>() {
+      @Override public void removed(Resource item) {
+        checkUI();
+      }
+    });
+    wantResources.addAddedHandler(new Added<Resource>() {
+      @Override public void added(Resource item) {
+        checkUI();
+      }
+    });
+    wantResources.addRemovedHandler(new Removed<Resource>() {
+      @Override public void removed(Resource item) {
+        checkUI();
+      }
+    });
   }
-  private ResourceListWidget createResourceListWidget(ResourceList resources,
-          ResourceList bankResources, PortList ports)
+  private ResourceListWidget createResourceListWidget(MutableResourceList resources,
+          MutableResourceList bankResources, PortList ports)
   {
     return new ResourceListBitmapWidget(resources, bankResources, ports);
   }
@@ -263,7 +261,7 @@ public class TradePlayersDialog extends PopupPanel implements
       tradeResponseHandler = null;
     }
     tradeResponseHandler = gameWidget.game().turn()
-            .getTradeOffers().getLatestOffer().getResponses()
+            .getTradeOffers().getLatestOffer().responses()
             .addTradeRespondedEventHandler(this);
     for (TradePlayerStatusWidget tradeStatus : playerStatuses.values())
       tradeStatus.setWaiting();
@@ -285,10 +283,6 @@ public class TradePlayersDialog extends PopupPanel implements
     pnlTradeStatuses.clear();
     for (GamePlayer player : gameWidget.game().players())
       pnlTradeStatuses.add(playerStatuses.get(player));
-  }
-  @Override public void onResourcesChanged(ResourcesChangedEvent resourcesChanged)
-  {
-    checkUI();
   }
   private void checkUI()
   {

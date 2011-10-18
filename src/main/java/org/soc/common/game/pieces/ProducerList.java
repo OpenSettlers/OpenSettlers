@@ -1,31 +1,29 @@
 package org.soc.common.game.pieces;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
-import org.soc.common.game.hexes.Hex;
-import org.soc.common.game.pieces.Piece.Producable;
+import org.soc.common.game.hexes.*;
+import org.soc.common.game.pieces.Piece.Producer;
 
-public class ProducerList implements Iterable<Producable>, Serializable {
+public class ProducerList implements Iterable<Producer>, Serializable {
   private static final long serialVersionUID = 2619202676402607856L;
-  private List<Producable> producables = new ArrayList<Producable>();
+  private List<Producer> producers = new ArrayList<Producer>();
 
-  public void add(Producable producable) {
-    producables.add(producable);
+  public void add(Producer producable) {
+    producers.add(producable);
   }
-  public void remove(Producable producable) {
-    producables.remove(producable);
+  public void remove(Producer producable) {
+    producers.remove(producable);
   }
-  public ProducerList producablesAtHex(Hex hex) {
+  public ProducerList producersAtHex(Hex hex) {
     ProducerList result = new ProducerList();
-    for (Producable producable : producables)
-      if (producable.point().hasLocation(hex.location()))
-        result.add(producable);
+    for (Producer producer : producers)
+      if (producer.point().hasLocation(hex.location()))
+        result.add(producer);
     return result;
   }
-  @Override public Iterator<Producable> iterator() {
-    return producables.iterator();
+  @Override public Iterator<Producer> iterator() {
+    return producers.iterator();
   }
 }

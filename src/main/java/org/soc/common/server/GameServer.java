@@ -89,8 +89,8 @@ public interface GameServer extends Server
                 .createServerAction(serverActionFactory);
         // Update state of our game instance by performing the action
         serverAction.execute();
-        // send the action to all the players
-        callback.receive(serverAction.getAction());
+        // send the action to all the players 
+        callback.receive(serverAction.action());
         GameAction possibleNextServerAction = game.actionsQueue().peek();
         // Check if the action enqueued a server action, if so: execute it
         // right away

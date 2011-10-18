@@ -1,12 +1,11 @@
 package org.soc.gwt.client.images;
 
-import org.soc.common.game.Chit;
-import org.soc.common.views.meta.Meta;
-import org.soc.gwt.client.images.defaultTheme.Icons;
-import org.soc.gwt.client.images.defaultTheme.Images;
+import org.soc.common.game.*;
+import org.soc.common.views.meta.Icon.HasIcon;
+import org.soc.gwt.client.images.defaultTheme.*;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.core.client.*;
+import com.google.gwt.resources.client.*;
 
 public class R
 {
@@ -23,15 +22,15 @@ public class R
   {
     return icons2;
   }
-  public static ImageResource smallIcon(Meta meta)
+  public static ImageResource smallIcon(HasIcon meta)
   {
     return meta.icon().icon16();
   }
-  public static ImageResource mediumIcon(Meta meta)
+  public static ImageResource mediumIcon(HasIcon meta)
   {
     return meta.icon().icon32();
   }
-  public static ImageResource largeIcon(Meta meta)
+  public static ImageResource largeIcon(HasIcon meta)
   {
     return meta.icon().icon48();
   }

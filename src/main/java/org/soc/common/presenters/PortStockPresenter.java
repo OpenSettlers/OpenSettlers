@@ -1,12 +1,11 @@
 package org.soc.common.presenters;
 
-import org.soc.common.board.PortListChangedEvent;
-import org.soc.common.board.PortListChangedEvent.PortListChangedHandler;
-import org.soc.common.game.GamePlayer;
-import org.soc.common.game.Port;
-import org.soc.common.views.widgetsInterface.main.GameWidget;
+import org.soc.common.core.GenericList.Adds.*;
+import org.soc.common.core.GenericList.Removes.*;
+import org.soc.common.game.*;
+import org.soc.common.views.widgetsInterface.main.*;
 
-import com.google.inject.Inject;
+import com.google.inject.*;
 
 public class PortStockPresenter {
   public interface PortStockView {
@@ -16,12 +15,14 @@ public class PortStockPresenter {
 
   @Inject public PortStockPresenter(final PortStockView view, GameWidget gameWidget,
           GamePlayer player) {
-    player.ports().addPortListChangedHandler(new PortListChangedHandler() {
-      @Override public void onPortListChanged(PortListChangedEvent event) {
-        if (event.getAddedPort() != null)
-          view.addPort(event.getAddedPort());
-        if (event.getRemovedPort() != null)
-          view.removePort(event.getRemovedPort());
+    player.ports().addAddedHandler(new Added<Port>() {
+      @Override public void added(Port port) {
+        view.addPort(port);
+      }
+    });
+    player.ports().addRemovedHandler(new Removed<Port>() {
+      @Override public void removed(Port port) {
+        view.removePort(port);
       }
     });
   }

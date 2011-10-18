@@ -1,26 +1,22 @@
 package org.soc.common.game.actions;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-import org.soc.common.game.Game;
-import org.soc.common.game.GamePhase;
-import org.soc.common.game.TurnPhase;
+import org.soc.common.core.property.Properties.Description;
+import org.soc.common.core.property.Properties.Name;
+import org.soc.common.game.*;
+import org.soc.common.game.actions.Action.ActionPresenter.ActionWidgetFactory;
 import org.soc.common.game.actions.TurnAction.AbstractTurnAction;
-import org.soc.common.game.board.HexLocation;
-import org.soc.common.game.hexes.Hex;
-import org.soc.common.internationalization.I;
-import org.soc.common.views.meta.Icon;
-import org.soc.common.views.meta.IconImpl;
-import org.soc.common.views.widgetsInterface.actions.ActionDetailWidget;
-import org.soc.common.views.widgetsInterface.actions.ActionWidget;
+import org.soc.common.game.board.*;
+import org.soc.common.game.hexes.*;
+import org.soc.common.internationalization.*;
+import org.soc.common.views.meta.*;
+import org.soc.common.views.widgetsInterface.actions.*;
 import org.soc.common.views.widgetsInterface.actions.ActionDetailWidget.ActionDetailWidgetFactory;
-import org.soc.common.views.widgetsInterface.actions.ActionWidget.ActionWidgetFactory;
-import org.soc.common.views.widgetsInterface.main.GameWidget;
-import org.soc.common.views.widgetsInterface.visuals.GameBoardVisual;
-import org.soc.common.views.widgetsInterface.visuals.PieceVisual;
+import org.soc.common.views.widgetsInterface.main.*;
+import org.soc.common.views.widgetsInterface.visuals.*;
 import org.soc.common.views.widgetsInterface.visuals.PieceVisual.HexVisual;
-import org.soc.gwt.client.images.R;
+import org.soc.gwt.client.images.*;
 
 /*
  * Robber is placed by current player due to 7 roll or Soldier
@@ -33,15 +29,13 @@ public class PlaceRobber extends AbstractTurnAction
             R.icons().moveRobber32(), R.icons()
                     .moveRobber48());
   }
-  @Override public String name() {
+  @Override public Name name()
+  {
     // TODO Auto-generated method stub
     return null;
   }
-  @Override public String getLocalizedName() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-  @Override public String getDescription() {
+  @Override public Description description()
+  {
     // TODO Auto-generated method stub
     return null;
   }
@@ -85,7 +79,7 @@ public class PlaceRobber extends AbstractTurnAction
     if (!hex.isRobberPlaceable())
     {
       invalidMessage = "Can't place robber or pirate on a "
-              + hex.getName();
+              + hex.name().value();
       return false;
     }
     return super.isValid(game);
@@ -111,7 +105,7 @@ public class PlaceRobber extends AbstractTurnAction
   @Override public boolean mustExpected() {
     return true;
   }
-  @Override public ActionWidget createActionWidget(ActionWidgetFactory actionWidgetFactory) {
+  @Override public ActionPresenter createPresenter(ActionWidgetFactory actionWidgetFactory) {
     return null;
   }
   @Override public ActionDetailWidget createDetailWidget(ActionDetailWidgetFactory factory) {
@@ -208,6 +202,10 @@ public class PlaceRobber extends AbstractTurnAction
     }
     public PlaceRobber getPlaceRobber() {
       return placeRobber;
+    }
+    @Override public boolean endsManually() {
+      // TODO Auto-generated method stub
+      return false;
     }
   }
 }

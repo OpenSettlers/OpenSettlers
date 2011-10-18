@@ -1,40 +1,18 @@
 package org.soc.gwt.client.game.widgetsAbstract.main;
 
-import org.soc.common.game.Game;
-import org.soc.common.game.GamePlayer;
-import org.soc.common.game.actions.ActionInGame;
-import org.soc.common.game.actions.GameAction;
-import org.soc.common.game.actions.GameBehaviour;
-import org.soc.common.server.GameServer;
+import org.soc.common.game.*;
+import org.soc.common.game.actions.*;
+import org.soc.common.server.*;
 import org.soc.common.server.GameServer.GameServerCallback;
-import org.soc.common.views.widgetsInterface.actions.ActionsWidget;
-import org.soc.common.views.widgetsInterface.dialogs.BankTradeWidget;
-import org.soc.common.views.widgetsInterface.dialogs.GameOverDialog;
-import org.soc.common.views.widgetsInterface.dialogs.LooseCardsDialog;
-import org.soc.common.views.widgetsInterface.dialogs.StealCardWidget;
-import org.soc.common.views.widgetsInterface.dialogs.TradePlayerDialog;
-import org.soc.common.views.widgetsInterface.generic.Point2D;
-import org.soc.common.views.widgetsInterface.generic.ToolTipManager;
-import org.soc.common.views.widgetsInterface.main.BankStockWidget;
-import org.soc.common.views.widgetsInterface.main.BoardVisualWidget;
-import org.soc.common.views.widgetsInterface.main.CenterWidget;
-import org.soc.common.views.widgetsInterface.main.ChatWidget;
-import org.soc.common.views.widgetsInterface.main.DebugWidget;
-import org.soc.common.views.widgetsInterface.main.GameDetailsWidget;
-import org.soc.common.views.widgetsInterface.main.GamePanelLayoutWidget;
-import org.soc.common.views.widgetsInterface.main.GameWidget;
-import org.soc.common.views.widgetsInterface.main.HistoryWidget;
-import org.soc.common.views.widgetsInterface.main.PlayerStuffWidget;
-import org.soc.common.views.widgetsInterface.main.QueueWidget;
-import org.soc.common.views.widgetsInterface.main.ResourcesGainedWidget;
-import org.soc.common.views.widgetsInterface.main.StatusWidget;
-import org.soc.common.views.widgetsInterface.playerInfo.PlayersInfoWidget;
-import org.soc.gwt.client.game.DefaultClientFactory;
-import org.soc.gwt.client.game.DetailContainerManagerImpl;
-import org.soc.gwt.client.game.widgetsBitmap.main.DesktopGamePanelLayout;
-import org.soc.gwt.client.game.widgetsBitmap.main.ToolTipManagerImpl;
+import org.soc.common.views.widgetsInterface.actions.*;
+import org.soc.common.views.widgetsInterface.dialogs.*;
+import org.soc.common.views.widgetsInterface.generic.*;
+import org.soc.common.views.widgetsInterface.main.*;
+import org.soc.common.views.widgetsInterface.playerInfo.*;
+import org.soc.gwt.client.game.*;
+import org.soc.gwt.client.game.widgetsBitmap.main.*;
 
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.*;
 
 public abstract class AbstractGameWidget implements GameWidget, CenterWidget,
         GameServerCallback
@@ -223,7 +201,7 @@ public abstract class AbstractGameWidget implements GameWidget, CenterWidget,
   }
   /** Receive an action from the game server Check if there's any behaviour associated with receiving */
   @Override public void receive(GameAction gameAction) {
-    ActionInGame newBehaviour;
+    GameBehaviour newBehaviour;
     // Grab new game behaviour for received action
     if (gameAction.player().equals(player))
       newBehaviour = gameAction.received(this);
@@ -242,8 +220,7 @@ public abstract class AbstractGameWidget implements GameWidget, CenterWidget,
   }
   /* Checks if another GameAction resides on the queue. If so, it looks for associated behaviour and
    * sets it accordingly. */
-  protected void setBehaviourForNextAction()
-  {
+  protected void setBehaviourForNextAction() {
     // Grab the next action on the queue
     GameAction next = game.actionsQueue().blockingActions(player);
     // Make sure the next action is meant to be played with the player
@@ -255,11 +232,14 @@ public abstract class AbstractGameWidget implements GameWidget, CenterWidget,
         setNewGameBehaviour(newBehaviour);
     }
   }
-  /* Updates the current behaviour to given behaviour */
+  /** Updates the current behaviour to given behaviour */
   protected void setNewGameBehaviour(GameBehaviour newGameBehaviour) {
+    // Finish old state
     if (gameBehaviour != null)
       gameBehaviour.finish();
+    // Make new state
     gameBehaviour = newGameBehaviour;
+    // Set state to start
     gameBehaviour.start(this);
   }
   @Override public Point2D getTopRightPlayerInfoBoxPosition(GamePlayer player) {

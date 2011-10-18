@@ -1,38 +1,20 @@
 package org.soc.common.game.bots;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
-import org.soc.common.game.Game;
-import org.soc.common.game.GamePlayer;
-import org.soc.common.game.GamePlayerList;
-import org.soc.common.game.Random;
-import org.soc.common.game.Resource;
-import org.soc.common.game.ResourceList;
-import org.soc.common.game.TurnPhase;
-import org.soc.common.game.Variant;
+import org.soc.common.game.*;
+import org.soc.common.game.Resources.MutableResourceList;
+import org.soc.common.game.Resources.MutableResourceListImpl;
+import org.soc.common.game.Resources.ResourceList;
 import org.soc.common.game.Variant.Standard;
-import org.soc.common.game.actions.BuildRoad;
-import org.soc.common.game.actions.BuildTown;
-import org.soc.common.game.actions.CounterTradeOffer;
-import org.soc.common.game.actions.EndTurn;
-import org.soc.common.game.actions.GameAction;
-import org.soc.common.game.actions.LooseCards;
-import org.soc.common.game.actions.PlaceRobber;
-import org.soc.common.game.actions.RobPlayer;
-import org.soc.common.game.actions.RollDice;
-import org.soc.common.game.board.GraphPoint;
-import org.soc.common.game.board.GraphSide;
-import org.soc.common.game.board.HexLocation;
-import org.soc.common.game.board.HexPoint;
-import org.soc.common.game.board.HexSide;
+import org.soc.common.game.Random;
+import org.soc.common.game.actions.*;
+import org.soc.common.game.board.*;
 import org.soc.common.game.bots.Bot.AbstractBot;
 import org.soc.common.game.bots.NameStrategy.IdioticNames;
-import org.soc.common.game.trading.AcceptTradeOffer;
-import org.soc.common.game.trading.RejectTradeOffer;
-import org.soc.common.game.trading.TradeOffer;
-import org.soc.common.game.trading.TradeResponse;
+import org.soc.common.game.trading.*;
+
+import static org.soc.common.core.GenericList.*;
 
 /** Simple bot implementation using randomness as main advice. */
 public class IdiotBot extends AbstractBot
@@ -64,14 +46,15 @@ public class IdiotBot extends AbstractBot
     if (game.turn().getTurnPhase().isBuilding())
       handleBuildTurnPhase(principal);
   }
-  /* Simply rolls the dice */
+  /** Simply rolls the dice */
   private void handleBeforeDiceRollTurnPhase(BotPrincipal principal) {
-    RollDice rollDice = (RollDice) new RollDice().setPlayer(player);
+    RollDice rollDice = new RollDice();
+    rollDice.setPlayer(player);
     principal.performAction(rollDice);
   }
-  /* No trading supported */
+  /** No trading supported */
   private void handleTradingTurnPhase(BotPrincipal principal) {
-    // No trading yet
+    // No trading for bot yet
     handleBuildTurnPhase(principal);
   }
   private void handleBuildTurnPhase(BotPrincipal principal) {
@@ -93,14 +76,14 @@ public class IdiotBot extends AbstractBot
     return (BuildTown) new BuildTown().setPointLocation(townPick).setPlayer(player);
   }
   @Override public ResourceList pickGold(int amount) {
-    ResourceList goldPick = new ResourceList();
+    MutableResourceList goldPick = new MutableResourceListImpl();
     for (int i = 0; i < amount; i++) {
       int randomResource = random.nextInt(game.rules()
               .tradeableResources().size(), false);
       goldPick.add(game.rules().tradeableResources()
               .get(randomResource));
     }
-    return goldPick;
+    return goldPick.toImmutable();
   }
   @Override public BuildRoad pickSecondRoad() {
     HexSide roadPick = grabRandomHexSide(game.board().graph()
@@ -131,8 +114,7 @@ public class IdiotBot extends AbstractBot
       CounterTradeOffer counter = new CounterTradeOffer();
       counter.getOfferedResources().addList(
               tradeOffer.getRequestedResources());
-      counter.getRequestedResources().add(
-              player.resources().getRandom(random));
+      counter.getRequestedResources().add(getRandom(player.resources(), random));
       responses.add(counter);
     }
     GameAction response = null;
@@ -150,8 +132,8 @@ public class IdiotBot extends AbstractBot
   @Override public LooseCards looseCards(int amount) {
     LooseCards looseCards = new LooseCards();
     looseCards.setPlayer(player);
-    ResourceList lostCards = new ResourceList();
-    ResourceList copy = player.resources().copy();
+    MutableResourceList lostCards = new MutableResourceListImpl();
+    MutableResourceList copy = player.resources().copy();
     for (int i = 0; i < amount; i++)
     {
       int pickedCard = random.nextInt(copy.size(), false);

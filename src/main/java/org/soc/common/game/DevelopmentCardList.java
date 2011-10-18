@@ -22,7 +22,6 @@ import com.gwtplatform.dispatch.annotation.Order;
 public class DevelopmentCardList implements Iterable<DevelopmentCard>,
         Serializable, HasDevelopmentCardsChangedHandlers
 {
-  private static final long serialVersionUID = 3119667710831059077L;
   private List<DevelopmentCard> devCards = new ArrayList<DevelopmentCard>();
   private transient SimpleEventBus eventBus = new SimpleEventBus();
 
@@ -34,40 +33,38 @@ public class DevelopmentCardList implements Iterable<DevelopmentCard>,
     devCards.remove(cardToRemove);
     eventBus.fireEvent(new DevelopmentCardsChangedEvent(null, cardToRemove));
   }
-  public static DevelopmentCardList standard()
-  {
-    DevelopmentCardList standard = new DevelopmentCardList();
-    addSoldiers(14, standard);
-    addVictoryPoints(5, standard);
-    addRoadBuildingss(2, standard);
-    addMonopolies(2, standard);
-    addYeorOfPlenties(2, standard);
-    return standard;
+  public static DevelopmentCardList newStandard() {
+    return new DevelopmentCardList()
+            .addSoldiers(14)
+            .addVictoryPoints(5)
+            .addRoadBuildingss(2)
+            .addMonopolies(2)
+            .addYeorOfPlenties(2);
   }
-  private static void addSoldiers(int amount, DevelopmentCardList devs) {
-    for (int i = 0; i < amount; i++) {
-      devs.add(new Soldier());
-    }
+  public DevelopmentCardList addSoldiers(int amount) {
+    for (int i = 0; i < amount; i++)
+      this.add(new Soldier());
+    return this;
   }
-  private static void addVictoryPoints(int amount, DevelopmentCardList devs) {
-    for (int i = 0; i < amount; i++) {
-      devs.add(new VictoryPoint());
-    }
+  public DevelopmentCardList addVictoryPoints(int amount) {
+    for (int i = 0; i < amount; i++)
+      this.add(new VictoryPoint());
+    return this;
   }
-  private static void addRoadBuildingss(int amount, DevelopmentCardList devs) {
-    for (int i = 0; i < amount; i++) {
-      devs.add(new RoadBuilding());
-    }
+  public DevelopmentCardList addRoadBuildingss(int amount) {
+    for (int i = 0; i < amount; i++)
+      this.add(new RoadBuilding());
+    return this;
   }
-  private static void addMonopolies(int amount, DevelopmentCardList devs) {
-    for (int i = 0; i < amount; i++) {
-      devs.add(new Monopoly());
-    }
+  public DevelopmentCardList addMonopolies(int amount) {
+    for (int i = 0; i < amount; i++)
+      this.add(new Monopoly());
+    return this;
   }
-  private static void addYeorOfPlenties(int amount, DevelopmentCardList devs) {
-    for (int i = 0; i < amount; i++) {
-      devs.add(new YearOfPlenty());
-    }
+  public DevelopmentCardList addYeorOfPlenties(int amount) {
+    for (int i = 0; i < amount; i++)
+      this.add(new YearOfPlenty());
+    return this;
   }
   public static DevelopmentCardList extended() {
     DevelopmentCardList result = new DevelopmentCardList();
@@ -104,12 +101,6 @@ public class DevelopmentCardList implements Iterable<DevelopmentCard>,
     // return the card
     return result;
   }
-  //  public HandlerRegistration addDevelopmentCardsChangedEventHandler(
-  //          DevelopmentCardsChangedEventHandler handler)
-  //  {
-  //    return getEventBus().addHandler(DevelopmentCardsChangedEvent.TYPE,
-  //            handler);
-  //  }
   private SimpleEventBus getEventBus() {
     if (eventBus == null) {
       eventBus = new SimpleEventBus();

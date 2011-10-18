@@ -9,7 +9,7 @@ import java.util.Set;
 import org.jgrapht.jgrapht.UndirectedGraph;
 import org.jgrapht.jgrapht.graph.SimpleGraph;
 import org.soc.common.game.GamePlayer;
-import org.soc.common.game.board.BoardGraph;
+import org.soc.common.game.board.GameBoard;
 import org.soc.common.game.board.GraphPoint;
 import org.soc.common.game.board.GraphPoint.BlockedEndPoint;
 import org.soc.common.game.board.GraphSide;
@@ -23,12 +23,12 @@ public class PlayerGraphList implements Iterable<PlayerGraph>
   // Wrapped list of player graphs
   private List<PlayerGraph> playerGraphs = new ArrayList<PlayerGraph>();
   // Base graph where this subgraph is derived from
-  private BoardGraph boardGraph;
+  private GameBoard boardGraph;
   // Player to make the list of PlayerGraphs from
   private GamePlayer player;
   private UndirectedGraph<GraphPoint, GraphSide> completePlayerGraph;
 
-  public PlayerGraphList(BoardGraph base, GamePlayer player)
+  public PlayerGraphList(GameBoard base, GamePlayer player)
   {
     this.boardGraph = base;
     this.player = player;
@@ -42,9 +42,8 @@ public class PlayerGraphList implements Iterable<PlayerGraph>
     Route result = null;
     for (PlayerGraph playerGraph : playerGraphs)
       if (result == null
-              || result.length() < playerGraph.getLongestPath()
-                      .length())
-        result = playerGraph.getLongestPath();
+              || result.length() < playerGraph.longestPath().length())
+        result = playerGraph.longestPath();
     return result;
   }
   /* Returns a graph containing all the owned edges (roads/ships/bridges) of given player. When a

@@ -1,20 +1,17 @@
 package org.soc.common.game.pieces;
 
-import org.soc.common.board.pieces.MovedEvent;
-import org.soc.common.board.pieces.MovedEvent.HasMovedHandlers;
-import org.soc.common.board.pieces.MovedEvent.MovedHandler;
-import org.soc.common.game.board.HexLocation;
+import org.soc.common.core.property.Properties.Description;
+import org.soc.common.core.property.Properties.Name;
+import org.soc.common.game.board.*;
+import org.soc.common.game.pieces.MovedEvent.HasMovedHandlers;
+import org.soc.common.game.pieces.MovedEvent.MovedHandler;
 import org.soc.common.game.pieces.Piece.AbstractPiece;
-import org.soc.common.internationalization.I;
-import org.soc.common.views.meta.Icon;
-import org.soc.common.views.meta.IconImpl;
-import org.soc.common.views.widgetsInterface.visuals.PieceVisual;
-import org.soc.common.views.widgetsInterface.visuals.VisualFactory;
-import org.soc.gwt.client.images.R;
+import org.soc.common.internationalization.*;
+import org.soc.common.views.meta.*;
+import org.soc.common.views.widgetsInterface.visuals.*;
+import org.soc.gwt.client.images.*;
 
-import com.google.gwt.event.shared.GwtEvent;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.event.shared.SimpleEventBus;
+import com.google.gwt.event.shared.*;
 
 public class Robber extends AbstractPiece implements HasMovedHandlers {
   private HexLocation location;
@@ -23,11 +20,11 @@ public class Robber extends AbstractPiece implements HasMovedHandlers {
   @Override public Icon icon() {
     return new IconImpl(R.icons().robber16(), R.icons().robber32(), R.icons().robber48());
   }
-  @Override public String getLocalizedName() {
-    return I.get().constants().robber();
+  @Override public Name name() {
+    return new Name.Impl(I.get().constants().robber());
   }
-  @Override public String getDescription() {
-    return I.get().constants().robberDescription();
+  @Override public Description description() {
+    return new Description.Impl(I.get().constants().robberDescription());
   }
   public Robber(HexLocation hexLocation) {
     this.location = hexLocation;

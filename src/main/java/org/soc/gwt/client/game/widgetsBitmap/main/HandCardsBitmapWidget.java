@@ -1,8 +1,10 @@
 package org.soc.gwt.client.game.widgetsBitmap.main;
 
+import org.soc.common.core.GenericList.*;
+import org.soc.common.core.GenericList.AddsList.*;
+import org.soc.common.core.GenericList.RemovesList.*;
 import org.soc.common.game.GamePlayer;
 import org.soc.common.game.Resource;
-import org.soc.common.game.ResourcesChangedEvent;
 import org.soc.common.views.widgetsInterface.generic.ResourceWidget;
 import org.soc.gwt.client.game.widgetsAbstract.main.AbstractHandCardsWidget;
 import org.soc.gwt.client.game.widgetsBitmap.generic.ResourceBitmapWidget;
@@ -21,7 +23,26 @@ public class HandCardsBitmapWidget extends AbstractHandCardsWidget
       addWidget(resource);
     }
     rootPanel.setWidth("5em");
-    player.resources().addResourcesChangedHandler(this);
+    player.resources().addListRemovedHandler(new ListRemoved<Resource>() {
+      @Override public void listRemoved(ImmutableList<Resource> items) {
+        for (Resource resource : items) {
+          for (int i = 0; i < rootPanel.getWidgetCount(); i++) {
+            ResourceWidget widget = (ResourceWidget) rootPanel.getWidget(i);
+            if (widget.getResource().equals(resource)) {
+              rootPanel.remove(widget);
+              break;
+            }
+          }
+        }
+      }
+    });
+    player.resources().addListAddedHandler(new ListAdded<Resource>() {
+      @Override public void listAdded(ImmutableList<Resource> items) {
+        for (Resource resource : items) {
+          addWidget(resource);
+        }
+      }
+    });
   }
   private void addWidget(Resource resource)
   {
@@ -36,31 +57,5 @@ public class HandCardsBitmapWidget extends AbstractHandCardsWidget
   @Override protected ComplexPanel createRootPanel()
   {
     return new VerticalPanel();
-  }
-  @Override public void onResourcesChanged(ResourcesChangedEvent resourcesChanged)
-  {
-    if (resourcesChanged.getAddedResources() != null)
-    {
-      for (Resource resource : resourcesChanged.getAddedResources())
-      {
-        addWidget(resource);
-      }
-    }
-    if (resourcesChanged.getRemovedResources() != null)
-    {
-      for (Resource resource : resourcesChanged.getRemovedResources())
-      {
-        for (int i = 0; i < rootPanel.getWidgetCount(); i++)
-        {
-          ResourceWidget widget = (ResourceWidget) rootPanel
-                  .getWidget(i);
-          if (widget.getResource().equals(resource))
-          {
-            rootPanel.remove(widget);
-            break;
-          }
-        }
-      }
-    }
   }
 }

@@ -1,19 +1,16 @@
 package org.soc.common.game.trading;
 
-import org.soc.common.game.Game;
-import org.soc.common.game.GamePhase;
-import org.soc.common.game.Resource;
-import org.soc.common.game.ResourceList;
-import org.soc.common.game.TurnPhase;
+import org.soc.common.core.property.Properties.Description;
+import org.soc.common.core.property.Properties.Name;
+import org.soc.common.game.*;
+import org.soc.common.game.Resources.ResourceList;
+import org.soc.common.game.actions.Action.ActionPresenter.ActionWidgetFactory;
 import org.soc.common.game.actions.TurnAction.AbstractTurnAction;
-import org.soc.common.internationalization.I;
-import org.soc.common.views.meta.Icon;
-import org.soc.common.views.meta.IconImpl;
-import org.soc.common.views.widgetsInterface.actions.ActionDetailWidget;
+import org.soc.common.internationalization.*;
+import org.soc.common.views.meta.*;
+import org.soc.common.views.widgetsInterface.actions.*;
 import org.soc.common.views.widgetsInterface.actions.ActionDetailWidget.ActionDetailWidgetFactory;
-import org.soc.common.views.widgetsInterface.actions.ActionWidget;
-import org.soc.common.views.widgetsInterface.actions.ActionWidget.ActionWidgetFactory;
-import org.soc.gwt.client.images.R;
+import org.soc.gwt.client.images.*;
 
 public class TradeBank extends AbstractTurnAction {
   private ResourceList wantedResources;
@@ -24,15 +21,13 @@ public class TradeBank extends AbstractTurnAction {
             R.icons().bankTrade32(), R.icons()
                     .bankTrade48());
   }
-  @Override public String name() {
+  @Override public Name name()
+  {
     // TODO Auto-generated method stub
     return null;
   }
-  @Override public String getLocalizedName() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-  @Override public String getDescription() {
+  @Override public Description description()
+  {
     // TODO Auto-generated method stub
     return null;
   }
@@ -57,11 +52,11 @@ public class TradeBank extends AbstractTurnAction {
       invalidMessage = "OfferedCards or WantedCards cannot be null";
       return false;
     }
-    if (offeredResources.getNonTradeableResources().size() > 0) {
+    if (offeredResources.nonTradeableResources().size() > 0) {
       invalidMessage = "You offer resources which are not tradeable";
       return false;
     }
-    if (wantedResources.getNonTradeableResources().size() > 0) {
+    if (wantedResources.nonTradeableResources().size() > 0) {
       invalidMessage = "You want resources which are not tradeable";
       return false;
     }
@@ -99,10 +94,10 @@ public class TradeBank extends AbstractTurnAction {
   }
   @Override public void perform(Game game) {
     player = game.playerById(sender);
-    player.resources().subtractResources(offeredResources);
+    player.resources().removeList(offeredResources);
     player.resources().addList(wantedResources);
     game.bank().addList(offeredResources);
-    game.bank().subtractResources(wantedResources);
+    game.bank().removeList(wantedResources);
     message = player.user().name() + " exchanges "
             + offeredResources.toString() + " for "
             + wantedResources.toString() + ".";
@@ -117,7 +112,7 @@ public class TradeBank extends AbstractTurnAction {
   @Override public String toDoMessage() {
     return I.get().actions().noToDo();
   }
-  @Override public ActionWidget createActionWidget(ActionWidgetFactory actionWidgetFactory) {
+  @Override public ActionPresenter createPresenter(ActionWidgetFactory actionWidgetFactory) {
     return actionWidgetFactory.createTradeBankWidget();
   }
   @Override public ActionDetailWidget createDetailWidget(ActionDetailWidgetFactory factory) {

@@ -1,18 +1,13 @@
 package org.soc.gwt.client.lobby;
 
-import org.soc.common.lobby.actions.LobbyChat;
-import org.soc.common.server.ELobbyActionEvent;
-import org.soc.common.server.ELobbyActionEvent.ELobbyActionHandler;
-import org.soc.common.views.widgetsInterface.lobby.ChatBoxWidget;
-import org.soc.common.views.widgetsInterface.lobby.LobbyWidget;
+import org.soc.common.lobby.*;
+import org.soc.common.lobby.ELobbyActionEvent.ELobbyActionHandler;
+import org.soc.common.lobby.actions.*;
+import org.soc.common.views.widgetsInterface.lobby.*;
 
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.user.client.ui.DockLayoutPanel;
-import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.event.dom.client.*;
+import com.google.gwt.user.client.ui.*;
 
 public class ChatBoxBitmapWidget extends DockLayoutPanel implements
         ChatBoxWidget, ELobbyActionHandler

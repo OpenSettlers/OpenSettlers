@@ -1,14 +1,12 @@
 package org.soc.common.views.widgetsInterface.generic;
 
-import org.soc.common.game.Resource;
-import org.soc.common.game.ResourceList;
-import org.soc.common.game.ResourcesChangedEvent.ResourcesChangedHandler;
+import org.soc.common.game.*;
+import org.soc.common.game.Resources.MutableResourceList;
+import org.soc.common.game.Resources.ResourceList;
 import org.soc.common.views.widgetsInterface.generic.ResourceClickedEvent.ResourceClickedHandler;
 
-import com.google.gwt.user.client.ui.ComplexPanel;
-import com.google.gwt.user.client.ui.IsWidget;
-import com.gwtplatform.dispatch.annotation.GenEvent;
-import com.gwtplatform.dispatch.annotation.Order;
+import com.google.gwt.user.client.ui.*;
+import com.gwtplatform.dispatch.annotation.*;
 
 /*
  * Displays a list of resources. When Ports is set, it adds amount of resources
@@ -16,17 +14,15 @@ import com.gwtplatform.dispatch.annotation.Order;
  * 
  * If a bank is set, it displays amount of resources available in the bank
  */
-public interface ResourceListWidget extends IsWidget,
-        ResourcesChangedHandler, ResourceClickedHandler
-{
+public interface ResourceListWidget extends IsWidget, ResourceClickedHandler {
   // Returns a new base panel where widgets are put into
   public ComplexPanel createRootPanel();
   // Create a resource widget using given resource type
   public ResourceWidget createResourceWidget(Resource resourceType);
   public ResourceListWidget setResources(ResourceList resources);
-  public ResourceList getResources();
+  public MutableResourceList getResources();
   public ResourceListWidget setEnabled(boolean enabled);
-  public void setHeight(String height);
+  public ResourceListWidget setHeight(String height);
   public ResourceListWidget setBankResources(ResourceList bankResources);
 
   @GenEvent public class ResourceClicked {

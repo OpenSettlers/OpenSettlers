@@ -1,37 +1,35 @@
 package org.soc.common.game.actions;
 
-import org.soc.common.game.Game;
-import org.soc.common.game.GamePhase;
+import org.soc.common.core.property.Properties.Description;
+import org.soc.common.core.property.Properties.Name;
+import org.soc.common.game.*;
 import org.soc.common.game.GamePhase.LobbyGamePhase;
-import org.soc.common.game.TurnPhase;
+import org.soc.common.game.actions.Action.ActionPresenter.ActionWidgetFactory;
 import org.soc.common.game.actions.GameAction.AbstractGameAction;
-import org.soc.common.internationalization.I;
-import org.soc.common.views.meta.Icon;
-import org.soc.common.views.widgetsInterface.actions.ActionWidget;
-import org.soc.common.views.widgetsInterface.actions.ActionWidget.ActionWidgetFactory;
-import org.soc.common.views.widgetsInterface.main.GameWidget;
+import org.soc.common.internationalization.*;
+import org.soc.common.views.meta.*;
+import org.soc.common.views.widgetsInterface.main.*;
 
 /** Opponents on the game table in the lobby phase, optionally must say "Ok, let's play!!" */
 public class AcceptSettings extends AbstractGameAction {
   @Override public boolean isAllowed(TurnPhase turnPhase) {
     return false;
   }
-  /** Returns true when the game is in the lobby */
+  /** True when the game is in the lobby, and not yet started */
   @Override public boolean isAllowed(GamePhase gamePhase) {
     return gamePhase.isLobby();
   }
   @Override public void perform(Game game) {
     // Add the player to the list of players who accepted the settings
     LobbyGamePhase lobbyPhase = (LobbyGamePhase) game.phase();
-    if (!lobbyPhase.playersWhoAcceptedSettings().contains(player())) {
-      lobbyPhase.playersWhoAcceptedSettings().add(player());
-    }
+    if (!lobbyPhase.settinggsAccepters().contains(player()))
+      lobbyPhase.settinggsAccepters().add(player());
     super.perform(game);
   }
   @Override public String toDoMessage() {
     return I.get().actions().acceptSettingsToDo(player.user().name());
   }
-  @Override public ActionWidget createActionWidget(ActionWidgetFactory actionWidgetFactory) {
+  @Override public ActionPresenter createPresenter(ActionWidgetFactory actionWidgetFactory) {
     // TODO Auto-generated method stub
     return null;
   }
@@ -39,11 +37,11 @@ public class AcceptSettings extends AbstractGameAction {
     // TODO Auto-generated method stub
     return null;
   }
-  @Override public ActionInGame opponentReceived(GameWidget gameWidget) {
+  @Override public GameBehaviour opponentReceived(GameWidget gameWidget) {
     // TODO Auto-generated method stub
     return null;
   }
-  @Override public ActionInGame received(GameWidget gameWidget) {
+  @Override public GameBehaviour received(GameWidget gameWidget) {
     // TODO Auto-generated method stub
     return null;
   }
@@ -51,15 +49,11 @@ public class AcceptSettings extends AbstractGameAction {
     // TODO Auto-generated method stub
     return null;
   }
-  @Override public String name() {
+  @Override public Name name() {
     // TODO Auto-generated method stub
     return null;
   }
-  @Override public String getLocalizedName() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-  @Override public String getDescription() {
+  @Override public Description description() {
     // TODO Auto-generated method stub
     return null;
   }

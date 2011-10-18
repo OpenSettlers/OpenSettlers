@@ -9,7 +9,7 @@ import com.google.gwt.user.client.Random;
 
 public interface GraphPoint extends GraphElement, Serializable {
   public HexPoint hexPoint();
-  /* Returns true when a town is allowed to build on it */
+  /** True when a town is allowed to build on it */
   public boolean isTownBuildable();
   public GraphPoint setTownBuildable(boolean townBuildable);
   public HasPoint getPointPiece();

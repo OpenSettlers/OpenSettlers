@@ -1,28 +1,30 @@
 package org.soc.gwt.client.game.widgetsAbstract.generic;
 
-import org.soc.common.game.PortList;
-import org.soc.common.game.Resource;
-import org.soc.common.game.ResourceList;
-import org.soc.common.game.ResourcesChangedEvent;
-import org.soc.common.views.widgetsInterface.generic.ResourceClickedEvent;
-import org.soc.common.views.widgetsInterface.generic.ResourceListWidget;
-import org.soc.common.views.widgetsInterface.generic.ResourceWidget;
+import org.soc.common.core.GenericList.*;
+import org.soc.common.core.GenericList.AddsList.*;
+import org.soc.common.core.GenericList.RemovesList.*;
+import org.soc.common.game.Ports.PortList;
+import org.soc.common.game.*;
+import org.soc.common.game.Resources.MutableResourceList;
+import org.soc.common.game.Resources.MutableResourceListImpl;
+import org.soc.common.game.Resources.ResourceList;
+import org.soc.common.views.widgetsInterface.generic.*;
 
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.ui.ComplexPanel;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.*;
+import com.google.web.bindery.event.shared.*;
 
-public abstract class AbstractResourceListWidget implements ResourceListWidget
+public abstract class AbstractResourceListWidget implements ResourceListWidget,
+        ListAdded<Resource>, ListRemoved<Resource>
 {
   protected ComplexPanel rootPanel;
   protected int maximumResources;
-  protected ResourceList resources;
-  protected ResourceList bankResources;
+  protected MutableResourceList resources;
+  protected MutableResourceList bankResources;
   protected PortList ports;
   protected HandlerRegistration resourcesRegistration;
 
   public AbstractResourceListWidget(ResourceList resources,
-          ResourceList bankResources, PortList ports)
+          MutableResourceList bankResources, PortList ports)
   {
     this.ports = ports;
     this.bankResources = bankResources;
@@ -31,88 +33,53 @@ public abstract class AbstractResourceListWidget implements ResourceListWidget
     setResources(resources);
     addResources(resources);
   }
-  /** @return the resources */
-  @Override public ResourceList getResources()
-  {
+  @Override public MutableResourceList getResources() {
     return resources;
   }
-  /* (non-Javadoc)
-   * 
-   * @see org.soc.gwt.client.game.widgets.abstractWidgets.IResourceListWidget#setEnabled (boolean) */
-  @Override public ResourceListWidget setEnabled(boolean enabled)
-  {
-    for (int i = 0; i < rootPanel.getWidgetCount(); i++)
-    {
-      ResourceWidget resourceWidget = (ResourceWidget) rootPanel
-              .getWidget(i);
+  @Override public ResourceListWidget setEnabled(boolean enabled) {
+    for (int i = 0; i < rootPanel.getWidgetCount(); i++) {
+      ResourceWidget resourceWidget = (ResourceWidget) rootPanel.getWidget(i);
       resourceWidget.setEnabled(enabled);
     }
     return this;
   }
-  /** @param resources the resources to set */
-  @Override public ResourceListWidget setResources(ResourceList resources)
-  {
+  @Override public ResourceListWidget setResources(ResourceList newResources) {
     // Remove handler from old resourcelist
-    if (resourcesRegistration != null)
-    {
+    if (resourcesRegistration != null) {
       resourcesRegistration.removeHandler();
     }
-    this.resources = resources;
+    resources = new MutableResourceListImpl(newResources);
     // Get rid of any old widgets
     rootPanel.clear();
     // Add new widgets if any
-    for (Resource resource : resources)
-    {
+    for (Resource resource : this.resources) {
       ResourceWidget resourceWidget = createResourceWidget(resource);
       resourceWidget.addResourceClickedHandler(this);
       rootPanel.add(resourceWidget);
     }
     // Listen to changes on the new resource list
-    resourcesRegistration = resources.addResourcesChangedHandler(this);
+    resourcesRegistration = this.resources.addListAddedHandler(this);
     return this;
   }
   public ResourceListWidget setBankResources(ResourceList bankResources)
   {
-    this.bankResources = bankResources;
+    this.bankResources = new MutableResourceListImpl(bankResources);
     return this;
   }
-  /* (non-Javadoc)
-   * 
-   * @see org.soc.common.board.resources.ResourcesChangedEventHandler#onResourcesChanged
-   * (org.soc.common.board.resources.ResourcesChangedEvent) */
-  @Override public void onResourcesChanged(ResourcesChangedEvent resourcesChanged)
-  {
-    if (resourcesChanged.getAddedResources() != null)
-    {
-      addResources(resourcesChanged.getAddedResources());
-    }
-    if (resourcesChanged.getRemovedResources() != null)
-    {
-      removeResources(resourcesChanged.getRemovedResources());
-    }
-  }
-  private void addResources(ResourceList resourcesToAdd)
-  {
-    for (Resource resource : resourcesToAdd)
-    {
+  private void addResources(ImmutableList<Resource> items) {
+    for (Resource resource : items) {
       ResourceWidget resourceWidget = createResourceWidget(resource);
       resourceWidget.addResourceClickedHandler(this);
       rootPanel.add(resourceWidget);
     }
   }
-  private void removeResources(ResourceList resourcesToRemove)
-  {
-    ResourceList resToRemove = resourcesToRemove.copy();
-    for (Resource resourceToRemove : resToRemove)
-    {
-      for (int i = 0; i < rootPanel.getWidgetCount(); i++)
-      {
+  private void removeResources(ImmutableList<Resource> items) {
+    ImmutableList<Resource> resToRemove = items.copy();
+    for (Resource resourceToRemove : resToRemove) {
+      for (int i = 0; i < rootPanel.getWidgetCount(); i++) {
         Object o = rootPanel.getWidget(i);
-        ResourceWidget resourceWidget = (ResourceWidget) rootPanel
-                .getWidget(i);
-        if (resourceWidget.getResource().getClass() == resourceToRemove
-                .getClass())
-        {
+        ResourceWidget resourceWidget = (ResourceWidget) rootPanel.getWidget(i);
+        if (resourceWidget.getResource().getClass() == resourceToRemove.getClass()) {
           rootPanel.remove(i);
           break;
         }
@@ -123,29 +90,25 @@ public abstract class AbstractResourceListWidget implements ResourceListWidget
   {
     return rootPanel;
   }
-  @Override public void onResourceClicked(ResourceClickedEvent event)
-  {
+  @Override public void onResourceClicked(ResourceClickedEvent event) {
     Resource removedResource = event.getResource();
-    if (ports != null)
-    {
-      ResourceList resourcesToRemove = new ResourceList();
+    if (ports != null) {
+      MutableResourceList resourcesToRemove = new MutableResourceListImpl();
       for (int i = 0; i < ports.amountNeededToTrade(removedResource); i++)
-      {
         resourcesToRemove.add(removedResource.copy());
-      }
-      resources.remove(resourcesToRemove, false);
+      resources.removeList(resourcesToRemove.toImmutable());
       if (bankResources != null)
-      {
         bankResources.addList(resourcesToRemove);
-      }
-    }
-    else
-    {
+    } else {
       resources.remove(removedResource);
       if (bankResources != null)
-      {
         bankResources.add(removedResource);
-      }
     }
+  }
+  @Override public void listRemoved(ImmutableList<Resource> items) {
+    addResources(items);
+  }
+  @Override public void listAdded(ImmutableList<Resource> items) {
+    removeResources(items);
   }
 }

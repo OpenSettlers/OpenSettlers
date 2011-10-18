@@ -1,33 +1,23 @@
 package org.soc.gwt.client.game.widgetsAbstract.main;
 
-import org.soc.common.game.GamePlayer;
-import org.soc.common.game.ResourceList;
-import org.soc.common.game.ResourcesChangedEvent;
-import org.soc.common.game.ResourcesChangedEvent.ResourcesChangedHandler;
-import org.soc.common.game.actions.CounterTradeOffer;
-import org.soc.common.game.trading.AcceptTradeOffer;
-import org.soc.common.game.trading.RejectTradeOffer;
-import org.soc.common.game.trading.TradeResponse;
-import org.soc.common.views.widgetsInterface.dialogs.TradePlayerDialog;
-import org.soc.common.views.widgetsInterface.main.GameWidget;
-import org.soc.common.views.widgetsInterface.main.TradeListWidget;
-import org.soc.common.views.widgetsInterface.main.TradePlayerStatusWidget;
-import org.soc.gwt.client.game.widgetsBitmap.main.TradeListBitmapWidget;
-import org.soc.gwt.client.images.R;
+import org.soc.common.core.GenericList.*;
+import org.soc.common.core.GenericList.AddsList.*;
+import org.soc.common.core.GenericList.RemovesList.*;
+import org.soc.common.game.*;
+import org.soc.common.game.Resources.MutableResourceList;
+import org.soc.common.game.Resources.MutableResourceListImpl;
+import org.soc.common.game.actions.*;
+import org.soc.common.game.trading.*;
+import org.soc.common.views.widgetsInterface.dialogs.*;
+import org.soc.common.views.widgetsInterface.main.*;
+import org.soc.gwt.client.game.widgetsBitmap.main.*;
+import org.soc.gwt.client.images.*;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.ComplexPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.PushButton;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.event.dom.client.*;
+import com.google.gwt.user.client.ui.*;
 
 public class AbstractTradePlayerStatusWidget implements
-        TradePlayerStatusWidget, ClickHandler,
-        ResourcesChangedHandler
-{
+        TradePlayerStatusWidget, ClickHandler {
   private GamePlayer opponent;
   private GamePlayer playingPlayer;
   private GameWidget gameWidget;
@@ -47,8 +37,8 @@ public class AbstractTradePlayerStatusWidget implements
     this.playingPlayer = playingPlayer;
     this.tradePlayerUI = tradePlayerUI;
     int height = gameWidget.getPlayersInfoWidget().getPlayerWidgetHeight();
-    ResourceList wantResources = new ResourceList();
-    ResourceList giveResources = new ResourceList();
+    MutableResourceList wantResources = new MutableResourceListImpl();
+    MutableResourceList giveResources = new MutableResourceListImpl();
     if (!opponent.equals(playingPlayer))
     {
       tradeResources = new TradeListBitmapWidget(wantResources,
@@ -63,25 +53,25 @@ public class AbstractTradePlayerStatusWidget implements
     }
     btnAccept.addClickHandler(this);
     rootPanel.setHeight(Integer.toString(height) + "px");
-    playingPlayer.resources().addResourcesChangedHandler(this);
+    playingPlayer.resources().addListAddedHandler(new ListAdded<Resource>() {
+      @Override public void listAdded(ImmutableList<Resource> items) {
+        update();
+      }
+    });
+    playingPlayer.resources().addListRemovedHandler(new ListRemoved<Resource>() {
+      @Override public void listRemoved(ImmutableList<Resource> items) {
+        update();
+      }
+    });
   }
-  /** @wbp.parser.entryPoint */
-  @Override public Widget asWidget()
-  {
+  @Override public Widget asWidget() {
     return rootPanel;
   }
-  /* (non-Javadoc)
-   * 
-   * @see org.soc.gwt.client.game.widgets.abstractWidgets.TradePlayerStatusWidget#update
-   * (org.soc.common.game.trading.TradeResponse) */
-  @Override public void update(TradeResponse tradeResponse)
-  {
+  @Override public void update(TradeResponse tradeResponse) {
     int height = gameWidget.getPlayersInfoWidget().getPlayerWidgetHeight();
     rootPanel.setHeight(Integer.toString(height) + "px");
-    if (tradeResources != null)
-    {
-      if (tradeResponse != null)
-      {
+    if (tradeResources != null) {
+      if (tradeResponse != null) {
         this.tradeResponse = tradeResponse;
         if (tradeResponse.isAccepted())
           updateAccept((AcceptTradeOffer) tradeResponse);
@@ -89,8 +79,7 @@ public class AbstractTradePlayerStatusWidget implements
           updateCounter((CounterTradeOffer) tradeResponse);
         if (tradeResponse.isRejection())
           updateReject((RejectTradeOffer) tradeResponse);
-      } else
-      {
+      } else {
         btnAccept.setEnabled(false);
         btnAccept.setText("No offer");
         imgStatus.setUrl(R.icons().tradeDisabled32().getURL());
@@ -163,10 +152,9 @@ public class AbstractTradePlayerStatusWidget implements
             tradeResponse.getOriginatingOffer()
                     .getOfferedResources());
   }
-  @Override public void onResourcesChanged(ResourcesChangedEvent resourcesChanged)
+  public void update()
   {
-    if (tradeResponse != null)
-    {
+    if (tradeResponse != null) {
       if (tradeResponse.isCounterOffer())
         updateCounter((CounterTradeOffer) tradeResponse);
       if (tradeResponse.isAccepted())

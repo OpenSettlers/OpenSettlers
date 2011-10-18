@@ -1,19 +1,11 @@
 package org.soc.common.game.bots;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-import org.soc.common.game.GamePlayer;
-import org.soc.common.game.actions.BuildRoad;
-import org.soc.common.game.actions.BuildTown;
-import org.soc.common.game.actions.GameAction;
-import org.soc.common.game.actions.LooseCards;
-import org.soc.common.game.actions.PlaceRobber;
-import org.soc.common.game.actions.RobPlayer;
-import org.soc.common.game.actions.RollDice;
-import org.soc.common.game.trading.QueuedTradeResponse;
-import org.soc.common.server.GameServer;
+import org.soc.common.game.*;
+import org.soc.common.game.actions.*;
+import org.soc.common.game.trading.*;
+import org.soc.common.server.*;
 
 /*
  * Responsible for managing game-flow logic for bots
@@ -24,8 +16,7 @@ import org.soc.common.server.GameServer;
  * 
  * When illegal actions are executed, those actions are logged such that they can be debugged.
  */
-public interface BotPrincipal
-{
+public interface BotPrincipal {
   public void performAction(GameAction action);
   public void handleActionsQueue();
   public void handleActions();
@@ -36,8 +27,7 @@ public interface BotPrincipal
     private GameServer gameServer;
     private Map<Bot, Bot> threadingBots = new HashMap<Bot, Bot>();
 
-    public BotPrincipalImpl(GameServer gameServer)
-    {
+    public BotPrincipalImpl(GameServer gameServer) {
       super();
       this.gameServer = gameServer;
       // Map bots to their wrapper equivalents for threading
@@ -47,16 +37,14 @@ public interface BotPrincipal
         if (player.bot() != null)
           threadingBots.put(player.bot(), player.bot());
     }
-    @Override public void handleActionsQueue()
-    {
+    @Override public void handleActionsQueue() {
       List<GameAction> botActions = gameServer.game().actionsQueue()
               .pendingBotActions();
       // Call each bot's handler for the action
       for (GameAction botAction : botActions)
         callBotActionHandler(botAction);
     }
-    private void callBotActionHandler(GameAction queuedAction)
-    {
+    private void callBotActionHandler(GameAction queuedAction) {
       // The action compiled by the bot to execute
       GameAction answerAction = null;
       // Reference to the wrapped bot

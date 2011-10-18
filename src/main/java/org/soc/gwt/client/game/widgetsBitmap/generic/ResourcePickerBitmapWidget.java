@@ -1,11 +1,11 @@
 package org.soc.gwt.client.game.widgetsBitmap.generic;
 
-import org.soc.common.game.PortList;
-import org.soc.common.game.Resource;
-import org.soc.common.game.ResourceList;
-import org.soc.common.views.widgetsInterface.generic.ResourceSelectorWidget;
-import org.soc.common.views.widgetsInterface.main.GameWidget;
-import org.soc.gwt.client.game.widgetsAbstract.generic.AbstractResourcePickerWidget;
+import org.soc.common.game.Ports.PortList;
+import org.soc.common.game.*;
+import org.soc.common.game.Resources.ResourceList;
+import org.soc.common.views.widgetsInterface.generic.*;
+import org.soc.common.views.widgetsInterface.main.*;
+import org.soc.gwt.client.game.widgetsAbstract.generic.*;
 
 public class ResourcePickerBitmapWidget extends AbstractResourcePickerWidget
 {
