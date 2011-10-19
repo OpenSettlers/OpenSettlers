@@ -1,9 +1,9 @@
 package org.soc.gwt.client.editor;
 
+import org.soc.common.core.GenericList.Models;
 import org.soc.common.game.*;
 import org.soc.common.game.actions.ActionOnBoard.SetPortOnBoard;
 import org.soc.common.utils.*;
-import org.soc.gwt.client.images.*;
 
 import com.google.gwt.event.dom.client.*;
 import com.google.gwt.event.shared.*;
@@ -27,7 +27,7 @@ public class PortPanel extends VerticalPanel {
 
   private class PortButton extends PushButton {
     public PortButton(final Port port) {
-      super(new Image(R.mediumIcon(port)));
+      super(new Image(Models.mediumIcon(port)));
       addClickHandler(new ClickHandler() {
         @Override public void onClick(ClickEvent event) {
           behaviour.setPort(port);

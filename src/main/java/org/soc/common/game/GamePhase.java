@@ -6,20 +6,16 @@ import java.util.*;
 import org.soc.common.core.GenericList.HasId;
 import org.soc.common.core.GenericList.Model;
 import org.soc.common.core.OpenZettlers.OsModel;
+import org.soc.common.core.Props.IsChild;
 import org.soc.common.core.Props.PropertyList.PropertyTypeList;
-import org.soc.common.core.property.Properties.Description;
-import org.soc.common.core.property.Properties.Name;
 import org.soc.common.core.property.*;
 import org.soc.common.game.InitialPlacement.TwoTowns;
 import org.soc.common.game.Turn.TurnImpl;
 import org.soc.common.game.TurnPhase.BeforeDiceRollTurnPhase;
 import org.soc.common.game.actions.*;
 import org.soc.common.game.trading.*;
-import org.soc.common.utils.*;
-import org.soc.common.views.meta.*;
 import org.soc.common.views.widgetsInterface.main.*;
 import org.soc.common.views.widgetsInterface.main.GamePhaseWidget.GamePhaseStatusWidgetFactory;
-import org.soc.gwt.client.images.*;
 
 public interface GamePhase extends Serializable, OsModel<Integer> {
   public void performAction(GameAction action, Game game);
@@ -62,9 +58,6 @@ public interface GamePhase extends Serializable, OsModel<Integer> {
     public boolean isAllowed(GameAction action) {
       return action.isAllowed(this);
     }
-    @Override public Name name() {
-      return new Name.Impl(Util.shortName(this.getClass()));
-    }
     @Override public boolean isDetermineFirstPlayer() {
       return false;
     }
@@ -83,7 +76,7 @@ public interface GamePhase extends Serializable, OsModel<Integer> {
     @Override public boolean isPlayTurns() {
       return false;
     }
-    @Override public Property getProp(Property type) {
+    @Override public IsChild getProp(StaticProperty type) {
       // TODO Auto-generated method stub
       return null;
     }
@@ -111,20 +104,6 @@ public interface GamePhase extends Serializable, OsModel<Integer> {
 
   public class DetermineFirstPlayerGamePhase extends AbstractGamePhase
   {
-    @Override public Icon icon() {
-      return new IconImpl(R.icons()
-              .determineFirstPlayerGamePhase16(), R.icons()
-              .determineFirstPlayerGamePhase32(), R.icons()
-              .determineFirstPlayerGamePhase48());
-    }
-    @Override public Name name() {
-      // TODO Auto-generated method stub
-      return null;
-    }
-    @Override public Description description() {
-      // TODO Auto-generated method stub
-      return null;
-    }
     @Override public void start(Game game)
     {
       // expect each player to roll at least once (first phase: everyone rolls
@@ -262,19 +241,6 @@ public interface GamePhase extends Serializable, OsModel<Integer> {
   }
 
   public class EndedGamePhase extends AbstractGamePhase {
-    @Override public Icon icon() {
-      return new IconImpl(R.icons().endedGamePhase16(),
-              R.icons().endedGamePhase32(), R.icons()
-                      .endedGamePhase48());
-    }
-    @Override public Name name() {
-      // TODO Auto-generated method stub
-      return null;
-    }
-    @Override public Description description() {
-      // TODO Auto-generated method stub
-      return null;
-    }
     @Override public String message() {
       // TODO fix message
       return "Game has ended";
@@ -301,20 +267,6 @@ public interface GamePhase extends Serializable, OsModel<Integer> {
   public class InitialPlacementGamePhase extends AbstractGamePhase {
     private InitialPlacement placementStrategy = new TwoTowns();
 
-    @Override public Icon icon() {
-      return new IconImpl(R.icons()
-              .initialPlacementGamePhase16(), R.icons()
-              .initialPlacementGamePhase32(), R.icons()
-              .initialPlacementGamePhase48());
-    }
-    @Override public Name name() {
-      // TODO Auto-generated method stub
-      return null;
-    }
-    @Override public Description description() {
-      // TODO Auto-generated method stub
-      return null;
-    }
     /* Empty default constructor */
     public InitialPlacementGamePhase() {}
     public InitialPlacementGamePhase(InitialPlacement strategy) {
@@ -359,19 +311,6 @@ public interface GamePhase extends Serializable, OsModel<Integer> {
   public class LobbyGamePhase extends AbstractGamePhase {
     private List<GamePlayer> playersWhoAcceptedSettings = new ArrayList<GamePlayer>();
 
-    @Override public Icon icon() {
-      return new IconImpl(R.icons().lobbyGamePhase16(), R.icons().lobbyGamePhase32(), R
-              .icons()
-              .lobbyGamePhase48());
-    }
-    @Override public Name name() {
-      // TODO Auto-generated method stub
-      return null;
-    }
-    @Override public Description description() {
-      // TODO Auto-generated method stub
-      return null;
-    }
     public List<GamePlayer> settinggsAccepters() {
       return playersWhoAcceptedSettings;
     }
@@ -408,17 +347,6 @@ public interface GamePhase extends Serializable, OsModel<Integer> {
   }
 
   public class PlacePortsGamePhase extends AbstractGamePhase {
-    @Override public Icon icon() {
-      return new IconImpl(null);
-    }
-    @Override public Name name() {
-      // TODO Auto-generated method stub
-      return null;
-    }
-    @Override public Description description() {
-      // TODO Auto-generated method stub
-      return null;
-    }
     @Override public void performAction(GameAction action, Game game) {
       action.perform(game);
     }
@@ -477,20 +405,6 @@ public interface GamePhase extends Serializable, OsModel<Integer> {
     // Current phase of the player on turn
     private TurnPhase turnPhase = new BeforeDiceRollTurnPhase();
 
-    @Override public Icon icon() {
-      return new IconImpl(R.icons()
-              .playTurnsGamePhase16(), R.icons()
-              .playTurnsGamePhase32(), R.icons()
-              .playTurnsGamePhase48());
-    }
-    @Override public Name name() {
-      // TODO Auto-generated method stub
-      return null;
-    }
-    @Override public Description description() {
-      // TODO Auto-generated method stub
-      return null;
-    }
     public TurnPhase turnPhase() {
       return turnPhase;
     }

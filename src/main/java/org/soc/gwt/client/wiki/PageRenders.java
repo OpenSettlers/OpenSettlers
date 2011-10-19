@@ -1,5 +1,6 @@
 package org.soc.gwt.client.wiki;
 
+import org.soc.common.core.GenericList.Models;
 import org.soc.common.core.OpenZettlers.OsModel;
 
 /**
@@ -16,7 +17,7 @@ public class PageRenders {
   public class DefaultWikiRender implements WikiRender {
     @Override public StringBuilder link(OsModel model) {
       return WikiBuilder.start()
-              .image(model.name().value(), 16)
+              .image(Models.name(model), 16)
               .link()
               .build();
     }

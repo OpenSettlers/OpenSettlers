@@ -1,5 +1,6 @@
 package org.soc.gwt.client.game.widgetsBitmap.generic;
 
+import org.soc.common.core.GenericList.Models;
 import org.soc.common.game.*;
 import org.soc.common.game.Ports.PortList;
 import org.soc.common.game.Resources.ResourceList;
@@ -28,7 +29,7 @@ public class ResourceSelectorBitmapWidget implements ResourceSelectorWidget,
     super();
     this.resource = resource;
     this.ports = ports;
-    btnResource = new PushButton(new Image(resource.icon()
+    btnResource = new PushButton(new Image(Models.icon(resource)
             .iconDefault()));
     btnResource.addClickHandler(this);
     imgPort = new Image();
@@ -52,7 +53,7 @@ public class ResourceSelectorBitmapWidget implements ResourceSelectorWidget,
     if (ports != null) {
       Port port = ports.bestPortForResource(resource, true);
       if (port != null) {
-        imgPort.setUrl(port.icon().iconDefault().getURL());
+        imgPort.setUrl(Models.icon(port).iconDefault().getURL());
       }
     }
     return this;

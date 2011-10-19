@@ -61,7 +61,6 @@ public class Towns {
       @Override public boolean containsPoint(HexPoint point) {
         return toImmutableModels().containsPoint(point);
       }
-      
     }
   }
 }

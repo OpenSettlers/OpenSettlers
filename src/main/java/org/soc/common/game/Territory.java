@@ -2,9 +2,8 @@ package org.soc.common.game;
 
 import org.soc.common.core.GenericList.HasId;
 import org.soc.common.core.OpenZettlers.OsModel;
+import org.soc.common.core.Props.IsChild;
 import org.soc.common.core.Props.PropertyList.PropertyTypeList;
-import org.soc.common.core.property.Properties.Description;
-import org.soc.common.core.property.Properties.Name;
 import org.soc.common.core.property.*;
 import org.soc.common.game.Chits.ChitList;
 import org.soc.common.game.Chits.ChitListImpl;
@@ -13,7 +12,6 @@ import org.soc.common.game.Ports.MutablePortListImpl;
 import org.soc.common.game.Ports.PortList;
 import org.soc.common.game.hexes.Hexes.MutableHexList;
 import org.soc.common.game.hexes.Hexes.MutableHexListImpl;
-import org.soc.common.views.meta.*;
 
 /** Represents a group of hexes on a Board. Each hex is assigned a territory.
  * 
@@ -44,7 +42,6 @@ public interface Territory extends OsModel<Integer> {
   /** Represents a group of LandHexes. A territory is useful for: - Trade routes - Chit swapping -
    * Bonus island VPs */
   public abstract class TerritoryImpl implements Territory {
-    private static final long serialVersionUID = 4568924008718927137L;
     private String name;
 
     public String getName() {
@@ -123,18 +120,6 @@ public interface Territory extends OsModel<Integer> {
       this.chits = chits;
       return this;
     }
-    @Override public Name name() {
-      // TODO Auto-generated method stub
-      return null;
-    }
-    @Override public Description description() {
-      // TODO Auto-generated method stub
-      return null;
-    }
-    @Override public Icon icon() {
-      // TODO Auto-generated method stub
-      return null;
-    }
     @Override public Integer id() {
       // TODO Auto-generated method stub
       return null;
@@ -156,15 +141,11 @@ public interface Territory extends OsModel<Integer> {
     @Override public boolean isMainland() {
       return true;
     }
-    @Override public Property getProp(Property type) {
+    @Override public IsChild getProp(StaticProperty type) {
       // TODO Auto-generated method stub
       return null;
     }
     @Override public PropertyTypeList properties() {
-      // TODO Auto-generated method stub
-      return null;
-    }
-    @Override public Description description() {
       // TODO Auto-generated method stub
       return null;
     }
@@ -174,15 +155,11 @@ public interface Territory extends OsModel<Integer> {
     @Override public Island copy() {
       return new Island();
     }
-    @Override public Property getProp(Property type) {
+    @Override public IsChild getProp(StaticProperty type) {
       // TODO Auto-generated method stub
       return null;
     }
     @Override public PropertyTypeList properties() {
-      // TODO Auto-generated method stub
-      return null;
-    }
-    @Override public Description description() {
       // TODO Auto-generated method stub
       return null;
     }

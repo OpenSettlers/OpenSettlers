@@ -1,8 +1,9 @@
 package org.soc.gwt.client.game.widgetsAbstract.main;
 
-import org.soc.common.core.GenericList.*;
-import org.soc.common.core.GenericList.AddsList.*;
-import org.soc.common.core.GenericList.RemovesList.*;
+import org.soc.common.core.GenericList.AddsList.ListAdded;
+import org.soc.common.core.GenericList.ImmutableList;
+import org.soc.common.core.GenericList.Models;
+import org.soc.common.core.GenericList.RemovesList.ListRemoved;
 import org.soc.common.game.*;
 import org.soc.common.game.Resources.MutableResourceList;
 import org.soc.common.game.Resources.MutableResourceListImpl;
@@ -116,7 +117,7 @@ public class AbstractTradePlayerStatusWidget implements
       btnAccept.setEnabled(false);
       btnAccept.setText("No resources");
     }
-    imgStatus.setUrl(R.mediumIcon(counter).getURL());
+    imgStatus.setUrl(Models.mediumIcon(counter).getURL());
     tradeResources.getWantResources().clear();
     tradeResources.getWantResources().addList(
             counter.getRequestedResources());
@@ -128,7 +129,7 @@ public class AbstractTradePlayerStatusWidget implements
   {
     btnAccept.setEnabled(false);
     btnAccept.setText("Rejected");
-    imgStatus.setUrl(R.mediumIcon(reject).getURL());
+    imgStatus.setUrl(Models.mediumIcon(reject).getURL());
   }
   private void updateAccept(AcceptTradeOffer accept)
   {
@@ -142,7 +143,7 @@ public class AbstractTradePlayerStatusWidget implements
       btnAccept.setEnabled(false);
       btnAccept.setText("No resources");
     }
-    imgStatus.setUrl(R.mediumIcon(accept).getURL());
+    imgStatus.setUrl(Models.mediumIcon(accept).getURL());
     tradeResources.getWantResources().clear();
     tradeResources.getWantResources().addList(
             tradeResponse.getOriginatingOffer()

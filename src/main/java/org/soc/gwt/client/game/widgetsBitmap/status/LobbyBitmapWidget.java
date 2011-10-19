@@ -1,15 +1,12 @@
 package org.soc.gwt.client.game.widgetsBitmap.status;
 
-import org.soc.common.game.GamePhase;
+import org.soc.common.core.GenericList.Models;
+import org.soc.common.game.*;
 import org.soc.common.game.GamePhase.LobbyGamePhase;
-import org.soc.common.views.widgetsInterface.main.GamePhaseWidget;
-import org.soc.gwt.client.images.R;
+import org.soc.common.views.widgetsInterface.main.*;
 
-import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.resources.client.*;
+import com.google.gwt.user.client.ui.*;
 
 public class LobbyBitmapWidget implements GamePhaseWidget
 {
@@ -21,7 +18,7 @@ public class LobbyBitmapWidget implements GamePhaseWidget
   {
     super();
     this.gamePhase = gamePhase;
-    icon = R.mediumIcon(gamePhase);
+    icon = Models.mediumIcon(gamePhase);
     rootPanel.add(new Label("Lobby phase"));
     rootPanel.add(new Image(icon));
     rootPanel.setStyleName("phasePanel");

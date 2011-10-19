@@ -1,23 +1,21 @@
 package org.soc.common.core.property;
 
-import org.soc.common.core.Props.SetsProperty;
 
 /** All objects acting as properties have standard metadata and behaviour
  * such as firing events on change, nullability persistability. Add yours for optimum flavor.
  * @formatter:off */
-public interface Property<H extends SetsProperty> {
+public interface StaticProperty {
   public boolean canGet();                     /** assert canGet()] */
   public boolean canSet();
   public boolean isvalid();                    /** return rules().areAllMet() */
   public boolean supportsPersistence();        /** assert instanceof Serializable && new T() */
   public boolean canReturnNull();              /** assert canReturnNull && this.property != null */
-  public void doSet(H hasProperty);            /** Dispatch setting to the property itself */
   public boolean canSetToNull();               /** assert canSetToNull() && value != null */
   public boolean firesEvent();
 
-  public abstract class AbstractProperty<H extends SetsProperty>
+  public abstract class AbstractProperty
     implements
-      Property<H> {
+      StaticProperty {
     
     protected boolean canGet = false;          /** All false by default: explicitly set true in base */
     protected boolean canGetNull = false;

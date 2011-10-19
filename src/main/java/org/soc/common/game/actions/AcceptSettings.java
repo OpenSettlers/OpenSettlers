@@ -1,13 +1,10 @@
 package org.soc.common.game.actions;
 
-import org.soc.common.core.property.Properties.Description;
-import org.soc.common.core.property.Properties.Name;
 import org.soc.common.game.*;
 import org.soc.common.game.GamePhase.LobbyGamePhase;
 import org.soc.common.game.actions.Action.ActionPresenter.ActionWidgetFactory;
 import org.soc.common.game.actions.GameAction.AbstractGameAction;
 import org.soc.common.internationalization.*;
-import org.soc.common.views.meta.*;
 import org.soc.common.views.widgetsInterface.main.*;
 
 /** Opponents on the game table in the lobby phase, optionally must say "Ok, let's play!!" */
@@ -46,18 +43,6 @@ public class AcceptSettings extends AbstractGameAction {
     return null;
   }
   @Override public GameBehaviour begin(GameWidget gameWidget) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-  @Override public Name name() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-  @Override public Description description() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-  @Override public Icon icon() {
     // TODO Auto-generated method stub
     return null;
   }

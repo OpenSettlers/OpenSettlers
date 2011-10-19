@@ -2,15 +2,10 @@ package org.soc.common.game.pieces;
 
 import java.util.*;
 
-import org.soc.common.core.property.Properties.Description;
-import org.soc.common.core.property.Properties.Name;
 import org.soc.common.game.DevelopmentCard.Soldier;
 import org.soc.common.game.*;
 import org.soc.common.game.pieces.Piece.AbstractPlayerPiece;
-import org.soc.common.internationalization.*;
-import org.soc.common.views.meta.*;
 import org.soc.common.views.widgetsInterface.visuals.*;
-import org.soc.gwt.client.images.*;
 
 import com.google.gwt.event.shared.*;
 
@@ -20,15 +15,6 @@ public class Army extends AbstractPlayerPiece<Integer> implements VictoryPointIt
   private boolean isLargest = false;
   private transient SimpleEventBus eventBus = new SimpleEventBus();
 
-  @Override public Icon icon() {
-    return new IconImpl(R.icons().army16(), R.icons().army32(), R.icons().army48());
-  }
-  @Override public Name name() {
-    return new Name.Impl(I.get().constants().army());
-  }
-  @Override public Description description() {
-    return new Description.Impl(I.get().constants().armyDescription());
-  }
   public List<Soldier> getSoldiers() {
     return soldiers;
   }

@@ -1,9 +1,9 @@
 package org.soc.gwt.client.editor;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-import org.soc.common.game.Chit;
+import org.soc.common.core.GenericList.Models;
+import org.soc.common.game.*;
 import org.soc.common.game.Chit.Chit10;
 import org.soc.common.game.Chit.Chit11;
 import org.soc.common.game.Chit.Chit12;
@@ -16,17 +16,10 @@ import org.soc.common.game.Chit.Chit8;
 import org.soc.common.game.Chit.Chit9;
 import org.soc.common.game.Chit.RandomChit;
 import org.soc.common.game.actions.ActionOnBoard.SetChitOnBoard;
-import org.soc.gwt.client.images.R;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.event.shared.HasHandlers;
-import com.google.gwt.event.shared.SimpleEventBus;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.PushButton;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.event.dom.client.*;
+import com.google.gwt.event.shared.*;
+import com.google.gwt.user.client.ui.*;
 
 public class ChitPanel extends HorizontalPanel implements HasHandlers {
   private VerticalPanel panel1 = new VerticalPanel();
@@ -66,7 +59,7 @@ public class ChitPanel extends HorizontalPanel implements HasHandlers {
 
   private class ChitButton extends PushButton {
     public ChitButton(final Chit chit) {
-      super(new Image(R.mediumIcon(chit)));
+      super(new Image(Models.mediumIcon(chit)));
       addClickHandler(new ClickHandler() {
         @Override public void onClick(ClickEvent event) {
           editBehaviour.setChit(chit);

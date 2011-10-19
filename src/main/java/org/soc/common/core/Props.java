@@ -4,13 +4,8 @@ package org.soc.common.core;
 import java.util.*;
 
 import org.soc.common.core.GenericList.ImmutableList;
-import org.soc.common.core.GenericList.MutableList;
 import org.soc.common.core.Props.PropertyList.PropertyTypeList;
-import org.soc.common.core.Props.Value.StringValue;
 import org.soc.common.core.property.*;
-
-import com.google.gwt.event.logical.shared.*;
-import com.google.gwt.user.client.ui.*;
 
 /** Enable iteration over properties of an object that has properties 
  * 
@@ -57,20 +52,28 @@ public class Props {
     public PropertyTypeList properties();
   }
   
+  public interface IsChild<H extends HasSetters> {
+    public void doSet(H hasProperty);            /** Dispatch setting to the property itself */
+  }
+  
   /** 
    * A readonly property  
    * */
-  public interface HasProperty extends HasProperties {
-    public Property getProp(Property type);
+  public interface HasGetters extends HasProperties {
+    public IsChild getProp(StaticProperty type);
   }
   
-  /** 
-   * A write only property 
-   * */
-  public interface SetsProperty extends HasProperties {
-    public void setProp(Property type, Property value);
+  public interface FakeProperty extends HasGetters {
+    
   }
   
+  /** Write only property */
+  public interface HasSetters extends HasProperties {
+    public void setProp(StaticProperty type, IsChild value);
+  }
+  
+  /** Because each property needs a dispatch method set(HasProperty parent), simple value types 
+   * must be wrapped. */
   public interface Value {
     public interface StringValue extends Value {
       public String value();
@@ -95,30 +98,42 @@ public class Props {
     }
   }
 
+  public interface Handler<P extends IsChild> {
+    public void changed(P newProp, P oldProp);
+    
+    public interface Handle {
+      public void remove();
+    }
+  }
 
-  
-
+  public interface NotifiesPropertyChange {
+    // Type-safe property handling
+    public void addHandler(StaticProperty type, Handler handler);
+    
+    // Register handling of any property change
+    public void addHandler(Handler handler);
+  }
 
   /** Keeps track of property values, fires events, dispatches to property */
   public static interface PropertyList
     extends
-      ImmutableList<Property> {
+      ImmutableList<StaticProperty> {
     
-    public <H extends SetsProperty, P extends Property> void set(P type, P value, H hasProp);
-    public Property get(Property type);
-    public <H extends SetsProperty, P extends Property> void setWithoutDispatch(P type, P value, H hasProp);
+    public <H extends HasSetters, P extends IsChild> void set(StaticProperty type, P value, H hasProp);
+    public IsChild get(StaticProperty type);
+    public <H extends HasSetters, P extends IsChild> void setWithoutDispatch(StaticProperty type, P value, H hasProp);
     public PropertyTypeList types();
-    public void addHandler(Property type, Handler handler);
+    public void addHandler(StaticProperty type, Handler handler);
     public void addHandler(Handler handler);
     
     public static class PropertyTypeList 
       extends 
-        ImmutableListImpl<Property> {
+        ImmutableListImpl<StaticProperty> {
       
-      public PropertyTypeList(List<Property> properties) { 
+      public PropertyTypeList(List<StaticProperty> properties) { 
         super(properties);
       }
-      public PropertyTypeList(Property... properties) {
+      public PropertyTypeList(StaticProperty... properties) {
         super(properties);
       }
       @Override public String toString() {
@@ -126,24 +141,24 @@ public class Props {
       }
     }
     
-    public static abstract class Impl
+    public static class Impl
       extends
-        AbstractImmutableList<Property>
+        AbstractImmutableList<StaticProperty>
       implements
         PropertyList {
       
       private final static boolean doDispatch = true;
       private final static boolean ignoreDispatch = false;
       
-      private List<Property> types = new ArrayList<Property>();
-      private Map<Class, Property> properties = new HashMap<Class, Property>();
+      private List<StaticProperty> types = new ArrayList<StaticProperty>();
+      private Map<StaticProperty, IsChild> properties = new HashMap<StaticProperty, IsChild>();
       private Map<Class, List<Handler>> handlers = new HashMap<Class, List<Handler>>();
       private List<Handler> geenricHandlers = new ArrayList<Handler>(); 
       
       /** Construct from a list of property types */
-      public Impl(Property... items2) {
-        for (Property p : items2) {
-          properties.put(p.getClass(), null);
+      public Impl(StaticProperty... items2) {
+        for (StaticProperty p : items2) {
+          properties.put(p, null);
           types.add(p);
         }
       }
@@ -151,37 +166,37 @@ public class Props {
       public PropertyTypeList types() {
         return new PropertyTypeList(types);
       }
-      @Override protected List<Property> createList() {
-        return new ArrayList<Property>();
+      @Override protected List<StaticProperty> createList() {
+        return new ArrayList<StaticProperty>();
       }
       /** Asserts given property is present and returns it */
-      public Property get(Property type) {
-        assert properties.containsKey(type.getClass());
-        return properties.get(type.getClass());
+      public IsChild get(StaticProperty type) {
+        assert properties.containsKey(type);
+        return properties.get(type);
       }
       /** Asserts given type is present and sets the property, dispatching to the property */
-      @Override public <H extends SetsProperty, P extends Property> 
-          void set(P type, P value, H hasProp) {
+      @Override public <H extends HasSetters, P extends IsChild> 
+          void set(StaticProperty type, P value, H hasProp) {
         assert properties.containsKey(type.getClass());
         doSet(type, value, hasProp, doDispatch);
       }
       /** Sets target property _without_ dispatching to the property */
-      @Override public <H extends SetsProperty, P extends Property> 
-          void setWithoutDispatch(P type, P value, H hasProp) {
+      @Override public <H extends HasSetters, P extends IsChild> 
+          void setWithoutDispatch(StaticProperty type, P value, H hasProp) {
         doSet(type, value, hasProp, ignoreDispatch);
       }
       /** Sets the new value, dispatches to property and fires event */
-      private <H extends SetsProperty, P extends Property> 
-          void doSet(P type, P value, H hasProp, boolean setParent) {
+      private <H extends HasSetters, P extends IsChild<H>> 
+          void doSet(StaticProperty type, P value, H hasProp, boolean setParent) {
         assert value != null && type.canSetToNull();
-        properties.put(type.getClass(), value);
+        properties.put(type, value);
         if (setParent)
           value.doSet(hasProp);
         if (type.firesEvent())
           onChanged(type, value, null);
       }
       /** Adds handler for target property */
-      @Override public void addHandler(Property type, Handler handler) {
+      @Override public void addHandler(StaticProperty type, Handler handler) {
         if (!handlers.containsKey(type.getClass()))
           handlers.put(type.getClass(), new ArrayList<Handler>());
         handlers.get(type.getClass()).add(handler);
@@ -191,7 +206,7 @@ public class Props {
         geenricHandlers.add(handler);
       }
       /** Fires event for target property and generic event */
-      public <P extends Property> void onChanged(P type, P p, P old) {
+      public <P extends IsChild> void onChanged(StaticProperty type, P p, P old) {
         List<Handler> handlersForType =  handlers.get(type.getClass());
         if (handlersForType != null)
           for (Handler handler : handlersForType)
@@ -203,96 +218,5 @@ public class Props {
 
   }
 
-  public interface Handler<P extends Property> {
-    public void changed(P newProp, P oldProp);
-    
-    public interface Handle {
-      public void remove();
-    }
-  }
 
-  public interface NotifiesPropertyChange {
-    // Type-safe property handling
-    public <P extends Property> void addHandler(P type, Handler handler);
-    
-    // Register handling of any property change
-    public void addHandler(Handler handler);
-  }
-
-  /*
-   * StringValue
-   * TextBox
-   * model
-   * 
-   */
-  public static class Binder {
-    private Property property = null;
-    private Value.StringValue stringValue;
-    public Binder in(Property property) {
-      this.property=property;
-      return this;
-    }
-    
-    public StringBinder bindString(Value.StringValue property) {
-      return new StringBinder(property);
-    }
-    public class StringBinder {
-      private TextBox textBox;
-      private Property property;
-      private StringValue stringValue;
-
-      public StringBinder(StringValue stringValue) {
-        this.stringValue = stringValue;
-      }
-
-      public void to(NotifiesPropertyChange notifiesChange) {
-        notifiesChange.addHandler(property, new Handler<Property>() {
-          @Override public void changed(Property newProp, Property oldProp) {
-            textBox.setValue(stringValue.value());
-          }
-        });
-        textBox.addValueChangeHandler(new ValueChangeHandler<String>() {
-          @Override public void onValueChange(ValueChangeEvent<String> event) {
-            if (event.getValue() != stringValue.value())
-            {}
-          }
-        });
-      }
-      
-      public StringBinder with(TextBox textbox) {
-        this.textBox = textbox;
-        return this;
-      }
-    }
-    public void with(Widget widget) {
-      
-      this.property = null;
-    }
-  }
-  
-  public interface Constraint {
-    public boolean isMet();
-    
-    public interface ConstraintList extends ImmutableList<Constraint> {
-      public static class Impl 
-        extends
-          AbstractImmutableList<Constraint>
-        implements 
-          ConstraintList {
-
-        @Override protected List<Constraint> createList() {
-          return new ArrayList<Constraint>();
-        }
-      }
-    }
-    
-    public interface MutableConstraintList extends MutableList<Constraint> {
-      public static class Impl 
-        extends 
-          MutableListImpl<Constraint>
-        implements 
-          MutableConstraintList {
-      }
-    }
-  }
 }

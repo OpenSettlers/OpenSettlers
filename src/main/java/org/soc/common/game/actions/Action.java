@@ -2,12 +2,12 @@ package org.soc.common.game.actions;
 
 import java.util.*;
 
+import org.soc.common.core.GenericList.Models;
 import org.soc.common.core.OpenZettlers.OsModel;
+import org.soc.common.core.Props.IsChild;
 import org.soc.common.core.Props.PropertyList.PropertyTypeList;
-import org.soc.common.core.property.Properties.Name;
 import org.soc.common.core.property.*;
 import org.soc.common.game.*;
-import org.soc.common.utils.*;
 
 import com.google.gwt.user.client.ui.*;
 
@@ -19,7 +19,7 @@ public interface Action extends OsModel<Integer> {
   public String message();
 
   public abstract class AbstractAction implements Action {
-    protected String message = "No message implemented yet for " + name().value();
+    protected String message = "No message implemented yet for " + Models.name(this);
     protected Date dateTimeExecuted;
     protected int sender;
 
@@ -29,9 +29,6 @@ public interface Action extends OsModel<Integer> {
     @Override public String message() {
       return message;
     }
-    @Override public Name name() {
-      return new Name.Impl(Util.shortName(this.getClass()));
-    }
     public int senderId() {
       return sender;
     }
@@ -39,7 +36,7 @@ public interface Action extends OsModel<Integer> {
       this.sender = sender;
       return this;
     }
-    @Override public Property getProp(Property type) {
+    @Override public IsChild getProp(StaticProperty type) {
       // TODO Auto-generated method stub
       return null;
     }

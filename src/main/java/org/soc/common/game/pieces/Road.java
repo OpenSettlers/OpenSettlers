@@ -1,15 +1,13 @@
 package org.soc.common.game.pieces;
 
+import org.soc.common.core.Props.IsChild;
 import org.soc.common.core.Props.PropertyList.PropertyTypeList;
-import org.soc.common.core.property.Properties.Description;
-import org.soc.common.core.property.Properties.Name;
 import org.soc.common.core.property.*;
 import org.soc.common.game.*;
 import org.soc.common.game.Resources.ResourceList;
 import org.soc.common.game.board.*;
 import org.soc.common.game.pieces.Piece.AbstractPlayerPiece;
 import org.soc.common.game.pieces.Piece.StockPiece;
-import org.soc.common.views.meta.*;
 import org.soc.common.views.widgetsInterface.playerInfo.*;
 import org.soc.common.views.widgetsInterface.playerInfo.StockItemWidget.StockItemWidgetFactory;
 import org.soc.common.views.widgetsInterface.visuals.*;
@@ -75,23 +73,11 @@ public class Road extends AbstractPlayerPiece<Integer> implements HasSide, Stock
   @Override public StockItemWidget createStockItemWidget(StockItemWidgetFactory factory) {
     return factory.createRoadStockWidget();
   }
-  @Override public Property getProp(Property type) {
+  @Override public IsChild getProp(StaticProperty type) {
     // TODO Auto-generated method stub
     return null;
   }
   @Override public PropertyTypeList properties() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-  @Override public Name name() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-  @Override public Icon icon() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-  @Override public Description description() {
     // TODO Auto-generated method stub
     return null;
   }

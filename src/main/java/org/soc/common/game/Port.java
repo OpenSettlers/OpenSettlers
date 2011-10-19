@@ -3,9 +3,8 @@ package org.soc.common.game;
 import org.soc.common.core.GenericList.HasId;
 import org.soc.common.core.GenericList.ImmutableList;
 import org.soc.common.core.OpenZettlers.OsModel;
+import org.soc.common.core.Props.IsChild;
 import org.soc.common.core.Props.PropertyList.PropertyTypeList;
-import org.soc.common.core.property.Properties.Description;
-import org.soc.common.core.property.Properties.Name;
 import org.soc.common.core.property.*;
 import org.soc.common.game.Resource.Clay;
 import org.soc.common.game.Resource.Ore;
@@ -14,10 +13,6 @@ import org.soc.common.game.Resource.Timber;
 import org.soc.common.game.Resource.Wheat;
 import org.soc.common.game.Resources.ResourceList;
 import org.soc.common.game.board.*;
-import org.soc.common.internationalization.*;
-import org.soc.common.utils.*;
-import org.soc.common.views.meta.*;
-import org.soc.gwt.client.images.*;
 
 import static org.soc.common.game.Resource.*;
 
@@ -52,23 +47,12 @@ public interface Port extends OsModel<Integer> {
   public boolean hasResource();
 
   public abstract class AbstractPort implements Port {
-    private static final long serialVersionUID = 1247189120735462756L;
     protected HexLocation seaLocation;
     protected HexLocation landLocation;
     protected HexSide hexSide;
     protected RotationPosition rotationPosition;
     protected int id;
 
-    @Override public Name name() {
-      return new Name.Impl("No i18n for " + Util.shortName(this.getClass()));
-    }
-    @Override public Description description() {
-      return new Description.Impl("No i18n description for  " + name());
-    }
-    @Override public Icon icon() {
-      // TODO Auto-generated method stub
-      return null;
-    }
     @Override public HasId setId(Integer id) {
       this.id = id;
       return this;
@@ -134,20 +118,17 @@ public interface Port extends OsModel<Integer> {
       this.setHexLocation(hexLocation);
     }
     /** Returns amount of gold tradeable for given resource */
-    public int divide(ResourceList resources, Resource type)
-    {
+    public int divide(ResourceList resources, Resource type) {
       // Have something to return, default on 0
       int amountGold = 0;
       // Filter the list of resources by given type
       ImmutableList<Resource> resourcesOfType = resources.ofType(type);
       // When we have at least two resources, determine amount of gold we can
       // trade
-      if (resourcesOfType.size() >= 2)
-      {
+      if (resourcesOfType.size() >= 2) {
         // Amount of gold is number of times we can trade by inAmount, times
         // the amount of cards we get per trade
-        amountGold = (resourcesOfType.size() / inAmount())
-                * outAmount();
+        amountGold = (resourcesOfType.size() / inAmount()) * outAmount();
       }
       return amountGold;
     }
@@ -160,7 +141,7 @@ public interface Port extends OsModel<Integer> {
     public boolean canTrade(Resource resource) {
       throw new RuntimeException();
     }
-    @Override public Property getProp(Property type) {
+    @Override public IsChild getProp(StaticProperty type) {
       // TODO Auto-generated method stub
       return null;
     }
@@ -173,15 +154,6 @@ public interface Port extends OsModel<Integer> {
   public class ClayPort extends TwoToOneResourcePort {
     private static Clay clay = new Clay();
 
-    @Override public Icon icon() {
-      return new IconImpl(R.icons().clayPort16(), R.icons().clayPort32(), R.icons().clayPort48());
-    }
-    @Override public Name name() {
-      return new Name.Impl(I.get().constants().clayPort());
-    }
-    @Override public Description description() {
-      return new Description.Impl(I.get().constants().clayPortDescription());
-    }
     @Override public Port copy() {
       return new ClayPort();
     }
@@ -211,32 +183,10 @@ public interface Port extends OsModel<Integer> {
     @Override public Resource resource() {
       return diamond;
     }
-    @Override public Name name() {
-      // TODO Auto-generated method stub
-      return null;
-    }
-    @Override public Description description() {
-      // TODO Auto-generated method stub
-      return null;
-    }
-    @Override public Icon icon() {
-      // TODO Auto-generated method stub
-      return null;
-    }
   }
 
   /* Standard 4:1 trade port for <code>resource.isTradeable()</code> resources. */
-  public class FourToOnePort extends AbstractPort
-  {
-    @Override public Icon icon() {
-      return IconImpl.nullIcon();
-    }
-    @Override public Name name() {
-      return new Name.Impl(I.get().constants().fourToOnePort());
-    }
-    @Override public Description description() {
-      return new Description.Impl(I.get().constants().fourToOnePortDescription());
-    }
+  public class FourToOnePort extends AbstractPort {
     /** Performs a 4:1 trade on a list of resources */
     @Override public int divide(ResourceList resources, Resource type) {
       return resources.size() / inAmount();
@@ -264,15 +214,6 @@ public interface Port extends OsModel<Integer> {
   public class OrePort extends TwoToOneResourcePort {
     private static Ore ore = new Ore();
 
-    @Override public Icon icon() {
-      return new IconImpl(R.icons().orePort16(), R.icons().orePort32(), R.icons().orePort48());
-    }
-    @Override public Name name() {
-      return new Name.Impl(I.get().constants().orePort());
-    }
-    @Override public Description description() {
-      return new Description.Impl(I.get().constants().orePortDescription());
-    }
     @Override public Port copy() {
       return new OrePort();
     }
@@ -283,15 +224,6 @@ public interface Port extends OsModel<Integer> {
 
   /* Represents a port which can be placed on the board. */
   public class PossiblePort extends AbstractPort {
-    @Override public Icon icon() {
-      return new IconImpl(R.icons().port16(), R.icons().port32(), R.icons().port48());
-    }
-    @Override public Name name() {
-      return new Name.Impl(I.get().constants().possiblePort());
-    }
-    @Override public Description description() {
-      return new Description.Impl(I.get().constants().possiblePortDescription());
-    }
     public PossiblePort() {}
     public PossiblePort(HexLocation hexLocation, RotationPosition rotationPosition) {
       super(hexLocation, rotationPosition);
@@ -309,17 +241,6 @@ public interface Port extends OsModel<Integer> {
 
   /* Placeholder for replacement of random ports at board preperation */
   public class RandomPort extends AbstractPort {
-    @Override public Icon icon() {
-      return new IconImpl(R.icons().randomPort16(), R.icons().randomPort32(), R
-              .icons()
-              .randomPort48());
-    }
-    @Override public Name name() {
-      return new Name.Impl(I.get().constants().randomPortDescription());
-    }
-    @Override public Description description() {
-      return new Description.Impl(I.get().constants().randomPortDescription());
-    }
     public RandomPort(HexLocation hexLocation, RotationPosition rotationPosition) {
       super(hexLocation, rotationPosition);
     }
@@ -335,19 +256,9 @@ public interface Port extends OsModel<Integer> {
     }
   }
 
-  public class SheepPort extends TwoToOneResourcePort
-  {
+  public class SheepPort extends TwoToOneResourcePort {
     private static Sheep sheep = new Sheep();
 
-    @Override public Icon icon() {
-      return new IconImpl(R.icons().sheepPort16(), R.icons().sheepPort32(), R.icons().sheepPort48());
-    }
-    @Override public Name name() {
-      return new Name.Impl(I.get().constants().sheepPort());
-    }
-    @Override public Description description() {
-      return new Description.Impl(I.get().constants().sheepPortDescription());
-    }
     @Override public Port copy() {
       return new SheepPort();
     }
@@ -357,19 +268,6 @@ public interface Port extends OsModel<Integer> {
   }
 
   public class ThreeToOnePort extends AbstractPort {
-    private static final long serialVersionUID = -2264455291636281867L;
-
-    @Override public Icon icon() {
-      return new IconImpl(R.icons().threeToOnePort16(), R.icons().threeToOnePort32(), R
-              .icons()
-              .threeToOnePort48());
-    }
-    @Override public Name name() {
-      return new Name.Impl(I.get().constants().threeToOnePort());
-    }
-    @Override public Description description() {
-      return new Description.Impl(I.get().constants().threeToOnePortDescription());
-    }
     /* Performs a 3:1 trade on a list of resources */
     @Override public int divide(ResourceList resources, Resource type) {
       return resources.size() / inAmount();
@@ -397,15 +295,6 @@ public interface Port extends OsModel<Integer> {
   public class TimberPort extends TwoToOneResourcePort {
     private Timber timber = new Timber();
 
-    @Override public Icon icon() {
-      return new IconImpl(R.icons().timberPort32(), null, null, null);
-    }
-    @Override public Name name() {
-      return new Name.Impl(I.get().constants().timberPort());
-    }
-    @Override public Description description() {
-      return new Description.Impl(I.get().constants().timberPortDescription());
-    }
     @Override public Port copy() {
       return new TimberPort();
     }
@@ -415,7 +304,6 @@ public interface Port extends OsModel<Integer> {
   }
 
   public abstract class TwoToOneResourcePort extends AbstractPort {
-    private static final long serialVersionUID = 2615564785346537011L;
     private Resource resource;
 
     @Override public int inAmount() {
@@ -442,15 +330,6 @@ public interface Port extends OsModel<Integer> {
   public class WheatPort extends TwoToOneResourcePort {
     public static Wheat wheat = new Wheat();
 
-    @Override public Icon icon() {
-      return new IconImpl(R.icons().wheatPort16(), R.icons().wheatPort32(), R.icons().wheatPort48());
-    }
-    @Override public Name name() {
-      return new Name.Impl(I.get().constants().wheatPort());
-    }
-    @Override public Description description() {
-      return new Description.Impl(I.get().constants().wheatPortDescription());
-    }
     @Override public Port copy() {
       return new WheatPort();
     }

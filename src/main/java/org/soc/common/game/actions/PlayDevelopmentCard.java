@@ -1,38 +1,16 @@
 package org.soc.common.game.actions;
 
-import org.soc.common.core.property.Properties.Description;
-import org.soc.common.core.property.Properties.Name;
 import org.soc.common.game.*;
 import org.soc.common.game.DevelopmentCard.AbstractDevelopmentCard;
 import org.soc.common.game.actions.Action.ActionPresenter.ActionWidgetFactory;
 import org.soc.common.game.actions.TurnAction.AbstractTurnAction;
 import org.soc.common.game.actions.WantsPlayDevelopmentCardEvent.HasWantsPlayDevelopmentCardHandlers;
 import org.soc.common.internationalization.*;
-import org.soc.common.views.meta.*;
-import org.soc.gwt.client.images.*;
 
 import com.gwtplatform.dispatch.annotation.*;
 
 public class PlayDevelopmentCard extends AbstractTurnAction
 {
-  @Override public Icon icon()
-  {
-    return new IconImpl(R.icons()
-            .developmentCardBack16(), R.icons()
-            .developmentCardBack32(), R.icons()
-            .developmentCardBack48());
-  }
-  @Override public Name name()
-  {
-    // TODO Auto-generated method stub
-    return null;
-  }
-  @Override public Description description()
-  {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
   private AbstractDevelopmentCard developmentCard;
 
   /** @return the development card */

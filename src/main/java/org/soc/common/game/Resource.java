@@ -5,15 +5,10 @@ import org.soc.common.core.GenericList.HasId;
 import org.soc.common.core.GenericList.ModelPresenter;
 import org.soc.common.core.GenericList.ModelView;
 import org.soc.common.core.OpenZettlers.OsModel;
+import org.soc.common.core.Props.IsChild;
 import org.soc.common.core.Props.PropertyList.PropertyTypeList;
-import org.soc.common.core.property.Properties.Description;
-import org.soc.common.core.property.Properties.Name;
 import org.soc.common.core.property.*;
 import org.soc.common.game.Resource.ResourcePresenterP.ResourceView;
-import org.soc.common.internationalization.*;
-import org.soc.common.utils.*;
-import org.soc.common.views.meta.*;
-import org.soc.gwt.client.images.*;
 
 /** Represents an resource to be traded by players to other opponents or the bank. Can also be used
  * to buy pieces, such as roads, development cards or towns. */
@@ -49,14 +44,11 @@ public interface Resource extends OsModel<Integer> {
 
   public abstract class AbstractResource implements Resource {
     private int id = 0;
+    protected String color;
+    protected boolean isTradeable;
+    protected int hashCode;
 
     public AbstractResource() {}
-    @Override public String toString() {
-      return "Resource [name=" + name() + "]";
-    }
-    public Name name() {
-      return new Name.Impl(Util.shortName(this.getClass()));
-    }
     @Override public boolean equals(Object obj) {
       return obj.getClass() == this.getClass();
     }
@@ -73,184 +65,99 @@ public interface Resource extends OsModel<Integer> {
       // TODO Auto-generated method stub
       return null;
     }
-    @Override public Property getProp(Property type) {
+    @Override public IsChild getProp(StaticProperty type) {
       // TODO Auto-generated method stub
       return null;
+    }
+    @Override public boolean isTradeable() {
+      return isTradeable;
+    }
+    @Override public String color() {
+      return color;
     }
   }
 
   public class Clay extends AbstractResource {
-    @Override public Icon icon() {
-      return new IconImpl(R.icons().clay16(), R.icons().clay32(), R.icons().clay48());
-    }
-    @Override public Name name() {
-      return new Name.Impl(I.get().constants().clay());
-    }
-    @Override public Description description() {
-      return new Description.Impl(I.get().constants().clayDescription());
-    }
-    @Override public String color() {
-      return "Red";
-    }
-    @Override public boolean isTradeable() {
-      return true;
+    public Clay() {
+      super();
+      color = "Red";
+      hashCode = 1;
+      isTradeable = true;
     }
     @Override public Resource copy() {
       return new Clay();
     }
-    @Override public int hashCode() {
-      return 1;
-    }
   }
 
   public class Diamond extends AbstractResource {
-    @Override public Icon icon() {
-      return IconImpl.nullIcon();
-    }
-    @Override public Name name() {
-      return new Name.Impl(I.get().constants().diamond());
-    }
-    @Override public Description description() {
-      return new Description.Impl(I.get().constants().diamondDescription());
-    }
-    @Override public String color() {
-      return "Grey";
-    }
-    @Override public boolean isTradeable() {
-      return false;
+    public Diamond() {
+      super();
+      color = "Grey";
+      hashCode = 2;
+      isTradeable = false;
     }
     @Override public Resource copy() {
       return new Diamond();
     }
-    @Override public int hashCode() {
-      return 2;
-    }
   }
 
   public class Ore extends AbstractResource {
-    @Override public Icon icon() {
-      return new IconImpl(R.icons().ore16(), R.icons().ore32(), R.icons().ore48());
-    }
-    @Override public Name name() {
-      return new Name.Impl(I.get().constants().ore());
-    }
-    @Override public Description description() {
-      return new Description.Impl(I.get().constants().oreDescription());
-    }
-    @Override public String color() {
-      return "Purple";
-    }
-    @Override public boolean isTradeable() {
-      return true;
+    public Ore() {
+      super();
+      color = "Purple";
+      hashCode = 4;
+      isTradeable = true;
     }
     @Override public Resource copy() {
       return new Ore();
     }
-    @Override public int hashCode() {
-      return 4;
-    }
   }
 
-  public class Sheep extends AbstractResource
-  {
-    @Override public Icon icon()
-    {
-      return new IconImpl(R.icons().sheep16(), R
-              .icons().sheep32(), R.icons().sheep48());
-    }
-    @Override public Name name() {
-      return new Name.Impl(I.get().constants().sheep());
-    }
-    @Override public Description description() {
-      return new Description.Impl(I.get().constants().sheepDescription());
-    }
-    @Override public String color() {
-      return "LightGreen";
-    }
-    @Override public boolean isTradeable() {
-      return true;
+  public class Sheep extends AbstractResource {
+    public Sheep() {
+      super();
+      color = "LightGreen";
+      hashCode = 5;
+      isTradeable = true;
     }
     @Override public Resource copy() {
       return new Sheep();
     }
-    @Override public int hashCode() {
-      return 5;
-    }
   }
 
   public class Timber extends AbstractResource {
-    @Override public Icon icon() {
-      return new IconImpl(
-              R.icons().timber16(), R.icons()
-                      .timber32(), R.icons()
-                      .timber48());
-    }
-    @Override public Name name() {
-      return new Name.Impl(I.get().constants().timber());
-    }
-    @Override public Description description() {
-      return new Description.Impl(I.get().constants().timberDescription());
-    }
-    @Override public String color() {
-      return "DarkGreen";
-    }
-    @Override public boolean isTradeable() {
-      return true;
+    public Timber() {
+      super();
+      color = "DarkGreen";
+      hashCode = 6;
+      isTradeable = true;
     }
     @Override public Resource copy() {
       return new Timber();
     }
-    @Override public int hashCode() {
-      return 6;
-    }
   }
 
-  public class Wheat extends AbstractResource
-  {
-    @Override public Icon icon() {
-      return new IconImpl(R.icons().wheat16(), R.icons().wheat32(), R.icons().wheat48());
-    }
-    @Override public Name name() {
-      return new Name.Impl(I.get().constants().wheat());
-    }
-    @Override public Description description() {
-      return new Description.Impl(I.get().constants().wheatDescription());
-    }
-    @Override public String color() {
-      return "Yellow";
-    }
-    @Override public boolean isTradeable() {
-      return true;
+  public class Wheat extends AbstractResource {
+    public Wheat() {
+      super();
+      color = "Yellow";
+      hashCode = 7;
+      isTradeable = true;
     }
     @Override public Resource copy() {
       return new Wheat();
     }
-    @Override public int hashCode() {
-      return 7;
-    }
   }
 
   public class Gold extends AbstractResource {
-    @Override public Icon icon() {
-      return new IconImpl(R.icons().gold16(), R.icons().gold32(), R.icons().gold48());
-    }
-    @Override public Name name() {
-      return new Name.Impl(I.get().constants().gold());
-    }
-    @Override public Description description() {
-      return new Description.Impl(I.get().constants().goldDescription());
-    }
-    @Override public String color() {
-      return "Gold";
-    }
-    @Override public boolean isTradeable() {
-      return false;
+    public Gold() {
+      super();
+      color = "Gold";
+      hashCode = 3;
+      isTradeable = false;
     }
     @Override public Resource copy() {
       return new Gold();
-    }
-    @Override public int hashCode() {
-      return 3;
     }
   }
 

@@ -1,27 +1,14 @@
 package org.soc.common.game.pieces;
 
-import org.soc.common.core.property.Properties.Description;
-import org.soc.common.core.property.Properties.Name;
 import org.soc.common.game.*;
 import org.soc.common.game.board.*;
 import org.soc.common.game.pieces.Piece.AbstractPlayerPiece;
-import org.soc.common.internationalization.*;
-import org.soc.common.views.meta.*;
 import org.soc.common.views.widgetsInterface.visuals.*;
 
 public class IslandBonus extends AbstractPlayerPiece<Integer> implements VictoryPointItem {
   private Territory territory;
   private HexPoint location;
 
-  @Override public Icon icon() {
-    return IconImpl.nullIcon();
-  }
-  @Override public Name name() {
-    return new Name.Impl(I.get().constants().islandBonus());
-  }
-  @Override public Description description() {
-    return new Description.Impl(I.get().constants().islandBonusDescription());
-  }
   public HexPoint getLocation() {
     return location;
   }

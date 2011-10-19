@@ -1,29 +1,14 @@
 package org.soc.common.game.trading;
 
-import org.soc.common.core.property.Properties.Description;
-import org.soc.common.core.property.Properties.Name;
 import org.soc.common.game.*;
 import org.soc.common.game.actions.Action.ActionPresenter.ActionWidgetFactory;
 import org.soc.common.game.actions.*;
 import org.soc.common.game.actions.GameAction.AbstractGameAction;
-import org.soc.common.views.meta.*;
 import org.soc.common.views.widgetsInterface.main.*;
 
 public class AcceptTradeOffer extends AbstractGameAction implements TradeResponse {
   private TradeOffer originatingOffer;
 
-  @Override public Icon icon() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-  @Override public Name name() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-  @Override public Description description() {
-    // TODO Auto-generated method stub
-    return null;
-  }
   @Override public TradeOffer getOriginatingOffer() {
     return originatingOffer;
   }

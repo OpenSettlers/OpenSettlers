@@ -3,6 +3,7 @@ package org.soc.common.game.pieces;
 import org.soc.common.core.GenericList.HasId;
 import org.soc.common.core.GenericList.Model;
 import org.soc.common.core.OpenZettlers.OsModel;
+import org.soc.common.core.Props.IsChild;
 import org.soc.common.core.Props.PropertyList.PropertyTypeList;
 import org.soc.common.core.property.*;
 import org.soc.common.game.*;
@@ -97,7 +98,7 @@ public interface Piece<K> extends OsModel<K> {
     @Override public IdScope scope() {
       return IdScope.APPLICATION;
     }
-    @Override public Property getProp(Property type) {
+    @Override public IsChild getProp(StaticProperty type) {
       // TODO Auto-generated method stub
       return null;
     }

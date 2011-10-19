@@ -1,29 +1,21 @@
 package org.soc.gwt.client.game.widgetsBitmap.status;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 
-import org.soc.common.game.GamePhase;
+import org.soc.common.core.GenericList.Models;
+import org.soc.common.game.*;
 import org.soc.common.game.GamePhase.PlayTurnsGamePhase;
-import org.soc.common.game.TurnPhase;
 import org.soc.common.game.TurnPhase.BeforeDiceRollTurnPhase;
 import org.soc.common.game.TurnPhase.BuildingTurnPhase;
 import org.soc.common.game.TurnPhase.RollDiceTurnPhase;
 import org.soc.common.game.TurnPhase.TradingTurnPhase;
-import org.soc.common.game.TurnPhaseChangedEvent;
 import org.soc.common.game.TurnPhaseChangedEvent.TurnPhaseChangedHandler;
-import org.soc.common.views.widgetsInterface.main.GamePhaseWidget;
-import org.soc.common.views.widgetsInterface.main.GameWidget;
-import org.soc.gwt.client.images.R;
+import org.soc.common.views.widgetsInterface.main.*;
+import org.soc.gwt.client.images.*;
 
-import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.resources.client.*;
+import com.google.gwt.user.client.ui.*;
 
 public class PlayTurnsBitmapWidget implements GamePhaseWidget,
         TurnPhaseChangedHandler
@@ -44,7 +36,7 @@ public class PlayTurnsBitmapWidget implements GamePhaseWidget,
     super();
     this.gameWidget = gameWidget;
     this.playTurnsGamePhase = playTurnsGamePhase;
-    icon = R.mediumIcon(playTurnsGamePhase);
+    icon = Models.mediumIcon(playTurnsGamePhase);
     rootPanel.add(lblTurnPhaseDescription);
     rootPanel.add(turnPhasePanel);
     turnPhases.add(new BeforeDiceRollTurnPhase());
@@ -53,7 +45,7 @@ public class PlayTurnsBitmapWidget implements GamePhaseWidget,
     turnPhases.add(new BuildingTurnPhase());
     for (TurnPhase turnPhase : turnPhases)
     {
-      Image icon = new Image(R.mediumIcon(turnPhase));
+      Image icon = new Image(R.mediumIcon(Models.icon(turnPhase)));
       phaseIcons.put(turnPhase, icon);
       turnPhasePanel.add(icon);
     }

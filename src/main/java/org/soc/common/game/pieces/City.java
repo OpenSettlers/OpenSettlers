@@ -1,9 +1,8 @@
 package org.soc.common.game.pieces;
 
 import org.soc.common.core.OpenZettlers.OsModel;
+import org.soc.common.core.Props.IsChild;
 import org.soc.common.core.Props.PropertyList.PropertyTypeList;
-import org.soc.common.core.property.Properties.Description;
-import org.soc.common.core.property.Properties.Name;
 import org.soc.common.core.property.*;
 import org.soc.common.game.*;
 import org.soc.common.game.Resources.ResourceList;
@@ -12,12 +11,9 @@ import org.soc.common.game.hexes.*;
 import org.soc.common.game.pieces.Piece.AbstractPlayerPiece;
 import org.soc.common.game.pieces.Piece.Producer;
 import org.soc.common.game.pieces.Piece.StockPiece;
-import org.soc.common.internationalization.*;
-import org.soc.common.views.meta.*;
 import org.soc.common.views.widgetsInterface.playerInfo.*;
 import org.soc.common.views.widgetsInterface.playerInfo.StockItemWidget.StockItemWidgetFactory;
 import org.soc.common.views.widgetsInterface.visuals.*;
-import org.soc.gwt.client.images.*;
 
 import static org.soc.common.game.Resources.*;
 
@@ -32,15 +28,6 @@ public class City
         OsModel<Integer> {
   private HexPoint pointLocation;
 
-  @Override public Icon icon() {
-    return new IconImpl(R.icons().city16(), R.icons().city32(), null, R.icons().city48());
-  }
-  @Override public Name name() {
-    return new Name.Impl(I.get().constants().city());
-  }
-  @Override public Description description() {
-    return new Description.Impl(I.get().constants().cityDescription());
-  }
   @Override public ResourceList cost() {
     return newResources(Resource.wheat);
   }
@@ -93,7 +80,7 @@ public class City
   @Override public StockItemWidget createStockItemWidget(StockItemWidgetFactory factory) {
     return factory.createCityStockWidget();
   }
-  @Override public Property getProp(Property type) {
+  @Override public IsChild getProp(StaticProperty type) {
     // TODO Auto-generated method stub
     return null;
   }

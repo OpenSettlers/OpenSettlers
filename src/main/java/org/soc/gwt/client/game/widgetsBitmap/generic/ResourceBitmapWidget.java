@@ -1,17 +1,13 @@
 package org.soc.gwt.client.game.widgetsBitmap.generic;
 
-import org.soc.common.game.Resource;
-import org.soc.common.views.widgetsInterface.generic.ResourceClickedEvent;
+import org.soc.common.core.GenericList.Models;
+import org.soc.common.game.*;
+import org.soc.common.views.widgetsInterface.generic.*;
 import org.soc.common.views.widgetsInterface.generic.ResourceClickedEvent.ResourceClickedHandler;
-import org.soc.common.views.widgetsInterface.generic.ResourceWidget;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.event.shared.SimpleEventBus;
-import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.event.dom.client.*;
+import com.google.gwt.event.shared.*;
+import com.google.gwt.user.client.ui.*;
 
 public class ResourceBitmapWidget extends AbsolutePanel implements
         ResourceWidget
@@ -25,7 +21,7 @@ public class ResourceBitmapWidget extends AbsolutePanel implements
   {
     super();
     this.resource = resource;
-    image = new Image(resource.icon().iconDefault());
+    image = new Image(Models.icon(resource).iconDefault());
     image.addClickHandler(new ClickHandler()
     {
       @Override public void onClick(ClickEvent arg0)

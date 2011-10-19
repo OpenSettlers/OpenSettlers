@@ -1,13 +1,9 @@
 package org.soc.common.game.pieces;
 
-import org.soc.common.core.property.Properties.Description;
-import org.soc.common.core.property.Properties.Name;
 import org.soc.common.game.*;
 import org.soc.common.game.Resources.ResourceList;
 import org.soc.common.game.board.*;
 import org.soc.common.game.pieces.Piece.AbstractPlayerPiece;
-import org.soc.common.internationalization.*;
-import org.soc.common.views.meta.*;
 import org.soc.common.views.widgetsInterface.visuals.*;
 
 import static org.soc.common.game.Resource.*;
@@ -17,15 +13,6 @@ import static org.soc.common.game.Resources.*;
 public class Ship extends AbstractPlayerPiece<Integer> implements HasSide {
   private HexSide sideLocation;
 
-  @Override public Icon icon() {
-    return new IconImpl(null, null, null, null);
-  }
-  @Override public Name name() {
-    return new Name.Impl(I.get().constants().ship());
-  }
-  @Override public Description description() {
-    return new Description.Impl(I.get().constants().shipDescription());
-  }
   @Override public boolean canBuild(Board board, GamePlayer player) {
     if (player.stock().ships().size() == 0)
       return false;

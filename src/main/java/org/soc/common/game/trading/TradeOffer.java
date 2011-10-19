@@ -1,34 +1,14 @@
 package org.soc.common.game.trading;
 
-import org.soc.common.core.property.Properties.Description;
-import org.soc.common.core.property.Properties.Name;
 import org.soc.common.game.*;
 import org.soc.common.game.Resources.MutableResourceList;
 import org.soc.common.game.Resources.MutableResourceListImpl;
 import org.soc.common.game.actions.Action.ActionPresenter.ActionWidgetFactory;
 import org.soc.common.game.actions.GameAction.AbstractGameAction;
 import org.soc.common.server.actions.*;
-import org.soc.common.views.meta.*;
-import org.soc.gwt.client.images.*;
 
 public class TradeOffer extends AbstractGameAction
 {
-  @Override public Icon icon()
-  {
-    return new IconImpl(R.icons().trade16(), R
-            .icons().trade32(), R.icons().trade48());
-  }
-  @Override public Name name()
-  {
-    // TODO Auto-generated method stub
-    return null;
-  }
-  @Override public Description description()
-  {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
   private MutableResourceList offeredResources = new MutableResourceListImpl();
   private MutableResourceList requestedResources = new MutableResourceListImpl();
   private TradeResponseList responses = new TradeResponseList();

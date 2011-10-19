@@ -2,8 +2,9 @@ package org.soc.gwt.client.game.widgetsBitmap.tooltips;
 
 import java.util.*;
 
-import org.soc.common.core.GenericList.Adds.*;
-import org.soc.common.core.GenericList.Removes.*;
+import org.soc.common.core.GenericList.Adds.Added;
+import org.soc.common.core.GenericList.Models;
+import org.soc.common.core.GenericList.Removes.Removed;
 import org.soc.common.game.*;
 import org.soc.common.views.widgetsInterface.main.*;
 import org.soc.gwt.client.game.widgetsAbstract.toolTips.*;
@@ -19,14 +20,13 @@ public class PortListToolTip extends AbstractPlayerInfoToolTip
     super(gameWidget, player);
     for (Port port : player.ports())
     {
-      Image portImage = new Image(port.icon().iconDefault());
+      Image portImage = new Image(Models.icon(port).iconDefault());
       portImages.put(port, portImage);
       rootPanel.add(portImage);
     }
     player.ports().addAddedHandler(new Added<Port>() {
       @Override public void added(Port port) {
-        Image portImage = new Image(port.icon()
-                .iconDefault());
+        Image portImage = new Image(Models.icon(port).iconDefault());
         portImages.put(port, portImage);
         rootPanel.add(portImage);
       }

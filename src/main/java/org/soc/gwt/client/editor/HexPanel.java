@@ -1,36 +1,16 @@
 package org.soc.gwt.client.editor;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
+import org.soc.common.core.GenericList.Models;
 import org.soc.common.game.actions.ActionOnBoard.SetChitOnBoard;
 import org.soc.common.game.actions.ActionOnBoard.SetHexOnBoard;
 import org.soc.common.game.actions.ActionOnBoard.SetTerritoryOnBoard;
-import org.soc.common.game.hexes.ClayHex;
-import org.soc.common.game.hexes.DesertHex;
-import org.soc.common.game.hexes.DiamondHex;
-import org.soc.common.game.hexes.DiscoveryHex;
-import org.soc.common.game.hexes.GoldHex;
-import org.soc.common.game.hexes.Hex;
-import org.soc.common.game.hexes.NoneHex;
-import org.soc.common.game.hexes.OreHex;
-import org.soc.common.game.hexes.RandomHex;
-import org.soc.common.game.hexes.SeaHex;
-import org.soc.common.game.hexes.SheepHex;
-import org.soc.common.game.hexes.TimberHex;
-import org.soc.common.game.hexes.VolcanoHex;
-import org.soc.common.game.hexes.WheatHex;
-import org.soc.gwt.client.images.R;
+import org.soc.common.game.hexes.*;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.event.shared.HasHandlers;
-import com.google.gwt.event.shared.SimpleEventBus;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.PushButton;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.event.dom.client.*;
+import com.google.gwt.event.shared.*;
+import com.google.gwt.user.client.ui.*;
 
 public class HexPanel extends HorizontalPanel implements HasHandlers
 {
@@ -91,7 +71,7 @@ public class HexPanel extends HorizontalPanel implements HasHandlers
   {
     public HexButton(final Hex hex)
     {
-      super(new Image(R.mediumIcon(hex)));
+      super(new Image(Models.mediumIcon(hex)));
       addClickHandler(new ClickHandler()
       {
         @Override public void onClick(ClickEvent event)

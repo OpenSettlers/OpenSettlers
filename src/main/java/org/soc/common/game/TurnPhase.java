@@ -5,14 +5,10 @@ import java.io.*;
 import org.soc.common.core.GenericList.HasId;
 import org.soc.common.core.GenericList.Model;
 import org.soc.common.core.OpenZettlers.OsModel;
+import org.soc.common.core.Props.IsChild;
 import org.soc.common.core.Props.PropertyList.PropertyTypeList;
-import org.soc.common.core.property.Properties.Description;
-import org.soc.common.core.property.Properties.Name;
 import org.soc.common.core.property.*;
 import org.soc.common.game.actions.*;
-import org.soc.common.utils.*;
-import org.soc.common.views.meta.*;
-import org.soc.gwt.client.images.*;
 
 public interface TurnPhase extends Serializable, OsModel<Integer> {
   public TurnPhase next();
@@ -29,9 +25,6 @@ public interface TurnPhase extends Serializable, OsModel<Integer> {
     public boolean isAllowed(GameAction action) {
       return action.isAllowed(this);
     }
-    @Override public Name name() {
-      return new Name.Impl(Util.shortName(this.getClass()));
-    }
     public boolean isBeforeDiceRoll() {
       return false;
     }
@@ -44,7 +37,7 @@ public interface TurnPhase extends Serializable, OsModel<Integer> {
     public boolean isBuilding() {
       return false;
     }
-    @Override public Property getProp(Property type) {
+    @Override public IsChild getProp(StaticProperty type) {
       // TODO Auto-generated method stub
       return null;
     }
@@ -71,18 +64,6 @@ public interface TurnPhase extends Serializable, OsModel<Integer> {
   }
 
   public class BeforeDiceRollTurnPhase extends AbstractTurnPhase {
-    @Override public Icon icon() {
-      return new IconImpl(R.icons()
-              .beforeDiceRollTurnPhase16(), R.icons()
-              .beforeDiceRollTurnPhase32(), R.icons()
-              .beforeDiceRollTurnPhase48());
-    }
-    @Override public Name name() {
-      return null;
-    }
-    @Override public Description description() {
-      return null;
-    }
     @Override public TurnPhase next() {
       return new RollDiceTurnPhase();
     }
@@ -102,18 +83,6 @@ public interface TurnPhase extends Serializable, OsModel<Integer> {
   public class BuildingTurnPhase extends AbstractTurnPhase {
     private TradingTurnPhase tradingTurnPhase;
 
-    @Override public Icon icon() {
-      return new IconImpl(R.icons()
-              .buildingTurnPhase16(), R.icons()
-              .buildingTurnPhase32(), R.icons()
-              .buildingTurnPhase48());
-    }
-    @Override public Name name() {
-      return null;
-    }
-    @Override public Description description() {
-      return null;
-    }
     public BuildingTurnPhase() {}
     public BuildingTurnPhase(TradingTurnPhase tradingTurnPhase) {
       this.tradingTurnPhase = tradingTurnPhase;
@@ -160,18 +129,6 @@ public interface TurnPhase extends Serializable, OsModel<Integer> {
   }
 
   public class RollDiceTurnPhase extends AbstractTurnPhase {
-    @Override public Icon icon() {
-      return new IconImpl(R.icons()
-              .rollDiceTurnPhase16(), R.icons()
-              .rollDiceTurnPhase32(), R.icons()
-              .rollDiceTurnPhase48());
-    }
-    @Override public Name name() {
-      return null;
-    }
-    @Override public Description description() {
-      return null;
-    }
     @Override public TurnPhase next() {
       return new TradingTurnPhase();
     }
@@ -245,18 +202,6 @@ public interface TurnPhase extends Serializable, OsModel<Integer> {
   public class TradingTurnPhase extends AbstractTurnPhase {
     private BuildingTurnPhase buildPhase;
 
-    @Override public Icon icon() {
-      return new IconImpl(
-              R.icons().tradingTurnPhase16(), R
-                      .icons().tradingTurnPhase32(),
-              R.icons().tradingTurnPhase48());
-    }
-    @Override public Name name() {
-      return null;
-    }
-    @Override public Description description() {
-      return null;
-    }
     public TradingTurnPhase() {
       buildPhase = new BuildingTurnPhase(this);
     }

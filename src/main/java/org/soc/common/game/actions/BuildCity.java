@@ -8,8 +8,6 @@ import org.soc.common.core.GenericList.ImmutableList;
 import org.soc.common.core.GenericList.ModelPresenter;
 import org.soc.common.core.GenericList.ModelView.InfoView;
 import org.soc.common.core.GenericList.RemovesList.ListRemoved;
-import org.soc.common.core.property.Properties.Description;
-import org.soc.common.core.property.Properties.Name;
 import org.soc.common.game.*;
 import org.soc.common.game.GamePhaseChangedEvent.GamePhaseChangedHandler;
 import org.soc.common.game.Resources.MutableResourceList;
@@ -26,7 +24,6 @@ import org.soc.common.game.actions.WantsBuildCityEvent.WantsBuildCityHandler;
 import org.soc.common.game.board.*;
 import org.soc.common.game.hexes.*;
 import org.soc.common.game.pieces.*;
-import org.soc.common.views.meta.*;
 import org.soc.common.views.widgetsInterface.actions.*;
 import org.soc.common.views.widgetsInterface.actions.ActionDetailWidget.ActionDetailWidgetFactory;
 import org.soc.common.views.widgetsInterface.main.*;
@@ -39,7 +36,6 @@ import com.google.inject.*;
 import com.gwtplatform.dispatch.annotation.*;
 
 import static org.soc.common.internationalization.I.*;
-import static org.soc.gwt.client.images.R.*;
 
 /** Builds next city from stock on the playing board */
 public class BuildCity extends AbstractTurnAction {
@@ -55,15 +51,6 @@ public class BuildCity extends AbstractTurnAction {
   private Town town;
   private City city;
 
-  @Override public Icon icon() {
-    return new IconImpl(icons.city16(), icons.city32(), icons.city48());
-  }
-  @Override public Name name() {
-    return new Name.Impl(constants.city());
-  }
-  @Override public Description description() {
-    return new Description.Impl(constants.cityDescription());
-  }
   public HexPoint getPointLocation() {
     return point;
   }

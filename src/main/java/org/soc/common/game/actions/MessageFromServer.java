@@ -1,11 +1,8 @@
 package org.soc.common.game.actions;
 
-import org.soc.common.core.property.Properties.Description;
-import org.soc.common.core.property.Properties.Name;
 import org.soc.common.game.*;
 import org.soc.common.game.actions.GameAction.AbstractGameAction;
 import org.soc.common.internationalization.*;
-import org.soc.common.views.meta.*;
 import org.soc.common.views.widgetsInterface.main.*;
 
 /*
@@ -16,17 +13,6 @@ import org.soc.common.views.widgetsInterface.main.*;
 public class MessageFromServer extends AbstractGameAction {
   private String serverMessage;
 
-  @Override public Icon icon() {
-    return new IconImpl(null, null, null, null);
-  }
-  @Override public Name name() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-  @Override public Description description() {
-    // TODO Auto-generated method stub
-    return null;
-  }
   public String getServerMessage() {
     return serverMessage;
   }
@@ -42,8 +28,7 @@ public class MessageFromServer extends AbstractGameAction {
   @Override public boolean isAllowed(GamePhase gamePhase) {
     return true;
   }
-  @Override public String toDoMessage()
-  {
+  @Override public String toDoMessage() {
     return I.get().actions().noToDo();
   }
 

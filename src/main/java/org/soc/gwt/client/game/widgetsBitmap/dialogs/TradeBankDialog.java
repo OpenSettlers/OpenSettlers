@@ -2,6 +2,7 @@ package org.soc.gwt.client.game.widgetsBitmap.dialogs;
 
 import org.soc.common.core.GenericList.AddsList.ListAdded;
 import org.soc.common.core.GenericList.ImmutableList;
+import org.soc.common.core.GenericList.Models;
 import org.soc.common.core.GenericList.RemovesList.ListRemoved;
 import org.soc.common.game.DevelopmentCard.AbstractDevelopmentCard;
 import org.soc.common.game.*;
@@ -122,10 +123,10 @@ public class TradeBankDialog extends PopupPanel implements BankTradeWidget {
       wantResources.addList(playerHand.getNeededResources(pieceToTradeFor
               .cost()));
       // Update image
-      imgPiece.setUrl(pieceToTradeFor.icon().iconDefault()
+      imgPiece.setUrl(Models.icon(pieceToTradeFor).iconDefault()
               .getURL());
-      lblTradeForA.setText(I.get().ui().bankTradeForA()
-              + pieceToTradeFor.name().value());
+      lblTradeForA.setText(I.get().ui().bankTradeForA() + " " +
+              Models.name(pieceToTradeFor));
       panelPieceTrade.setVisible(true);
     } else
     {

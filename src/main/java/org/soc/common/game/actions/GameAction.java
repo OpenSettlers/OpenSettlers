@@ -6,8 +6,7 @@ import org.soc.common.core.*;
 import org.soc.common.core.GenericList.Model;
 import org.soc.common.core.GenericList.ModelPresenter;
 import org.soc.common.core.GenericList.ModelView;
-import org.soc.common.core.property.Properties.Description;
-import org.soc.common.core.property.Properties.Name;
+import org.soc.common.core.GenericList.Models;
 import org.soc.common.game.*;
 import org.soc.common.game.GamePlayer.GamePlayerImpl;
 import org.soc.common.game.actions.Action.ActionPresenter.ActionWidgetFactory;
@@ -16,7 +15,6 @@ import org.soc.common.game.actions.GameAction.GameActionPresenter.ButtonPresente
 import org.soc.common.game.actions.GameBehaviour.DefaultReceivedActionInGame;
 import org.soc.common.server.actions.*;
 import org.soc.common.utils.*;
-import org.soc.common.views.meta.*;
 import org.soc.common.views.widgetsInterface.actions.*;
 import org.soc.common.views.widgetsInterface.actions.ActionDetailWidget.ActionDetailWidgetFactory;
 import org.soc.common.views.widgetsInterface.main.*;
@@ -101,7 +99,8 @@ public interface GameAction extends Action {
       return message;
     }
     @Override public String toDoMessageOpponent(GamePlayer opponent) {
-      return "(Not implemented for GameAction " + name().value() + "): " + opponent.user().name();
+      return "(Not implemented for GameAction " + Models.name(this) + "): " + opponent.user()
+              .name();
     }
     public GamePlayer player() {
       if (sender == 0 && player == null)
@@ -157,18 +156,6 @@ public interface GameAction extends Action {
       return null;
     }
     @Override public org.soc.common.core.GenericList.HasId.IdScope scope() {
-      // TODO Auto-generated method stub
-      return null;
-    }
-    @Override public Name name() {
-      // TODO Auto-generated method stub
-      return null;
-    }
-    @Override public Description description() {
-      // TODO Auto-generated method stub
-      return null;
-    }
-    @Override public Icon icon() {
       // TODO Auto-generated method stub
       return null;
     }

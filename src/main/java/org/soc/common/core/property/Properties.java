@@ -1,7 +1,8 @@
 package org.soc.common.core.property;
 
-import org.soc.common.core.Props.HasProperty;
-import org.soc.common.core.Props.SetsProperty;
+import org.soc.common.core.Props.HasGetters;
+import org.soc.common.core.Props.HasSetters;
+import org.soc.common.core.Props.IsChild;
 import org.soc.common.core.Props.Value;
 import org.soc.common.core.Props.Value.DateValue;
 import org.soc.common.core.Props.Value.MultiValue;
@@ -21,26 +22,22 @@ public class Properties {
   public static final DateRange dateRange = new DateRange.Impl();
   public static final Date date = new Date.Impl();
 
-  public interface Name extends Property<SetsName>, Value.StringValue {
-    public static interface HasName extends HasProperty {
+  public interface Name extends IsChild<SetsName>, Value.StringValue {
+    public static interface HasName extends HasGetters {
       public Name name();
     }
 
-    public interface SetsName extends SetsProperty {
+    public interface SetsName extends HasSetters {
       public void setName(Name name);
     }
 
     public static class Impl extends Abstract {
       public Impl(String theName) {
         super(theName);
-        canSet = true;
-        canSetNull = true;
-        canGetNull = true;
-        firesEvent = false;
       }
     }
 
-    public static abstract class Abstract extends AbstractProperty<SetsName> implements Name {
+    public static abstract class Abstract implements Name {
       protected String theName;
 
       public Abstract(String theName) {
@@ -55,12 +52,12 @@ public class Properties {
     }
   }
 
-  public interface Description extends Property<SetsDescription>, Value.StringValue {
-    public interface HasDescription extends HasProperty {
+  public interface Description extends IsChild<SetsDescription>, Value.StringValue {
+    public interface HasDescription extends HasGetters {
       public Description description();
     }
 
-    public interface SetsDescription extends SetsProperty {
+    public interface SetsDescription extends HasSetters {
       public void setDescription(Description description);
     }
 
@@ -72,8 +69,6 @@ public class Properties {
     }
 
     public static abstract class Abstract
-            extends
-            AbstractProperty<SetsDescription>
             implements
             Description {
       protected String description = "";
@@ -90,18 +85,16 @@ public class Properties {
     }
   }
 
-  public interface LatLong extends Property<SetsLatLong> {
-    public interface HasLatLong extends HasProperty {
+  public interface LatLong extends IsChild<SetsLatLong> {
+    public interface HasLatLong extends HasGetters {
       public LatLong latLong();
     }
 
-    public interface SetsLatLong extends SetsProperty {
+    public interface SetsLatLong extends HasSetters {
       public void setLatLong(LatLong latLong);
     }
 
     public static abstract class Abstract
-            extends
-            AbstractProperty<SetsLatLong>
             implements
             LatLong {
       @Override public void doSet(SetsLatLong setsLatLong) {
@@ -110,12 +103,12 @@ public class Properties {
     }
   }
 
-  public interface Date extends Property<SetsDate>, DateValue {
-    public interface HasDate extends HasProperty {
+  public interface Date extends IsChild<SetsDate>, DateValue {
+    public interface HasDate extends HasGetters {
       public Date date();
     }
 
-    public interface SetsDate extends SetsProperty {
+    public interface SetsDate extends HasSetters {
       public void setDate(Date date);
     }
 
@@ -133,8 +126,6 @@ public class Properties {
     }
 
     public static abstract class Abstract
-            extends
-            AbstractProperty<SetsDate>
             implements
             Date {
       protected java.util.Date date;
@@ -153,12 +144,12 @@ public class Properties {
     }
   }
 
-  public interface DateRange extends Property<SetsDateRange>, MultiValue {
-    public interface HasDateRange extends HasProperty {
+  public interface DateRange extends IsChild<SetsDateRange>, MultiValue {
+    public interface HasDateRange extends HasGetters {
       public DateRange getDateRange();
     }
 
-    public interface SetsDateRange extends SetsProperty {
+    public interface SetsDateRange extends HasSetters {
       public void setDateRange(DateRange dateRange);
     }
 
@@ -170,8 +161,6 @@ public class Properties {
     }
 
     public static abstract class Abstract
-            extends
-            AbstractProperty<SetsDateRange>
             implements
             DateRange {
       protected java.util.Date date1;

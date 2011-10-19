@@ -2,21 +2,18 @@ package org.soc.common.game.actions;
 
 import java.util.*;
 
-import org.soc.common.core.property.Properties.Description;
-import org.soc.common.core.property.Properties.Name;
+import org.soc.common.core.GenericList.Models;
 import org.soc.common.game.*;
 import org.soc.common.game.actions.Action.ActionPresenter.ActionWidgetFactory;
 import org.soc.common.game.actions.TurnAction.AbstractTurnAction;
 import org.soc.common.game.board.*;
 import org.soc.common.game.hexes.*;
 import org.soc.common.internationalization.*;
-import org.soc.common.views.meta.*;
 import org.soc.common.views.widgetsInterface.actions.*;
 import org.soc.common.views.widgetsInterface.actions.ActionDetailWidget.ActionDetailWidgetFactory;
 import org.soc.common.views.widgetsInterface.main.*;
 import org.soc.common.views.widgetsInterface.visuals.*;
 import org.soc.common.views.widgetsInterface.visuals.PieceVisual.HexVisual;
-import org.soc.gwt.client.images.*;
 
 /*
  * Robber is placed by current player due to 7 roll or Soldier
@@ -24,22 +21,6 @@ import org.soc.gwt.client.images.*;
  */
 public class PlaceRobber extends AbstractTurnAction
 {
-  @Override public Icon icon() {
-    return new IconImpl(R.icons().moveRobber16(),
-            R.icons().moveRobber32(), R.icons()
-                    .moveRobber48());
-  }
-  @Override public Name name()
-  {
-    // TODO Auto-generated method stub
-    return null;
-  }
-  @Override public Description description()
-  {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
   private HexLocation newLocation;
 
   public HexLocation getNewLocation() {
@@ -78,8 +59,7 @@ public class PlaceRobber extends AbstractTurnAction
     Hex hex = game.board().hexes().get(newLocation);
     if (!hex.isRobberPlaceable())
     {
-      invalidMessage = "Can't place robber or pirate on a "
-              + hex.name().value();
+      invalidMessage = "Can't place robber or pirate on a " + Models.name(hex);
       return false;
     }
     return super.isValid(game);

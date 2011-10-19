@@ -6,8 +6,6 @@ import org.soc.common.core.GenericList.Adds.Added;
 import org.soc.common.core.GenericList.AddsList.ListAdded;
 import org.soc.common.core.GenericList.ImmutableList;
 import org.soc.common.core.GenericList.RemovesList.ListRemoved;
-import org.soc.common.core.property.Properties.Description;
-import org.soc.common.core.property.Properties.Name;
 import org.soc.common.game.*;
 import org.soc.common.game.GamePhaseChangedEvent.GamePhaseChangedHandler;
 import org.soc.common.game.RoadTokensChangedEvent.RoadTokensChangedHandler;
@@ -22,7 +20,6 @@ import org.soc.common.game.actions.WantsBuildRoadEvent.WantsBuildRoadHandler;
 import org.soc.common.game.board.*;
 import org.soc.common.game.pieces.*;
 import org.soc.common.internationalization.*;
-import org.soc.common.views.meta.*;
 import org.soc.common.views.widgetsInterface.actions.*;
 import org.soc.common.views.widgetsInterface.actions.ActionDetailWidget.ActionDetailWidgetFactory;
 import org.soc.common.views.widgetsInterface.main.*;
@@ -30,7 +27,6 @@ import org.soc.common.views.widgetsInterface.visuals.*;
 import org.soc.common.views.widgetsInterface.visuals.PieceVisual.SideVisual;
 import org.soc.gwt.client.game.actions.*;
 import org.soc.gwt.client.game.widgetsAbstract.actions.*;
-import org.soc.gwt.client.images.*;
 
 import com.google.gwt.user.client.ui.*;
 import com.gwtplatform.dispatch.annotation.*;
@@ -45,18 +41,6 @@ public class BuildRoad extends AbstractTurnAction {
     public void setTrade2Visible(boolean visible);
     public void enable();
     public void disable();
-  }
-
-  @Override public Icon icon() {
-    return new IconImpl(R.icons().road16(), R
-            .icons().road32(), R.icons().road48());
-  }
-  @Override public Name name() {
-    return null;
-  }
-  @Override public Description description() {
-    // TODO Auto-generated method stub
-    return null;
   }
 
   private HexSide sideLocation;

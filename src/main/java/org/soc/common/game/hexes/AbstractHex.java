@@ -1,6 +1,7 @@
 package org.soc.common.game.hexes;
 
 import org.soc.common.core.GenericList.HasId;
+import org.soc.common.core.Props.IsChild;
 import org.soc.common.core.Props.PropertyList.PropertyTypeList;
 import org.soc.common.core.property.*;
 import org.soc.common.game.*;
@@ -18,8 +19,17 @@ public abstract class AbstractHex implements Hex {
   protected HexLocation hexLocation;
   protected Territory territory;
   protected SimpleEventBus eventBus = new SimpleEventBus();
+  protected String color;
+  protected boolean canBuldOnLand;
+  protected boolean canBuildOnSea;
+  protected boolean isPartoOfGame;
+  protected boolean isPiratePlaceable;
+  protected boolean isRobberPlaceable;
+  protected boolean canHaveChit;
+  protected boolean hasChit;
+  protected boolean producesResource;
 
-  @Override public Property getProp(Property type) {
+  @Override public IsChild getProp(StaticProperty type) {
     // TODO Auto-generated method stub
     return null;
   }
@@ -73,6 +83,30 @@ public abstract class AbstractHex implements Hex {
   }
   @Override public Hex setPort(Port port) {
     return this;
+  }
+  @Override public String getColor() {
+    return color;
+  }
+  @Override public boolean canBuildOnLand() {
+    return canBuldOnLand;
+  }
+  @Override public boolean canBuildOnSea() {
+    return canBuildOnSea;
+  }
+  @Override public boolean isPartOfGame() {
+    return isPartoOfGame;
+  }
+  @Override public boolean isRobberPlaceable() {
+    return isRobberPlaceable;
+  }
+  @Override public boolean isPiratePlaceable() {
+    return isPiratePlaceable;
+  }
+  @Override public boolean producesResource() {
+    return producesResource;
+  }
+  @Override public boolean canHaveChit() {
+    return canHaveChit;
   }
   @Override public HandlerRegistration addChitChangedHandler(ChitChangedHandler handler) {
     return eventBus.addHandler(ChitChangedEvent.getType(), handler);

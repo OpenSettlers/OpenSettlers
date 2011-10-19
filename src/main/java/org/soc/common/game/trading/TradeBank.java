@@ -1,36 +1,18 @@
 package org.soc.common.game.trading;
 
-import org.soc.common.core.property.Properties.Description;
-import org.soc.common.core.property.Properties.Name;
+import org.soc.common.core.GenericList.Models;
 import org.soc.common.game.*;
 import org.soc.common.game.Resources.ResourceList;
 import org.soc.common.game.actions.Action.ActionPresenter.ActionWidgetFactory;
 import org.soc.common.game.actions.TurnAction.AbstractTurnAction;
 import org.soc.common.internationalization.*;
-import org.soc.common.views.meta.*;
 import org.soc.common.views.widgetsInterface.actions.*;
 import org.soc.common.views.widgetsInterface.actions.ActionDetailWidget.ActionDetailWidgetFactory;
-import org.soc.gwt.client.images.*;
 
 public class TradeBank extends AbstractTurnAction {
   private ResourceList wantedResources;
   private ResourceList offeredResources;
 
-  @Override public Icon icon() {
-    return new IconImpl(R.icons().bankTrade16(),
-            R.icons().bankTrade32(), R.icons()
-                    .bankTrade48());
-  }
-  @Override public Name name()
-  {
-    // TODO Auto-generated method stub
-    return null;
-  }
-  @Override public Description description()
-  {
-    // TODO Auto-generated method stub
-    return null;
-  }
   public ResourceList getWantedResources() {
     return wantedResources;
   }
@@ -79,7 +61,7 @@ public class TradeBank extends AbstractTurnAction {
       if (amountOfType > 0) {
         int amountNeeded = player.ports().amountNeededToTrade(resource);
         if ((amountOfType % amountNeeded) != 0) {
-          invalidMessage = "For " + resource.name()
+          invalidMessage = "For " + Models.name(resource)
                   + " you need to offer a multiple of "
                   + amountNeeded;
           return false;

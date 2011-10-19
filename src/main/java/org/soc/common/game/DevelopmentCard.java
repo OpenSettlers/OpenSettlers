@@ -3,9 +3,8 @@ package org.soc.common.game;
 import org.soc.common.core.GenericList.HasId;
 import org.soc.common.core.GenericList.Model;
 import org.soc.common.core.OpenZettlers.OsModel;
+import org.soc.common.core.Props.IsChild;
 import org.soc.common.core.Props.PropertyList.PropertyTypeList;
-import org.soc.common.core.property.Properties.Description;
-import org.soc.common.core.property.Properties.Name;
 import org.soc.common.core.property.*;
 import org.soc.common.game.PickedResourceEvent.HasPickedResourceHandlers;
 import org.soc.common.game.PickedResourceEvent.PickedResourceHandler;
@@ -19,11 +18,9 @@ import org.soc.common.game.actions.WantsPlayDevelopmentCardEvent.WantsPlayDevelo
 import org.soc.common.game.actions.WantsPlayDevelopmentCardEvent;
 import org.soc.common.internationalization.*;
 import org.soc.common.utils.*;
-import org.soc.common.views.meta.*;
 import org.soc.common.views.widgetsInterface.developmentCards.*;
 import org.soc.common.views.widgetsInterface.developmentCards.DevelopmentCardWidget.DevelopmentCardWidgetFactory;
 import org.soc.common.views.widgetsInterface.main.*;
-import org.soc.gwt.client.images.*;
 
 import com.google.gwt.event.shared.*;
 import com.google.gwt.user.client.ui.*;
@@ -77,7 +74,6 @@ public interface DevelopmentCard extends OsModel<Integer>, HasPlayableChangedHan
   public interface DevelopmentCardPresenter {}
 
   public abstract class AbstractDevelopmentCard implements DevelopmentCard {
-    private static final long serialVersionUID = 3192052784726040369L;
     protected String invalidMessage;
     protected String message = "No message implemented yet for Devcard" + toString();
     protected int turnBought = 0;
@@ -180,9 +176,6 @@ public interface DevelopmentCard extends OsModel<Integer>, HasPlayableChangedHan
         return false;
       return true;
     }
-    @Override public Name name() {
-      return new Name.Impl(Util.shortName(this.getClass()));
-    }
     public abstract DevelopmentCardWidget createPlayCardWidget(
             DevelopmentCardWidgetFactory factory);
     @Override public HandlerRegistration addPlayableChangedHandler(
@@ -193,7 +186,7 @@ public interface DevelopmentCard extends OsModel<Integer>, HasPlayableChangedHan
     @Override public void fireEvent(GwtEvent<?> event) {
       eventBus.fireEvent(event);
     }
-    @Override public Property getProp(Property type) {
+    @Override public IsChild getProp(StaticProperty type) {
       // TODO Auto-generated method stub
       return null;
     }
@@ -206,17 +199,6 @@ public interface DevelopmentCard extends OsModel<Integer>, HasPlayableChangedHan
   /** Standard ruleset VictoryPoint development card Playable any time during a players' turn and not
    * immediately played when receiving the card */
   public class VictoryPoint extends AbstractDevelopmentCard implements VictoryPointItem {
-    @Override public Icon icon() {
-      return new IconImpl(R.icons().victoryPoint16(), R.icons().victoryPoint32(), R
-              .icons()
-              .victoryPoint48());
-    }
-    @Override public Name name() {
-      return new Name.Impl(I.get().constants().victoryPoint());
-    }
-    @Override public Description description() {
-      return new Description.Impl(I.get().constants().victoryPointDescription());
-    }
     /** A victoryPoint development card returns into stock after playing */
     @Override public boolean keepInStock() {
       return true;
@@ -287,15 +269,6 @@ public interface DevelopmentCard extends OsModel<Integer>, HasPlayableChangedHan
   public class Monopoly extends AbstractDevelopmentCard {
     private Resource resource;
 
-    @Override public Icon icon() {
-      return new IconImpl(R.icons().monopoly16(), R.icons().monopoly32(), R.icons().monopoly48());
-    }
-    @Override public Name name() {
-      return new Name.Impl(I.get().constants().monopoly());
-    }
-    @Override public Description description() {
-      return new Description.Impl(I.get().constants().monopolyDescription());
-    }
     public Resource getResource()
     {
       return resource;
@@ -400,17 +373,6 @@ public interface DevelopmentCard extends OsModel<Integer>, HasPlayableChangedHan
   }
 
   public class RoadBuilding extends AbstractDevelopmentCard {
-    @Override public Icon icon() {
-      return new IconImpl(R.icons().roadBuilding16(),
-              R.icons().roadBuilding32(), R.icons()
-                      .roadBuilding48());
-    }
-    @Override public Name name() {
-      return new Name.Impl(I.get().constants().roadBuilding());
-    }
-    @Override public Description description() {
-      return new Description.Impl(I.get().constants().roadBuildingDescription());
-    }
     @Override public void play(Game game, GamePlayer player) {
       int roadBuildingTokens = player.roadBuildingTokens();
       player.setRoadBuildingTokens(roadBuildingTokens += 2);
@@ -470,17 +432,6 @@ public interface DevelopmentCard extends OsModel<Integer>, HasPlayableChangedHan
     // actual picked resources by player
     private ResourceList goldPick;
 
-    @Override public Icon icon() {
-      return new IconImpl(R.icons().yearOfPlenty16(),
-              R.icons().yearOfPlenty32(), R.icons()
-                      .yearOfPlenty48());
-    }
-    @Override public Name name() {
-      return new Name.Impl(I.get().constants().yearOfPlenty());
-    }
-    @Override public Description description() {
-      return new Description.Impl(I.get().constants().yearOfPlentyDescription());
-    }
     public YearOfPlenty setGoldPick(ResourceList goldPick) {
       this.goldPick = goldPick;
       return this;
@@ -594,16 +545,6 @@ public interface DevelopmentCard extends OsModel<Integer>, HasPlayableChangedHan
     private int id;
     private int turnBought;
 
-    @Override public Icon icon() {
-      return new IconImpl(R.icons().developmentCardBack16(), R.icons().developmentCardBack32(), R
-              .icons().developmentCardBack48());
-    }
-    @Override public Name name() {
-      return new Name.Impl(I.get().constants().dummyDevelopmentCard());
-    }
-    @Override public Description description() {
-      return new Description.Impl(I.get().constants().dummyDevelopmentCardDescription());
-    }
     @Override public DevelopmentCardWidget createPlayCardWidget(
             DevelopmentCardWidgetFactory factory)
     {
@@ -667,7 +608,7 @@ public interface DevelopmentCard extends OsModel<Integer>, HasPlayableChangedHan
       // TODO Auto-generated method stub
       return null;
     }
-    @Override public Property getProp(Property type) {
+    @Override public IsChild getProp(StaticProperty type) {
       // TODO Auto-generated method stub
       return null;
     }
@@ -680,17 +621,6 @@ public interface DevelopmentCard extends OsModel<Integer>, HasPlayableChangedHan
   /* Represents a soldier from the standard rules development card set. */
   public class Soldier extends AbstractDevelopmentCard
   {
-    @Override public Icon icon() {
-      return new IconImpl(R.icons().soldier16(),
-              R.icons().soldier32(), R.icons()
-                      .soldier48());
-    }
-    @Override public Name name() {
-      return new Name.Impl(I.get().constants().soldier());
-    }
-    @Override public Description description() {
-      return new Description.Impl(I.get().constants().soldierDescription());
-    }
     @Override public boolean isValid(Game game) {
       if (!super.isValid(game))
         return false;

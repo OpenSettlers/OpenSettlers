@@ -1,37 +1,21 @@
 package org.soc.common.game.actions;
 
-import org.soc.common.core.property.Properties.Description;
-import org.soc.common.core.property.Properties.Name;
 import org.soc.common.game.*;
 import org.soc.common.game.actions.Action.ActionPresenter.ActionWidgetFactory;
 import org.soc.common.game.actions.ActionOnGameBoard.DisabledMap;
 import org.soc.common.game.actions.GameAction.AbstractGameAction;
 import org.soc.common.internationalization.*;
 import org.soc.common.server.actions.*;
-import org.soc.common.views.meta.*;
 import org.soc.common.views.widgetsInterface.main.*;
 
 public class HostStartsGame extends AbstractGameAction {
   private Game game;
 
-  @Override public Icon icon() {
-    return new IconImpl(null, null, null, null);
-  }
-  @Override public Name name() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-  @Override public Description description() {
-    // TODO Auto-generated method stub
-    return null;
-  }
   @Override public void perform(Game game) {
     game.initialize();
     game.start();
-    game.actionsQueue()
-            .enqueue((GameAction) new GamePhaseHasEnded()
-                    .setSender(0),
-                    true);
+    game.actionsQueue().enqueue((GameAction)
+            new GamePhaseHasEnded().setSender(0), true);
     super.perform(game);
   }
   public Game getGame() {

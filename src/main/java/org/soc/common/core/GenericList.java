@@ -19,7 +19,9 @@ import org.soc.common.core.Props.Value;
 import org.soc.common.game.*;
 import org.soc.common.game.Random;
 import org.soc.common.utils.*;
+import org.soc.common.views.meta.*;
 
+import com.google.gwt.resources.client.*;
 import com.google.inject.*;
 import com.google.web.bindery.event.shared.*;
 
@@ -118,6 +120,27 @@ public class GenericList {// @formatter:off
     Copies<Model>, // Mirror kitteh looks in mirror and sees clone
     HasId<K> {     // Copycat differs from copycat
   }
+
+  public static class Models {
+    public static String name(Model model) {
+      return "not supported yet";
+    }
+    public static String description(Model model) {
+      return "not supported description";
+    }
+    public static Icon icon(Model model) {
+      return new IconImpl(null, null, null);
+    }
+    public static ImageResource smallIcon(Model model) {
+      return icon(model).icon16();
+    }
+    public static ImageResource mediumIcon(Model model) {
+      return icon(model).icon32();
+    }
+    public static ImageResource largeIcon(Model model) {
+      return icon(model).icon48();
+    }
+  }
   
   /** Store the model somewhere */
   public interface Persists {}
@@ -181,7 +204,7 @@ public class GenericList {// @formatter:off
    *       mutate: a presenter modifying the model
    *       
    *       update: 
-   *       action: 
+   *       action: performance on a user story
    *       
    *       Model  --> org.soc.common
    *        ModelPresenter

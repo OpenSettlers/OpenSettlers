@@ -6,8 +6,6 @@ import org.soc.common.core.GenericList.Adds.Added;
 import org.soc.common.core.GenericList.AddsList.ListAdded;
 import org.soc.common.core.GenericList.ImmutableList;
 import org.soc.common.core.GenericList.RemovesList.ListRemoved;
-import org.soc.common.core.property.Properties.Description;
-import org.soc.common.core.property.Properties.Name;
 import org.soc.common.game.*;
 import org.soc.common.game.GamePhaseChangedEvent.GamePhaseChangedHandler;
 import org.soc.common.game.Resources.MutableResourceList;
@@ -24,7 +22,6 @@ import org.soc.common.game.board.*;
 import org.soc.common.game.hexes.*;
 import org.soc.common.game.pieces.*;
 import org.soc.common.internationalization.*;
-import org.soc.common.views.meta.*;
 import org.soc.common.views.widgetsInterface.actions.*;
 import org.soc.common.views.widgetsInterface.actions.ActionDetailWidget.ActionDetailWidgetFactory;
 import org.soc.common.views.widgetsInterface.main.*;
@@ -32,7 +29,6 @@ import org.soc.common.views.widgetsInterface.visuals.*;
 import org.soc.common.views.widgetsInterface.visuals.PieceVisual.PointVisual;
 import org.soc.gwt.client.game.actions.*;
 import org.soc.gwt.client.game.widgetsAbstract.actions.*;
-import org.soc.gwt.client.images.*;
 
 import com.google.gwt.user.client.ui.*;
 import com.gwtplatform.dispatch.annotation.*;
@@ -41,18 +37,6 @@ public class BuildTown extends AbstractTurnAction {
   private HexPoint pointLocation;
   private Town town;
 
-  @Override public Icon icon() {
-    return new IconImpl(R.icons().town16(), R
-            .icons().town32(), R.icons().town48());
-  }
-  @Override public Name name() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-  @Override public Description description() {
-    // TODO Auto-generated method stub
-    return null;
-  }
   public HexPoint getPointLocation() {
     return pointLocation;
   }

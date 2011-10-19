@@ -2,24 +2,23 @@ package org.soc.common.board;
 
 import org.junit.*;
 import org.soc.common.board.PropsTest.Woei.WoeiImpl;
-import org.soc.common.board.PropsTest.Woei.WoeiName;
-import org.soc.common.core.Props.Binder;
 import org.soc.common.core.Props.Handler;
+import org.soc.common.core.Props.IsChild;
 import org.soc.common.core.Props.NotifiesPropertyChange;
 import org.soc.common.core.Props.PropertyList;
 import org.soc.common.core.Props.PropertyList.PropertyTypeList;
-import org.soc.common.core.property.*;
 import org.soc.common.core.property.Properties.Description;
 import org.soc.common.core.property.Properties.Description.HasDescription;
 import org.soc.common.core.property.Properties.Description.SetsDescription;
 import org.soc.common.core.property.Properties.Name;
 import org.soc.common.core.property.Properties.Name.HasName;
 import org.soc.common.core.property.Properties.Name.SetsName;
-
-import com.google.gwt.user.client.ui.*;
+import org.soc.common.core.property.*;
+import org.soc.common.core.property.StaticProperty.AbstractProperty;
 
 import static org.junit.Assert.*;
 
+// @formatter:off
 public class PropsTest {
   private boolean hasChanged = false;
 
@@ -32,28 +31,36 @@ public class PropsTest {
           HasName, SetsName,
           HasDescription, SetsDescription,
           NotifiesPropertyChange {
+    public static WoeiName nameP = new WoeiName();
+    public static WoeiDescription descriptionP = new WoeiDescription();
+
     /** Extend properties and set rule values after calling the super constructor */
-    public static class WoeiName extends Name.Abstract {
-      public WoeiName(String theName) {
-        super(theName);
+    public static class WoeiName extends AbstractProperty {
+      public WoeiName() {
         canSetNull = false;
         firesEvent = true;
         isValid = true;
         canGetNull = true;
       }
-      @Override public void doSet(SetsName hasProperty) {
-        // TODO Auto-generated method stub
+    }
+
+    public static class WoeiDescription extends AbstractProperty {
+      public WoeiDescription() {
+        canSetNull = false;
+        firesEvent = true;
+        isValid = true;
+        canGetNull = true;
       }
     }
 
     public static class WoeiImpl
             implements Woei {
-      private PropertyTypeList propertyTypes = new PropertyTypeList(Properties.name);
-      private PropertyList properties = null;// new PropertyList.Impl();
+      private PropertyTypeList propertyTypes = new PropertyTypeList();
+      private PropertyList properties = new PropertyList.Impl(nameP, descriptionP);
       private Name name;
       private Description description;
 
-      @Override public Property getProp(Property type) {
+      @Override public IsChild getProp(StaticProperty type) {
         return properties.get(type);
       }
       @Override public PropertyTypeList properties() {
@@ -64,9 +71,9 @@ public class PropsTest {
       }
       @Override public void setName(Name name) {
         this.name = name;
-        properties.setWithoutDispatch(Properties.name, name, this);
+        properties.setWithoutDispatch(nameP, name, this);
       }
-      @Override public void setProp(Property type, Property value) {
+      @Override public void setProp(StaticProperty type, IsChild value) {
         properties.set(type, value, this);
       }
       @Override public Description description() {
@@ -74,9 +81,9 @@ public class PropsTest {
       }
       @Override public void setDescription(Description description) {
         this.description = description;
-        properties.setWithoutDispatch(Properties.description, description, this);
+        properties.setWithoutDispatch(descriptionP, description, this);
       }
-      @Override public <P extends Property> void addHandler(P type, Handler handler) {
+      @Override public void addHandler(StaticProperty type, Handler handler) {
         properties.addHandler(type, handler);
       }
       @Override public void addHandler(Handler handler) {
@@ -87,35 +94,30 @@ public class PropsTest {
 
   @Test public void test() {
     Woei woei = new WoeiImpl();
-    WoeiName woeiName = new WoeiName("tegek");
+    Name woeiName = new Name.Impl("tegek");
     woei.setName(woeiName);
-    Object fromGenericGet = woei.getProp(Properties.name);
+    Object fromGenericGet = woei.getProp(Woei.nameP);
     Name fromTypeSafeGet = woei.name();
     assertEquals(woeiName, fromGenericGet);
     assertEquals(woeiName, fromTypeSafeGet);
-    assertTrue(woei.properties().contains(Properties.name));
-  }
-  public void tesxt() {
-    Woei woei = new WoeiImpl();
-    TextBox textbox = new TextBox();
-    Binder binder = new Binder();
-    binder.bindString(Properties.name).with(textbox).to(woei);
+    assertTrue(woei.properties().contains(Woei.nameP));
   }
   @Test public void testEvent() {
     Woei woei = new WoeiImpl();
-    final WoeiName woeiName = new WoeiName("tegek");
-    woei.<Name> addHandler(Properties.name, new Handler<Name>() {
+    final Name woeiName = new Name.Impl("tegek");
+    final Description woeiDescription = new Description.Impl("Ha!");
+    woei.addHandler(Woei.nameP, new Handler<Name>() {
       @Override public void changed(Name newProp, Name oldProp) {
         hasChanged = true;
         assertTrue(oldProp == null);
         assertEquals(newProp, woeiName);
       }
     });
-    woei.addHandler(new Handler<Property>() {
-      @Override public void changed(Property newProp, Property oldProp) {
+    woei.addHandler(new Handler() {
+      @Override public void changed(IsChild newProp, IsChild oldProp) {
         hasChanged = true;
         assertTrue(oldProp == null);
-        assertEquals(newProp, woeiName);
+        assertTrue(newProp.equals(woeiName) || newProp.equals(woeiDescription));
       }
     });
     woei.setName(woeiName);
@@ -124,13 +126,13 @@ public class PropsTest {
   }
   @Test public void testGenericSet() {
     Woei woei = new WoeiImpl();
-    WoeiName woeiName = new WoeiName("tegek");
-    woei.setProp(Properties.name, woeiName);
-    Object fromGenericGet = woei.getProp(Properties.name);
+    Name woeiName = new Name.Impl("tegek");
+    woei.setProp(Woei.nameP, woeiName);
+    Object fromGenericGet = woei.getProp(Woei.nameP);
     Object fromTypeSafeGet = woei.name();
     assertEquals(woeiName, fromGenericGet);
     assertEquals(woeiName, fromTypeSafeGet);
-    assertTrue(woei.properties().contains(Properties.name));
+    assertTrue(woei.properties().contains(Woei.nameP));
   }
   @Test public void testSupportedProperties() {
     //    for (Property property : ActivityInfo.supportedProperties) {

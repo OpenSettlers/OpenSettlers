@@ -3,8 +3,6 @@ package org.soc.common.game.actions;
 import org.soc.common.core.GenericList.AddsList.ListAdded;
 import org.soc.common.core.GenericList.ImmutableList;
 import org.soc.common.core.GenericList.RemovesList.ListRemoved;
-import org.soc.common.core.property.Properties.Description;
-import org.soc.common.core.property.Properties.Name;
 import org.soc.common.game.*;
 import org.soc.common.game.DevelopmentCard.AbstractDevelopmentCard;
 import org.soc.common.game.GamePhaseChangedEvent.GamePhaseChangedHandler;
@@ -18,31 +16,14 @@ import org.soc.common.game.actions.WantsBuyDevelopmentCardEvent.HasWantsBuyDevel
 import org.soc.common.game.actions.WantsBuyDevelopmentCardEvent.WantsBuyDevelopmentCardHandler;
 import org.soc.common.internationalization.*;
 import org.soc.common.server.actions.*;
-import org.soc.common.views.meta.*;
 import org.soc.common.views.widgetsInterface.main.*;
 import org.soc.gwt.client.game.widgetsAbstract.actions.*;
-import org.soc.gwt.client.images.*;
 
 import com.google.gwt.user.client.ui.*;
 import com.gwtplatform.dispatch.annotation.*;
 
 public class BuyDevelopmentCard extends AbstractTurnAction
 {
-  @Override public Icon icon() {
-    return new IconImpl(R.icons()
-            .buyDvelopmentCard16(), R.icons()
-            .buyDvelopmentCard32(), R.icons()
-            .buyDvelopmentCard48());
-  }
-  @Override public Name name() {
-    // TODO Auto-generated method stub 
-    return null;
-  }
-  @Override public Description description() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
   private ResourceList resources;
   private DevelopmentCard devCard;
 

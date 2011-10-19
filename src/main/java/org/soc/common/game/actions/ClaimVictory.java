@@ -2,36 +2,19 @@ package org.soc.common.game.actions;
 
 import org.soc.common.core.GenericList.Adds.Added;
 import org.soc.common.core.GenericList.Removes.Removed;
-import org.soc.common.core.property.Properties.Description;
-import org.soc.common.core.property.Properties.Name;
 import org.soc.common.game.*;
 import org.soc.common.game.VictoryPointsChangedEvent.VictoryPointsChangedHandler;
 import org.soc.common.game.actions.Action.ActionPresenter.ActionWidgetFactory;
 import org.soc.common.game.actions.TurnAction.AbstractTurnAction;
 import org.soc.common.game.actions.WantsClaimVictoryEvent.HasWantsClaimVictoryHandlers;
 import org.soc.common.internationalization.*;
-import org.soc.common.views.meta.*;
 import org.soc.common.views.widgetsInterface.main.*;
 import org.soc.gwt.client.game.widgetsAbstract.actions.*;
-import org.soc.gwt.client.images.*;
 
 import com.google.gwt.user.client.ui.*;
 import com.gwtplatform.dispatch.annotation.*;
 
 public class ClaimVictory extends AbstractTurnAction {
-  @Override public Icon icon() {
-    return new IconImpl(R.icons().claimVictory16(),
-            R.icons().claimVictory32(), R.icons()
-                    .claimVictory48());
-  }
-  @Override public Name name() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-  @Override public Description description() {
-    // TODO Auto-generated method stub
-    return null;
-  }
   @Override public boolean isAllowed(TurnPhase turnPhase) {
     return true;
   }

@@ -1,17 +1,16 @@
 package org.soc.gwt.client.game.widgetsBitmap.tooltips;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
+import org.soc.common.core.GenericList.Models;
 import org.soc.common.game.DevelopmentCard.Soldier;
-import org.soc.common.game.GamePlayer;
+import org.soc.common.game.*;
 import org.soc.common.game.pieces.Army.ArmyChangedEvent;
 import org.soc.common.game.pieces.Army.ArmyChangedEventHandler;
-import org.soc.common.views.widgetsInterface.main.GameWidget;
-import org.soc.gwt.client.game.widgetsAbstract.toolTips.AbstractPlayerInfoToolTip;
-import org.soc.gwt.client.images.R;
+import org.soc.common.views.widgetsInterface.main.*;
+import org.soc.gwt.client.game.widgetsAbstract.toolTips.*;
 
-import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.*;
 
 public class SoldiersToolTip extends AbstractPlayerInfoToolTip implements
         ArmyChangedEventHandler
@@ -23,7 +22,7 @@ public class SoldiersToolTip extends AbstractPlayerInfoToolTip implements
     super(gameWidget, player);
     for (Soldier soldier : player.army().getSoldiers())
     {
-      Image soldierImage = new Image(R.mediumIcon(soldier));
+      Image soldierImage = new Image(Models.mediumIcon(soldier));
       soldierImages.put(soldier, soldierImage);
       rootPanel.add(soldierImage);
     }
@@ -33,7 +32,7 @@ public class SoldiersToolTip extends AbstractPlayerInfoToolTip implements
   {
     if (event.getAddedSoldier() != null)
     {
-      Image soldierImage = new Image(R.mediumIcon(event
+      Image soldierImage = new Image(Models.mediumIcon(event
               .getAddedSoldier()));
       soldierImages.put(event.getAddedSoldier(), soldierImage);
       rootPanel.add(soldierImage);

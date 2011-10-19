@@ -1,7 +1,7 @@
 package org.soc.gwt.client.images;
 
 import org.soc.common.game.*;
-import org.soc.common.views.meta.Icon.HasIcon;
+import org.soc.common.views.meta.*;
 import org.soc.gwt.client.images.defaultTheme.*;
 
 import com.google.gwt.core.client.*;
@@ -22,17 +22,17 @@ public class R
   {
     return icons2;
   }
-  public static ImageResource smallIcon(HasIcon meta)
+  public static ImageResource smallIcon(Icon meta)
   {
-    return meta.icon().icon16();
+    return meta.icon16();
   }
-  public static ImageResource mediumIcon(HasIcon meta)
+  public static ImageResource mediumIcon(Icon meta)
   {
-    return meta.icon().icon32();
+    return meta.icon32();
   }
-  public static ImageResource largeIcon(HasIcon meta)
+  public static ImageResource largeIcon(Icon meta)
   {
-    return meta.icon().icon48();
+    return meta.icon48();
   }
   public static ImageResource island(int id)
   {

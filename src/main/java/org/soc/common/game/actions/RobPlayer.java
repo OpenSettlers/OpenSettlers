@@ -2,33 +2,16 @@ package org.soc.common.game.actions;
 
 import java.util.*;
 
-import org.soc.common.core.property.Properties.Description;
-import org.soc.common.core.property.Properties.Name;
 import org.soc.common.game.*;
 import org.soc.common.game.actions.Action.ActionPresenter.ActionWidgetFactory;
 import org.soc.common.game.actions.TurnAction.AbstractTurnAction;
 import org.soc.common.game.board.*;
 import org.soc.common.internationalization.*;
 import org.soc.common.server.actions.*;
-import org.soc.common.views.meta.*;
 import org.soc.common.views.widgetsInterface.main.*;
 
 /** An opponent is robbed of one resource caused by a 7 roll or a Soldier development card play */
 public class RobPlayer extends AbstractTurnAction {
-  @Override public Icon icon() {
-    return new IconImpl(null, null, null, null);
-  }
-  @Override public Name name()
-  {
-    // TODO Auto-generated method stub
-    return null;
-  }
-  @Override public Description description()
-  {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
   private int victimID = 0;
   private GamePlayer robbedPlayer;
   private Resource stolenResource;
@@ -43,7 +26,6 @@ public class RobPlayer extends AbstractTurnAction {
   public GamePlayer getRobbedPlayer() {
     return robbedPlayer;
   }
-  /** @param robbedPlayer the robbedPlayer to set */
   public RobPlayer setRobbedPlayer(GamePlayer robbedPlayer) {
     this.robbedPlayer = robbedPlayer;
     if (robbedPlayer == null) {

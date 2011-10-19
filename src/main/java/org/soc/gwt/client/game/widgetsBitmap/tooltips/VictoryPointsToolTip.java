@@ -2,8 +2,9 @@ package org.soc.gwt.client.game.widgetsBitmap.tooltips;
 
 import java.util.*;
 
-import org.soc.common.core.GenericList.Adds.*;
-import org.soc.common.core.GenericList.Removes.*;
+import org.soc.common.core.GenericList.Adds.Added;
+import org.soc.common.core.GenericList.Models;
+import org.soc.common.core.GenericList.Removes.Removed;
 import org.soc.common.game.*;
 import org.soc.common.views.widgetsInterface.main.*;
 import org.soc.gwt.client.game.widgetsAbstract.toolTips.*;
@@ -19,13 +20,13 @@ public class VictoryPointsToolTip extends AbstractPlayerInfoToolTip
     super(gameWidget, player);
     for (VictoryPointItem vp : player.victoryPoints())
     {
-      Image vpImage = new Image(vp.icon().iconDefault());
+      Image vpImage = new Image(Models.icon(vp).iconDefault());
       vpImages.put(vp, vpImage);
       rootPanel.add(vpImage);
     }
     player.victoryPoints().addAddedHandler(new Added<VictoryPointItem>() {
       @Override public void added(VictoryPointItem item) {
-        Image vpImage = new Image(item.icon().iconDefault());
+        Image vpImage = new Image(Models.icon(item).iconDefault());
         vpImages.put(item, vpImage);
         rootPanel.add(vpImage);
       }

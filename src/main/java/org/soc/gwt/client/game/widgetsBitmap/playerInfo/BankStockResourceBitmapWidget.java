@@ -1,8 +1,9 @@
 package org.soc.gwt.client.game.widgetsBitmap.playerInfo;
 
-import org.soc.common.core.GenericList.*;
-import org.soc.common.core.GenericList.AddsList.*;
-import org.soc.common.core.GenericList.RemovesList.*;
+import org.soc.common.core.GenericList.AddsList.ListAdded;
+import org.soc.common.core.GenericList.ImmutableList;
+import org.soc.common.core.GenericList.Models;
+import org.soc.common.core.GenericList.RemovesList.ListRemoved;
 import org.soc.common.game.*;
 import org.soc.common.game.Resources.MutableResourceList;
 import org.soc.gwt.client.game.widgetsAbstract.main.*;
@@ -18,7 +19,7 @@ public class BankStockResourceBitmapWidget extends
   public BankStockResourceBitmapWidget(MutableResourceList bank, Resource resource)
   {
     super(bank, resource);
-    reourceImage = new Image(resource.icon().iconDefault());
+    reourceImage = new Image(Models.icon(resource).iconDefault());
     int amount = bank.ofType(resource.getClass()).size();
     lblResourceAmount.setText(Integer.toString(amount));
     rootPanel.add(reourceImage);

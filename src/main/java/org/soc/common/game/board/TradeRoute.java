@@ -5,12 +5,10 @@ import java.util.*;
 import org.jgrapht.jgrapht.*;
 import org.soc.common.core.GenericList.HasId;
 import org.soc.common.core.GenericList.Model;
+import org.soc.common.core.Props.IsChild;
 import org.soc.common.core.Props.PropertyList.PropertyTypeList;
-import org.soc.common.core.property.Properties.Description;
-import org.soc.common.core.property.Properties.Name;
 import org.soc.common.core.property.*;
 import org.soc.common.game.*;
-import org.soc.common.views.meta.*;
 
 /*
  * Represents a route between two cities and/or towns on two different territories.
@@ -84,18 +82,6 @@ public interface TradeRoute extends Route, VictoryPointItem
       // TODO Auto-generated method stub
       return false;
     }
-    @Override public Name name() {
-      // TODO Auto-generated method stub
-      return null;
-    }
-    @Override public Description description() {
-      // TODO Auto-generated method stub
-      return null;
-    }
-    @Override public Icon icon() {
-      // TODO Auto-generated method stub 
-      return null;
-    }
     @Override public Model copy() {
       // TODO Auto-generated method stub
       return null;
@@ -112,7 +98,7 @@ public interface TradeRoute extends Route, VictoryPointItem
       // TODO Auto-generated method stub
       return null;
     }
-    @Override public Property getProp(Property type) {
+    @Override public IsChild getProp(StaticProperty type) {
       // TODO Auto-generated method stub
       return null;
     }

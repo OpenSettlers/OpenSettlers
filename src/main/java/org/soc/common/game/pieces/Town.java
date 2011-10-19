@@ -1,7 +1,5 @@
 package org.soc.common.game.pieces;
 
-import org.soc.common.core.property.Properties.Description;
-import org.soc.common.core.property.Properties.Name;
 import org.soc.common.game.*;
 import org.soc.common.game.Resources.ResourceList;
 import org.soc.common.game.board.*;
@@ -9,12 +7,9 @@ import org.soc.common.game.hexes.*;
 import org.soc.common.game.pieces.Piece.AbstractPlayerPiece;
 import org.soc.common.game.pieces.Piece.Producer;
 import org.soc.common.game.pieces.Piece.StockPiece;
-import org.soc.common.internationalization.*;
-import org.soc.common.views.meta.*;
 import org.soc.common.views.widgetsInterface.playerInfo.*;
 import org.soc.common.views.widgetsInterface.playerInfo.StockItemWidget.StockItemWidgetFactory;
 import org.soc.common.views.widgetsInterface.visuals.*;
-import org.soc.gwt.client.images.*;
 
 import static org.soc.common.game.Resource.*;
 
@@ -24,15 +19,6 @@ public class Town extends AbstractPlayerPiece<Integer> implements VictoryPointIt
         HasPoint, Producer, StockPiece {
   private HexPoint pointLocation;
 
-  @Override public Icon icon() {
-    return new IconImpl(R.icons().town16(), R.icons().town32(), R.icons().town48());
-  }
-  @Override public Name name() {
-    return new Name.Impl(I.get().constants().town());
-  }
-  @Override public Description description() {
-    return new Description.Impl(I.get().constants().townDescription());
-  }
   @Override public String toString() {
     return "Town";
   }

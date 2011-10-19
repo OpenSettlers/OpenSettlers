@@ -1,11 +1,11 @@
 package org.soc.common.views.meta;
 
-import org.soc.common.core.Props.HasProperty;
+import org.soc.common.core.Props.HasGetters;
 
 import com.google.gwt.resources.client.*;
 
 public interface Icon {
-  public interface HasIcon extends HasProperty {
+  public interface HasIcon extends HasGetters {
     public Icon icon();
   }
 
